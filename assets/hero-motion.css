@@ -1,0 +1,25 @@
+/* Small, local-only cinematic introduction; no video or external libraries. */
+header.hero{position:relative;isolation:isolate;overflow:hidden;min-height:500px;padding:100px 24px 80px;display:flex;align-items:center;justify-content:center;perspective:1000px}
+.hero-scene{position:absolute;inset:0;z-index:-1;pointer-events:none;transform:translate3d(var(--camera-x,0px),var(--camera-y,0px),0) scale(1.06);transition:transform .65s ease-out}
+.hero-glow{position:absolute;inset:-20%;background:radial-gradient(ellipse at 65% 40%,#195e704f,transparent 48%),radial-gradient(ellipse at 25% 80%,#15465355,transparent 44%);animation:light-drift 4.5s ease-out both}
+.hero-grid{position:absolute;inset:0;background-image:linear-gradient(#6bb6c50d 1px,transparent 1px),linear-gradient(90deg,#6bb6c50d 1px,transparent 1px);background-size:64px 64px;transform:perspective(600px) rotateX(55deg) scale(1.7);transform-origin:center 85%;mask-image:linear-gradient(transparent 20%,#000 100%)}
+.hero-chart{position:absolute;inset:12% -10%;width:120%;height:80%;fill:none;stroke-linejoin:round;stroke-linecap:round;opacity:.5}
+.chart-line{stroke:#37c0e6;stroke-width:1.6;stroke-dasharray:1;stroke-dashoffset:0;animation:trace-market 2.8s .2s ease-out backwards}
+.chart-echo{stroke:#5e95a0;stroke-width:1;opacity:.22}
+.hero-content{position:relative;animation:camera-push 1.6s cubic-bezier(.2,.7,.2,1) both}
+.hero-eyebrow{display:block;letter-spacing:.4em;color:#80bdcc;font-size:11px;margin-bottom:18px}
+.hero-content h1{font-size:clamp(48px,8vw,88px);letter-spacing:.08em;text-shadow:0 12px 70px #37c0e61a}
+.hero-content p{font-family:inherit;letter-spacing:.12em}
+.hero-count{display:block;font-size:11px;color:#84939f;letter-spacing:.1em;margin-top:8px}
+.hero-content .github-link{background:#0b0e1299;backdrop-filter:blur(8px)}
+.hero-scroll{position:absolute;bottom:22px;color:#8dabb5;font-size:11px;letter-spacing:.18em;text-decoration:none;padding:8px 12px}
+.hero-scroll span{display:inline-block;margin-left:8px;animation:scroll-cue 1.4s ease-in-out 3}
+.hero-scroll:focus-visible{outline:2px solid #37c0e6;outline-offset:3px}
+.card.card-arrive{animation:card-arrive .65s var(--arrival-delay,0ms) cubic-bezier(.2,.7,.2,1) backwards}
+@keyframes camera-push{from{opacity:0;transform:translate3d(0,22px,-120px) scale(.92);filter:blur(5px)}to{opacity:1;transform:none;filter:blur(0)}}
+@keyframes trace-market{from{stroke-dashoffset:1}to{stroke-dashoffset:0}}
+@keyframes light-drift{from{opacity:.2;transform:translate3d(-4%,3%,0) scale(.9)}to{opacity:1;transform:none}}
+@keyframes scroll-cue{0%,100%{transform:translateY(0)}50%{transform:translateY(5px)}}
+@keyframes card-arrive{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+@media(max-width:600px){header.hero{min-height:420px;padding:72px 20px 68px}.hero-content h1{font-size:52px}.hero-chart{opacity:.3}.hero-content p{font-size:12px;letter-spacing:.04em}.hero-content{animation-duration:1s}.hero-grid{background-size:48px 48px}}
+@media(prefers-reduced-motion:reduce){.hero-content,.hero-glow,.chart-line,.hero-scroll span,.card.card-arrive{animation:none!important}.hero-scene{transform:none;transition:none}.card{transition:none!important}}
