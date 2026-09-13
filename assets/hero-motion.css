@@ -21,5 +21,5 @@ header.hero{position:relative;isolation:isolate;overflow:hidden;min-height:500px
 @keyframes light-drift{from{opacity:.2;transform:translate3d(-4%,3%,0) scale(.9)}to{opacity:1;transform:none}}
 @keyframes scroll-cue{0%,100%{transform:translateY(0)}50%{transform:translateY(5px)}}
 @keyframes card-arrive{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
-@media(max-width:600px){header.hero{min-height:420px;padding:72px 20px 68px}.hero-content h1{font-size:52px}.hero-chart{opacity:.3}.hero-content p{font-size:12px;letter-spacing:.04em}.hero-content{animation-duration:1s}.hero-grid{background-size:48px 48px}}
+@media(max-width:600px){html{padding-left:0!important;padding-top:0!important}#f2m-host{display:none}header.hero{min-height:420px;padding:72px 20px 68px}.hero-content h1{font-size:52px}.hero-chart{opacity:.3}.hero-content p{font-size:12px;letter-spacing:.04em}.hero-content{animation-duration:1s}.hero-grid{background-size:48px 48px}}
 @media(prefers-reduced-motion:reduce){.hero-content,.hero-glow,.chart-line,.hero-scroll span,.card.card-arrive{animation:none!important}.hero-scene{transform:none;transition:none}.card{transition:none!important}}
