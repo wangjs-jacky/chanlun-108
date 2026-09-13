@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>缠论 · 教你炒股票107：如何操作短线反弹</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@500;700;900&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0b0e12;
+    --bg-elev:#12161c;
+    --bg-card:#161b22;
+    --ink:#e8eaed;
+    --ink-dim:#9aa3ad;
+    --ink-faint:#5b6470;
+    --line:rgba(255,255,255,.07);
+    --up:#ff4d4f;
+    --down:#16c784;
+    --pivot:#37c0e6;
+    --gold:#e8b339;
+    --max:880px;
+    --serif:"Noto Serif SC",serif;
+    --mono:"JetBrains Mono",ui-monospace,monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;
+    line-height:1.85;
+    font-size:17px;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  body::before{
+    content:"";position:fixed;inset:0;z-index:-2;
+    background:
+      radial-gradient(1200px 600px at 70% -10%, rgba(232,179,57,.08), transparent 60%),
+      radial-gradient(900px 500px at 0% 100%, rgba(55,192,230,.05), transparent 55%);
+    pointer-events:none;
+  }
+  body::after{
+    content:"";position:fixed;inset:0;z-index:-1;opacity:.4;
+    background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);
+    background-size:46px 46px;
+    -webkit-mask-image:radial-gradient(ellipse at 50% 0%, #000 30%, transparent 80%);
+            mask-image:radial-gradient(ellipse at 50% 0%, #000 30%, transparent 80%);
+    pointer-events:none;
+  }
+
+  #bar{position:fixed;top:0;left:0;height:3px;width:0;z-index:50;
+    background:linear-gradient(90deg,var(--gold),var(--up));box-shadow:0 0 12px var(--gold);}
+
+  .wrap{max-width:var(--max);margin:0 auto;padding:0 24px}
+
+  /* ===== HERO ===== */
+  header.hero{padding:120px 0 70px;text-align:center;position:relative}
+  .kicker{font-family:var(--mono);font-size:13px;letter-spacing:.32em;color:var(--gold);
+    text-transform:uppercase;margin-bottom:26px}
+  .kicker span{color:var(--ink-faint)}
+  h1.title{font-family:var(--serif);font-weight:900;line-height:1.05;
+    font-size:clamp(44px,10vw,96px);letter-spacing:.04em;
+    background:linear-gradient(180deg,#fff 30%,#8aa0ad 130%);
+    -webkit-background-clip:text;background-clip:text;color:transparent;}
+  .sub{margin:22px auto 0;max-width:600px;color:var(--ink-dim);font-size:18px}
+  .meta{margin-top:34px;display:flex;gap:14px;justify-content:center;flex-wrap:wrap;
+    font-family:var(--mono);font-size:12px;color:var(--ink-faint)}
+  .meta b{color:var(--ink-dim);font-weight:500}
+  .pill{border:1px solid var(--line);padding:6px 14px;border-radius:999px;background:rgba(255,255,255,.02)}
+
+  .scroll-hint{margin-top:60px;color:var(--ink-faint);font-family:var(--mono);font-size:12px;
+    animation:bob 2.4s ease-in-out infinite}
+  @keyframes bob{0%,100%{transform:translateY(0);opacity:.5}50%{transform:translateY(8px);opacity:1}}
+
+  section{padding:64px 0;border-top:1px solid var(--line)}
+  .sec-no{font-family:var(--mono);font-size:13px;color:var(--gold);letter-spacing:.2em;margin-bottom:10px}
+  h2{font-family:var(--serif);font-weight:700;font-size:clamp(28px,5vw,40px);
+    line-height:1.25;margin-bottom:8px;letter-spacing:.02em}
+  .lead{color:var(--ink-dim);font-size:16px;margin-bottom:28px;max-width:640px}
+  p{margin:0 0 18px;color:#cfd5dc}
+  p b,strong{color:#fff;font-weight:700}
+  .hl-pivot{color:var(--pivot);font-weight:700}
+  .hl-up{color:var(--up);font-weight:700}
+  .hl-down{color:var(--down);font-weight:700}
+  .hl-gold{color:var(--gold);font-weight:700}
+
+  blockquote{margin:26px 0;padding:20px 24px;border-left:3px solid var(--gold);
+    background:linear-gradient(90deg,rgba(232,179,57,.07),transparent);
+    border-radius:0 10px 10px 0;font-family:var(--serif);font-size:19px;color:#f6efdc}
+  blockquote .who{display:block;margin-top:8px;font-family:var(--mono);font-size:12px;
+    color:var(--ink-faint);font-style:normal}
+
+  figure{margin:34px 0}
+  figure img{width:100%;border-radius:12px;border:1px solid var(--line);
+    background:#fff;box-shadow:0 18px 50px rgba(0,0,0,.5)}
+  figcaption{margin-top:12px;font-size:13px;color:var(--ink-faint);text-align:center;font-family:var(--mono)}
+
+  /* SVG 图 */
+  .svg-box{margin:30px 0;background:var(--bg-card);border:1px solid var(--line);border-radius:14px;padding:24px;text-align:center}
+  .svg-box svg{max-width:100%;height:auto}
+  .svg-cap{margin-top:14px;font-size:13px;color:var(--ink-faint);font-family:var(--mono)}
+
+  /* 卡片网格 */
+  .grid{display:grid;gap:16px;grid-template-columns:1fr 1fr;margin:28px 0}
+  @media(max-width:640px){.grid{grid-template-columns:1fr}}
+  .card{background:var(--bg-card);border:1px solid var(--line);border-radius:14px;padding:24px;
+    position:relative;overflow:hidden;transition:transform .35s ease,border-color .35s ease}
+  .card:hover{transform:translateY(-4px);border-color:rgba(232,179,57,.4)}
+  .card .tag{font-family:var(--mono);font-size:11px;letter-spacing:.18em;color:var(--gold);text-transform:uppercase}
+  .card h3{font-family:var(--serif);font-size:20px;margin:10px 0 8px;color:#fff}
+  .card p{font-size:15px;color:var(--ink-dim);margin:0}
+
+  /* 对比表 */
+  .table{margin:28px 0;border:1px solid var(--line);border-radius:14px;overflow:hidden}
+  .table .row{display:grid;grid-template-columns:1.1fr 1.5fr 1.6fr;align-items:stretch}
+  .table .row+.row{border-top:1px solid var(--line)}
+  .table .row > div{padding:16px 18px}
+  .table .row.head{background:var(--bg-elev);font-family:var(--mono);font-size:12px;
+    letter-spacing:.14em;color:var(--ink-faint);text-transform:uppercase}
+  .table .row > div+div{border-left:1px solid var(--line)}
+  .table .name{font-family:var(--serif);font-weight:700;font-size:17px}
+  .table .name.bad{color:var(--down)}
+  .table .name.good{color:var(--up)}
+  .cnt{font-family:var(--mono);font-size:14px;color:var(--pivot)}
+  @media(max-width:560px){
+    .table .row{grid-template-columns:1fr}
+    .table .row > div+div{border-left:0;border-top:1px solid var(--line)}
+    .table .row.head{display:none}
+  }
+
+  /* 步骤流程 */
+  .flow{margin:28px 0;display:flex;flex-direction:column;gap:14px}
+  .step{display:flex;gap:16px;align-items:flex-start;background:var(--bg-card);
+    border:1px solid var(--line);border-radius:12px;padding:18px 20px}
+  .step .num{flex:none;width:42px;height:42px;border-radius:10px;display:grid;place-items:center;
+    font-family:var(--serif);font-weight:900;font-size:20px;color:#0b0e12;background:var(--gold)}
+  .step h4{font-size:17px;margin-bottom:4px;color:#fff}
+  .step p{font-size:15px;color:var(--ink-dim);margin:0}
+
+  /* 关键提醒 */
+  .alert{margin:28px 0;padding:20px 24px;border:1px solid rgba(255,77,79,.3);border-radius:12px;
+    background:linear-gradient(90deg,rgba(255,77,79,.08),transparent);color:#ffd9d9}
+  .alert .lab{font-family:var(--mono);font-size:11px;letter-spacing:.2em;color:var(--up);text-transform:uppercase;margin-bottom:8px}
+
+  /* 一句话总结 */
+  .tldr{margin:60px 0 0;padding:36px 30px;border:1px solid rgba(232,179,57,.3);border-radius:18px;
+    background:radial-gradient(120% 120% at 100% 0%,rgba(232,179,57,.1),transparent 60%),var(--bg-elev);text-align:center}
+  .tldr .lab{font-family:var(--mono);font-size:12px;letter-spacing:.3em;color:var(--gold);text-transform:uppercase}
+  .tldr p{font-family:var(--serif);font-size:clamp(20px,3.4vw,28px);line-height:1.7;color:#fff;margin:16px 0 0}
+
+  footer{padding:60px 0 90px;text-align:center;color:var(--ink-faint);font-family:var(--mono);font-size:12px;border-top:1px solid var(--line)}
+
+  .reveal{opacity:0;transform:translateY(26px);transition:opacity .8s ease,transform .8s ease}
+  .reveal.in{opacity:1;transform:none}
+  @media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}.scroll-hint{animation:none}}
+</style>
+<meta name="view-transition" content="same-origin"><style>@view-transition{navigation:auto}</style></head>
+<body>
+<div id="bar"></div>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="kicker">缠中说禅 · 教你炒股票108课 <span>/ 第 107 课</span></div>
+    <h1 class="title">如何操作<br>短线反弹</h1>
+    <p class="sub">不预测反弹形式，从「绝对性」出发——用次级别节奏拆解高一级别反弹，每段都给出可落地的安全卖出位。</p>
+    <div class="meta">
+      <span class="pill"><b>原文</b> 2008-08-19</span>
+      <span class="pill"><b>类型</b> 操作方法</span>
+      <span class="pill"><b>关键词</b> 反弹 · 次级别分解 · 第三类买点 · 趋势形成</span>
+    </div>
+    <div class="scroll-hint">↓ 向下滚动，逐层拆解</div>
+  </div>
+</header>
+
+<main>
+  <!-- 1 -->
+  <section class="wrap reveal">
+    <div class="sec-no">01 — 起点</div>
+    <h2>操作没把握，是因为理论没把握</h2>
+    <p class="lead">这一课从一个最实际的盘面问题切入：知道有一个 30 分钟级别的反弹要来，该怎么下单？</p>
+    <p>很多人对反弹束手无策，根源不是技术不够、不是消息不灵，而是对理论本身<b>没吃透</b>。一旦走势开始动，脑子里只有"这次会涨到哪""会不会假突破"——这些全是<span class="hl-down">预测</span>，而预测<b>不能</b>进入操作计划。</p>
+    <blockquote>
+      要解决这难点，必须从绝对性出发，里面不能涉及任何预测。
+      <span class="who">— 缠中说禅</span>
+    </blockquote>
+    <p>所谓<span class="hl-gold">绝对性</span>，就是不管反弹长什么样、走什么花式，<b>这件事一定成立</b>。能找到这种"一定成立"的东西，操作方案就有了根。</p>
+  </section>
+
+  <!-- 2 -->
+  <section class="wrap reveal">
+    <div class="sec-no">02 — 唯一可依赖的绝对性</div>
+    <h2>一个 30 分钟反弹，必定包含一个 30 分钟中枢</h2>
+    <p class="lead">这是反弹操作里 <b>唯一</b> 不需要预测就能确定的事。</p>
+    <p>由前面课程的中枢定义可推出：<b>任何一个级别的走势类型，必然至少包含一个本级别的中枢</b>。所以——</p>
+    <div class="grid">
+      <div class="card">
+        <div class="tag">绝对成立</div>
+        <h3>30 分钟反弹 ⇒ ≥ 1 个 30 分钟中枢</h3>
+        <p>不管反弹是奔走、扩张、还是连续三段同向，它的结构里<b>一定</b>有一个 30 分钟中枢。</p>
+      </div>
+      <div class="card">
+        <div class="tag">由中枢定义推出</div>
+        <h3>30 分钟中枢 = 上下上的三段 5 分钟</h3>
+        <p>一个 30 分钟中枢，必由<span class="hl-pivot">至少三段连续的次级别(5 分钟)走势</span>重叠构成——结构形态就是「上 · 下 · 上」。</p>
+      </div>
+    </div>
+
+    <div class="svg-box">
+      <svg viewBox="0 0 760 280" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="30分钟中枢由上下上三段5分钟走势构成">
+        <defs>
+          <linearGradient id="zsBg" x1="0" x2="0" y1="0" y2="1">
+            <stop offset="0%" stop-color="#37c0e6" stop-opacity="0.22"/>
+            <stop offset="100%" stop-color="#37c0e6" stop-opacity="0.06"/>
+          </linearGradient>
+        </defs>
+        <!-- 坐标基线 -->
+        <line x1="40" y1="240" x2="720" y2="240" stroke="#5b6470" stroke-width="1" stroke-dasharray="3 5"/>
+        <!-- 中枢方框 -->
+        <rect x="120" y="110" width="500" height="80" fill="url(#zsBg)" stroke="#37c0e6" stroke-width="2"/>
+        <text x="370" y="100" text-anchor="middle" fill="#37c0e6" font-family="JetBrains Mono" font-size="13" font-weight="700">30 分钟中枢 (本级别)</text>
+
+        <!-- 第一段上 -->
+        <polyline points="60,230 100,180 140,140 180,120" stroke="#ff4d4f" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+        <text x="120" y="260" text-anchor="middle" fill="#ff4d4f" font-family="JetBrains Mono" font-size="12">5分: 上①</text>
+
+        <!-- 第二段下 -->
+        <polyline points="180,120 220,150 260,170 300,180" stroke="#16c784" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+        <text x="240" y="260" text-anchor="middle" fill="#16c784" font-family="JetBrains Mono" font-size="12">5分: 下</text>
+
+        <!-- 第三段上 -->
+        <polyline points="300,180 350,150 410,120 470,110" stroke="#ff4d4f" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+        <text x="385" y="260" text-anchor="middle" fill="#ff4d4f" font-family="JetBrains Mono" font-size="12">5分: 上②</text>
+
+        <!-- 后续可能 -->
+        <polyline points="470,110 510,140 560,160 600,170 640,150 680,130" stroke="#cfd5dc" stroke-width="1.6" fill="none" stroke-dasharray="4 4" stroke-linecap="round"/>
+        <text x="575" y="260" text-anchor="middle" fill="#9aa3ad" font-family="JetBrains Mono" font-size="11">后续(不可预测)</text>
+
+        <!-- 关键标注 -->
+        <circle cx="180" cy="120" r="4" fill="#e8b339"/>
+        <text x="180" y="105" text-anchor="middle" fill="#e8b339" font-family="JetBrains Mono" font-size="11">第一上 高点</text>
+        <circle cx="470" cy="110" r="4" fill="#e8b339"/>
+        <text x="470" y="95" text-anchor="middle" fill="#e8b339" font-family="JetBrains Mono" font-size="11">第二上 高点(不一定更高)</text>
+      </svg>
+      <div class="svg-cap">示意 · 30 分钟中枢的最小结构 = 5 分钟的「上 · 下 · 上」三段</div>
+    </div>
+  </section>
+
+  <!-- 3 -->
+  <section class="wrap reveal">
+    <div class="sec-no">03 — 致命陷阱</div>
+    <h2>等"第二个上"完成才卖？你可能拿到一个稍纵即逝的卖点</h2>
+    <p class="lead">理论安全 ≠ 操作安全。这是这一课最关键的一句反直觉。</p>
+    <p>很多人想得很美：第一段「上」的低点买，等「上下上」全部走完，第二段「上」的高点卖。但缠师指出，<b>没有任何绝对性</b>能保证「第二个上」一定比「第一个上」的高点更高。</p>
+    <div class="alert">
+      <div class="lab">⚠ 奔走型反弹陷阱</div>
+      <p style="margin:0;color:#ffe6e6">所谓<b>奔走型</b>反弹：后一段"上"的高点，可能只刚好<b>触及</b>前一段"上"的低点。<br>结果——你坐了一趟「上 → 下 → 上」的免费电梯，最终的卖点连手续费都覆盖不了，稍纵即逝。</p>
+    </div>
+
+    <div class="svg-box">
+      <svg viewBox="0 0 760 260" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="奔走型反弹的陷阱：第二个上不创新高">
+        <line x1="40" y1="230" x2="720" y2="230" stroke="#5b6470" stroke-width="1" stroke-dasharray="3 5"/>
+
+        <!-- 第一上 -->
+        <polyline points="60,210 120,150 180,90" stroke="#ff4d4f" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="60" cy="210" r="6" fill="#ff4d4f"/>
+        <text x="60" y="248" text-anchor="middle" fill="#ff4d4f" font-family="JetBrains Mono" font-size="11">买入点</text>
+        <circle cx="180" cy="90" r="5" fill="#e8b339"/>
+        <text x="180" y="78" text-anchor="middle" fill="#e8b339" font-family="JetBrains Mono" font-size="11">第一上 高点</text>
+
+        <!-- 下 -->
+        <polyline points="180,90 240,140 300,180" stroke="#16c784" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+
+        <!-- 第二上：奔走型，只触及第一上的低点附近 -->
+        <polyline points="300,180 380,160 460,150 540,130" stroke="#ff4d4f" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="540" cy="130" r="5" fill="#ff4d4f"/>
+        <text x="540" y="118" text-anchor="middle" fill="#ff4d4f" font-family="JetBrains Mono" font-size="11">第二上 高点</text>
+
+        <!-- 第一上低点参考线 -->
+        <line x1="120" y1="150" x2="700" y2="150" stroke="#e8b339" stroke-width="1" stroke-dasharray="2 4" opacity="0.7"/>
+        <text x="700" y="146" text-anchor="end" fill="#e8b339" font-family="JetBrains Mono" font-size="11">第一上中段水平</text>
+
+        <!-- 接着回落，迅速消失 -->
+        <polyline points="540,130 600,170 660,210" stroke="#16c784" stroke-width="2.2" fill="none" stroke-dasharray="3 3" stroke-linecap="round"/>
+        <text x="630" y="240" text-anchor="middle" fill="#9aa3ad" font-family="JetBrains Mono" font-size="11">卖点稍纵即逝</text>
+      </svg>
+      <div class="svg-cap">示意 · 第二个"上"未创新高，"等全部走完再卖" = 把利润坐没了</div>
+    </div>
+
+    <p>结论：</p>
+    <blockquote>
+      这种操作，注定是只有相对的理论上的绝对安全性，而<b>没有具体操作上的绝对安全性</b>。
+      <span class="who">— 缠中说禅</span>
+    </blockquote>
+  </section>
+
+  <!-- 4 -->
+  <section class="wrap reveal">
+    <div class="sec-no">04 — 解决方案</div>
+    <h2>用次级别节奏，拆解本级别反弹</h2>
+    <p class="lead">既然等不起，就<b>分段做</b>——这是缠师给出的统一处理方法。</p>
+    <p>核心原则一句话：<span class="hl-gold">高一级的反弹，按次一级的节奏操作</span>。</p>
+
+    <div class="table">
+      <div class="row head"><div>反弹级别</div><div>操作节奏</div><div>含义</div></div>
+      <div class="row">
+        <div class="name good">30 分钟反弹</div>
+        <div>按 <span class="cnt">5 分钟</span> 节奏</div>
+        <div>每段 5 分钟的"上"完了，就开始考虑出；下一段 5 分钟"上"再做</div>
+      </div>
+      <div class="row">
+        <div class="name good">日线反弹</div>
+        <div>按 <span class="cnt">30 分钟</span> 节奏</div>
+        <div>同理向上一级套</div>
+      </div>
+      <div class="row">
+        <div class="name good">5 分钟反弹</div>
+        <div>按 <span class="cnt">1 分钟</span> 节奏</div>
+        <div>同理向下一级套</div>
+      </div>
+    </div>
+
+    <div class="flow">
+      <div class="step">
+        <div class="num">1</div>
+        <div>
+          <h4>第一段次级别「上」启动 → 介入</h4>
+          <p>在次级别第一段"上"的低点附近买入，目标只对准这一段"上"的高点。</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="num">2</div>
+        <div>
+          <h4>第一段「上」结束 → 卖出</h4>
+          <p>不等"上下上"全部完成，<b>第一段"上"走完就卖</b>。因为"上"完了必然有同级别的"下"——这是定理保证的。</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="num">3</div>
+        <div>
+          <h4>同级别「下」进行 → 等待</h4>
+          <p>下跌段不参与，不预测幅度。等结构出现下一段次级别"上"的启动信号。</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="num">4</div>
+        <div>
+          <h4>下一段「上」启动 → 再做一次</h4>
+          <p>循环操作，直到走势特征发生质变（见下一节）。</p>
+        </div>
+      </div>
+    </div>
+
+    <p>这种操作之所以能<span class="hl-up">绝对安全</span>，是因为每一段都只赌"一段同级别走势走完后必然反向"这个定理——而这是<b>真的定理</b>，不是经验。</p>
+  </section>
+
+  <!-- 5 -->
+  <section class="wrap reveal">
+    <div class="sec-no">05 — 升级路径</div>
+    <h2>什么时候可以"坐轿子睡觉"？</h2>
+    <p class="lead">分段操作效率不是最高的——有一种结构出现后，可以从"短跑"切换成"持股待涨"。</p>
+    <blockquote>
+      第一中枢后出现<b>第三类买点</b>并形成<b>非背驰类向上</b>——这就是上升趋势形成的最精确定义。
+      <span class="who">— 缠中说禅</span>
+    </blockquote>
+
+    <div class="svg-box">
+      <svg viewBox="0 0 760 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="第三类买点后趋势形成">
+        <defs>
+          <linearGradient id="zsBg2" x1="0" x2="0" y1="0" y2="1">
+            <stop offset="0%" stop-color="#37c0e6" stop-opacity="0.22"/>
+            <stop offset="100%" stop-color="#37c0e6" stop-opacity="0.06"/>
+          </linearGradient>
+        </defs>
+        <line x1="40" y1="265" x2="720" y2="265" stroke="#5b6470" stroke-width="1" stroke-dasharray="3 5"/>
+
+        <!-- 第一个中枢 -->
+        <rect x="80" y="160" width="220" height="70" fill="url(#zsBg2)" stroke="#37c0e6" stroke-width="2"/>
+        <text x="190" y="152" text-anchor="middle" fill="#37c0e6" font-family="JetBrains Mono" font-size="12" font-weight="700">第一中枢</text>
+
+        <!-- 反弹起势 -->
+        <polyline points="60,250 110,210" stroke="#ff4d4f" stroke-width="2.4" fill="none"/>
+        <!-- 中枢内震荡 -->
+        <polyline points="110,210 150,180 190,215 230,175 270,220 300,170" stroke="#cfd5dc" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+        <!-- 突破中枢上沿 -->
+        <polyline points="300,170 330,140 360,120" stroke="#ff4d4f" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+        <!-- 回踩，不破中枢上沿 = 第三类买点 -->
+        <polyline points="360,120 385,150 410,160" stroke="#16c784" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="410" cy="160" r="6" fill="#e8b339" stroke="#0b0e12" stroke-width="2"/>
+        <text x="410" y="180" text-anchor="middle" fill="#e8b339" font-family="JetBrains Mono" font-size="12" font-weight="700">第三类买点</text>
+
+        <!-- 中枢上沿延长线 -->
+        <line x1="300" y1="160" x2="720" y2="160" stroke="#37c0e6" stroke-width="1" stroke-dasharray="2 4" opacity="0.5"/>
+
+        <!-- 非背驰强劲拉升 -->
+        <polyline points="410,160 460,110 510,80 560,55 610,40" stroke="#ff4d4f" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+        <text x="540" y="35" text-anchor="middle" fill="#ff4d4f" font-family="Noto Serif SC" font-size="14" font-weight="700">非背驰 · 强势拉升</text>
+
+        <!-- 后续中枢预期 -->
+        <polyline points="610,40 650,70 690,55" stroke="#cfd5dc" stroke-width="1.6" fill="none" stroke-dasharray="4 4"/>
+        <text x="660" y="105" text-anchor="middle" fill="#9aa3ad" font-family="JetBrains Mono" font-size="11">坐等更高中枢</text>
+      </svg>
+      <div class="svg-cap">示意 · 第一中枢 + 第三类买点 + 非背驰拉升 = 上升趋势形成</div>
+    </div>
+
+    <p>这套结构出来后，操作策略立即换挡：</p>
+    <div class="grid">
+      <div class="card">
+        <div class="tag">趋势确认前</div>
+        <h3>5 分钟节奏短跑</h3>
+        <p>段段为战，每个 5 分钟"上"结束就走，绝不贪。</p>
+      </div>
+      <div class="card">
+        <div class="tag">趋势确认后</div>
+        <h3>持股睡觉，等下一个背驰</h3>
+        <p>坐等第二、第三、第四个中枢出现；等到<b>真正背驰</b>形成的第三类卖点再说。</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6 -->
+  <section class="wrap reveal">
+    <div class="sec-no">06 — 进阶：换股轮动</div>
+    <h2>效率更高的玩法：保留底仓，余仓轮动</h2>
+    <p class="lead">"按次级别分解"已经是绝对安全的方法，但<b>不是平均效率最高</b>的。</p>
+    <p>缠师补一刀：真正效率最高的，是<b>保持部分仓位不动</b>，用余下仓位做<span class="hl-gold">换股轮动</span>。这个的本质是——</p>
+    <div class="grid">
+      <div class="card">
+        <div class="tag">底仓</div>
+        <h3>锁住反弹整体方向</h3>
+        <p>不会因为段段进出而错过主升浪。</p>
+      </div>
+      <div class="card">
+        <div class="tag">余仓</div>
+        <h3>抓不同股的节奏差</h3>
+        <p>A 股次级别"上"完了切到刚启动的 B 股，让仓位永远在最强的次级别"上"段里。</p>
+      </div>
+    </div>
+    <p>对<b>资金少</b>的，可以全部仓位用这种方式做——但技术要求更高，新人慎入。</p>
+  </section>
+
+  <!-- 7 -->
+  <section class="wrap reveal">
+    <div class="sec-no">07 — 最重要的一条戒律</div>
+    <h2>不要去预测反弹还是反转</h2>
+    <p class="lead">这是这一课最容易被忽视、但杀人最狠的一句。</p>
+    <blockquote>
+      反弹越搞越大，最后就自然成了反转。是否如此，根本没必要知道。
+      <span class="who">— 缠中说禅</span>
+    </blockquote>
+    <p>"反弹 vs 反转"是新人最爱争论的话题，但这是个<span class="hl-down">伪问题</span>——因为：</p>
+    <ol class="think" style="counter-reset:q;list-style:none;margin:24px 0;display:flex;flex-direction:column;gap:14px">
+      <li style="counter-increment:q;position:relative;padding:18px 20px 18px 60px;background:var(--bg-elev);border:1px solid var(--line);border-radius:12px;color:var(--ink-dim);font-size:15px">
+        <span style="position:absolute;left:20px;top:18px;font-family:var(--mono);color:var(--gold);font-weight:700">01</span>
+        你无法事先知道是反弹还是反转，预测了也不能进操作。
+      </li>
+      <li style="counter-increment:q;position:relative;padding:18px 20px 18px 60px;background:var(--bg-elev);border:1px solid var(--line);border-radius:12px;color:var(--ink-dim);font-size:15px">
+        <span style="position:absolute;left:20px;top:18px;font-family:var(--mono);color:var(--gold);font-weight:700">02</span>
+        反弹走着走着就变成反转，是市场的常态——结构升级是自动发生的。
+      </li>
+      <li style="counter-increment:q;position:relative;padding:18px 20px 18px 60px;background:var(--bg-elev);border:1px solid var(--line);border-radius:12px;color:var(--ink-dim);font-size:15px">
+        <span style="position:absolute;left:20px;top:18px;font-family:var(--mono);color:var(--gold);font-weight:700">03</span>
+        你唯一需要监测的是：<b>是否出现"第一中枢 + 第三类买点 + 非背驰向上"</b>这个结构。出现就升级策略，没出现就继续段段做。
+      </li>
+    </ol>
+  </section>
+
+  <!-- 8 -->
+  <section class="wrap reveal">
+    <div class="sec-no">08 — 实战速查 & 思考</div>
+    <h2>把这一课装进口袋</h2>
+    <p class="lead">下次盘面来一个反弹，按这个顺序回答自己。</p>
+    <div class="table">
+      <div class="row head"><div>步骤</div><div>问自己</div><div>判断后的动作</div></div>
+      <div class="row">
+        <div class="name">①</div>
+        <div>这是个什么级别的反弹？</div>
+        <div>确认级别后，操作节奏立刻锁定为<b>次一级</b></div>
+      </div>
+      <div class="row">
+        <div class="name">②</div>
+        <div>第一段次级别"上"启动了吗？</div>
+        <div>启动 → 进；高点附近 → 出</div>
+      </div>
+      <div class="row">
+        <div class="name">③</div>
+        <div>第一中枢形成了吗？</div>
+        <div>形成 → 等下一个关键信号</div>
+      </div>
+      <div class="row">
+        <div class="name">④</div>
+        <div>第三类买点 + 非背驰向上 出现了吗？</div>
+        <div>是 → 切换到持股待涨；否 → 继续段段做</div>
+      </div>
+      <div class="row">
+        <div class="name">⑤</div>
+        <div>背驰 + 第三类卖点 出现了吗？</div>
+        <div>是 → 全部出货；否 → 持有</div>
+      </div>
+    </div>
+
+    <h2 style="margin-top:50px;font-size:24px">思考题</h2>
+    <ol class="think" style="counter-reset:q;list-style:none;margin:24px 0;display:flex;flex-direction:column;gap:14px">
+      <li style="counter-increment:q;position:relative;padding:18px 20px 18px 60px;background:var(--bg-elev);border:1px solid var(--line);border-radius:12px;color:var(--ink-dim);font-size:15px">
+        <span style="position:absolute;left:20px;top:18px;font-family:var(--mono);color:var(--gold);font-weight:700">01</span>
+        为什么"反弹按次级别节奏操作"是<b>统一处理方法</b>而不是<b>最高效率方法</b>？两者差在哪？
+      </li>
+      <li style="counter-increment:q;position:relative;padding:18px 20px 18px 60px;background:var(--bg-elev);border:1px solid var(--line);border-radius:12px;color:var(--ink-dim);font-size:15px">
+        <span style="position:absolute;left:20px;top:18px;font-family:var(--mono);color:var(--gold);font-weight:700">02</span>
+        "奔走型反弹" 为什么破坏了"等上下上完成才卖"的可行性？请用中枢定义解释。
+      </li>
+      <li style="counter-increment:q;position:relative;padding:18px 20px 18px 60px;background:var(--bg-elev);border:1px solid var(--line);border-radius:12px;color:var(--ink-dim);font-size:15px">
+        <span style="position:absolute;left:20px;top:18px;font-family:var(--mono);color:var(--gold);font-weight:700">03</span>
+        把这一课反过来，写出"如何操作短线回调"的等价规则——你能直接推导吗？
+      </li>
+    </ol>
+
+    <div class="tldr">
+      <div class="lab">一句话总结</div>
+      <p>不预测反弹形式，从「30 分钟反弹必含 30 分钟中枢、中枢必由 5 分钟上下上构成」这一绝对性出发，按次级别节奏分段操作；只有当「第一中枢 + 第三类买点 + 非背驰向上」出现，才能从"段段做"切换为"持股睡觉"。</p>
+    </div>
+  </section>
+</main>
+
+<footer class="wrap">
+  原文出处：raw/缠中说禅/教你炒股票108课/教你炒股票107：如何操作短线反弹.md<br>
+  本页为个人学习复习用 · 非投资建议
+</footer>
+
+<script>
+  const bar=document.getElementById('bar');
+  const onScroll=()=>{
+    const h=document.documentElement;
+    const p=h.scrollTop/(h.scrollHeight-h.clientHeight);
+    bar.style.width=(p*100)+'%';
+  };
+  document.addEventListener('scroll',onScroll,{passive:true});onScroll();
+
+  const io=new IntersectionObserver((es)=>{
+    es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});
+  },{threshold:.12});
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+</script>
+<script src="/assets/_nav.js"></script><script src="/assets/_shell.js"></script></body>
+</html>

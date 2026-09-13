@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>缠论 · 教你炒股票106：均线、轮动与板块强弱指标</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@500;700;900&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0b0e12;
+    --bg-elev:#12161c;
+    --bg-card:#161b22;
+    --ink:#e8eaed;
+    --ink-dim:#9aa3ad;
+    --ink-faint:#5b6470;
+    --line:rgba(255,255,255,.07);
+    --up:#ff4d4f;
+    --down:#16c784;
+    --pivot:#37c0e6;
+    --gold:#e8b339;
+    --max:880px;
+    --serif:"Noto Serif SC",serif;
+    --mono:"JetBrains Mono",ui-monospace,monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;
+    line-height:1.85;
+    font-size:17px;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  body::before{
+    content:"";position:fixed;inset:0;z-index:-2;
+    background:
+      radial-gradient(1200px 600px at 70% -10%, rgba(55,192,230,.08), transparent 60%),
+      radial-gradient(900px 500px at 0% 100%, rgba(232,179,57,.05), transparent 55%);
+    pointer-events:none;
+  }
+  body::after{
+    content:"";position:fixed;inset:0;z-index:-1;opacity:.4;
+    background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);
+    background-size:46px 46px;
+    -webkit-mask-image:radial-gradient(ellipse at 50% 0%, #000 30%, transparent 80%);
+            mask-image:radial-gradient(ellipse at 50% 0%, #000 30%, transparent 80%);
+    pointer-events:none;
+  }
+
+  #bar{position:fixed;top:0;left:0;height:3px;width:0;z-index:50;
+    background:linear-gradient(90deg,var(--pivot),var(--gold));box-shadow:0 0 12px var(--pivot);}
+
+  .wrap{max-width:var(--max);margin:0 auto;padding:0 24px}
+
+  header.hero{padding:120px 0 70px;text-align:center;position:relative}
+  .kicker{font-family:var(--mono);font-size:13px;letter-spacing:.32em;color:var(--pivot);
+    text-transform:uppercase;margin-bottom:26px}
+  .kicker span{color:var(--ink-faint)}
+  h1.title{font-family:var(--serif);font-weight:900;line-height:1.05;
+    font-size:clamp(44px,9vw,92px);letter-spacing:.04em;
+    background:linear-gradient(180deg,#fff 30%,#8aa0ad 130%);
+    -webkit-background-clip:text;background-clip:text;color:transparent;}
+  .sub{margin:22px auto 0;max-width:620px;color:var(--ink-dim);font-size:18px}
+  .meta{margin-top:34px;display:flex;gap:14px;justify-content:center;flex-wrap:wrap;
+    font-family:var(--mono);font-size:12px;color:var(--ink-faint)}
+  .meta b{color:var(--ink-dim);font-weight:500}
+  .pill{border:1px solid var(--line);padding:6px 14px;border-radius:999px;background:rgba(255,255,255,.02)}
+
+  .scroll-hint{margin-top:60px;color:var(--ink-faint);font-family:var(--mono);font-size:12px;
+    animation:bob 2.4s ease-in-out infinite}
+  @keyframes bob{0%,100%{transform:translateY(0);opacity:.5}50%{transform:translateY(8px);opacity:1}}
+
+  section{padding:64px 0;border-top:1px solid var(--line)}
+  .sec-no{font-family:var(--mono);font-size:13px;color:var(--gold);letter-spacing:.2em;margin-bottom:10px}
+  h2{font-family:var(--serif);font-weight:700;font-size:clamp(28px,5vw,42px);
+    line-height:1.25;margin-bottom:8px;letter-spacing:.02em}
+  .lead{color:var(--ink-dim);font-size:16px;margin-bottom:28px;max-width:640px}
+  p{margin:0 0 18px;color:#cfd5dc}
+  p b,strong{color:#fff;font-weight:700}
+  .hl-pivot{color:var(--pivot);font-weight:700}
+  .hl-up{color:var(--up);font-weight:700}
+  .hl-down{color:var(--down);font-weight:700}
+  .hl-gold{color:var(--gold);font-weight:700}
+
+  blockquote{margin:26px 0;padding:20px 24px;border-left:3px solid var(--pivot);
+    background:linear-gradient(90deg,rgba(55,192,230,.07),transparent);
+    border-radius:0 10px 10px 0;font-family:var(--serif);font-size:18px;color:#eaf6fb}
+  blockquote .who{display:block;margin-top:8px;font-family:var(--mono);font-size:12px;
+    color:var(--ink-faint);font-style:normal}
+
+  figure{margin:34px 0}
+  figure img{width:100%;border-radius:12px;border:1px solid var(--line);
+    background:#fff;box-shadow:0 18px 50px rgba(0,0,0,.5)}
+  figcaption{margin-top:12px;font-size:13px;color:var(--ink-faint);text-align:center;font-family:var(--mono)}
+
+  .grid{display:grid;gap:16px;grid-template-columns:1fr 1fr;margin:28px 0}
+  @media(max-width:640px){.grid{grid-template-columns:1fr}}
+  .card{background:var(--bg-card);border:1px solid var(--line);border-radius:14px;padding:24px;
+    position:relative;overflow:hidden;transition:transform .35s ease,border-color .35s ease}
+  .card:hover{transform:translateY(-4px);border-color:rgba(55,192,230,.4)}
+  .card .tag{font-family:var(--mono);font-size:11px;letter-spacing:.18em;color:var(--gold);text-transform:uppercase}
+  .card h3{font-family:var(--serif);font-size:21px;margin:10px 0 8px;color:#fff}
+  .card p{font-size:15px;color:var(--ink-dim);margin:0}
+
+  .table{margin:28px 0;border:1px solid var(--line);border-radius:14px;overflow:hidden}
+  .table .row{display:grid;grid-template-columns:1.1fr 1.5fr 1.6fr;align-items:stretch}
+  .table .row+.row{border-top:1px solid var(--line)}
+  .table .row > div{padding:16px 18px}
+  .table .row.head{background:var(--bg-elev);font-family:var(--mono);font-size:12px;
+    letter-spacing:.14em;color:var(--ink-faint);text-transform:uppercase}
+  .table .row > div+div{border-left:1px solid var(--line)}
+  .table .name{font-family:var(--serif);font-weight:700;font-size:17px}
+  .table .name.a{color:var(--ink)}
+  .table .name.b{color:var(--gold)}
+  @media(max-width:560px){
+    .table .row{grid-template-columns:1fr}
+    .table .row > div+div{border-left:0;border-top:1px solid var(--line)}
+    .table .row.head{display:none}
+  }
+
+  /* 均线系统 8 条参数标签 */
+  .ma-strip{display:flex;flex-wrap:wrap;gap:8px;margin:24px 0 12px}
+  .ma-strip .ma{font-family:var(--mono);font-size:13px;padding:8px 14px;border-radius:8px;
+    background:var(--bg-elev);border:1px solid var(--line);color:var(--ink-dim)}
+  .ma-strip .ma b{color:var(--pivot);margin-right:6px}
+  .ma-strip .ma.gold b{color:var(--gold)}
+  .ma-strip .ma.up b{color:var(--up)}
+
+  /* 9 分类阶梯 */
+  .ladder{margin:28px 0;border:1px solid var(--line);border-radius:14px;overflow:hidden}
+  .ladder .rung{display:grid;grid-template-columns:80px 1fr;align-items:center;
+    border-bottom:1px solid var(--line);background:var(--bg-card)}
+  .ladder .rung:last-child{border-bottom:0}
+  .ladder .rung .cls{padding:14px 0;text-align:center;font-family:var(--mono);font-weight:700;
+    font-size:20px;color:#fff;background:var(--bg-elev);border-right:1px solid var(--line)}
+  .ladder .rung .desc{padding:14px 18px;color:var(--ink-dim);font-size:14px}
+  .ladder .rung.l9 .cls{color:var(--up);background:rgba(255,77,79,.08)}
+  .ladder .rung.l8 .cls{color:var(--gold)}
+  .ladder .rung.l7 .cls{color:var(--gold)}
+  .ladder .rung.l4 .cls{color:var(--pivot)}
+  .ladder .rung.l1 .cls{color:var(--down);background:rgba(22,199,132,.08)}
+  .ladder .rung b{color:#fff}
+
+  /* 三级别反弹时间线 */
+  .timeline{margin:28px 0;display:flex;flex-direction:column;gap:0;position:relative;padding-left:30px}
+  .timeline::before{content:"";position:absolute;left:9px;top:8px;bottom:8px;width:2px;
+    background:linear-gradient(180deg,var(--pivot),var(--gold),var(--up))}
+  .timeline .ev{position:relative;padding:14px 0 14px 20px}
+  .timeline .ev::before{content:"";position:absolute;left:-26px;top:20px;width:12px;height:12px;
+    border-radius:50%;background:var(--pivot);box-shadow:0 0 0 4px rgba(55,192,230,.15)}
+  .timeline .ev.g::before{background:var(--gold);box-shadow:0 0 0 4px rgba(232,179,57,.15)}
+  .timeline .ev.r::before{background:var(--up);box-shadow:0 0 0 4px rgba(255,77,79,.15)}
+  .timeline .date{font-family:var(--mono);font-size:12px;color:var(--ink-faint);letter-spacing:.12em}
+  .timeline .ev h4{font-family:var(--serif);font-size:18px;color:#fff;margin:4px 0 6px}
+  .timeline .ev p{margin:0;font-size:14px;color:var(--ink-dim)}
+
+  ol.think{counter-reset:q;list-style:none;margin:24px 0;display:flex;flex-direction:column;gap:14px}
+  ol.think li{counter-increment:q;position:relative;padding:18px 20px 18px 60px;
+    background:var(--bg-elev);border:1px solid var(--line);border-radius:12px;color:var(--ink-dim);font-size:15px}
+  ol.think li::before{content:counter(q,decimal-leading-zero);position:absolute;left:20px;top:18px;
+    font-family:var(--mono);color:var(--gold);font-weight:700}
+
+  footer{padding:60px 0 90px;text-align:center;color:var(--ink-faint);font-family:var(--mono);font-size:12px;border-top:1px solid var(--line)}
+  footer a{color:var(--ink-dim);text-decoration:none}
+
+  .reveal{opacity:0;transform:translateY(26px);transition:opacity .8s ease,transform .8s ease}
+  .reveal.in{opacity:1;transform:none}
+  @media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}.scroll-hint{animation:none}}
+</style>
+<meta name="view-transition" content="same-origin"><style>@view-transition{navigation:auto}</style></head>
+<body>
+<div id="bar"></div>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="kicker">缠中说禅 · 教你炒股票108课 <span>/ 第 106 课</span></div>
+    <h1 class="title">均线、轮动与<br>板块强弱指标</h1>
+    <p class="sub">缠师把均线系统从"单一条参考线"升级成"市场分类的坐标系"——8 条均线 → 9 类股票 → 板块强弱排序 → 轮动节奏一目了然。这一课给了"打横看整个市场"的方法。</p>
+    <div class="meta">
+      <span class="pill"><b>原文</b> 2008-07-10 ~ 08-18</span>
+      <span class="pill"><b>类型</b> 理论 + 实时解盘</span>
+      <span class="pill"><b>关键词</b> 均线系统 · 9 分类 · 板块强弱指标 · 轮动节奏</span>
+    </div>
+    <div class="scroll-hint">↓ 向下滚动，逐层拆解</div>
+  </div>
+</header>
+
+<main>
+  <!-- 1 级别 × 均线 对应关系 -->
+  <section class="wrap reveal">
+    <div class="sec-no">01 — 级别与均线</div>
+    <h2>任一级别都有最小延伸时间</h2>
+    <p class="lead">在动手设均线系统前，先得明白：每一种级别的走势，最少要"走多少根 K 线"才合规——这就把"级别"和"均线"勾连上了。</p>
+    <p>缠师从最朴素的一笔开始。一笔必须有顶分型和底分型，<b>最少要 6 根 K 线</b>。因此：<span class="hl-pivot">如果反弹连 5 日线都碰不到，那它根本不可能是"笔级别"的反弹</span>——这是几何上的强约束。</p>
+    <blockquote>
+      任一级别都有最少的延伸时间。<br>
+      同样的道理可以给出<b>线段、1、5、30、日、周</b>等等级别的最少延伸时间，以及<b>相应最少挑战的均线</b>。<br>
+      走势级别与均线虽然没有必然的关系，但还是有一个大致的区间对应。
+      <span class="who">— 2008-07-10</span>
+    </blockquote>
+    <div class="grid">
+      <div class="card">
+        <div class="tag">经验观察</div>
+        <h3>同趋势压制线</h3>
+        <p>一个趋势中 N 个中枢对应的压制均线<b>大致都是相同的</b>。第一中枢被 89 日均线压住，后面的中枢很可能也被同样的均线压住。</p>
+      </div>
+      <div class="card">
+        <div class="tag">推论</div>
+        <h3>反弹级别识别</h3>
+        <p>反弹只能到 34 日线 → 和原来 89 日压制的中枢<b>不在同一级别</b>。直接读均线，就能初判级别够不够。</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2 8 条均线系统 -->
+  <section class="wrap reveal">
+    <div class="sec-no">02 — 均线系统的设置</div>
+    <h2>必须和"实际走势"严丝合缝</h2>
+    <p class="lead">缠师反对死记参数。均线参数不是抄来的，而是"试出来"的——要让系统和当下走势的关键拐点精确吻合。</p>
+    <p>以 6124 点下来为例，缠师选的 8 条均线参数是斐波那契数列：</p>
+    <div class="ma-strip">
+      <span class="ma"><b>5</b>MA</span>
+      <span class="ma"><b>13</b>MA</span>
+      <span class="ma"><b>21</b>MA</span>
+      <span class="ma gold"><b>34</b>MA</span>
+      <span class="ma gold"><b>55</b>MA</span>
+      <span class="ma up"><b>89</b>MA</span>
+      <span class="ma up"><b>144</b>MA</span>
+      <span class="ma up"><b>233</b>MA</span>
+    </div>
+    <p>这套系统对走势的"自洽性"贯穿了 6124 下来的所有关键节点：</p>
+    <div class="table">
+      <div class="row head"><div>价位</div><div>对应均线</div><div>意义</div></div>
+      <div class="row">
+        <div class="name a">4778 点</div>
+        <div>233 日均线支撑</div>
+        <div>第一次大反弹的起点</div>
+      </div>
+      <div class="row">
+        <div class="name a">4778 后</div>
+        <div>55 / 89 日均线</div>
+        <div>构成<b>多头陷阱</b></div>
+      </div>
+      <div class="row">
+        <div class="name a">3000 点上方</div>
+        <div>受制于 21 日线</div>
+        <div>下跌一直在 21 日线下运行</div>
+      </div>
+      <div class="row">
+        <div class="name b">反弹高位</div>
+        <div>55 日线<b>精确压制</b></div>
+        <div>再次确认 55 日线为关键</div>
+      </div>
+      <div class="row">
+        <div class="name b">当下反弹</div>
+        <div>试金石 = 55 日线（89 日将与之缠绕）</div>
+        <div>突破才算"够级别"，未触及 = 反弹失败</div>
+      </div>
+    </div>
+    <blockquote>
+      该系统对走势的吻合程度显然是很高的，在后面走势没出现大变化时，当然可以一直沿用。<br>
+      <b>55 日（89 日很快将与之缠绕）是本次反弹真正的试金石。</b>
+      <span class="who">— 2008-07-10</span>
+    </blockquote>
+    <p><b>关键提醒</b>——均线系统是<span class="hl-pivot">为当前走势量身定制的坐标系</span>。换一段不同性质的走势，可能就要重选参数。不要把"5/10/20/60"当成万能模板。</p>
+  </section>
+
+  <!-- 3 9 分类法 -->
+  <section class="wrap reveal">
+    <div class="sec-no">03 — 9 分类法</div>
+    <h2>8 条均线 → 9 类股票，市场强弱一目了然</h2>
+    <p class="lead">这是这一课最有原创性的方法论——把"看单只股票"升级为"对整个市场打横分类"。</p>
+    <p>分类原则：<span class="hl-gold">反弹目前为止"未曾攻克"的最小周期均线</span>。8 条均线 → 9 个分类，按强弱排序：</p>
+
+    <div class="ladder">
+      <div class="rung l9"><div class="cls">9</div><div class="desc"><b>站上 233 日线之上</b>（或部分均线之上、最厉害位置）—— 但<b>不一定完全在所有均线之上</b>（缠师留的思考题）</div></div>
+      <div class="rung l8"><div class="cls">8</div><div class="desc">站上 144 日线，但 233 日线未攻克</div></div>
+      <div class="rung l7"><div class="cls">7</div><div class="desc">站上 89 日线，调整<b>极端标准</b>（如 89 日线上调整）</div></div>
+      <div class="rung"><div class="cls">6</div><div class="desc">站上 55 日线，但 89 日线未攻克</div></div>
+      <div class="rung"><div class="cls">5</div><div class="desc">站上 34 日线，但 55 日线未攻克</div></div>
+      <div class="rung l4"><div class="cls">4</div><div class="desc"><b>站上 21 日线</b>，但 34 日线未攻克 ——大盘当下所处的位置</div></div>
+      <div class="rung"><div class="cls">3</div><div class="desc">站上 13 日线，但 21 日线未攻克</div></div>
+      <div class="rung"><div class="cls">2</div><div class="desc">站上 5 日线，但 13 日线未攻克</div></div>
+      <div class="rung l1"><div class="cls">1</div><div class="desc"><b>完全在所有均线之下</b> —— 最弱</div></div>
+    </div>
+
+    <p>缠师当时给的真实样本（2008-07-10）：</p>
+    <div class="table">
+      <div class="row head"><div>分类</div><div>代表股票</div><div>结构状态</div></div>
+      <div class="row">
+        <div class="name b">第 9 类</div>
+        <div>000802 / 000998 / 600636</div>
+        <div>最强势品种</div>
+      </div>
+      <div class="row">
+        <div class="name b">第 8 类</div>
+        <div>600139</div>
+        <div>次强</div>
+      </div>
+      <div class="row">
+        <div class="name a">第 7 类</div>
+        <div>600578 / 600607</div>
+        <div>89 日线上调整<b>极端标准</b></div>
+      </div>
+      <div class="row">
+        <div class="name a">第 6 类</div>
+        <div>600195 / 600343</div>
+        <div>55 日上</div>
+      </div>
+      <div class="row">
+        <div class="name a">第 5 类</div>
+        <div>600737 / 000600</div>
+        <div>34 日上</div>
+      </div>
+      <div class="row">
+        <div class="name a">第 4 类</div>
+        <div>大盘指数</div>
+        <div>仅站上 21 日</div>
+      </div>
+    </div>
+
+    <blockquote>
+      统计一下，目前被 <b>34 天线上下压制的股票是最大量的</b>，这就提示我们，<b>34 天线对于大盘也是压力很大的</b>。<br>
+      由于大盘还没到该线，因此这提示就有<b>预示的意义</b>了。
+      <span class="who">— 2008-07-10</span>
+    </blockquote>
+    <p>这就是"打横分类"的力量：单看大盘指数你只知道它处于"第 4 类"；但<span class="hl-pivot">统计全市场的分类分布，反过来就能预判大盘下一步要面对的压力</span>。这是"群体几何"对"单体几何"的反馈。</p>
+  </section>
+
+  <!-- 4 板块强弱指标 + 轮动 -->
+  <section class="wrap reveal">
+    <div class="sec-no">04 — 板块强弱指标</div>
+    <h2>给"板块"打分：类别数取平均</h2>
+    <p class="lead">个股分类做完之后，缠师做了第二步抽象——按板块汇总，得到一个可比较的强弱分。</p>
+    <blockquote>
+      要判别一板块的强弱很简单，就是把<b>类别数平均一下</b>，越大越强，而这个平均类别数，可以叫<b>缠中说禅板块强弱指标</b>。<br>
+      把所有板块的缠中说禅板块强弱指标列在一个图上，其<b>轮动的次序与节奏就一目了然</b>了。
+      <span class="who">— 2008-07-10</span>
+    </blockquote>
+    <div class="grid">
+      <div class="card">
+        <div class="tag">公式</div>
+        <h3>板块强弱指标</h3>
+        <p>板块强弱 = Σ(成分股分类号) / 成分股数<br>越大 = 板块越强 = 领涨板块</p>
+      </div>
+      <div class="card">
+        <div class="tag">操作含义</div>
+        <h3>轮动节奏</h3>
+        <p>把各板块的强弱指标摆成时间序列 → 谁先涨、谁后涨、谁还没动，自然成型。<b>这就是轮动操作的导航地图</b>。</p>
+      </div>
+    </div>
+    <p>缠师在课文里给出的轮动判断逻辑：</p>
+    <div class="table">
+      <div class="row head"><div>信号</div><div>识别</div><div>动作</div></div>
+      <div class="row">
+        <div class="name a">N 类股票出现顶背驰</div>
+        <div>在分类 N 上构成趋势级别走势的顶背驰</div>
+        <div><b>先出一下</b>，至少有"几天偷欢"的时间窗</div>
+      </div>
+      <div class="row">
+        <div class="name b">寻找接力</div>
+        <div>找"已经调整可以再启动的"或"补涨的"</div>
+        <div>切换到下一只——这就是轮动</div>
+      </div>
+      <div class="row">
+        <div class="name a">N→N+1 跃迁</div>
+        <div>每个股票从 N 类升 N+1 类<b>至少要折腾一大段时间</b></div>
+        <div>提供了轮动的<b>时间窗口</b></div>
+      </div>
+    </div>
+    <p>缠师反复强调：<span class="hl-down">轮动只是节奏的一种方式，最重要的节奏永远是买卖点</span>。所有轮动操作必须以本级别的买卖点为基础——否则就是"看到别人涨就追"，跟分类法没关系。</p>
+  </section>
+
+  <!-- 5 实战:顶分型与三级别反弹 -->
+  <section class="wrap reveal">
+    <div class="sec-no">05 — 实战示范</div>
+    <h2>2008年7~8月：从顶分型到断崖走势</h2>
+    <p class="lead">理论给完，缠师马上用 7~8 月的真实大盘做现场示范——这部分是这一课最有"心法"味道的部分。</p>
+
+    <p>7-10 中午刚发完轮动理论，下午很多人就忙着"找轮动股票"。但缠师指出当时大盘明明<b>正在构造顶分型</b>——风险在上，谈轮动就是刀口舔血。</p>
+    <blockquote>
+      在今天明明要构成顶分型的时候还谈论轮动 …… 这时候<b>脑子里风险是第一位</b>的，就算有轮动也可能是刀口舔血的勾当。<br>
+      理论是让你心里<b>不受贪婪恐惧影响</b>，别明明是刀子都跑过去大吃一顿。
+      <span class="who">— 2008-07-11</span>
+    </blockquote>
+
+    <figure>
+      <img src="/_assets/ch106_p01.png" alt="2008-07-11 大盘构造顶分型">
+      <figcaption>7-11 大盘下午正在构造顶分型，5 日线是延伸成笔的关键（ch106_p01）</figcaption>
+    </figure>
+
+    <p>顶分型 → 笔的调整 → 寻找底背驰。缠师把判断公式压到极简：</p>
+    <div class="ma-strip">
+      <span class="ma"><b>5 日线</b> 站住 → 再冲 34 日线</span>
+      <span class="ma gold"><b>5 日线</b> 跌破 → 形成笔调整</span>
+      <span class="ma up"><b>笔调整</b> 走完 → 等底背驰再说</span>
+    </div>
+
+    <figure>
+      <img src="/_assets/ch106_p02.png" alt="MACD 0轴破与不破">
+      <figcaption>"MACD 0 轴破还是不破"——最简单的技术提示，看懂就够（ch106_p02）</figcaption>
+    </figure>
+
+    <p>到 8-06，短线已经很明确：2924 点下来这段在小背驰段区间套完美后结束。<span class="hl-gold">短线关键位 2762 点</span>——站住就延伸出日线上的笔，站不住就第二段下跌。</p>
+    <figure>
+      <img src="/_assets/ch106_p03.png" alt="2762 短线关键位">
+      <figcaption>2924 下来第一段结束，2762 点成为短线生死线（ch106_p03）</figcaption>
+    </figure>
+    <figure>
+      <img src="/_assets/ch106_p04.png" alt="7-03 大中枢震荡">
+      <figcaption>大角度看仍处于 7-03 后形成的大中枢，所有波动都是中枢震荡（ch106_p04）</figcaption>
+    </figure>
+  </section>
+
+  <!-- 6 三级别反弹路线图 -->
+  <section class="wrap reveal">
+    <div class="sec-no">06 — 三级别反弹路线图</div>
+    <h2>从断崖走势中找出三级别反弹的预定轨道</h2>
+    <p class="lead">8-08 起断崖走势开始展开，缠师在最混乱的情况下，预先把后续可能的"三级别反弹"路线画了出来。</p>
+
+    <p>2762 点下方的三角反弹 → 构成 2924 下来第一个中枢 → 新一段下跌。两种演化二选一：</p>
+    <div class="table">
+      <div class="row head"><div>情况</div><div>力度对比</div><div>结论</div></div>
+      <div class="row">
+        <div class="name a">A 情况</div>
+        <div>后段 ≥ 前段（30 或 60 分钟）</div>
+        <div>还需一个中枢 + 下跌背驰，才完成 2924 下来</div>
+      </div>
+      <div class="row">
+        <div class="name b">B 情况</div>
+        <div>后段 &lt; 前段</div>
+        <div>2924 下来仅<b>盘整走势</b>，一中枢后快速回到 2679 上方</div>
+      </div>
+    </div>
+
+    <figure>
+      <img src="/_assets/ch106_p05.png" alt="2924 下来分类">
+      <figcaption>2924 下来的两种演化方式分类——本周最大任务是密切关注短线买点（ch106_p05）</figcaption>
+    </figure>
+
+    <blockquote>
+      目前最大的短线机会，就是 2924 点下来的走势类型结束点构成的买点，其后至少有一个 2924 点下来同一级别的反弹。<br>
+      <b>密切关注短线买点，就是本周最大的任务。</b>
+      <span class="who">— 2008-08-11</span>
+    </blockquote>
+
+    <p>到 8-11 下午，60 分钟绿柱不断伸长 → 下跌动能依然强大 → A 情况成为必然。缠师当下给出三级别反弹路线：</p>
+
+    <div class="timeline">
+      <div class="ev">
+        <div class="date">L1 · 第一级别</div>
+        <h4>2700 中枢破位后的第二中枢反弹</h4>
+        <p>最快本周明天、最晚后天盘中出现。力度甚至不能触及今天高点，随后继续暴跌。</p>
+      </div>
+      <div class="ev g">
+        <div class="date">L2 · 第二级别</div>
+        <h4>第二中枢出现背驰</h4>
+        <p>背驰意味着<b>更高一级别的买点</b>。最小是 2924 下来第二中枢级别，至少构成 30 分钟笔走势。</p>
+      </div>
+      <div class="ev r">
+        <div class="date">L3 · 第三级别</div>
+        <h4>大中枢的次级别反弹</h4>
+        <p>最重要——是否构成<b>大中枢第三类卖点</b>？一旦构成，后面将是更猛烈的断崖式下跌。</p>
+      </div>
+    </div>
+
+    <figure>
+      <img src="/_assets/ch106_p06.png" alt="三级别反弹推演">
+      <figcaption>三级别反弹的具体级别推演与可能的第三类卖点位置（ch106_p06）</figcaption>
+    </figure>
+
+    <p>8-13 走势严格按 L1 演化——"第二级别反弹教科书般降临"。缠师明确：<span class="hl-pivot">这反弹的两种可能</span> —— 一是出现更大底背驰，二是直接从今天构成的中枢上去构成<b>第三类买点扩展</b>，对应标准下跌走势 a+A+b+B+c 中的 c 不出现。</p>
+
+    <figure>
+      <img src="/_assets/ch106_p07.png" alt="第二级别反弹形成">
+      <figcaption>8-13 大盘构造 2924 下来第二中枢——第二级别反弹"教科书般"出现（ch106_p07）</figcaption>
+    </figure>
+  </section>
+
+  <!-- 7 分型上下沿的真用法 -->
+  <section class="wrap reveal">
+    <div class="sec-no">07 — 心法</div>
+    <h2>分型上下沿不是买点，只是"延伸笔的判断器"</h2>
+    <p class="lead">课文最后缠师抓了一个常见错误，必须记牢——这是从理论回到操作的最后一公里。</p>
+    <blockquote>
+      依然有 N 多人把分型上边沿站稳作为最好的买入点，却搞不清楚，恰好相反，<b>这只不过是判断是否延伸为笔的一个简单判断法</b>。<br>
+      如果说买点，必须从<b>走势类型</b>去判别。
+      <span class="who">— 2008-08-14</span>
+    </blockquote>
+    <p>缠师的几何论证：抛去包含关系，6 根 K 线就可以构成笔，而确认站稳上下边沿那已经是<b>第 4 根</b>，转折在<b>第 5 根</b>——这意味着你刚以分型边沿作为买入，可能马上就遇到转折。</p>
+    <div class="grid">
+      <div class="card">
+        <div class="tag">错误用法</div>
+        <h3>分型上沿 = 买点</h3>
+        <p>以分型上下边沿当买点 → 不时面临"买后第二根 K 线就是转折"的尴尬。</p>
+      </div>
+      <div class="card">
+        <div class="tag">正确用法</div>
+        <h3>分型上沿 = 笔确认</h3>
+        <p>分型上下沿只是"是否延伸为笔"的简单判断法。买点仍要从走势类型 + 三类买卖点 + 区间套去确认。</p>
+      </div>
+    </div>
+    <figure>
+      <img src="/_assets/ch106_p08.png" alt="分型上边沿再起神奇作用">
+      <figcaption>8-18 大盘走势：日底分型上沿站不住，探底延续——分型上沿作为"延伸判断器"的标准案例（ch106_p08）</figcaption>
+    </figure>
+
+    <ol class="think">
+      <li>缠师的 9 分类法里说"最厉害的不一定完全在所有均线之上"——为什么？提示：想一想"均线粘合处"和"刚突破"两种状态在动能上的差异。</li>
+      <li>你能用 Fibonacci 数列以外的其他参数（比如 7/14/30/60/120/250）构造均线系统吗？衡量"和走势吻合"的标准是什么？哪些关键转折点必须被均线"打到"？</li>
+      <li>板块强弱指标 = Σ(分类号)/N。如果一个板块里既有第 9 类的龙头，又有第 1 类的烂股，平均分会比较中庸——这种"内部分化"的板块，应该怎么操作？还是直接放弃？</li>
+      <li>缠师在这一课里把"轮动"和"买卖点"做了顺序：轮动从属于买卖点。但很多人是"看哪个涨追哪个"。请用第 6 节的三级别反弹路线，自问：如果在 8-13 你看着别的股票暴涨，你会冲进去吗？</li>
+    </ol>
+  </section>
+</main>
+
+<footer class="wrap">
+  原文出处：raw/缠中说禅/教你炒股票108课/教你炒股票106：均线、轮动与缠中说禅板块强弱指标.md<br>
+  本页为个人学习复习用 · 非投资建议
+</footer>
+
+<script>
+  const bar=document.getElementById('bar');
+  const onScroll=()=>{
+    const h=document.documentElement;
+    const p=h.scrollTop/(h.scrollHeight-h.clientHeight);
+    bar.style.width=(p*100)+'%';
+  };
+  document.addEventListener('scroll',onScroll,{passive:true});onScroll();
+
+  const io=new IntersectionObserver((es)=>{
+    es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});
+  },{threshold:.12});
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+</script>
+<script src="/assets/_nav.js"></script><script src="/assets/_shell.js"></script></body>
+</html>

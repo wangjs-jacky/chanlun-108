@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>缠论 · 教你炒股票90：中阴阶段结束时间的辅助判断</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@500;700;900&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0b0e12;
+    --bg-elev:#12161c;
+    --bg-card:#161b22;
+    --ink:#e8eaed;
+    --ink-dim:#9aa3ad;
+    --ink-faint:#5b6470;
+    --line:rgba(255,255,255,.07);
+    --up:#ff4d4f;
+    --down:#16c784;
+    --pivot:#37c0e6;
+    --gold:#e8b339;
+    --max:880px;
+    --serif:"Noto Serif SC",serif;
+    --mono:"JetBrains Mono",ui-monospace,monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;
+    line-height:1.85;
+    font-size:17px;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  body::before{
+    content:"";position:fixed;inset:0;z-index:-2;
+    background:
+      radial-gradient(1200px 600px at 70% -10%, rgba(55,192,230,.08), transparent 60%),
+      radial-gradient(900px 500px at 0% 100%, rgba(232,179,57,.05), transparent 55%);
+    pointer-events:none;
+  }
+  body::after{
+    content:"";position:fixed;inset:0;z-index:-1;opacity:.4;
+    background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);
+    background-size:46px 46px;
+    -webkit-mask-image:radial-gradient(ellipse at 50% 0%, #000 30%, transparent 80%);
+            mask-image:radial-gradient(ellipse at 50% 0%, #000 30%, transparent 80%);
+    pointer-events:none;
+  }
+
+  #bar{position:fixed;top:0;left:0;height:3px;width:0;z-index:50;
+    background:linear-gradient(90deg,var(--pivot),var(--gold));box-shadow:0 0 12px var(--pivot);}
+
+  .wrap{max-width:var(--max);margin:0 auto;padding:0 24px}
+
+  header.hero{padding:120px 0 70px;text-align:center;position:relative}
+  .kicker{font-family:var(--mono);font-size:13px;letter-spacing:.32em;color:var(--pivot);
+    text-transform:uppercase;margin-bottom:26px}
+  .kicker span{color:var(--ink-faint)}
+  h1.title{font-family:var(--serif);font-weight:900;line-height:1.05;
+    font-size:clamp(42px,9vw,92px);letter-spacing:.04em;
+    background:linear-gradient(180deg,#fff 30%,#8aa0ad 130%);
+    -webkit-background-clip:text;background-clip:text;color:transparent;}
+  .sub{margin:22px auto 0;max-width:620px;color:var(--ink-dim);font-size:18px}
+  .meta{margin-top:34px;display:flex;gap:14px;justify-content:center;flex-wrap:wrap;
+    font-family:var(--mono);font-size:12px;color:var(--ink-faint)}
+  .meta b{color:var(--ink-dim);font-weight:500}
+  .pill{border:1px solid var(--line);padding:6px 14px;border-radius:999px;background:rgba(255,255,255,.02)}
+
+  .scroll-hint{margin-top:60px;color:var(--ink-faint);font-family:var(--mono);font-size:12px;
+    animation:bob 2.4s ease-in-out infinite}
+  @keyframes bob{0%,100%{transform:translateY(0);opacity:.5}50%{transform:translateY(8px);opacity:1}}
+
+  section{padding:64px 0;border-top:1px solid var(--line)}
+  .sec-no{font-family:var(--mono);font-size:13px;color:var(--gold);letter-spacing:.2em;margin-bottom:10px}
+  h2{font-family:var(--serif);font-weight:700;font-size:clamp(28px,5vw,42px);
+    line-height:1.25;margin-bottom:8px;letter-spacing:.02em}
+  .lead{color:var(--ink-dim);font-size:16px;margin-bottom:28px;max-width:640px}
+  p{margin:0 0 18px;color:#cfd5dc}
+  p b,strong{color:#fff;font-weight:700}
+  .hl-pivot{color:var(--pivot);font-weight:700}
+  .hl-up{color:var(--up);font-weight:700}
+  .hl-down{color:var(--down);font-weight:700}
+  .hl-gold{color:var(--gold);font-weight:700}
+
+  blockquote{margin:26px 0;padding:20px 24px;border-left:3px solid var(--pivot);
+    background:linear-gradient(90deg,rgba(55,192,230,.07),transparent);
+    border-radius:0 10px 10px 0;font-family:var(--serif);font-size:18px;color:#eaf6fb}
+  blockquote .who{display:block;margin-top:8px;font-family:var(--mono);font-size:12px;
+    color:var(--ink-faint);font-style:normal}
+
+  figure{margin:34px 0}
+  figure img{width:100%;border-radius:12px;border:1px solid var(--line);
+    background:#fff;box-shadow:0 18px 50px rgba(0,0,0,.5)}
+  figcaption{margin-top:12px;font-size:13px;color:var(--ink-faint);text-align:center;font-family:var(--mono)}
+
+  .grid{display:grid;gap:16px;grid-template-columns:1fr 1fr;margin:28px 0}
+  @media(max-width:640px){.grid{grid-template-columns:1fr}}
+  .card{background:var(--bg-card);border:1px solid var(--line);border-radius:14px;padding:24px;
+    position:relative;overflow:hidden;transition:transform .35s ease,border-color .35s ease}
+  .card:hover{transform:translateY(-4px);border-color:rgba(55,192,230,.4)}
+  .card .tag{font-family:var(--mono);font-size:11px;letter-spacing:.18em;color:var(--gold);text-transform:uppercase}
+  .card h3{font-family:var(--serif);font-size:21px;margin:10px 0 8px;color:#fff}
+  .card p{font-size:15px;color:var(--ink-dim);margin:0}
+
+  /* BOLL 三轨示意 SVG 区 */
+  .boll-vis{margin:30px 0;padding:22px;background:var(--bg-elev);border:1px solid var(--line);border-radius:14px}
+  .boll-vis svg{width:100%;height:auto;display:block}
+  .boll-legend{margin-top:14px;display:flex;gap:18px;flex-wrap:wrap;font-family:var(--mono);font-size:12px;color:var(--ink-dim)}
+  .boll-legend i{display:inline-block;width:14px;height:2px;margin-right:6px;vertical-align:middle}
+
+  /* 流程步骤 */
+  .steps{margin:30px 0;display:flex;flex-direction:column;gap:14px}
+  .step{display:flex;gap:18px;align-items:flex-start;background:var(--bg-card);
+    border:1px solid var(--line);border-radius:12px;padding:18px 20px}
+  .step .num{flex:none;width:40px;height:40px;border-radius:10px;display:grid;place-items:center;
+    font-family:var(--mono);font-weight:700;font-size:16px;
+    background:rgba(55,192,230,.15);color:var(--pivot);border:1px solid rgba(55,192,230,.3)}
+  .step h4{font-size:17px;margin-bottom:4px;color:#fff}
+  .step p{font-size:15px;color:var(--ink-dim);margin:0}
+
+  /* 表格 */
+  .table{margin:28px 0;border:1px solid var(--line);border-radius:14px;overflow:hidden}
+  .table .row{display:grid;grid-template-columns:1.1fr 1.5fr 1.6fr;align-items:stretch}
+  .table .row+.row{border-top:1px solid var(--line)}
+  .table .row > div{padding:16px 18px}
+  .table .row.head{background:var(--bg-elev);font-family:var(--mono);font-size:12px;
+    letter-spacing:.14em;color:var(--ink-faint);text-transform:uppercase}
+  .table .row > div+div{border-left:1px solid var(--line)}
+  .table .name{font-family:var(--serif);font-weight:700;font-size:17px;color:var(--ink)}
+  @media(max-width:560px){
+    .table .row{grid-template-columns:1fr}
+    .table .row > div+div{border-left:0;border-top:1px solid var(--line)}
+    .table .row.head{display:none}
+  }
+
+  .tldr{margin:60px 0 0;padding:36px 30px;border:1px solid rgba(55,192,230,.3);border-radius:18px;
+    background:radial-gradient(120% 120% at 100% 0%,rgba(55,192,230,.1),transparent 60%),var(--bg-elev);text-align:center}
+  .tldr .lab{font-family:var(--mono);font-size:12px;letter-spacing:.3em;color:var(--pivot);text-transform:uppercase}
+  .tldr p{font-family:var(--serif);font-size:clamp(19px,3vw,26px);line-height:1.7;color:#fff;margin:16px 0 0}
+
+  footer{padding:60px 0 90px;text-align:center;color:var(--ink-faint);font-family:var(--mono);font-size:12px;border-top:1px solid var(--line)}
+
+  .reveal{opacity:0;transform:translateY(26px);transition:opacity .8s ease,transform .8s ease}
+  .reveal.in{opacity:1;transform:none}
+  @media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}.scroll-hint{animation:none}}
+</style>
+<meta name="view-transition" content="same-origin"><style>@view-transition{navigation:auto}</style></head>
+<body>
+<div id="bar"></div>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="kicker">缠中说禅 · 教你炒股票108课 <span>/ 第 90 课</span></div>
+    <h1 class="title">中阴结束<br>时间判断</h1>
+    <p class="sub">用「布林通道」做辅助：超强区进出，给中阴开始与结束都标上钟点。准确率接近 100%，但只是辅助。</p>
+    <div class="meta">
+      <span class="pill"><b>原文</b> 2007-12-03</span>
+      <span class="pill"><b>类型</b> 辅助技术 · BOLL</span>
+      <span class="pill"><b>关键词</b> 布林通道 · 中阴 · 第一二三类买卖点</span>
+    </div>
+    <div class="scroll-hint">↓ 向下滚动，逐层拆解</div>
+  </div>
+</header>
+
+<main>
+  <!-- 1 -->
+  <section class="wrap reveal">
+    <div class="sec-no">01 — 工具定位</div>
+    <h2>「辅助判断」，不是绝对判断</h2>
+    <p class="lead">先校准心态：缠师本人就说了，这是辅助技术，不是定理。</p>
+    <p>关于中阴阶段结束时间的判断，缠师明确说了：<b>这不是绝对性的判断，如同 MACD 判断背驰一样，只是辅助</b>。但因为<span class="hl-gold">准确率极高</span>，反而比那个"绝对、复杂、不实用"的精确判断更值得用。</p>
+    <blockquote>
+      一般来说，这个中阴阶段结束时间的辅助判断的有效性可以达到<b>接近 100%</b>，很少有例外。
+      <span class="who">— 缠中说禅</span>
+    </blockquote>
+    <p>但既然是辅助性，就吃<b>技巧</b>和<b>熟练度</b>——缠师打了个比方：训练有素的杂技演员上台几乎不出错，没训练的一上台肯定出错。换句话说，这套方法门槛不高，但<span class="hl-pivot">不练就是不会</span>。</p>
+  </section>
+
+  <!-- 2 -->
+  <section class="wrap reveal">
+    <div class="sec-no">02 — 工具本身</div>
+    <h2>认识 BOLL：上轨 · 中轨 · 下轨</h2>
+    <p class="lead">所有炒股软件都有这个指标，按一下就出来——但要看懂它在说什么。</p>
+    <p>这个辅助判断，用的是所有软件都有的一个指标：<b>布林通道</b>（一般标作 <span class="hl-pivot">BOLL</span>）。它由三条线组成——<b>上轨、中轨、下轨</b>，价格在三条线之间运动。</p>
+
+    <div class="boll-vis">
+      <svg viewBox="0 0 800 320" xmlns="http://www.w3.org/2000/svg" aria-label="布林通道三轨示意">
+        <defs>
+          <linearGradient id="bg" x1="0" x2="0" y1="0" y2="1">
+            <stop offset="0%" stop-color="#1a2330"/>
+            <stop offset="100%" stop-color="#0e1218"/>
+          </linearGradient>
+          <linearGradient id="superUp" x1="0" x2="0" y1="0" y2="1">
+            <stop offset="0%" stop-color="rgba(255,77,79,.25)"/>
+            <stop offset="100%" stop-color="rgba(255,77,79,0)"/>
+          </linearGradient>
+          <linearGradient id="superDown" x1="0" x2="0" y1="1" y2="0">
+            <stop offset="0%" stop-color="rgba(22,199,132,.25)"/>
+            <stop offset="100%" stop-color="rgba(22,199,132,0)"/>
+          </linearGradient>
+        </defs>
+        <rect width="800" height="320" fill="url(#bg)" rx="8"/>
+
+        <!-- 超强区 -->
+        <rect x="0" y="0" width="800" height="60" fill="url(#superUp)"/>
+        <rect x="0" y="260" width="800" height="60" fill="url(#superDown)"/>
+
+        <!-- 三轨 -->
+        <path d="M 20 80 Q 200 60 400 75 T 780 70" stroke="#ff4d4f" stroke-width="2" fill="none" stroke-dasharray="0"/>
+        <path d="M 20 160 Q 200 140 400 165 T 780 150" stroke="#e8b339" stroke-width="2" fill="none"/>
+        <path d="M 20 240 Q 200 260 400 235 T 780 250" stroke="#16c784" stroke-width="2" fill="none"/>
+
+        <!-- 价格曲线 -->
+        <path d="M 20 200 L 60 220 L 100 180 L 140 50 L 180 70 L 220 90 L 260 130 L 300 170 L 340 200 L 380 280 L 420 260 L 460 230 L 500 210 L 540 190 L 580 220 L 620 200 L 660 180 L 700 190 L 740 170 L 780 175"
+              stroke="#e8eaed" stroke-width="2.5" fill="none"/>
+
+        <!-- 关键点标注 -->
+        <circle cx="140" cy="50" r="6" fill="#ff4d4f"/>
+        <text x="150" y="40" fill="#ff4d4f" font-family="JetBrains Mono" font-size="11">超强上涨</text>
+
+        <circle cx="380" cy="280" r="6" fill="#16c784"/>
+        <text x="390" y="295" fill="#16c784" font-family="JetBrains Mono" font-size="11">超强下跌</text>
+
+        <text x="780" y="65" fill="#ff4d4f" font-family="JetBrains Mono" font-size="11" text-anchor="end">上轨</text>
+        <text x="780" y="145" fill="#e8b339" font-family="JetBrains Mono" font-size="11" text-anchor="end">中轨</text>
+        <text x="780" y="265" fill="#16c784" font-family="JetBrains Mono" font-size="11" text-anchor="end">下轨</text>
+
+        <text x="20" y="20" fill="#9aa3ad" font-family="JetBrains Mono" font-size="11">超强上涨区（上轨之上）</text>
+        <text x="20" y="310" fill="#9aa3ad" font-family="JetBrains Mono" font-size="11">超强下跌区（下轨之下）</text>
+      </svg>
+      <div class="boll-legend">
+        <span><i style="background:#ff4d4f"></i>上轨</span>
+        <span><i style="background:#e8b339"></i>中轨</span>
+        <span><i style="background:#16c784"></i>下轨</span>
+        <span><i style="background:#e8eaed"></i>价格</span>
+      </div>
+    </div>
+
+    <div class="grid">
+      <div class="card">
+        <div class="tag">区域含义</div>
+        <h3>上轨之上 / 下轨之下</h3>
+        <p>统称<b>超强状态</b>。<span class="hl-up">上轨之上</span>=上涨超强；<span class="hl-down">下轨之下</span>=下跌超强。<b>中枢移动</b>时（即趋势推进时）几乎必然出现。</p>
+      </div>
+      <div class="card">
+        <div class="tag">区域含义</div>
+        <h3>三轨之间</h3>
+        <p>属于"<b>一般性区域</b>"。多数中枢震荡都在这里来回拉锯，能量不足以维持超强状态。</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3 -->
+  <section class="wrap reveal">
+    <div class="sec-no">03 — 用法一：抓 1 类买卖点</div>
+    <h2>"冲不回超强区"=中阴开始</h2>
+    <p class="lead">关于第一类买卖点（趋势结束的转折点）的辅助判断。</p>
+
+    <div class="steps">
+      <div class="step">
+        <div class="num">1</div>
+        <div>
+          <h4>价格从超强区跌回 / 涨回</h4>
+          <p>原来在<span class="hl-up">上轨之上</span>奔的，跌回上轨之下；或原来在<span class="hl-down">下轨之下</span>砸的，涨回下轨之上。这是从"超强"转向"一般"的第一信号。</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="num">2</div>
+        <div>
+          <h4>再次冲击创新高 / 新低</h4>
+          <p>价格再做一次同向尝试，确实<b>创出了新高或新低</b>。如果按老剧本，应该再次回到超强区里继续浪。</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="num">3</div>
+        <div>
+          <h4>关键：<span class="hl-gold">不能有效回到超强区</span></h4>
+          <p>新高 / 新低做出来了，但价格<b>没能重新站到上轨上方（或跌到下轨下方）</b>——这就意味着：<span class="hl-pivot">进入中阴状态了，第一类买卖点出现了</span>。</p>
+        </div>
+      </div>
+    </div>
+
+    <p>本质上，这套逻辑和 MACD 判断背驰是一脉相承的——<b>同样的高点 / 低点，背后的能量（用上轨 / 下轨衡量）已经撑不住了</b>。能量先一步衰退，价格随后转向。</p>
+  </section>
+
+  <!-- 4 -->
+  <section class="wrap reveal">
+    <div class="sec-no">04 — 用法二：抓 2 类买卖点</div>
+    <h2>"上下轨滞后转向"=最佳支撑/阻力</h2>
+    <p class="lead">这是缠师说更有效的用法——给第二类买卖点定位置。</p>
+    <p>一旦进入中阴状态，<b>上轨和下轨会有一个滞后反应</b>。它们不是立刻就转头的，而是等到价格再走一次回跌或回升后，<b>再次向上或下跌时，上下轨才会真正转向</b>。</p>
+    <blockquote>
+      这时候转向的上轨和下轨，往往成为最大的阻力和支持，使得第二类买卖点在其下或其上被构造出来。
+      <span class="who">— 缠中说禅</span>
+    </blockquote>
+
+    <div class="grid">
+      <div class="card">
+        <div class="tag">第二类卖点</div>
+        <h3>顶部反抽，被上轨挡住</h3>
+        <p>第一类卖点出现后，价格回抽。这一抽往往打到"刚转向下来的上轨"附近就上不去了——<b>这就是第二类卖点</b>。例：上海大盘 6004 点。</p>
+      </div>
+      <div class="card">
+        <div class="tag">第二类买点</div>
+        <h3>底部回踩，被下轨托住</h3>
+        <p>第一类买点出现后，价格回踩。回踩往往触到"刚转向上来的下轨"附近就下不去了——<b>这就是第二类买点</b>。例：6 月 20 日大盘。</p>
+      </div>
+    </div>
+
+    <p>个股例子缠师举了两个"教科书式"：</p>
+    <ul style="margin:0 0 18px 22px;color:#cfd5dc">
+      <li><b>000938</b>：9 月 14 日 1 类卖点，10 月 8 日 2 类卖点。</li>
+      <li><b>000999</b>：10 月 10 日 1 类卖点，11 月 6 日 2 类卖点。</li>
+      <li><b>000002（万科）周线</b>：40.78 元那周构成<b>周线第一类卖点</b>——缠师特意提醒"别的股票更准确"，自家股没说服力。</li>
+    </ul>
+  </section>
+
+  <!-- 5 -->
+  <section class="wrap reveal">
+    <div class="sec-no">05 — 用法三：抓 3 类买卖点 & 中阴结束</div>
+    <h2>「布林通道收口」=中阴要结束</h2>
+    <p class="lead">这是缠师说"布林通道最有用"的地方——预判中阴结束时间。</p>
+    <blockquote>
+      不过，布林通道最有用的，还是关于<b>中阴结束时间的预判</b>上。一般来说，布林通道的<span class="hl-gold">收口</span>，就是对中阴结束时间的最好提示。
+      <span class="who">— 缠中说禅</span>
+    </blockquote>
+    <p>什么是<b>收口</b>？就是<b>上下轨之间的距离逐渐收窄</b>——通道变窄，意味着波动率压缩、震荡范围在缩小、能量在重新蓄积。一旦收口完成，方向选择就在眼前。</p>
+
+    <!-- 收口示意 SVG -->
+    <div class="boll-vis">
+      <svg viewBox="0 0 800 240" xmlns="http://www.w3.org/2000/svg" aria-label="布林通道收口示意">
+        <defs>
+          <linearGradient id="bg2" x1="0" x2="0" y1="0" y2="1">
+            <stop offset="0%" stop-color="#1a2330"/>
+            <stop offset="100%" stop-color="#0e1218"/>
+          </linearGradient>
+          <linearGradient id="shrinkArea" x1="0" x2="1" y1="0" y2="0">
+            <stop offset="0%" stop-color="rgba(232,179,57,0)"/>
+            <stop offset="60%" stop-color="rgba(232,179,57,.08)"/>
+            <stop offset="100%" stop-color="rgba(232,179,57,.18)"/>
+          </linearGradient>
+        </defs>
+        <rect width="800" height="240" fill="url(#bg2)" rx="8"/>
+
+        <!-- 中间收口区高亮 -->
+        <path d="M 20 50 Q 250 80 500 100 Q 650 110 780 115 L 780 125 Q 650 130 500 140 Q 250 160 20 190 Z"
+              fill="url(#shrinkArea)"/>
+
+        <!-- 上轨 -->
+        <path d="M 20 50 Q 200 70 400 90 Q 600 105 780 115" stroke="#ff4d4f" stroke-width="2" fill="none"/>
+        <!-- 中轨 -->
+        <path d="M 20 120 Q 200 122 400 120 Q 600 120 780 120" stroke="#e8b339" stroke-width="2" fill="none" stroke-dasharray="3,3"/>
+        <!-- 下轨 -->
+        <path d="M 20 190 Q 200 170 400 150 Q 600 135 780 125" stroke="#16c784" stroke-width="2" fill="none"/>
+
+        <!-- 价格 -->
+        <path d="M 20 90 L 60 170 L 100 80 L 140 165 L 180 95 L 220 155 L 260 105 L 300 145 L 340 110 L 380 135 L 420 115 L 460 130 L 500 118 L 540 125 L 580 119 L 620 122 L 660 120 L 700 121 L 740 120 L 780 120"
+              stroke="#e8eaed" stroke-width="2" fill="none"/>
+
+        <!-- 标注 -->
+        <text x="20" y="40" fill="#ff4d4f" font-family="JetBrains Mono" font-size="11">上轨</text>
+        <text x="20" y="215" fill="#16c784" font-family="JetBrains Mono" font-size="11">下轨</text>
+        <text x="500" y="30" fill="#e8b339" font-family="JetBrains Mono" font-size="11" text-anchor="middle">通道收口 → 中阴接近结束</text>
+
+        <!-- 收口箭头 -->
+        <path d="M 620 100 L 720 117" stroke="#e8b339" stroke-width="1" fill="none" stroke-dasharray="2,2"/>
+        <path d="M 620 145 L 720 123" stroke="#e8b339" stroke-width="1" fill="none" stroke-dasharray="2,2"/>
+      </svg>
+      <div class="boll-legend">
+        <span><i style="background:#ff4d4f"></i>上轨</span>
+        <span><i style="background:#e8b339;height:0;border-top:2px dashed #e8b339"></i>中轨</span>
+        <span><i style="background:#16c784"></i>下轨</span>
+        <span style="color:var(--gold)">金色区 = 收口区间</span>
+      </div>
+    </div>
+
+    <p>但这里有个<b>技巧性的细节</b>，初学者最容易做错：</p>
+    <blockquote>
+      不是 1 分钟级别就一定要看 1 分钟的布林通道的。例如，一个<b>5 分钟的中阴过程，对应的是看 30 分钟的布林通道</b>。
+      <span class="who">— 缠中说禅</span>
+    </blockquote>
+    <p>缠师给出的核心规律是：</p>
+    <div class="table">
+      <div class="row head">
+        <div>看哪个级别</div>
+        <div>提示什么</div>
+        <div>对应什么买卖点</div>
+      </div>
+      <div class="row">
+        <div class="name">某级别 BOLL 收口</div>
+        <div>比它<b>低一级别</b>的中阴过程要<span class="hl-gold">扩展级别</span>或<span class="hl-gold">结束</span></div>
+        <div>一般对应<b>第三类买卖点</b></div>
+      </div>
+    </div>
+    <p>所以看 30 分钟 BOLL 收口 → 提示 5 分钟级别的中阴结束 / 扩展 → 一般出 5 分钟的第三类买卖点。<b>规律是"上一级别 BOLL 看下一级别中阴"</b>，错位一档。</p>
+  </section>
+
+  <!-- 6 -->
+  <section class="wrap reveal">
+    <div class="sec-no">06 — 学习态度</div>
+    <h2>"把月亮指给你，但月亮要你自己变成自己的"</h2>
+    <p class="lead">课末是缠师惯有的提醒——技术不是看会的，是练会的。</p>
+    <blockquote>
+      注意，这个辅助判断，比 MACD 那个<b>技巧性还要高点</b>，必须不断看图，自己去总结自己的经验才会有所得。本ID 这里只是把月亮指给各位，要把月亮变成自己的，还需要自己去努力。
+      <span class="who">— 缠中说禅</span>
+    </blockquote>
+    <p>结合上下文回顾一下定位：</p>
+    <ul style="margin:0 0 18px 22px;color:#cfd5dc">
+      <li>第 <b>16-17 课</b> 给出走势中枢和"走势终完美"的几何地基；</li>
+      <li>第 <b>21 课</b> 给出三类买卖点的完备性证明；</li>
+      <li>第 <b>24 课</b> 给出 MACD 这个辅助判断<b>背驰</b>的工具；</li>
+      <li>第 <b>90 课</b>（本课）给出 BOLL 这个辅助判断<b>中阴起止时间</b>的工具。</li>
+    </ul>
+    <p>MACD 解决的是"背驰发生没"，BOLL 解决的是"中阴到点没"——两件事不一样，但路数都是<span class="hl-pivot">用指标做辅助、用纪律做核心</span>。</p>
+
+    <div class="tldr">
+      <div class="lab">一句话总结</div>
+      <p>布林通道用三招辅助看中阴：①「冲不回超强区」=进入中阴（1 类点）；②「上下轨滞后转向后变阻力 / 支撑」=2 类点位置；③「上一级别 BOLL 收口」=下一级别中阴结束、出 3 类点。准确率近 100%，但是辅助，吃技巧。</p>
+    </div>
+  </section>
+</main>
+
+<footer class="wrap">
+  原文出处：raw/缠中说禅/教你炒股票108课/教你炒股票90：中阴阶段结束时间的辅助判断.md<br>
+  本页为个人学习复习用·非投资建议
+</footer>
+
+<script>
+  const bar=document.getElementById('bar');
+  const onScroll=()=>{
+    const h=document.documentElement;
+    const p=h.scrollTop/(h.scrollHeight-h.clientHeight);
+    bar.style.width=(p*100)+'%';
+  };
+  document.addEventListener('scroll',onScroll,{passive:true});onScroll();
+
+  const io=new IntersectionObserver((es)=>{
+    es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});
+  },{threshold:.12});
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+</script>
+<script src="/assets/_nav.js"></script><script src="/assets/_shell.js"></script></body>
+</html>

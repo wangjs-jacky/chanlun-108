@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>缠论 · 教你炒股票87:逗庄家玩的一些杂史4</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@500;700;900&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0b0e12;
+    --bg-elev:#12161c;
+    --bg-card:#161b22;
+    --ink:#e8eaed;
+    --ink-dim:#9aa3ad;
+    --ink-faint:#5b6470;
+    --line:rgba(255,255,255,.07);
+    --up:#ff4d4f;
+    --down:#16c784;
+    --pivot:#37c0e6;
+    --gold:#e8b339;
+    --max:880px;
+    --serif:"Noto Serif SC",serif;
+    --mono:"JetBrains Mono",ui-monospace,monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--ink);font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;line-height:1.85;font-size:17px;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  body::before{content:"";position:fixed;inset:0;z-index:-2;background:radial-gradient(1200px 600px at 70% -10%, rgba(55,192,230,.08), transparent 60%),radial-gradient(900px 500px at 0% 100%, rgba(232,179,57,.05), transparent 55%);pointer-events:none}
+  body::after{content:"";position:fixed;inset:0;z-index:-1;opacity:.4;background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);background-size:46px 46px;-webkit-mask-image:radial-gradient(ellipse at 50% 0%, #000 30%, transparent 80%);mask-image:radial-gradient(ellipse at 50% 0%, #000 30%, transparent 80%);pointer-events:none}
+  #bar{position:fixed;top:0;left:0;height:3px;width:0;z-index:50;background:linear-gradient(90deg,var(--pivot),var(--gold));box-shadow:0 0 12px var(--pivot)}
+  .wrap{max-width:var(--max);margin:0 auto;padding:0 24px}
+  header.hero{padding:120px 0 70px;text-align:center;position:relative}
+  .kicker{font-family:var(--mono);font-size:13px;letter-spacing:.32em;color:var(--pivot);text-transform:uppercase;margin-bottom:26px}
+  .kicker span{color:var(--ink-faint)}
+  h1.title{font-family:var(--serif);font-weight:900;line-height:1.05;font-size:clamp(48px,11vw,108px);letter-spacing:.04em;background:linear-gradient(180deg,#fff 30%,#8aa0ad 130%);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .sub{margin:22px auto 0;max-width:580px;color:var(--ink-dim);font-size:18px}
+  .meta{margin-top:34px;display:flex;gap:14px;justify-content:center;flex-wrap:wrap;font-family:var(--mono);font-size:12px;color:var(--ink-faint)}
+  .meta b{color:var(--ink-dim);font-weight:500}
+  .pill{border:1px solid var(--line);padding:6px 14px;border-radius:999px;background:rgba(255,255,255,.02)}
+  .scroll-hint{margin-top:60px;color:var(--ink-faint);font-family:var(--mono);font-size:12px;animation:bob 2.4s ease-in-out infinite}
+  @keyframes bob{0%,100%{transform:translateY(0);opacity:.5}50%{transform:translateY(8px);opacity:1}}
+  section{padding:64px 0;border-top:1px solid var(--line)}
+  .sec-no{font-family:var(--mono);font-size:13px;color:var(--gold);letter-spacing:.2em;margin-bottom:10px}
+  h2{font-family:var(--serif);font-weight:700;font-size:clamp(28px,5vw,42px);line-height:1.25;margin-bottom:8px;letter-spacing:.02em}
+  .lead{color:var(--ink-dim);font-size:16px;margin-bottom:28px;max-width:640px}
+  p{margin:0 0 18px;color:#cfd5dc}
+  p b,strong{color:#fff;font-weight:700}
+  .hl-pivot{color:var(--pivot);font-weight:700}
+  .hl-up{color:var(--up);font-weight:700}
+  .hl-down{color:var(--down);font-weight:700}
+  .hl-gold{color:var(--gold);font-weight:700}
+  blockquote{margin:26px 0;padding:20px 24px;border-left:3px solid var(--pivot);background:linear-gradient(90deg,rgba(55,192,230,.07),transparent);border-radius:0 10px 10px 0;font-family:var(--serif);font-size:19px;color:#eaf6fb}
+  blockquote .who{display:block;margin-top:8px;font-family:var(--mono);font-size:12px;color:var(--ink-faint);font-style:normal}
+  figure{margin:34px 0}
+  figure img{width:100%;border-radius:12px;border:1px solid var(--line);background:#fff;box-shadow:0 18px 50px rgba(0,0,0,.5)}
+  figcaption{margin-top:12px;font-size:13px;color:var(--ink-faint);text-align:center;font-family:var(--mono)}
+  .grid{display:grid;gap:16px;grid-template-columns:1fr 1fr;margin:28px 0}
+  @media(max-width:640px){.grid{grid-template-columns:1fr}}
+  .card{background:var(--bg-card);border:1px solid var(--line);border-radius:14px;padding:24px;position:relative;overflow:hidden;transition:transform .35s ease,border-color .35s ease}
+  .card:hover{transform:translateY(-4px);border-color:rgba(55,192,230,.4)}
+  .card .tag{font-family:var(--mono);font-size:11px;letter-spacing:.18em;color:var(--gold);text-transform:uppercase}
+  .card h3{font-family:var(--serif);font-size:21px;margin:10px 0 8px;color:#fff}
+  .card p{font-size:15px;color:var(--ink-dim);margin:0}
+  .steps{margin:30px 0;display:flex;flex-direction:column;gap:14px}
+  .step{display:flex;gap:18px;align-items:flex-start;background:var(--bg-card);border:1px solid var(--line);border-radius:12px;padding:18px 22px}
+  .step .num{flex:none;width:46px;height:46px;border-radius:12px;display:grid;place-items:center;font-family:var(--mono);font-weight:700;font-size:18px;color:#0b0e12;background:var(--gold)}
+  .step h4{font-size:17px;margin-bottom:4px;color:#fff}
+  .step p{font-size:15px;color:var(--ink-dim);margin:0}
+  .table{margin:28px 0;border:1px solid var(--line);border-radius:14px;overflow:hidden}
+  .table .row{display:grid;grid-template-columns:1fr 1.5fr 1.5fr;align-items:stretch}
+  .table .row+.row{border-top:1px solid var(--line)}
+  .table .row > div{padding:16px 18px}
+  .table .row.head{background:var(--bg-elev);font-family:var(--mono);font-size:12px;letter-spacing:.14em;color:var(--ink-faint);text-transform:uppercase}
+  .table .row > div+div{border-left:1px solid var(--line)}
+  .table .name{font-family:var(--serif);font-weight:700;font-size:17px;color:var(--gold)}
+  @media(max-width:560px){.table .row{grid-template-columns:1fr}.table .row > div+div{border-left:0;border-top:1px solid var(--line)}.table .row.head{display:none}}
+  .tldr{margin:60px 0 0;padding:36px 30px;border:1px solid rgba(55,192,230,.3);border-radius:18px;background:radial-gradient(120% 120% at 100% 0%,rgba(55,192,230,.1),transparent 60%),var(--bg-elev);text-align:center}
+  .tldr .lab{font-family:var(--mono);font-size:12px;letter-spacing:.3em;color:var(--pivot);text-transform:uppercase}
+  .tldr p{font-family:var(--serif);font-size:clamp(20px,3.4vw,28px);line-height:1.7;color:#fff;margin:16px 0 0}
+  footer{padding:60px 0 90px;text-align:center;color:var(--ink-faint);font-family:var(--mono);font-size:12px;border-top:1px solid var(--line)}
+  .reveal{opacity:0;transform:translateY(26px);transition:opacity .8s ease,transform .8s ease}
+  .reveal.in{opacity:1;transform:none}
+  @media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}.scroll-hint{animation:none}}
+</style>
+<meta name="view-transition" content="same-origin"><style>@view-transition{navigation:auto}</style></head>
+<body>
+<div id="bar"></div>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="kicker">缠中说禅 · 教你炒股票108课 <span>/ 第 87 课</span></div>
+    <h1 class="title">逗庄家玩的杂史四</h1>
+    <p class="sub">做底吸货的完整剧本——成本归零的游戏哲学 + 一次教科书级的低位收集案例。</p>
+    <div class="meta">
+      <span class="pill"><b>原文</b> 2007-10-30</span>
+      <span class="pill"><b>类型</b> 杂史/操盘手法</span>
+      <span class="pill"><b>关键词</b> 吸货 · 0成本 · 假突破 · 老鼠仓</span>
+    </div>
+    <div class="scroll-hint">↓ 向下滚动，看一遍真实的做底剧本</div>
+  </div>
+</header>
+
+<main>
+  <!-- 1 -->
+  <section class="wrap reveal">
+    <div class="sec-no">01 — 核心立场</div>
+    <h2>"吸货无所谓底部"</h2>
+    <p class="lead">这一课和 84-86 课的"做顶出货"对称：换成做底吃货的视角。</p>
+    <p>前面几课讲了顶部派发的手法，本课转换镜头——<b>从底部吸货端看主力</b>。开篇一句话立住整堂课的世界观：</p>
+    <blockquote>
+      如果是吸货，无所谓底部。只要有筹码、有钱、有足够的时间，什么成本拿的货，其实都可以摊下来的。
+      <span class="who">— 缠中说禅</span>
+    </blockquote>
+    <p>对真正有<span class="hl-gold">影响力的分力</span>来说，<b>后面每一个级别的顶都是自己做的、底也是自己做的，差价都是自己的</b>，所谓"成本"完全可以通过反复折腾摊薄到任意低的位置。问题从来不是"在哪个价位接的"，而是"<b>能不能把成本摊到 0</b>"。</p>
+  </section>
+
+  <!-- 2 -->
+  <section class="wrap reveal">
+    <div class="sec-no">02 — 大多数庄家为什么死</div>
+    <h2>愚蠢的庄家是"放大版散户"</h2>
+    <p class="lead">缠师罕见地直接给市场上"大多数庄家"做了诊断。</p>
+    <p>大多数庄家最后做死，根因不是技术、不是消息——而是<b>没有成本概念</b>。他们和散户的心态没本质区别，<span class="hl-up">见到市值起来就晕头</span>，忘记了股票本质：</p>
+    <blockquote>
+      股票只是一个凭证，一个抽血的凭证，能把血抽到才是真本事。
+      <span class="who">— 缠师定义"做庄"</span>
+    </blockquote>
+    <div class="grid">
+      <div class="card">
+        <div class="tag">愚蠢庄家</div>
+        <h3>"收集 → 派发"两段式</h3>
+        <p>低位收一批、拉到高位派发出去，看似简单。问题：成本压根没归零，每一次拉抬都要<b>花真金白银</b>，资金一旦跟不上立刻被反手砸盘。</p>
+      </div>
+      <div class="card">
+        <div class="tag">真正的高手</div>
+        <h3>"反复折腾 → 成本归零"</h3>
+        <p>不急于拉抬，先把手里筹码<b>反复来回洗到 0 成本甚至负成本</b>，最后才考虑大力拉抬——这时候拉抬<b>不需要花钱</b>，因为资金会自己涌进来。</p>
+      </div>
+    </div>
+    <p>由此引出本课最反直觉的判断：<span class="hl-gold">真正的拉抬是不需要花钱的</span>。如果拉抬还要花钱，说明价格已经偏高、资金流入跟不上，<b>早该回头砸了</b>，而不是继续抬。</p>
+  </section>
+
+  <!-- 3 -->
+  <section class="wrap reveal">
+    <div class="sec-no">03 — 经典案例</div>
+    <h2>一次"不可能的任务":低位吸货完整剧本</h2>
+    <p class="lead">这是本课最有价值的部分——缠师亲历的一次低位收集，分四步演给你看。</p>
+    <p>任务约束：① 抢到足够筹码；② 成本不能太高；③ <b>把抢先一步的老鼠仓洗出来</b>；④ 时间不能太长。怎么看都"不可能完成"。下面是真实手法：</p>
+
+    <div class="steps">
+      <div class="step">
+        <div class="num">1</div>
+        <div>
+          <h4>顶住大压力位 + 不断假突破</h4>
+          <p>选一个大的压力位顶着不动，接掉所有解套盘（<b>老鼠仓和小玩意是不会接解套盘的</b>）。然后在该位置<span class="hl-pivot">反复假突破</span>——把技术派的筹码全部骗出来。代价：自己拿到的是最高的成本。</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="num">2</div>
+        <div>
+          <h4>透支买入 + 当日被迫平仓 = 假崩盘</h4>
+          <p>账上钱花光后，借入<b>当天必须平仓</b>的透支额度，早上把所有钱+透支<span class="hl-up">疯狂买光</span>（因前面 N 次假突破，突破后无人理会）。下午"被迫"平仓——<span class="hl-down">瀑布式砸下来</span>，把早上买的全部亏损砸出，价格跌穿坚守的平台。收盘后"<b>有人被套、被追债</b>"的传闻满天飞。</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="num">3</div>
+        <div>
+          <h4>连续三天低开 = 老鼠仓彻底交筹码</h4>
+          <p>第 2、3 天，<span class="hl-down">所有老鼠仓+所有知情人蜂拥出逃</span>。但他们抛出的筹码并没消失——在<b>遥远的其他席位</b>，全部被一个"无名口袋"悄悄接走。第 4 天依然大幅低开，让他们继续庆幸"出得及时"。</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="num">4</div>
+        <div>
+          <h4>突然封死涨停 + 横盘锁仓</h4>
+          <p>第 4 天突然<span class="hl-up">强力买盘如熔岩喷出</span>，任何挂单瞬间被扫光；第 5 天一开盘继续，让所有人失去买入机会，前面没逃的还在抛。第 6 天接近原平台，<b>买盘突然消失</b>，进入沉寂——既不像 V 反、也不像超跌反弹。多杀多再起，<b>但价格再也回不到反弹高点</b>。所有筹码掉进同一个口袋。</p>
+        </div>
+      </div>
+    </div>
+
+    <blockquote>
+      最后，在一个谁都想不到的时刻，价格迅速地脱离上面的套牢区，所谓技术上的巨大压力区，突破时<b>连 15 分钟都不到</b>就过去了。
+      <span class="who">— 收尾·真正的拉抬</span>
+    </blockquote>
+    <p>注意收尾这一刀：<span class="hl-gold">不再花一分钱</span>，因为筹码已经全部归集、市场无抛压；至于老鼠仓的命运——"在砍掉价格 N 倍的位置，老鼠仓最后又重新进来"——那是另一个故事。</p>
+  </section>
+
+  <!-- 4 -->
+  <section class="wrap reveal">
+    <div class="sec-no">04 — 1 分钟中枢实战</div>
+    <h2>同期实盘:用一分钟中枢拆解中石油上市</h2>
+    <p class="lead">本课写作时正赶上中石油（601857）上市暴炒，缠师顺手做了几篇极小级别的实盘演示。</p>
+    <p>10-31 到 11-02 三天，大盘呈现"极端教科书"走势：早上背驰 → 形成 1 分钟中枢第二段 → 回跌构成第三段 → <b>1 分钟中枢成立</b>。中枢成立后只剩一个问题：<span class="hl-pivot">是否出现第三类买卖点</span>。</p>
+    <figure>
+      <img src="/_assets/ch87_p01.png" alt="2007-11-01 大盘1分钟中枢形成过程">
+      <figcaption>2007-11-01 大盘 1 分钟中枢形成 — 缠师课堂原图</figcaption>
+    </figure>
+    <figure>
+      <img src="/_assets/ch87_p02.png" alt="2007-11-01 1分钟中枢震荡细节">
+      <figcaption>1 分钟中枢围绕震荡 · 等待第三类买卖点</figcaption>
+    </figure>
+    <p>11-02 形态进一步演化：针对 189-192 的 1 分钟中枢，<b>195 = 第三类卖点</b>；但对 191 起的线段类下跌而言，194-195 已是第二个类中枢，所以再跌力度不够，出现明显类背驰，<span class="hl-gold">必然在该位置出现新的 1 分钟中枢</span>。</p>
+    <figure>
+      <img src="/_assets/ch87_p03.png" alt="2007-11-02 1分钟中枢与第三类卖点">
+      <figcaption>2007-11-02 — 189-192 中枢 + 195 第三类卖点</figcaption>
+    </figure>
+  </section>
+
+  <!-- 5 -->
+  <section class="wrap reveal">
+    <div class="sec-no">05 — 中石油 + 5555 颈线</div>
+    <h2>新股操作铁律 & 颈线争夺战的力度逻辑</h2>
+    <p class="lead">11-05 中石油正式上市，缠师给出新股操作的两个最低要求。</p>
+    <figure>
+      <img src="/_assets/ch87_p04.png" alt="2007-11-05 中石油上市首日线段走势">
+      <figcaption>2007-11-05 中石油首日 — 高开 48 → 41.7 一个标准下跌线段</figcaption>
+    </figure>
+    <div class="table">
+      <div class="row head"><div>原则</div><div>具体要求</div><div>为什么</div></div>
+      <div class="row">
+        <div class="name">第一笔不抄高</div>
+        <div>高开低走的新股，<b>等第一段线段结束</b>才能介入</div>
+        <div>开盘价里全是溢价情绪，不等线段走完就买，等于买在情绪顶</div>
+      </div>
+      <div class="row">
+        <div class="name">必须分批</div>
+        <div>线段结束介入<b>一定仓位</b>，等 1 分钟中枢形成后再加仓</div>
+        <div>线段级别太短，T+1 不能保证安全 → <b>用 T+0 对冲</b>来保护仓位</div>
+      </div>
+    </div>
+    <p>11-06 主战场切回大盘 5555 点颈线——缠师在这里抛出空头视角的"杀伤力逻辑"：</p>
+    <blockquote>
+      对空头来说，对颈线的突破，一定要是<b>致命的</b>——必须第三类卖点后出现中枢的下移，而不能去构成大的中枢那种无聊玩意，那样杀伤力太小。
+      <span class="who">— 颈线战术原则</span>
+    </blockquote>
+    <p>如何做到这个力度？答案：<span class="hl-gold">在颈线上反复磨</span>。"再冲一次上不去 → 一批人失望 → 再来一次 → 反复失望"——情绪耗尽，破位才会有真正的下跌动能。</p>
+    <figure>
+      <img src="/_assets/ch87_p05.png" alt="2007-11-06 5555点颈线争夺战">
+      <figcaption>2007-11-06 大盘 5555 点颈线争夺战</figcaption>
+    </figure>
+    <figure>
+      <img src="/_assets/ch87_p06.png" alt="2007-11-06 中石油线段下跌类背驰">
+      <figcaption>2007-11-06 中石油线段下跌·等待类背驰后的反弹</figcaption>
+    </figure>
+  </section>
+
+  <!-- 6 -->
+  <section class="wrap reveal">
+    <div class="sec-no">06 — 中期走势七点</div>
+    <h2>"现在指数已经严重失真,关心个股更重要"</h2>
+    <p class="lead">11-06 总结贴里，缠师把当时（6100 点顶后第一轮回落）的中期判断列成 8 条，对今天看大盘也照样适用。</p>
+    <ol class="think" style="counter-reset:q;list-style:none;margin:24px 0;display:flex;flex-direction:column;gap:14px">
+      <li style="counter-increment:q;position:relative;padding:18px 20px 18px 60px;background:var(--bg-elev);border:1px solid var(--line);border-radius:12px;color:var(--ink-dim);font-size:15px">
+        <span style="position:absolute;left:20px;top:18px;font-family:var(--mono);color:var(--gold);font-weight:700">01</span>
+        6100 是中期顶部第一尖，<b>现在去形成第二个尖</b>；是否就是 6004 点，需<span class="hl-down">跌破 5555 颈线</span>才能确认。
+      </li>
+      <li style="counter-increment:q;position:relative;padding:18px 20px 18px 60px;background:var(--bg-elev);border:1px solid var(--line);border-radius:12px;color:var(--ink-dim);font-size:15px">
+        <span style="position:absolute;left:20px;top:18px;font-family:var(--mono);color:var(--gold);font-weight:700">02</span>
+        有效跌破颈线前，一切按<span class="hl-pivot">中枢震荡</span>操作:向上背驰就出，下来不破 5555 就回补，<b>来回折腾</b>等方向。
+      </li>
+      <li style="counter-increment:q;position:relative;padding:18px 20px 18px 60px;background:var(--bg-elev);border:1px solid var(--line);border-radius:12px;color:var(--ink-dim);font-size:15px">
+        <span style="position:absolute;left:20px;top:18px;font-family:var(--mono);color:var(--gold);font-weight:700">03</span>
+        中石油回归后，<b>指数失真越来越严重</b>——很多个股已经完成 30%-50% 的中级调整，但指数没反映出来。
+      </li>
+      <li style="counter-increment:q;position:relative;padding:18px 20px 18px 60px;background:var(--bg-elev);border:1px solid var(--line);border-radius:12px;color:var(--ink-dim);font-size:15px">
+        <span style="position:absolute;left:20px;top:18px;font-family:var(--mono);color:var(--gold);font-weight:700">04</span>
+        年底是<span class="hl-gold">三类个股</span>的舞台：① 中字头打或拉；② <b>收集完成的题材股</b>震荡中走强率先展开明年行情；③ 筹码不够还要继续收集的，<b>利用每次震荡不断打压</b>。
+      </li>
+      <li style="counter-increment:q;position:relative;padding:18px 20px 18px 60px;background:var(--bg-elev);border:1px solid var(--line);border-radius:12px;color:var(--ink-dim);font-size:15px">
+        <span style="position:absolute;left:20px;top:18px;font-family:var(--mono);color:var(--gold);font-weight:700">05</span>
+        <b>关注自己股票的类型 > 关注大盘</b>。是中字头看指数，是题材股要看"主力是用指数吓你还是忽悠你"。
+      </li>
+      <li style="counter-increment:q;position:relative;padding:18px 20px 18px 60px;background:var(--bg-elev);border:1px solid var(--line);border-radius:12px;color:var(--ink-dim);font-size:15px">
+        <span style="position:absolute;left:20px;top:18px;font-family:var(--mono);color:var(--gold);font-weight:700">06</span>
+        12 月是<b>30 月时间之窗</b>——出现低点则明年行情展开，出现高点则明年初压力大。缠师当时倾向于<b>压制大盘走出低点</b>以触时间之窗。
+      </li>
+    </ol>
+
+    <div class="tldr">
+      <div class="lab">一句话总结</div>
+      <p>"吸货无所谓底部"——真正的高手不靠成本接货，而靠假突破洗筹、假崩盘骗老鼠仓、横盘锁仓三步把成本摊到 0；同期的中石油上市和 5555 颈线之战，又示范了 1 分钟中枢和第三类买卖点的实盘用法。</p>
+    </div>
+  </section>
+</main>
+
+<footer class="wrap">
+  原文出处：raw/缠中说禅/教你炒股票108课/教你炒股票87:逗庄家玩的一些杂史4.md<br>
+  本页为个人学习复习用·非投资建议
+</footer>
+
+<script>
+  const bar=document.getElementById('bar');
+  const onScroll=()=>{const h=document.documentElement;const p=h.scrollTop/(h.scrollHeight-h.clientHeight);bar.style.width=(p*100)+'%'};
+  document.addEventListener('scroll',onScroll,{passive:true});onScroll();
+  const io=new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{threshold:.12});
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+</script>
+<script src="/assets/_nav.js"></script><script src="/assets/_shell.js"></script></body>
+</html>

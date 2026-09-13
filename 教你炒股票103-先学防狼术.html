@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>缠论 · 教你炒股票103：先学防狼术</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@500;700;900&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0b0e12;
+    --bg-elev:#12161c;
+    --bg-card:#161b22;
+    --ink:#e8eaed;
+    --ink-dim:#9aa3ad;
+    --ink-faint:#5b6470;
+    --line:rgba(255,255,255,.07);
+    --up:#ff4d4f;
+    --down:#16c784;
+    --pivot:#37c0e6;
+    --gold:#e8b339;
+    --max:880px;
+    --serif:"Noto Serif SC",serif;
+    --mono:"JetBrains Mono",ui-monospace,monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--bg);color:var(--ink);
+    font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;
+    line-height:1.85;font-size:17px;
+    -webkit-font-smoothing:antialiased;overflow-x:hidden;
+  }
+  body::before{
+    content:"";position:fixed;inset:0;z-index:-2;
+    background:
+      radial-gradient(1200px 600px at 70% -10%, rgba(255,77,79,.08), transparent 60%),
+      radial-gradient(900px 500px at 0% 100%, rgba(232,179,57,.05), transparent 55%);
+    pointer-events:none;
+  }
+  body::after{
+    content:"";position:fixed;inset:0;z-index:-1;opacity:.4;
+    background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);
+    background-size:46px 46px;
+    -webkit-mask-image:radial-gradient(ellipse at 50% 0%, #000 30%, transparent 80%);
+            mask-image:radial-gradient(ellipse at 50% 0%, #000 30%, transparent 80%);
+    pointer-events:none;
+  }
+  #bar{position:fixed;top:0;left:0;height:3px;width:0;z-index:50;
+    background:linear-gradient(90deg,var(--up),var(--gold));box-shadow:0 0 12px var(--up);}
+  .wrap{max-width:var(--max);margin:0 auto;padding:0 24px}
+
+  header.hero{padding:120px 0 70px;text-align:center;position:relative}
+  .kicker{font-family:var(--mono);font-size:13px;letter-spacing:.32em;color:var(--up);
+    text-transform:uppercase;margin-bottom:26px}
+  .kicker span{color:var(--ink-faint)}
+  h1.title{font-family:var(--serif);font-weight:900;line-height:1.05;
+    font-size:clamp(48px,11vw,108px);letter-spacing:.04em;
+    background:linear-gradient(180deg,#fff 30%,#8aa0ad 130%);
+    -webkit-background-clip:text;background-clip:text;color:transparent;}
+  .sub{margin:22px auto 0;max-width:560px;color:var(--ink-dim);font-size:18px}
+  .meta{margin-top:34px;display:flex;gap:14px;justify-content:center;flex-wrap:wrap;
+    font-family:var(--mono);font-size:12px;color:var(--ink-faint)}
+  .meta b{color:var(--ink-dim);font-weight:500}
+  .pill{border:1px solid var(--line);padding:6px 14px;border-radius:999px;background:rgba(255,255,255,.02)}
+  .scroll-hint{margin-top:60px;color:var(--ink-faint);font-family:var(--mono);font-size:12px;
+    animation:bob 2.4s ease-in-out infinite}
+  @keyframes bob{0%,100%{transform:translateY(0);opacity:.5}50%{transform:translateY(8px);opacity:1}}
+
+  section{padding:64px 0;border-top:1px solid var(--line)}
+  .sec-no{font-family:var(--mono);font-size:13px;color:var(--gold);letter-spacing:.2em;margin-bottom:10px}
+  h2{font-family:var(--serif);font-weight:700;font-size:clamp(28px,5vw,42px);
+    line-height:1.25;margin-bottom:8px;letter-spacing:.02em}
+  .lead{color:var(--ink-dim);font-size:16px;margin-bottom:28px;max-width:640px}
+  p{margin:0 0 18px;color:#cfd5dc}
+  p b,strong{color:#fff;font-weight:700}
+  .hl-pivot{color:var(--pivot);font-weight:700}
+  .hl-up{color:var(--up);font-weight:700}
+  .hl-down{color:var(--down);font-weight:700}
+  .hl-gold{color:var(--gold);font-weight:700}
+
+  blockquote{margin:26px 0;padding:20px 24px;border-left:3px solid var(--up);
+    background:linear-gradient(90deg,rgba(255,77,79,.07),transparent);
+    border-radius:0 10px 10px 0;font-family:var(--serif);font-size:19px;color:#fbe9ea}
+  blockquote .who{display:block;margin-top:8px;font-family:var(--mono);font-size:12px;
+    color:var(--ink-faint);font-style:normal}
+
+  figure{margin:34px 0}
+  figure img{width:100%;border-radius:12px;border:1px solid var(--line);
+    background:#fff;box-shadow:0 18px 50px rgba(0,0,0,.5)}
+  figcaption{margin-top:12px;font-size:13px;color:var(--ink-faint);text-align:center;font-family:var(--mono)}
+
+  .grid{display:grid;gap:16px;grid-template-columns:1fr 1fr;margin:28px 0}
+  @media(max-width:640px){.grid{grid-template-columns:1fr}}
+  .card{background:var(--bg-card);border:1px solid var(--line);border-radius:14px;padding:24px;
+    position:relative;overflow:hidden;transition:transform .35s ease,border-color .35s ease}
+  .card:hover{transform:translateY(-4px);border-color:rgba(255,77,79,.4)}
+  .card .tag{font-family:var(--mono);font-size:11px;letter-spacing:.18em;color:var(--gold);text-transform:uppercase}
+  .card h3{font-family:var(--serif);font-size:21px;margin:10px 0 8px;color:#fff}
+  .card p{font-size:15px;color:var(--ink-dim);margin:0}
+
+  .table{margin:28px 0;border:1px solid var(--line);border-radius:14px;overflow:hidden}
+  .table .row{display:grid;grid-template-columns:1.1fr 1.5fr 1.6fr;align-items:stretch}
+  .table .row+.row{border-top:1px solid var(--line)}
+  .table .row > div{padding:16px 18px}
+  .table .row.head{background:var(--bg-elev);font-family:var(--mono);font-size:12px;
+    letter-spacing:.14em;color:var(--ink-faint);text-transform:uppercase}
+  .table .row > div+div{border-left:1px solid var(--line)}
+  .table .name{font-family:var(--serif);font-weight:700;font-size:18px}
+  .table .name.bear{color:var(--down)}
+  .table .name.bull{color:var(--up)}
+  .cnt{font-family:var(--mono);font-size:14px;color:var(--pivot)}
+  @media(max-width:560px){
+    .table .row{grid-template-columns:1fr}
+    .table .row > div+div{border-left:0;border-top:1px solid var(--line)}
+    .table .row.head{display:none}
+  }
+
+  /* 防狼术规则条目 */
+  .rules{margin:26px 0;display:flex;flex-direction:column;gap:14px}
+  .rule{display:flex;gap:16px;align-items:flex-start;background:var(--bg-card);
+    border:1px solid var(--line);border-radius:12px;padding:18px 20px}
+  .rule .num{flex:none;width:42px;height:42px;border-radius:10px;display:grid;place-items:center;
+    font-family:var(--serif);font-weight:900;font-size:20px;color:#0b0e12;background:var(--gold)}
+  .rule h4{font-size:17px;margin-bottom:4px;color:#fff}
+  .rule p{font-size:15px;color:var(--ink-dim);margin:0}
+
+  footer{padding:60px 0 90px;text-align:center;color:var(--ink-faint);font-family:var(--mono);font-size:12px;border-top:1px solid var(--line)}
+
+  .reveal{opacity:0;transform:translateY(26px);transition:opacity .8s ease,transform .8s ease}
+  .reveal.in{opacity:1;transform:none}
+  @media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}.scroll-hint{animation:none}}
+</style>
+<meta name="view-transition" content="same-origin"><style>@view-transition{navigation:auto}</style></head>
+<body>
+<div id="bar"></div>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="kicker">缠中说禅 · 教你炒股票108课 <span>/ 第 103 课</span></div>
+    <h1 class="title">先学防狼术</h1>
+    <p class="sub">学屠龙术之前，先用 MACD 0 轴这一条最傻瓜的纪律，把自己挡在大跌之外。</p>
+    <div class="meta">
+      <span class="pill"><b>原文</b> 2008-03-19</span>
+      <span class="pill"><b>类型</b> 风险纪律</span>
+      <span class="pill"><b>关键词</b> MACD · 0轴 · 空头主导 · 远离市场</span>
+    </div>
+    <div class="scroll-hint">↓ 向下滚动，逐条拆解</div>
+  </div>
+</header>
+
+<main>
+  <!-- 1 -->
+  <section class="wrap reveal">
+    <div class="sec-no">01 — 屠龙 vs 防狼</div>
+    <h2>先别想着抓大牛，先别被大盘"侵犯"</h2>
+    <p class="lead">这一课不教你怎么赚钱，只教你怎么在大跌里不死。</p>
+    <p>缠师写这课的背景：大盘从 5522 点一路砸到 3000 多点，很多人却还在嫌课程"太慢"、嫌中枢级别没学到。缠师的回答非常直接——<b>你连防狼术都不过关</b>，谈什么屠龙术。</p>
+    <blockquote>
+      在没彻底学会下面所说的防狼术之前，你也别研究什么中枢、级别。<br>
+      有了这防狼术，至少不会被大盘严重侵犯，也不会在大盘大跌时鬼哭男嚎。
+      <span class="who">— 缠中说禅</span>
+    </blockquote>
+    <p>所谓"<span class="hl-gold">防狼术</span>"，就是一条最简单、最傻瓜、不需要任何技术功底就能执行的<b>纪律</b>——它解决的是"什么时候必须空仓远离"这件事，比"什么时候买"还重要。</p>
+  </section>
+
+  <!-- 2 -->
+  <section class="wrap reveal">
+    <div class="sec-no">02 — 核心纪律</div>
+    <h2>MACD 0 轴：多空主导的分水岭</h2>
+    <p class="lead">整套防狼术只有一句话，背下来即可。</p>
+    <blockquote>
+      就一个最简单 MACD 指标，0 轴分为多空主导。<br>
+      一旦 MACD 指标陷入 0 轴之下，那么就在对应时间单位的图表下进入<b>空头主导</b>，而这是必须远离的。
+      <span class="who">— 缠中说禅</span>
+    </blockquote>
+    <p>翻译成操作：</p>
+    <div class="table">
+      <div class="row head"><div>MACD 黄白线位置</div><div>市场状态</div><div>动作</div></div>
+      <div class="row">
+        <div class="name bull">0 轴<b>之上</b></div>
+        <div>多头主导</div>
+        <div>可以正常操作、可以介入</div>
+      </div>
+      <div class="row">
+        <div class="name bear">0 轴<b>之下</b></div>
+        <div>空头主导</div>
+        <div><b>彻底离开</b>，直到重新站住 0 轴再说</div>
+      </div>
+    </div>
+    <p>缠师明确举了大盘 60 分钟图的例子：<b>5200 点 MACD 跌破 0 轴并反抽确认后，一直到 3000 多点都在 0 轴下晃悠</b>——这段杀伤力，凡是没遵守这条纪律的，全都体验过。</p>
+    <figure>
+      <img src="/_assets/ch103_p01.png" alt="大盘 60 分钟 MACD 跌破 0 轴后的杀伤力">
+      <figcaption>60 分钟 MACD 一旦跌破 0 轴 → 一路向下，期间任何反抽都是空头主导</figcaption>
+    </figure>
+  </section>
+
+  <!-- 3 -->
+  <section class="wrap reveal">
+    <div class="sec-no">03 — 周期选择</div>
+    <h2>哪一根 MACD？看你自己的能力</h2>
+    <p class="lead">这条纪律涉及"看哪个周期"的问题，缠师把选择权交给你。</p>
+    <p>同一只票，<b>1 分钟 MACD 经常一会儿 0 轴下、一会儿 0 轴上</b>——如果按 1 分钟操作，你会被来回打耳光。所以必须根据自己的能力，<span class="hl-gold">先选定一个"最低时间周期"</span>作为防狼术的判定级别。</p>
+    <div class="grid">
+      <div class="card">
+        <div class="tag">大资金 / 慢节奏</div>
+        <h3>日线 / 60 分钟</h3>
+        <p>反应慢、信号少，但极少出错。被套时间长，但避开真正的大跌。</p>
+      </div>
+      <div class="card">
+        <div class="tag">中等灵活度</div>
+        <h3>30 分钟</h3>
+        <p>缠师课文里默认的常用周期之一。在跌破 0 轴后必须撤离。</p>
+      </div>
+      <div class="card">
+        <div class="tag">短线高手</div>
+        <h3>5 / 15 分钟</h3>
+        <p>反应快但信号多，需要承受更频繁的"假信号"。能力不够别用。</p>
+      </div>
+      <div class="card">
+        <div class="tag">技术派</div>
+        <h3>背驰介入</h3>
+        <p>0 轴下也可以在背驰时介入——但这是最高要求，"傻瓜化"的人不要学。</p>
+      </div>
+    </div>
+    <blockquote>
+      一切都要傻瓜化。如果你连 MACD 黄白线是否 0 轴以下都看不懂，<br>
+      那就彻底离开这个市场吧——地球很危险，回火星去吧。
+      <span class="who">— 缠中说禅</span>
+    </blockquote>
+  </section>
+
+  <!-- 4 -->
+  <section class="wrap reveal">
+    <div class="sec-no">04 — 实战示例</div>
+    <h2>0 轴受阻 → 探底，是机械式信号</h2>
+    <p class="lead">课文后半部分用 3780 点保卫战，演示了"防狼术"如何在当下被实时执行。</p>
+    <p>3 月 21 日，缠师给出短线生命线 <b>3780 点</b>。理由就是机械的：</p>
+    <div class="rules">
+      <div class="rule">
+        <div class="num">A</div>
+        <div>
+          <h4>站住 3780 点 → 30 分钟 MACD 突破 0 轴</h4>
+          <p>对应 60 分钟图向 0 轴冲击，走势上往上再上攻一段，反弹独脚成立。</p>
+        </div>
+      </div>
+      <div class="rule">
+        <div class="num">B</div>
+        <div>
+          <h4>站不住 3780 点 → 30 分钟 MACD 0 轴受阻</h4>
+          <p>形成"0 轴受阻再回跌"的标准空头形态，大盘必再次探底。</p>
+        </div>
+      </div>
+      <div class="rule">
+        <div class="num">C</div>
+        <div>
+          <h4>3 月 24 日跌破 3780 点 + 第三类卖点</h4>
+          <p>跌破后两次反抽上不去 → 确认跌破有效；下午 2 点第三类卖点成立 → 跌幅明显加大。"一切都极端技术化"。</p>
+        </div>
+      </div>
+    </div>
+    <figure>
+      <img src="/_assets/ch103_p07.png" alt="3780 点 60 分钟底分型上沿">
+      <figcaption>3780 点 = 60 分钟新底分型上沿；站住才能延伸出向上的笔</figcaption>
+    </figure>
+    <figure>
+      <img src="/_assets/ch103_p10.png" alt="3780 点失守后第三类卖点">
+      <figcaption>跌破 3780 + 反抽不过 + 第三类卖点 → 完美的卖出信号链</figcaption>
+    </figure>
+  </section>
+
+  <!-- 5 -->
+  <section class="wrap reveal">
+    <div class="sec-no">05 — 月线视角</div>
+    <h2>大行情的母条件：月 MACD 回到 0 轴附近</h2>
+    <p class="lead">把"0 轴纪律"放大到月线，就得到了"下一轮真正大行情"的入场许可。</p>
+    <p>课文中的"2008 年行情再展望"，缠师把同一把尺子用在月线上：</p>
+    <blockquote>
+      从最直观的技术上说，下一轮真正的大行情，<br>
+      必须等到<b>月 MACD 回到 0 轴附近</b>才有可能展开。<br>
+      期间，都是一些小打小闹的走势。
+      <span class="who">— 缠中说禅</span>
+    </blockquote>
+    <p>这同样是防狼术的延伸：</p>
+    <ul style="margin:0 0 18px 22px;color:#cfd5dc">
+      <li style="margin-bottom:8px"><b>月 MACD 刚刚死叉</b>，硬向上攻击 → 最好结果只是<span class="hl-down">月线双头</span>，其后对应更大幅度下跌；</li>
+      <li style="margin-bottom:8px"><b>年线走平后大盘还不能站回年线</b> → 一旦年线转头向下，才是真正大调整的开始；</li>
+      <li><b>月 MACD 没回到 0 轴附近之前</b>，所有反弹都是"小打小闹"，别用屠龙术的仓位去博。</li>
+    </ul>
+    <figure>
+      <img src="/_assets/ch103_p06.png" alt="大盘月线 / 年线视角">
+      <figcaption>把 MACD 0 轴的纪律放大到月线，就是"何时入场打大行情"的母信号</figcaption>
+    </figure>
+    <p>课末还顺手给了一条<span class="hl-gold">大市道里的个股逻辑</span>："长跑选手的坟墓，短跑选手的天堂"——大调整中，<b>低价 + 重组 + 题材</b>是不变的主题，绩优股有极大的中长线业绩压力。这条逻辑也建立在防狼术之上：大盘 0 轴下，谁拿长线谁吃亏。</p>
+  </section>
+
+  <!-- 6 -->
+  <section class="wrap reveal">
+    <div class="sec-no">06 — 一句话纪律卡</div>
+    <h2>把这张卡贴在屏幕上</h2>
+    <p class="lead">六条可执行的"防狼术清单"，看不懂中枢级别也能立即用。</p>
+    <div class="rules">
+      <div class="rule">
+        <div class="num">1</div>
+        <div><h4>选定一个最低周期</h4><p>30 分钟或 60 分钟最常用。这是你做防狼术的"判定级别"。</p></div>
+      </div>
+      <div class="rule">
+        <div class="num">2</div>
+        <div><h4>看 MACD 黄白线相对 0 轴位置</h4><p>不是看红绿柱，是看 DIF/DEA 两根线是否在 0 轴上方。</p></div>
+      </div>
+      <div class="rule">
+        <div class="num">3</div>
+        <div><h4>0 轴下 = 空头主导 = 远离</h4><p>整个市场或这只股票，<b>彻底离开</b>。不管它怎么反抽。</p></div>
+      </div>
+      <div class="rule">
+        <div class="num">4</div>
+        <div><h4>0 轴下"受阻回落"是卖出信号</h4><p>MACD 冲到 0 轴附近又回头 → 对应级别要再下一段。</p></div>
+      </div>
+      <div class="rule">
+        <div class="num">5</div>
+        <div><h4>站稳 0 轴之后才能重新介入</h4><p>突破 0 轴 + 反抽确认不破 = 多头主导回来了。</p></div>
+      </div>
+      <div class="rule">
+        <div class="num">6</div>
+        <div><h4>月 MACD 回 0 轴 = 重大行情入场许可</h4><p>没回到之前，所有反弹都是小打小闹，别下重仓。</p></div>
+      </div>
+    </div>
+    <p style="color:var(--ink-faint);font-size:14px;margin-top:34px;text-align:center">
+      <b style="color:var(--gold)">本课核心</b>：把"<span class="hl-pivot">MACD 0 轴</span>"当作多空分水岭，是缠论里最低门槛、最不需要解释的风控纪律。<br>它救不了你赚大钱，但能救你不被大盘"严重侵犯"。
+    </p>
+  </section>
+</main>
+
+<footer class="wrap">
+  原文出处：raw/缠中说禅/教你炒股票108课/教你炒股票103：学屠龙术前先学好防狼术.md<br>
+  本页为个人学习复习用 · 非投资建议
+</footer>
+
+<script>
+  const bar=document.getElementById('bar');
+  const onScroll=()=>{
+    const h=document.documentElement;
+    const p=h.scrollTop/(h.scrollHeight-h.clientHeight);
+    bar.style.width=(p*100)+'%';
+  };
+  document.addEventListener('scroll',onScroll,{passive:true});onScroll();
+  const io=new IntersectionObserver((es)=>{
+    es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});
+  },{threshold:.12});
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+</script>
+<script src="/assets/_nav.js"></script><script src="/assets/_shell.js"></script></body>
+</html>

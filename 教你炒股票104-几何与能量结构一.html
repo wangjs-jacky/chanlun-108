@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>缠论 · 教你炒股票104：几何结构与能量动力结构1</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@500;700;900&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0b0e12;
+    --bg-elev:#12161c;
+    --bg-card:#161b22;
+    --ink:#e8eaed;
+    --ink-dim:#9aa3ad;
+    --ink-faint:#5b6470;
+    --line:rgba(255,255,255,.07);
+    --up:#ff4d4f;
+    --down:#16c784;
+    --pivot:#37c0e6;
+    --gold:#e8b339;
+    --max:880px;
+    --serif:"Noto Serif SC",serif;
+    --mono:"JetBrains Mono",ui-monospace,monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;
+    line-height:1.85;
+    font-size:17px;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  body::before{
+    content:"";position:fixed;inset:0;z-index:-2;
+    background:
+      radial-gradient(1200px 600px at 70% -10%, rgba(55,192,230,.08), transparent 60%),
+      radial-gradient(900px 500px at 0% 100%, rgba(232,179,57,.05), transparent 55%);
+    pointer-events:none;
+  }
+  body::after{
+    content:"";position:fixed;inset:0;z-index:-1;opacity:.4;
+    background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);
+    background-size:46px 46px;
+    -webkit-mask-image:radial-gradient(ellipse at 50% 0%, #000 30%, transparent 80%);
+            mask-image:radial-gradient(ellipse at 50% 0%, #000 30%, transparent 80%);
+    pointer-events:none;
+  }
+
+  #bar{position:fixed;top:0;left:0;height:3px;width:0;z-index:50;
+    background:linear-gradient(90deg,var(--pivot),var(--gold));box-shadow:0 0 12px var(--pivot);}
+
+  .wrap{max-width:var(--max);margin:0 auto;padding:0 24px}
+
+  header.hero{padding:120px 0 70px;text-align:center;position:relative}
+  .kicker{font-family:var(--mono);font-size:13px;letter-spacing:.32em;color:var(--pivot);
+    text-transform:uppercase;margin-bottom:26px}
+  .kicker span{color:var(--ink-faint)}
+  h1.title{font-family:var(--serif);font-weight:900;line-height:1.05;
+    font-size:clamp(44px,9vw,92px);letter-spacing:.04em;
+    background:linear-gradient(180deg,#fff 30%,#8aa0ad 130%);
+    -webkit-background-clip:text;background-clip:text;color:transparent;}
+  .sub{margin:22px auto 0;max-width:620px;color:var(--ink-dim);font-size:18px}
+  .meta{margin-top:34px;display:flex;gap:14px;justify-content:center;flex-wrap:wrap;
+    font-family:var(--mono);font-size:12px;color:var(--ink-faint)}
+  .meta b{color:var(--ink-dim);font-weight:500}
+  .pill{border:1px solid var(--line);padding:6px 14px;border-radius:999px;background:rgba(255,255,255,.02)}
+
+  .scroll-hint{margin-top:60px;color:var(--ink-faint);font-family:var(--mono);font-size:12px;
+    animation:bob 2.4s ease-in-out infinite}
+  @keyframes bob{0%,100%{transform:translateY(0);opacity:.5}50%{transform:translateY(8px);opacity:1}}
+
+  section{padding:64px 0;border-top:1px solid var(--line)}
+  .sec-no{font-family:var(--mono);font-size:13px;color:var(--gold);letter-spacing:.2em;margin-bottom:10px}
+  h2{font-family:var(--serif);font-weight:700;font-size:clamp(28px,5vw,42px);
+    line-height:1.25;margin-bottom:8px;letter-spacing:.02em}
+  .lead{color:var(--ink-dim);font-size:16px;margin-bottom:28px;max-width:640px}
+  p{margin:0 0 18px;color:#cfd5dc}
+  p b,strong{color:#fff;font-weight:700}
+  .hl-pivot{color:var(--pivot);font-weight:700}
+  .hl-up{color:var(--up);font-weight:700}
+  .hl-down{color:var(--down);font-weight:700}
+  .hl-gold{color:var(--gold);font-weight:700}
+
+  blockquote{margin:26px 0;padding:20px 24px;border-left:3px solid var(--pivot);
+    background:linear-gradient(90deg,rgba(55,192,230,.07),transparent);
+    border-radius:0 10px 10px 0;font-family:var(--serif);font-size:18px;color:#eaf6fb}
+  blockquote .who{display:block;margin-top:8px;font-family:var(--mono);font-size:12px;
+    color:var(--ink-faint);font-style:normal}
+
+  figure{margin:34px 0}
+  figure img{width:100%;border-radius:12px;border:1px solid var(--line);
+    background:#fff;box-shadow:0 18px 50px rgba(0,0,0,.5)}
+  figcaption{margin-top:12px;font-size:13px;color:var(--ink-faint);text-align:center;font-family:var(--mono)}
+
+  .grid{display:grid;gap:16px;grid-template-columns:1fr 1fr;margin:28px 0}
+  @media(max-width:640px){.grid{grid-template-columns:1fr}}
+  .card{background:var(--bg-card);border:1px solid var(--line);border-radius:14px;padding:24px;
+    position:relative;overflow:hidden;transition:transform .35s ease,border-color .35s ease}
+  .card:hover{transform:translateY(-4px);border-color:rgba(55,192,230,.4)}
+  .card .tag{font-family:var(--mono);font-size:11px;letter-spacing:.18em;color:var(--gold);text-transform:uppercase}
+  .card h3{font-family:var(--serif);font-size:21px;margin:10px 0 8px;color:#fff}
+  .card p{font-size:15px;color:var(--ink-dim);margin:0}
+
+  .table{margin:28px 0;border:1px solid var(--line);border-radius:14px;overflow:hidden}
+  .table .row{display:grid;grid-template-columns:1.1fr 1.5fr 1.6fr;align-items:stretch}
+  .table .row+.row{border-top:1px solid var(--line)}
+  .table .row > div{padding:16px 18px}
+  .table .row.head{background:var(--bg-elev);font-family:var(--mono);font-size:12px;
+    letter-spacing:.14em;color:var(--ink-faint);text-transform:uppercase}
+  .table .row > div+div{border-left:1px solid var(--line)}
+  .table .name{font-family:var(--serif);font-weight:700;font-size:17px}
+  .table .name.a{color:var(--ink)}
+  .table .name.b{color:var(--gold)}
+  @media(max-width:560px){
+    .table .row{grid-template-columns:1fr}
+    .table .row > div+div{border-left:0;border-top:1px solid var(--line)}
+    .table .row.head{display:none}
+  }
+
+  /* 关键位三段表 */
+  .keys{display:grid;gap:14px;grid-template-columns:repeat(3,1fr);margin:28px 0}
+  @media(max-width:640px){.keys{grid-template-columns:1fr}}
+  .keys .k{background:var(--bg-card);border:1px solid var(--line);border-radius:14px;padding:22px 20px;
+    text-align:center;position:relative;overflow:hidden}
+  .keys .k::before{content:"";position:absolute;top:0;left:0;right:0;height:2px;background:var(--pivot)}
+  .keys .k.l2::before{background:var(--gold)}
+  .keys .k.l3::before{background:var(--up)}
+  .keys .k .lev{font-family:var(--mono);font-size:11px;letter-spacing:.2em;color:var(--ink-faint);text-transform:uppercase}
+  .keys .k .num{font-family:var(--mono);font-weight:600;font-size:30px;margin:8px 0 4px;color:#fff}
+  .keys .k.l2 .num{color:var(--gold)}
+  .keys .k.l3 .num{color:var(--up)}
+  .keys .k .desc{font-size:13px;color:var(--ink-dim);line-height:1.5}
+
+  ol.think{counter-reset:q;list-style:none;margin:24px 0;display:flex;flex-direction:column;gap:14px}
+  ol.think li{counter-increment:q;position:relative;padding:18px 20px 18px 60px;
+    background:var(--bg-elev);border:1px solid var(--line);border-radius:12px;color:var(--ink-dim);font-size:15px}
+  ol.think li::before{content:counter(q,decimal-leading-zero);position:absolute;left:20px;top:18px;
+    font-family:var(--mono);color:var(--gold);font-weight:700}
+
+  footer{padding:60px 0 90px;text-align:center;color:var(--ink-faint);font-family:var(--mono);font-size:12px;border-top:1px solid var(--line)}
+  footer a{color:var(--ink-dim);text-decoration:none}
+
+  .reveal{opacity:0;transform:translateY(26px);transition:opacity .8s ease,transform .8s ease}
+  .reveal.in{opacity:1;transform:none}
+  @media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}.scroll-hint{animation:none}}
+</style>
+<meta name="view-transition" content="same-origin"><style>@view-transition{navigation:auto}</style></head>
+<body>
+<div id="bar"></div>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="kicker">缠中说禅 · 教你炒股票108课 <span>/ 第 104 课</span></div>
+    <h1 class="title">几何结构与<br>能量动力结构（一）</h1>
+    <p class="sub">缠师宣告：缠论不只是数学完美，更是物理完美——所有能量与动力，都在几何结构里说话。这一课是范式声明，也是 3424 点实战示范的开局。</p>
+    <div class="meta">
+      <span class="pill"><b>原文</b> 2008-03-26 ~ 04-11</span>
+      <span class="pill"><b>类型</b> 理论 + 实战示范</span>
+      <span class="pill"><b>关键词</b> 现代物理 · 几何化 · 关键位 · 分型笔</span>
+    </div>
+    <div class="scroll-hint">↓ 向下滚动，逐层拆解</div>
+  </div>
+</header>
+
+<main>
+  <!-- 1 范式宣言 -->
+  <section class="wrap reveal">
+    <div class="sec-no">01 — 范式宣言</div>
+    <h2>缠论不是"算法"，是"几何物理"</h2>
+    <p class="lead">缠师在开篇直接把读者的思维从"牛顿时代"拉到"现代物理"——这是理解后面所有内容的入场券。</p>
+    <p>很多人理解技术分析，停留在"算各种均线、算微积分、算级数"这种<span class="hl-down">机械化计算</span>的阶段。缠师说，这是"老一代理科"的思维方式，对现代物理"一点概念都没有"。</p>
+    <blockquote>
+      现代物理的一个核心概念，就是<b>物理与几何的高度统一</b>。本质上，现代物理就是一门几何学。<br>
+      在那些几何学里，<b>能量、动力等结构对应着一些特殊的几何结构</b>。这才是现代物理的主流。
+      <span class="who">— 缠中说禅</span>
+    </blockquote>
+    <p>缠师举的例子：广义相对论——物质和引力，不再用"力"去算，而是用<span class="hl-pivot">时空的几何弯曲</span>来表达。再往后是规范场、超弦、膜空间，全是各种高深的几何学。</p>
+    <p>类比到股市：<b>价格的能量与动力，不靠各种花式公式去"算"，而是从"走势的几何形态"里直接读出来</b>——分型、笔、线段、中枢、级别，全是几何对象。这就是缠论后面所有招数的底色。</p>
+    <div class="grid">
+      <div class="card">
+        <div class="tag">旧范式</div>
+        <h3>算法思维</h3>
+        <p>看到 K 线就想着叠加 N 条均线、跑 MACD 参数、做傅立叶分解——以为公式越复杂越接近真相。</p>
+      </div>
+      <div class="card">
+        <div class="tag">缠论范式</div>
+        <h3>几何思维</h3>
+        <p>价格的能量动力直接体现为<b>形态</b>：分型的位置、笔的延伸、中枢的扩张——一切由几何说了算。</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2 跌势中的几何 -->
+  <section class="wrap reveal">
+    <div class="sec-no">02 — 几何在跌势中的第一次落地</div>
+    <h2>3424 点：用"3/4 比例"锁死下跌目标</h2>
+    <p class="lead">理论说完，缠师马上落到 2008 年 3 月的真实下跌。这里是几何思维的第一次实战示范。</p>
+    <p>6124 点到位算回撤目标：总跌幅 <b>2700 点</b>，<b>3/4</b> 位置就是 <span class="hl-gold">3424 点</span>；而历史上第一次反弹起点 4778 点，刚好处在 <b>3/8</b> 位置。两个比例点位互相印证——这就是"几何"，不是"猜"。</p>
+    <blockquote>
+      任何技术位置都有一个<b>上下 3% 的允许空间</b>。<br>
+      上次 4778 反弹结束本ID说在 5678 点（3/4 的 900 点处），最终结束在 5522 点——完全在 3% 容差内。<br>
+      有些人为了"没精确到 5678"祥林嫂一个月，这是什么人？
+      <span class="who">— 2008-03-28 解盘</span>
+    </blockquote>
+    <p>关键提醒——<span class="hl-pivot">技术位 = 比例点位 ± 3% 容差区间</span>。把点位当成一根线去较真，是初学者最容易掉的坑。几何位置永远是<b>区间</b>，不是<b>点</b>。</p>
+    <figure>
+      <img src="/_assets/ch104_p01.png" alt="6124-3424 下跌中的关键位标注">
+      <figcaption>下跌主浪中关键比例位的几何标注（原图 ch104_p01）</figcaption>
+    </figure>
+  </section>
+
+  <!-- 3 关键位密码 -->
+  <section class="wrap reveal">
+    <div class="sec-no">03 — 关键位密码</div>
+    <h2>3533 / 3613 / 3840：把走势刻成三把钥匙</h2>
+    <p class="lead">缠师从 4 月 7 日开始，把整个反弹的判断浓缩成"三个关键位 + 一个分型规则"——这是这一课最值得抄下来的方法论。</p>
+    <p>大盘从 3424 一带启动反弹后，缠师每天只盯一个数字：</p>
+
+    <div class="keys">
+      <div class="k">
+        <div class="lev">超短线 · 60 分钟</div>
+        <div class="num">3533</div>
+        <div class="desc">60 分钟底分型上沿，站上 = 反弹继续，站不住 = 再次探底</div>
+      </div>
+      <div class="k l2">
+        <div class="lev">短线 · 日线</div>
+        <div class="num">3613</div>
+        <div class="desc">日线能否延伸出向上笔的关键；3462 是次一级试金石</div>
+      </div>
+      <div class="k l3">
+        <div class="lev">中线 · 周线</div>
+        <div class="num">3840</div>
+        <div class="desc">周底分型上沿，决定周线是否真正确立向上笔</div>
+      </div>
+    </div>
+
+    <blockquote>
+      3533、3613、3840，给出了一个市场运行的<b>密码</b>，由此，<b>超短、短、中</b>的走势都完全把握了。
+      <span class="who">— 2008-04-11 解盘</span>
+    </blockquote>
+    <p>三个数字对应三个级别（60 分钟 / 日线 / 周线）——这就是把"级别"几何化的标准动作。<b>不同级别的关键位，不能混着用</b>：站上 3533 说明 60 分钟有戏，但不代表日线就转向；只有 3613 真站住，才轮到日线说话；3840 才是周线确认。</p>
+    <p>缠师反复用的判断公式：<span class="hl-pivot">某关键位站上 → 本级别走势延续</span>；<span class="hl-down">某关键位站不住 → 本级别走势失败、回到下一级</span>。整个 4 月反弹的所有解盘，都是这一个公式重复套用，没多余动作。</p>
+    <figure>
+      <img src="/_assets/ch104_p17.png" alt="60 分钟向上笔突破走势">
+      <figcaption>3462 突破后 60 分钟级别延伸出向上笔——经典的"分型上沿突破"案例（ch104_p17）</figcaption>
+    </figure>
+  </section>
+
+  <!-- 4 分型笔操作系统 -->
+  <section class="wrap reveal">
+    <div class="sec-no">04 — 分型 + 笔 = 操作系统</div>
+    <h2>一招制敌：用分型/笔统一所有买卖</h2>
+    <p class="lead">课文末尾缠师说出了 4 月解盘背后的真正套路。</p>
+    <blockquote>
+      本ID最近一直只用<b>给级别的分型</b>来统一进行分析，其实就是想告诉各位，<b>你把一招真学会了，绝大多数的问题都能解决</b>。
+      <span class="who">— 2008-04-08 解盘</span>
+    </blockquote>
+    <p>这一课在实战上反复演示同一套动作：</p>
+
+    <div class="table">
+      <div class="row head"><div>角色</div><div>识别动作</div><div>买卖含义</div></div>
+      <div class="row">
+        <div class="name a">分型成立</div>
+        <div>60 / 日 / 周 上出现底分型（顶分型）</div>
+        <div>潜在反转信号，<b>等延伸成笔</b></div>
+      </div>
+      <div class="row">
+        <div class="name a">分型上/下沿</div>
+        <div>底分型最高点 / 顶分型最低点</div>
+        <div>就是<span class="hl-gold">关键位</span>，<b>突破 = 笔确认</b></div>
+      </div>
+      <div class="row">
+        <div class="name b">向上笔延伸</div>
+        <div>突破分型上沿、本级别走势确立</div>
+        <div>持有 / 加仓，<b>等到下一级反向笔出现</b></div>
+      </div>
+      <div class="row">
+        <div class="name b">反向笔出现</div>
+        <div>本级别出现相反方向的笔（如向上后的向下笔）</div>
+        <div>退出，等下一个买点，<b>不犹豫</b></div>
+      </div>
+    </div>
+
+    <p>4 月 9 日缠师明确说过——<span class="hl-down">3613 站不住</span> → 顶分型下沿被有效跌破 → "因为<b>向下要形成笔</b>"，所以"力度最大那种调整"必然到来——直接退出，等下一个买点。整套判断 30 秒读图就能完成，没有任何模糊地带。</p>
+    <blockquote>
+      让脑子有水的人继续争论是否有真行情，他们负责争论，<b>我们负责挣钱</b>。<br>
+      我们把走势<b>支解了</b>进行操作，不废那个脑子。
+      <span class="who">— 2008-04-09 解盘</span>
+    </blockquote>
+    <figure>
+      <img src="/_assets/ch104_p21.png" alt="顶分型跌破 - 向下笔形成">
+      <figcaption>3613 攻不上去 → 顶分型下沿跌破 → 向下笔成立的标准退出案例（ch104_p21）</figcaption>
+    </figure>
+
+    <ol class="think">
+      <li>"几何结构对应能量动力结构"——结合分型、笔、中枢的物理含义，想一想：为什么"中枢扩张"在能量上是多空动能均衡？为什么"笔延伸"是动能释放？</li>
+      <li>同一个 3613 点，对 60 分钟是"延伸笔的目标位"，对日线是"分型上沿"，对周线只是普通震荡。<b>不同级别看同一位置，结论可以完全不同——为什么这不矛盾？</b></li>
+      <li>3% 容差区间在实战中具体怎么用？比如目标位 3424，你会在 3320~3528 整个区间里如何摆兵布阵，而不是死盯一根线？</li>
+    </ol>
+  </section>
+</main>
+
+<footer class="wrap">
+  原文出处：raw/缠中说禅/教你炒股票108课/教你炒股票104：几何结构与能量动力结构1.md<br>
+  本页为个人学习复习用 · 非投资建议
+</footer>
+
+<script>
+  const bar=document.getElementById('bar');
+  const onScroll=()=>{
+    const h=document.documentElement;
+    const p=h.scrollTop/(h.scrollHeight-h.clientHeight);
+    bar.style.width=(p*100)+'%';
+  };
+  document.addEventListener('scroll',onScroll,{passive:true});onScroll();
+
+  const io=new IntersectionObserver((es)=>{
+    es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});
+  },{threshold:.12});
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+</script>
+<script src="/assets/_nav.js"></script><script src="/assets/_shell.js"></script></body>
+</html>

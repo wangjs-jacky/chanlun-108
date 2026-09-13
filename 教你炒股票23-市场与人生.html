@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>缠论 · 教你炒股票23：市场与人生</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@500;700;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0b0e12;--bg-elev:#12161c;--bg-card:#161b22;
+    --ink:#e8eaed;--ink-dim:#9aa3ad;--ink-faint:#5b6470;
+    --line:rgba(255,255,255,.07);
+    --up:#ff4d4f;--down:#16c784;--pivot:#37c0e6;--gold:#e8b339;--blue:#00d4ff;
+    --max:880px;--serif:"Noto Serif SC",serif;--mono:"JetBrains Mono",ui-monospace,monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--ink);font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;line-height:1.85;font-size:17px;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  body::before{content:"";position:fixed;inset:0;z-index:-2;background:radial-gradient(1200px 600px at 70% -10%,rgba(55,192,230,.08),transparent 60%),radial-gradient(900px 500px at 0% 100%,rgba(232,179,57,.05),transparent 55%);pointer-events:none}
+  body::after{content:"";position:fixed;inset:0;z-index:-1;opacity:.4;background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);background-size:46px 46px;-webkit-mask-image:radial-gradient(ellipse at 50% 0%,#000 30%,transparent 80%);mask-image:radial-gradient(ellipse at 50% 0%,#000 30%,transparent 80%);pointer-events:none}
+  #bar{position:fixed;top:0;left:0;height:3px;width:0;z-index:50;background:linear-gradient(90deg,var(--pivot),var(--gold));box-shadow:0 0 12px var(--pivot)}
+  .wrap{max-width:var(--max);margin:0 auto;padding:0 24px}
+  header.hero{padding:120px 0 70px;text-align:center;position:relative}
+  .kicker{font-family:var(--mono);font-size:13px;letter-spacing:.32em;color:var(--pivot);text-transform:uppercase;margin-bottom:26px}
+  .kicker span{color:var(--ink-faint)}
+  h1.title{font-family:var(--serif);font-weight:900;line-height:1.05;font-size:clamp(44px,10vw,100px);letter-spacing:.04em;background:linear-gradient(180deg,#fff 30%,#8aa0ad 130%);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .sub{margin:22px auto 0;max-width:580px;color:var(--ink-dim);font-size:18px}
+  .meta{margin-top:34px;display:flex;gap:14px;justify-content:center;flex-wrap:wrap;font-family:var(--mono);font-size:12px;color:var(--ink-faint)}
+  .meta b{color:var(--ink-dim);font-weight:500}
+  .pill{border:1px solid var(--line);padding:6px 14px;border-radius:999px;background:rgba(255,255,255,.02)}
+  .scroll-hint{margin-top:60px;color:var(--ink-faint);font-family:var(--mono);font-size:12px;animation:bob 2.4s ease-in-out infinite}
+  @keyframes bob{0%,100%{transform:translateY(0);opacity:.5}50%{transform:translateY(8px);opacity:1}}
+  section{padding:64px 0;border-top:1px solid var(--line)}
+  .sec-no{font-family:var(--mono);font-size:13px;color:var(--gold);letter-spacing:.2em;margin-bottom:10px}
+  h2{font-family:var(--serif);font-weight:700;font-size:clamp(28px,5vw,42px);line-height:1.25;margin-bottom:8px;letter-spacing:.02em}
+  .lead{color:var(--ink-dim);font-size:16px;margin-bottom:28px;max-width:660px}
+  p{margin:0 0 18px;color:#cfd5dc}
+  p b,strong{color:#fff;font-weight:700}
+  .hl-pivot{color:var(--pivot);font-weight:700}.hl-up{color:var(--up);font-weight:700}
+  .hl-down{color:var(--down);font-weight:700}.hl-gold{color:var(--gold);font-weight:700}
+  blockquote{margin:26px 0;padding:20px 24px;border-left:3px solid var(--pivot);background:linear-gradient(90deg,rgba(55,192,230,.07),transparent);border-radius:0 10px 10px 0;font-family:var(--serif);font-size:19px;color:#eaf6fb}
+  blockquote .who{display:block;margin-top:8px;font-family:var(--mono);font-size:12px;color:var(--ink-faint);font-style:normal}
+  figure{margin:34px 0}
+  figure img{width:100%;border-radius:12px;border:1px solid var(--line);background:#fff;box-shadow:0 18px 50px rgba(0,0,0,.5)}
+  figcaption{margin-top:12px;font-size:13px;color:var(--ink-faint);text-align:center;font-family:var(--mono)}
+  .grid{display:grid;gap:16px;grid-template-columns:1fr 1fr;margin:28px 0}
+  @media(max-width:640px){.grid{grid-template-columns:1fr}}
+  .card{background:var(--bg-card);border:1px solid var(--line);border-radius:14px;padding:24px;position:relative;overflow:hidden;transition:transform .35s ease,border-color .35s ease}
+  .card:hover{transform:translateY(-4px);border-color:rgba(55,192,230,.4)}
+  .card .tag{font-family:var(--mono);font-size:11px;letter-spacing:.18em;color:var(--gold);text-transform:uppercase}
+  .card h3{font-family:var(--serif);font-size:21px;margin:10px 0 8px;color:#fff}
+  .card p{font-size:15px;color:var(--ink-dim);margin:0}
+  .table{margin:28px 0;border:1px solid var(--line);border-radius:14px;overflow:hidden}
+  .table .row{display:grid;grid-template-columns:1.1fr 1.5fr 1.6fr;align-items:stretch}
+  .table .row+.row{border-top:1px solid var(--line)}
+  .table .row>div{padding:16px 18px}
+  .table .row.head{background:var(--bg-elev);font-family:var(--mono);font-size:12px;letter-spacing:.14em;color:var(--ink-faint);text-transform:uppercase}
+  .table .row>div+div{border-left:1px solid var(--line)}
+  .table .name{font-family:var(--serif);font-weight:700;font-size:18px}
+  .table .name.qushi{color:var(--gold)}
+  .cnt{font-family:var(--mono);font-size:14px;color:var(--pivot)}
+  @media(max-width:560px){.table .row{grid-template-columns:1fr}.table .row>div+div{border-left:0;border-top:1px solid var(--line)}.table .row.head{display:none}}
+  .points{margin:26px 0;display:flex;flex-direction:column;gap:14px}
+  .pt{display:flex;gap:16px;align-items:flex-start;background:var(--bg-card);border:1px solid var(--line);border-radius:12px;padding:18px 20px}
+  .pt .dot{flex:none;width:42px;height:42px;border-radius:10px;display:grid;place-items:center;font-family:var(--serif);font-weight:900;font-size:20px;color:#0b0e12}
+  .pt.b .dot{background:var(--up)}.pt.s .dot{background:var(--down)}
+  .pt h4{font-size:17px;margin-bottom:4px;color:#fff}.pt p{font-size:15px;color:var(--ink-dim);margin:0}
+  .proof{margin:30px 0;background:linear-gradient(120deg,rgba(55,192,230,.06),transparent 70%),var(--bg-elev);border:1px solid rgba(55,192,230,.25);border-radius:16px;padding:26px}
+  .proof .badge{display:inline-block;font-family:var(--mono);font-weight:700;font-size:12px;letter-spacing:.12em;padding:6px 14px;border-radius:999px;background:rgba(55,192,230,.14);color:var(--pivot);border:1px solid rgba(55,192,230,.4);margin-bottom:14px}
+  .chartbox{background:var(--bg-card);border:1px solid var(--line);border-radius:14px;padding:18px 14px 8px;margin:18px 0}
+  .legend{display:flex;gap:16px;font-family:var(--mono);font-size:12px;color:var(--ink-dim);padding:0 8px 12px;flex-wrap:wrap}
+  .legend i{display:inline-block;width:16px;height:3px;vertical-align:middle;margin-right:6px;border-radius:2px}
+  canvas{width:100%;display:block}
+  .verdict{display:flex;gap:14px;align-items:flex-start;margin-top:8px;padding:16px 18px;background:var(--bg-card);border:1px solid var(--line);border-radius:12px}
+  .verdict .mk{flex:none;font-family:var(--mono);font-weight:700;color:var(--up)}
+  .verdict p{margin:0;font-size:15px;color:#d6dbe1}
+  ol.think{counter-reset:q;list-style:none;margin:24px 0;display:flex;flex-direction:column;gap:14px}
+  ol.think li{counter-increment:q;position:relative;padding:18px 20px 18px 60px;background:var(--bg-elev);border:1px solid var(--line);border-radius:12px;color:var(--ink-dim);font-size:15px}
+  ol.think li::before{content:counter(q,decimal-leading-zero);position:absolute;left:20px;top:18px;font-family:var(--mono);color:var(--gold);font-weight:700}
+  .quiz{margin:22px 0;background:var(--bg-card);border:1px solid var(--line);border-radius:14px;padding:22px 24px}
+  .quiz h4{font-size:16px;color:#fff;margin-bottom:6px}
+  .quiz .ans{margin-top:12px;color:var(--ink-faint);font-size:14px;cursor:pointer}
+  .quiz .ans[open] summary{color:var(--pivot)}
+  .quiz summary{color:var(--gold);font-family:var(--mono);font-size:13px}
+  .tldr{margin:60px 0 0;padding:36px 30px;border:1px solid rgba(55,192,230,.3);border-radius:18px;background:radial-gradient(120% 120% at 100% 0%,rgba(55,192,230,.1),transparent 60%),var(--bg-elev);text-align:center}
+  .tldr .lab{font-family:var(--mono);font-size:12px;letter-spacing:.3em;color:var(--pivot);text-transform:uppercase}
+  .tldr p{font-family:var(--serif);font-size:clamp(20px,3.4vw,28px);line-height:1.7;color:#fff;margin:16px 0 0}
+  footer{padding:60px 0 90px;text-align:center;color:var(--ink-faint);font-family:var(--mono);font-size:12px;border-top:1px solid var(--line)}
+  .reveal{opacity:0;transform:translateY(26px);transition:opacity .8s ease,transform .8s ease}
+  .reveal.in{opacity:1;transform:none}
+  @media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}.scroll-hint{animation:none}}
+  .zen{margin:28px 0;padding:34px 30px;border-radius:18px;border:1px solid rgba(232,179,57,.25);background:radial-gradient(120% 120% at 0% 0%,rgba(232,179,57,.06),transparent 60%),var(--bg-elev);font-family:var(--serif);font-size:19px;color:#f3e9d4;line-height:1.95}
+  .zen b{color:var(--gold)}
+  .twins{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:28px 0}
+  @media(max-width:640px){.twins{grid-template-columns:1fr}}
+  .twins>div{background:var(--bg-card);border:1px solid var(--line);border-radius:14px;padding:22px}
+  .twins .ttl{font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;margin-bottom:10px}
+  .twins .a .ttl{color:var(--down)}.twins .b .ttl{color:var(--up)}
+  .twins p{margin:0;color:var(--ink-dim);font-size:15px}
+</style>
+<meta name="view-transition" content="same-origin"><style>@view-transition{navigation:auto}</style></head>
+<body>
+<div id="bar"></div>
+<header class="hero">
+  <div class="wrap">
+    <div class="kicker">缠中说禅 · 教你炒股票108课 <span>/ 第 23 课</span></div>
+    <h1 class="title">市场与人生</h1>
+    <p class="sub">技术是匠人活，市场比的是修养、人格、见识——五浊恶世里才有大自由、大解脱。</p>
+    <div class="meta">
+      <span class="pill"><b>原文</b> 2007-01-15</span>
+      <span class="pill"><b>类型</b> 心法 + 解盘示范</span>
+      <span class="pill"><b>关键词</b> 修养 · 第三类买点 · 5分钟背驰 · 奔走型走势</span>
+    </div>
+    <div class="scroll-hint">↓ 向下滚动，逐层拆解</div>
+  </div>
+</header>
+<main>
+
+  <section class="wrap reveal">
+    <div class="sec-no">01 — 这一课为什么停下来不讲技术</div>
+    <h2>暂且停一期，说说技术外的事</h2>
+    <p class="lead">前面 22 课全是中枢、买卖点、背弛这种"硬技术"，到第 23 课缠师**主动按下暂停键**——他要先把"人"摆正，技术才有意义。</p>
+    <p>这一课的体例很特别：上半场是一篇<b>哲学短文</b>（市场观 + 人生观 + 修行论），下半场是几个解盘问答（5 分钟背驰、奔走型走势、月线大中枢上破）。读起来像两本书拼在一起。但缠师的本意很清楚——</p>
+    <blockquote>投资市场最终比的是<b>修养与人格及见识</b>，光从技艺上着手，永远只能是匠人，不可能成为真正的高手。<span class="who">— 缠中说禅 · 2007-01-15</span></blockquote>
+    <p>所以这一课读完，技术上你只会多记几个细节；但<span class="hl-pivot">"为什么学技术、技术学完了往哪走"</span>这件事，会想清楚。</p>
+  </section>
+
+  <section class="wrap reveal">
+    <div class="sec-no">02 — 心法第一刀</div>
+    <h2>技术只是匠人活：交易机器 ≠ 高手</h2>
+    <p class="lead">缠师把"只懂技术、只想搞钱"的人定义为「交易机器」——能赚钱，但赚的是用<b>生命</b>换的钱。</p>
+    <p>原话很狠：「单纯停留在技术的层面，最多就是一个交易机器，最近即使能在市场中得到一定的回报，但这种回报是以<b>生命的耗费</b>为代价的。无论多大的回报，都抵不上生命的耗费。」</p>
+    <p>这里有个常被误读的层次——缠师**不是**说"别学技术"。技术他自己讲了 22 课、还要讲 80 多课，怎么会让你别学？他在说：</p>
+    <div class="twins">
+      <div class="a">
+        <div class="ttl">A · 匠人路径（错）</div>
+        <p>技术 → 赚钱 → 更多技术 → 更多钱 → 终极目标：钱。<br>结果：耗一生换一个"生不带来、死不带走"的数字。</p>
+      </div>
+      <div class="b">
+        <div class="ttl">B · 缠论路径（对）</div>
+        <p>技术 → 在市场里照见<b>贪嗔痴疑慢</b> → 借市场修人 → 把市场当道场。<br>结果：钱来了，但人也走完了一遍五浊恶世，能<b>自由解脱</b>。</p>
+      </div>
+    </div>
+    <p>但缠师对另一拨人也开了一刀——那些<b>"自以为清高，远离金钱市场就是道"</b>的人，被他骂为「废物点心」。这一刀很关键：</p>
+    <blockquote>道不远人，道又岂何市场相违？人的贪婪、恐惧、市场的诱惑、陷阱，又哪里与道相远？<span class="who">— 缠中说禅</span></blockquote>
+    <p>翻译成大白话：<span class="hl-gold">躲开市场就是修道，那只是自欺</span>。真正的修道是**在最脏的地方还能干净**——不是绕开污泥，而是进入污泥还能不被污泥拖走。</p>
+  </section>
+
+  <section class="wrap reveal">
+    <div class="sec-no">03 — 缠师的市场观</div>
+    <h2>五浊恶世里才有大自由</h2>
+    <p class="lead">这段话是全课最猛的——「<b>只有在五浊恶世最恶浊之处才有大自由、大解脱</b>」。听起来像佛经，落到市场上意思很直接。</p>
+    <blockquote>了解、参与资本市场……更因为这资本、这资本市场是<b>人类当下的命运</b>，人类所有贪嗔痴疑慢都在此聚集，不与此自由，何谈自由？不与此解脱，何谈解脱？<span class="who">— 缠中说禅</span></blockquote>
+    <p>缠师列了三个"最恶浊之处"——<span class="hl-pivot">资本市场、政治、淫乱</span>。听起来是骂街，其实是在说：</p>
+    <div class="grid">
+      <div class="card"><span class="tag">命题 · 一</span><h3>不入市场，不谈自由</h3><p>当代社会，不了解资本市场就"没有资格生存"。你可以反抗，但所有反抗最终都会被资本化（道德资本、权力资本、网红资本……一个都跑不掉）。</p></div>
+      <div class="card"><span class="tag">命题 · 二</span><h3>不出污泥，不算解脱</h3><p>"出于污泥而不染者，不过是自渎的废物"——绕开市场说自己干净，那只是没经过考验。真正的解脱要"入于污泥而污之，出于污泥而污之"。</p></div>
+      <div class="card"><span class="tag">命题 · 三</span><h3>政治失败者无资格谈自由</h3><p>缠师这句把人都堵死了——在政治游戏里被打趴下的，没资格嘴里说"自由解脱"。同理，没真正入过市场被市场捶过的，技术再花哨也是空谈。</p></div>
+      <div class="card"><span class="tag">命题 · 四</span><h3>真正的自由是"自由于不自由"</h3><p>不是逃离，是穿过。自由不是没有束缚，是<b>在束缚里依然能动</b>；解脱不是没有烦恼，是<b>烦恼来了不被烦恼拖走</b>。</p></div>
+    </div>
+    <p>放到操盘的语境里——<span class="hl-up">大涨时不被贪绑住</span>、<span class="hl-down">大跌时不被恐惧逼出</span>，这就是"自由于不自由"。和缠师后续讲的"市场上贪婪与恐惧"是同一个东西，只是说法升级到了哲学层面。</p>
+  </section>
+
+  <section class="wrap reveal">
+    <div class="sec-no">04 — 缠师布置的功课</div>
+    <h2>每周一小时：现代版"打禅七"</h2>
+    <p class="lead">这段话语很美，落到操作上其实是一个**可执行的纪律**。</p>
+    <div class="zen">
+      古代有所谓的<b>打禅七</b>，在现代社会，能找到 7 天来打禅七是极其奢侈的事情了。但每周，有<b>一个小时</b>，抛开一切束缚，抛开一切人群，独自一个人，在房间里、在高山上、在河流里、在星空下、在山野的空谷回音中，张开没有眼睛的眼睛、没有耳朵的耳朵，俯视这世界、倾听这世界。
+    </div>
+    <p>注意缠师的递进——他先说"何处不是房间、高山、河流"，意思是<b>已得道的人</b>处处都是道场；接着话锋一转：「<b>当然，如果没有如此见识，还是先去需要自己的房间、高山、河流、星空、山野</b>。」</p>
+    <p>这是缠师罕见的"为初学者降一个台阶"。**他承认大部分人还没有"在血盆大口里看见清凉"的本事**，所以先给个简化版：</p>
+    <div class="points">
+      <div class="pt b"><div class="dot">1</div><div><h4>每周抽 1 小时，物理隔离</h4><p>关手机、关盘面、关消息、关聊天群。地点不重要——房间、公园、河边都行，关键是**独自**。</p></div></div>
+      <div class="pt b"><div class="dot">2</div><div><h4>"俯视世界、倾听世界"</h4><p>不是冥想、不是复盘、不是看研报。就是<b>停下来</b>，让一周积累的贪婪和恐惧自己沉下去。</p></div></div>
+      <div class="pt b"><div class="dot">3</div><div><h4>最终要回到市场里修</h4><p>缠师明确说："但最终，依然要在五浊恶世中污之恶之，不如此，无以自由、解脱。"——一小时是中转站，不是终点站。</p></div></div>
+    </div>
+    <p>放到 2026 年的语境，这段话有点像「每周一次的<span class="hl-pivot">数字排毒</span>」。但缠师的本意不是养生——他要你<b>每周给灵魂一次出场看戏的机会</b>，看你这一周在贪和恐里被拽得多狼狈，然后第二周还能心甘情愿走回去。</p>
+  </section>
+
+  <section class="wrap reveal">
+    <div class="sec-no">05 — 解盘示范 · 一</div>
+    <h2>5 分钟背驰：缠师的"短差快刀"</h2>
+    <p class="lead">心法讲完，进入解盘环节。缠师拿 2007-01-17 当天的上证 5 分钟和中国人寿（601628）来示范——典型的「次级别背驰 → 触发回调 → 短差机会」。</p>
+    <p>原话两句要记住：</p>
+    <blockquote>大盘今天的震荡是<b>5 分钟的背弛</b>引发的，一个绝好的短差机会。<br>人寿在 5 分钟上也是<b>典型的背弛</b>。<span class="who">— 缠中说禅 · 2007-01-17 15:18</span></blockquote>
+    <figure>
+      <img src="/_assets/ch23_p01.png" alt="2007-01-15~17 上证指数 5 分钟 K 线，标注 A 段 B 段 C 段">
+      <figcaption>缠师配的上证 5 分钟图 · A 段 / B 段 / C 段 三段走势，C 段创新高但 MACD 红柱面积明显小于 A 段 → 标准 5 分钟背弛</figcaption>
+    </figure>
+    <p>怎么看出"背弛"？看图里底部 MACD：A 段拉到 2838 时，红柱面积大、DIFF 高高在上；C 段拉到 2869（更高了），<b>红柱面积反而缩小</b>、DIFF 也没创新高——这就是"价创新高，量能不创新高"，技术意义上的<span class="hl-pivot">背驰</span>。</p>
+    <figure>
+      <img src="/_assets/ch23_p02.png" alt="中国人寿601628 5 分钟分笔分段图">
+      <figcaption>中国人寿 5 分钟图 · A段（15日10:35→16日10:25 拉到49.48）+ B段横盘 + C段二次冲高 · MACD 黄白线回拉零轴 + 红柱面积明显缩小 → 5分钟级别背驰确立</figcaption>
+    </figure>
+    <p>缠师的处理方式很有意思——「<b>本ID中线是看好他，但本ID见到背弛就要发狠</b>」。这是缠论操盘的一个核心纪律：</p>
+    <div class="points">
+      <div class="pt s"><div class="dot">!</div><div><h4>中线看好 ≠ 不做短差</h4><p>同一只股票，中线持仓不动，但**5 分钟背驰**出来照样砍一刀做短差，回调买回来。两个级别两套账。</p></div></div>
+      <div class="pt b"><div class="dot">✓</div><div><h4>见背驰要"狠"</h4><p>缠师说"对不起庄家"——意思是哪怕你是这只股票的多头，看到次级别背驰就要**立刻减仓**，别犹豫。</p></div></div>
+    </div>
+  </section>
+
+  <section class="wrap reveal">
+    <div class="sec-no">06 — 解盘示范 · 二</div>
+    <h2>走势必完美：上证当时会怎么走</h2>
+    <p class="lead">课文里有个读者问："这几天大盘 30 分钟是不是走势必完美了？" 缠师的回答是教科书级的——这一段把"走势必完美"四个字第一次落到具体决策上。</p>
+    <blockquote>你还没理解什么是走势必完美。在上个高点，用走势必完美，就知道大盘<b>一定会再回跌一次</b>。而这个回跌，在此级别上一旦出现<b>第一类买点</b>，就会出现再次的上攻。<br><br>目前的走势无非两种可能：一、演化成<b>三角走势</b>；二、<b>直接突破</b>。<br>如何判断？很简单，就看到前期高位时，次级别的走势是否出现背弛，一旦出现，就要再次回跌；否则就直接突破了。<span class="who">— 缠中说禅 · 2007-01-15 16:48</span></blockquote>
+    <figure>
+      <img src="/_assets/ch23_p05.png" alt="上证指数 30 分钟图 · 走势必完美演示">
+      <figcaption>上证指数 30 分钟图 · 缠师画的"上个高点"+"两种演化方式"·三角形 vs 直接突破·关键判别：高点是否出现次级别背弛</figcaption>
+    </figure>
+    <p>这一段把"走势必完美"四个字用在了**预测**上：</p>
+    <div class="grid">
+      <div class="card"><span class="tag">原理</span><h3>走势必完美 = 既定级别一定收敛</h3><p>某级别的走势类型，要么走成趋势（突破），要么走成盘整（震荡），不会"半途而废"。已经走出的部分会"被完成"。</p></div>
+      <div class="card"><span class="tag">应用</span><h3>看次级别有没有背弛</h3><p>在前期高位，如果**次级别出现背驰**→ 这一波涨幅"已经完成"，必须再回跌做盘整；如果**没背驰** → 还有动能，直接突破。</p></div>
+    </div>
+    <p>这就是缠师给出的「<span class="hl-gold">两种演化的判别条件</span>」——不是猜，是看次级别的背驰信号。背驰有 → 三角；背驰无 → 直接突破。和上一段（人寿、上证 5 分钟背驰）是同一套逻辑，只是放大了一个级别。</p>
+  </section>
+
+  <section class="wrap reveal">
+    <div class="sec-no">07 — 解盘示范 · 三</div>
+    <h2>月线大中枢上破：深深房 000029</h2>
+    <p class="lead">读者问："000029 深深房日线是不是已经形成两个向上中枢、上涨趋势？" 缠师的回答更高级——他直接把目光抬到**月线**。</p>
+    <figure>
+      <img src="/_assets/ch23_p03.png" alt="深深房 000029 周线 / 月线大中枢">
+      <figcaption>深深房 000029 · 缠师手批 ·「一个大型的月线级别大中枢正谋求上破」· 横盘箱体 2.65 → 6 元附近，已酝酿 3 年</figcaption>
+    </figure>
+    <blockquote>一个大型的月线级别大中枢，<b>正谋求上破</b>。三线地产补涨时会有表现的。<span class="who">— 缠中说禅 · 2007-01-15</span></blockquote>
+    <p>读者追问"日线是不是两个向上中枢"，缠师补刀——</p>
+    <figure>
+      <img src="/_assets/ch23_p04.png" alt="深深房日线两个中枢">
+      <figcaption>深深房日线 · 两个向上的中枢框（2005-08~2006-04、2006-08~2006-12）· 缠师指出：「两个中枢并没有形成趋势，只形成了中枢的扩展，只有<b>中枢的新生</b>才能形成趋势」</figcaption>
+    </figure>
+    <blockquote>但两个中枢并没有形成趋势，只形成了<b>中枢的扩展</b>。只有<b>中枢的新生</b>才能形成趋势的。<br>中枢有三种命运：<span class="hl-pivot">延伸、扩展、新生</span>。<span class="who">— 缠中说禅</span></blockquote>
+    <p>这里抛出了缠论里非常重要的<b>中枢三命运</b>——是后面 18、27、67 等课会反复展开的概念，本课先认识一下：</p>
+    <div class="table">
+      <div class="row head"><div>命运</div><div>形态</div><div>对走势级别的影响</div></div>
+      <div class="row"><div class="name">延伸</div><div>在原中枢上下沿内反复</div><div>原级别走势继续盘整，<b>不升级</b></div></div>
+      <div class="row"><div class="name">扩展</div><div>形成第二个同级别中枢，两中枢有重叠或并列</div><div>原级别盘整加宽，<b>不升级</b>（深深房日线就是这种）</div></div>
+      <div class="row"><div class="name qushi">新生</div><div>形成第二个同级别中枢，且两中枢方向一致、不重叠</div><div><span class="hl-up">升级为更高级别的趋势</span></div></div>
+    </div>
+    <p>缠师对深深房的诊断：日线两个中枢只是"扩展"，但<b>月线那个大中枢</b>正在酝酿"上破"——这个上破一旦发生，就是日线变趋势、周线变趋势的级联效应。</p>
+  </section>
+
+  <section class="wrap reveal">
+    <div class="sec-no">08 — 解盘示范 · 四</div>
+    <h2>日线奔走型走势：同仁堂 600085</h2>
+    <p class="lead">另一位读者问："600085 日线上的 1、2、3 类买点分别是 2006/11/14、12/11、12/29 吗？" 缠师纠错——这次提出了一种**特殊形态**：奔走型走势。</p>
+    <figure>
+      <img src="/_assets/ch23_p06.png" alt="同仁堂600085 日线奔走型走势">
+      <figcaption>同仁堂600085 日线 · 缠师手批·「不对，在日线上这段时间没有第一、二类的买点，30 分钟上当然是有的。12月28日那一周却是一个精确的<b>周线上</b>的第三类买点」· 形态：<b>奔走型</b></figcaption>
+    </figure>
+    <blockquote>这个日线上的次级别回抽有点特殊，形成一种<b>奔走型</b>的走势——就是<b>B段的上冲比较厉害</b>，<b>C段的回拉只是稍微跌破A段的高点</b>。这种走势以后的个股<b>一般都会出现快速上扬</b>。<span class="who">— 缠中说禅 · 2007-01-15 22:32</span></blockquote>
+    <p>这段话两个关键点：</p>
+    <div class="points">
+      <div class="pt b"><div class="dot">1</div><div><h4>买点的级别要分清</h4><p>同一段走势，**30 分钟有第一、二类买点 ≠ 日线也有**。读者把级别混了，缠师纠错——日线没那么早的买点，要等到 12 月 28 日**周线第三类买点**。</p></div></div>
+      <div class="pt b"><div class="dot">2</div><div><h4>奔走型 = B 强 C 弱</h4><p>常规上涨三段中 B 段上冲、C 段回踩 A 段高点附近。奔走型的特征是<b>C 段只稍微跌破 A 段高点</b>就被买回来——表明承接力极强，后面"快速上扬"几乎是定式。</p></div></div>
+    </div>
+    <p>这是<b>能不能验证</b>的判断——缠师说"以后会出现快速上扬"。下一节我们用 akshare 拉真实数据看 2007 年的同仁堂到底走出了什么。</p>
+  </section>
+
+  <section class="wrap reveal">
+    <div class="sec-no">09 — 真金白银的实证</div>
+    <h2>缠师当年喊的"快速上扬"，事后看对不对？</h2>
+    <p class="lead">2007-01-15 缠师说了两件事：① 深深房月线大中枢正谋求上破；② 同仁堂日线奔走型走势，"以后一般会快速上扬"。我们拉真实行情挨个验。</p>
+
+    <div class="proof">
+      <span class="badge">数据实证 · 同仁堂 600085 · 日线</span>
+      <p style="color:var(--ink-dim);font-size:15px;margin-bottom:14px">2006-12-28 那一周是缠师标记的「周3买」——日线奔走型 + 周线第三类买点的双确认。看 2007 年 1 月之后的走势：</p>
+      <div class="chartbox">
+        <div class="legend"><span><i style="background:#cfd5dc"></i>收盘</span><span><i style="background:#e8b339"></i>MA20</span><span><i style="background:#37c0e6"></i>MA60</span><span><i style="background:#ff4d4f"></i>3买</span></div>
+        <canvas id="cv_600085" height="440"></canvas>
+      </div>
+      <div class="verdict"><span class="mk">✓ 印证</span><p>2007-01-15 缠师喊单时收盘 <b>22.01 元</b>，五个月后（2007-06-22）见 <b class="hl-up">46.50 元</b>，区间最大涨幅 <b>+111%</b>。缠师"奔走型走势之后会快速上扬"的判断，**5 个月翻倍**算是给出了精确答案。</p></div>
+    </div>
+
+    <div class="proof">
+      <span class="badge">数据实证 · 深深房 000029 · 日线</span>
+      <p style="color:var(--ink-dim);font-size:15px;margin-bottom:14px">缠师说月线大中枢"正谋求上破"。我们用日线看 2005-2007 三年走势——两个日线中枢扩展（图里框出来）后，月线大中枢果然向上突破：</p>
+      <div class="chartbox">
+        <div class="legend"><span><i style="background:#cfd5dc"></i>收盘</span><span><i style="background:#e8b339"></i>MA20</span><span><i style="background:#37c0e6"></i>MA60</span><span><i style="background:#37c0e6"></i>中枢框</span></div>
+        <canvas id="cv_000029" height="440"></canvas>
+      </div>
+      <div class="verdict"><span class="mk">✓ 印证</span><p>2007-01-15 缠师喊单时收盘 <b>5.33 元</b>，四个多月后（2007-05-28）见 <b class="hl-up">11.68 元</b>，区间最大涨幅 <b>+119%</b>。「三线地产补涨时会有表现」这句轻描淡写的话，事后变成了 4 个月翻倍多。</p></div>
+    </div>
+
+    <p style="font-family:var(--mono);font-size:12px;color:var(--ink-faint)">数据来源：新浪财经日 K · akshare 取数 · 截至 2026-05-29 · 不构成投资建议。<br>注：新浪源价格与课文图中价格因复权基准不同存在差异（形态与涨幅有效）。</p>
+  </section>
+
+  <section class="wrap reveal">
+    <div class="sec-no">10 — 教学回看</div>
+    <h2>把心法和解盘连起来：缠师在演示什么</h2>
+    <p class="lead">第 23 课最大的玄机：上半场讲哲学的人，和下半场解盘的人，是<b>同一个</b>。两者的连接点在哪？</p>
+    <p>解盘部分缠师对人寿"中线看好但见背弛就发狠"——这是**典型的"自由于不自由"**。中线判断是种"信念"，5 分钟背驰是种"事实"。匠人会被信念绑住硬扛短线浮亏，高手能在信念和事实间自由切换。</p>
+    <p>同样，回答深深房和同仁堂时，缠师不是在猜方向——他用**走势必完美 + 中枢三命运 + 奔走型走势**三套硬技术，把"会涨"的<b>条件</b>讲清楚了。但最后他特意补一句「关键是把这技术练好」——技术练到家是<b>前提</b>，不是<b>终点</b>。</p>
+    <blockquote>本ID教你的是<b>找吃的本事</b>，而不是光把饭给你……自己找到的才是真本事。<span class="who">— 缠中说禅 · 2007-01-16</span></blockquote>
+    <p>这是把上半场和下半场缝在一起的针脚——<span class="hl-gold">技术是为了让你脱离"等饭吃"的依赖关系</span>，而脱离依赖才是迈向"自由解脱"的物质基础。心法和技术，在这门课里第一次合龙。</p>
+  </section>
+
+  <section class="wrap reveal">
+    <div class="sec-no">11 — 思考题</div>
+    <h2>留几个问题给你</h2>
+    <ol class="think">
+      <li>缠师把"自以为远离金钱市场就是道"的人骂为"废物点心"。换成今天的语境，哪些"反消费主义"、"反内卷"叙事其实也落在这个陷阱里？</li>
+      <li>"每周一小时打禅"的功课，如果你真的执行，你会发现自己在这一小时里**最难做到的**是什么？（提示：不是物理隔离，是停止对盘面的"瘾"。）</li>
+      <li>同样是中国人寿，缠师"中线看好"和"5 分钟见背弛要发狠"如何不冲突？请用账户/级别两个维度解释。</li>
+      <li>"奔走型走势"的本质是什么？为什么 B 段强 C 段弱反而预示"快速上扬"？提示：从买盘承接力的角度想，C 段没回到 A 段中枢里说明什么？</li>
+      <li>缠师说"中枢有三种命运：延伸、扩展、新生"。为什么只有"新生"才能让级别升级？延伸和扩展为什么不能？</li>
+      <li>用今天的市场试一试——找一只你正在跟踪的股票，画出它的日线中枢，判断它接下来会走"延伸、扩展、新生"中的哪一个。</li>
+    </ol>
+  </section>
+
+  <section class="wrap reveal">
+    <div class="sec-no">12 — 判图练习</div>
+    <h2>两道判断题</h2>
+    <div class="quiz">
+      <h4>练习一：下面哪种是"奔走型走势"？</h4>
+      <p>A. 上涨 → 回踩到 A 段高点下方 5% 区域 → 再次上冲<br>
+         B. 上涨 → 横盘 → 再次上冲（C 段没跌破 A 段高点）<br>
+         C. 上涨 → 回到中枢中部震荡 → 再次上冲</p>
+      <details class="ans"><summary>查看答案</summary><p><b>A</b> 才是奔走型。关键特征：C 段<b>稍微跌破</b> A 段高点（不是完全跌破中枢），承接力强。<br>B 看上去更强，但缠师定义里没"横盘"这一档，要么标准三段、要么奔走（C 段有触碰）。<br>C 是普通的回中枢，是常规第三类买点的前置条件，不是奔走。</p></details>
+    </div>
+    <div class="quiz">
+      <h4>练习二：以下哪种属于"中枢新生"？</h4>
+      <p>A. 两个中枢上下沿大致重叠（如：[14, 18] 和 [15, 19]）<br>
+         B. 两个中枢方向一致、无重叠（如：[14, 18] 和 [22, 26]）<br>
+         C. 一个中枢内 K 线反复来回</p>
+      <details class="ans"><summary>查看答案</summary><p><b>B</b> 才是新生——两个中枢方向一致、不重叠，才会让走势升级为更高级别的趋势。<br>A 是<b>扩展</b>（深深房日线就是这种）——盘整加宽，不升级。<br>C 是<b>延伸</b>——在原中枢里反复，原级别盘整继续。</p></details>
+    </div>
+  </section>
+
+  <div class="wrap">
+    <div class="tldr reveal">
+      <span class="lab">TLDR · 一句话总结</span>
+      <p>技术是匠人活，市场比的是修养、人格与见识；<br>但躲开市场就是道，那是自欺——<br>真正的自由，是在五浊恶世里中线看好还能见背弛就发狠，是在贪与恐里依然能做"找饭吃"的人。</p>
+    </div>
+  </div>
+
+</main>
+<footer class="wrap">
+  原文出处：raw/缠中说禅/教你炒股票108课/教你炒股票23：市场与人生.md<br>
+  本页为个人学习复习用 · 非投资建议
+</footer>
+<script>
+function drawChanChart(canvasId, CHART){
+  const cv=document.getElementById(canvasId); if(!cv) return;
+  const mode=CHART.mode||'line', hasVol=!!CHART.v && CHART.showVol!==false;
+  const idxOf={}; CHART.dates.forEach((d,i)=>idxOf[d]=i);
+  const ri=d=>{ if(d in idxOf)return idxOf[d]; let b=0,bd=1/0;
+    CHART.dates.forEach((x,i)=>{const t=Math.abs(new Date(x)-new Date(d)); if(t<bd){bd=t;b=i}}); return b; };
+  function draw(){
+    const dpr=window.devicePixelRatio||1, W=cv.clientWidth, H=CHART.height||440;
+    cv.width=W*dpr; cv.height=H*dpr; const x=cv.getContext('2d'); x.scale(dpr,dpr); x.clearRect(0,0,W,H);
+    const padL=48,padR=14,padT=16, volH=hasVol?70:0, gap=hasVol?16:0, priceH=H-padT-volH-gap-22, n=CHART.c.length;
+    let mn=Math.min(...CHART.l), mx=Math.max(...CHART.h);
+    if(CHART.ma)Object.values(CHART.ma).forEach(a=>a.forEach(v=>{if(v!=null){mn=Math.min(mn,v);mx=Math.max(mx,v)}}));
+    if(CHART.pivots)CHART.pivots.forEach(p=>{mn=Math.min(mn,p.lo);mx=Math.max(mx,p.hi)});
+    if(CHART.marks)CHART.marks.forEach(m=>{mn=Math.min(mn,m.price);mx=Math.max(mx,m.price)});
+    const pd=(mx-mn)*0.08; mn-=pd; mx+=pd;
+    const PW=W-padL-padR, px=i=> n===1?padL+PW/2:padL+PW*i/(n-1), py=p=>padT+priceH*(1-(p-mn)/(mx-mn));
+    x.font="11px JetBrains Mono"; x.textAlign="right";
+    for(let g=0;g<=4;g++){const p=mn+(mx-mn)*g/4,yy=py(p);
+      x.strokeStyle="rgba(255,255,255,.06)";x.beginPath();x.moveTo(padL,yy);x.lineTo(W-padR,yy);x.stroke();
+      x.fillStyle="#5b6470";x.fillText(p.toFixed(2),padL-6,yy+3)}
+    if(CHART.pivots)CHART.pivots.forEach(p=>{const x1=px(ri(p.from)),x2=px(ri(p.to)),y1=py(p.hi),y2=py(p.lo);
+      x.fillStyle="rgba(55,192,230,.10)";x.strokeStyle="rgba(55,192,230,.55)";x.lineWidth=1;
+      x.fillRect(x1,y1,x2-x1,y2-y1);x.strokeRect(x1,y1,x2-x1,y2-y1);
+      if(p.label){x.fillStyle="#37c0e6";x.textAlign="center";x.fillText(p.label,(x1+x2)/2,y1-5)}});
+    if(hasVol){const vmax=Math.max(...CHART.v),vt=padT+priceH+gap;
+      for(let i=0;i<n;i++){const up=CHART.c[i]>=CHART.o[i];x.fillStyle=up?"rgba(255,77,79,.5)":"rgba(22,199,132,.5)";
+        const bw=Math.max(1,PW/n*0.6),bh=volH*CHART.v[i]/vmax;x.fillRect(px(i)-bw/2,vt+volH-bh,bw,bh)}}
+    if(mode==='candle'){const bw=Math.max(1.5,PW/n*0.62);
+      for(let i=0;i<n;i++){const up=CHART.c[i]>=CHART.o[i],col=up?"#ff4d4f":"#16c784";x.strokeStyle=col;x.fillStyle=col;
+        x.beginPath();x.moveTo(px(i),py(CHART.h[i]));x.lineTo(px(i),py(CHART.l[i]));x.stroke();
+        const yo=py(CHART.o[i]),yc=py(CHART.c[i]);x.fillRect(px(i)-bw/2,Math.min(yo,yc),bw,Math.max(1,Math.abs(yc-yo)))}}
+    else{const cs=CHART.c;x.beginPath();for(let i=0;i<n;i++){const xx=px(i),yy=py(cs[i]);i?x.lineTo(xx,yy):x.moveTo(xx,yy)}
+      const gr=x.createLinearGradient(0,padT,0,padT+priceH);gr.addColorStop(0,"rgba(207,213,220,.16)");gr.addColorStop(1,"rgba(207,213,220,0)");
+      x.lineTo(px(n-1),padT+priceH);x.lineTo(px(0),padT+priceH);x.closePath();x.fillStyle=gr;x.fill();
+      x.beginPath();for(let i=0;i<n;i++){const xx=px(i),yy=py(cs[i]);i?x.lineTo(xx,yy):x.moveTo(xx,yy)}
+      x.strokeStyle="#cfd5dc";x.lineWidth=1.6;x.stroke()}
+    const MC={MA5:"#ff8a8c",MA10:"#c0a3ff",MA20:"#e8b339",MA60:"#37c0e6",MA120:"#9aa3ad",MA250:"#ff4d4f"};
+    if(CHART.ma)Object.entries(CHART.ma).forEach(([k,a])=>{x.beginPath();let st=false;
+      for(let i=0;i<n;i++){if(a[i]==null)continue;const xx=px(i),yy=py(a[i]);st?x.lineTo(xx,yy):(x.moveTo(xx,yy),st=true)}
+      x.strokeStyle=MC[k]||"#888";x.lineWidth=1.4;x.stroke()});
+    if(CHART.marks)CHART.marks.forEach(m=>{const xx=px(ri(m.date)),yy=py(m.price),buy=(m.type||'').startsWith('b'),col=buy?"#ff4d4f":"#16c784";
+      x.fillStyle=col;x.beginPath();x.arc(xx,yy,4,0,7);x.fill();
+      x.fillStyle="#fff";x.font="bold 11px -apple-system";x.textAlign="center";x.fillText(m.text||'',xx,buy?yy+18:yy-10)});
+    x.fillStyle="#5b6470";x.textAlign="center";x.font="11px JetBrains Mono";
+    const L=Math.min(6,n);for(let g=0;g<L;g++){const i=Math.round((n-1)*g/(L-1||1));x.fillText(CHART.dates[i],px(i),H-5)}
+  }
+  draw(); window.addEventListener('resize',draw);
+}
+const bar=document.getElementById('bar');
+const onScroll=()=>{const h=document.documentElement;bar.style.width=(h.scrollTop/(h.scrollHeight-h.clientHeight)*100)+'%'};
+document.addEventListener('scroll',onScroll,{passive:true});onScroll();
+const io=new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);
+  if(e.target.querySelector && e.target.querySelector('canvas')){const cvs=e.target.querySelectorAll('canvas');cvs.forEach(c=>{if(c.id==='cv_600085')drawChanChart('cv_600085',CHART_600085);if(c.id==='cv_000029')drawChanChart('cv_000029',CHART_000029)})}}})},{threshold:.12});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+/* === 数据注入 START === */
+const RAW_600085 = {"dates":["2006-06-01","2006-06-02","2006-06-05","2006-06-06","2006-06-07","2006-06-08","2006-06-09","2006-06-12","2006-06-13","2006-06-14","2006-06-15","2006-06-16","2006-06-19","2006-06-20","2006-06-21","2006-06-22","2006-06-23","2006-06-26","2006-06-27","2006-06-28","2006-06-29","2006-06-30","2006-07-03","2006-07-04","2006-07-05","2006-07-06","2006-07-07","2006-07-10","2006-07-11","2006-07-12","2006-07-13","2006-07-14","2006-07-17","2006-07-18","2006-07-19","2006-07-20","2006-07-21","2006-07-24","2006-07-25","2006-07-26","2006-07-27","2006-07-28","2006-07-31","2006-08-01","2006-08-02","2006-08-03","2006-08-04","2006-08-07","2006-08-08","2006-08-09","2006-08-10","2006-08-11","2006-08-14","2006-08-15","2006-08-16","2006-08-17","2006-08-18","2006-08-21","2006-08-22","2006-08-23","2006-08-24","2006-08-25","2006-08-28","2006-08-29","2006-08-30","2006-08-31","2006-09-01","2006-09-04","2006-09-05","2006-09-06","2006-09-07","2006-09-08","2006-09-11","2006-09-12","2006-09-13","2006-09-14","2006-09-15","2006-09-18","2006-09-19","2006-09-20","2006-09-21","2006-09-22","2006-09-25","2006-09-26","2006-09-27","2006-09-28","2006-09-29","2006-10-09","2006-10-10","2006-10-11","2006-10-12","2006-10-13","2006-10-16","2006-10-17","2006-10-18","2006-10-19","2006-10-20","2006-10-23","2006-10-24","2006-10-25","2006-10-26","2006-10-27","2006-10-30","2006-10-31","2006-11-01","2006-11-02","2006-11-03","2006-11-06","2006-11-07","2006-11-08","2006-11-09","2006-11-10","2006-11-13","2006-11-14","2006-11-15","2006-11-16","2006-11-17","2006-11-20","2006-11-21","2006-11-22","2006-11-23","2006-11-24","2006-11-27","2006-11-28","2006-11-29","2006-11-30","2006-12-01","2006-12-04","2006-12-05","2006-12-06","2006-12-07","2006-12-08","2006-12-11","2006-12-12","2006-12-13","2006-12-14","2006-12-15","2006-12-18","2006-12-19","2006-12-20","2006-12-21","2006-12-22","2006-12-25","2006-12-26","2006-12-27","2006-12-28","2006-12-29","2007-01-04","2007-01-05","2007-01-08","2007-01-09","2007-01-10","2007-01-11","2007-01-12","2007-01-15","2007-01-16","2007-01-17","2007-01-18","2007-01-19","2007-01-22","2007-01-23","2007-01-24","2007-01-25","2007-01-26","2007-01-29","2007-01-30","2007-01-31","2007-02-01","2007-02-02","2007-02-05","2007-02-06","2007-02-07","2007-02-08","2007-02-09","2007-02-12","2007-02-13","2007-02-14","2007-02-15","2007-02-16","2007-02-26","2007-02-27","2007-02-28","2007-03-01","2007-03-02","2007-03-05","2007-03-06","2007-03-07","2007-03-08","2007-03-09","2007-03-12","2007-03-13","2007-03-14","2007-03-15","2007-03-16","2007-03-19","2007-03-20","2007-03-21","2007-03-22","2007-03-23","2007-03-26","2007-03-27","2007-03-28","2007-03-29","2007-03-30","2007-04-02","2007-04-03","2007-04-04","2007-04-05","2007-04-06","2007-04-09","2007-04-10","2007-04-11","2007-04-12","2007-04-13","2007-04-16","2007-04-17","2007-04-18","2007-04-19","2007-04-20","2007-04-23","2007-04-24","2007-04-25","2007-04-26","2007-04-27","2007-04-30","2007-05-08","2007-05-09","2007-05-10","2007-05-11","2007-05-14","2007-05-15","2007-05-16","2007-05-17","2007-05-21","2007-05-22","2007-05-23","2007-05-24","2007-05-25","2007-05-28","2007-05-29","2007-05-30","2007-05-31","2007-06-01","2007-06-04","2007-06-05","2007-06-06","2007-06-07","2007-06-08","2007-06-11","2007-06-12","2007-06-13","2007-06-14","2007-06-15","2007-06-18","2007-06-19","2007-06-20","2007-06-21","2007-06-22","2007-06-25","2007-06-26","2007-06-27","2007-06-28","2007-06-29","2007-07-02","2007-07-03","2007-07-04","2007-07-05","2007-07-06","2007-07-09","2007-07-10","2007-07-11","2007-07-12","2007-07-13","2007-07-16","2007-07-17","2007-07-18","2007-07-19","2007-07-20","2007-07-23","2007-07-24","2007-07-25","2007-07-26","2007-07-27","2007-07-30","2007-07-31","2007-08-01","2007-08-02","2007-08-03","2007-08-06","2007-08-07","2007-08-08","2007-08-09","2007-08-10","2007-08-13","2007-08-14","2007-08-15","2007-08-16","2007-08-17","2007-08-20","2007-08-21","2007-08-22","2007-08-23","2007-08-24","2007-08-27","2007-08-28","2007-08-29","2007-08-30","2007-08-31"],"o":[15.55,15.83,16.45,16.39,16.77,15.4,15.35,15.18,15.4,15.26,15.28,15.55,15.68,16.0,15.95,15.85,15.68,15.69,16.05,15.88,16.32,16.55,16.37,16.43,16.54,16.18,16.6,16.38,16.49,16.69,16.46,15.39,15.5,15.75,15.56,15.35,15.6,15.4,15.75,15.93,15.9,15.6,15.5,15.3,15.3,14.98,14.7,14.3,14.34,14.46,14.61,14.8,14.89,14.49,14.66,15.29,15.1,15.2,15.86,15.63,15.48,15.66,15.45,15.8,15.82,16.02,15.95,15.5,15.73,15.55,15.59,15.64,15.75,15.95,15.85,15.95,15.7,15.93,15.93,16.08,16.29,15.9,15.69,16.0,15.56,15.57,15.7,15.74,16.19,15.94,15.65,15.27,15.1,15.15,15.0,15.1,15.2,15.0,14.62,15.0,15.01,14.82,14.63,14.58,14.76,14.76,14.9,14.95,15.1,14.94,14.71,14.8,14.56,14.22,14.66,14.9,15.4,15.34,15.33,15.25,15.2,15.24,15.13,15.25,15.05,15.8,15.88,16.5,16.8,16.57,15.92,15.8,15.62,16.2,17.0,16.8,17.4,17.79,18.2,18.0,18.4,17.58,17.64,17.64,17.25,17.45,16.75,17.18,18.18,19.35,20.3,20.48,20.7,20.24,20.01,22.86,23.59,23.2,25.0,25.2,25.18,24.25,24.1,23.28,23.5,23.92,23.7,21.9,21.8,20.87,20.71,21.0,21.8,21.75,21.75,22.58,22.25,23.7,25.59,25.02,25.24,21.52,22.75,21.4,21.88,21.94,22.39,22.85,23.05,22.51,22.41,22.98,22.1,23.33,21.5,22.81,22.33,22.17,22.23,22.59,22.48,22.51,21.9,22.0,21.98,21.9,22.41,22.46,22.86,23.5,23.45,23.02,23.5,26.82,30.0,29.05,30.7,29.91,28.53,30.2,31.0,32.8,32.95,32.4,31.5,33.95,33.0,31.71,30.99,30.8,31.8,32.0,33.97,33.9,34.0,34.0,34.35,34.89,35.5,36.6,37.4,39.7,42.6,39.7,39.0,40.51,40.32,45.1,43.81,44.1,45.8,44.8,42.85,43.58,43.89,43.35,44.0,46.0,44.71,42.58,42.1,42.56,39.95,37.91,38.1,38.19,37.4,34.11,36.4,37.39,34.77,34.94,35.75,36.2,34.9,35.3,35.02,34.5,35.9,37.95,37.1,37.62,37.7,38.4,39.1,40.23,37.8,39.05,39.61,40.65,39.88,38.92,38.9,37.4,37.16,38.96,37.8,37.18,38.3,39.0,40.7,42.11,41.76,40.5,39.4,39.54,38.42,39.94],"h":[15.98,16.46,16.83,16.57,16.88,15.47,15.6,15.55,15.59,15.38,15.66,15.79,16.28,16.25,15.96,16.0,15.76,16.07,16.14,16.38,16.61,16.6,16.52,17.0,16.54,16.66,16.95,16.49,16.74,16.75,16.46,15.85,15.81,15.83,15.74,15.54,15.7,15.85,16.15,16.07,16.0,15.72,15.6,15.56,15.35,14.98,14.99,14.4,14.56,14.73,14.96,15.05,15.03,14.68,15.5,15.29,15.92,15.9,15.95,15.78,15.79,15.7,15.91,15.99,16.18,16.07,16.02,15.89,15.98,15.69,15.66,15.81,16.05,16.06,16.26,15.95,16.0,16.22,16.18,16.4,16.4,16.07,16.15,16.0,15.75,15.74,15.86,16.22,16.19,16.06,15.65,15.38,15.26,15.18,15.15,15.29,15.25,15.0,14.99,15.25,15.02,14.82,14.74,14.78,14.85,14.9,15.05,15.2,15.19,14.94,14.82,14.96,14.75,14.77,14.93,15.43,15.45,15.56,15.33,15.48,15.51,15.3,15.3,15.34,16.1,16.24,16.98,16.98,16.94,16.7,16.31,16.12,16.08,17.46,17.15,17.75,18.0,18.55,18.44,18.4,18.4,17.75,18.18,17.68,17.56,17.47,17.53,18.25,19.7,21.37,20.85,20.85,21.3,20.5,22.01,24.0,24.53,24.95,26.18,25.85,25.18,24.8,24.65,23.6,24.36,24.86,23.93,22.4,22.3,21.1,21.18,21.75,22.18,21.98,22.58,22.92,23.75,25.66,25.81,25.04,25.44,23.38,22.85,22.04,22.13,22.5,23.09,23.14,23.17,22.69,23.5,22.98,23.47,23.4,23.1,22.9,22.33,22.28,22.6,23.38,22.99,22.58,22.53,22.17,21.98,22.48,22.8,23.24,24.06,24.1,23.58,23.67,25.92,28.51,30.88,31.58,31.1,29.91,30.2,31.1,33.69,34.26,33.2,32.4,34.17,34.0,33.0,31.71,32.6,32.5,32.3,34.4,34.99,34.6,34.88,34.66,36.01,36.0,36.87,40.26,43.36,43.2,45.0,41.68,40.8,40.87,44.0,46.2,44.5,46.44,46.44,44.9,44.28,44.48,43.89,45.07,45.89,46.5,45.3,43.5,43.0,42.56,39.95,38.6,38.49,39.0,37.4,36.6,37.84,37.39,35.5,35.97,36.3,36.2,35.49,35.9,35.24,35.4,37.55,38.16,37.54,38.78,38.4,39.57,40.49,40.49,39.3,40.0,41.28,40.9,40.66,39.29,38.93,37.8,39.0,39.41,37.89,37.9,38.85,42.0,42.5,42.21,41.79,40.65,39.68,39.55,39.9,39.94],"l":[15.3,15.83,16.12,16.16,15.5,15.1,15.15,15.0,15.15,15.01,15.2,15.51,15.43,15.82,15.65,15.66,15.47,15.69,15.78,15.82,16.2,16.21,16.27,16.41,15.95,16.12,16.34,16.14,16.3,16.41,15.39,15.22,15.5,15.65,15.26,15.29,15.44,15.22,15.73,15.82,15.49,15.38,15.2,15.25,14.73,14.69,14.18,14.0,14.25,14.45,14.41,14.65,14.5,14.4,14.61,15.07,15.04,15.08,15.63,15.49,15.3,15.37,15.37,15.71,15.7,15.88,15.45,15.41,15.57,15.5,15.5,15.43,15.75,15.8,15.84,15.57,15.61,15.21,15.82,16.06,15.9,15.61,15.56,15.59,15.55,15.57,15.55,15.71,15.8,15.6,15.12,14.95,14.98,14.87,14.93,15.07,14.88,14.4,14.6,14.89,14.6,14.61,14.39,14.45,14.56,14.69,14.88,14.9,14.85,14.61,14.66,14.54,14.15,14.2,14.66,14.67,15.11,15.13,14.9,15.15,15.18,14.95,15.1,15.05,15.0,15.72,15.7,16.5,16.56,15.8,15.85,15.58,15.62,16.1,16.6,16.8,17.2,17.4,17.72,17.7,17.75,17.36,17.59,17.18,17.13,16.65,16.73,17.11,17.9,19.35,20.1,19.86,20.21,19.91,20.01,22.51,22.9,23.0,24.52,24.7,23.63,23.66,23.2,22.11,23.3,23.64,21.8,21.07,20.98,20.66,19.95,21.0,21.22,21.42,21.58,22.08,22.12,23.5,25.0,24.21,22.38,21.52,20.98,21.4,21.01,21.51,22.17,22.42,22.48,22.1,22.4,22.02,22.1,22.25,21.38,21.9,21.45,21.92,22.0,22.59,22.0,21.45,21.6,21.56,21.6,21.85,22.22,22.35,22.69,23.4,22.5,22.51,23.2,26.82,28.19,29.05,29.54,28.2,28.53,29.68,30.83,32.4,32.17,30.9,31.5,32.0,30.54,30.51,29.8,30.8,31.03,30.5,33.0,33.02,33.4,33.28,33.9,34.4,35.5,36.0,37.4,37.8,40.0,36.04,36.98,39.0,40.32,43.5,43.7,43.72,44.78,43.0,42.2,43.2,43.28,42.53,43.5,42.58,42.75,39.25,41.2,40.88,37.5,35.5,37.26,37.5,34.32,33.02,35.9,34.9,34.2,34.94,35.0,34.7,34.38,34.51,34.35,34.39,35.8,36.99,36.6,37.62,37.24,38.16,38.6,37.5,37.8,38.6,39.61,39.5,37.56,38.6,37.36,37.0,36.7,37.35,36.98,36.9,37.88,38.18,40.18,41.02,39.88,38.78,38.5,38.2,38.42,38.51],"c":[15.82,16.38,16.39,16.55,15.51,15.34,15.18,15.4,15.26,15.34,15.54,15.73,16.01,15.95,15.84,15.69,15.63,16.06,15.9,16.29,16.53,16.37,16.41,16.54,16.2,16.54,16.39,16.41,16.69,16.46,15.41,15.64,15.75,15.8,15.29,15.53,15.6,15.71,15.96,15.9,15.71,15.55,15.54,15.29,14.89,14.73,14.3,14.25,14.55,14.61,14.9,14.89,14.53,14.65,15.36,15.12,15.72,15.77,15.7,15.54,15.66,15.42,15.84,15.81,16.02,15.93,15.51,15.82,15.59,15.64,15.65,15.73,15.9,15.88,15.86,15.71,15.84,15.94,16.15,16.21,15.99,15.69,15.96,15.65,15.6,15.64,15.68,16.19,15.9,15.67,15.21,15.05,15.13,14.93,15.03,15.18,14.99,14.55,14.98,14.99,14.81,14.72,14.6,14.76,14.75,14.89,15.0,15.02,14.9,14.7,14.74,14.6,14.22,14.74,14.86,15.37,15.35,15.33,15.14,15.24,15.29,15.04,15.24,15.19,15.9,15.88,16.75,16.7,16.75,16.09,16.0,15.58,16.08,17.08,16.69,17.4,17.69,18.18,18.09,18.36,17.78,17.64,17.69,17.32,17.27,16.73,17.18,18.19,19.43,20.3,20.48,20.8,20.31,20.01,22.01,23.59,23.44,24.82,25.05,25.27,24.25,24.26,23.5,23.5,23.92,23.94,21.98,21.68,21.05,20.73,20.81,21.64,21.75,21.79,22.37,22.39,23.7,25.44,25.11,24.87,22.38,22.72,21.4,21.85,21.95,22.39,22.85,23.02,22.69,22.37,23.13,22.55,23.27,22.37,22.79,22.3,21.9,22.0,22.47,23.2,22.6,21.96,22.02,21.64,21.88,22.42,22.46,22.91,23.51,23.55,23.03,23.56,25.92,28.51,29.18,30.68,30.41,28.5,30.0,31.06,33.5,33.0,32.6,31.8,33.56,33.01,31.75,31.2,32.42,32.3,32.23,34.08,34.61,34.02,34.19,34.48,34.76,35.36,36.6,40.26,39.31,42.76,40.04,39.84,40.03,40.0,44.0,44.1,43.9,45.75,45.03,43.58,43.19,43.89,43.37,44.37,45.26,45.1,42.96,43.26,42.75,41.1,38.47,38.43,38.0,37.6,34.73,36.53,37.4,35.0,34.95,35.75,36.22,35.23,35.43,34.94,34.45,35.04,37.54,37.09,37.51,38.12,38.34,39.17,40.21,37.68,39.1,39.26,40.62,39.94,38.92,38.93,37.5,37.17,38.88,37.91,37.45,37.45,38.49,41.26,42.0,41.8,40.39,39.4,39.6,38.27,39.57,39.1],"v":[5128308,10825051,6838958,6504885,8794017,4989681,3594799,2828564,1820827,1665042,3532187,3992333,4682418,3265359,3148635,2086487,2340764,5358050,3537626,5905267,8070912,4478121,4512421,7419742,4019777,3426505,3289422,2655589,4381340,2320347,6017000,4145129,1696293,1889918,2040115,1985096,1055397,1567761,2420077,2502025,2234292,2140344,2167672,1747377,2137146,1467895,2437342,1308652,959374,781517,2530370,2124021,1615878,840213,4729370,1818823,4744644,2684117,2525376,1694676,1415152,1180805,3183562,2866291,2753298,1160381,1888884,1144085,1478846,1288955,1241116,911984,1733158,1534587,3555958,1174999,2169593,2091150,2686902,3083926,3683899,2680053,1608895,1228841,1546216,2883679,3897233,8330120,5190672,4119944,5159463,7792788,3456368,3557451,4539232,3484716,4798140,6021897,3178394,3322370,3998051,1975145,3818976,3002686,1957409,2146644,3842264,3140413,2901024,1684963,1622303,2100692,3092925,2699328,2330366,10264478,6190125,5268154,5071251,3948180,3683554,3562029,2110436,2269942,12770994,7854519,10895150,7046166,5102749,7281992,8889201,4957365,7477689,15042229,5936471,10670409,8570426,8966955,7317905,3919909,4227571,3089972,4313156,3974366,2828360,6371931,5042867,14784877,10888214,8882671,6288063,5554208,4167938,4265359,9778158,9573904,8130344,8019732,9386585,6754318,9315133,5678527,7238604,4942352,4394509,4725106,4179580,4131927,2965931,3631886,6423371,4304700,2451660,2254476,2871782,3630972,5726711,10572417,4792007,3017977,5353005,4678722,5427586,3761732,3162271,5154931,2544398,2337210,2848604,2324815,3396631,1852632,4055194,3403953,2544778,7314074,8491137,7365747,6892658,7006147,9203830,8493962,7263615,4345921,3475600,6656259,6431440,8501216,8614260,7013152,9430597,8662814,20098368,9656365,15840562,18464605,5778828,9149736,4532694,7025051,8466496,4119492,2320628,2864951,5848090,7314072,5428444,4576027,9670128,5305418,4504532,8205291,3580536,5852788,4775021,3867440,5951276,3555707,3345643,11041001,13684546,8035535,6037447,8770972,5802877,1729317,3088345,3099692,2559853,2847709,3667873,3893591,3145568,3358146,2010565,4236636,3199256,3087031,2547381,2811110,2166663,2138307,2838885,2360023,1022252,1011650,1478908,2102418,2986529,2365732,690435,922447,705068,508607,1961878,868402,1287133,4060861,5582453,5872232,5625322,3256508,2871383,4510489,3422155,3432227,3201052,3551181,3343398,3150938,2833493,2469622,4663332,3639918,3699870,3366150,3325425,2347178,2993808,8780812,4867061,4011132,7176752,7290814,5407523,5299364,3976027,3524351],"ma":{"MA20":[15.96,16.03,16.09,16.13,16.11,16.03,15.98,15.91,15.8,15.75,15.73,15.71,15.7,15.67,15.69,15.72,15.74,15.76,15.76,15.79,15.83,15.83,15.83,15.83,15.86,15.92,15.98,16.03,16.1,16.16,16.15,16.15,16.13,16.13,16.1,16.09,16.09,16.07,16.08,16.06,16.02,15.97,15.93,15.87,15.8,15.71,15.61,15.5,15.39,15.3,15.28,15.24,15.18,15.12,15.12,15.1,15.11,15.11,15.1,15.08,15.08,15.07,15.09,15.11,15.17,15.23,15.29,15.37,15.42,15.47,15.51,15.55,15.62,15.68,15.71,15.73,15.74,15.75,15.77,15.81,15.82,15.84,15.84,15.83,15.81,15.8,15.81,15.82,15.84,15.84,15.82,15.79,15.75,15.7,15.66,15.63,15.59,15.52,15.46,15.4,15.34,15.29,15.22,15.18,15.14,15.1,15.07,15.01,14.96,14.91,14.89,14.86,14.82,14.81,14.8,14.81,14.83,14.87,14.87,14.89,14.91,14.93,14.96,14.98,15.04,15.09,15.18,15.26,15.35,15.42,15.48,15.53,15.63,15.74,15.83,15.94,16.05,16.2,16.34,16.5,16.62,16.75,16.88,16.98,17.05,17.09,17.11,17.19,17.32,17.53,17.76,18.02,18.23,18.38,18.64,18.95,19.24,19.57,19.92,20.27,20.59,20.92,21.21,21.52,21.85,22.21,22.45,22.63,22.71,22.73,22.75,22.79,22.86,22.95,22.97,22.91,22.92,22.95,22.95,22.93,22.84,22.76,22.66,22.58,22.48,22.4,22.44,22.51,22.59,22.67,22.79,22.84,22.91,22.94,22.96,22.96,22.87,22.7,22.56,22.48,22.49,22.45,22.48,22.47,22.47,22.47,22.45,22.45,22.49,22.55,22.54,22.59,22.72,23.03,23.35,23.77,24.2,24.52,24.9,25.29,25.84,26.39,26.92,27.42,28.01,28.54,29.0,29.42,29.86,30.3,30.76,31.29,31.72,32.0,32.25,32.44,32.65,33.0,33.33,33.79,34.08,34.56,34.94,35.34,35.66,36.01,36.62,37.27,37.84,38.52,39.16,39.63,40.06,40.55,41.01,41.51,42.03,42.52,42.84,42.99,43.16,43.08,43.0,42.93,42.83,42.71,42.24,41.86,41.54,41.0,40.5,40.11,39.76,39.32,38.93,38.46,37.91,37.41,37.14,36.83,36.57,36.42,36.41,36.45,36.56,36.57,36.79,36.92,37.08,37.33,37.53,37.69,37.75,37.85,38.02,38.17,38.32,38.44,38.49,38.7,38.92,39.1,39.21,39.22,39.19,39.22,39.24,39.23],"MA60":[14.73,14.77,14.81,14.86,14.89,14.92,14.95,14.98,15.01,15.04,15.07,15.11,15.15,15.19,15.23,15.27,15.31,15.34,15.38,15.42,15.47,15.52,15.56,15.61,15.66,15.7,15.75,15.79,15.84,15.86,15.87,15.89,15.91,15.92,15.93,15.93,15.92,15.91,15.92,15.93,15.93,15.94,15.95,15.94,15.93,15.89,15.86,15.81,15.77,15.74,15.72,15.7,15.67,15.64,15.64,15.64,15.65,15.65,15.64,15.64,15.64,15.62,15.61,15.6,15.61,15.62,15.63,15.63,15.64,15.64,15.65,15.65,15.64,15.64,15.64,15.64,15.65,15.64,15.65,15.65,15.64,15.63,15.62,15.6,15.59,15.58,15.57,15.56,15.55,15.54,15.53,15.52,15.51,15.5,15.5,15.49,15.48,15.46,15.44,15.43,15.41,15.4,15.38,15.38,15.37,15.38,15.39,15.4,15.41,15.41,15.4,15.4,15.39,15.4,15.39,15.39,15.39,15.38,15.37,15.36,15.36,15.35,15.34,15.33,15.33,15.33,15.35,15.36,15.38,15.39,15.4,15.39,15.4,15.42,15.43,15.46,15.49,15.53,15.56,15.6,15.63,15.66,15.69,15.71,15.74,15.76,15.79,15.82,15.88,15.95,16.04,16.14,16.22,16.31,16.43,16.57,16.71,16.88,17.05,17.22,17.37,17.53,17.68,17.83,17.98,18.13,18.25,18.36,18.46,18.56,18.66,18.78,18.91,19.02,19.15,19.27,19.4,19.57,19.74,19.9,20.02,20.15,20.25,20.36,20.46,20.57,20.67,20.78,20.87,20.98,21.1,21.21,21.33,21.42,21.52,21.61,21.68,21.74,21.81,21.89,21.97,22.05,22.12,22.19,22.27,22.36,22.45,22.53,22.6,22.65,22.69,22.74,22.83,22.97,23.09,23.21,23.33,23.39,23.47,23.57,23.72,23.87,24.02,24.16,24.32,24.47,24.63,24.79,24.98,25.17,25.36,25.57,25.79,25.99,26.19,26.39,26.57,26.74,26.93,27.19,27.47,27.8,28.11,28.41,28.71,29.01,29.36,29.71,30.06,30.45,30.82,31.17,31.5,31.86,32.2,32.57,32.96,33.35,33.69,34.02,34.36,34.68,34.95,35.23,35.5,35.75,35.96,36.18,36.41,36.61,36.8,37.01,37.18,37.29,37.4,37.47,37.53,37.64,37.77,37.87,37.94,38.02,38.12,38.24,38.35,38.43,38.55,38.68,38.82,38.95,39.06,39.14,39.19,39.24,39.32,39.38,39.42,39.46,39.49,39.51,39.55,39.53,39.54,39.53,39.53,39.5,39.42,39.34]}};
+const RAW_000029 = {"dates":["2005-01-04","2005-01-05","2005-01-06","2005-01-07","2005-01-10","2005-01-11","2005-01-12","2005-01-13","2005-01-14","2005-01-17","2005-01-18","2005-01-19","2005-01-20","2005-01-21","2005-01-24","2005-01-25","2005-01-26","2005-01-27","2005-01-28","2005-01-31","2005-02-02","2005-02-03","2005-02-04","2005-02-16","2005-02-17","2005-02-18","2005-02-21","2005-02-22","2005-02-23","2005-02-24","2005-02-25","2005-02-28","2005-03-01","2005-03-02","2005-03-03","2005-03-04","2005-03-07","2005-03-08","2005-03-09","2005-03-10","2005-03-11","2005-03-14","2005-03-15","2005-03-16","2005-03-17","2005-03-18","2005-03-21","2005-03-22","2005-03-23","2005-03-24","2005-03-25","2005-03-28","2005-03-29","2005-03-30","2005-03-31","2005-04-01","2005-04-04","2005-04-05","2005-04-07","2005-04-08","2005-04-11","2005-04-12","2005-04-13","2005-04-14","2005-04-15","2005-04-18","2005-04-19","2005-04-20","2005-04-21","2005-04-22","2005-04-25","2005-04-26","2005-04-27","2005-04-28","2005-04-29","2005-05-09","2005-05-10","2005-05-11","2005-05-12","2005-05-13","2005-05-16","2005-05-17","2005-05-18","2005-05-19","2005-05-20","2005-05-23","2005-05-24","2005-05-25","2005-05-26","2005-05-27","2005-05-30","2005-05-31","2005-06-01","2005-06-02","2005-06-03","2005-06-06","2005-06-07","2005-06-08","2005-06-09","2005-06-10","2005-06-13","2005-06-14","2005-06-15","2005-06-16","2005-06-17","2005-06-20","2005-06-21","2005-06-22","2005-06-23","2005-06-24","2005-06-27","2005-06-28","2005-06-29","2005-07-01","2005-07-04","2005-07-05","2005-07-06","2005-07-07","2005-07-08","2005-07-11","2005-07-12","2005-07-13","2005-07-14","2005-07-15","2005-07-18","2005-07-19","2005-07-20","2005-07-21","2005-07-22","2005-07-25","2005-07-26","2005-07-27","2005-07-28","2005-07-29","2005-08-01","2005-08-02","2005-08-03","2005-08-04","2005-08-05","2005-08-08","2005-08-09","2005-08-10","2005-08-11","2005-08-12","2005-08-15","2005-08-16","2005-08-17","2005-08-18","2005-08-19","2005-08-22","2005-08-23","2005-08-24","2005-08-25","2005-08-26","2005-08-29","2005-08-30","2005-08-31","2005-09-01","2005-09-02","2005-09-05","2005-09-06","2005-09-07","2005-09-08","2005-09-09","2005-09-12","2005-09-13","2005-09-14","2005-09-15","2005-09-16","2005-09-19","2005-09-20","2005-09-21","2005-09-22","2005-09-23","2005-09-26","2005-09-27","2005-09-28","2005-09-29","2005-09-30","2005-10-10","2005-10-11","2005-10-12","2005-10-13","2005-10-14","2005-10-17","2005-10-18","2005-10-19","2005-10-20","2005-10-21","2005-10-24","2005-10-25","2005-10-26","2005-10-27","2005-10-28","2005-10-31","2005-11-01","2005-11-02","2005-11-03","2005-11-04","2005-11-07","2005-11-08","2005-11-09","2005-11-10","2005-11-11","2005-11-14","2005-11-15","2005-11-16","2005-11-17","2005-11-18","2005-11-21","2005-11-22","2005-11-23","2005-11-24","2005-11-25","2005-11-28","2005-11-29","2005-11-30","2005-12-01","2005-12-02","2005-12-05","2005-12-06","2005-12-07","2005-12-08","2005-12-09","2005-12-12","2005-12-13","2005-12-14","2005-12-15","2005-12-16","2005-12-29","2005-12-30","2006-02-17","2006-02-20","2006-02-21","2006-02-22","2006-02-23","2006-02-24","2006-02-27","2006-02-28","2006-03-01","2006-03-02","2006-03-03","2006-03-06","2006-03-07","2006-03-08","2006-03-09","2006-03-10","2006-03-13","2006-03-14","2006-03-15","2006-03-16","2006-03-17","2006-03-20","2006-03-21","2006-03-22","2006-03-23","2006-03-24","2006-03-27","2006-03-28","2006-03-29","2006-03-30","2006-03-31","2006-04-03","2006-04-04","2006-04-05","2006-04-06","2006-04-07","2006-04-10","2006-04-12","2006-04-13","2006-04-14","2006-04-17","2006-04-18","2006-04-19","2006-04-20","2006-04-21","2006-04-24","2006-04-25","2006-04-26","2006-04-27","2006-04-28","2006-05-08","2006-05-09","2006-05-10","2006-05-11","2006-05-12","2006-05-15","2006-05-16","2006-05-17","2006-05-18","2006-05-19","2006-05-22","2006-05-23","2006-05-24","2006-05-25","2006-05-26","2006-05-29","2006-05-30","2006-05-31","2006-06-01","2006-06-02","2006-06-05","2006-06-06","2006-06-07","2006-06-08","2006-06-09","2006-06-12","2006-06-13","2006-06-14","2006-06-15","2006-06-16","2006-06-19","2006-06-20","2006-06-21","2006-06-22","2006-06-23","2006-06-26","2006-06-27","2006-06-28","2006-06-29","2006-07-03","2006-07-04","2006-07-05","2006-07-06","2006-07-07","2006-07-10","2006-07-11","2006-07-12","2006-07-13","2006-07-14","2006-07-17","2006-07-18","2006-07-19","2006-07-20","2006-07-21","2006-07-24","2006-07-25","2006-07-26","2006-07-27","2006-07-28","2006-07-31","2006-08-01","2006-08-02","2006-08-03","2006-08-04","2006-08-07","2006-08-08","2006-08-09","2006-08-10","2006-08-11","2006-08-14","2006-08-15","2006-08-16","2006-08-17","2006-08-18","2006-08-21","2006-08-22","2006-08-23","2006-08-24","2006-08-25","2006-08-28","2006-08-29","2006-08-30","2006-08-31","2006-09-01","2006-09-04","2006-09-05","2006-09-06","2006-09-07","2006-09-11","2006-09-12","2006-09-13","2006-09-14","2006-09-15","2006-09-18","2006-09-19","2006-09-20","2006-09-21","2006-09-22","2006-09-25","2006-09-26","2006-09-27","2006-09-28","2006-09-29","2006-10-09","2006-10-10","2006-10-11","2006-10-12","2006-10-13","2006-10-16","2006-10-17","2006-10-18","2006-10-19","2006-10-20","2006-10-23","2006-10-24","2006-10-25","2006-10-26","2006-10-27","2006-10-30","2006-10-31","2006-11-01","2006-11-02","2006-11-03","2006-11-06","2006-11-07","2006-11-08","2006-11-09","2006-11-10","2006-11-13","2006-11-14","2006-11-15","2006-11-16","2006-11-17","2006-11-20","2006-11-21","2006-11-22","2006-11-23","2006-11-24","2006-11-27","2006-11-28","2006-11-29","2006-11-30","2006-12-01","2006-12-04","2006-12-05","2006-12-06","2006-12-07","2006-12-08","2006-12-11","2006-12-12","2006-12-13","2006-12-14","2006-12-15","2006-12-18","2006-12-19","2006-12-20","2006-12-21","2006-12-22","2006-12-25","2006-12-26","2006-12-27","2006-12-28","2006-12-29","2007-01-04","2007-01-05","2007-01-08","2007-01-09","2007-01-10","2007-01-11","2007-01-12","2007-01-15","2007-01-16","2007-01-17","2007-01-18","2007-01-19","2007-01-22","2007-01-23","2007-01-24","2007-01-25","2007-01-26","2007-01-29","2007-01-30","2007-01-31","2007-02-01","2007-02-02","2007-02-05","2007-02-06","2007-02-07","2007-02-08","2007-02-09","2007-02-12","2007-02-13","2007-02-14","2007-02-15","2007-02-16","2007-02-26","2007-02-27","2007-02-28","2007-03-01","2007-03-02","2007-03-05","2007-03-06","2007-03-07","2007-03-08","2007-03-09","2007-03-12","2007-03-13","2007-03-14","2007-03-15","2007-03-16","2007-03-19","2007-03-20","2007-03-21","2007-03-22","2007-03-23","2007-03-26","2007-03-27","2007-03-28","2007-03-29","2007-03-30","2007-04-02","2007-04-03","2007-04-04","2007-04-05","2007-04-06","2007-04-09","2007-04-10","2007-04-11","2007-04-12","2007-04-13","2007-04-16","2007-04-17","2007-04-18","2007-04-19","2007-04-20","2007-04-23","2007-04-24","2007-04-25","2007-04-26","2007-04-27","2007-04-30","2007-05-08","2007-05-09","2007-05-10","2007-05-11","2007-05-14","2007-05-15","2007-05-16","2007-05-17","2007-05-18","2007-05-21","2007-05-22","2007-05-23","2007-05-24","2007-05-25","2007-05-28","2007-05-29","2007-05-30","2007-05-31","2007-06-01","2007-06-04","2007-06-05","2007-06-06","2007-06-07","2007-06-08","2007-06-11","2007-06-12","2007-06-13","2007-06-14","2007-06-15","2007-06-18","2007-06-19","2007-06-20","2007-06-21","2007-06-22","2007-06-25","2007-06-26","2007-06-27","2007-06-28","2007-07-02","2007-07-03","2007-07-04","2007-07-05","2007-07-06","2007-07-09","2007-07-10","2007-07-11","2007-07-12","2007-07-13","2007-07-16","2007-07-17","2007-07-18","2007-07-19","2007-07-20","2007-07-23","2007-07-24","2007-07-25","2007-07-26","2007-07-27","2007-07-30","2007-07-31","2007-08-01","2007-08-02","2007-08-03","2007-08-06","2007-08-07","2007-08-08","2007-08-09","2007-08-10","2007-08-13","2007-08-14","2007-08-15","2007-08-16","2007-08-17","2007-08-20","2007-08-21","2007-08-22","2007-08-23","2007-08-24","2007-08-27","2007-08-28","2007-08-29","2007-08-30","2007-08-31"],"o":[5.66,5.7,5.84,5.76,5.85,6.09,6.0,6.04,6.05,5.8,5.83,5.83,5.78,5.5,5.73,5.7,5.67,5.51,5.64,5.45,5.18,5.3,5.14,5.45,5.36,5.39,5.32,5.38,5.58,5.62,5.62,5.63,5.5,5.57,5.5,5.42,5.33,5.37,5.48,5.44,5.2,5.17,5.1,5.0,5.01,4.74,4.35,4.46,4.3,4.26,4.39,4.35,4.16,4.09,4.26,4.56,4.71,4.78,4.83,5.09,4.95,4.8,4.82,4.89,4.55,4.24,4.35,4.22,4.23,3.95,3.88,3.58,3.74,3.6,3.78,3.96,3.78,3.92,3.91,3.84,3.7,3.71,3.77,3.94,3.97,3.9,3.77,3.85,3.97,3.88,3.85,3.98,3.9,3.85,3.82,3.83,3.93,3.95,4.3,4.3,4.39,4.31,4.1,3.92,4.07,3.83,4.0,3.9,3.93,3.88,3.93,4.07,3.9,3.81,3.39,3.29,3.2,3.27,3.35,3.08,2.77,2.89,2.93,2.81,2.86,2.7,3.15,3.15,3.45,3.42,3.49,3.55,3.6,3.62,3.58,3.61,3.81,3.73,3.68,3.8,3.86,4.0,3.97,3.98,4.0,4.1,4.11,4.49,4.6,4.25,4.03,4.01,4.04,4.16,4.06,4.05,3.95,4.07,4.22,4.22,4.34,4.25,4.52,4.46,4.31,4.3,4.47,4.45,4.47,4.5,4.62,4.54,4.26,4.03,3.98,3.96,3.62,3.75,3.88,3.8,3.7,3.98,3.99,3.9,3.99,4.22,4.3,4.17,4.19,4.2,4.16,4.0,4.0,3.94,3.78,3.81,3.96,4.13,3.92,3.99,4.15,4.55,4.54,4.49,4.48,4.64,4.23,4.48,4.48,4.59,4.62,4.41,4.46,4.41,4.41,4.5,4.31,4.31,4.29,4.09,3.88,4.15,4.05,4.01,4.13,4.2,4.18,4.28,4.14,4.8,4.73,3.68,3.85,3.85,3.86,3.91,3.88,3.94,3.8,3.8,3.85,3.71,3.72,3.71,3.5,3.46,3.35,3.39,3.53,3.51,3.54,3.63,3.59,3.8,3.76,3.81,3.68,3.74,3.87,3.96,3.95,3.8,3.82,3.9,3.8,3.95,3.88,3.88,3.99,3.95,4.05,4.15,4.1,3.96,3.98,3.75,3.66,3.5,3.75,3.67,3.63,3.55,3.74,3.81,3.98,3.85,3.8,4.2,4.12,4.08,4.03,4.2,4.35,4.08,4.11,4.3,4.18,4.11,4.23,4.14,4.27,4.35,4.58,4.47,3.98,3.88,3.75,3.83,3.77,3.72,3.78,3.86,4.06,4.05,4.06,3.9,3.99,4.06,4.05,4.01,4.17,4.3,4.18,4.15,4.24,4.17,4.3,4.28,4.26,3.8,4.0,4.12,4.15,3.9,4.05,4.1,4.28,4.25,4.24,4.42,4.26,4.04,4.0,4.08,4.01,3.85,3.75,3.91,3.87,3.96,3.98,3.85,4.3,4.22,4.18,3.97,4.12,4.15,4.08,4.11,4.19,4.31,4.27,4.71,4.72,4.88,4.97,4.89,4.85,4.96,5.08,5.0,4.81,4.82,4.84,4.94,4.92,5.4,5.35,5.23,5.25,5.08,5.16,5.18,5.23,5.12,4.88,4.96,4.73,4.79,4.84,4.85,4.97,4.92,4.83,4.6,4.8,4.64,4.66,4.68,4.49,4.5,4.55,4.45,4.48,4.46,4.54,4.45,4.61,4.54,4.56,4.68,4.87,4.69,4.9,4.85,4.73,4.76,4.92,5.12,5.28,5.19,5.36,5.53,5.29,5.45,5.57,5.29,5.13,5.12,5.38,5.36,5.2,5.35,5.46,5.42,5.25,5.29,5.29,5.19,5.23,5.13,5.11,4.84,4.92,4.82,4.89,5.16,5.4,5.52,5.38,5.12,5.35,5.6,5.06,4.96,5.19,5.51,5.99,5.81,5.57,6.09,6.04,5.69,5.4,5.48,5.45,5.6,5.81,5.7,5.85,5.63,5.88,5.93,5.97,6.43,6.34,6.38,6.13,6.7,6.48,6.61,6.79,6.53,6.6,6.69,6.5,6.66,6.85,6.7,6.94,6.41,6.65,6.78,6.97,6.85,6.97,7.18,7.3,7.11,6.7,6.85,7.01,7.16,7.31,7.19,7.24,7.39,7.32,7.55,7.57,7.41,7.82,8.13,8.18,7.7,7.9,8.27,8.44,8.57,8.46,8.86,9.6,9.39,9.3,9.47,9.21,9.34,9.0,9.0,9.58,9.5,10.21,10.21,10.4,11.3,11.2,11.28,10.33,10.02,9.36,8.17,6.95,7.52,7.84,8.1,8.0,7.97,7.84,8.44,8.05,8.33,8.76,9.18,8.39,8.38,7.7,7.3,7.8,7.88,6.7,6.91,6.97,6.35,5.85,6.33,6.5,6.2,6.7,6.69,6.55,6.41,6.84,6.8,6.89,7.71,7.78,7.98,8.28,8.38,8.55,8.72,8.56,8.05,9.0,9.15,9.58,8.92,8.5,8.7,8.03,8.05,8.35,8.08,8.29,8.33,8.48,8.19,8.36,8.6,8.89,8.7,8.45,8.6,9.69],"h":[5.75,5.84,5.99,6.14,6.04,6.09,6.07,6.15,6.11,5.88,5.88,5.86,5.8,5.62,5.9,5.7,5.67,5.69,5.74,5.45,5.51,5.42,5.29,5.45,5.39,5.42,5.39,5.59,5.89,5.74,5.69,5.65,5.64,5.63,5.5,5.42,5.42,5.46,5.58,5.45,5.25,5.18,5.1,5.03,5.01,4.74,4.47,4.46,4.48,4.48,4.46,4.35,4.25,4.51,4.66,4.71,4.9,5.15,5.2,5.16,4.95,4.98,4.94,4.93,4.55,4.42,4.4,4.37,4.23,4.07,3.88,3.79,3.79,3.93,4.17,4.01,3.99,4.15,4.01,3.92,3.73,4.05,4.04,4.02,4.12,3.95,3.99,4.12,4.02,3.97,3.95,4.04,3.94,3.94,3.92,3.94,4.15,4.36,4.51,4.54,4.52,4.36,4.12,4.09,4.12,4.0,4.0,3.94,4.04,3.97,4.08,4.11,3.98,3.81,3.45,3.34,3.32,3.38,3.38,3.22,2.96,3.05,3.02,2.89,2.91,3.03,3.33,3.43,3.69,3.54,3.67,3.66,3.94,3.68,3.67,3.79,3.93,3.78,3.8,3.93,4.09,4.03,4.08,4.28,4.18,4.2,4.37,4.77,4.69,4.26,4.07,4.22,4.22,4.18,4.21,4.09,4.19,4.29,4.28,4.42,4.59,4.55,4.54,4.46,4.36,4.44,4.6,4.5,4.57,4.59,4.64,4.58,4.35,4.11,4.05,4.02,3.82,3.88,3.89,3.83,3.85,4.12,4.04,4.12,4.32,4.38,4.36,4.23,4.28,4.25,4.2,4.22,4.05,4.08,3.89,3.98,4.15,4.13,4.01,4.09,4.49,4.93,4.77,4.74,4.66,4.68,4.55,4.58,4.75,4.75,4.67,4.53,4.52,4.44,4.51,4.5,4.44,4.45,4.33,4.09,4.1,4.15,4.06,4.14,4.25,4.24,4.27,4.29,4.59,4.89,4.77,4.15,4.08,3.92,4.04,3.94,3.97,3.94,3.82,3.94,3.89,3.76,3.77,3.71,3.52,3.49,3.45,3.6,3.53,3.56,3.66,3.66,3.9,3.97,3.85,3.82,3.88,3.9,3.99,4.24,3.96,3.88,3.97,3.91,3.95,3.95,3.91,4.0,3.99,4.13,4.16,4.16,4.11,4.1,4.0,3.76,3.66,3.85,3.75,3.76,3.63,3.78,3.82,3.97,4.26,3.86,4.19,4.38,4.22,4.11,4.38,4.66,4.39,4.32,4.31,4.3,4.28,4.4,4.28,4.34,4.56,4.7,4.6,4.48,4.03,3.95,3.91,3.89,3.77,3.82,3.93,4.07,4.06,4.14,4.06,4.01,4.08,4.07,4.08,4.22,4.24,4.35,4.2,4.3,4.25,4.34,4.35,4.43,4.3,4.1,4.12,4.18,4.15,4.05,4.28,4.35,4.38,4.35,4.49,4.45,4.33,4.15,4.1,4.11,4.06,3.89,3.92,3.96,3.96,4.05,4.02,4.24,4.43,4.24,4.33,4.18,4.22,4.28,4.15,4.24,4.4,4.38,4.68,4.97,5.24,5.17,5.22,4.9,5.05,5.06,5.15,5.02,4.87,4.91,5.0,4.98,5.36,5.48,5.6,5.5,5.26,5.2,5.22,5.29,5.3,5.12,4.99,4.96,4.84,4.87,4.92,5.0,4.99,4.92,4.85,4.81,4.82,4.78,4.8,4.7,4.57,4.57,4.56,4.59,4.55,4.54,4.54,4.7,4.69,4.75,4.72,4.99,4.89,4.88,5.0,4.85,4.93,4.95,5.41,5.33,5.53,5.47,5.6,5.53,5.42,5.83,5.57,5.35,5.45,5.39,5.43,5.36,5.3,5.49,5.5,5.46,5.29,5.66,5.35,5.43,5.25,5.17,5.15,5.07,5.02,4.9,5.14,5.35,5.63,5.64,5.52,5.35,5.65,5.61,5.06,5.19,5.47,5.96,6.15,5.99,6.01,6.28,6.05,5.75,5.58,5.57,5.65,5.82,5.84,5.93,5.86,5.93,6.03,6.01,6.34,6.74,6.51,6.84,6.8,6.8,6.79,6.88,6.8,6.74,6.77,6.77,6.75,7.17,6.99,7.15,7.09,6.7,6.84,6.97,7.04,6.96,7.25,7.4,7.38,7.15,6.9,7.06,7.18,7.25,7.54,7.45,7.42,7.4,7.6,7.59,7.89,7.79,8.28,8.34,8.18,7.98,8.34,8.79,8.6,8.78,9.15,9.38,9.75,9.5,9.78,9.47,9.58,9.58,9.16,9.55,10.2,10.3,10.72,10.49,11.35,11.54,11.68,11.56,11.19,10.31,9.59,8.17,7.55,8.1,8.15,8.2,8.13,8.06,8.58,8.7,8.35,8.88,9.36,9.38,8.68,8.48,8.1,7.8,7.97,7.88,7.07,7.12,6.99,6.5,6.34,6.75,6.57,6.86,6.82,6.69,6.84,7.0,7.02,6.8,7.48,8.19,8.3,8.38,8.58,8.94,9.19,8.85,8.87,8.83,9.45,9.48,9.59,9.0,8.85,8.7,8.24,8.39,8.38,8.25,8.5,8.5,8.53,8.46,8.65,8.84,9.17,8.7,8.85,9.1,9.85],"l":[5.61,5.66,5.7,5.6,5.85,5.9,5.93,5.92,5.89,5.72,5.72,5.76,5.23,5.31,5.69,5.57,5.56,5.5,5.44,5.25,4.74,5.01,5.09,5.28,5.3,5.33,5.3,5.34,5.5,5.54,5.58,5.51,5.5,5.4,5.29,5.31,5.32,5.35,5.42,5.19,5.17,4.95,4.98,4.97,4.76,4.4,4.3,4.2,4.26,4.26,4.3,4.08,4.1,3.95,4.11,4.45,4.59,4.73,4.73,4.88,4.78,4.77,4.76,4.53,4.28,4.08,4.16,4.18,3.96,3.81,3.53,3.58,3.6,3.45,3.72,3.66,3.71,3.88,3.77,3.66,3.61,3.65,3.77,3.87,3.91,3.7,3.77,3.85,3.88,3.82,3.8,3.89,3.78,3.81,3.75,3.75,3.88,3.95,4.16,4.26,4.24,4.12,3.9,3.91,3.8,3.78,3.88,3.83,3.91,3.86,3.93,3.9,3.9,3.52,3.17,3.23,3.2,3.25,3.04,2.76,2.77,2.85,2.89,2.76,2.7,2.65,3.11,3.12,3.32,3.34,3.44,3.46,3.52,3.52,3.54,3.55,3.73,3.61,3.66,3.74,3.78,3.84,3.9,3.95,3.9,4.05,3.96,4.3,4.2,3.89,3.91,4.0,3.97,4.01,4.02,3.91,3.9,4.07,4.15,4.18,4.21,4.22,4.34,4.28,4.25,4.3,4.43,4.37,4.42,4.42,4.4,4.3,3.92,3.95,3.93,3.69,3.62,3.75,3.76,3.68,3.65,3.93,3.91,3.86,3.97,4.18,4.15,4.05,4.11,4.11,4.0,3.88,3.91,3.71,3.7,3.74,3.95,3.94,3.85,3.9,4.12,4.44,4.44,4.46,4.45,4.27,4.21,4.35,4.39,4.55,4.41,4.35,4.4,4.36,4.39,4.3,4.31,4.24,4.1,3.88,3.81,3.99,3.94,4.0,4.11,4.11,4.11,4.13,4.12,4.7,4.63,3.52,3.79,3.71,3.8,3.8,3.83,3.8,3.7,3.77,3.7,3.65,3.65,3.45,3.4,3.32,3.35,3.37,3.45,3.48,3.5,3.55,3.52,3.76,3.72,3.68,3.68,3.71,3.81,3.96,3.8,3.71,3.81,3.77,3.78,3.85,3.79,3.82,3.89,3.9,3.95,4.05,3.92,3.95,3.68,3.53,3.47,3.5,3.6,3.61,3.47,3.55,3.61,3.7,3.87,3.68,3.72,4.06,4.01,3.92,3.93,4.13,4.08,3.93,4.06,4.15,4.05,4.08,4.08,4.1,4.13,4.28,4.39,4.03,3.64,3.75,3.75,3.69,3.61,3.7,3.75,3.82,3.9,4.02,3.9,3.88,3.9,3.99,3.97,4.01,4.1,4.16,4.05,4.09,4.13,4.12,4.18,4.26,3.87,3.8,3.94,4.04,3.89,3.9,4.03,3.9,4.2,4.23,4.2,4.15,4.06,3.97,3.97,3.98,3.81,3.75,3.75,3.85,3.83,3.9,3.81,3.85,4.22,4.11,4.16,3.88,4.1,4.08,4.04,4.06,4.18,4.22,4.25,4.62,4.53,4.84,4.9,4.7,4.78,4.81,4.93,4.78,4.66,4.79,4.81,4.85,4.92,5.23,5.22,5.15,5.05,5.02,5.08,5.14,5.05,4.86,4.85,4.73,4.71,4.73,4.78,4.8,4.85,4.79,4.5,4.59,4.61,4.61,4.65,4.4,4.44,4.48,4.4,4.45,4.43,4.33,4.42,4.44,4.47,4.54,4.54,4.66,4.72,4.6,4.82,4.67,4.65,4.72,4.81,5.08,5.2,5.1,5.33,5.22,5.28,5.32,5.13,5.15,5.03,5.11,5.22,5.16,5.14,5.35,5.34,5.17,5.1,5.2,5.17,5.18,5.07,5.06,4.74,4.84,4.86,4.72,4.89,5.08,5.35,5.4,5.09,5.1,5.3,5.08,4.73,4.88,5.16,5.43,5.81,5.45,5.52,5.91,5.65,5.33,5.27,5.28,5.42,5.54,5.62,5.68,5.62,5.56,5.83,5.83,5.94,6.34,6.06,6.15,6.1,6.37,6.38,6.32,6.51,6.53,6.4,6.4,6.38,6.55,6.6,6.69,6.61,6.34,6.61,6.71,6.82,6.7,6.97,7.1,6.8,6.75,6.66,6.76,6.98,6.94,7.25,7.12,7.23,7.06,7.27,7.41,7.35,7.38,7.68,7.88,7.38,7.7,7.82,8.1,8.14,8.43,8.3,8.75,9.31,8.8,9.19,8.96,9.21,9.19,8.51,8.98,9.58,9.4,10.12,10.01,10.14,10.91,11.2,11.1,10.31,9.28,8.42,7.58,6.82,7.11,7.68,7.9,7.88,7.16,7.84,8.0,7.98,8.2,8.6,8.45,8.11,7.63,7.15,7.12,7.66,7.04,6.58,6.7,6.45,5.88,5.8,6.2,6.21,6.18,6.41,6.4,6.5,6.25,6.66,6.59,6.81,7.65,7.61,7.88,8.01,8.15,8.45,8.38,8.02,8.05,8.8,8.9,9.1,8.35,8.42,8.1,7.68,7.9,7.9,7.9,8.12,8.26,8.32,8.1,8.24,8.47,8.71,8.3,8.3,8.45,9.69],"c":[5.7,5.79,5.8,5.96,6.03,5.99,6.03,6.12,5.91,5.77,5.88,5.78,5.51,5.56,5.72,5.67,5.58,5.64,5.48,5.27,5.39,5.14,5.24,5.37,5.38,5.33,5.36,5.57,5.69,5.6,5.6,5.52,5.57,5.41,5.38,5.34,5.37,5.44,5.44,5.21,5.17,5.07,5.03,5.02,4.78,4.46,4.46,4.34,4.3,4.43,4.35,4.17,4.1,4.39,4.51,4.7,4.68,4.83,5.08,4.97,4.81,4.8,4.9,4.59,4.29,4.4,4.25,4.27,3.97,3.92,3.58,3.72,3.63,3.83,4.01,3.8,3.96,4.0,3.86,3.74,3.68,3.97,3.98,3.96,3.93,3.77,3.91,3.97,3.89,3.86,3.93,3.93,3.87,3.83,3.83,3.92,3.97,4.31,4.32,4.37,4.32,4.13,3.95,4.05,3.86,4.0,3.91,3.91,3.94,3.91,4.06,3.94,3.91,3.52,3.3,3.25,3.26,3.37,3.07,2.77,2.93,2.96,2.9,2.84,2.75,3.03,3.24,3.37,3.47,3.51,3.56,3.62,3.71,3.6,3.62,3.73,3.78,3.64,3.78,3.84,4.03,3.97,4.02,4.05,4.13,4.11,4.34,4.54,4.3,4.09,3.96,4.06,4.15,4.07,4.1,3.94,4.11,4.24,4.21,4.34,4.28,4.52,4.44,4.3,4.31,4.43,4.48,4.45,4.51,4.56,4.49,4.31,4.07,3.96,3.99,3.69,3.73,3.88,3.79,3.69,3.84,4.01,3.93,3.99,4.26,4.34,4.19,4.14,4.22,4.21,4.0,4.05,3.93,3.82,3.85,3.96,4.14,3.99,3.99,4.08,4.49,4.61,4.55,4.5,4.62,4.29,4.5,4.48,4.6,4.62,4.42,4.46,4.44,4.41,4.5,4.33,4.35,4.32,4.1,3.9,4.04,4.05,3.98,4.13,4.17,4.19,4.25,4.17,4.59,4.73,4.73,3.93,3.89,3.87,3.9,3.88,3.95,3.83,3.8,3.86,3.73,3.73,3.71,3.51,3.45,3.35,3.39,3.55,3.5,3.54,3.63,3.59,3.83,3.78,3.81,3.74,3.75,3.87,3.93,3.98,3.81,3.84,3.9,3.85,3.95,3.88,3.85,3.99,3.92,4.03,4.16,4.11,3.98,4.01,3.75,3.67,3.5,3.75,3.67,3.7,3.55,3.74,3.82,3.95,3.9,3.81,4.19,4.12,4.18,4.03,4.24,4.48,4.12,4.1,4.28,4.19,4.21,4.26,4.13,4.28,4.34,4.63,4.48,4.03,3.89,3.77,3.82,3.76,3.72,3.75,3.92,4.05,4.05,4.06,3.93,3.97,4.04,4.04,4.01,4.11,4.24,4.21,4.16,4.25,4.15,4.28,4.3,4.3,3.87,3.97,4.1,4.15,3.9,4.05,4.19,4.31,4.27,4.26,4.48,4.26,4.08,4.01,4.08,4.02,3.83,3.76,3.91,3.87,3.95,3.98,3.85,4.24,4.29,4.2,4.17,4.15,4.19,4.1,4.12,4.19,4.31,4.25,4.68,4.76,4.99,5.03,4.92,4.87,4.94,5.05,4.98,4.83,4.86,4.84,4.94,4.87,5.36,5.37,5.26,5.29,5.11,5.17,5.13,5.19,5.12,4.9,4.96,4.75,4.79,4.84,4.84,4.99,4.93,4.83,4.58,4.76,4.65,4.69,4.7,4.53,4.52,4.54,4.48,4.51,4.46,4.54,4.47,4.62,4.54,4.63,4.68,4.9,4.73,4.88,4.87,4.73,4.79,4.92,5.21,5.28,5.3,5.31,5.53,5.26,5.37,5.6,5.29,5.15,5.14,5.36,5.34,5.2,5.29,5.38,5.41,5.25,5.29,5.38,5.2,5.22,5.1,5.11,4.84,4.9,4.87,4.88,5.13,5.32,5.48,5.44,5.12,5.33,5.59,5.16,4.94,5.19,5.42,5.96,5.88,5.62,5.98,6.0,5.76,5.37,5.45,5.5,5.6,5.78,5.74,5.88,5.68,5.88,5.9,5.97,6.24,6.35,6.46,6.18,6.8,6.5,6.61,6.85,6.61,6.6,6.7,6.52,6.66,7.01,6.77,6.94,6.74,6.59,6.73,6.9,6.85,6.94,7.2,7.33,7.1,6.76,6.82,7.01,7.11,7.2,7.31,7.3,7.38,7.29,7.55,7.59,7.45,7.72,8.12,8.2,7.58,7.87,8.24,8.48,8.51,8.53,8.88,9.17,9.38,9.31,9.55,9.21,9.34,9.19,9.04,9.45,9.91,10.21,10.21,10.32,11.35,11.19,11.21,11.46,10.31,9.35,8.42,7.58,7.48,7.84,8.1,7.93,7.95,7.8,8.44,8.12,8.22,8.75,9.15,8.52,8.48,7.75,7.38,7.77,7.82,7.04,6.92,6.98,6.53,5.88,6.28,6.61,6.26,6.62,6.64,6.6,6.5,6.84,6.75,6.8,7.48,7.76,8.0,8.25,8.43,8.69,8.75,8.56,8.03,8.83,9.19,9.4,9.11,8.59,8.78,8.29,8.12,8.29,8.17,8.13,8.15,8.46,8.37,8.36,8.6,8.71,8.79,8.49,8.58,8.95,9.85],"v":[388429,529430,979316,2092621,1069012,607329,873159,1862713,1007480,991389,609214,456363,1824440,1317233,1202865,664553,473740,894235,975719,758203,2460801,1375644,1034481,805399,439548,348060,520251,1699696,2494875,1240124,1146082,742172,562270,940560,976799,435940,452670,739817,1006993,1065424,857501,967508,766537,556534,1210658,1618211,1144413,1147722,1205304,1665607,866236,1035371,777600,4414281,4980805,4677384,4215982,7883431,8934418,5906187,3937237,2930359,2861036,2865266,2531073,2010251,1342305,1574176,2176262,1396840,2565071,1348218,1050368,2318276,2635206,1568354,1769526,2667356,1596577,1980615,1184159,5313606,2861197,1598159,3130575,1842149,1276446,2525390,1103097,1136509,649433,884540,971280,938715,883157,919286,3189772,5666162,5345705,4857227,2578522,2439399,1977033,1897255,2064992,1728642,1036202,1013217,1957195,694699,2078243,1410340,889352,2565700,1621621,662457,620699,1126730,1410671,2034557,2349091,1939296,1122890,1385657,1369899,2650474,11162294,8881842,10030992,6011821,7746221,6450337,11095146,5193929,3180745,6185761,8508149,4106092,4308114,5950372,7351972,5982364,6015734,9307152,4972083,4444071,10621062,10133224,12333676,7417532,3769059,5327131,4824644,3970785,3755372,3541655,4452056,7040596,4227674,5326577,9037180,9349032,4785139,2924355,1854212,2786989,5351348,2949110,3976144,3622114,3907087,4720616,3759486,2529092,1484529,2927248,1811061,2424378,1564861,1056236,1111925,3195731,1628053,2610821,6813220,5128084,3100280,2613774,2809209,1736882,2663914,3658429,1559356,1898871,1809504,2910410,4173330,2240400,1174132,1835804,16138882,22995353,14161715,9017411,5822742,8050173,7431092,4797848,7630717,5798783,4275890,2614380,2686858,1988576,2138113,2776043,1681960,3505776,3705605,2887159,3086820,1698162,1378603,2900731,2734339,1741959,2987907,2282099,11130608,15279873,8019099,32464601,16162283,8842795,9384403,5551374,9099042,6139255,4814145,5246118,5531357,3942497,3364866,4770265,3225996,2731468,2557090,5037775,2769095,3478016,5849246,3843254,12000186,12175815,5236455,6721001,7032116,8539392,13877401,24330136,9714977,5638294,6696458,6964301,10120655,7831417,6555894,10654924,7155065,18809212,23744104,9891132,7673854,7190722,11803454,7594175,6795029,9112429,6251998,3723391,6450966,6362658,9010334,13915373,23498457,12187993,25079295,31321166,12119734,11918662,18547701,28715540,15724655,11107667,11249185,8167528,9625962,16264875,11346763,14665617,23216999,22177268,13197645,12260402,11512047,6456213,3573184,3704631,3908367,2769811,6587611,8904492,10198860,9029865,4703215,3667502,5255065,4257566,4567452,8476398,9650927,14403687,4798885,5723224,4651775,8655553,8136916,11339678,11329151,6643261,4792912,4222227,5072638,2883037,9181313,10687188,7481325,6394665,16367789,11770112,6716239,4562959,3052862,2730395,5344473,3136000,2178041,2176503,2289741,2981510,3076295,16323830,25098558,10505698,7635463,6693319,4661431,6027900,3912199,7540804,12835690,9212505,37114037,50541416,39432614,28429253,20184500,14981708,16244295,12219159,11471403,9463193,8995964,8089374,8442022,6990413,31310441,27455059,17272192,14284611,10880136,7145243,6378037,8143135,8918765,12786697,5914001,9293616,4141918,4598098,4188748,7726572,5574195,4975434,6316943,4350990,3935618,3829383,4155209,5561391,4211905,3188356,4058947,4529740,3705408,6307811,2892795,9845864,6083283,10133891,5616998,15663588,9495589,10239352,14847829,7305818,8163733,11949153,32131452,21004966,18929313,14450307,21028546,18863758,13628689,22498629,14705096,11115710,12871686,9749600,8090124,6395713,6435327,15420044,11983956,11127182,8499353,20866711,9386421,7603621,8432576,5862973,9535722,6631927,6587668,5800621,8867071,15622792,26839183,17870650,11080249,8325504,23738539,24430078,19068632,15323999,21297967,46724485,29567457,19932169,23724042,21378595,19005263,14080012,9134972,11954443,10327330,13878214,17488929,12748385,9415381,14121447,12835551,15445694,24581023,30758294,15731275,32181696,26497841,18671506,14024906,20762488,10541235,9549416,12667101,12453803,14700195,26265565,15091937,15435592,11824699,10856748,8457970,11736536,15695130,12592049,17542713,14590812,18295993,13722802,6244737,9111497,11840473,14742875,22633227,12782316,14171160,15253302,24542682,16599240,17742463,15800737,26641778,20061929,20160319,13628232,20274415,26766258,19207150,17048925,25884462,26295118,22220061,21131764,18011814,16597065,12353652,18270682,14634345,21440384,47420828,28800297,28794289,21424924,47639083,33645236,21740806,26767436,25629729,26650106,19793035,14674774,21928304,22842471,20482313,19928231,17439691,20356711,27782118,17960883,14566100,27682360,40286520,26982867,16354279,15778410,14641075,11534486,10152477,11005904,9590921,6826843,5729814,9468827,9918648,10936078,7439128,10615570,9013766,4269378,6435921,11336979,9938466,4679611,19673970,30623700,22003961,15972135,19374487,21239189,22691915,13992891,19571651,21127330,37107106,24974585,18153844,16659889,13131339,11569543,10809133,8352442,7935949,7917127,9088224,10401942,8336683,10973574,17086503,19016852,26597118,11031189,11441134,15621044,15822099],"ma":{"MA20":[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,5.76,5.74,5.71,5.68,5.65,5.62,5.59,5.56,5.53,5.52,5.51,5.49,5.48,5.48,5.48,5.46,5.44,5.43,5.42,5.42,5.42,5.41,5.4,5.39,5.38,5.35,5.3,5.26,5.2,5.13,5.07,5.0,4.94,4.86,4.81,4.77,4.74,4.7,4.67,4.65,4.64,4.62,4.61,4.6,4.58,4.56,4.55,4.54,4.54,4.52,4.5,4.46,4.44,4.41,4.39,4.36,4.32,4.28,4.24,4.18,4.12,4.06,4.02,3.97,3.94,3.92,3.89,3.87,3.86,3.86,3.85,3.87,3.88,3.89,3.89,3.88,3.89,3.89,3.91,3.93,3.96,3.99,4.0,4.0,4.0,4.0,4.01,4.01,4.01,4.01,4.01,4.02,4.02,4.02,4.01,3.98,3.95,3.91,3.86,3.8,3.72,3.65,3.59,3.54,3.48,3.42,3.38,3.34,3.32,3.29,3.27,3.25,3.23,3.22,3.23,3.24,3.27,3.29,3.3,3.34,3.39,3.45,3.5,3.56,3.62,3.68,3.74,3.79,3.85,3.89,3.92,3.94,3.96,3.99,4.01,4.03,4.04,4.06,4.09,4.11,4.14,4.15,4.18,4.2,4.21,4.22,4.24,4.24,4.24,4.25,4.27,4.3,4.31,4.31,4.3,4.3,4.28,4.27,4.25,4.23,4.19,4.17,4.15,4.12,4.11,4.1,4.1,4.08,4.07,4.05,4.04,4.01,4.0,3.99,3.99,3.98,3.99,4.01,4.02,4.03,4.05,4.08,4.11,4.14,4.17,4.18,4.18,4.2,4.21,4.23,4.25,4.27,4.29,4.32,4.35,4.38,4.4,4.41,4.43,4.43,4.42,4.4,4.37,4.35,4.33,4.3,4.3,4.29,4.27,4.27,4.28,4.29,4.27,4.24,4.21,4.18,4.16,4.14,4.11,4.1,4.1,4.08,4.07,4.05,4.02,3.98,3.94,3.9,3.87,3.81,3.76,3.7,3.68,3.68,3.68,3.67,3.66,3.65,3.66,3.66,3.67,3.67,3.68,3.69,3.7,3.73,3.76,3.78,3.8,3.82,3.85,3.87,3.9,3.91,3.92,3.92,3.91,3.9,3.89,3.88,3.87,3.85,3.85,3.84,3.85,3.85,3.84,3.86,3.87,3.88,3.88,3.88,3.9,3.91,3.91,3.94,3.97,4.0,4.03,4.05,4.08,4.12,4.16,4.2,4.2,4.2,4.2,4.18,4.16,4.14,4.12,4.11,4.09,4.08,4.08,4.06,4.05,4.04,4.03,4.03,4.02,4.01,3.99,3.98,3.99,4.0,4.03,4.05,4.08,4.08,4.1,4.1,4.11,4.1,4.1,4.11,4.13,4.14,4.15,4.18,4.19,4.18,4.17,4.16,4.15,4.14,4.11,4.09,4.07,4.07,4.07,4.06,4.06,4.08,4.09,4.09,4.08,4.08,4.07,4.05,4.05,4.06,4.07,4.1,4.14,4.2,4.26,4.31,4.36,4.41,4.47,4.52,4.55,4.58,4.61,4.65,4.69,4.74,4.81,4.87,4.92,4.96,5.01,5.03,5.05,5.06,5.05,5.05,5.05,5.04,5.03,5.02,5.03,5.03,5.03,5.01,5.01,4.97,4.94,4.91,4.87,4.84,4.81,4.78,4.75,4.71,4.69,4.67,4.66,4.65,4.64,4.63,4.63,4.62,4.62,4.63,4.63,4.64,4.65,4.68,4.71,4.75,4.79,4.85,4.88,4.93,4.98,5.02,5.05,5.08,5.12,5.15,5.16,5.19,5.22,5.24,5.27,5.29,5.32,5.32,5.31,5.3,5.29,5.26,5.24,5.22,5.18,5.17,5.18,5.2,5.2,5.19,5.2,5.21,5.2,5.18,5.17,5.18,5.21,5.24,5.26,5.31,5.35,5.4,5.42,5.45,5.48,5.51,5.53,5.54,5.56,5.59,5.62,5.63,5.67,5.74,5.8,5.85,5.86,5.91,5.95,5.98,6.03,6.07,6.13,6.19,6.24,6.3,6.36,6.41,6.46,6.51,6.55,6.59,6.64,6.67,6.7,6.73,6.79,6.81,6.82,6.83,6.84,6.86,6.89,6.92,6.96,7.0,7.01,7.05,7.08,7.12,7.18,7.25,7.31,7.35,7.39,7.45,7.5,7.57,7.66,7.77,7.87,7.99,8.09,8.21,8.3,8.4,8.49,8.57,8.66,8.78,8.91,9.01,9.12,9.31,9.47,9.62,9.77,9.86,9.9,9.88,9.8,9.7,9.63,9.56,9.49,9.43,9.36,9.33,9.26,9.17,9.1,9.05,8.96,8.81,8.64,8.45,8.27,8.14,8.03,7.95,7.92,7.87,7.78,7.69,7.62,7.53,7.48,7.39,7.31,7.22,7.13,7.01,6.92,6.87,6.87,6.9,6.93,6.96,7.04,7.13,7.21,7.29,7.43,7.58,7.72,7.86,7.96,8.07,8.15,8.23,8.3,8.38,8.44,8.48,8.51,8.53,8.54,8.54,8.54,8.55,8.54,8.57,8.58,8.61],"MA60":[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,5.27,5.26,5.24,5.23,5.2,5.17,5.15,5.12,5.09,5.06,5.02,4.99,4.95,4.92,4.89,4.86,4.83,4.81,4.78,4.75,4.73,4.7,4.68,4.66,4.63,4.61,4.58,4.56,4.53,4.5,4.47,4.44,4.42,4.39,4.36,4.34,4.31,4.29,4.27,4.25,4.24,4.23,4.21,4.19,4.18,4.16,4.15,4.14,4.14,4.13,4.12,4.12,4.11,4.11,4.1,4.08,4.05,4.03,4.0,3.97,3.93,3.9,3.87,3.84,3.81,3.78,3.76,3.74,3.73,3.72,3.71,3.71,3.71,3.71,3.71,3.7,3.7,3.7,3.69,3.69,3.69,3.7,3.7,3.7,3.7,3.7,3.71,3.72,3.73,3.73,3.74,3.74,3.74,3.74,3.75,3.75,3.75,3.75,3.75,3.75,3.75,3.75,3.76,3.77,3.77,3.78,3.78,3.79,3.8,3.81,3.82,3.83,3.84,3.84,3.85,3.86,3.87,3.87,3.88,3.89,3.91,3.92,3.94,3.96,3.98,4.0,4.02,4.04,4.05,4.07,4.08,4.08,4.09,4.1,4.1,4.1,4.11,4.11,4.12,4.12,4.13,4.13,4.14,4.15,4.16,4.17,4.17,4.17,4.17,4.18,4.19,4.2,4.2,4.21,4.21,4.22,4.23,4.23,4.23,4.23,4.22,4.22,4.21,4.2,4.2,4.2,4.19,4.19,4.18,4.19,4.19,4.19,4.19,4.18,4.18,4.18,4.18,4.19,4.19,4.19,4.19,4.19,4.18,4.18,4.17,4.16,4.14,4.13,4.12,4.11,4.09,4.09,4.08,4.08,4.08,4.08,4.07,4.07,4.07,4.07,4.06,4.05,4.04,4.03,4.02,4.01,4.0,3.99,3.98,3.97,3.96,3.96,3.95,3.94,3.93,3.92,3.91,3.9,3.89,3.88,3.88,3.87,3.86,3.86,3.86,3.85,3.85,3.85,3.85,3.84,3.83,3.82,3.83,3.83,3.84,3.84,3.85,3.85,3.86,3.86,3.87,3.88,3.9,3.91,3.92,3.93,3.93,3.94,3.94,3.95,3.95,3.95,3.96,3.97,3.97,3.97,3.98,3.98,3.98,3.99,3.99,4.0,4.0,4.01,4.01,4.02,4.02,4.03,4.03,4.03,4.03,4.03,4.03,4.03,4.03,4.04,4.05,4.06,4.07,4.08,4.09,4.1,4.11,4.11,4.11,4.11,4.11,4.11,4.1,4.1,4.1,4.09,4.09,4.09,4.09,4.09,4.09,4.09,4.09,4.09,4.08,4.08,4.08,4.08,4.09,4.11,4.13,4.15,4.17,4.19,4.21,4.23,4.24,4.26,4.27,4.29,4.3,4.32,4.34,4.37,4.38,4.4,4.42,4.43,4.45,4.46,4.47,4.48,4.49,4.51,4.52,4.53,4.55,4.57,4.58,4.58,4.59,4.6,4.61,4.61,4.61,4.62,4.63,4.64,4.65,4.66,4.67,4.68,4.69,4.7,4.71,4.72,4.74,4.74,4.75,4.77,4.78,4.79,4.8,4.82,4.84,4.85,4.87,4.88,4.89,4.9,4.91,4.91,4.92,4.92,4.93,4.93,4.94,4.95,4.96,4.96,4.97,4.97,4.97,4.97,4.97,4.97,4.97,4.96,4.96,4.95,4.95,4.95,4.96,4.98,4.99,4.99,5.0,5.01,5.01,5.02,5.03,5.04,5.06,5.08,5.1,5.12,5.15,5.17,5.18,5.2,5.21,5.23,5.25,5.27,5.29,5.31,5.33,5.35,5.36,5.39,5.41,5.44,5.46,5.49,5.51,5.53,5.56,5.58,5.6,5.62,5.63,5.66,5.69,5.72,5.74,5.77,5.79,5.81,5.84,5.86,5.89,5.92,5.95,5.99,6.01,6.04,6.07,6.11,6.15,6.19,6.23,6.27,6.3,6.33,6.37,6.41,6.45,6.49,6.54,6.59,6.63,6.68,6.72,6.76,6.81,6.86,6.91,6.97,7.04,7.11,7.17,7.23,7.29,7.34,7.4,7.47,7.55,7.62,7.69,7.77,7.86,7.93,8.02,8.08,8.13,8.16,8.17,8.19,8.21,8.23,8.25,8.27,8.29,8.32,8.34,8.36,8.4,8.44,8.46,8.49,8.5,8.51,8.51,8.53,8.53,8.53,8.53,8.52,8.5,8.48,8.47,8.45,8.44,8.43,8.41,8.39,8.38,8.36,8.33,8.33,8.33,8.33,8.32,8.32,8.32,8.32,8.31,8.29,8.28,8.27,8.28,8.27,8.26,8.26,8.24,8.21,8.18,8.14,8.11,8.05,8.01,7.96,7.91,7.88,7.87,7.88,7.89,7.91,7.93,7.96]}};
+/* === 数据注入 END === */
+const CHART_600085 = Object.assign({}, RAW_600085, {
+  mode:"line",
+  marks:[
+    {date:"2006-12-29", price:17.18, type:"b1", text:"周3买"},
+    {date:"2007-06-22", price:46.50, type:"s1", text:"峰值46.5"}
+  ]
+});
+const CHART_000029 = Object.assign({}, RAW_000029, {
+  mode:"line",
+  pivots:[
+    {from:"2005-08-01", to:"2006-04-30", lo:3.30, hi:4.50, label:"日线中枢A"},
+    {from:"2006-08-01", to:"2007-01-15", lo:4.50, hi:5.80, label:"中枢B·扩展"}
+  ],
+  marks:[
+    {date:"2007-01-15", price:5.33, type:"b1", text:"喊单5.33"},
+    {date:"2007-05-28", price:11.68, type:"s1", text:"峰值11.68"}
+  ]
+});
+// 立即触发第一次绘制（防止 IntersectionObserver 错过已可见的元素）
+window.addEventListener('load',()=>{
+  if(document.getElementById('cv_600085'))drawChanChart('cv_600085',CHART_600085);
+  if(document.getElementById('cv_000029'))drawChanChart('cv_000029',CHART_000029);
+});
+</script>
+<script src="/assets/_nav.js"></script><script src="/assets/_shell.js"></script></body>
+</html>

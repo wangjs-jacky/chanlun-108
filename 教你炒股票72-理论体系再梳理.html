@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>缠论 · 教你炒股票72:本ID已有课程的再梳理</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@500;700;900&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0b0e12;--bg-elev:#12161c;--bg-card:#161b22;
+    --ink:#e8eaed;--ink-dim:#9aa3ad;--ink-faint:#5b6470;
+    --line:rgba(255,255,255,.07);
+    --up:#ff4d4f;--down:#16c784;--pivot:#37c0e6;--gold:#e8b339;
+    --max:880px;
+    --serif:"Noto Serif SC",serif;--mono:"JetBrains Mono",ui-monospace,monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--ink);font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;line-height:1.85;font-size:17px;-webkit-font-smoothing:antialiased;overflow-x:hidden;}
+  body::before{content:"";position:fixed;inset:0;z-index:-2;background:radial-gradient(1200px 600px at 70% -10%, rgba(55,192,230,.08), transparent 60%),radial-gradient(900px 500px at 0% 100%, rgba(232,179,57,.05), transparent 55%);pointer-events:none;}
+  body::after{content:"";position:fixed;inset:0;z-index:-1;opacity:.4;background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);background-size:46px 46px;-webkit-mask-image:radial-gradient(ellipse at 50% 0%, #000 30%, transparent 80%);mask-image:radial-gradient(ellipse at 50% 0%, #000 30%, transparent 80%);pointer-events:none;}
+  #bar{position:fixed;top:0;left:0;height:3px;width:0;z-index:50;background:linear-gradient(90deg,var(--pivot),var(--gold));box-shadow:0 0 12px var(--pivot);}
+  .wrap{max-width:var(--max);margin:0 auto;padding:0 24px}
+  header.hero{padding:120px 0 70px;text-align:center;position:relative}
+  .kicker{font-family:var(--mono);font-size:13px;letter-spacing:.32em;color:var(--pivot);text-transform:uppercase;margin-bottom:26px}
+  .kicker span{color:var(--ink-faint)}
+  h1.title{font-family:var(--serif);font-weight:900;line-height:1.05;font-size:clamp(44px,9vw,92px);letter-spacing:.04em;background:linear-gradient(180deg,#fff 30%,#8aa0ad 130%);-webkit-background-clip:text;background-clip:text;color:transparent;}
+  .sub{margin:22px auto 0;max-width:580px;color:var(--ink-dim);font-size:18px}
+  .meta{margin-top:34px;display:flex;gap:14px;justify-content:center;flex-wrap:wrap;font-family:var(--mono);font-size:12px;color:var(--ink-faint)}
+  .meta b{color:var(--ink-dim);font-weight:500}
+  .pill{border:1px solid var(--line);padding:6px 14px;border-radius:999px;background:rgba(255,255,255,.02)}
+  .scroll-hint{margin-top:60px;color:var(--ink-faint);font-family:var(--mono);font-size:12px;animation:bob 2.4s ease-in-out infinite}
+  @keyframes bob{0%,100%{transform:translateY(0);opacity:.5}50%{transform:translateY(8px);opacity:1}}
+  section{padding:64px 0;border-top:1px solid var(--line)}
+  .sec-no{font-family:var(--mono);font-size:13px;color:var(--gold);letter-spacing:.2em;margin-bottom:10px}
+  h2{font-family:var(--serif);font-weight:700;font-size:clamp(26px,4.6vw,38px);line-height:1.25;margin-bottom:8px;letter-spacing:.02em}
+  .lead{color:var(--ink-dim);font-size:16px;margin-bottom:28px;max-width:660px}
+  p{margin:0 0 18px;color:#cfd5dc}
+  p b,strong{color:#fff;font-weight:700}
+  .hl-pivot{color:var(--pivot);font-weight:700}
+  .hl-up{color:var(--up);font-weight:700}
+  .hl-down{color:var(--down);font-weight:700}
+  .hl-gold{color:var(--gold);font-weight:700}
+  blockquote{margin:26px 0;padding:20px 24px;border-left:3px solid var(--pivot);background:linear-gradient(90deg,rgba(55,192,230,.07),transparent);border-radius:0 10px 10px 0;font-family:var(--serif);font-size:18px;color:#eaf6fb}
+  blockquote .who{display:block;margin-top:8px;font-family:var(--mono);font-size:12px;color:var(--ink-faint);font-style:normal}
+  figure{margin:34px 0}
+  figure img{width:100%;border-radius:12px;border:1px solid var(--line);background:#fff;box-shadow:0 18px 50px rgba(0,0,0,.5)}
+  figcaption{margin-top:12px;font-size:13px;color:var(--ink-faint);text-align:center;font-family:var(--mono)}
+  .grid{display:grid;gap:16px;grid-template-columns:1fr 1fr;margin:28px 0}
+  @media(max-width:640px){.grid{grid-template-columns:1fr}}
+  .card{background:var(--bg-card);border:1px solid var(--line);border-radius:14px;padding:24px;position:relative;overflow:hidden;transition:transform .35s ease,border-color .35s ease}
+  .card:hover{transform:translateY(-4px);border-color:rgba(55,192,230,.4)}
+  .card .tag{font-family:var(--mono);font-size:11px;letter-spacing:.18em;color:var(--gold);text-transform:uppercase}
+  .card h3{font-family:var(--serif);font-size:20px;margin:10px 0 8px;color:#fff}
+  .card p{font-size:15px;color:var(--ink-dim);margin:0}
+  /* 三系统对比 */
+  .triple{display:grid;gap:14px;grid-template-columns:repeat(3,1fr);margin:28px 0}
+  @media(max-width:640px){.triple{grid-template-columns:1fr}}
+  .triple .col{background:var(--bg-elev);border:1px solid var(--line);border-radius:14px;padding:20px;position:relative}
+  .triple .col.tech{border-color:rgba(255,77,79,.35)}
+  .triple .col.fund{border-color:rgba(22,199,132,.3)}
+  .triple .col.cmp{border-color:rgba(232,179,57,.35)}
+  .triple h4{font-family:var(--serif);font-size:18px;color:#fff;margin-bottom:8px}
+  .triple .badge{display:inline-block;font-family:var(--mono);font-size:10px;letter-spacing:.16em;padding:3px 8px;border-radius:6px;margin-bottom:10px;text-transform:uppercase}
+  .triple .tech .badge{background:rgba(255,77,79,.15);color:#ff8a8c}
+  .triple .fund .badge{background:rgba(22,199,132,.15);color:#5fdba8}
+  .triple .cmp .badge{background:rgba(232,179,57,.15);color:#f0c870}
+  .triple p{font-size:14px;color:var(--ink-dim);margin:0}
+  /* 形态/动力学对照 */
+  .twin{display:grid;gap:16px;grid-template-columns:1fr 1fr;margin:28px 0}
+  @media(max-width:640px){.twin{grid-template-columns:1fr}}
+  .twin .side{background:var(--bg-card);border:1px solid var(--line);border-radius:14px;padding:24px}
+  .twin .side.shape{border-left:4px solid var(--pivot)}
+  .twin .side.dyn{border-left:4px solid var(--gold)}
+  .twin h3{font-family:var(--serif);font-size:22px;color:#fff;margin-bottom:6px}
+  .twin .stamp{font-family:var(--mono);font-size:11px;color:var(--ink-faint);letter-spacing:.18em;margin-bottom:14px;text-transform:uppercase}
+  .twin ul{list-style:none;padding:0}
+  .twin ul li{font-size:15px;color:var(--ink-dim);padding:6px 0;border-bottom:1px dashed var(--line)}
+  .twin ul li:last-child{border-bottom:0}
+  .twin ul li b{color:#fff}
+  /* 路线图 */
+  .roadmap{margin:28px 0;padding:24px;background:var(--bg-elev);border:1px solid var(--line);border-radius:14px}
+  .roadmap .title-tiny{font-family:var(--mono);font-size:11px;letter-spacing:.2em;color:var(--gold);text-transform:uppercase;margin-bottom:18px}
+  .roadmap .chain{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+  .roadmap .node{font-family:var(--serif);font-weight:700;font-size:15px;padding:10px 16px;background:var(--bg-card);border:1px solid var(--line);border-radius:10px;color:#fff;white-space:nowrap}
+  .roadmap .node.start{border-color:rgba(55,192,230,.5);color:var(--pivot)}
+  .roadmap .node.end{border-color:rgba(232,179,57,.5);color:var(--gold)}
+  .roadmap .arrow{font-family:var(--mono);color:var(--ink-faint);font-size:18px}
+  /* 思考题 */
+  ol.think{counter-reset:q;list-style:none;margin:24px 0;display:flex;flex-direction:column;gap:14px}
+  ol.think li{counter-increment:q;position:relative;padding:18px 20px 18px 60px;background:var(--bg-elev);border:1px solid var(--line);border-radius:12px;color:var(--ink-dim);font-size:15px}
+  ol.think li::before{content:counter(q,decimal-leading-zero);position:absolute;left:20px;top:18px;font-family:var(--mono);color:var(--gold);font-weight:700}
+  /* TLDR */
+  .tldr{margin:60px 0 0;padding:36px 30px;border:1px solid rgba(55,192,230,.3);border-radius:18px;background:radial-gradient(120% 120% at 100% 0%,rgba(55,192,230,.1),transparent 60%),var(--bg-elev);text-align:center}
+  .tldr .lab{font-family:var(--mono);font-size:12px;letter-spacing:.3em;color:var(--pivot);text-transform:uppercase}
+  .tldr p{font-family:var(--serif);font-size:clamp(19px,3vw,26px);line-height:1.7;color:#fff;margin:16px 0 0}
+  footer{padding:60px 0 90px;text-align:center;color:var(--ink-faint);font-family:var(--mono);font-size:12px;border-top:1px solid var(--line)}
+  footer a{color:var(--ink-dim);text-decoration:none}
+  .reveal{opacity:0;transform:translateY(26px);transition:opacity .8s ease,transform .8s ease}
+  .reveal.in{opacity:1;transform:none}
+  @media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}.scroll-hint{animation:none}}
+</style>
+<meta name="view-transition" content="same-origin"><style>@view-transition{navigation:auto}</style></head>
+<body>
+<div id="bar"></div>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="kicker">缠中说禅 · 教你炒股票108课 <span>/ 第 72 课</span></div>
+    <h1 class="title">理论体系再梳理</h1>
+    <p class="sub">写到 71 课，缠师回头给整套理论做一次自我盘点——告诉你这套东西到底由哪几块组成、彼此什么关系、为什么有些课前后定义不一致。</p>
+    <div class="meta">
+      <span class="pill"><b>原文</b> 2007-08-21</span>
+      <span class="pill"><b>类型</b> 理论总览 / 元课</span>
+      <span class="pill"><b>关键词</b> 形态学 · 动力学 · 三独立系统 · 学习路径</span>
+    </div>
+    <div class="scroll-hint">↓ 向下滚动，逐层拆解</div>
+  </div>
+</header>
+
+<main>
+  <!-- 1 -->
+  <section class="wrap reveal">
+    <div class="sec-no">01 — 缘起</div>
+    <h2>为什么会写这套课？</h2>
+    <p class="lead">不是出于规划，是"顺势而为"——但顺出来的东西，却是几十年股市经验的总结。</p>
+    <p>缠师自述：自己最终落脚的是<b>"文化的总构建"</b>——三教九流彻底穷源地玩一遍。写股票，只是把自己十几年天天干的事情<b>复述一下</b>。开篇那句"全中国不会有第二人比本ID更适合写"，招人恨，但说的是事实。</p>
+    <blockquote>
+      大概是缘分到了，本ID也没刻意一定不写出来，所以就慢慢地写出来，而且现在还在写着。
+      <span class="who">— 缠中说禅</span>
+    </blockquote>
+    <p>因为是"漫谈"开头，所以课程<b>没按正式的理论框架</b>来写——这是本课要回头解决的问题：把已写过的内容，按真正的逻辑骨架重新串一遍。</p>
+  </section>
+
+  <!-- 2 -->
+  <section class="wrap reveal">
+    <div class="sec-no">02 — 三个独立系统</div>
+    <h2>技术面、比价关系、基本面</h2>
+    <p class="lead">缠师的"乘法原则"下，散户唯一能战胜市场的着力点是技术面。</p>
+    <p>缠师把市场操作的所有分析归为<b>三个独立系统</b>。三者并列，不可互相替代，但在"介入后实际操作"这一刻，技术面起<span class="hl-gold">决定性</span>作用。</p>
+    <div class="triple">
+      <div class="col tech">
+        <div class="badge">操作决定</div>
+        <h4>技术面</h4>
+        <p>变化频率最高，<b>奇点、断裂点天天有</b>。介入后所有买卖动作都由它说了算。</p>
+      </div>
+      <div class="col fund">
+        <div class="badge">介入参考</div>
+        <h4>基本面</h4>
+        <p>变化稳定、慢，<b>不可能天天都是奇点</b>。决定"买什么"、"行业是否值得介入"。</p>
+      </div>
+      <div class="col cmp">
+        <div class="badge">介入参考</div>
+        <h4>比价关系</h4>
+        <p>一种比价确立后基本保持稳定，<b>不需要花太多精力</b>。配合决定介入种类。</p>
+      </div>
+    </div>
+    <p>结论：散户研究基本面赢不过基金团队，<b>买指数基金 / 行业基金</b>就够；要超额回报，只剩"在乘法原则下做技术面操作"这条路——所以课程最终落到技术面，是<span class="hl-pivot">顺理成章</span>，不是缠师偏好。</p>
+  </section>
+
+  <!-- 3 -->
+  <section class="wrap reveal">
+    <div class="sec-no">03 — 两大支柱</div>
+    <h2>形态学 + 动力学</h2>
+    <p class="lead">整套缠论本质上只有这两块，再加上"两者结合"就是第三块。</p>
+    <div class="twin">
+      <div class="side shape">
+        <div class="stamp">FORMAL — 形态学</div>
+        <h3>本质就是几何</h3>
+        <p style="font-size:14px;color:var(--ink-dim);margin-bottom:12px">无须任何前提。庄家自己买光、一个人天天自我交易，也<b>逃不出形态学的圈圈</b>。</p>
+        <ul>
+          <li><b>核心对象</b> 分型、笔、线段</li>
+          <li><b>结构</b> 中枢、走势类型</li>
+          <li><b>覆盖</b> K 线理论、波浪理论都可被严格推出</li>
+          <li><b>操作能力</b> 抓不到第一买卖点，但<b>第二买卖点</b>没问题</li>
+        </ul>
+      </div>
+      <div class="side dyn">
+        <div class="stamp">DYNAMIC — 动力学</div>
+        <h3>属于物理范畴</h3>
+        <p style="font-size:14px;color:var(--ink-dim);margin-bottom:12px">需要前提：<b>价格充分有效市场里的非完全绝对趋同交易</b>。但物理最终也是几何。</p>
+        <ul>
+          <li><b>核心点</b> 背驰（动力学的基本点之一）</li>
+          <li><b>结构</b> 走势的能量结构、中枢震荡的类背驰</li>
+          <li><b>负责</b> 第一类买卖点 / 中枢震荡判别</li>
+          <li><b>本质</b> 也是几何，只是把前提转化为几何结构</li>
+        </ul>
+      </div>
+    </div>
+    <blockquote>
+      所谓形态学、动力学，其实很好分辨——<b>任何涉及背驰的，都是动力学</b>。<br>
+      形态分析不好，也动力不起来。
+      <span class="who">— 全课关键判别</span>
+    </blockquote>
+  </section>
+
+  <!-- 4 -->
+  <section class="wrap reveal">
+    <div class="sec-no">04 — 形态学单兵作战</div>
+    <h2>只用形态学，能不能操作？</h2>
+    <p class="lead">能。缠师给了一条只走形态学的简化路径——专门给"对背驰、区间套没信心"的人。</p>
+    <p>纯形态学操作规则可以浓缩成一句：<b>对最后一个中枢的回拉后，第一个与回拉反向的不创新高(低)的中枢同级别离开，就是买卖段。</b></p>
+    <div class="grid">
+      <div class="card">
+        <div class="tag">日线指数示例</div>
+        <h3>5089 / 4335 标杆</h3>
+        <p>2005 年中到 2007 年：未跌回 4335 点之下，<b>没有卖点</b>。一旦跌破，任何首次反抽不创新高都是卖点。</p>
+      </div>
+      <div class="card">
+        <div class="tag">个股示例</div>
+        <h3>000777 日线</h3>
+        <p>6 月 20 前后那一段呈现典型卖段结构；但<b>周线图上根本没出现卖段</b>——级别决定视野。</p>
+      </div>
+    </div>
+    <figure>
+      <img src="/_assets/ch72_p01.png" alt="只用形态学的指数操作示意">
+      <figcaption>纯形态学规则下的标杆切换：旧中枢被破坏，标杆上移到新中枢</figcaption>
+    </figure>
+    <p>注意：这是<b>退而求其次</b>的方案——理论的完整威力，必须形态学 + 动力学一起用。缠师特别强调："千万别认为以后就只用形态学了。"</p>
+  </section>
+
+  <!-- 5 -->
+  <section class="wrap reveal">
+    <div class="sec-no">05 — 懒人路线图</div>
+    <h2>学习顺序：最省力的台阶</h2>
+    <p class="lead">如果真的特懒，那就从<b>分型</b>开始往上走。再砍不能再砍。</p>
+    <div class="roadmap">
+      <div class="title-tiny">FORMAL LAYER · 最小学习链</div>
+      <div class="chain">
+        <span class="node start">分型</span><span class="arrow">→</span>
+        <span class="node">笔</span><span class="arrow">→</span>
+        <span class="node">线段</span><span class="arrow">→</span>
+        <span class="node">最小级别中枢</span><span class="arrow">→</span>
+        <span class="node end">各级别中枢 / 走势类型</span>
+      </div>
+    </div>
+    <p>这条链是形态学里最不能再减的部分。要学缠论，<b>无论多懒都要把这 5 样东西搞清楚</b>。学完之后再加动力学（背驰、区间套），整套体系就闭环了。</p>
+    <blockquote>
+      关键是<b>精通一样东西</b>，精通就好，就怕半通不通。
+      <span class="who">— 缠师对学习态度的要求</span>
+    </blockquote>
+  </section>
+
+  <!-- 6 -->
+  <section class="wrap reveal">
+    <div class="sec-no">06 — 自我修补</div>
+    <h2>为什么有些课"前后定义不一致"？</h2>
+    <p class="lead">课程不是按理论顺序写的——所以会出现"先用模糊定义铺路、后引精确概念再修正"的现象。</p>
+    <div class="grid">
+      <div class="card">
+        <div class="tag">案例一</div>
+        <h3>上涨、盘整</h3>
+        <p>最初用"<b>高低点</b>"描述——后来引入<b>中枢</b>，才有严格定义。早期表述不严，但读者已可用。</p>
+      </div>
+      <div class="card">
+        <div class="tag">案例二</div>
+        <h3>第 64 课线段</h3>
+        <p>没有"<b>特征序列</b>"概念前，论述不严；到第 67 课引入特征序列后，"线段破坏被另一线段破坏"才被<b>精确化</b>。</p>
+      </div>
+    </div>
+    <p>缠师对此的态度：<b>由浅入深、先把方向说出来</b>。理解力弱的，可以用不精确的版本操作；之后再升级到精确版本，<b>两个版本都是对的</b>，只是颗粒度不同。这就是为什么读 72 课之前如果发现前后不一致，不必慌——是体系本身的成长路径。</p>
+    <ol class="think">
+      <li>如何判断自己当前操作用的是"形态学版本"还是"动力学版本"？两种版本能同时混用吗？</li>
+      <li>"任何涉及背驰的都是动力学"——那么"中枢"为什么也归到动力学范围？回顾下定义。</li>
+      <li>如果你只学到了分型 + 笔，还没学到中枢，是否就完全无法操作？为什么？</li>
+    </ol>
+
+    <div class="tldr">
+      <div class="lab">一句话总结</div>
+      <p>缠论 = <span class="hl-pivot">形态学</span>（几何，无前提）+ <span class="hl-gold">动力学</span>（含背驰，需"价格充分有效市场里非完全绝对趋同交易"前提）；在三独立系统里，技术面对操作起决定作用；想学就照"分型→笔→线段→最小中枢→各级别中枢"这条懒人链走，先精通形态学，再补动力学。</p>
+    </div>
+  </section>
+</main>
+
+<footer class="wrap">
+  原文出处：raw/缠中说禅/教你炒股票108课/教你炒股票72：本ID已有课程的再梳理.md<br>
+  本页为个人学习复习用·非投资建议
+</footer>
+
+<script>
+  const bar=document.getElementById('bar');
+  const onScroll=()=>{const h=document.documentElement;const p=h.scrollTop/(h.scrollHeight-h.clientHeight);bar.style.width=(p*100)+'%';};
+  document.addEventListener('scroll',onScroll,{passive:true});onScroll();
+  const io=new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});},{threshold:.12});
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+</script>
+<script src="/assets/_nav.js"></script><script src="/assets/_shell.js"></script></body>
+</html>

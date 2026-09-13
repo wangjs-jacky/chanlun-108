@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>缠论 · 教你炒股票42：有些人是不适合参与市场的</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@500;700;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0b0e12;--bg-elev:#12161c;--bg-card:#161b22;
+    --ink:#e8eaed;--ink-dim:#9aa3ad;--ink-faint:#5b6470;
+    --line:rgba(255,255,255,.07);
+    --up:#ff4d4f;--down:#16c784;--pivot:#37c0e6;--gold:#e8b339;--blue:#00d4ff;
+    --max:880px;--serif:"Noto Serif SC",serif;--mono:"JetBrains Mono",ui-monospace,monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--ink);font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;line-height:1.85;font-size:17px;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  body::before{content:"";position:fixed;inset:0;z-index:-2;background:radial-gradient(1200px 600px at 70% -10%,rgba(55,192,230,.08),transparent 60%),radial-gradient(900px 500px at 0% 100%,rgba(232,179,57,.05),transparent 55%);pointer-events:none}
+  body::after{content:"";position:fixed;inset:0;z-index:-1;opacity:.4;background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);background-size:46px 46px;-webkit-mask-image:radial-gradient(ellipse at 50% 0%,#000 30%,transparent 80%);mask-image:radial-gradient(ellipse at 50% 0%,#000 30%,transparent 80%);pointer-events:none}
+  #bar{position:fixed;top:0;left:0;height:3px;width:0;z-index:50;background:linear-gradient(90deg,var(--pivot),var(--gold));box-shadow:0 0 12px var(--pivot)}
+  .wrap{max-width:var(--max);margin:0 auto;padding:0 24px}
+  header.hero{padding:120px 0 70px;text-align:center;position:relative}
+  .kicker{font-family:var(--mono);font-size:13px;letter-spacing:.32em;color:var(--pivot);text-transform:uppercase;margin-bottom:26px}
+  .kicker span{color:var(--ink-faint)}
+  h1.title{font-family:var(--serif);font-weight:900;line-height:1.05;font-size:clamp(40px,8vw,80px);letter-spacing:.04em;background:linear-gradient(180deg,#fff 30%,#8aa0ad 130%);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .sub{margin:22px auto 0;max-width:580px;color:var(--ink-dim);font-size:18px}
+  .meta{margin-top:34px;display:flex;gap:14px;justify-content:center;flex-wrap:wrap;font-family:var(--mono);font-size:12px;color:var(--ink-faint)}
+  .meta b{color:var(--ink-dim);font-weight:500}
+  .pill{border:1px solid var(--line);padding:6px 14px;border-radius:999px;background:rgba(255,255,255,.02)}
+  .scroll-hint{margin-top:60px;color:var(--ink-faint);font-family:var(--mono);font-size:12px;animation:bob 2.4s ease-in-out infinite}
+  @keyframes bob{0%,100%{transform:translateY(0);opacity:.5}50%{transform:translateY(8px);opacity:1}}
+  section{padding:64px 0;border-top:1px solid var(--line)}
+  .sec-no{font-family:var(--mono);font-size:13px;color:var(--gold);letter-spacing:.2em;margin-bottom:10px}
+  h2{font-family:var(--serif);font-weight:700;font-size:clamp(28px,5vw,42px);line-height:1.25;margin-bottom:8px;letter-spacing:.02em}
+  .lead{color:var(--ink-dim);font-size:16px;margin-bottom:28px;max-width:660px}
+  p{margin:0 0 18px;color:#cfd5dc}
+  p b,strong{color:#fff;font-weight:700}
+  .hl-pivot{color:var(--pivot);font-weight:700}.hl-up{color:var(--up);font-weight:700}
+  .hl-down{color:var(--down);font-weight:700}.hl-gold{color:var(--gold);font-weight:700}
+  blockquote{margin:26px 0;padding:20px 24px;border-left:3px solid var(--pivot);background:linear-gradient(90deg,rgba(55,192,230,.07),transparent);border-radius:0 10px 10px 0;font-family:var(--serif);font-size:19px;color:#eaf6fb}
+  blockquote .who{display:block;margin-top:8px;font-family:var(--mono);font-size:12px;color:var(--ink-faint);font-style:normal}
+  figure{margin:34px 0}
+  figure img{width:100%;border-radius:12px;border:1px solid var(--line);background:#fff;box-shadow:0 18px 50px rgba(0,0,0,.5)}
+  figcaption{margin-top:12px;font-size:13px;color:var(--ink-faint);text-align:center;font-family:var(--mono)}
+  .grid{display:grid;gap:16px;grid-template-columns:1fr 1fr;margin:28px 0}
+  @media(max-width:640px){.grid{grid-template-columns:1fr}}
+  .card{background:var(--bg-card);border:1px solid var(--line);border-radius:14px;padding:24px;position:relative;overflow:hidden;transition:transform .35s ease,border-color .35s ease}
+  .card:hover{transform:translateY(-4px);border-color:rgba(55,192,230,.4)}
+  .card .tag{font-family:var(--mono);font-size:11px;letter-spacing:.18em;color:var(--gold);text-transform:uppercase}
+  .card h3{font-family:var(--serif);font-size:21px;margin:10px 0 8px;color:#fff}
+  .card p{font-size:15px;color:var(--ink-dim);margin:0}
+  .table{margin:28px 0;border:1px solid var(--line);border-radius:14px;overflow:hidden}
+  .table .row{display:grid;grid-template-columns:1.1fr 1.5fr 1.6fr;align-items:stretch}
+  .table .row+.row{border-top:1px solid var(--line)}
+  .table .row>div{padding:16px 18px}
+  .table .row.head{background:var(--bg-elev);font-family:var(--mono);font-size:12px;letter-spacing:.14em;color:var(--ink-faint);text-transform:uppercase}
+  .table .row>div+div{border-left:1px solid var(--line)}
+  .table .name{font-family:var(--serif);font-weight:700;font-size:18px}
+  .table .name.qushi{color:var(--gold)}
+  .cnt{font-family:var(--mono);font-size:14px;color:var(--pivot)}
+  @media(max-width:560px){.table .row{grid-template-columns:1fr}.table .row>div+div{border-left:0;border-top:1px solid var(--line)}.table .row.head{display:none}}
+  .points{margin:26px 0;display:flex;flex-direction:column;gap:14px}
+  .pt{display:flex;gap:16px;align-items:flex-start;background:var(--bg-card);border:1px solid var(--line);border-radius:12px;padding:18px 20px}
+  .pt .dot{flex:none;width:42px;height:42px;border-radius:10px;display:grid;place-items:center;font-family:var(--serif);font-weight:900;font-size:20px;color:#0b0e12}
+  .pt.b .dot{background:var(--up)}.pt.s .dot{background:var(--down)}
+  .pt h4{font-size:17px;margin-bottom:4px;color:#fff}.pt p{font-size:15px;color:var(--ink-dim);margin:0}
+  /* 十类病症卡片专用 */
+  .syms{margin:30px 0;display:grid;gap:16px;grid-template-columns:1fr 1fr}
+  @media(max-width:720px){.syms{grid-template-columns:1fr}}
+  .sym{background:var(--bg-card);border:1px solid var(--line);border-radius:14px;padding:22px 22px 20px;position:relative;overflow:hidden;transition:transform .3s ease,border-color .3s ease}
+  .sym:hover{transform:translateY(-3px);border-color:rgba(255,77,79,.4)}
+  .sym .no{position:absolute;top:-4px;right:14px;font-family:var(--serif);font-weight:900;font-size:78px;color:rgba(255,77,79,.08);letter-spacing:-2px;line-height:1}
+  .sym .tag{font-family:var(--mono);font-size:11px;letter-spacing:.18em;color:var(--up);text-transform:uppercase;margin-bottom:6px;position:relative;z-index:1}
+  .sym h3{font-family:var(--serif);font-size:20px;color:#fff;margin-bottom:10px;position:relative;z-index:1}
+  .sym .desc{font-size:14px;color:var(--ink-dim);margin-bottom:12px;position:relative;z-index:1}
+  .sym .scene{font-size:13px;color:var(--ink-faint);font-family:var(--mono);padding-top:10px;border-top:1px dashed var(--line);position:relative;z-index:1}
+  .sym .scene b{color:var(--gold);font-weight:700;font-family:var(--mono)}
+  ol.think{counter-reset:q;list-style:none;margin:24px 0;display:flex;flex-direction:column;gap:14px}
+  ol.think li{counter-increment:q;position:relative;padding:18px 20px 18px 60px;background:var(--bg-elev);border:1px solid var(--line);border-radius:12px;color:var(--ink-dim);font-size:15px}
+  ol.think li::before{content:counter(q,decimal-leading-zero);position:absolute;left:20px;top:18px;font-family:var(--mono);color:var(--gold);font-weight:700}
+  /* 判图练习 */
+  .quiz{margin:22px 0;background:var(--bg-card);border:1px solid var(--line);border-radius:14px;padding:22px 24px}
+  .quiz h4{font-size:16px;color:#fff;margin-bottom:6px}
+  .quiz .ans{margin-top:12px;color:var(--ink-faint);font-size:14px;cursor:pointer}
+  .quiz .ans[open] summary{color:var(--pivot)}
+  .quiz summary{color:var(--gold);font-family:var(--mono);font-size:13px}
+  /* 自检表 */
+  .check{margin:28px 0;background:var(--bg-elev);border:1px solid var(--line);border-radius:14px;padding:24px 26px}
+  .check h4{font-family:var(--serif);font-size:18px;color:#fff;margin-bottom:14px}
+  .check ul{list-style:none}
+  .check li{padding:10px 0 10px 30px;position:relative;color:var(--ink-dim);font-size:15px;border-bottom:1px dashed var(--line)}
+  .check li:last-child{border-bottom:0}
+  .check li::before{content:"☐";position:absolute;left:6px;top:10px;color:var(--gold);font-family:var(--mono);font-size:16px}
+  /* 退出路径 */
+  .way{margin:28px 0;display:grid;gap:14px;grid-template-columns:repeat(3,1fr)}
+  @media(max-width:720px){.way{grid-template-columns:1fr}}
+  .way .w{background:var(--bg-card);border:1px solid var(--line);border-radius:12px;padding:20px}
+  .way .w h4{font-family:var(--serif);font-size:17px;color:var(--pivot);margin-bottom:8px}
+  .way .w p{font-size:14px;color:var(--ink-dim);margin:0}
+  .tldr{margin:60px 0 0;padding:36px 30px;border:1px solid rgba(55,192,230,.3);border-radius:18px;background:radial-gradient(120% 120% at 100% 0%,rgba(55,192,230,.1),transparent 60%),var(--bg-elev);text-align:center}
+  .tldr .lab{font-family:var(--mono);font-size:12px;letter-spacing:.3em;color:var(--pivot);text-transform:uppercase}
+  .tldr p{font-family:var(--serif);font-size:clamp(20px,3.4vw,28px);line-height:1.7;color:#fff;margin:16px 0 0}
+  footer{padding:60px 0 90px;text-align:center;color:var(--ink-faint);font-family:var(--mono);font-size:12px;border-top:1px solid var(--line)}
+  .reveal{opacity:0;transform:translateY(26px);transition:opacity .8s ease,transform .8s ease}
+  .reveal.in{opacity:1;transform:none}
+  @media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}.scroll-hint{animation:none}}
+</style>
+<meta name="view-transition" content="same-origin"><style>@view-transition{navigation:auto}</style></head>
+<body>
+<div id="bar"></div>
+<header class="hero">
+  <div class="wrap">
+    <div class="kicker">缠中说禅 · 教你炒股票108课 <span>/ 第 42 课</span></div>
+    <h1 class="title">有些人是<br>不适合参与市场的</h1>
+    <p class="sub">缠师列十种典型"市场病人"，告诉你：在练招式之前，先认清自己是不是天生不适合下场。</p>
+    <div class="meta">
+      <span class="pill"><b>原文</b> 2007-04-04</span>
+      <span class="pill"><b>类型</b> 心法 · 自我评估</span>
+      <span class="pill"><b>关键词</b> 性格 · 心态 · 自我认知</span>
+    </div>
+    <div class="scroll-hint">↓ 向下滚动，逐层拆解</div>
+  </div>
+</header>
+<main>
+
+<!-- ===== 01 这一课在讲什么 ===== -->
+<section class="wrap reveal">
+  <div class="sec-no">01 — 开宗明义</div>
+  <h2>"不是每个人都该待在市场里"</h2>
+  <p class="lead">缠师在 108 课里讲了无数招式，但到了第 42 课，他把刀口对准了一件最尴尬的事：<b>有些人，技术再好、理论背得再熟，下场也会输</b>——因为他们的性格根本不适合做交易。</p>
+
+  <p>这一课开篇就讲了一个真人案例——一位 50 岁的北京男人，2006 年这种"个人都赚钱"的年份里，竟然能在 A 股<b>亏到必须转战香港</b>。招数？洗盘就砍仓、开涨不敢追、一买就买顶、然后再砍——<span class="hl-down">几次循环下来，本金所剩无几</span>。</p>
+
+  <p>有意思的是，到了香港他反而能挣点钱了。"偏方"是：看到 A 股拉某只票，就买香港对应的股，当天 T+0 出来，<b>绝不过夜</b>。缠师的评语是"<span class="hl-gold">病虽好不了，至少不那么难受了</span>"——这不是技术，是"换环境隔绝病灶"。</p>
+
+  <blockquote>从某种意义上说，操作并不一定能磨练心态的，这事就如同治疗某种男性隐疾一样，<b>根子上病了，那是很难有好办法的</b>。最好的办法，就是退出。<span class="who">— 缠中说禅 · 教你炒股票 42</span></blockquote>
+
+  <p>这一课不教技术，<span class="hl-pivot">教自我体检</span>。在你走进 K 线、中枢、买卖点之前，先对照下面这张"病历表"，看看你身上有没有这十种"死症"。</p>
+</section>
+
+<!-- ===== 02 为什么心态不能靠操作练 ===== -->
+<section class="wrap reveal">
+  <div class="sec-no">02 — 核心论断</div>
+  <h2>为什么"多操作就能练好心态"是个谎言</h2>
+  <p class="lead">很多人相信"亏多了就长记性"。缠师在这一课否定了这个逻辑——有些病不是经验问题，是<b>根子上的天性问题</b>。</p>
+
+  <div class="grid">
+    <div class="card">
+      <div class="tag">事实 · 01</div>
+      <h3>操作工具被极致简化</h3>
+      <p>以前下单要红马甲、电话、写单据，等的过程就是"<b>强制冷静</b>"。现在网上 <span class="hl-pivot">1 秒</span> 就完成买卖——"只要扛不住那 1 秒，什么技术、理论都白搭"。<b>工具越快，性格缺陷暴露得越彻底</b>。</p>
+    </div>
+    <div class="card">
+      <div class="tag">事实 · 02</div>
+      <h3>"手痒"像毒瘾</h3>
+      <p>缠师原话：<b>"明明脑子里知道不能买了，但手就是发痒，像毒瘾发作一般，不受控制"</b>。脑子知道≠手能停。一旦行为已经被本能接管，再多"反思"都没用。</p>
+    </div>
+    <div class="card">
+      <div class="tag">判断 · 03</div>
+      <h3>市场不是治疗场所</h3>
+      <p>把市场当"<span class="hl-down">练心态</span>"的地方，相当于<span class="hl-gold">在赌场里戒赌瘾</span>——只会被江湖郎中（消息、股评、热点）反复套利。真要治，<b>先离开市场</b>。</p>
+    </div>
+    <div class="card">
+      <div class="tag">判断 · 04</div>
+      <h3>"当下不适合" ≠ "永远没救"</h3>
+      <p>缠师留了一个出口：现在不适合，不等于一辈子。但"必须先<b>远离市场一段时间</b>，彻底洗心革面，才有可能改善"——治疗发生在<span class="hl-pivot">场外</span>，不是场内。</p>
+    </div>
+  </div>
+
+  <p>所以第 42 课的真正杀招不是"列出十种人"，而是先把"市场是磨刀石"这个常见迷信砸碎——<b>砸完之后，再看那十种人，才会发愿对照自己</b>。</p>
+</section>
+
+<!-- ===== 03 十种病症 ===== -->
+<section class="wrap reveal">
+  <div class="sec-no">03 — 病历对照</div>
+  <h2>十种不适合参与市场的人（病历卡）</h2>
+  <p class="lead">下面这十种是缠师亲自点名的"市场死症"。一边读一边自我标记——<b>命中越多，越要停手</b>。命中 3 个以上，建议先离场。</p>
+
+  <div class="syms">
+
+    <div class="sym">
+      <div class="no">01</div>
+      <div class="tag">SYMPTOM · 01</div>
+      <h3>耳朵控制大脑型</h3>
+      <p class="desc">一听到消息，大脑直接被跳过，<b>耳朵直连手指</b>就下单了。</p>
+      <p class="scene"><b>典型场景</b> · 朋友群发"内幕"，5 秒后已经买完，<br>事后才想"我为什么买这个？"</p>
+    </div>
+
+    <div class="sym">
+      <div class="no">02</div>
+      <div class="tag">SYMPTOM · 02</div>
+      <h3>疯狂购物型</h3>
+      <p class="desc">几万元本金，<b>账户里几十只股票</b>。哪个涨了都能说"我也有"，以此自我安慰。</p>
+      <p class="scene"><b>典型场景</b> · 持仓 30 只，每只 1-2 千；<br>看似分散，其实是<span class="hl-down">无策略集邮</span>。</p>
+    </div>
+
+    <div class="sym">
+      <div class="no">03</div>
+      <div class="tag">SYMPTOM · 03</div>
+      <h3>不受控制型</h3>
+      <p class="desc">"明明知道不对，就是控制不住自己"——心里那股<b>顽劲</b>在关键时刻反复掉链子。</p>
+      <p class="scene"><b>典型场景</b> · 计划止损 5%，到了 5% 跟自己说"再等等",<br>结果套到 20%。</p>
+    </div>
+
+    <div class="sym">
+      <div class="no">04</div>
+      <div class="tag">SYMPTOM · 04</div>
+      <h3>永远认错型</h3>
+      <p class="desc">嘴上永远在认错，<b>身体却从不改错</b>。同一个毛病可以犯到地老天荒。</p>
+      <p class="scene"><b>典型场景</b> · 每次复盘都"下次一定不追高",<br>下次依旧追在最高那根 K 线。</p>
+    </div>
+
+    <div class="sym">
+      <div class="no">05</div>
+      <div class="tag">SYMPTOM · 05</div>
+      <h3>祥林嫂型</h3>
+      <p class="desc">永远在哀声叹气，甚至开始<b>享受这种悲剧情调</b>。市场不是受罪用的。</p>
+      <p class="scene"><b>典型场景</b> · 见人就抱怨"今天又亏了",<br>但既不止损也不复盘，<span class="hl-down">把痛苦当身份</span>。</p>
+    </div>
+
+    <div class="sym">
+      <div class="no">06</div>
+      <div class="tag">SYMPTOM · 06</div>
+      <h3>赌徒型</h3>
+      <p class="desc">市场对你来说就是赌场。<b>盈亏的快感本身</b>比赚钱更重要。</p>
+      <p class="scene"><b>典型场景</b> · 满仓单股、加杠杆、追涨停板,<br>追求"心跳"而非<span class="hl-gold">概率优势</span>。</p>
+    </div>
+
+    <div class="sym">
+      <div class="no">07</div>
+      <div class="tag">SYMPTOM · 07</div>
+      <h3>股评型</h3>
+      <p class="desc">实际亏的一塌糊涂，嘴上从来没输过。<b>市场是用来侃的，不是用来操作的</b>。</p>
+      <p class="scene"><b>典型场景</b> · 群里天天发研判，<br>账户却从不晒；分析他人远超分析自己。</p>
+    </div>
+
+    <div class="sym">
+      <div class="no">08</div>
+      <div class="tag">SYMPTOM · 08</div>
+      <h3>入戏太深型</h3>
+      <p class="desc">把波动当连续剧。<b>涨也失控、跌也失控、盘整也失控</b>，4 小时盯盘 4 小时煎熬。</p>
+      <p class="scene"><b>典型场景</b> · 每根 K 线都看一遍,<br>下班继续刷盘后股吧到深夜。</p>
+    </div>
+
+    <div class="sym">
+      <div class="no">09</div>
+      <div class="tag">SYMPTOM · 09</div>
+      <h3>偏执狂型</h3>
+      <p class="desc">认死理，<b>万牛拉不回</b>。偏执对研究可能是好事，但在万变的市场里是死症。</p>
+      <p class="scene"><b>典型场景</b> · 死多／死空一只股,<br>"我就赌它必涨"，结果<span class="hl-down">被一笔归零</span>。</p>
+    </div>
+
+    <div class="sym">
+      <div class="no">10</div>
+      <div class="tag">SYMPTOM · 10</div>
+      <h3>赵括型</h3>
+      <p class="desc">理论倒背如流，<b>真上战场寸步难行</b>。市场是战场，纸上谈兵者死。</p>
+      <p class="scene"><b>典型场景</b> · 缠论术语张口就来,<br>真正下单时还是<span class="hl-down">情绪决定一切</span>。</p>
+    </div>
+
+  </div>
+
+  <p>这十种不是孤立症状，<b>常常组合出现</b>：耳朵型 + 赌徒型 = 听消息就梭哈；股评型 + 偏执狂型 = 嘴上不认错；入戏太深 + 祥林嫂 = 边盯盘边抱怨。<span class="hl-pivot">命中越多，离场越急</span>。</p>
+</section>
+
+<!-- ===== 04 解药 ===== -->
+<section class="wrap reveal">
+  <div class="sec-no">04 — 三条出路</div>
+  <h2>查出病了，怎么办？缠师给了三条路</h2>
+  <p class="lead">缠师没只摆问题，他给了三条<b>非操作型解药</b>——核心思路都是"<span class="hl-gold">在市场之外解决市场之内的问题</span>"。</p>
+
+  <div class="way">
+    <div class="w">
+      <h4>① 戒毒（基础心理训练）</h4>
+      <p>"从最基础的心理训练开始"。这条最理想，但<b>不是人人有条件</b>——需要时间、引导、长期复盘。</p>
+    </div>
+    <div class="w">
+      <h4>② 离场（远离股市）</h4>
+      <p>"股市只是生活的一部分，<b>没有股市的生活依然是生活，活着就好</b>"。最干脆，也是缠师最推崇的。</p>
+    </div>
+    <div class="w">
+      <h4>③ 换环境（隔绝病灶）</h4>
+      <p>北京老男人去香港的方法——<b>换交易品种、换市场、强制 T+0</b>，绕开自己最容易失控的那个动作。</p>
+    </div>
+  </div>
+
+  <p>三条路的共同点：<b>都不在"市场内多操作"这条主流叙事里</b>。缠师反对的恰恰是"输了就再练练"的鸡汤——某些病，<span class="hl-pivot">操作越多，伤口越深</span>。</p>
+
+  <blockquote>所谓性格决定命运⋯⋯要认清市场，<b>首先要认清自己</b>，知道自己的弱点在哪里，自己在市场中的每个行为，都要清楚地意识到。<br>每天收盘后，都找十分钟，把自己当天的操作以及看盘时的心理过程<b>复一次盘</b>，这是十分必要的。<span class="who">— 缠中说禅 · 教你炒股票 42</span></blockquote>
+
+  <p>这是缠师在本课结尾留的一条"<span class="hl-gold">可操作日课</span>"：每天收盘后 10 分钟，<b>不复盘走势，复盘自己的情绪</b>。这十分钟，是判断你还配不配留在市场的核心 KPI。</p>
+</section>
+
+<!-- ===== 05 当时大盘佐证 ===== -->
+<section class="wrap reveal">
+  <div class="sec-no">05 — 当时大盘</div>
+  <h2>为什么缠师在 2007 年 4 月写这一课？</h2>
+  <p class="lead">本课不是凭空写的。课文末尾跟了两段 4 月 4 日、4 月 5 日的盘后点评，背景是<b>深证成指逼近 9200 一线的上沿压力线</b>。在那个高歌猛进的时点，最危险的就是"病人"被牛市迷信集体洗脑。</p>
+
+  <figure>
+    <img src="/_assets/ch42_p01.png" alt="深证成指 60 分钟走势">
+    <figcaption>深证成指 60 分钟图（2007/01/16 ~ 2007/04/05）· 绿色压力线由前两个高点连出，4 月 5 日触线即遇阻</figcaption>
+  </figure>
+
+  <p>看图说话：从 2007 年 2 月 5 日的 <span class="hl-down">6985.78</span> 低点起来，一路无回头到 4 月 5 日的 <span class="hl-up">9509.60</span>，<b>1 个半月涨了 36%</b>。压力线（绿色斜线）由前两个高点连出——4 月 5 日上探即遇阻，MACD 红柱已开始走弱。</p>
+
+  <p>缠师在这种位置写"<b>不适合的人</b>"，时机非常微妙：</p>
+
+  <div class="grid">
+    <div class="card">
+      <div class="tag">背景 · 01</div>
+      <h3>"人人都是股神"的高潮期</h3>
+      <p>2006-2007 这波牛市，<b>"耳朵型"和"赌徒型"病人涌入最密集</b>。听消息梭哈、连买几只都涨——错觉中"自己是股神"，<span class="hl-down">本质上是病人遇到牛市</span>。</p>
+    </div>
+    <div class="card">
+      <div class="tag">背景 · 02</div>
+      <h3>近压力线 ≠ 见顶</h3>
+      <p>缠师同时说"<b>追高一点必要都没有，保持节奏即可</b>"。压力线对应的是震荡，不是终结。<span class="hl-pivot">越是震荡，越能筛出谁是病人</span>——病人扛不住震荡。</p>
+    </div>
+    <div class="card">
+      <div class="tag">背景 · 03</div>
+      <h3>"5 日线 / 10 日线"的纪律</h3>
+      <p>对应给"健康的人"：技术不好看 <b>5 日线</b>，中线看 <b>10 日线</b>。"06 年 8 月以来 10 日线基本没破"——<span class="hl-gold">机械纪律</span>是病人也能借助的拐杖。</p>
+    </div>
+    <div class="card">
+      <div class="tag">背景 · 04</div>
+      <h3>整体洗脑的时间段</h3>
+      <p>缠师在评论里直说："现在是<b>大家都整体洗脑的时间段</b>"。各种力量在表演、机构给散户洗脑、散户给散户洗脑。<span class="hl-down">病人在牛市末段最容易被收割</span>。</p>
+    </div>
+  </div>
+
+  <p style="font-family:var(--mono);font-size:12px;color:var(--ink-faint);margin-top:20px">图片来源：原课文配图（深证成指 60 分钟，2007-04-05）· 仅作学习用途 · 不构成投资建议</p>
+</section>
+
+<!-- ===== 06 自检表 ===== -->
+<section class="wrap reveal">
+  <div class="sec-no">06 — 现在做</div>
+  <h2>动手：给自己做一次"市场体检"</h2>
+  <p class="lead">读完上面的十种病症，<b>不要立刻翻下一页</b>。打开你的交易软件，对照过去 30 天的操作记录，做一次诚实自检。</p>
+
+  <div class="check">
+    <h4>自检清单（命中即打钩）</h4>
+    <ul>
+      <li>过去 30 天，<b>有没有听到消息后 5 分钟内就下单</b>的情况？（耳朵型）</li>
+      <li>当前账户里有<b>超过 10 只持仓</b>？且其中一半你说不清"为什么买"？（疯狂购物型）</li>
+      <li>有没有过<b>明知该止损却不止损</b>，最后从 -5% 套到 -15%？（不受控制型）</li>
+      <li>同一个错误（追高／早平利润／不止损）<b>是否一周内重复 3 次以上</b>？（永远认错型）</li>
+      <li>你在群里／朋友面前<b>抱怨亏损的次数</b>，是否多于实际复盘？（祥林嫂型）</li>
+      <li>有没有过<b>满仓单股、用过杠杆、追过涨停板</b>？追求"心跳"？（赌徒型）</li>
+      <li>你在群里发的研判数量，<b>是否远多于你晒的实盘</b>？（股评型）</li>
+      <li>盘中你<b>每隔几分钟就要看一次行情</b>？下班后还忍不住刷？（入戏太深型）</li>
+      <li>有没有一只股票你<b>"赌它必涨／必跌"</b>，无论市场怎么说都不肯认？（偏执狂型）</li>
+      <li>你的<b>缠论术语储备</b> 是否远超你的实际单子质量？（赵括型）</li>
+      <li><b>每天收盘后 10 分钟的情绪复盘</b>，你做了几天？</li>
+    </ul>
+  </div>
+
+  <p><b>记分原则</b>：</p>
+  <ul style="color:#cfd5dc;padding-left:20px;margin-bottom:18px">
+    <li>命中 <span class="hl-up">0-1 项</span> · 健康状态，可以继续学习技术招式。</li>
+    <li>命中 <span class="hl-gold">2-3 项</span> · 亚健康，<b>先把对应病症写在纸上贴在屏幕旁</b>，每天复盘时盯着看。</li>
+    <li>命中 <span class="hl-down">4 项以上</span> · 高危。建议<b>降仓位至 1/3 以内</b>，或直接休市 1-3 个月，等心态归零再回来。</li>
+  </ul>
+</section>
+
+<!-- ===== 07 判图练习 ===== -->
+<section class="wrap reveal">
+  <div class="sec-no">07 — 判型练习</div>
+  <h2>给场景判病：他是哪一型？</h2>
+  <p class="lead">下面是四段真实交易者画像。读完判断他属于第 42 课里哪一种"不适合参与市场"的人。</p>
+
+  <div class="quiz">
+    <h4>场景一</h4>
+    <p>老王，账户 8 万元，持仓 24 只股票。每只 2000~5000 元不等。每次别人讨论一只新股，他就也买一手"<b>万一涨了我也算有</b>"。年底统计下来，盈亏接近平盘但<span class="hl-down">手续费扣掉就是亏</span>。</p>
+    <details class="ans"><summary>查看答案</summary><p>典型 <b>疯狂购物型（第 2 种）</b>。本质是<b>没有策略的分散</b>，把"参与感"误认为"分散风险"——真分散是按相关性配比，他这是收集。</p></details>
+  </div>
+
+  <div class="quiz">
+    <h4>场景二</h4>
+    <p>小李，缠论书买了 5 本，术语张口就来。讨论"中枢级别"、"线段破坏"头头是道。但实盘记录显示，他过去 3 个月<b>没有一次按自己讲的纪律执行</b>——遇到行情，全部手忙脚乱。</p>
+    <details class="ans"><summary>查看答案</summary><p>典型 <b>赵括型（第 10 种）</b>，重叠 <b>股评型（第 7 种）</b>。理论越深越危险，因为他会用术语为自己的情绪化操作"<span class="hl-down">事后合理化</span>"。</p></details>
+  </div>
+
+  <div class="quiz">
+    <h4>场景三</h4>
+    <p>老张，深信某新能源龙头"<b>必涨到 300</b>"。从 200 跌到 80 全程不止损，多次反向加仓。每次别人提示"<b>形态走坏了</b>"，他都说"<b>逻辑没变，迟早回来</b>"。</p>
+    <details class="ans"><summary>查看答案</summary><p>典型 <b>偏执狂型（第 9 种）</b>。"逻辑没变"是他的免死金牌——但市场从不为基本面让路，<span class="hl-down">价格本身就是事实</span>。他还可能叠加 <b>赌徒型</b>（反向加仓）。</p></details>
+  </div>
+
+  <div class="quiz">
+    <h4>场景四</h4>
+    <p>小赵，下班回家先打开 K 线复盘 3 小时。每天微信群里发 20 条研判。账户呢？<b>从不晒</b>，问就说"<b>我做的是小资金</b>"。</p>
+    <details class="ans"><summary>查看答案</summary><p>典型 <b>股评型（第 7 种）</b> + <b>入戏太深型（第 8 种）</b>。"不晒"是关键信号——<b>嘴上越响、单子越虚</b>。缠师说"这种人，当股评去吧"。</p></details>
+  </div>
+</section>
+
+<!-- ===== 08 思考题 ===== -->
+<section class="wrap reveal">
+  <div class="sec-no">08 — 思考题</div>
+  <h2>读后留给自己的问题</h2>
+  <p class="lead">这一课不是用来"读完"的，是用来<b>反复对照</b>的。下面 5 个问题，建议写下你的答案，30 天后再回来看。</p>
+
+  <ol class="think">
+    <li>过去 30 天，你<b>最频繁犯的一个错误</b>是什么？对应十种病的哪一种？为什么屡犯？</li>
+    <li>如果让你<b>停手 3 个月</b>不开仓，你最焦虑的是什么？这个焦虑揭示了你对市场的什么真实需求？</li>
+    <li>缠师说"<b>认清自己比认清市场更重要</b>"。回顾你过去的盈利和亏损：是<b>看对市场</b>赚的多，还是<b>看清自己</b>避免的损失多？</li>
+    <li>课文里那个"<b>看 A 股拉就买香港 T+0</b>"的北京男人，他的"偏方"为什么管用？换成你，能不能找出一个<b>规避自己最大缺陷的"偏方"</b>？</li>
+    <li>缠师留的日课"<b>每天收盘后 10 分钟情绪复盘</b>"，你能坚持几天？如果坚持不下来，是为什么？（这个"为什么"本身就是答案。）</li>
+  </ol>
+</section>
+
+<!-- ===== 09 一句话总结 ===== -->
+<section class="wrap reveal">
+  <div class="tldr">
+    <div class="lab">TL;DR · 一句话总结</div>
+    <p>第 42 课不教技术，教你照镜子——<br><b>下场之前，先确认自己不是这十种病人</b>；<br>如果是，<span class="hl-pivot">出路在市场之外</span>，不在 K 线之内。</p>
+  </div>
+</section>
+
+</main>
+<footer class="wrap">
+  原文出处：raw/缠中说禅/教你炒股票108课/教你炒股票42：有些人是不适合参与市场的.md<br>
+  本页为个人学习复习用 · 非投资建议
+</footer>
+<script>
+  const bar=document.getElementById('bar');
+  const onScroll=()=>{const h=document.documentElement;bar.style.width=(h.scrollTop/(h.scrollHeight-h.clientHeight)*100)+'%'};
+  document.addEventListener('scroll',onScroll,{passive:true});onScroll();
+  const io=new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{threshold:.12});
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+</script>
+<script src="/assets/_nav.js"></script><script src="/assets/_shell.js"></script></body>
+</html>

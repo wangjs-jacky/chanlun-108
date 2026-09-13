@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>缠论 · 教你炒股票97：中医、兵法、诗歌、操作1</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@500;700;900&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0b0e12;
+    --bg-elev:#12161c;
+    --bg-card:#161b22;
+    --ink:#e8eaed;
+    --ink-dim:#9aa3ad;
+    --ink-faint:#5b6470;
+    --line:rgba(255,255,255,.07);
+    --up:#ff4d4f;
+    --down:#16c784;
+    --pivot:#37c0e6;
+    --gold:#e8b339;
+    --max:880px;
+    --serif:"Noto Serif SC",serif;
+    --mono:"JetBrains Mono",ui-monospace,monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--bg);color:var(--ink);
+    font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;
+    line-height:1.85;font-size:17px;-webkit-font-smoothing:antialiased;overflow-x:hidden;
+  }
+  body::before{
+    content:"";position:fixed;inset:0;z-index:-2;
+    background:
+      radial-gradient(1200px 600px at 70% -10%, rgba(55,192,230,.08), transparent 60%),
+      radial-gradient(900px 500px at 0% 100%, rgba(232,179,57,.05), transparent 55%);
+    pointer-events:none;
+  }
+  body::after{
+    content:"";position:fixed;inset:0;z-index:-1;opacity:.4;
+    background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);
+    background-size:46px 46px;
+    -webkit-mask-image:radial-gradient(ellipse at 50% 0%, #000 30%, transparent 80%);
+            mask-image:radial-gradient(ellipse at 50% 0%, #000 30%, transparent 80%);
+    pointer-events:none;
+  }
+  #bar{position:fixed;top:0;left:0;height:3px;width:0;z-index:50;
+    background:linear-gradient(90deg,var(--pivot),var(--gold));box-shadow:0 0 12px var(--pivot);}
+  .wrap{max-width:var(--max);margin:0 auto;padding:0 24px}
+
+  header.hero{padding:120px 0 70px;text-align:center;position:relative}
+  .kicker{font-family:var(--mono);font-size:13px;letter-spacing:.32em;color:var(--pivot);
+    text-transform:uppercase;margin-bottom:26px}
+  .kicker span{color:var(--ink-faint)}
+  h1.title{font-family:var(--serif);font-weight:900;line-height:1.05;
+    font-size:clamp(44px,9.5vw,92px);letter-spacing:.04em;
+    background:linear-gradient(180deg,#fff 30%,#8aa0ad 130%);
+    -webkit-background-clip:text;background-clip:text;color:transparent;}
+  .sub{margin:22px auto 0;max-width:620px;color:var(--ink-dim);font-size:18px}
+  .meta{margin-top:34px;display:flex;gap:14px;justify-content:center;flex-wrap:wrap;
+    font-family:var(--mono);font-size:12px;color:var(--ink-faint)}
+  .meta b{color:var(--ink-dim);font-weight:500}
+  .pill{border:1px solid var(--line);padding:6px 14px;border-radius:999px;background:rgba(255,255,255,.02)}
+  .scroll-hint{margin-top:60px;color:var(--ink-faint);font-family:var(--mono);font-size:12px;
+    animation:bob 2.4s ease-in-out infinite}
+  @keyframes bob{0%,100%{transform:translateY(0);opacity:.5}50%{transform:translateY(8px);opacity:1}}
+
+  section{padding:64px 0;border-top:1px solid var(--line)}
+  .sec-no{font-family:var(--mono);font-size:13px;color:var(--gold);letter-spacing:.2em;margin-bottom:10px}
+  h2{font-family:var(--serif);font-weight:700;font-size:clamp(28px,5vw,42px);
+    line-height:1.25;margin-bottom:8px;letter-spacing:.02em}
+  .lead{color:var(--ink-dim);font-size:16px;margin-bottom:28px;max-width:640px}
+  p{margin:0 0 18px;color:#cfd5dc}
+  p b,strong{color:#fff;font-weight:700}
+  .hl-pivot{color:var(--pivot);font-weight:700}
+  .hl-up{color:var(--up);font-weight:700}
+  .hl-down{color:var(--down);font-weight:700}
+  .hl-gold{color:var(--gold);font-weight:700}
+
+  blockquote{margin:26px 0;padding:20px 24px;border-left:3px solid var(--pivot);
+    background:linear-gradient(90deg,rgba(55,192,230,.07),transparent);
+    border-radius:0 10px 10px 0;font-family:var(--serif);font-size:19px;color:#eaf6fb}
+  blockquote .who{display:block;margin-top:8px;font-family:var(--mono);font-size:12px;
+    color:var(--ink-faint);font-style:normal}
+
+  figure{margin:34px 0}
+  figure img{width:100%;border-radius:12px;border:1px solid var(--line);
+    background:#fff;box-shadow:0 18px 50px rgba(0,0,0,.5)}
+  figcaption{margin-top:12px;font-size:13px;color:var(--ink-faint);text-align:center;font-family:var(--mono)}
+
+  .grid{display:grid;gap:16px;grid-template-columns:1fr 1fr;margin:28px 0}
+  @media(max-width:640px){.grid{grid-template-columns:1fr}}
+  .card{background:var(--bg-card);border:1px solid var(--line);border-radius:14px;padding:24px;
+    position:relative;overflow:hidden;transition:transform .35s ease,border-color .35s ease}
+  .card:hover{transform:translateY(-4px);border-color:rgba(55,192,230,.4)}
+  .card .tag{font-family:var(--mono);font-size:11px;letter-spacing:.18em;color:var(--gold);text-transform:uppercase}
+  .card h3{font-family:var(--serif);font-size:21px;margin:10px 0 8px;color:#fff}
+  .card p{font-size:15px;color:var(--ink-dim);margin:0}
+
+  /* 三步路径条 */
+  .steps{margin:30px 0;display:grid;gap:14px}
+  .step{display:grid;grid-template-columns:60px 1fr;gap:18px;align-items:start;
+    background:var(--bg-card);border:1px solid var(--line);border-radius:14px;padding:20px 22px}
+  .step .num{font-family:var(--serif);font-weight:900;font-size:34px;color:var(--gold);line-height:1;letter-spacing:.02em}
+  .step h4{font-family:var(--serif);font-size:18px;margin-bottom:6px;color:#fff}
+  .step p{margin:0;font-size:15px;color:var(--ink-dim)}
+
+  /* 中医 vs 西医表 */
+  .table{margin:28px 0;border:1px solid var(--line);border-radius:14px;overflow:hidden}
+  .table .row{display:grid;grid-template-columns:1fr 1.4fr 1.4fr;align-items:stretch}
+  .table .row+.row{border-top:1px solid var(--line)}
+  .table .row > div{padding:16px 18px}
+  .table .row.head{background:var(--bg-elev);font-family:var(--mono);font-size:12px;
+    letter-spacing:.14em;color:var(--ink-faint);text-transform:uppercase}
+  .table .row > div+div{border-left:1px solid var(--line)}
+  .table .name{font-family:var(--serif);font-weight:700;font-size:17px;color:#fff}
+  .table .name.bad{color:var(--down)}
+  .table .name.good{color:var(--gold)}
+  @media(max-width:560px){
+    .table .row{grid-template-columns:1fr}
+    .table .row > div+div{border-left:0;border-top:1px solid var(--line)}
+    .table .row.head{display:none}
+  }
+
+  /* 节奏条 */
+  .rhythm{margin:28px 0;display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+  @media(max-width:560px){.rhythm{grid-template-columns:repeat(2,1fr)}}
+  .rh{padding:18px 14px;border-radius:12px;text-align:center;border:1px solid var(--line);background:var(--bg-card)}
+  .rh .lab{font-family:var(--mono);font-size:11px;color:var(--ink-faint);letter-spacing:.16em}
+  .rh .v{font-family:var(--serif);font-size:22px;margin-top:6px;color:#fff;font-weight:700}
+  .rh.up{border-color:rgba(255,77,79,.35);background:linear-gradient(180deg,rgba(255,77,79,.08),var(--bg-card))}
+  .rh.dn{border-color:rgba(22,199,132,.3);background:linear-gradient(180deg,rgba(22,199,132,.07),var(--bg-card))}
+  .rh.up .v{color:var(--up)}.rh.dn .v{color:var(--down)}
+
+  /* 中枢震荡示意 */
+  .pivot-box{margin:34px 0;padding:30px 24px;border:1px solid var(--line);border-radius:16px;
+    background:linear-gradient(180deg,rgba(55,192,230,.05),transparent);position:relative}
+  .pivot-box h4{font-family:var(--serif);font-size:18px;margin-bottom:14px;color:#fff}
+  .pivot-box .scale{display:grid;grid-template-columns:repeat(9,1fr);gap:0;border-radius:10px;overflow:hidden;border:1px solid var(--line);font-family:var(--mono);font-size:12px;text-align:center}
+  .pivot-box .cell{padding:14px 4px;background:var(--bg-elev);color:var(--ink-faint);border-right:1px solid var(--line)}
+  .pivot-box .cell:last-child{border-right:0}
+  .pivot-box .cell.axis{background:rgba(232,179,57,.12);color:var(--gold);font-weight:700}
+  .pivot-box .cell.up{background:rgba(255,77,79,.1);color:var(--up)}
+  .pivot-box .cell.dn{background:rgba(22,199,132,.1);color:var(--down)}
+  .pivot-box .note{margin-top:12px;font-size:13px;color:var(--ink-faint);font-family:var(--mono);text-align:center}
+
+  ol.think{counter-reset:q;list-style:none;margin:24px 0;display:flex;flex-direction:column;gap:14px}
+  ol.think li{counter-increment:q;position:relative;padding:18px 20px 18px 60px;
+    background:var(--bg-elev);border:1px solid var(--line);border-radius:12px;color:var(--ink-dim);font-size:15px}
+  ol.think li::before{content:counter(q,decimal-leading-zero);position:absolute;left:20px;top:18px;
+    font-family:var(--mono);color:var(--gold);font-weight:700}
+
+  .tldr{margin:60px 0 0;padding:36px 30px;border:1px solid rgba(55,192,230,.3);border-radius:18px;
+    background:radial-gradient(120% 120% at 100% 0%,rgba(55,192,230,.1),transparent 60%),var(--bg-elev);text-align:center}
+  .tldr .lab{font-family:var(--mono);font-size:12px;letter-spacing:.3em;color:var(--pivot);text-transform:uppercase}
+  .tldr p{font-family:var(--serif);font-size:clamp(20px,3.4vw,28px);line-height:1.7;color:#fff;margin:16px 0 0}
+
+  footer{padding:60px 0 90px;text-align:center;color:var(--ink-faint);font-family:var(--mono);font-size:12px;border-top:1px solid var(--line)}
+
+  .reveal{opacity:0;transform:translateY(26px);transition:opacity .8s ease,transform .8s ease}
+  .reveal.in{opacity:1;transform:none}
+  @media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}.scroll-hint{animation:none}}
+</style>
+<meta name="view-transition" content="same-origin"><style>@view-transition{navigation:auto}</style></head>
+<body>
+<div id="bar"></div>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="kicker">缠中说禅 · 教你炒股票108课 <span>/ 第 97 课</span></div>
+    <h1 class="title">中医 · 兵法 · 诗歌 · 操作</h1>
+    <p class="sub">用中医的望闻问切、兵法的因敌制宜、诗歌的格律自由，把"操作"这件事拆成一条可修炼一生的路径。</p>
+    <div class="meta">
+      <span class="pill"><b>原文</b> 2008-01-29 ~ 02-04</span>
+      <span class="pill"><b>类型</b> 修炼论 + 中线技术分析</span>
+      <span class="pill"><b>关键词</b> 上帝式思维 · 望闻问切 · 大日中枢 · 年线喜剧</span>
+    </div>
+    <div class="scroll-hint">↓ 向下滚动，逐层拆解</div>
+  </div>
+</header>
+
+<main>
+  <!-- 1 -->
+  <section class="wrap reveal">
+    <div class="sec-no">01 — 破执</div>
+    <h2>市场最危险的贪婪：上帝式思维</h2>
+    <p class="lead">这一课开篇，缠师直指散户最深的妄念——以为存在一根"万能拐杖"。</p>
+    <p>世界上最大的贪婪之一，是<b>上帝式思维</b>：相信存在某种<span class="hl-down">预测性的、一劳永逸</span>的指标或模式，先验地决定了一切，于是有了它就可以"又天国又永生地财源滚滚"。</p>
+    <blockquote>
+      贪字和贫字就差那一点，如此贪婪的想法，不被市场所屠杀，真是笑话了。
+      <span class="who">— 缠中说禅</span>
+    </blockquote>
+    <p>市场中最下劣的人，是那种希望找到一根<b>自动给出所有买卖</b>的万能拐杖、什么都不用干就财源滚滚的人。这种贪婪一旦上身，"佛出世都救不了"。<span class="hl-gold">操作的第一步，是先把这种妄念剥掉。</span></p>
+  </section>
+
+  <!-- 2 -->
+  <section class="wrap reveal">
+    <div class="sec-no">02 — 类比</div>
+    <h2>市场操作 ≈ 中医 + 兵法 + 诗歌</h2>
+    <p class="lead">三个看似无关的领域，被缠师拼成同一张地图。</p>
+    <div class="grid">
+      <div class="card">
+        <div class="tag">中医</div>
+        <h3>理论 → 望闻问切 → 开方</h3>
+        <p>会看病只是 1/10，<b>用药开方才是 9/10</b>。理论决定输出，但用药因人因时因地。</p>
+      </div>
+      <div class="card">
+        <div class="tag">兵法</div>
+        <h3>用药如同用兵</h3>
+        <p>哪里有一样的仗？<b>仗仗都不同。</b>操作也是——同一买卖点在不同人手里是不同的战役。</p>
+      </div>
+      <div class="card">
+        <div class="tag">诗歌</div>
+        <h3>先守格律，再写拗体</h3>
+        <p>开始时必须严格按格律（买卖点原则）。<b>没到自由的程度，别拿"拗体"自欺。</b></p>
+      </div>
+      <div class="card">
+        <div class="tag">操作</div>
+        <h3>是一生的修炼</h3>
+        <p>"用一生去修炼"——除非你离开市场，否则没有终点。</p>
+      </div>
+    </div>
+    <blockquote>
+      所有的不同里有一个共同"不患"的基础——市场运行的"不患"基础就是本ID的理论。<br>无论怎么折腾，都出不了这基础。这是<b>不同中的同、患中的不患</b>。
+      <span class="who">— 缠中说禅</span>
+    </blockquote>
+  </section>
+
+  <!-- 3 -->
+  <section class="wrap reveal">
+    <div class="sec-no">03 — 修炼三步</div>
+    <h2>从看懂理论，到看懂当下，再到自由操作</h2>
+    <p class="lead">把整套修炼路径压成三段台阶。</p>
+    <div class="steps">
+      <div class="step">
+        <div class="num">1</div>
+        <div>
+          <h4>吃透理论</h4>
+          <p>把市场机会的分类与对应输出完全吃透。"你连理论的分类都搞不清楚，谈应用就很可笑了。"</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="num">2</div>
+        <div>
+          <h4>望闻问切：看机会的当下显发</h4>
+          <p>机会必然按理论的要求输出。<b>不去预测、不猜性别和病情，只在病人到来时望闻问切。</b>看走眼太正常——多看、多练，是唯一的渠道。</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="num">3</div>
+        <div>
+          <h4>开药方：因人因时因地的操作</h4>
+          <p>缠师会主动在<b>偏移买卖点</b>的位置交易——为了买卖更多数量或制造特别的目的。这一步像写拗体，必须先精通格律才能合法越界。</p>
+        </div>
+      </div>
+    </div>
+    <blockquote>
+      走势是世界上最昂贵的艺术品。<br>你站在<b>热爱</b>的角度，才能激发你的鉴赏力。否则赢亏的贪念占据脑子，眼睛怎么可能不被蒙蔽？
+      <span class="who">— 缠中说禅</span>
+    </blockquote>
+  </section>
+
+  <!-- 4 -->
+  <section class="wrap reveal">
+    <div class="sec-no">04 — 反面教材</div>
+    <h2>西医式思维 vs 中医式操作</h2>
+    <p class="lead">把缠师的对比拉直成一张表——市场里最常见的"西医操作"长什么样。</p>
+    <div class="table">
+      <div class="row head"><div>维度</div><div>西医式（流水线）</div><div>中医式（缠论）</div></div>
+      <div class="row">
+        <div class="name">病人</div>
+        <div class="name bad">把人当机器</div>
+        <div class="name good">因人因时因地</div>
+      </div>
+      <div class="row">
+        <div class="name">同样的"病"</div>
+        <div class="name bad">同样的药、机械化生产</div>
+        <div class="name good">同一买卖点在不同人手里是不同战役</div>
+      </div>
+      <div class="row">
+        <div class="name">基础</div>
+        <div class="name bad">把指标当神</div>
+        <div class="name good">"不患"基础（中枢/买卖点）+ 自由发挥</div>
+      </div>
+      <div class="row">
+        <div class="name">心态</div>
+        <div class="name bad">预测、押注、求"上帝指标"</div>
+        <div class="name good">等机会来 → 望闻问切 → 开药方</div>
+      </div>
+    </div>
+    <p>当时（2008-01-29）的市场环境刚好提供反例：<span class="hl-down">震荡高点 + 减息消息 + 尾盘赌消息</span>——典型的"看别人脸色过日子"。缠师对此的态度：呼吁合力，但不当面首。</p>
+    <figure>
+      <img src="/_assets/ch97_p01.png" alt="2008-01-30 大盘震荡走势">
+      <figcaption>2008-01-30 ─ 看别人脸色的日子，消息刺激震荡高点再回杀</figcaption>
+    </figure>
+  </section>
+
+  <!-- 5 -->
+  <section class="wrap reveal">
+    <div class="sec-no">05 — 中线大盘</div>
+    <h2>大日中枢震荡：以 3600 为轴的"宏观操作图"</h2>
+    <p class="lead">这是本课最硬核的技术分析——给后续很多个月的走势定下框架。</p>
+    <p>从 1000 点上来后，第一次触及 <b>4335 点（530 低点）</b>。这个位置上下，构成了从 1000 点上来后<span class="hl-pivot">第一个日线级别中枢</span>。这个中枢，<b>将影响至少很多个月的走势</b>。</p>
+    <figure>
+      <img src="/_assets/ch97_p04.png" alt="4400 点中枢 5 分钟震荡">
+      <figcaption>4400 点中枢的 5 分钟震荡——逐步向 5 分钟扩展中</figcaption>
+    </figure>
+
+    <p>这个大日中枢的关键参数是 <b>3600</b>：</p>
+    <div class="pivot-box">
+      <h4>以 3600 为轴 · 上下各 1800 点的大震荡</h4>
+      <div class="scale">
+        <div class="cell up">5400</div>
+        <div class="cell up">5228</div>
+        <div class="cell up">4778</div>
+        <div class="cell up">4050</div>
+        <div class="cell axis">3600 轴</div>
+        <div class="cell dn">3150</div>
+        <div class="cell dn">2700</div>
+        <div class="cell dn">2422</div>
+        <div class="cell dn">1800</div>
+      </div>
+      <div class="note">每格 450 点 = 3600 × 1/8 ─ 4778 第一线压力、5228 第二线压力</div>
+    </div>
+
+    <div class="grid">
+      <div class="card">
+        <div class="tag">关键位置 · 关联</div>
+        <h3>1800 点之差</h3>
+        <p>6124 高点 → 4335 第一目标位 = <b>1800 点</b>；下来的第一个位置 4778 = 1800 × 3/4。年线在此叠加，多重因素共振。</p>
+      </div>
+      <div class="card">
+        <div class="tag">中枢震荡幅度</div>
+        <h3>±1800 点对称</h3>
+        <p>上面 1800 点（顶可看到 5400+），下面对称 1800 点（底可看到 1800）。<b>就算跌到 2500，也只是中枢震荡范围内。</b></p>
+      </div>
+      <div class="card">
+        <div class="tag">中枢偏移级别</div>
+        <h3>30 分钟向下偏移 = 中短线机会</h3>
+        <p>日中枢的最大偏移级别就是 30 分钟。<b>30 分钟向下偏移 → 最好的中短线机会</b>；5 分钟偏移 → 短线；1 分钟偏移 → 超短线。</p>
+      </div>
+      <div class="card">
+        <div class="tag">行情节奏</div>
+        <h3>全年抽血思路</h3>
+        <p>"今年只要你会震荡，赚的钱绝对不比去年少。" 围绕大中枢的每一次偏移，都是抽血机会。</p>
+      </div>
+    </div>
+
+    <figure>
+      <img src="/_assets/ch97_p05.png" alt="大盘日线大中枢震荡结构图">
+      <figcaption>从 1000 点上来后的第一个日线中枢——以 3600 为轴的大震荡结构</figcaption>
+    </figure>
+
+    <p><b>2008 全年节奏：</b></p>
+    <div class="rhythm">
+      <div class="rh up"><div class="lab">第一段</div><div class="v">扬</div></div>
+      <div class="rh dn"><div class="lab">第二段</div><div class="v">抑</div></div>
+      <div class="rh up"><div class="lab">第三段</div><div class="v">大扬</div></div>
+      <div class="rh dn"><div class="lab">第四段</div><div class="v">大抑</div></div>
+    </div>
+    <p class="lead" style="margin-top:18px">"扬抑大扬大抑"——这是缠师 2007 年底就给出的全年节奏。<b>题材股大搞，不管指数。</b></p>
+  </section>
+
+  <!-- 6 -->
+  <section class="wrap reveal">
+    <div class="sec-no">06 — 年线喜剧</div>
+    <h2>哀景写乐倍增其乐：第一次碰年线的喜剧</h2>
+    <p class="lead">2008-02-04 收盘点评——这是本课最经典的"修养示范"。</p>
+    <blockquote>
+      第一次碰年线要上演喜剧——去年 12 月已说。<br>但<b>真到上演时，相信的人就不会多了</b>，不相信的人多了自然就更喜剧了。
+      <span class="who">— 缠中说禅 2008-02-04</span>
+    </blockquote>
+    <p>缠师这里点破了一个文学技法直接搬运到操作上的窍门——<span class="hl-gold">以哀景写乐倍增其乐，以乐景写哀倍增其哀</span>。底部不是一天构成的，是要<b>反复制造恐慌</b>搞出来的。所以：</p>
+    <div class="grid">
+      <div class="card">
+        <div class="tag">底部</div>
+        <h3>哀景 → 乐</h3>
+        <p>对 5 日线的回试要故意砸穿，恐吓部分不坚定的；对 250 日线（年线）更要把哀景写足，才能有好的喜剧。</p>
+      </div>
+      <div class="card">
+        <div class="tag">顶部</div>
+        <h3>乐景 → 哀</h3>
+        <p>顶部反过来——把乐景写到极致，倍增其哀。文学、艺术与市场是相通的。</p>
+      </div>
+    </div>
+    <figure>
+      <img src="/_assets/ch97_p06.png" alt="2008-02-04 年线喜剧反弹">
+      <figcaption>2008-02-04 年线喜剧——周五低点对应的线段刚好 360 段（一个圆周）</figcaption>
+    </figure>
+    <figure>
+      <img src="/_assets/ch97_p07.png" alt="反弹后的中枢结构">
+      <figcaption>反弹未脱离最后一个中枢范围——4500 上下的 5 分钟中枢，第三类买点尚未制造</figcaption>
+    </figure>
+    <p>技术上，今天的上涨<b>并没有脱离最后一个中枢的范围</b>——4500 点上下那 5 分钟中枢的<span class="hl-pivot">第三类买点并没有制造出来</span>，所以技术上依然可看成中枢内的震荡。<b>背驰只保证回到最后一个中枢，和有没有消息无关。</b></p>
+  </section>
+
+  <!-- 7 -->
+  <section class="wrap reveal">
+    <div class="sec-no">07 — 修养论</div>
+    <h2>没有幽默感与修养，成不了好的操作者</h2>
+    <p class="lead">市场是人的修炼——你的全部修养是不是花架子，在市场里一下就检验出来。</p>
+    <div class="grid">
+      <div class="card">
+        <div class="tag">特征 · 哲学家</div>
+        <h3>能从"不患"看变化</h3>
+        <p>看见震荡背后的不变规律，从中提炼可执行的纪律。</p>
+      </div>
+      <div class="card">
+        <div class="tag">特征 · 实干家</div>
+        <h3>从理论到当下的执行</h3>
+        <p>不是空谈分类，是真能在 K 线上望闻问切并开出药方。</p>
+      </div>
+      <div class="card">
+        <div class="tag">特征 · 艺术家</div>
+        <h3>有鉴赏力</h3>
+        <p>把走势当艺术品看待。被假玩意骗过几次很正常，鉴赏力是这么磨出来的。</p>
+      </div>
+      <div class="card">
+        <div class="tag">特征 · 幽默感</div>
+        <h3>能识别市场修辞</h3>
+        <p>看到"铁岭""保定"知道是赵本山、郭德纲，而不是脑补暗示哪只股票。</p>
+      </div>
+    </div>
+    <blockquote>
+      和平时代，没有比市场更能提高人的地方了，好好珍惜吧。
+      <span class="who">— 缠中说禅</span>
+    </blockquote>
+
+    <p style="margin-top:30px"><b>三句操作纪律（本课沉淀）：</b></p>
+    <ol class="think">
+      <li><b>跌到位了敢买，涨多了敢抛。</b>涨了才追、跌了才砍，来回几次就会被清出局。</li>
+      <li><b>技术不好，宁愿坐电梯也不能追高杀跌。</b>真要不坐电梯，唯一办法是看到日/周顶分型就按级别操作。</li>
+      <li><b>背驰成立 ≠ 必然反转新行情。</b>它只保证回到最后一个中枢，跟有没有消息无关——消息只是加强力度。</li>
+    </ol>
+
+    <div class="tldr">
+      <div class="lab">一句话总结</div>
+      <p>操作不是找一根万能拐杖，而是像中医一样吃透理论 → 望闻问切 → 开药方；像兵法一样因敌制宜；像格律诗一样先守规矩再写拗体——而 2008 年的大日中枢震荡（以 3600 为轴）就是当下要操作的那张"病例"。</p>
+    </div>
+  </section>
+</main>
+
+<footer class="wrap">
+  原文出处：raw/缠中说禅/教你炒股票108课/教你炒股票97：中医、兵法、诗歌、操作1.md<br>
+  本页为个人学习复习用·非投资建议
+</footer>
+
+<script>
+  const bar=document.getElementById('bar');
+  const onScroll=()=>{
+    const h=document.documentElement;
+    const p=h.scrollTop/(h.scrollHeight-h.clientHeight);
+    bar.style.width=(p*100)+'%';
+  };
+  document.addEventListener('scroll',onScroll,{passive:true});onScroll();
+
+  const io=new IntersectionObserver((es)=>{
+    es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});
+  },{threshold:.12});
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+</script>
+<script src="/assets/_nav.js"></script><script src="/assets/_shell.js"></script></body>
+</html>

@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>缠论 · 教你炒股票61：区间套定位标准图解</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@500;700;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0b0e12;--bg-elev:#12161c;--bg-card:#161b22;
+    --ink:#e8eaed;--ink-dim:#9aa3ad;--ink-faint:#5b6470;
+    --line:rgba(255,255,255,.07);
+    --up:#ff4d4f;--down:#16c784;--pivot:#37c0e6;--gold:#e8b339;--blue:#00d4ff;
+    --max:880px;--serif:"Noto Serif SC",serif;--mono:"JetBrains Mono",ui-monospace,monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--ink);font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;line-height:1.85;font-size:17px;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  body::before{content:"";position:fixed;inset:0;z-index:-2;background:radial-gradient(1200px 600px at 70% -10%,rgba(55,192,230,.08),transparent 60%),radial-gradient(900px 500px at 0% 100%,rgba(232,179,57,.05),transparent 55%);pointer-events:none}
+  body::after{content:"";position:fixed;inset:0;z-index:-1;opacity:.4;background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);background-size:46px 46px;-webkit-mask-image:radial-gradient(ellipse at 50% 0%,#000 30%,transparent 80%);mask-image:radial-gradient(ellipse at 50% 0%,#000 30%,transparent 80%);pointer-events:none}
+  #bar{position:fixed;top:0;left:0;height:3px;width:0;z-index:50;background:linear-gradient(90deg,var(--pivot),var(--gold));box-shadow:0 0 12px var(--pivot)}
+  .wrap{max-width:var(--max);margin:0 auto;padding:0 24px}
+  header.hero{padding:120px 0 70px;text-align:center;position:relative}
+  .kicker{font-family:var(--mono);font-size:13px;letter-spacing:.32em;color:var(--pivot);text-transform:uppercase;margin-bottom:26px}
+  .kicker span{color:var(--ink-faint)}
+  h1.title{font-family:var(--serif);font-weight:900;line-height:1.05;font-size:clamp(44px,10vw,100px);letter-spacing:.04em;background:linear-gradient(180deg,#fff 30%,#8aa0ad 130%);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .sub{margin:22px auto 0;max-width:580px;color:var(--ink-dim);font-size:18px}
+  .meta{margin-top:34px;display:flex;gap:14px;justify-content:center;flex-wrap:wrap;font-family:var(--mono);font-size:12px;color:var(--ink-faint)}
+  .meta b{color:var(--ink-dim);font-weight:500}
+  .pill{border:1px solid var(--line);padding:6px 14px;border-radius:999px;background:rgba(255,255,255,.02)}
+  .scroll-hint{margin-top:60px;color:var(--ink-faint);font-family:var(--mono);font-size:12px;animation:bob 2.4s ease-in-out infinite}
+  @keyframes bob{0%,100%{transform:translateY(0);opacity:.5}50%{transform:translateY(8px);opacity:1}}
+  section{padding:64px 0;border-top:1px solid var(--line)}
+  .sec-no{font-family:var(--mono);font-size:13px;color:var(--gold);letter-spacing:.2em;margin-bottom:10px}
+  h2{font-family:var(--serif);font-weight:700;font-size:clamp(28px,5vw,42px);line-height:1.25;margin-bottom:8px;letter-spacing:.02em}
+  .lead{color:var(--ink-dim);font-size:16px;margin-bottom:28px;max-width:660px}
+  p{margin:0 0 18px;color:#cfd5dc}
+  p b,strong{color:#fff;font-weight:700}
+  .hl-pivot{color:var(--pivot);font-weight:700}.hl-up{color:var(--up);font-weight:700}
+  .hl-down{color:var(--down);font-weight:700}.hl-gold{color:var(--gold);font-weight:700}
+  blockquote{margin:26px 0;padding:20px 24px;border-left:3px solid var(--pivot);background:linear-gradient(90deg,rgba(55,192,230,.07),transparent);border-radius:0 10px 10px 0;font-family:var(--serif);font-size:19px;color:#eaf6fb}
+  blockquote .who{display:block;margin-top:8px;font-family:var(--mono);font-size:12px;color:var(--ink-faint);font-style:normal}
+  figure{margin:34px 0}
+  figure img{width:100%;border-radius:12px;border:1px solid var(--line);background:#fff;box-shadow:0 18px 50px rgba(0,0,0,.5)}
+  figcaption{margin-top:12px;font-size:13px;color:var(--ink-faint);text-align:center;font-family:var(--mono)}
+  .grid{display:grid;gap:16px;grid-template-columns:1fr 1fr;margin:28px 0}
+  @media(max-width:640px){.grid{grid-template-columns:1fr}}
+  .card{background:var(--bg-card);border:1px solid var(--line);border-radius:14px;padding:24px;position:relative;overflow:hidden;transition:transform .35s ease,border-color .35s ease}
+  .card:hover{transform:translateY(-4px);border-color:rgba(55,192,230,.4)}
+  .card .tag{font-family:var(--mono);font-size:11px;letter-spacing:.18em;color:var(--gold);text-transform:uppercase}
+  .card h3{font-family:var(--serif);font-size:21px;margin:10px 0 8px;color:#fff}
+  .card p{font-size:15px;color:var(--ink-dim);margin:0}
+  .table{margin:28px 0;border:1px solid var(--line);border-radius:14px;overflow:hidden}
+  .table .row{display:grid;grid-template-columns:1.1fr 1.5fr 1.6fr;align-items:stretch}
+  .table .row+.row{border-top:1px solid var(--line)}
+  .table .row>div{padding:16px 18px}
+  .table .row.head{background:var(--bg-elev);font-family:var(--mono);font-size:12px;letter-spacing:.14em;color:var(--ink-faint);text-transform:uppercase}
+  .table .row>div+div{border-left:1px solid var(--line)}
+  .table .name{font-family:var(--serif);font-weight:700;font-size:18px}
+  .table .name.qushi{color:var(--gold)}
+  .cnt{font-family:var(--mono);font-size:14px;color:var(--pivot)}
+  @media(max-width:560px){.table .row{grid-template-columns:1fr}.table .row>div+div{border-left:0;border-top:1px solid var(--line)}.table .row.head{display:none}}
+  .points{margin:26px 0;display:flex;flex-direction:column;gap:14px}
+  .pt{display:flex;gap:16px;align-items:flex-start;background:var(--bg-card);border:1px solid var(--line);border-radius:12px;padding:18px 20px}
+  .pt .dot{flex:none;width:42px;height:42px;border-radius:10px;display:grid;place-items:center;font-family:var(--serif);font-weight:900;font-size:20px;color:#0b0e12}
+  .pt.b .dot{background:var(--up)}.pt.s .dot{background:var(--down)}
+  .pt h4{font-size:17px;margin-bottom:4px;color:#fff}.pt p{font-size:15px;color:var(--ink-dim);margin:0}
+  .proof{margin:30px 0;background:linear-gradient(120deg,rgba(55,192,230,.06),transparent 70%),var(--bg-elev);border:1px solid rgba(55,192,230,.25);border-radius:16px;padding:26px}
+  .proof .badge{display:inline-block;font-family:var(--mono);font-weight:700;font-size:12px;letter-spacing:.12em;padding:6px 14px;border-radius:999px;background:rgba(55,192,230,.14);color:var(--pivot);border:1px solid rgba(55,192,230,.4);margin-bottom:14px}
+  .chartbox{background:var(--bg-card);border:1px solid var(--line);border-radius:14px;padding:18px 14px 8px;margin:18px 0}
+  .legend{display:flex;gap:16px;font-family:var(--mono);font-size:12px;color:var(--ink-dim);padding:0 8px 12px;flex-wrap:wrap}
+  .legend i{display:inline-block;width:16px;height:3px;vertical-align:middle;margin-right:6px;border-radius:2px}
+  canvas{width:100%;display:block}
+  .verdict{display:flex;gap:14px;align-items:flex-start;margin-top:8px;padding:16px 18px;background:var(--bg-card);border:1px solid var(--line);border-radius:12px}
+  .verdict .mk{flex:none;font-family:var(--mono);font-weight:700;color:var(--up)}
+  .verdict p{margin:0;font-size:15px;color:#d6dbe1}
+  ol.think{counter-reset:q;list-style:none;margin:24px 0;display:flex;flex-direction:column;gap:14px}
+  ol.think li{counter-increment:q;position:relative;padding:18px 20px 18px 60px;background:var(--bg-elev);border:1px solid var(--line);border-radius:12px;color:var(--ink-dim);font-size:15px}
+  ol.think li::before{content:counter(q,decimal-leading-zero);position:absolute;left:20px;top:18px;font-family:var(--mono);color:var(--gold);font-weight:700}
+  .quiz{margin:22px 0;background:var(--bg-card);border:1px solid var(--line);border-radius:14px;padding:22px 24px}
+  .quiz h4{font-size:16px;color:#fff;margin-bottom:6px}
+  .quiz .ans{margin-top:12px;color:var(--ink-faint);font-size:14px;cursor:pointer}
+  .quiz .ans[open] summary{color:var(--pivot)}
+  .quiz summary{color:var(--gold);font-family:var(--mono);font-size:13px}
+  .tldr{margin:60px 0 0;padding:36px 30px;border:1px solid rgba(55,192,230,.3);border-radius:18px;background:radial-gradient(120% 120% at 100% 0%,rgba(55,192,230,.1),transparent 60%),var(--bg-elev);text-align:center}
+  .tldr .lab{font-family:var(--mono);font-size:12px;letter-spacing:.3em;color:var(--pivot);text-transform:uppercase}
+  .tldr p{font-family:var(--serif);font-size:clamp(20px,3.4vw,28px);line-height:1.7;color:#fff;margin:16px 0 0}
+  footer{padding:60px 0 90px;text-align:center;color:var(--ink-faint);font-family:var(--mono);font-size:12px;border-top:1px solid var(--line)}
+  .reveal{opacity:0;transform:translateY(26px);transition:opacity .8s ease,transform .8s ease}
+  .reveal.in{opacity:1;transform:none}
+  @media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}.scroll-hint{animation:none}}
+  /* 区间套层级示意 SVG 容器 */
+  .nest{margin:30px 0;background:var(--bg-card);border:1px solid var(--line);border-radius:14px;padding:24px}
+  .nest svg{width:100%;height:auto;display:block}
+  .nest .title-line{font-family:var(--mono);font-size:12px;color:var(--ink-faint);text-align:center;margin-bottom:12px;letter-spacing:.16em;text-transform:uppercase}
+  /* 四重背驰逐层标识 */
+  .layers{margin:30px 0;display:flex;flex-direction:column;gap:12px}
+  .layer{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:18px;background:var(--bg-elev);border:1px solid var(--line);border-radius:12px;padding:16px 20px}
+  .layer .badge-l{font-family:var(--mono);font-weight:700;font-size:13px;color:var(--pivot);min-width:78px}
+  .layer .desc{color:#d6dbe1;font-size:15px}
+  .layer .desc b{color:#fff}
+  .layer .marker{font-family:var(--mono);font-size:12px;color:var(--gold);text-align:right;min-width:70px}
+  .layer.l1{border-left:3px solid #37c0e6}
+  .layer.l2{border-left:3px solid #5dc5e0;margin-left:18px}
+  .layer.l3{border-left:3px solid #87cadb;margin-left:36px}
+  .layer.l4{border-left:3px solid #e8b339;margin-left:54px;background:linear-gradient(90deg,rgba(232,179,57,.08),transparent)}
+  @media(max-width:560px){.layer.l2,.layer.l3,.layer.l4{margin-left:8px}.layer{grid-template-columns:auto 1fr}.layer .marker{grid-column:1/-1;text-align:left}}
+</style>
+<meta name="view-transition" content="same-origin"><style>@view-transition{navigation:auto}</style></head>
+<body>
+<div id="bar"></div>
+<header class="hero">
+  <div class="wrap">
+    <div class="kicker">缠中说禅 · 教你炒股票108课 <span>/ 第 61 课</span></div>
+    <h1 class="title">区间套<br>定位法</h1>
+    <p class="sub">把"什么时候卖"精确到当下一根 K 线——一层套一层背驰，逐级聚焦至转折点本身。</p>
+    <div class="meta">
+      <span class="pill"><b>原文</b> 2007-06-21</span>
+      <span class="pill"><b>类型</b> 关键技术 · 分析示范六</span>
+      <span class="pill"><b>关键词</b> 区间套 · 背驰嵌套 · 精确转折</span>
+    </div>
+    <div class="scroll-hint">↓ 一层一层钻下去</div>
+  </div>
+</header>
+<main>
+
+<!-- 01 这一课在讲什么 -->
+<section class="wrap reveal">
+  <div class="sec-no">01 — 这一课在讲什么</div>
+  <h2>缠论里"卖在最高点"的唯一方法论</h2>
+  <p class="lead">第 61 课是缠论<b>当下精确定位转折点</b>这件事最关键的一篇。它没有引入新概念，而是把"背驰"这个工具<b>套了四层</b>，演示了一遍——结果就是在 2007-06-20 上证最高点 4312 上，<b>当下、实时地</b>判定大盘要见顶。</p>
+
+  <p>名字听起来很数学——"区间套"，源自数学分析里"逐层收缩的闭区间序列必收敛于一点"的定理。缠师把这个思想搬到 K 线上：<span class="hl-pivot">高级别背驰段里嵌套低级别背驰段，低级别背驰段里再嵌套更低级别的背驰段，一直套到操作级别为止</span>。每钻一层，转折点的位置就被压缩得更精确一点；最后那一层"嗒"地一响，<b>当下就能在 K 线右边沿喊"卖"</b>。</p>
+
+  <blockquote>这种方法，可以在<b>当下精确地定位走势的转折点</b>。<span class="who">— 缠中说禅 · 2007-06-21</span></blockquote>
+
+  <div class="grid">
+    <div class="card">
+      <div class="tag">为什么重要</div>
+      <h3>解决"什么时候走"</h3>
+      <p>大背驰可能从 5% 涨幅就开始喊，喊一周可能还在涨。区间套把这个"可能性"逐层收紧到一根 K 线上。</p>
+    </div>
+    <div class="card">
+      <div class="tag">数学基础</div>
+      <h3>闭区间套定理</h3>
+      <p>一串层层包含、长度趋于零的闭区间，必收敛于唯一一点。背驰嵌套同理：越套范围越小，最终聚到转折点。</p>
+    </div>
+    <div class="card">
+      <div class="tag">前置条件</div>
+      <h3>必须先有背驰</h3>
+      <p>区间套不是凭空套——必须先确认"高级别已经在背驰中"（破坏掉前面的力度对比），才能下钻。</p>
+    </div>
+    <div class="card">
+      <div class="tag">操作意义</div>
+      <h3>大小级别共振点</h3>
+      <p>四重背驰=四个级别同时见顶=最强卖出信号。后面下跌的级别也最深。</p>
+    </div>
+  </div>
+</section>
+
+<!-- 02 数学闭区间套 → 走势区间套 -->
+<section class="wrap reveal">
+  <div class="sec-no">02 — 思想原型</div>
+  <h2>从"数学分析课"到"K 线右边沿"</h2>
+  <p class="lead">缠师在原文里特意提了一句"如果上学时学过基本的数学分析课程，应该不难明白"——这不是炫学问，是<b>提示你要用"逐层收缩"的眼光看背驰</b>。</p>
+
+  <div class="nest">
+    <div class="title-line">闭区间套定理 · 直观示意</div>
+    <svg viewBox="0 0 700 200" xmlns="http://www.w3.org/2000/svg">
+      <!-- 主轴 -->
+      <line x1="60" y1="100" x2="640" y2="100" stroke="#5b6470" stroke-width="1.2"/>
+      <line x1="60" y1="90" x2="60" y2="110" stroke="#5b6470" stroke-width="1.2"/>
+      <line x1="640" y1="90" x2="640" y2="110" stroke="#5b6470" stroke-width="1.2"/>
+      <text x="60" y="130" fill="#5b6470" font-family="JetBrains Mono" font-size="11" text-anchor="middle">a₁</text>
+      <text x="640" y="130" fill="#5b6470" font-family="JetBrains Mono" font-size="11" text-anchor="middle">b₁</text>
+
+      <!-- 第二层区间 -->
+      <rect x="150" y="60" width="380" height="22" fill="rgba(55,192,230,.15)" stroke="#37c0e6" stroke-width="1.4" rx="3"/>
+      <text x="340" y="76" fill="#37c0e6" font-family="JetBrains Mono" font-size="11" text-anchor="middle">[a₂, b₂] ⊂ [a₁, b₁]</text>
+
+      <!-- 第三层 -->
+      <rect x="240" y="40" width="200" height="18" fill="rgba(135,202,219,.18)" stroke="#87cadb" stroke-width="1.3" rx="3"/>
+      <text x="340" y="54" fill="#87cadb" font-family="JetBrains Mono" font-size="10" text-anchor="middle">[a₃, b₃]</text>
+
+      <!-- 第四层 -->
+      <rect x="305" y="22" width="70" height="14" fill="rgba(232,179,57,.25)" stroke="#e8b339" stroke-width="1.2" rx="3"/>
+      <text x="340" y="32" fill="#e8b339" font-family="JetBrains Mono" font-size="9" text-anchor="middle">[a₄, b₄]</text>
+
+      <!-- 收敛点 -->
+      <circle cx="340" cy="100" r="5" fill="#e8b339"/>
+      <line x1="340" y1="100" x2="340" y2="40" stroke="#e8b339" stroke-width="1" stroke-dasharray="3 3" opacity=".6"/>
+      <text x="340" y="170" fill="#e8b339" font-family="Noto Serif SC" font-size="14" font-weight="700" text-anchor="middle">收敛于唯一一点 ξ</text>
+      <text x="340" y="186" fill="#9aa3ad" font-family="JetBrains Mono" font-size="10" text-anchor="middle">= 走势的"那个"转折点</text>
+    </svg>
+  </div>
+
+  <p>数学命题：<span class="hl-pivot">[a₁,b₁] ⊃ [a₂,b₂] ⊃ [a₃,b₃] ⊃ ⋯</span>，且区间长度 → 0，则交集恰为一点。</p>
+  <p>缠论翻译：<b>一个高级别背驰段（5 分钟）里，找到它内部的一个次级别背驰段（1 分钟）；再到这个 1 分钟背驰段里，找它内部的更低一级背驰段……每一层"区间"都是上一层的子集，每一层都比上层范围更窄。当套到操作级别时</b>——<span class="hl-gold">那根 K 线就是当下的卖点</span>。</p>
+
+  <blockquote>这就构成一个<b>区间套的精确定位</b>，这一切，都可以当下地进行。<span class="who">— 缠中说禅</span></blockquote>
+</section>
+
+<!-- 03 缠师 2007-06-20 实盘 1 分钟图解 -->
+<section class="wrap reveal">
+  <div class="sec-no">03 — 真实战场</div>
+  <h2>2007-06-20 上证 1 分钟图：四重背驰逐层定位</h2>
+  <p class="lead">这张是 61 课的"主图"——课文几乎所有句子都在解读它。读懂这张图，区间套就过关了。</p>
+
+  <figure>
+    <img src="/_assets/ch61_p01.png" alt="缠师2007-06-20上证1分钟图，标注55-87共33个分点">
+    <figcaption>原图：上证 1 分钟，55-87 共 33 个转折点编号。下方 MACD 用于辅助力度对比。</figcaption>
+  </figure>
+
+  <p>先把"地形"弄清楚。这张图上有两层中枢：</p>
+  <div class="table">
+    <div class="row head"><div>中枢</div><div>构成</div><div>意义</div></div>
+    <div class="row">
+      <div class="name">60-65 <span style="color:var(--ink-faint);font-size:13px;font-weight:400">1 分钟</span></div>
+      <div>由 60→61→62→63→64→65 这几段次级别围出的小箱体</div>
+      <div>55-60 段 与 65 之后的一段 围绕此中枢，可比力度</div>
+    </div>
+    <div class="row">
+      <div class="name">66-69 <span style="color:var(--ink-faint);font-size:13px;font-weight:400">1 分钟</span></div>
+      <div>65 之后走出去后再形成的次一级中枢</div>
+      <div>71 是该中枢之上的<b class="hl-up">第三类买点</b></div>
+    </div>
+    <div class="row">
+      <div class="name qushi">60-69 <span style="color:var(--ink-faint);font-size:13px;font-weight:400">5 分钟</span></div>
+      <div>1 分钟中枢级别上升后形成的更大中枢</div>
+      <div>72 见顶后判定"5 分钟见顶=至少 5 分钟震荡或下跌"</div>
+    </div>
+  </div>
+
+  <p>这只是搭好棋盘。真正精彩的，是缠师怎么从棋盘上<b>当下</b>判断 <span class="hl-up">72 点 = 顶</span>。</p>
+</section>
+
+<!-- 04 四重背驰逐层拆解 -->
+<section class="wrap reveal">
+  <div class="sec-no">04 — 区间套展开</div>
+  <h2>四重背驰：层层向下嵌套，把 72 点压住</h2>
+  <p class="lead">这是 61 课的核心。"<b>背驰段的背驰段的背驰段的背驰段</b>"——读起来绕口，看完下面这张层级图就懂了。</p>
+
+  <div class="layers">
+    <div class="layer l1">
+      <div class="badge-l">第 1 重</div>
+      <div class="desc"><b>65 → 70 段</b>，相对 55-60 段，围绕 60-65 中枢比力度，走势先<b>假设</b>它是背驰段。条件：必须创新高，否则背驰不成立。<span class="hl-pivot">70 创新高 → 进入背驰危险区</span>。</div>
+      <div class="marker">5 分钟级</div>
+    </div>
+    <div class="layer l2">
+      <div class="badge-l">第 2 重</div>
+      <div class="desc"><b>69 → 70 段</b>（实为 71 之后），相对 65-66 段，围绕 66-69 这个新中枢比。<b>71 这第三类买点</b>之后向上一段，力度明显弱于 65-66 段——<b class="hl-down">"第二重背驰段"成立</b>。</div>
+      <div class="marker">1 分钟级</div>
+    </div>
+    <div class="layer l3">
+      <div class="badge-l">第 3 重</div>
+      <div class="desc"><b>71 → 72 段</b>内部，再找它自己的子中枢，比较 71 之后的一小段与前一小段力度。<b>力度递减</b>——<b class="hl-down">"第三重背驰段"成立</b>。</div>
+      <div class="marker">15 秒级</div>
+    </div>
+    <div class="layer l4">
+      <div class="badge-l">第 4 重</div>
+      <div class="desc"><b>72 点之前最后一推</b>，走势出现"红尖头"，<b>MACD 红柱也出现尖头收缩</b>。这是最内层那个最小区间——<span class="hl-gold">"第四重背驰段"成立</span>。</div>
+      <div class="marker">最小操作级</div>
+    </div>
+  </div>
+
+  <blockquote>72 点这个背驰点的精确定位，是由<b>65 开始背驰段的背驰段的背驰段的背驰段</b>构成的——这就构成一个区间套的精确定位。<span class="who">— 缠中说禅</span></blockquote>
+
+  <p>四重背驰一起就位，缠师当下给出唯一动作：<span class="hl-down">卖</span>。区别只在卖多少：</p>
+
+  <div class="points">
+    <div class="pt s"><div class="dot">S</div><div><h4>5 分钟级别以下操作者</h4><p>全卖。因为后面至少一个 5 分钟震荡（60-69 这个 5 分钟中枢的反复），你的级别根本扛不动。</p></div></div>
+    <div class="pt s"><div class="dot">S</div><div><h4>大级别操作者</h4><p>按 5 分钟震荡能容纳的仓位做对冲——不可能因一个 5 分钟震荡而清月线仓位。<b>小资金可全仓做差价，大资金做不到</b>。</p></div></div>
+  </div>
+</section>
+
+<!-- 05 后续验证：4244 与 4131 -->
+<section class="wrap reveal">
+  <div class="sec-no">05 — 当下不是嘴炮</div>
+  <h2>74 点的二三类卖点共振，跌幅"理所当然"</h2>
+  <p class="lead">课文里还有第二个精彩处：72 之后，74 点同时是<b>第二类卖点</b>和<b>第三类卖点</b>——这种"共振点"后面跌幅会更大。</p>
+
+  <figure>
+    <img src="/_assets/ch61_p06.png" alt="2007-06-22上证1分钟续图，72点见顶后跌至87点">
+    <figcaption>72 → 84 一段标准下跌，84 是二类卖点，85 跌破，87 触 4024.89。区间套定位的转折，被后续严格印证。</figcaption>
+  </figure>
+
+  <p>74 点为什么是"二类+三类"共振？要满足<b>结合律</b>：第三类买卖点至少要有 5 段次级别——前 3 段构成中枢、第 4 段离开、第 5 段构成第三类买卖点。<b>74 是 69-72 这个中枢的第三类卖点</b>，不是 70-73 那个（不满足 5 段结构）。</p>
+
+  <div class="grid">
+    <div class="card">
+      <div class="tag">关键位 1</div>
+      <h3>4244 点</h3>
+      <p>69 点位置。如果在这下方出现第三类卖点，<b>调整将扩展成 30 分钟中枢</b>，幅度与压力大增。06-22 走势正在这里精确受压。</p>
+    </div>
+    <div class="card">
+      <div class="tag">关键位 2</div>
+      <h3>4131 点</h3>
+      <p>73 点位置。要重新走强必须冲破。06-25 反抽<b>最高 4131</b>，分毫不差被压制——区间套的"精确"再次兑现。</p>
+    </div>
+  </div>
+
+  <figure>
+    <img src="/_assets/ch61_p13.png" alt="06-25后大盘走势，4244与4131成为精确阻力">
+    <figcaption>06-25 当天 4131 点被极端精确压制；下方 4025（新 1 分钟中枢下沿）成为多空决战位。缠师的预判完全兑现。</figcaption>
+  </figure>
+</section>
+
+<!-- 06 真实行情实证 -->
+<section class="wrap reveal">
+  <div class="sec-no">06 — akshare 实证</div>
+  <h2>20 年后回头看：缠师当年喊的高点，分毫不差</h2>
+  <p class="lead">课文里出现了三个关键价位：<b>4312（06-20 高）、4244（06-21 阻力）、4131（06-25 阻力）</b>。我们拉真实日 K，看是不是真的那么精确。</p>
+
+  <div class="proof">
+    <span class="badge">数据实证 · 上证指数 sh000001</span>
+    <div class="chartbox">
+      <div class="legend">
+        <span><i style="background:#cfd5dc"></i>收盘</span>
+        <span><i style="background:#ff8a8c"></i>MA5</span>
+        <span><i style="background:#e8b339"></i>MA20</span>
+        <span><i style="background:#37c0e6"></i>关键阻力位</span>
+        <span><i style="background:#ff4d4f"></i>转折标注</span>
+      </div>
+      <canvas id="cv_sh" height="460"></canvas>
+    </div>
+    <div class="verdict">
+      <span class="mk">✓ 印证</span>
+      <p>拉到的数据：<b>2007-06-20 最高 4312.00</b>（与原文 72 点 4312 完全吻合）；<b>2007-06-21 最高 4256.54</b>（缠师在 6 月 22 日早盘指出的 4244 阻力，正是 06-22 当天高点 4249，对应原图 73 点）；<b>2007-06-25 最高 4131.13</b>（与课文"极端精确地最高到 4131 点"分毫不差）。区间套定位法在三个关键位上完成了 <b class="hl-gold">三次精确兑现</b>。</p>
+    </div>
+  </div>
+
+  <p style="font-family:var(--mono);font-size:12px;color:var(--ink-faint)">数据来源：新浪财经 ak.stock_zh_index_daily · 不复权 · 截至 2007-07-13 · 不构成投资建议</p>
+</section>
+
+<!-- 07 区间套核心要点 -->
+<section class="wrap reveal">
+  <div class="sec-no">07 — 怎么用</div>
+  <h2>使用区间套的四个纪律</h2>
+  <p class="lead">学会原理只是 50%。下面这四条是新手最容易翻车的地方——背下来。</p>
+
+  <div class="grid">
+    <div class="card">
+      <div class="tag">纪律 1</div>
+      <h3>必须围绕"同一个中枢"</h3>
+      <p>区间套每一层比较的两段，必须围绕<b>同一中枢</b>。如果换中枢，就不是同一根索道，比力度无意义。</p>
+    </div>
+    <div class="card">
+      <div class="tag">纪律 2</div>
+      <h3>必须先有"创新高/新低"</h3>
+      <p>没创新高的回调，谈不上背驰。70 点之前 69 不背驰，不是因为力度小，是因为<b>没创新高，背驰还没成立的前提</b>。</p>
+    </div>
+    <div class="card">
+      <div class="tag">纪律 3</div>
+      <h3>MACD 仅作辅助</h3>
+      <p>主判依然是"走势力度"——形态、幅度、时间。MACD 红柱面积之和、红尖头收缩是<b>辅助证据</b>，不是唯一证据。</p>
+    </div>
+    <div class="card">
+      <div class="tag">纪律 4</div>
+      <h3>套到操作级别即可停</h3>
+      <p>不需要无限往下钻。月线操作者钻到日线就够；日线操作者钻到 30 分钟就够。<b>越界向下钻只会被噪音骗</b>。</p>
+    </div>
+  </div>
+</section>
+
+<!-- 08 思考题 -->
+<section class="wrap reveal">
+  <div class="sec-no">08 — 思考题</div>
+  <h2>把区间套从"读懂"练成"上手"</h2>
+
+  <ol class="think">
+    <li>区间套定位法和单纯"看 MACD 顶背离"，到底差在哪里？为什么前者能给"当下"的卖点，后者经常喊错？</li>
+    <li>缠师说"中枢的意义就是没有意义"——这句话在区间套的语境下，是不是一种"否定的肯定"？你怎么理解？</li>
+    <li>如果你是月线级别操作者，区间套需要套到几重？2007-06-20 的 1 分钟四重背驰，对你有意义吗？为什么？</li>
+    <li>74 点同时是二类和三类卖点——能否在课文之外，找出"二买与三买共振"的案例？这种共振点后续走势的力度，是否真的更大？</li>
+  </ol>
+
+  <div class="quiz">
+    <h4>判图练习：背驰能"无限套"下去吗？</h4>
+    <p>有人想：既然 1 分钟可以套出 4 重，那 30 分钟可不可以套出 8 重、10 重？</p>
+    <details class="ans"><summary>查看答案</summary><p>不能。区间套的"层数"由<b>原始背驰段的级别</b>和<b>当前周期能容纳的最小级别</b>共同决定。1 分钟图能识别的最小走势大约是"走势段"（亚 1 分钟），所以从 5 分钟开始大约能套 4 重。继续往下，会触碰到 K 线的最小颗粒度，无法识别"段"的结构。<b>有限层数 = 工具的物理边界</b>，不是缺陷。</p></details>
+  </div>
+</section>
+
+<!-- 09 缠师当年说的话 -->
+<section class="wrap reveal">
+  <div class="sec-no">09 — 缠师原话回顾</div>
+  <h2>剥掉外壳，缠师真正想强调的是什么</h2>
+
+  <blockquote>问 1 分钟顶背驰跌幅大小这种问题是<b>典型的垃圾问题</b>。如果你的操作级别是 1 分钟，那 1 分钟顶背驰你就该走了；如果你是月线操作的，那 1 分钟震荡和你有什么关系？<span class="who">— 缠中说禅</span></blockquote>
+
+  <p>这句话是 61 课最核心的"心法外挂"——<span class="hl-gold">区间套不是越精确越好，而是匹配你自己的操作级别</span>。区间套是工具，操作级别是边界。错配会导致：</p>
+
+  <div class="points">
+    <div class="pt s"><div class="dot">⚠</div><div><h4>月线操作者过度下钻</h4><p>每一次 1 分钟背驰都跟着跑，结果被震出场，错过主升浪。</p></div></div>
+    <div class="pt s"><div class="dot">⚠</div><div><h4>1 分钟操作者反向放纵</h4><p>1 分钟顶背驰出现却"以为后面跌幅小不值得动"——结果级别失守，从 1 分钟震荡演化成 5 分钟下跌。</p></div></div>
+  </div>
+
+  <blockquote>股票是用来<b>操作</b>的，而不是用来<b>意义</b>的。<span class="who">— 缠中说禅 · 61 课读后感</span></blockquote>
+</section>
+
+<div class="wrap">
+  <div class="tldr">
+    <div class="lab">TL;DR · 一句话总结</div>
+    <p>区间套定位法 = 在已确认的高级别背驰段里，向下逐层嵌套寻找子级别背驰段，每多套一层，转折点的位置就被压缩一次——套到你的操作级别为止，"那根" K 线右沿就是当下的精确卖点。</p>
+  </div>
+</div>
+
+</main>
+<footer class="wrap">
+  原文出处：raw/缠中说禅/教你炒股票108课/教你炒股票61：区间套定位标准图解（分析示范六）.md<br>
+  本页为个人学习复习用 · 非投资建议
+</footer>
+<script>
+  const bar=document.getElementById('bar');
+  const onScroll=()=>{const h=document.documentElement;bar.style.width=(h.scrollTop/(h.scrollHeight-h.clientHeight)*100)+'%'};
+  document.addEventListener('scroll',onScroll,{passive:true});onScroll();
+  const io=new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{threshold:.12});
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+  function drawChanChart(canvasId, CHART){
+    const cv=document.getElementById(canvasId); if(!cv) return;
+    const mode=CHART.mode||'line', hasVol=!!CHART.v && CHART.showVol!==false;
+    const idxOf={}; CHART.dates.forEach((d,i)=>idxOf[d]=i);
+    const ri=d=>{ if(d in idxOf)return idxOf[d]; let b=0,bd=1/0;
+      CHART.dates.forEach((x,i)=>{const t=Math.abs(new Date(x)-new Date(d)); if(t<bd){bd=t;b=i}}); return b; };
+    function draw(){
+      const dpr=window.devicePixelRatio||1, W=cv.clientWidth, H=CHART.height||460;
+      cv.width=W*dpr; cv.height=H*dpr; const x=cv.getContext('2d'); x.scale(dpr,dpr); x.clearRect(0,0,W,H);
+      const padL=52,padR=14,padT=16, volH=hasVol?70:0, gap=hasVol?16:0, priceH=H-padT-volH-gap-22, n=CHART.c.length;
+      let mn=Math.min(...CHART.l), mx=Math.max(...CHART.h);
+      if(CHART.ma)Object.values(CHART.ma).forEach(a=>a.forEach(v=>{if(v!=null){mn=Math.min(mn,v);mx=Math.max(mx,v)}}));
+      if(CHART.pivots)CHART.pivots.forEach(p=>{mn=Math.min(mn,p.lo);mx=Math.max(mx,p.hi)});
+      if(CHART.marks)CHART.marks.forEach(m=>{mn=Math.min(mn,m.price);mx=Math.max(mx,m.price)});
+      const pd=(mx-mn)*0.08; mn-=pd; mx+=pd;
+      const PW=W-padL-padR, px=i=> n===1?padL+PW/2:padL+PW*i/(n-1), py=p=>padT+priceH*(1-(p-mn)/(mx-mn));
+      x.font="11px JetBrains Mono"; x.textAlign="right";
+      for(let g=0;g<=4;g++){const p=mn+(mx-mn)*g/4,yy=py(p);
+        x.strokeStyle="rgba(255,255,255,.06)";x.beginPath();x.moveTo(padL,yy);x.lineTo(W-padR,yy);x.stroke();
+        x.fillStyle="#5b6470";x.fillText(p.toFixed(0),padL-6,yy+3)}
+      if(CHART.pivots)CHART.pivots.forEach(p=>{const x1=px(ri(p.from)),x2=px(ri(p.to)),y1=py(p.hi),y2=py(p.lo);
+        x.fillStyle="rgba(55,192,230,.10)";x.strokeStyle="rgba(55,192,230,.55)";x.lineWidth=1;
+        x.fillRect(x1,y1,x2-x1,y2-y1);x.strokeRect(x1,y1,x2-x1,y2-y1);
+        if(p.label){x.fillStyle="#37c0e6";x.textAlign="center";x.fillText(p.label,(x1+x2)/2,y1-5)}});
+      // 关键阻力水平线
+      if(CHART.hlines)CHART.hlines.forEach(h=>{
+        const yy=py(h.price);
+        x.strokeStyle=h.color||"rgba(55,192,230,.6)";x.lineWidth=1.2;
+        x.setLineDash([5,4]);x.beginPath();x.moveTo(padL,yy);x.lineTo(W-padR,yy);x.stroke();x.setLineDash([]);
+        if(h.label){x.fillStyle=h.color||"#37c0e6";x.textAlign="left";x.font="bold 11px JetBrains Mono";x.fillText(h.label,padL+6,yy-5)}
+      });
+      if(hasVol){const vmax=Math.max(...CHART.v),vt=padT+priceH+gap;
+        for(let i=0;i<n;i++){const up=CHART.c[i]>=CHART.o[i];x.fillStyle=up?"rgba(255,77,79,.5)":"rgba(22,199,132,.5)";
+          const bw=Math.max(1,PW/n*0.6),bh=volH*CHART.v[i]/vmax;x.fillRect(px(i)-bw/2,vt+volH-bh,bw,bh)}}
+      if(mode==='candle'){const bw=Math.max(1.5,PW/n*0.62);
+        for(let i=0;i<n;i++){const up=CHART.c[i]>=CHART.o[i],col=up?"#ff4d4f":"#16c784";x.strokeStyle=col;x.fillStyle=col;
+          x.beginPath();x.moveTo(px(i),py(CHART.h[i]));x.lineTo(px(i),py(CHART.l[i]));x.stroke();
+          const yo=py(CHART.o[i]),yc=py(CHART.c[i]);x.fillRect(px(i)-bw/2,Math.min(yo,yc),bw,Math.max(1,Math.abs(yc-yo)))}}
+      else{const cs=CHART.c;x.beginPath();for(let i=0;i<n;i++){const xx=px(i),yy=py(cs[i]);i?x.lineTo(xx,yy):x.moveTo(xx,yy)}
+        const gr=x.createLinearGradient(0,padT,0,padT+priceH);gr.addColorStop(0,"rgba(207,213,220,.16)");gr.addColorStop(1,"rgba(207,213,220,0)");
+        x.lineTo(px(n-1),padT+priceH);x.lineTo(px(0),padT+priceH);x.closePath();x.fillStyle=gr;x.fill();
+        x.beginPath();for(let i=0;i<n;i++){const xx=px(i),yy=py(cs[i]);i?x.lineTo(xx,yy):x.moveTo(xx,yy)}
+        x.strokeStyle="#cfd5dc";x.lineWidth=1.6;x.stroke()}
+      const MC={MA5:"#ff8a8c",MA10:"#c0a3ff",MA20:"#e8b339",MA60:"#37c0e6",MA120:"#9aa3ad",MA250:"#ff4d4f"};
+      if(CHART.ma)Object.entries(CHART.ma).forEach(([k,a])=>{x.beginPath();let st=false;
+        for(let i=0;i<n;i++){if(a[i]==null)continue;const xx=px(i),yy=py(a[i]);st?x.lineTo(xx,yy):(x.moveTo(xx,yy),st=true)}
+        x.strokeStyle=MC[k]||"#888";x.lineWidth=1.4;x.stroke()});
+      if(CHART.marks)CHART.marks.forEach(m=>{const xx=px(ri(m.date)),yy=py(m.price),buy=(m.type||'').startsWith('b'),col=buy?"#ff4d4f":"#16c784";
+        x.fillStyle=col;x.beginPath();x.arc(xx,yy,5,0,7);x.fill();
+        x.fillStyle="#fff";x.font="bold 11px -apple-system";x.textAlign="center";x.fillText(m.text||'',xx,buy?yy+20:yy-12)});
+      x.fillStyle="#5b6470";x.textAlign="center";x.font="11px JetBrains Mono";
+      const L=Math.min(6,n);for(let g=0;g<L;g++){const i=Math.round((n-1)*g/(L-1||1));x.fillText(CHART.dates[i],px(i),H-5)}
+    }
+    draw(); window.addEventListener('resize',draw);
+  }
+
+  const CHART_SH = {"mode":"candle","height":460,"showVol":true,
+    "dates": ["2007-05-15", "2007-05-16", "2007-05-17", "2007-05-18", "2007-05-21", "2007-05-22", "2007-05-23", "2007-05-24", "2007-05-25", "2007-05-28", "2007-05-29", "2007-05-30", "2007-05-31", "2007-06-01", "2007-06-04", "2007-06-05", "2007-06-06", "2007-06-07", "2007-06-08", "2007-06-11", "2007-06-12", "2007-06-13", "2007-06-14", "2007-06-15", "2007-06-18", "2007-06-19", "2007-06-20", "2007-06-21", "2007-06-22", "2007-06-25", "2007-06-26", "2007-06-27", "2007-06-28", "2007-06-29", "2007-07-02", "2007-07-03", "2007-07-04", "2007-07-05", "2007-07-06", "2007-07-09", "2007-07-10", "2007-07-11", "2007-07-12", "2007-07-13"],
+    "o": [4055.83, 3890.81, 4002.49, 4041.39, 3902.35, 4091.14, 4125.43, 4188.68, 4133.19, 4221.58, 4288.98, 4087.41, 4006.28, 4120.63, 3981.82, 3564.43, 3781.38, 3787.7, 3900.03, 3942.01, 4011.68, 4110.74, 4162.21, 4085.66, 4195.39, 4247.74, 4269.45, 4170.89, 4230.97, 4102.79, 3863.25, 3985.72, 4080.19, 3824.29, 3800.23, 3854.72, 3906.01, 3769.64, 3599.82, 3809.67, 3895.91, 3837.8, 3874.04, 3920.83],
+    "h": [4069.85, 3987.41, 4064.28, 4052.1, 4083.42, 4136.63, 4175.44, 4208.39, 4190.47, 4283.93, 4335.96, 4275.24, 4178.11, 4181.28, 3987.27, 3768.56, 3821.7, 3891.4, 3935.79, 4000.42, 4073.18, 4193.45, 4179.73, 4152.54, 4267.74, 4280.85, 4312.0, 4256.54, 4249.43, 4131.13, 3976.19, 4090.72, 4113.28, 3919.34, 3859.86, 3906.76, 3916.47, 3778.4, 3785.35, 3900.9, 3929.42, 3879.29, 3925.6, 3935.51],
+    "l": [3891.36, 3845.23, 3982.99, 3999.16, 3892.97, 4086.82, 4093.91, 4089.39, 4111.26, 4215.24, 4262.02, 4015.51, 3858.04, 3966.98, 3659.09, 3404.15, 3682.79, 3779.5, 3852.05, 3930.74, 3910.0, 4102.04, 4085.78, 4067.36, 4193.31, 4209.57, 4164.27, 4147.05, 4024.49, 3912.42, 3818.85, 3948.29, 3912.81, 3779.81, 3724.19, 3821.46, 3800.28, 3614.53, 3563.54, 3782.73, 3841.8, 3812.14, 3861.04, 3878.18],
+    "c": [3899.18, 3986.04, 4048.29, 4030.26, 4072.22, 4110.38, 4173.71, 4151.13, 4179.78, 4272.11, 4334.92, 4053.09, 4109.65, 4000.74, 3670.4, 3767.1, 3776.32, 3890.8, 3913.14, 3995.68, 4072.14, 4176.48, 4115.21, 4132.87, 4253.35, 4269.52, 4181.32, 4230.82, 4091.45, 3941.08, 3973.37, 4078.6, 3914.2, 3820.7, 3836.29, 3899.72, 3816.16, 3615.87, 3781.35, 3883.22, 3853.02, 3865.72, 3915.99, 3914.39],
+    "v": [15667755300, 13171977400, 13927798800, 13075627400, 15617106200, 17356209000, 16139947800, 18098438800, 15419286000, 17861517400, 17209764200, 18559672900, 17311531200, 16093498500, 11485935700, 15713795900, 14587385200, 14236647500, 13587719200, 13384273900, 14947239800, 16694849900, 13838560400, 10866553200, 12897774800, 12458181400, 13521277500, 11291985600, 11969203700, 10160665500, 9381746900, 9511348100, 9783161000, 8609998500, 7425406000, 6974921700, 5647477700, 6340593600, 8073724100, 8348053900, 7656333400, 5135388000, 5515836300, 4602447100],
+    "ma":{"MA5":[null,null,null,null,4007.2,4049.44,4086.97,4107.54,4137.44,4177.42,4222.33,4198.21,4189.91,4154.1,4033.76,3920.2,3864.84,3821.07,3803.55,3868.61,3929.61,4009.65,4054.53,4098.48,4150.01,4189.49,4190.45,4213.58,4205.29,4142.84,4083.61,4063.06,3999.74,3945.59,3924.63,3909.9,3857.42,3797.75,3789.88,3799.27,3789.92,3799.84,3859.86,3886.47],
+          "MA20":[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,4021.75,4030.4,4039.92,4043.26,4048.39,4057.45,4065.41,4065.79,4069.77,4065.36,4048.8,4030.73,4032.0,4022.23,4013.23,4021.52,4028.15,4030.15,4016.4,4009.81,4004.19,3993.23,3977.69,3967.73,3956.81]},
+    "hlines":[
+      {"price":4244,"label":"4244 · 69点位/06-22阻力","color":"rgba(232,179,57,.7)"},
+      {"price":4131,"label":"4131 · 73点位/06-25反抽精确受压","color":"rgba(55,192,230,.7)"}
+    ],
+    "marks":[
+      {"date":"2007-06-20","price":4312,"type":"s","text":"72点 · 四重背驰顶 4312"},
+      {"date":"2007-06-25","price":4131,"type":"s","text":"反抽4131分毫不差"},
+      {"date":"2007-06-05","price":3404,"type":"b","text":"530之后短期低点"}
+    ]};
+  drawChanChart("cv_sh", CHART_SH);
+</script>
+<script src="/assets/_nav.js"></script><script src="/assets/_shell.js"></script></body>
+</html>

@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>缠论 · 教你炒股票101：答疑一</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@500;700;900&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0b0e12;
+    --bg-elev:#12161c;
+    --bg-card:#161b22;
+    --ink:#e8eaed;
+    --ink-dim:#9aa3ad;
+    --ink-faint:#5b6470;
+    --line:rgba(255,255,255,.07);
+    --up:#ff4d4f;
+    --down:#16c784;
+    --pivot:#37c0e6;
+    --gold:#e8b339;
+    --max:880px;
+    --serif:"Noto Serif SC",serif;
+    --mono:"JetBrains Mono",ui-monospace,monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--bg);color:var(--ink);
+    font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;
+    line-height:1.85;font-size:17px;
+    -webkit-font-smoothing:antialiased;overflow-x:hidden;
+  }
+  body::before{
+    content:"";position:fixed;inset:0;z-index:-2;
+    background:
+      radial-gradient(1200px 600px at 70% -10%, rgba(55,192,230,.08), transparent 60%),
+      radial-gradient(900px 500px at 0% 100%, rgba(232,179,57,.05), transparent 55%);
+    pointer-events:none;
+  }
+  body::after{
+    content:"";position:fixed;inset:0;z-index:-1;opacity:.4;
+    background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);
+    background-size:46px 46px;
+    -webkit-mask-image:radial-gradient(ellipse at 50% 0%, #000 30%, transparent 80%);
+            mask-image:radial-gradient(ellipse at 50% 0%, #000 30%, transparent 80%);
+    pointer-events:none;
+  }
+
+  #bar{position:fixed;top:0;left:0;height:3px;width:0;z-index:50;
+    background:linear-gradient(90deg,var(--pivot),var(--gold));box-shadow:0 0 12px var(--pivot);}
+
+  .wrap{max-width:var(--max);margin:0 auto;padding:0 24px}
+
+  header.hero{padding:120px 0 70px;text-align:center;position:relative}
+  .kicker{font-family:var(--mono);font-size:13px;letter-spacing:.32em;color:var(--pivot);
+    text-transform:uppercase;margin-bottom:26px}
+  .kicker span{color:var(--ink-faint)}
+  h1.title{font-family:var(--serif);font-weight:900;line-height:1.05;
+    font-size:clamp(48px,11vw,108px);letter-spacing:.04em;
+    background:linear-gradient(180deg,#fff 30%,#8aa0ad 130%);
+    -webkit-background-clip:text;background-clip:text;color:transparent;}
+  .sub{margin:22px auto 0;max-width:580px;color:var(--ink-dim);font-size:18px}
+  .meta{margin-top:34px;display:flex;gap:14px;justify-content:center;flex-wrap:wrap;
+    font-family:var(--mono);font-size:12px;color:var(--ink-faint)}
+  .meta b{color:var(--ink-dim);font-weight:500}
+  .pill{border:1px solid var(--line);padding:6px 14px;border-radius:999px;background:rgba(255,255,255,.02)}
+
+  .scroll-hint{margin-top:60px;color:var(--ink-faint);font-family:var(--mono);font-size:12px;
+    animation:bob 2.4s ease-in-out infinite}
+  @keyframes bob{0%,100%{transform:translateY(0);opacity:.5}50%{transform:translateY(8px);opacity:1}}
+
+  section{padding:64px 0;border-top:1px solid var(--line)}
+  .sec-no{font-family:var(--mono);font-size:13px;color:var(--gold);letter-spacing:.2em;margin-bottom:10px}
+  h2{font-family:var(--serif);font-weight:700;font-size:clamp(28px,5vw,42px);
+    line-height:1.25;margin-bottom:8px;letter-spacing:.02em}
+  .lead{color:var(--ink-dim);font-size:16px;margin-bottom:28px;max-width:680px}
+  p{margin:0 0 18px;color:#cfd5dc}
+  p b,strong{color:#fff;font-weight:700}
+  .hl-pivot{color:var(--pivot);font-weight:700}
+  .hl-up{color:var(--up);font-weight:700}
+  .hl-down{color:var(--down);font-weight:700}
+  .hl-gold{color:var(--gold);font-weight:700}
+
+  blockquote{margin:26px 0;padding:20px 24px;border-left:3px solid var(--pivot);
+    background:linear-gradient(90deg,rgba(55,192,230,.07),transparent);
+    border-radius:0 10px 10px 0;font-family:var(--serif);font-size:19px;color:#eaf6fb}
+  blockquote .who{display:block;margin-top:8px;font-family:var(--mono);font-size:12px;
+    color:var(--ink-faint);font-style:normal}
+
+  figure{margin:34px 0}
+  figure img{width:100%;border-radius:12px;border:1px solid var(--line);
+    background:#fff;box-shadow:0 18px 50px rgba(0,0,0,.5)}
+  figcaption{margin-top:12px;font-size:13px;color:var(--ink-faint);text-align:center;font-family:var(--mono)}
+
+  /* 问答卡 */
+  .qa{margin:30px 0;background:var(--bg-card);border:1px solid var(--line);border-radius:14px;overflow:hidden}
+  .qa .q{padding:18px 22px;background:var(--bg-elev);font-family:var(--serif);font-size:18px;color:#fff;
+    border-bottom:1px solid var(--line);display:flex;gap:12px;align-items:flex-start}
+  .qa .q::before{content:"Q";font-family:var(--mono);color:var(--pivot);font-weight:700;flex:none}
+  .qa .a{padding:22px;color:#cfd5dc;font-size:16px;display:flex;gap:12px;align-items:flex-start}
+  .qa .a::before{content:"A";font-family:var(--mono);color:var(--gold);font-weight:700;flex:none;padding-top:1px}
+  .qa .a > div{flex:1}
+  .qa .a p{margin:0 0 14px}.qa .a p:last-child{margin:0}
+
+  /* 三种情况卡片 */
+  .cases{margin:30px 0;display:grid;gap:14px;grid-template-columns:1fr}
+  .case{background:var(--bg-card);border:1px solid var(--line);border-radius:12px;padding:20px 22px;
+    position:relative;overflow:hidden;transition:transform .3s,border-color .3s}
+  .case:hover{transform:translateY(-3px)}
+  .case .lab{font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;margin-bottom:8px}
+  .case.strong{border-color:rgba(255,77,79,.35)}.case.strong .lab{color:var(--up)}.case.strong:hover{border-color:var(--up)}
+  .case.weak{border-color:rgba(22,199,132,.3)}.case.weak .lab{color:var(--down)}.case.weak:hover{border-color:var(--down)}
+  .case.mid{border-color:rgba(232,179,57,.3)}.case.mid .lab{color:var(--gold)}.case.mid:hover{border-color:var(--gold)}
+  .case h3{font-family:var(--serif);font-size:20px;color:#fff;margin-bottom:8px}
+  .case p{font-size:15px;color:var(--ink-dim);margin:0}
+
+  /* 卡片网格 */
+  .grid{display:grid;gap:16px;grid-template-columns:1fr 1fr;margin:28px 0}
+  @media(max-width:640px){.grid{grid-template-columns:1fr}}
+  .card{background:var(--bg-card);border:1px solid var(--line);border-radius:14px;padding:24px;
+    position:relative;overflow:hidden;transition:transform .35s ease,border-color .35s ease}
+  .card:hover{transform:translateY(-4px);border-color:rgba(55,192,230,.4)}
+  .card .tag{font-family:var(--mono);font-size:11px;letter-spacing:.18em;color:var(--gold);text-transform:uppercase}
+  .card h3{font-family:var(--serif);font-size:21px;margin:10px 0 8px;color:#fff}
+  .card p{font-size:15px;color:var(--ink-dim);margin:0}
+
+  /* 警告条 */
+  .warn{margin:24px 0;padding:18px 22px;border-left:3px solid var(--gold);
+    background:linear-gradient(90deg,rgba(232,179,57,.07),transparent);
+    border-radius:0 10px 10px 0;font-size:15px;color:#f4ecd3}
+
+  .tldr{margin:60px 0 0;padding:36px 30px;border:1px solid rgba(55,192,230,.3);border-radius:18px;
+    background:radial-gradient(120% 120% at 100% 0%,rgba(55,192,230,.1),transparent 60%),var(--bg-elev);text-align:center}
+  .tldr .lab{font-family:var(--mono);font-size:12px;letter-spacing:.3em;color:var(--pivot);text-transform:uppercase}
+  .tldr p{font-family:var(--serif);font-size:clamp(20px,3.4vw,28px);line-height:1.7;color:#fff;margin:16px 0 0}
+
+  footer{padding:60px 0 90px;text-align:center;color:var(--ink-faint);font-family:var(--mono);font-size:12px;border-top:1px solid var(--line)}
+
+  .reveal{opacity:0;transform:translateY(26px);transition:opacity .8s ease,transform .8s ease}
+  .reveal.in{opacity:1;transform:none}
+  @media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}.scroll-hint{animation:none}}
+</style>
+<meta name="view-transition" content="same-origin"><style>@view-transition{navigation:auto}</style></head>
+<body>
+<div id="bar"></div>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="kicker">缠中说禅 · 教你炒股票108课 <span>/ 第 101 课</span></div>
+    <h1 class="title">答疑一</h1>
+    <p class="sub">回头补两个核心理论疑点——第二类买卖点的强弱谱系，和"走势必完美"为何是缠论的地基。</p>
+    <div class="meta">
+      <span class="pill"><b>原文</b> 2008-03-04</span>
+      <span class="pill"><b>类型</b> 答疑 · 理论澄清</span>
+      <span class="pill"><b>关键词</b> 第二类买点 · 唯一分解 · 走势必完美</span>
+    </div>
+    <div class="scroll-hint">↓ 向下滚动，逐点澄清</div>
+  </div>
+</header>
+
+<main>
+  <!-- 1 -->
+  <section class="wrap reveal">
+    <div class="sec-no">01 — 答疑背景</div>
+    <h2>课程过半，先回头补漏</h2>
+    <p class="lead">第一、第三类买卖点都好认，唯独第二类买点，问的人最多。</p>
+    <p>到这一课，108 课刚走过 1/3。缠师停下来开"答疑课"，把两件被反复追问的事情，再讲一次：</p>
+    <div class="grid">
+      <div class="card">
+        <div class="tag">疑点一</div>
+        <h3>第二类买卖点</h3>
+        <p>第一类是<b>背驰点</b>、第三类是<b>中枢破坏点</b>，定位清晰。夹在中间的第二类，到底长什么样？跟第一、第三类怎么排队？</p>
+      </div>
+      <div class="card">
+        <div class="tag">疑点二</div>
+        <h3>走势必完美</h3>
+        <p>这是缠论的"几何公理"。为什么它就是整个理论最牛的地方？它在数学上意味着什么？</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2 -->
+  <section class="wrap reveal">
+    <div class="sec-no">02 — 第二类买点定义</div>
+    <h2>把定义先抠死</h2>
+    <p class="lead">不绕弯子，一句话说清第二类买点是哪个点。</p>
+    <blockquote>
+      所谓第二类买点，就是<b>第一类买点的次级别回抽结束后</b>，再次探底或回试的那个<b>次级别走势的结束点</b>。
+      <span class="who">— 缠中说禅</span>
+    </blockquote>
+    <p>翻译成可视的过程：</p>
+    <div class="qa">
+      <div class="q">第二类买点是怎么"走"出来的？</div>
+      <div class="a"><div>
+        <p>1. 本级别（如 <span class="hl-pivot">5 分钟</span>）出现<b>底背驰</b> → 这就是<b>第一类买点</b>。</p>
+        <p>2. 第一类买点之后，会上去一段<span class="hl-pivot">次级别</span>（如 1 分钟）的上涨走势。</p>
+        <p>3. 这段上涨结束后，<b>必然</b>有一段次级别的下跌（回抽）。</p>
+        <p>4. 这段次级别下跌的<b>结束点</b>，就是第二类买点。</p>
+      </div></div>
+    </div>
+    <p>卖点完全对称反过来看就行，下面只讨论买点。</p>
+  </section>
+
+  <!-- 3 -->
+  <section class="wrap reveal">
+    <div class="sec-no">03 — 强弱谱系</div>
+    <h2>第二类买点的三种长相</h2>
+    <p class="lead">同一个名字，强弱差很多。按力度从强到弱，缠师给出了完整的谱系。</p>
+
+    <div class="cases">
+      <div class="case strong">
+        <div class="lab">情况一 / 最强</div>
+        <h3>2 与 3 合一：V 型反转</h3>
+        <p>第二类买点<b>刚好</b>构成"原来下跌最后一个中枢"开始的震荡走势的<b>第三类买点</b>——也就是<span class="hl-up">第二类与第三类合一</span>。这种走势最有力度，一般对应 <b>V 型反转</b>的快速回升。</p>
+      </div>
+      <div class="case mid">
+        <div class="lab">情况二 / 一般</div>
+        <h3>1、2、3 依次升高</h3>
+        <p>最常见的形态——第一、二、三类买点<b>依次向上、一个比一个高</b>。规规矩矩的上行节奏。</p>
+      </div>
+      <div class="case weak">
+        <div class="lab">情况三 / 最弱</div>
+        <h3>第二类买点跌破第一类买点</h3>
+        <p>第二类买点<b>比第一类买点还低</b>——这<b>完全可以</b>，不违反定义。这种一般构成<span class="hl-down">盘整背驰</span>，后面会演化成顺势平台、扩张平台等不同形态（后续课程展开）。</p>
+      </div>
+    </div>
+
+    <figure>
+      <img src="/_assets/ch101_p01.png" alt="第二类买点三种情况示意">
+      <figcaption>缠师配图：第二类买点的不同形态</figcaption>
+    </figure>
+  </section>
+
+  <!-- 4 -->
+  <section class="wrap reveal">
+    <div class="sec-no">04 — 边界与排序</div>
+    <h2>2 与 3 之间，还可以塞东西</h2>
+    <p class="lead">很多人误以为"第一、二、三类买点必然紧挨在一起"——错的。</p>
+
+    <div class="qa">
+      <div class="q">第二类与第三类买点之间，有没有可能存在更多震荡走势？</div>
+      <div class="a"><div>
+        <p>站在"原来下跌最后一个中枢"的视角，第一、二、三类买点都可以看成<b>中枢震荡的结果</b>。所以——</p>
+        <p>第一类和第二类之间是<b>紧接</b>的；但<b>第二类和第三类之间，可能还存在更多次的中枢震荡走势</b>。中间这些震荡产生的买点，一般不再单独命名，<b>归入第二类买点也无大碍</b>。</p>
+      </div></div>
+    </div>
+
+    <div class="warn">
+      <b>关键边界：</b> 只有在<b>回升的"中阴状态"</b>下，才存在第一类、第二类买点。一旦中阴状态结束，所有的中枢震荡里就<b>只剩</b>第三类买卖点以及中枢震荡买卖点了——第一、第二类直接退出舞台。
+    </div>
+  </section>
+
+  <!-- 5 -->
+  <section class="wrap reveal">
+    <div class="sec-no">05 — 第二个疑点</div>
+    <h2>"走势必完美"到底牛在哪</h2>
+    <p class="lead">这是缠论自比"几何公理"的命门。能不能听懂，得看一点数学背景。</p>
+
+    <blockquote>
+      所谓走势必完美，就是本ID所给出的<b>分型、笔、线段、不同级别走势类型</b>所对应的<b>递归函数</b>，能将行情的<b>任何走势</b>，<span class="hl-pivot">唯一地分解</span>。
+      <span class="who">— 缠中说禅</span>
+    </blockquote>
+
+    <p>关键词只有四个字：<span class="hl-gold">唯一分解</span>。</p>
+
+    <div class="grid">
+      <div class="card">
+        <div class="tag">数学类比</div>
+        <h3>等于"代数数论引入理想数"</h3>
+        <p>当年解费马猜想时，用到分圆域，但分圆域<b>没有唯一分解</b>，于是数学家引入"理想数"，让唯一分解定理重新成立——代数数论由此升堂入室。</p>
+      </div>
+      <div class="card">
+        <div class="tag">缠论意义</div>
+        <h3>把无序股价变成可分解结构</h3>
+        <p>缠论给"看似毫无头绪的股票走势"提供了一个唯一分解定理。这等价于<b>给市场建立了完整的数学结构</b>——这是缠论"能包含所有其他技术分析理论并指出其不足"的根本原因。</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6 -->
+  <section class="wrap reveal">
+    <div class="sec-no">06 — 常见误解</div>
+    <h2>不要纠缠分型的细节</h2>
+    <p class="lead">很多人卡在"分型如何如何"，其实是没看懂理论的层级。</p>
+
+    <div class="qa">
+      <div class="q">为什么不要在"分型怎么定义"上死磕？</div>
+      <div class="a"><div>
+        <p><b>分型 = 递归函数的 a₀</b>（初始项）。a₀ 完全可以<b>随意设计</b>，怎么设都不会影响"唯一分解定理"的成立。</p>
+        <p>缠师目前这套设计，只是<b>所有可能设计中最好的</b>——它使笔出现的概率最大，把偶然因素消除得最彻底，实际操作中最容易分解走势。但<b>本质上分型不是理论的核心</b>。</p>
+        <p>另外：分型<b>不需要任何假设</b>，只需要符合定义。是否符合，<b>只有唯一答案</b>。</p>
+      </div></div>
+    </div>
+
+    <div class="warn">
+      <b>更深的背景：</b> 缠师承认自己把更深的数学背景藏在后面（自注：<b>广义相对论</b>），表面只给出"谁都可以应用的浅层操作方法"。看不懂深背景没关系，把浅的操作方法搞明白就能用。
+    </div>
+  </section>
+
+  <!-- 7 -->
+  <section class="wrap reveal">
+    <div class="sec-no">07 — 实盘片段</div>
+    <h2>当时大盘：4331 一带的 5 分钟中枢</h2>
+    <p class="lead">课文后半段是 2008-03-05/06 两天的实盘点评，浓缩成一段。</p>
+    <p>那两天，<b>中国平安</b>巨额融资闹剧持续发酵。技术上：原本 <b>4331 点</b>上下的 <span class="hl-pivot">5 分钟中枢震荡</span>仍未被破坏（第三类卖点没出现）；MACD 红柱保持，但回拉力度有限——<b>4391 点</b>反复争夺，站上才有攻 <b>4695 点</b>的本钱。</p>
+
+    <figure>
+      <img src="/_assets/ch101_p02.png" alt="2008-03-05 大盘技术分析">
+      <figcaption>线段下跌类背驰后回到最后一个类中枢，形成新的 1 分钟中枢</figcaption>
+    </figure>
+
+    <p>选股层面，缠师只重复一句心法——<span class="hl-gold">选股要讲政治</span>：跟着国家经济发展方向走（农业、创投、化工、环保新能源、消耗品），下一个待启动的中线板块他点名了<b>医药</b>（医改启动逻辑）。<b>核心原则</b>：不买贵股票，20 元以上属"垃圾"，错过的是已走过 2~4 个中枢之后的二手机会。</p>
+
+    <figure>
+      <img src="/_assets/ch101_p04.png" alt="2008-03-06 大盘震荡">
+      <figcaption>4391 点站不住，反复继续；中线红柱若不能站上 4695 点，破位风险并不遥远</figcaption>
+    </figure>
+
+    <div class="warn">
+      <b>操盘节奏提示：</b> 板块轮动操作的本质，是<b>把热的冲高抛出，吸纳有启动迹象的潜力板块</b>——不是追高。今年的操作一定是"折腾式的"，不要幻想单边不回头。
+    </div>
+  </section>
+
+  <!-- 8 -->
+  <section class="wrap reveal">
+    <div class="sec-no">08 — 收束</div>
+    <h2>这一课的两件遗产</h2>
+    <div class="grid">
+      <div class="card">
+        <div class="tag">操作层</div>
+        <h3>第二类买点光谱化</h3>
+        <p>第二类不是一个点，而是一个<b>强弱光谱</b>——从 V 型反转的"2+3 合一"，到规规矩矩的依次升高，到比第一类还低的盘整背驰。<b>力度不同，后续走势完全不同。</b></p>
+      </div>
+      <div class="card">
+        <div class="tag">理论层</div>
+        <h3>走势必完美 = 唯一分解</h3>
+        <p>这不是文学修辞，而是<b>数学命题</b>：缠论给出了股票走势的唯一分解，就像给散乱的市场建立了"几何"。<b>这就是缠论可以涵盖所有技术分析理论的根本原因。</b></p>
+      </div>
+    </div>
+
+    <div class="tldr">
+      <div class="lab">一句话总结</div>
+      <p>第二类买点不是一个固定的点，而是一个从 V 型反转到盘整背驰的力度光谱；"走势必完美"则等价于数学意义上的唯一分解定理——这是整个缠论能成立的地基。</p>
+    </div>
+  </section>
+</main>
+
+<footer class="wrap">
+  原文出处：raw/缠中说禅/教你炒股票108课/教你炒股票101：答疑1.md<br>
+  本页为个人学习复习用·非投资建议
+</footer>
+
+<script>
+  const bar=document.getElementById('bar');
+  const onScroll=()=>{
+    const h=document.documentElement;
+    const p=h.scrollTop/(h.scrollHeight-h.clientHeight);
+    bar.style.width=(p*100)+'%';
+  };
+  document.addEventListener('scroll',onScroll,{passive:true});onScroll();
+
+  const io=new IntersectionObserver((es)=>{
+    es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});
+  },{threshold:.12});
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+</script>
+<script src="/assets/_nav.js"></script><script src="/assets/_shell.js"></script></body>
+</html>

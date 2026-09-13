@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>缠论 · 教你炒股票5：市场无须分析,只要看和干!</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@500;700;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0b0e12;--bg-elev:#12161c;--bg-card:#161b22;
+    --ink:#e8eaed;--ink-dim:#9aa3ad;--ink-faint:#5b6470;
+    --line:rgba(255,255,255,.07);
+    --up:#ff4d4f;--down:#16c784;--pivot:#37c0e6;--gold:#e8b339;--blue:#00d4ff;
+    --max:880px;--serif:"Noto Serif SC",serif;--mono:"JetBrains Mono",ui-monospace,monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--ink);font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;line-height:1.85;font-size:17px;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  body::before{content:"";position:fixed;inset:0;z-index:-2;background:radial-gradient(1200px 600px at 70% -10%,rgba(55,192,230,.08),transparent 60%),radial-gradient(900px 500px at 0% 100%,rgba(232,179,57,.05),transparent 55%);pointer-events:none}
+  body::after{content:"";position:fixed;inset:0;z-index:-1;opacity:.4;background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);background-size:46px 46px;-webkit-mask-image:radial-gradient(ellipse at 50% 0%,#000 30%,transparent 80%);mask-image:radial-gradient(ellipse at 50% 0%,#000 30%,transparent 80%);pointer-events:none}
+  #bar{position:fixed;top:0;left:0;height:3px;width:0;z-index:50;background:linear-gradient(90deg,var(--pivot),var(--gold));box-shadow:0 0 12px var(--pivot)}
+  .wrap{max-width:var(--max);margin:0 auto;padding:0 24px}
+  header.hero{padding:120px 0 70px;text-align:center;position:relative}
+  .kicker{font-family:var(--mono);font-size:13px;letter-spacing:.32em;color:var(--pivot);text-transform:uppercase;margin-bottom:26px}
+  .kicker span{color:var(--ink-faint)}
+  h1.title{font-family:var(--serif);font-weight:900;line-height:1.05;font-size:clamp(44px,10vw,100px);letter-spacing:.04em;background:linear-gradient(180deg,#fff 30%,#8aa0ad 130%);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .sub{margin:22px auto 0;max-width:580px;color:var(--ink-dim);font-size:18px}
+  .meta{margin-top:34px;display:flex;gap:14px;justify-content:center;flex-wrap:wrap;font-family:var(--mono);font-size:12px;color:var(--ink-faint)}
+  .meta b{color:var(--ink-dim);font-weight:500}
+  .pill{border:1px solid var(--line);padding:6px 14px;border-radius:999px;background:rgba(255,255,255,.02)}
+  .scroll-hint{margin-top:60px;color:var(--ink-faint);font-family:var(--mono);font-size:12px;animation:bob 2.4s ease-in-out infinite}
+  @keyframes bob{0%,100%{transform:translateY(0);opacity:.5}50%{transform:translateY(8px);opacity:1}}
+  section{padding:64px 0;border-top:1px solid var(--line)}
+  .sec-no{font-family:var(--mono);font-size:13px;color:var(--gold);letter-spacing:.2em;margin-bottom:10px}
+  h2{font-family:var(--serif);font-weight:700;font-size:clamp(28px,5vw,42px);line-height:1.25;margin-bottom:8px;letter-spacing:.02em}
+  .lead{color:var(--ink-dim);font-size:16px;margin-bottom:28px;max-width:660px}
+  p{margin:0 0 18px;color:#cfd5dc}
+  p b,strong{color:#fff;font-weight:700}
+  .hl-pivot{color:var(--pivot);font-weight:700}.hl-up{color:var(--up);font-weight:700}
+  .hl-down{color:var(--down);font-weight:700}.hl-gold{color:var(--gold);font-weight:700}
+  blockquote{margin:26px 0;padding:20px 24px;border-left:3px solid var(--pivot);background:linear-gradient(90deg,rgba(55,192,230,.07),transparent);border-radius:0 10px 10px 0;font-family:var(--serif);font-size:19px;color:#eaf6fb}
+  blockquote .who{display:block;margin-top:8px;font-family:var(--mono);font-size:12px;color:var(--ink-faint);font-style:normal}
+  figure{margin:34px 0}
+  figure img{width:100%;border-radius:12px;border:1px solid var(--line);background:#fff;box-shadow:0 18px 50px rgba(0,0,0,.5)}
+  figcaption{margin-top:12px;font-size:13px;color:var(--ink-faint);text-align:center;font-family:var(--mono)}
+  .grid{display:grid;gap:16px;grid-template-columns:1fr 1fr;margin:28px 0}
+  @media(max-width:640px){.grid{grid-template-columns:1fr}}
+  .card{background:var(--bg-card);border:1px solid var(--line);border-radius:14px;padding:24px;position:relative;overflow:hidden;transition:transform .35s ease,border-color .35s ease}
+  .card:hover{transform:translateY(-4px);border-color:rgba(55,192,230,.4)}
+  .card .tag{font-family:var(--mono);font-size:11px;letter-spacing:.18em;color:var(--gold);text-transform:uppercase}
+  .card h3{font-family:var(--serif);font-size:21px;margin:10px 0 8px;color:#fff}
+  .card p{font-size:15px;color:var(--ink-dim);margin:0}
+  .table{margin:28px 0;border:1px solid var(--line);border-radius:14px;overflow:hidden}
+  .table .row{display:grid;grid-template-columns:1.1fr 1.5fr 1.6fr;align-items:stretch}
+  .table .row+.row{border-top:1px solid var(--line)}
+  .table .row>div{padding:16px 18px}
+  .table .row.head{background:var(--bg-elev);font-family:var(--mono);font-size:12px;letter-spacing:.14em;color:var(--ink-faint);text-transform:uppercase}
+  .table .row>div+div{border-left:1px solid var(--line)}
+  .table .name{font-family:var(--serif);font-weight:700;font-size:18px}
+  .table .name.qushi{color:var(--gold)}
+  .cnt{font-family:var(--mono);font-size:14px;color:var(--pivot)}
+  @media(max-width:560px){.table .row{grid-template-columns:1fr}.table .row>div+div{border-left:0;border-top:1px solid var(--line)}.table .row.head{display:none}}
+  .points{margin:26px 0;display:flex;flex-direction:column;gap:14px}
+  .pt{display:flex;gap:16px;align-items:flex-start;background:var(--bg-card);border:1px solid var(--line);border-radius:12px;padding:18px 20px}
+  .pt .dot{flex:none;width:42px;height:42px;border-radius:10px;display:grid;place-items:center;font-family:var(--serif);font-weight:900;font-size:20px;color:#0b0e12}
+  .pt.b .dot{background:var(--up)}.pt.s .dot{background:var(--down)}
+  .pt h4{font-size:17px;margin-bottom:4px;color:#fff}.pt p{font-size:15px;color:var(--ink-dim);margin:0}
+  ol.think{counter-reset:q;list-style:none;margin:24px 0;display:flex;flex-direction:column;gap:14px}
+  ol.think li{counter-increment:q;position:relative;padding:18px 20px 18px 60px;background:var(--bg-elev);border:1px solid var(--line);border-radius:12px;color:var(--ink-dim);font-size:15px}
+  ol.think li::before{content:counter(q,decimal-leading-zero);position:absolute;left:20px;top:18px;font-family:var(--mono);color:var(--gold);font-weight:700}
+  .quiz{margin:22px 0;background:var(--bg-card);border:1px solid var(--line);border-radius:14px;padding:22px 24px}
+  .quiz h4{font-size:16px;color:#fff;margin-bottom:6px}
+  .quiz .ans{margin-top:12px;color:var(--ink-faint);font-size:14px;cursor:pointer}
+  .quiz .ans[open] summary{color:var(--pivot)}
+  .quiz summary{color:var(--gold);font-family:var(--mono);font-size:13px}
+  .tldr{margin:60px 0 0;padding:36px 30px;border:1px solid rgba(55,192,230,.3);border-radius:18px;background:radial-gradient(120% 120% at 100% 0%,rgba(55,192,230,.1),transparent 60%),var(--bg-elev);text-align:center}
+  .tldr .lab{font-family:var(--mono);font-size:12px;letter-spacing:.3em;color:var(--pivot);text-transform:uppercase}
+  .tldr p{font-family:var(--serif);font-size:clamp(20px,3.4vw,28px);line-height:1.7;color:#fff;margin:16px 0 0}
+  footer{padding:60px 0 90px;text-align:center;color:var(--ink-faint);font-family:var(--mono);font-size:12px;border-top:1px solid var(--line)}
+  .reveal{opacity:0;transform:translateY(26px);transition:opacity .8s ease,transform .8s ease}
+  .reveal.in{opacity:1;transform:none}
+  /* 第5课特定：猎手 vs 股评 二元对照 */
+  .versus{display:grid;grid-template-columns:1fr auto 1fr;gap:0;margin:28px 0;border:1px solid var(--line);border-radius:14px;overflow:hidden}
+  @media(max-width:640px){.versus{grid-template-columns:1fr}}
+  .versus .side{padding:22px 22px;background:var(--bg-card)}
+  .versus .side.bad{background:linear-gradient(135deg,rgba(22,199,132,.04),var(--bg-card))}
+  .versus .side.good{background:linear-gradient(135deg,rgba(255,77,79,.05),var(--bg-card))}
+  .versus .vs{display:grid;place-items:center;padding:0 16px;font-family:var(--serif);font-size:24px;font-weight:900;color:var(--ink-faint);background:var(--bg-elev);border-left:1px solid var(--line);border-right:1px solid var(--line)}
+  @media(max-width:640px){.versus .vs{border-left:0;border-right:0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:8px}}
+  .versus .side h4{font-family:var(--serif);font-size:19px;color:#fff;margin-bottom:10px}
+  .versus .side h4 .ico{display:inline-block;margin-right:8px}
+  .versus .side ul{list-style:none;padding:0;margin:10px 0 0}
+  .versus .side li{font-size:14.5px;color:var(--ink-dim);padding:8px 0 8px 22px;position:relative;line-height:1.6}
+  .versus .side li::before{position:absolute;left:0;top:8px;font-family:var(--mono);font-weight:700;font-size:12px}
+  .versus .side.bad li::before{content:"✗";color:var(--down)}
+  .versus .side.good li::before{content:"✓";color:var(--up)}
+  /* 心法引文卡 */
+  .zen{margin:28px 0;padding:36px 30px;background:radial-gradient(80% 100% at 0% 0%,rgba(232,179,57,.08),transparent 60%),var(--bg-elev);border:1px solid rgba(232,179,57,.25);border-radius:18px;position:relative;overflow:hidden}
+  .zen::before{content:"「";position:absolute;left:8px;top:-22px;font-family:var(--serif);font-size:120px;font-weight:900;color:rgba(232,179,57,.12);line-height:1}
+  .zen p{font-family:var(--serif);font-size:21px;line-height:1.85;color:#f5edd6;margin:0;position:relative;z-index:1}
+  .zen .src{display:block;margin-top:18px;font-family:var(--mono);font-size:12px;color:var(--ink-faint);font-style:normal}
+  /* 杂文索引 */
+  .essays{margin:24px 0;display:flex;flex-direction:column;gap:14px}
+  .essay{background:var(--bg-card);border:1px solid var(--line);border-left:3px solid var(--gold);border-radius:0 12px 12px 0;padding:18px 22px}
+  .essay h4{font-family:var(--serif);font-size:17px;color:#fff;margin-bottom:6px}
+  .essay .date{font-family:var(--mono);font-size:11px;color:var(--ink-faint);letter-spacing:.1em;margin-bottom:8px}
+  .essay p{font-size:14.5px;color:var(--ink-dim);margin:0}
+  /* 流程箭头 */
+  .flow{margin:30px 0;display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+  @media(max-width:640px){.flow{grid-template-columns:1fr 1fr}}
+  .flow .step{background:var(--bg-card);border:1px solid var(--line);border-radius:12px;padding:18px 14px;text-align:center;position:relative}
+  .flow .step .n{font-family:var(--mono);font-size:11px;color:var(--gold);letter-spacing:.2em;margin-bottom:6px}
+  .flow .step .t{font-family:var(--serif);font-size:16px;color:#fff;line-height:1.4}
+  .flow .step .d{font-size:12px;color:var(--ink-faint);margin-top:6px;line-height:1.5}
+  @media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}.scroll-hint{animation:none}}
+</style>
+<meta name="view-transition" content="same-origin"><style>@view-transition{navigation:auto}</style></head>
+<body>
+<div id="bar"></div>
+<header class="hero">
+  <div class="wrap">
+    <div class="kicker">缠中说禅 · 教你炒股票108课 <span>/ 第 5 课</span></div>
+    <h1 class="title">猎手哲学</h1>
+    <p class="sub">市场无须分析,只要看和干——一节没有公式、没有K线、却定生死的"看盘心法"课。</p>
+    <div class="meta">
+      <span class="pill"><b>原文</b> 2006-06-21</span>
+      <span class="pill"><b>类型</b> 心法 · 投资观</span>
+      <span class="pill"><b>关键词</b> 看与干 · 反股评 · 直觉 · 生存</span>
+    </div>
+    <div class="scroll-hint">↓ 向下滚动,逐层拆解</div>
+  </div>
+</header>
+<main>
+
+<section class="wrap reveal">
+  <div class="sec-no">01 — 一句话定位</div>
+  <h2>这节课不教指标,教"姿势"</h2>
+  <p class="lead">在《教你炒股票》系列的前 4 课,缠师还在铺市场观、骂股评、谈牛熊。到了第 5 课,他直接把"如何在市场里活下来"压缩成一句口诀。</p>
+  <p>原标题就是结论:<b>市场无须分析,只要看和干!</b> 不是说"分析没用",而是<span class="hl-gold">"被脑筋动了的眼睛"</span>没用——成见会把你引向陷阱。</p>
+  <p>整节课没有一根 K 线、没有一个买点公式,却奠定了后面 100 多课所有技术分析的<b>使用姿势</b>:技术是"看"的工具,不是"想"的素材。看到信号就干,看不到就等,中间没有"我觉得"。</p>
+  <div class="zen">
+    <p>真不可言说了,就无不可言,言而无言,是乃真言。一个好的猎手,可以没有嘴巴,但一定会有一双不为外物所动的眼睛。</p>
+    <span class="src">— 缠中说禅 · 2006-06-21</span>
+  </div>
+</section>
+
+<section class="wrap reveal">
+  <div class="sec-no">02 — 核心隐喻</div>
+  <h2>猎手 vs 股评:同一片森林,两种活法</h2>
+  <p class="lead">全文最有力的形象,是把市场比作"狩猎场",把交易者分成两类人。</p>
+  <p>缠师劈头就开骂:<b>"喜欢吹牛皮的,在市场里最常见,例如一种以分析市场、吹牛皮为生的职业,叫什么股评、专家的。"</b>他给这类人定性为"市场的<span class="hl-down">寄生虫</span>"。理由很朴素——<span class="hl-gold">"真正的猎手只会观察、操作,用嘴是打不了豺狼的。"</span></p>
+  <div class="versus">
+    <div class="side bad">
+      <h4><span class="ico">🦜</span>股评/分析师</h4>
+      <ul>
+        <li>嘴上功夫,事后诸葛</li>
+        <li>用语言"解释"行情,创造逻辑闭环</li>
+        <li>分析多 → 成见多 → 落入陷阱</li>
+        <li>挣钱靠收听众费、流量、出场费</li>
+        <li>"脑筋动了眼睛",看到的都是想象</li>
+      </ul>
+    </div>
+    <div class="vs">VS</div>
+    <div class="side good">
+      <h4><span class="ico">🎯</span>猎手/交易者</h4>
+      <ul>
+        <li>习惯无言,只观察与扣扳机</li>
+        <li>相信眼睛,不相信脑筋</li>
+        <li>没有成见,就没有诱饵能骗到他</li>
+        <li>挣钱靠真金白银的盈亏</li>
+        <li>"心物相通",看到信号就动手</li>
+      </ul>
+    </div>
+  </div>
+  <p>关键差别不在"懂不懂",而在<b>立场</b>:股评的工作是<span class="hl-down">"说"</span>,而猎手的工作是<span class="hl-up">"干"</span>。任何把"分析能力"当成"赚钱能力"的人,迟早会被这个市场教做人。</p>
+</section>
+
+<section class="wrap reveal">
+  <div class="sec-no">03 — 心法拆解</div>
+  <h2>"看和干"的四步实操化</h2>
+  <p class="lead">缠师没给步骤,但"看和干"这四个字其实可以拆成四步,贯穿后面所有技术课。</p>
+  <div class="flow">
+    <div class="step">
+      <div class="n">STEP 01</div>
+      <div class="t">看</div>
+      <div class="d">用眼睛识别当下的客观图形(中枢、分型、笔)</div>
+    </div>
+    <div class="step">
+      <div class="n">STEP 02</div>
+      <div class="t">不被动</div>
+      <div class="d">不让脑筋(预测、情绪、消息)污染眼睛所见</div>
+    </div>
+    <div class="step">
+      <div class="n">STEP 03</div>
+      <div class="t">等</div>
+      <div class="d">没出现明确买卖信号时,空仓也是仓位</div>
+    </div>
+    <div class="step">
+      <div class="n">STEP 04</div>
+      <div class="t">干</div>
+      <div class="d">信号出现立刻执行,不犹豫、不重新"分析"</div>
+    </div>
+  </div>
+  <blockquote>猎手并不畏惧陷阱,猎手只是看着猎物不断地、以不同方式却共同结果地掉入各类陷阱,这里无所谓分析,只是看和干!<span class="who">— 缠中说禅</span></blockquote>
+  <p>这段话有两层意思:</p>
+  <p><b>① 陷阱是给猎物准备的,不是给猎手的。</b> 散户成为韭菜,是因为他们带着"我觉得它会涨"的成见来交易,主力只需在那个成见对应的价位放一块诱饵。</p>
+  <p><b>② 猎手的工作只有一种动作——扣扳机。</b> 不是预测、不是辩论、不是讲故事。后面缠师所有的"买点定义"(第一类、第二类、第三类),本质都是在告诉你:<span class="hl-gold">在哪个位置扣扳机</span>。</p>
+</section>
+
+<section class="wrap reveal">
+  <div class="sec-no">04 — 反直觉的提醒</div>
+  <h2>"直觉"不等于"瞎猜":心物相通是练出来的</h2>
+  <p class="lead">缠师用"心物相通"这个词,容易被误解成神秘主义。但他自己马上给了一个朴素的注解——把你扔到深山里活一次,自然就懂了。</p>
+  <blockquote>猎手的好坏不是基于其能说出多少道道来,而是其置于其地的直觉。好的猎手不看而看,心物相通……最简单就是把你一个人扔到深山里,只要你能活着出来,就大概能知道一点了。<span class="who">— 缠中说禅</span></blockquote>
+  <p>翻译成交易语言:<b>"直觉"不是天生的,是无数次实盘、无数次被市场修理之后,身体内化出来的反射。</b> 这和老猎人对林间风声、脚印新旧的敏感是同一种东西——没有 1 万小时的真账户,就别奢望有"直觉"。</p>
+  <div class="grid">
+    <div class="card">
+      <div class="tag">不是这种</div>
+      <h3>江湖直觉</h3>
+      <p>"我感觉这只票要涨"——这是<span class="hl-down">脑筋的产物</span>,是成见,是被自我迷惑。</p>
+    </div>
+    <div class="card">
+      <div class="tag">而是这种</div>
+      <h3>猎手直觉</h3>
+      <p>看到图形即刻反应"这是 1 买/这是背驰",身体先于嘴判断完毕。这是<span class="hl-up">技术内化</span>。</p>
+    </div>
+  </div>
+  <p>所以这一课的潜台词是:别急着追"心法",先把后面的技术(分型、笔、线段、中枢、走势类型)练成肌肉记忆,"心物相通"自然就来了。<b>没有技术做地基的"直觉"叫赌博。</b></p>
+</section>
+
+<section class="wrap reveal">
+  <div class="sec-no">05 — 杂文回收</div>
+  <h2>同一篇课文里的 4 篇社会随笔</h2>
+  <p class="lead">第 5 课在原文里并不只是讲猎手心法,后面还附了 4 篇 2006 年 9-10 月的社会随笔。它们不是交易方法,但都在<b>给"为什么必须靠交易活着"这个问题打底</b>。</p>
+  <div class="essays">
+    <div class="essay">
+      <div class="date">2006-09-11</div>
+      <h4>中国人的中国企业,明年还有吗?</h4>
+      <p>记录三个亲身参与的"收购中国"案例,警告大量国资正被外资低价吃掉。立场:作为投资者无所谓,但作为中国人有底线。</p>
+    </div>
+    <div class="essay">
+      <div class="date">2006-09-13</div>
+      <h4>仇富,是因为像我这样的富人太少了!</h4>
+      <p>把富人分成两类:<span class="hl-down">"钱奴才"</span>(包二奶玩二爷,制造仇富)和<span class="hl-down">"麻醉剂"</span>(玩文化高雅,制造财富幻想)。缠师自况:除股票期货外不投资,资本是手段而非目的。</p>
+    </div>
+    <div class="essay">
+      <div class="date">2006-09-14</div>
+      <h4>资本主义社会的最高生存原则!</h4>
+      <p>结论一句:<b class="hl-gold">必须有钱。</b> 陶渊明在 2006 年活不过 7 天,因为"每一寸土地都在资本的统治下"。挣钱不是境界问题,是<b>活着</b>的前提。</p>
+    </div>
+    <div class="essay">
+      <div class="date">2006-10-18</div>
+      <h4>四川,别给中国丢人!</h4>
+      <p>怒怼某四川白酒企业要被外资收购,呼吁:"卖什么也别卖李白杜甫东坡喝过的酒。"和第 1 篇收购话题呼应,展示作者的非纯经济动机。</p>
+    </div>
+  </div>
+  <p>这 4 篇杂文连起来,其实是为正文那个"猎手哲学"做<b>动机层面的辩护</b>:</p>
+  <ol class="think">
+    <li>个体在资本社会里,"必须有钱"是无可回避的生存前提(《最高生存原则》);</li>
+    <li>所以你得去市场里捕猎,而不是叫嚷道德、写诗、当陶渊明;</li>
+    <li>但富了之后不要成为"钱奴才",钱是工具不是目的(《仇富》);</li>
+    <li>把钱赚回来,也是对抗"中国非中国化"的一种姿态(《收购中国》《四川别丢人》)。</li>
+  </ol>
+  <p>读懂这层,就明白缠师为什么后面 100 课谈技术谈得那么决绝——<span class="hl-gold">他不是在炫技,他是在给同道者发猎枪</span>。</p>
+</section>
+
+<section class="wrap reveal">
+  <div class="sec-no">06 — 思考题</div>
+  <h2>把心法压进自己的交易记录</h2>
+  <ol class="think">
+    <li>回顾你最近 5 笔亏损交易:每一笔下单时,你是"看见"了买点,还是"觉得"它会涨?能不能用一句话还原当时的脑内独白?</li>
+    <li>缠师说"被脑筋所动的眼睛充满了成见"。你最强的成见是什么?(例如:"白马股不会跌"、"低 PE 就是便宜"、"龙头不会破位"。)请写下来,贴在交易屏旁。</li>
+    <li>你每天有多少时间在"听"消息(财经新闻、群聊、股评)?又有多少时间在"看"图(自己复盘 K 线、中枢、走势类型)?二者比例是多少?这个比例应不应该调整?</li>
+    <li>缠师说"直觉是练出来的"。从现在到年底,你打算用多少小时的实盘/复盘去训练这种直觉?给自己定个量化目标。</li>
+    <li>读完《最高生存原则》,问自己:如果不靠交易,你有没有别的路径在这个时代实现财务自由?如果有,你为什么还在交易?如果没有,你认真练技术了吗?</li>
+  </ol>
+</section>
+
+<section class="wrap reveal">
+  <div class="sec-no">07 — 判图练习</div>
+  <h2>识别"猎手"与"股评"的发言</h2>
+  <div class="quiz">
+    <h4>练习 1:下面哪一句更像"猎手"的内心独白?</h4>
+    <p>A. "我觉得美联储下次会议大概率降息,所以现在该满仓白酒龙头。"</p>
+    <p>B. "30 分钟级别出现第二类买点,止损设在前低之下 2%,持仓 30%。"</p>
+    <details class="ans"><summary>查看答案</summary><p>B 是猎手——只描述眼睛看到的图形和动作,没有任何"我觉得"。A 是典型股评式表达:用一个不可证伪的宏观判断,推出一个具体仓位结论,中间充满成见。</p></details>
+  </div>
+  <div class="quiz">
+    <h4>练习 2:同一只票连续亏了 3 次,你的第一反应应该是?</h4>
+    <p>A. "再分析一下基本面,看看是不是低估了。"</p>
+    <p>B. "停止操作,回头复盘:我看到了什么?为什么我以为我看到了?"</p>
+    <details class="ans"><summary>查看答案</summary><p>B。猎手不会用"更多分析"去对抗已经失败的判断,而会回头检查"看"的环节是不是被"脑筋"污染。</p></details>
+  </div>
+  <div class="quiz">
+    <h4>练习 3:朋友饭桌上向你推荐"某内部消息股,下周必涨",你应该?</h4>
+    <p>A. 谢过他,记下来回家研究研究。</p>
+    <p>B. 打开图,如果当下有买点就买,没有就放下,与消息无关。</p>
+    <details class="ans"><summary>查看答案</summary><p>B。消息进入眼睛之前,先经过别人的脑筋和你的耳朵,已经污染两次。猎手只对自己亲眼看到的图形负责。</p></details>
+  </div>
+</section>
+
+<section class="wrap reveal">
+  <div class="sec-no">08 — 承上启下</div>
+  <h2>这一课在 108 课里的位置</h2>
+  <p class="lead">第 5 课是<b>心法层</b>的盖章之作,它结束了前面"为什么要炒股、市场是什么"的铺垫,正式把读者推向后面 100 多课的技术体系。</p>
+  <div class="table">
+    <div class="row head"><div>位置</div><div>主题</div><div>关系</div></div>
+    <div class="row"><div class="name">第 1-4 课</div><div>市场观、牛熊观、骂股评</div><div>铺垫:为什么这个游戏值得玩</div></div>
+    <div class="row"><div class="name qushi">第 5 课(本课)</div><div>市场无须分析,只要看和干</div><div><b>定姿势</b>:技术的使用方式</div></div>
+    <div class="row"><div class="name">第 6-15 课</div><div>当下、走势分解、级别</div><div>开始铺技术底座</div></div>
+    <div class="row"><div class="name">第 16-30 课</div><div>分型、笔、线段、中枢、买卖点</div><div>"看"什么的具体清单</div></div>
+    <div class="row"><div class="name">第 30 课之后</div><div>背驰、多义性、自同构</div><div>"看"的高级技巧</div></div>
+  </div>
+  <p>所以下次你被任何一节技术课卡住,记得回来读这 5 个字:<span class="hl-gold">只是看和干</span>。技术再复杂,最终也是为了让你"看见 → 扣扳机"这两个动作更准确,而不是让你"想更多"。</p>
+</section>
+
+<section class="wrap">
+  <div class="tldr">
+    <span class="lab">一句话总结</span>
+    <p>市场没有什么可分析的。<br>只有看得见的图形,和扣得动的扳机。<br>嘴说得越多,眼就越瞎。</p>
+  </div>
+</section>
+
+</main>
+<footer class="wrap">
+  原文出处:raw/缠中说禅/教你炒股票108课/教你炒股票5:市场无须分析,只要看和干!.md<br>
+  本页为个人学习复习用 · 非投资建议
+</footer>
+<script>
+  const bar=document.getElementById('bar');
+  const onScroll=()=>{const h=document.documentElement;bar.style.width=(h.scrollTop/(h.scrollHeight-h.clientHeight)*100)+'%'};
+  document.addEventListener('scroll',onScroll,{passive:true});onScroll();
+  const io=new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{threshold:.12});
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+</script>
+<script src="/assets/_nav.js"></script><script src="/assets/_shell.js"></script></body>
+</html>

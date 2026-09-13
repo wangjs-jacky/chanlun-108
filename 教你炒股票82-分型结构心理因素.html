@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>缠论 · 教你炒股票82：分型结构的心理因素</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@500;700;900&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0b0e12;
+    --bg-elev:#12161c;
+    --bg-card:#161b22;
+    --ink:#e8eaed;
+    --ink-dim:#9aa3ad;
+    --ink-faint:#5b6470;
+    --line:rgba(255,255,255,.07);
+    --up:#ff4d4f;
+    --down:#16c784;
+    --pivot:#37c0e6;
+    --gold:#e8b339;
+    --max:880px;
+    --serif:"Noto Serif SC",serif;
+    --mono:"JetBrains Mono",ui-monospace,monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--bg);color:var(--ink);
+    font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;
+    line-height:1.85;font-size:17px;
+    -webkit-font-smoothing:antialiased;overflow-x:hidden;
+  }
+  body::before{
+    content:"";position:fixed;inset:0;z-index:-2;
+    background:
+      radial-gradient(1200px 600px at 70% -10%, rgba(232,179,57,.08), transparent 60%),
+      radial-gradient(900px 500px at 0% 100%, rgba(55,192,230,.05), transparent 55%);
+    pointer-events:none;
+  }
+  body::after{
+    content:"";position:fixed;inset:0;z-index:-1;opacity:.4;
+    background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);
+    background-size:46px 46px;
+    -webkit-mask-image:radial-gradient(ellipse at 50% 0%, #000 30%, transparent 80%);
+            mask-image:radial-gradient(ellipse at 50% 0%, #000 30%, transparent 80%);
+    pointer-events:none;
+  }
+  #bar{position:fixed;top:0;left:0;height:3px;width:0;z-index:50;
+    background:linear-gradient(90deg,var(--gold),var(--pivot));box-shadow:0 0 12px var(--gold);}
+  .wrap{max-width:var(--max);margin:0 auto;padding:0 24px}
+
+  header.hero{padding:120px 0 70px;text-align:center;position:relative}
+  .kicker{font-family:var(--mono);font-size:13px;letter-spacing:.32em;color:var(--gold);
+    text-transform:uppercase;margin-bottom:26px}
+  .kicker span{color:var(--ink-faint)}
+  h1.title{font-family:var(--serif);font-weight:900;line-height:1.05;
+    font-size:clamp(42px,9.5vw,92px);letter-spacing:.04em;
+    background:linear-gradient(180deg,#fff 30%,#8aa0ad 130%);
+    -webkit-background-clip:text;background-clip:text;color:transparent;}
+  .sub{margin:22px auto 0;max-width:580px;color:var(--ink-dim);font-size:18px}
+  .meta{margin-top:34px;display:flex;gap:14px;justify-content:center;flex-wrap:wrap;
+    font-family:var(--mono);font-size:12px;color:var(--ink-faint)}
+  .meta b{color:var(--ink-dim);font-weight:500}
+  .pill{border:1px solid var(--line);padding:6px 14px;border-radius:999px;background:rgba(255,255,255,.02)}
+  .scroll-hint{margin-top:60px;color:var(--ink-faint);font-family:var(--mono);font-size:12px;
+    animation:bob 2.4s ease-in-out infinite}
+  @keyframes bob{0%,100%{transform:translateY(0);opacity:.5}50%{transform:translateY(8px);opacity:1}}
+
+  section{padding:64px 0;border-top:1px solid var(--line)}
+  .sec-no{font-family:var(--mono);font-size:13px;color:var(--gold);letter-spacing:.2em;margin-bottom:10px}
+  h2{font-family:var(--serif);font-weight:700;font-size:clamp(28px,5vw,42px);
+    line-height:1.25;margin-bottom:8px;letter-spacing:.02em}
+  .lead{color:var(--ink-dim);font-size:16px;margin-bottom:28px;max-width:640px}
+  p{margin:0 0 18px;color:#cfd5dc}
+  p b,strong{color:#fff;font-weight:700}
+  .hl-pivot{color:var(--pivot);font-weight:700}
+  .hl-up{color:var(--up);font-weight:700}
+  .hl-down{color:var(--down);font-weight:700}
+  .hl-gold{color:var(--gold);font-weight:700}
+
+  blockquote{margin:26px 0;padding:20px 24px;border-left:3px solid var(--gold);
+    background:linear-gradient(90deg,rgba(232,179,57,.07),transparent);
+    border-radius:0 10px 10px 0;font-family:var(--serif);font-size:19px;color:#fbf2dc}
+  blockquote .who{display:block;margin-top:8px;font-family:var(--mono);font-size:12px;
+    color:var(--ink-faint);font-style:normal}
+
+  figure{margin:34px 0}
+  figure img{width:100%;border-radius:12px;border:1px solid var(--line);
+    background:#fff;box-shadow:0 18px 50px rgba(0,0,0,.5)}
+  figcaption{margin-top:12px;font-size:13px;color:var(--ink-faint);text-align:center;font-family:var(--mono)}
+
+  /* 三K线SVG示意 */
+  .kdiag{margin:34px 0;padding:28px 20px;background:var(--bg-card);border:1px solid var(--line);
+    border-radius:14px;display:flex;justify-content:center;align-items:flex-end;gap:40px}
+  .kdiag svg{display:block;width:100%;max-width:520px;height:auto}
+
+  .grid{display:grid;gap:16px;grid-template-columns:1fr 1fr;margin:28px 0}
+  @media(max-width:640px){.grid{grid-template-columns:1fr}}
+  .card{background:var(--bg-card);border:1px solid var(--line);border-radius:14px;padding:24px;
+    position:relative;overflow:hidden;transition:transform .35s ease,border-color .35s ease}
+  .card:hover{transform:translateY(-4px);border-color:rgba(232,179,57,.4)}
+  .card .tag{font-family:var(--mono);font-size:11px;letter-spacing:.18em;color:var(--gold);text-transform:uppercase}
+  .card h3{font-family:var(--serif);font-size:21px;margin:10px 0 8px;color:#fff}
+  .card p{font-size:15px;color:var(--ink-dim);margin:0}
+
+  .table{margin:28px 0;border:1px solid var(--line);border-radius:14px;overflow:hidden}
+  .table .row{display:grid;grid-template-columns:1fr 1.6fr 1.4fr;align-items:stretch}
+  .table .row+.row{border-top:1px solid var(--line)}
+  .table .row > div{padding:16px 18px}
+  .table .row.head{background:var(--bg-elev);font-family:var(--mono);font-size:12px;
+    letter-spacing:.14em;color:var(--ink-faint);text-transform:uppercase}
+  .table .row > div+div{border-left:1px solid var(--line)}
+  .table .name{font-family:var(--serif);font-weight:700;font-size:17px}
+  .table .name.weak{color:var(--ink)}
+  .table .name.mid{color:var(--pivot)}
+  .table .name.strong{color:var(--up)}
+  @media(max-width:560px){
+    .table .row{grid-template-columns:1fr}
+    .table .row > div+div{border-left:0;border-top:1px solid var(--line)}
+    .table .row.head{display:none}
+  }
+
+  /* 心理三段过程 */
+  .psy{margin:30px 0;display:grid;gap:14px;grid-template-columns:repeat(3,1fr)}
+  @media(max-width:640px){.psy{grid-template-columns:1fr}}
+  .psy-step{background:var(--bg-card);border:1px solid var(--line);border-radius:12px;padding:20px;position:relative}
+  .psy-step .n{font-family:var(--mono);font-size:11px;color:var(--gold);letter-spacing:.2em}
+  .psy-step h4{font-family:var(--serif);font-size:18px;margin:6px 0 8px;color:#fff}
+  .psy-step p{font-size:14px;color:var(--ink-dim);margin:0;line-height:1.7}
+
+  ol.think{counter-reset:q;list-style:none;margin:24px 0;display:flex;flex-direction:column;gap:14px}
+  ol.think li{counter-increment:q;position:relative;padding:18px 20px 18px 60px;
+    background:var(--bg-elev);border:1px solid var(--line);border-radius:12px;color:var(--ink-dim);font-size:15px}
+  ol.think li::before{content:counter(q,decimal-leading-zero);position:absolute;left:20px;top:18px;
+    font-family:var(--mono);color:var(--gold);font-weight:700}
+
+  .tldr{margin:60px 0 0;padding:36px 30px;border:1px solid rgba(232,179,57,.3);border-radius:18px;
+    background:radial-gradient(120% 120% at 100% 0%,rgba(232,179,57,.1),transparent 60%),var(--bg-elev);text-align:center}
+  .tldr .lab{font-family:var(--mono);font-size:12px;letter-spacing:.3em;color:var(--gold);text-transform:uppercase}
+  .tldr p{font-family:var(--serif);font-size:clamp(20px,3.4vw,28px);line-height:1.7;color:#fff;margin:16px 0 0}
+
+  footer{padding:60px 0 90px;text-align:center;color:var(--ink-faint);font-family:var(--mono);font-size:12px;border-top:1px solid var(--line)}
+  footer a{color:var(--ink-dim);text-decoration:none}
+
+  .reveal{opacity:0;transform:translateY(26px);transition:opacity .8s ease,transform .8s ease}
+  .reveal.in{opacity:1;transform:none}
+  @media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}.scroll-hint{animation:none}}
+</style>
+<meta name="view-transition" content="same-origin"><style>@view-transition{navigation:auto}</style></head>
+<body>
+<div id="bar"></div>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="kicker">缠中说禅 · 教你炒股票108课 <span>/ 第 82 课</span></div>
+    <h1 class="title">分型结构的<br>心理因素</h1>
+    <p class="sub">走势是「贪嗔痴疑慢」的痕迹。三根K线背后，是多空双方三次出手、三次较量的心理过程。</p>
+    <div class="meta">
+      <span class="pill"><b>原文</b> 2007-09-24</span>
+      <span class="pill"><b>类型</b> 进阶 · 心理与结构</span>
+      <span class="pill"><b>关键词</b> 顶分型 · 中继 · 力度 · 三类买卖点</span>
+    </div>
+    <div class="scroll-hint">↓ 向下滚动，逐层拆解</div>
+  </div>
+</header>
+
+<main>
+  <!-- 1 -->
+  <section class="wrap reveal">
+    <div class="sec-no">01 — 走势即心理</div>
+    <h2>市场是一面镜子，照出贪嗔痴疑慢</h2>
+    <p class="lead">本课开篇先把"分型"放回它真正的位置：心理痕迹的可观测仪器。</p>
+    <p>缠师说：走势反映的就是人的<b>贪、嗔、痴、疑、慢</b>。如果你能透过当下的K线呈现，观照其中参与者的心理活动，就等于看穿了市场内心。<span class="hl-gold">心理不是虚无飘渺的</span>，它必然留下痕迹——而这个痕迹，就是走势本身。</p>
+    <blockquote>
+      一些具有自相似性的结构，正好是窥测市场心理的科学仪器。
+      <span class="who">— 缠中说禅</span>
+    </blockquote>
+    <p>注意一个常见误区：<b>分型 ≠ 分形</b>。分形（Fractal）是数学的一个分支，把它硬套到走势上得到的结论，没有太大意义。缠论的逻辑直接来源于<span class="hl-pivot">市场走势本身</span>，不是先验数学理论的应用。世界本来就是数学的，但本ID理论的现实逻辑恰好显现出数学结构，那是另一回事。</p>
+  </section>
+
+  <!-- 2 -->
+  <section class="wrap reveal">
+    <div class="sec-no">02 — 三K线模型</div>
+    <h2>顶分型 = 三次"买"被三次"卖"击败</h2>
+    <p class="lead">用标准的、经过包含处理的三K线模型来还原顶分型的成立过程。</p>
+    <div class="psy">
+      <div class="psy-step">
+        <div class="n">第一次出手</div>
+        <h4>K1：买方冲高被阻击</h4>
+        <p>第一根K线的<span class="hl-up">高点</span>被卖分力阻击后出现回落，留下上影或在K2形成下影。</p>
+      </div>
+      <div class="psy-step">
+        <div class="n">第二次出手</div>
+        <h4>K2：新高但已力度背驰</h4>
+        <p>K2出现一个<b>更高高点</b>，但与K1的买盘相比在小级别上已出现<span class="hl-down">力度背驰</span>，至少留下上影。</p>
+      </div>
+      <div class="psy-step">
+        <div class="n">第三次出手</div>
+        <h4>K3：再攻不能、彻底败下</h4>
+        <p>K3再次尝试买方攻击，但被卖分力完全击败、无法新高。在小级别上大致呈现一个<span class="hl-gold">第二类卖点</span>结构。</p>
+      </div>
+    </div>
+
+    <div class="kdiag">
+      <svg viewBox="0 0 520 260" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="顶分型三K线心理模型">
+        <defs>
+          <marker id="ah" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+            <path d="M0,0 L10,5 L0,10 z" fill="#e8b339"/>
+          </marker>
+        </defs>
+        <!-- 基准网格 -->
+        <line x1="20" y1="220" x2="500" y2="220" stroke="rgba(255,255,255,.08)" stroke-width="1"/>
+        <!-- K1 -->
+        <line x1="100" y1="60" x2="100" y2="200" stroke="#ff4d4f" stroke-width="2"/>
+        <rect x="86" y="110" width="28" height="70" fill="#ff4d4f"/>
+        <text x="100" y="240" text-anchor="middle" font-family="JetBrains Mono" font-size="11" fill="#9aa3ad">K1</text>
+        <text x="100" y="50" text-anchor="middle" font-family="JetBrains Mono" font-size="10" fill="#ff4d4f">高1</text>
+        <!-- K2 顶 -->
+        <line x1="260" y1="30" x2="260" y2="180" stroke="#ff4d4f" stroke-width="2"/>
+        <rect x="246" y="90" width="28" height="55" fill="#ff4d4f"/>
+        <text x="260" y="240" text-anchor="middle" font-family="JetBrains Mono" font-size="11" fill="#9aa3ad">K2 顶</text>
+        <text x="260" y="22" text-anchor="middle" font-family="JetBrains Mono" font-size="10" fill="#e8b339">最高 ★</text>
+        <!-- K3 -->
+        <line x1="420" y1="70" x2="420" y2="210" stroke="#16c784" stroke-width="2"/>
+        <rect x="406" y="120" width="28" height="80" fill="#16c784"/>
+        <text x="420" y="240" text-anchor="middle" font-family="JetBrains Mono" font-size="11" fill="#9aa3ad">K3</text>
+        <text x="420" y="60" text-anchor="middle" font-family="JetBrains Mono" font-size="10" fill="#16c784">不能新高</text>
+        <!-- 三次心理曲线 -->
+        <path d="M100,60 Q180,20 260,30 Q340,55 420,70" stroke="#e8b339" stroke-width="1.5" fill="none" stroke-dasharray="4 4" marker-end="url(#ah)" opacity=".7"/>
+        <text x="260" y="125" text-anchor="middle" font-family="Noto Serif SC" font-size="13" fill="#e8b339">三而竭</text>
+      </svg>
+    </div>
+
+    <p>一个分型结构的出现，<b>如同中枢</b>，都经过三次反复的心理较量过程——只是中枢用的是三个次级别，而分型用的是三根K线。所谓<span class="hl-gold">一而再、再而三，三而竭</span>，于是一个顶分型就这样诞生了；底分型反过来。</p>
+  </section>
+
+  <!-- 3 -->
+  <section class="wrap reveal">
+    <div class="sec-no">03 — 强弱分级</div>
+    <h2>三根K线长什么样，决定分型的"杀伤力"</h2>
+    <p class="lead">同样叫"顶分型"，力度差别巨大。看的是包含关系与第二、三根K线的形态。</p>
+    <p><b>是否有包含关系？</b> 完全没有包含 = 双方直截了当，不犹豫；有包含（除非长阴吃阳）= 一种<span class="hl-pivot">犹豫、观望</span>，小级别上往往伴随中枢延伸、扩展。</p>
+    <div class="table">
+      <div class="row head"><div>等级</div><div>形态特征</div><div>含义与后续</div></div>
+      <div class="row">
+        <div class="name weak">最弱 · 中继</div>
+        <div>K1 长阳，K2/K3 都是小阴小阳</div>
+        <div>小级别中枢上移后新中枢形成，<b>多为中继</b>，真顶概率小</div>
+      </div>
+      <div class="row">
+        <div class="name mid">较强</div>
+        <div>K2 长上影甚至直接长阴；K3 阳线不能收回 K2 区间一半之上</div>
+        <div>分型力度较大，<b>延续成笔</b>概率极大</div>
+      </div>
+      <div class="row">
+        <div class="name strong">最强 · 杀伤力大</div>
+        <div>K3 跌破 K1 底，且不能高收到 K1 区间一半之上</div>
+        <div>非包含处理后<b>最弱的一种顶</b>（指多方）= <b>最凶的一种分型</b>，强烈见顶信号</div>
+      </div>
+    </div>
+    <figure>
+      <img src="/_assets/ch82_p01.png" alt="中继型顶分型实例">
+      <figcaption>上海日线 9/17、18、19 三K线 —— 典型的中继型顶分型（K2/K3 小阴小阳）</figcaption>
+    </figure>
+    <figure>
+      <img src="/_assets/ch82_p02.png" alt="较强力度顶分型实例">
+      <figcaption>上海日线 6/18-21 —— 有包含关系，但是"长阴吃阳"这种最坏的包含，分型力度大</figcaption>
+    </figure>
+  </section>
+
+  <!-- 4 -->
+  <section class="wrap reveal">
+    <div class="sec-no">04 — 中继 vs 成笔</div>
+    <h2>分型形成后只有两种命运</h2>
+    <p class="lead">分清这两种命运，是操作能否上一个台阶的关键。</p>
+    <div class="grid">
+      <div class="card">
+        <div class="tag">命运一</div>
+        <h3>中继型分型</h3>
+        <p>最终<b>不延续成笔</b>，原方向继续。小级别上多见：第三类卖点后形成<span class="hl-pivot">中枢扩展</span>，给你一个绝妙的盘整底背驰再介入。</p>
+      </div>
+      <div class="card">
+        <div class="tag">命运二</div>
+        <h3>延续成笔</h3>
+        <p>分型成立后真的<b>反向走出一笔</b>。日线操作完，等相反分型出来再操作即可，中间可"宠幸别的面首"，效率最高。</p>
+      </div>
+    </div>
+    <blockquote>
+      如果你能有效地分辨中继分型，那么你的操作就会有大的进步。
+      <span class="who">— 缠中说禅</span>
+    </blockquote>
+    <p><b>判别工具 1（粗）：</b> 看是否有效突破 5 周期均线。比如日线顶分型是否<span class="hl-down">有效跌破 5 日均线</span>，是一个不错的简易依据。</p>
+    <p><b>判别工具 2（精）：</b> 看分型对应的<span class="hl-pivot">小级别中枢</span>是否出现第三类买卖点，以及其后是否中枢移动。</p>
+    <figure>
+      <img src="/_assets/ch82_p03.png" alt="中继型分型与小级别中枢">
+      <figcaption>分型与小级别中枢的对应关系示意</figcaption>
+    </figure>
+    <figure>
+      <img src="/_assets/ch82_p04.png" alt="顶分型后小级别第三类卖点">
+      <figcaption>顶分型成立 + 小级别第三类卖点 + 无中枢扩张 → 几乎 100% 在大级别上要出现一笔</figcaption>
+    </figure>
+  </section>
+
+  <!-- 5 -->
+  <section class="wrap reveal">
+    <div class="sec-no">05 — 落地操作</div>
+    <h2>分型 × 小级别中枢 = 当下一目了然</h2>
+    <p class="lead">把日线分型 + 5 分钟级别结合起来，就能在当下做出判断。</p>
+    <p><b>原则一：</b> 如果小级别中枢震荡中<span class="hl-down">连日 K 线都没有顶分型</span>，这种中枢震荡<b>就没必要做</b>——没有分型 = 走势没结束 = 随时新高，你急什么？</p>
+    <p><b>原则二：</b> 一旦顶分型成立，必然对应小级别走势的<span class="hl-up">第一、二类卖点</span>；其后关键看新形成中枢的第三类买卖点。</p>
+    <p><b>原则三（中继识别）：</b> 中继型分型一般是<span class="hl-pivot">第三类卖点后形成中枢扩展</span>，给一个盘整底背驰让你重新介入。这样既搞了短差，又不浪费后续走势——一个合格的操作。</p>
+    <figure>
+      <img src="/_assets/ch82_p05.png" alt="日线分型与5分钟级别配合">
+      <figcaption>日线分型与小级别中枢的配合操作示意</figcaption>
+    </figure>
+    <figure>
+      <img src="/_assets/ch82_p07.png" alt="上海周线9月7日中继顶分型">
+      <figcaption>上海周线 9/7 前后的"完美中继顶分型"——假跌破 5 周均线 + 小级别背驰 共同确认</figcaption>
+    </figure>
+    <blockquote>
+      中继分型，有点类似刹车：一次不一定刹住，但第一次刹车后车速明显减慢，证明刹车有效，第二次刹住的机会就极大了——除非你脚踩到油门上。
+      <span class="who">— 关键比喻</span>
+    </blockquote>
+  </section>
+
+  <!-- 6 -->
+  <section class="wrap reveal">
+    <div class="sec-no">06 — 课后感 & 思考</div>
+    <h2>一而再、再而三，三而竭</h2>
+    <p class="lead">缠师亲自总结的三点读后感，浓缩本课精要。</p>
+    <div class="grid">
+      <div class="card">
+        <div class="tag">读后感 1</div>
+        <h3>三而竭</h3>
+        <p>分型的本质：买/卖分力三次较量后耗竭。理解了"三而竭"，就理解了分型为何成立。</p>
+      </div>
+      <div class="card">
+        <div class="tag">读后感 2</div>
+        <h3>中继分型的操作意义</h3>
+        <p>分清"延续成笔"还是"中继"，决定了你是该等待还是该回补。这是操作进阶的关键。</p>
+      </div>
+      <div class="card">
+        <div class="tag">读后感 3</div>
+        <h3>分型 × 三类买卖点</h3>
+        <p>把分型放回小级别中枢的三类买卖点框架里看，"当下一目了然"才有可能。</p>
+      </div>
+      <div class="card">
+        <div class="tag">额外提示</div>
+        <h3>注意回补与背驰</h3>
+        <p>顶分型卖了之后，若确认中继应回补；但若其后出现背驰或盘整背驰，下一顶分型再是中继的概率大幅减少。</p>
+      </div>
+    </div>
+    <ol class="think">
+      <li>为什么说"分型 ≠ 分形"？两者的逻辑出发点有何根本区别？</li>
+      <li>同样是顶分型，K2 是长上影 vs K2 是小阳线，操作上你会如何区别处理？</li>
+      <li>对一个日线顶分型，如何用 5 分钟中枢的第三类卖点来判断它会延续成笔还是中继？</li>
+    </ol>
+
+    <div class="tldr">
+      <div class="lab">一句话总结</div>
+      <p>分型不是数学概念，是市场心理"一而再、再而三、三而竭"的痕迹；它的强弱靠 K 线形态分级，它的命运靠小级别中枢的第三类买卖点确认——把分型放回中枢里看，当下才能一目了然。</p>
+    </div>
+  </section>
+</main>
+
+<footer class="wrap">
+  原文出处：raw/缠中说禅/教你炒股票108课/教你炒股票82：分型结构的心理因素.md<br>
+  本页为个人学习复习用 · 非投资建议
+</footer>
+
+<script>
+  const bar=document.getElementById('bar');
+  const onScroll=()=>{
+    const h=document.documentElement;
+    const p=h.scrollTop/(h.scrollHeight-h.clientHeight);
+    bar.style.width=(p*100)+'%';
+  };
+  document.addEventListener('scroll',onScroll,{passive:true});onScroll();
+  const io=new IntersectionObserver((es)=>{
+    es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});
+  },{threshold:.12});
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+</script>
+<script src="/assets/_nav.js"></script><script src="/assets/_shell.js"></script></body>
+</html>

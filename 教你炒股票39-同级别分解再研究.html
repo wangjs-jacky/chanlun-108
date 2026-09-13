@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>缠论 · 教你炒股票39：同级别分解再研究</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@500;700;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0b0e12;--bg-elev:#12161c;--bg-card:#161b22;
+    --ink:#e8eaed;--ink-dim:#9aa3ad;--ink-faint:#5b6470;
+    --line:rgba(255,255,255,.07);
+    --up:#ff4d4f;--down:#16c784;--pivot:#37c0e6;--gold:#e8b339;--blue:#00d4ff;
+    --max:880px;--serif:"Noto Serif SC",serif;--mono:"JetBrains Mono",ui-monospace,monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--ink);font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;line-height:1.85;font-size:17px;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  body::before{content:"";position:fixed;inset:0;z-index:-2;background:radial-gradient(1200px 600px at 70% -10%,rgba(55,192,230,.08),transparent 60%),radial-gradient(900px 500px at 0% 100%,rgba(232,179,57,.05),transparent 55%);pointer-events:none}
+  body::after{content:"";position:fixed;inset:0;z-index:-1;opacity:.4;background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);background-size:46px 46px;-webkit-mask-image:radial-gradient(ellipse at 50% 0%,#000 30%,transparent 80%);mask-image:radial-gradient(ellipse at 50% 0%,#000 30%,transparent 80%);pointer-events:none}
+  #bar{position:fixed;top:0;left:0;height:3px;width:0;z-index:50;background:linear-gradient(90deg,var(--pivot),var(--gold));box-shadow:0 0 12px var(--pivot)}
+  .wrap{max-width:var(--max);margin:0 auto;padding:0 24px}
+  header.hero{padding:120px 0 70px;text-align:center;position:relative}
+  .kicker{font-family:var(--mono);font-size:13px;letter-spacing:.32em;color:var(--pivot);text-transform:uppercase;margin-bottom:26px}
+  .kicker span{color:var(--ink-faint)}
+  h1.title{font-family:var(--serif);font-weight:900;line-height:1.05;font-size:clamp(44px,10vw,100px);letter-spacing:.04em;background:linear-gradient(180deg,#fff 30%,#8aa0ad 130%);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .sub{margin:22px auto 0;max-width:580px;color:var(--ink-dim);font-size:18px}
+  .meta{margin-top:34px;display:flex;gap:14px;justify-content:center;flex-wrap:wrap;font-family:var(--mono);font-size:12px;color:var(--ink-faint)}
+  .meta b{color:var(--ink-dim);font-weight:500}
+  .pill{border:1px solid var(--line);padding:6px 14px;border-radius:999px;background:rgba(255,255,255,.02)}
+  .scroll-hint{margin-top:60px;color:var(--ink-faint);font-family:var(--mono);font-size:12px;animation:bob 2.4s ease-in-out infinite}
+  @keyframes bob{0%,100%{transform:translateY(0);opacity:.5}50%{transform:translateY(8px);opacity:1}}
+  section{padding:64px 0;border-top:1px solid var(--line)}
+  .sec-no{font-family:var(--mono);font-size:13px;color:var(--gold);letter-spacing:.2em;margin-bottom:10px}
+  h2{font-family:var(--serif);font-weight:700;font-size:clamp(28px,5vw,42px);line-height:1.25;margin-bottom:8px;letter-spacing:.02em}
+  .lead{color:var(--ink-dim);font-size:16px;margin-bottom:28px;max-width:660px}
+  p{margin:0 0 18px;color:#cfd5dc}
+  p b,strong{color:#fff;font-weight:700}
+  .hl-pivot{color:var(--pivot);font-weight:700}.hl-up{color:var(--up);font-weight:700}
+  .hl-down{color:var(--down);font-weight:700}.hl-gold{color:var(--gold);font-weight:700}
+  blockquote{margin:26px 0;padding:20px 24px;border-left:3px solid var(--pivot);background:linear-gradient(90deg,rgba(55,192,230,.07),transparent);border-radius:0 10px 10px 0;font-family:var(--serif);font-size:19px;color:#eaf6fb}
+  blockquote .who{display:block;margin-top:8px;font-family:var(--mono);font-size:12px;color:var(--ink-faint);font-style:normal}
+  figure{margin:34px 0}
+  figure img{width:100%;border-radius:12px;border:1px solid var(--line);background:#fff;box-shadow:0 18px 50px rgba(0,0,0,.5)}
+  figcaption{margin-top:12px;font-size:13px;color:var(--ink-faint);text-align:center;font-family:var(--mono)}
+  .grid{display:grid;gap:16px;grid-template-columns:1fr 1fr;margin:28px 0}
+  @media(max-width:640px){.grid{grid-template-columns:1fr}}
+  .card{background:var(--bg-card);border:1px solid var(--line);border-radius:14px;padding:24px;position:relative;overflow:hidden;transition:transform .35s ease,border-color .35s ease}
+  .card:hover{transform:translateY(-4px);border-color:rgba(55,192,230,.4)}
+  .card .tag{font-family:var(--mono);font-size:11px;letter-spacing:.18em;color:var(--gold);text-transform:uppercase}
+  .card h3{font-family:var(--serif);font-size:21px;margin:10px 0 8px;color:#fff}
+  .card p{font-size:15px;color:var(--ink-dim);margin:0}
+  .table{margin:28px 0;border:1px solid var(--line);border-radius:14px;overflow:hidden}
+  .table .row{display:grid;grid-template-columns:1.1fr 1.5fr 1.6fr;align-items:stretch}
+  .table .row+.row{border-top:1px solid var(--line)}
+  .table .row>div{padding:16px 18px}
+  .table .row.head{background:var(--bg-elev);font-family:var(--mono);font-size:12px;letter-spacing:.14em;color:var(--ink-faint);text-transform:uppercase}
+  .table .row>div+div{border-left:1px solid var(--line)}
+  .table .name{font-family:var(--serif);font-weight:700;font-size:18px}
+  .table .name.qushi{color:var(--gold)}
+  .cnt{font-family:var(--mono);font-size:14px;color:var(--pivot)}
+  @media(max-width:560px){.table .row{grid-template-columns:1fr}.table .row>div+div{border-left:0;border-top:1px solid var(--line)}.table .row.head{display:none}}
+  .points{margin:26px 0;display:flex;flex-direction:column;gap:14px}
+  .pt{display:flex;gap:16px;align-items:flex-start;background:var(--bg-card);border:1px solid var(--line);border-radius:12px;padding:18px 20px}
+  .pt .dot{flex:none;width:42px;height:42px;border-radius:10px;display:grid;place-items:center;font-family:var(--serif);font-weight:900;font-size:20px;color:#0b0e12}
+  .pt.b .dot{background:var(--up)}.pt.s .dot{background:var(--down)}
+  .pt h4{font-size:17px;margin-bottom:4px;color:#fff}.pt p{font-size:15px;color:var(--ink-dim);margin:0}
+  .proof{margin:30px 0;background:linear-gradient(120deg,rgba(55,192,230,.06),transparent 70%),var(--bg-elev);border:1px solid rgba(55,192,230,.25);border-radius:16px;padding:26px}
+  .proof .badge{display:inline-block;font-family:var(--mono);font-weight:700;font-size:12px;letter-spacing:.12em;padding:6px 14px;border-radius:999px;background:rgba(55,192,230,.14);color:var(--pivot);border:1px solid rgba(55,192,230,.4);margin-bottom:14px}
+  .chartbox{background:var(--bg-card);border:1px solid var(--line);border-radius:14px;padding:18px 14px 8px;margin:18px 0}
+  .legend{display:flex;gap:16px;font-family:var(--mono);font-size:12px;color:var(--ink-dim);padding:0 8px 12px;flex-wrap:wrap}
+  .legend i{display:inline-block;width:16px;height:3px;vertical-align:middle;margin-right:6px;border-radius:2px}
+  canvas{width:100%;display:block}
+  .verdict{display:flex;gap:14px;align-items:flex-start;margin-top:8px;padding:16px 18px;background:var(--bg-card);border:1px solid var(--line);border-radius:12px}
+  .verdict .mk{flex:none;font-family:var(--mono);font-weight:700;color:var(--up)}
+  .verdict p{margin:0;font-size:15px;color:#d6dbe1}
+  ol.think{counter-reset:q;list-style:none;margin:24px 0;display:flex;flex-direction:column;gap:14px}
+  ol.think li{counter-increment:q;position:relative;padding:18px 20px 18px 60px;background:var(--bg-elev);border:1px solid var(--line);border-radius:12px;color:var(--ink-dim);font-size:15px}
+  ol.think li::before{content:counter(q,decimal-leading-zero);position:absolute;left:20px;top:18px;font-family:var(--mono);color:var(--gold);font-weight:700}
+  .quiz{margin:22px 0;background:var(--bg-card);border:1px solid var(--line);border-radius:14px;padding:22px 24px}
+  .quiz h4{font-size:16px;color:#fff;margin-bottom:6px}
+  .quiz .ans{margin-top:12px;color:var(--ink-faint);font-size:14px;cursor:pointer}
+  .quiz .ans[open] summary{color:var(--pivot)}
+  .quiz summary{color:var(--gold);font-family:var(--mono);font-size:13px}
+  .tldr{margin:60px 0 0;padding:36px 30px;border:1px solid rgba(55,192,230,.3);border-radius:18px;background:radial-gradient(120% 120% at 100% 0%,rgba(55,192,230,.1),transparent 60%),var(--bg-elev);text-align:center}
+  .tldr .lab{font-family:var(--mono);font-size:12px;letter-spacing:.3em;color:var(--pivot);text-transform:uppercase}
+  .tldr p{font-family:var(--serif);font-size:clamp(20px,3.4vw,28px);line-height:1.7;color:#fff;margin:16px 0 0}
+  footer{padding:60px 0 90px;text-align:center;color:var(--ink-faint);font-family:var(--mono);font-size:12px;border-top:1px solid var(--line)}
+  .reveal{opacity:0;transform:translateY(26px);transition:opacity .8s ease,transform .8s ease}
+  .reveal.in{opacity:1;transform:none}
+  @media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}.scroll-hint{animation:none}}
+  /* 序列 Ai 可视化 */
+  .ai-seq{margin:30px 0;background:var(--bg-card);border:1px solid var(--line);border-radius:14px;padding:24px}
+  .ai-seq svg{display:block;width:100%;height:auto}
+  .formula{font-family:var(--mono);background:var(--bg-elev);padding:14px 18px;border-radius:10px;border:1px solid var(--line);color:#cfd5dc;font-size:14.5px;margin:18px 0;overflow-x:auto;white-space:nowrap}
+  .formula b{color:var(--gold)}
+  .twocol{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:28px 0}
+  @media(max-width:640px){.twocol{grid-template-columns:1fr}}
+  .twocol .box{background:var(--bg-card);border:1px solid var(--line);border-radius:14px;padding:22px}
+  .twocol .box .lab{font-family:var(--mono);font-size:11px;letter-spacing:.18em;color:var(--gold);text-transform:uppercase;margin-bottom:8px}
+  .twocol .box h3{font-family:var(--serif);font-size:19px;margin-bottom:10px;color:#fff}
+  .twocol .box.buy{border-color:rgba(255,77,79,.35)}
+  .twocol .box.sell{border-color:rgba(22,199,132,.35)}
+  .twocol .box.buy .lab{color:var(--up)}
+  .twocol .box.sell .lab{color:var(--down)}
+</style>
+<meta name="view-transition" content="same-origin"><style>@view-transition{navigation:auto}</style></head>
+<body>
+<div id="bar"></div>
+<header class="hero">
+  <div class="wrap">
+    <div class="kicker">缠中说禅 · 教你炒股票108课 <span>/ 第 39 课</span></div>
+    <h1 class="title">同级别分解<br>再研究</h1>
+    <p class="sub">把"机械韵律"再精雕一层 —— a+A 分解的最精确表述：Ai 与 Ai+2 之间盘整背驰，决定每一步的买卖。</p>
+    <div class="meta">
+      <span class="pill"><b>原文</b> 2007-03-23</span>
+      <span class="pill"><b>类型</b> 方法 / 数学化操作法</span>
+      <span class="pill"><b>关键词</b> 同级别分解 · 盘整背驰 · 机械操作</span>
+    </div>
+    <div class="scroll-hint">↓ 向下滚动，逐层拆解</div>
+  </div>
+</header>
+<main>
+
+  <section class="wrap reveal">
+    <div class="sec-no">01 — 课文定位</div>
+    <h2>从"机械程式"到"机械程式的内部细分"</h2>
+    <p class="lead">第38课讲了机械操作程式（向上段先买后卖、向下段先卖后买的大韵律）；本课是它的精度升级。</p>
+    <p>第38课告诉我们：拿到一段走势，按"同级别分解"切成 Ai 段，奇数下偶数上（或反过来），就有了基本舞步。但课文末尾留了一个问题——<b>段与段之间，到底怎么决定每一步精确的买卖点？</b> 第39课直接给答案：用<span class="hl-pivot">盘整背驰</span>，比较 Ai 与 Ai+2 的力度。</p>
+    <p>课文开头那句"股票都是废纸"，不是哲学呓语，是为后面这个机械系统铺心法垫子：<b>只要赚钱卖出，无所谓错</b>；<b>只要低价回补，无所谓错</b>；剩下的精度差异，全靠舞步训练。这一课，就是教那套舞步的细节。</p>
+    <blockquote>
+      首先就要培养这样一个韵律，不排除在这个培养、训练的过程中，开始还比不上以前撒腿乱跑的速度，但坚持下去，等韵律感形成，那进步就不是撒腿乱跑的能比了。
+      <span class="who">— 缠中说禅，2007-03-23</span>
+    </blockquote>
+    <p class="lead" style="margin-top:18px">原文注：<b>38课针对后期递归级别的5分钟同级别分解，39课针对后期递归级别的1分钟同级别分解</b>。说人话就是——第38课在大的舞步上讲，第39课进了更小的舞步房间。</p>
+  </section>
+
+  <section class="wrap reveal">
+    <div class="sec-no">02 — 核心模型</div>
+    <h2>a + A 模型：把一段走势"再切一层"</h2>
+    <p class="lead">这是本课最难懂的一段。不用怕，画着图走一遍，就只是一个套娃。</p>
+    <p>以5分钟同级别分解、最典型的 <b class="hl-pivot">a + A</b> 向上段为例：</p>
+    <ul style="margin:0 0 20px 26px;color:#cfd5dc">
+      <li>a 一般不一定就是5分钟走势类型，但通过"结合运算"（走势结合律，第36课），<b>总能把它处理成一个标准的5分钟走势类型</b>。</li>
+      <li>A 同样可以再被切成 m 段5分钟走势类型：<b>A = A1 + A2 + … + Am</b>。</li>
+      <li>因为 a+A 整体向上，所以 <b class="hl-down">Ai 当 i 为奇数时向下</b>、<b class="hl-up">i 为偶数时向上</b>。</li>
+    </ul>
+
+    <div class="formula">a + A &nbsp;=&nbsp; a + A1 + A2 + A3 + … + Am &nbsp;&nbsp;|&nbsp;&nbsp; 把 a 记作 <b>A0</b>，序列就成了 A0, A1, A2, A3 …</div>
+
+    <p>关键的一步：缠师把 <b>a 改名叫 A0</b>。这样所有偶数下标的 Ai（A0/A2/A4…）都是向上的<b class="hl-up">上涨段</b>，所有奇数下标的 Ai（A1/A3/A5…）都是向下的<b class="hl-down">回调段</b>。整个走势就变成一串 <b>A0, A1, A2, A3, …</b> 的序列，按编号清晰排队。</p>
+
+    <div class="ai-seq">
+      <svg viewBox="0 0 760 220" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#9aa3ad"/></marker>
+        </defs>
+        <!-- 锯齿走势 A0..A4，整体向上 -->
+        <polyline points="40,180 130,100 200,140 290,60 360,110 450,30 530,80 620,20 720,60"
+                  fill="none" stroke="#cfd5dc" stroke-width="2.2"/>
+        <!-- 节点圆与标签 -->
+        <g font-family="JetBrains Mono" font-size="13" fill="#e8eaed" text-anchor="middle">
+          <circle cx="40" cy="180" r="5" fill="#ff4d4f"/><text x="40" y="205">A0 起点</text>
+          <circle cx="130" cy="100" r="5" fill="#16c784"/><text x="130" y="92">A0 顶</text>
+          <circle cx="200" cy="140" r="5" fill="#ff4d4f"/><text x="200" y="160">A1 底</text>
+          <circle cx="290" cy="60" r="5" fill="#16c784"/><text x="290" y="50">A2 顶</text>
+          <circle cx="360" cy="110" r="5" fill="#ff4d4f"/><text x="360" y="130">A3 底</text>
+          <circle cx="450" cy="30" r="5" fill="#16c784"/><text x="450" y="22">A4 顶</text>
+          <circle cx="530" cy="80" r="5" fill="#ff4d4f"/><text x="530" y="100">A5 底</text>
+          <circle cx="620" cy="20" r="5" fill="#16c784"/><text x="620" y="12">A6 顶</text>
+        </g>
+        <!-- 段标签 -->
+        <g font-family="Noto Serif SC" font-size="12" fill="#e8b339" text-anchor="middle">
+          <text x="85" y="130">A0 (=a)</text>
+          <text x="165" y="135">A1↓</text>
+          <text x="245" y="90">A2↑</text>
+          <text x="325" y="105">A3↓</text>
+          <text x="405" y="60">A4↑</text>
+          <text x="490" y="80">A5↓</text>
+          <text x="575" y="40">A6↑</text>
+        </g>
+      </svg>
+    </div>
+    <p style="text-align:center;color:var(--ink-faint);font-family:var(--mono);font-size:12.5px;margin-top:-10px">把 a 改名 A0 后，整段走势就是一串编号清晰的 Ai 序列：偶数=向上段，奇数=向下段。</p>
+  </section>
+
+  <section class="wrap reveal">
+    <div class="sec-no">03 — 课文原图</div>
+    <h2>缠师亲手画的"同级别分解操作"</h2>
+    <p class="lead">先理解最朴素的画法，再去看精细化的两类分支图。</p>
+
+    <figure>
+      <img src="/_assets/ch39_p03.png" alt="同级别分解操作示意：一串向上锯齿，标注 A0/A1/A2/A3/A4">
+      <figcaption>课文图3：同级别分解操作 —— 一个向上趋势被切成 A0、A1、A2、A3、A4 共五段；奇数段（A1/A3）向下回调，偶数段（A0/A2/A4）向上推升。</figcaption>
+    </figure>
+
+    <p>这张图是"骨架"。第39课的精华在于：<b>每两个同方向段之间（如 A0 vs A2，A2 vs A4，A1 vs A3，A3 vs A5），都要做一次力度比较</b>——这就是<span class="hl-pivot">"Ai 与 Ai+2 之间的盘整背驰"</span>。</p>
+
+    <blockquote>
+      把 a 定义为 A0，则 <b>Ai 与 Ai+2 之间就可以不断地比较力度</b>，用<b>盘整背驰</b>的方法决定买卖点。这和前面说的围绕中枢震荡的处理方法类似，但那不是站在同级别分解的基础上的。
+      <span class="who">— 缠中说禅</span>
+    </blockquote>
+
+    <p>看清重点：以前讲"中枢震荡处理"，是站在<b>中枢</b>这个空间结构里看；现在讲 Ai vs Ai+2，是站在<b>同级别分解的时间序列</b>里看。<b>空间结构 → 时间序列</b>，视角换了，操作变得机械可执行。</p>
+  </section>
+
+  <section class="wrap reveal">
+    <div class="sec-no">04 — 两类分支</div>
+    <h2>精确表述：图形被分为两类，对应两种动作</h2>
+    <p class="lead">这是第39课最核心、也最绕的逻辑。一句话：每一步操作面前，永远只有两种图形，每种图形只有一个动作。</p>
+
+    <div class="twocol">
+      <div class="box buy">
+        <div class="lab">▎ 分支 1 · 盘整背驰</div>
+        <h3>Ai 与 Ai+2 之间盘整背驰</h3>
+        <p style="color:var(--ink-dim);font-size:14.5px;margin:0">把 Ai 当作"前一段"、Ai+2 当作"后一段"，两段之间出现<b style="color:#fff">盘整背驰</b>——下一步反转。</p>
+        <p style="color:var(--ink-dim);font-size:14.5px;margin:10px 0 0">动作：<b class="hl-up">i+2 为奇数时（即 Ai+2 是下跌段背驰）→ 买入</b>；<b class="hl-down">i+2 为偶数时（即 Ai+2 是上涨段背驰）→ 卖出</b>。</p>
+      </div>
+      <div class="box sell">
+        <div class="lab">▎ 分支 2 · 非背驰</div>
+        <h3>Ai+3 不破 Ai 端点（关键不破）</h3>
+        <p style="color:var(--ink-dim);font-size:14.5px;margin:0">没出现盘整背驰的情况下，看 Ai+3 是否能"破"掉 Ai 的端点：<br>· i 为偶（上涨段），<b style="color:#fff">Ai+3 不跌破 Ai 高点 → 持股</b><br>· i 为奇（下跌段），<b style="color:#fff">Ai+3 不升破 Ai 低点 → 持币</b></p>
+        <p style="color:var(--ink-dim);font-size:14.5px;margin:10px 0 0">继续看到 Ai+k+3 终于反向"破点"，且 Ai+k+4 不创新高/不创新低（或盘整顶/底背驰）→ 此时操作。</p>
+      </div>
+    </div>
+
+    <p>这套话术绕在哪？绕在"<b>不破点</b>"这个判据上。缠师巧妙地用了"<b>Ai+3 vs Ai 端点</b>"做卡尺：</p>
+
+    <div class="formula">
+      i 为<b>偶数</b>（Ai 是上涨段）：<b style="color:#e8b339">Ai+3 是否跌破 Ai 高点？</b>不破 → 趋势仍强，继续持有<br>
+      i 为<b>奇数</b>（Ai 是下跌段）：<b style="color:#e8b339">Ai+3 是否升破 Ai 低点？</b>不破 → 跌势仍强，继续空仓
+    </div>
+
+    <p>为什么是 Ai+3 而不是 Ai+1 或 Ai+2？因为 Ai+1、Ai+2 是 Ai 的紧邻邻居，太近、噪音大；<b>Ai+3 已经隔了两段，足以体现"反向力量是否真有威胁"</b>。这就是"<span class="hl-pivot">3 段窗口检验</span>"的工程师思路。</p>
+  </section>
+
+  <section class="wrap reveal">
+    <div class="sec-no">05 — 买卖点图解</div>
+    <h2>课文图1 & 图2：精确版的买点与卖点</h2>
+    <p class="lead">看完上面那段公式，请对照原图把"两类分支"落到画面上。</p>
+
+    <figure>
+      <img src="/_assets/ch39_p01.png" alt="同级别分解再研究 · 买入点示意图">
+      <figcaption>课文图1：买入点的两类情况。左侧 = 简单盘整背驰买入（Ai 与 Ai+2 之间）；右侧 = "Ai+3 不升破 Ai 低点"持币不回补，直至 Ai+k+3 升破 Ai+k 低点后，在不创新低或盘整底背驰的 Ai+k+4 回补。</figcaption>
+    </figure>
+
+    <figure>
+      <img src="/_assets/ch39_p02.png" alt="同级别分解再研究 · 卖出点示意图">
+      <figcaption>课文图2：卖出点的两类情况，与图1对称。左侧 = Ai 与 Ai+2 盘整背驰卖出；右侧 = Ai+3 不跌破 Ai 高点持股，直至 Ai+k+3 跌破 Ai+k 高点，在不创新高或盘整顶背驰的 Ai+k+4 卖出（k 为偶数）。</figcaption>
+    </figure>
+
+    <h3 style="font-family:var(--serif);font-size:22px;color:#fff;margin:30px 0 14px">两类分支的"决策树"</h3>
+
+    <div class="points">
+      <div class="pt b"><div class="dot">①</div><div><h4>Ai 与 Ai+2 盘整背驰</h4><p>不论上下涨段，只要相邻两同向段出现盘整背驰：偶数位向上段背驰 → <b class="hl-down">卖出</b>；奇数位向下段背驰 → <b class="hl-up">买入</b>。这是最干脆的操作。</p></div></div>
+      <div class="pt s"><div class="dot">②</div><div><h4>无背驰但"关键不破"</h4><p>Ai+2 没背驰，Ai+3 也没能反向破掉 Ai 的端点 → <b>仓位不动</b>。这种情况体现"主方向力量仍占优"。</p></div></div>
+      <div class="pt b"><div class="dot">③</div><div><h4>Ai+k+3 反向"破点"</h4><p>持续推进到某一刻，反向力量终于把 Ai+k 的端点破掉，进入"再加一段验证"阶段——下一段 Ai+k+4 表现如何？</p></div></div>
+      <div class="pt s"><div class="dot">④</div><div><h4>Ai+k+4 不创新高/不创新低 或 盘整顶/底背驰</h4><p>满足任一条 → <b class="hl-gold">出手操作</b>。i 偶 → 卖出；i 奇 → 买入回补。这是"两步验证"的精髓。</p></div></div>
+    </div>
+  </section>
+
+  <section class="wrap reveal">
+    <div class="sec-no">06 — 收敛到中枢</div>
+    <h2>表面在比 Ai，实质在做什么？</h2>
+    <p class="lead">回到第18-21课的中枢框架，第39课其实是中枢震荡的"语言重写"。</p>
+
+    <p>缠师的原话说得非常关键：</p>
+
+    <blockquote>
+      因此，这一般性的 a+A 情况，都必然<b>归结为 a 是5分钟走势类型，A 包含一30分钟中枢的情况</b>。该中枢可以从30分钟一直扩展到日线、周线甚至年线，但这种操作不管这么多，只理会一点——<b>Ai 与 Ai+2 之间是否盘整背驰</b>。
+      <span class="who">— 缠中说禅</span>
+    </blockquote>
+
+    <p>翻译成大白话：</p>
+    <ul style="margin:0 0 20px 26px;color:#cfd5dc">
+      <li>A1、A2、A3 三段构成一个 <span class="hl-pivot">30分钟中枢</span>（次级别的三段重叠）。</li>
+      <li>所以"a + A1 + A2 + A3"加起来，本质上就是<b>"a + 一个 30 分钟中枢"</b>，一个标准的同级别走势类型。</li>
+      <li>之后 A4、A5、A6 等延续段，每一段都在更高/更低位置上做中枢震荡或扩展。</li>
+      <li>操作员不用关心中枢级别会扩展到日线还是周线，只盯一件事：<b class="hl-gold">每两同向段之间是否盘整背驰</b>。</li>
+    </ul>
+
+    <div class="table">
+      <div class="row head"><div>视角</div><div>看什么</div><div>本课的处理</div></div>
+      <div class="row"><div class="name qushi">中枢震荡（18-21课）</div><div>价格在 ZD-ZG 区间内反复</div><div>区间上沿减、下沿加；考虑第三类买卖点</div></div>
+      <div class="row"><div class="name qushi">同级别分解（38课）</div><div>把走势切成段，奇数下偶数上</div><div>段尾买、段头卖的机械韵律</div></div>
+      <div class="row"><div class="name qushi" style="color:#37c0e6">同级别再研究（本课）</div><div>Ai 与 Ai+2 的力度比较</div><div>盘整背驰 → 反转；不破点 → 持仓</div></div>
+    </div>
+
+    <p>所以这套方法的<b class="hl-gold">最大优点</b>是：操作动作从"我要判断中枢什么时候破"，简化为"我只盯两个同向段的 MACD 力度"。判断难度降级一档，机械化程度上升一级。</p>
+  </section>
+
+  <section class="wrap reveal">
+    <div class="sec-no">07 — 实证</div>
+    <h2>2007-03 上证：缠师当下喊"按计划走"</h2>
+    <p class="lead">第39课正文写于 2007-03-23，文末附录是 2007-03-26 的解盘。本节用真实日线数据，看一周内缠师的预判是否落地。</p>
+
+    <div class="proof">
+      <span class="badge">数据实证 · 上证指数 sh000001</span>
+      <p>课文里有两个关键判断：</p>
+      <ol style="margin:8px 0 18px 24px;color:#cfd5dc">
+        <li>"今天大盘按这计划走，<b class="hl-gold">突破上面的压力线</b>"（2007-03-26）；</li>
+        <li>"中国银行压着不涨，就是对大盘最大的支持，汉奸想捣乱也没机会"（2007-03-26）。</li>
+      </ol>
+
+      <div class="chartbox">
+        <div class="legend">
+          <span><i style="background:#cfd5dc"></i>收盘</span>
+          <span><i style="background:#ff8a8c"></i>MA5</span>
+          <span><i style="background:#e8b339"></i>MA20</span>
+          <span><i style="background:#37c0e6"></i>关键节点</span>
+          <span><i style="background:#ff4d4f"></i>突破点</span>
+        </div>
+        <canvas id="cv_000001" height="440"></canvas>
+      </div>
+
+      <div class="verdict">
+        <span class="mk">✓ 印证</span>
+        <p>
+          2007-03-19 上证创出 2-3 月调整段的低点 <b>2852.86</b>；之后连续 5 个交易日震荡攀升；
+          <b class="hl-up">3-26 长阳突破 3100</b>，收 3122.81，对应缠师"突破上面的压力线"的预判；
+          3-27 继续放量，最高 3145.04，收 3138.83；至 4-13 已升至 <b class="hl-up">3518</b>。
+          一周内大盘从 3000 一线启动主升浪——课文末尾的精确判断被市场严格印证。
+        </p>
+      </div>
+    </div>
+    <p style="font-family:var(--mono);font-size:12px;color:var(--ink-faint)">数据来源：新浪财经日K（不复权）· akshare 取数 · 截至 2007-04-13 · 不构成投资建议</p>
+  </section>
+
+  <section class="wrap reveal">
+    <div class="sec-no">08 — 盘中互动</div>
+    <h2>"13:25 那个地方是不是背驰？"</h2>
+    <p class="lead">原文末尾，新手提问。缠师的回答，把"级别判断"这件最容易出错的事讲清楚了。</p>
+
+    <blockquote>
+      问：今天大盘5分钟级别13:25那个地方是不是背驰啊？<br>
+      答：<b>不是</b>，是一个最小级别的背驰，然后是一个对称走势拉回中枢，可以看成是<b>原来中枢的一个小级别震荡</b>。
+      <span class="who">— 缠中说禅，2007-03-23 15:38</span>
+    </blockquote>
+
+    <figure>
+      <img src="/_assets/ch39_p04.png" alt="2007-03-19 至 3-26 上证 1 分钟走势，红框标注两个中枢，13:25 节点被指出">
+      <figcaption>课文图4：缠师手批的 1 分钟图。两个红框分别是 3-19 到 3-22 之间的"原来中枢"和 3-22 到 3-23 之间的延续中枢；13:25 那次跌不是 5 分钟级别背驰，仅是中枢内的小级别震荡。</figcaption>
+    </figure>
+
+    <p>这段问答的价值在于：<b class="hl-gold">分清"看到的级别" vs "提问者以为的级别"</b>。<br>提问者把 1 分钟图上一次跌幅放大的形态当作了 5 分钟背驰，缠师指出：<b>那只是 1 分钟级别的小背驰，对 5 分钟级别只是一次中枢内震荡</b>。回到本课主题——同级别分解的前提是"<b>同级别</b>"三个字必须先认清，否则 Ai 序列从一开始就错位。</p>
+
+    <figure>
+      <img src="/_assets/ch39_p05.png" alt="2007-03-07 至 3-27 上证日内多周期走势，标注 30 分 3 买、5 分标准背驰、30 分震荡、127-224 连线压力">
+      <figcaption>课文图5：缠师 3-26 收盘后的复盘图。标出"30分3买（3月初 2871 区域）"、"5分标准背驰（3月初顶部）"、"30分震荡（3月中段）"，以及"127-224 连线"压力被有效突破。</figcaption>
+    </figure>
+
+    <p>图5 是这一课的"教科书级标记"：每个关键节点都用本课的语言命名——<b>30分3买</b>（第三类买点）、<b>5分标准背驰</b>、<b>30分震荡</b>、<b>压力连线突破</b>。一张图，把第18-39课的核心概念全用上了。</p>
+  </section>
+
+  <section class="wrap reveal">
+    <div class="sec-no">09 — 与38课呼应</div>
+    <h2>38课 vs 39课：粗韵律 vs 细韵律</h2>
+    <p class="lead">两课的"同级别分解"是同一首曲子的两种节拍。</p>
+
+    <div class="table">
+      <div class="row head"><div>维度</div><div>第38课</div><div>第39课</div></div>
+      <div class="row"><div class="name">递归级别</div><div>5 分钟同级别分解</div><div>1 分钟同级别分解（更精细一档）</div></div>
+      <div class="row"><div class="name">解决问题</div><div>建立"先买后卖 / 先卖后买"的大韵律</div><div>给出每一步精确的买卖判据</div></div>
+      <div class="row"><div class="name">操作判据</div><div>段尾买、段头卖；机械程式</div><div>Ai 与 Ai+2 盘整背驰；Ai+3 是否破点</div></div>
+      <div class="row"><div class="name">使用情境</div><div>中级行情：30分以上趋势</div><div>短中线/T+0：日内 1分-5分波段</div></div>
+      <div class="row"><div class="name">心法核心</div><div>"先培养基本韵律"</div><div>"机械操作可以延伸到任意级别"</div></div>
+    </div>
+
+    <p>关键认知：<b>第39课不是新东西，是把第38课的"段尾"和"段头"用 Ai vs Ai+2 的盘整背驰精确化</b>。两课配套使用，构成一个完整的、可机械执行的、可在不同周期间无缝切换的操作系统。</p>
+  </section>
+
+  <section class="wrap reveal">
+    <div class="sec-no">10 — 思考题</div>
+    <h2>对照原文思考</h2>
+    <ol class="think">
+      <li>缠师为什么把 a 改名 A0，而不是直接保留 a？序列重命名带来了什么数学上的便利？</li>
+      <li>"Ai+3 不破 Ai 端点"为什么用"3"，而不是"1"或"2"？这个"3"是工程上的经验值，还是有结构性原因？</li>
+      <li>对于"i 为偶 且 Ai+3 跌破 Ai 高点后，到底什么时候是卖出点"，缠师给的判据是"Ai+k+3 跌破 Ai+k 高点 + Ai+k+4 不创新高或盘整顶背驰"——把这套语言翻译成你自己的话，对着图3画两遍。</li>
+      <li>第39课开头讲"股票都是废纸"，这句心法和本课的机械操作系统有什么关系？</li>
+      <li>如果你在 2007-03-23 看着 1 分钟图也以为 13:25 那个低点是背驰，你会怎么解释这种"级别误判"？回去看第32课"当下与思维方式"，找到答案。</li>
+    </ol>
+  </section>
+
+  <section class="wrap reveal">
+    <div class="sec-no">11 — 判图练习</div>
+    <h2>把"两类分支"落到画面上</h2>
+
+    <div class="quiz">
+      <h4>练习一：A0、A2、A4 价格依次抬高，A4 的 MACD 红柱面积明显小于 A2 的红柱面积，A4 创出新高后掉头。这是什么图形？</h4>
+      <p>选项：（A）A4 与 A2 盘整背驰，卖出 &nbsp; （B）A4 突破 A2 高点，继续持有 &nbsp; （C）级别不够，不操作</p>
+      <details class="ans"><summary>查看答案</summary><p>（A）。"价格创新高 + MACD 力度收敛" = 标准的盘整顶背驰。i+2 为偶数（向上段背驰）→ <b class="hl-down">卖出</b>。这是第39课最干脆的卖出信号。</p></details>
+    </div>
+
+    <div class="quiz">
+      <h4>练习二：i 为偶数（Ai 是向上段），A_{i+1} 下跌幅度很浅，A_{i+2} 又创新高，但 A_{i+3} 跌下来没碰到 A_i 的高点。下一步该做什么？</h4>
+      <p>选项：（A）卖出 &nbsp; （B）持股观望，等下一段验证 &nbsp; （C）加仓</p>
+      <details class="ans"><summary>查看答案</summary><p>（B）。"A_{i+3} 不跌破 A_i 高点" = 上涨主力量仍占优。按第39课规则，<b class="hl-gold">继续持有</b>，等到 A_{i+k+3} 真正反破时再走两步验证。</p></details>
+    </div>
+
+    <div class="quiz">
+      <h4>练习三：1 分钟图上看到一段急跌后反弹无力，MACD 在零轴下方出现底背驰。但 5 分钟图上 MACD 还在零轴上方，价格只是从顶部回落一半。这次"背驰"该信吗？</h4>
+      <p>选项：（A）信，立即买入 &nbsp; （B）不信，这是更大级别的中枢内震荡 &nbsp; （C）等5分钟出现一致的背驰再说</p>
+      <details class="ans"><summary>查看答案</summary><p>（B）和（C）都对。这正是缠师 3-23 给新手的回答——<b>小级别背驰 ≠ 大级别背驰</b>，对 5 分钟级别只是一次中枢内的小级别震荡。第39课的所有规则都基于"同级别"前提，错位级别 = 系统失效。</p></details>
+    </div>
+  </section>
+
+  <section class="wrap reveal">
+    <div class="sec-no">12 — 实战要点</div>
+    <h2>把这一课变成可执行的清单</h2>
+
+    <div class="grid">
+      <div class="card">
+        <div class="tag">▎ 步骤 1</div>
+        <h3>先框死级别</h3>
+        <p>明确你要操作的"同级别"是什么——1分、5分、30分、日线？不写在纸上就别开始操作。级别错，一切错。</p>
+      </div>
+      <div class="card">
+        <div class="tag">▎ 步骤 2</div>
+        <h3>切段并编号</h3>
+        <p>按同级别分解，把当前走势切成 A0, A1, A2, …，标好奇偶方向。偶数=同主方向，奇数=回调方向。</p>
+      </div>
+      <div class="card">
+        <div class="tag">▎ 步骤 3</div>
+        <h3>每出新段比力度</h3>
+        <p>新出 Ai+2 → 立刻用 MACD 红绿柱面积、Ai vs Ai+2 的力度比较，判断是否盘整背驰。</p>
+      </div>
+      <div class="card">
+        <div class="tag">▎ 步骤 4</div>
+        <h3>背驰就动手</h3>
+        <p>i+2 偶数（向上段背驰）→ 卖；i+2 奇数（向下段背驰）→ 买。这是干脆出手的信号。</p>
+      </div>
+      <div class="card">
+        <div class="tag">▎ 步骤 5</div>
+        <h3>不背驰看不破点</h3>
+        <p>Ai+3 是否反破 Ai 端点？不破 → 持仓不动；反破 → 进入"再走一段"验证模式。</p>
+      </div>
+      <div class="card">
+        <div class="tag">▎ 步骤 6</div>
+        <h3>韵律永远延续</h3>
+        <p>这套规则可以从 1 分一路递归到日线、周线、年线。不要换股就换系统，<b>同一套舞步，所有级别通用</b>。</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="wrap">
+    <div class="tldr reveal">
+      <div class="lab">TL;DR</div>
+      <p>第39课把"同级别分解"再精细化一档：把 a 改名 A0，整段走势化为 Ai 序列；<br>对每两个同向段 Ai 与 Ai+2，只问一件事——是否盘整背驰？<br>背驰则反转操作，不背驰则看 Ai+3 是否反破 Ai 端点；不破点持仓，破点等下一段验证。<br><span class="hl-gold">机械、可执行、可递归到任意级别——这就是缠师交付的"操作韵律"。</span></p>
+    </div>
+  </section>
+
+</main>
+<footer class="wrap">
+  原文出处：raw/缠中说禅/教你炒股票108课/教你炒股票39：同级别分解再研究.md<br>
+  本页为个人学习复习用 · 非投资建议
+</footer>
+<script>
+  const bar=document.getElementById('bar');
+  const onScroll=()=>{const h=document.documentElement;bar.style.width=(h.scrollTop/(h.scrollHeight-h.clientHeight)*100)+'%'};
+  document.addEventListener('scroll',onScroll,{passive:true});onScroll();
+  const io=new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{threshold:.12});
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+  function drawChanChart(canvasId, CHART){
+    const cv=document.getElementById(canvasId); if(!cv) return;
+    const mode=CHART.mode||'line', hasVol=!!CHART.v && CHART.showVol!==false;
+    const idxOf={}; CHART.dates.forEach((d,i)=>idxOf[d]=i);
+    const ri=d=>{ if(d in idxOf)return idxOf[d]; let b=0,bd=1/0;
+      CHART.dates.forEach((x,i)=>{const t=Math.abs(new Date(x)-new Date(d)); if(t<bd){bd=t;b=i}}); return b; };
+    function draw(){
+      const dpr=window.devicePixelRatio||1, W=cv.clientWidth, H=CHART.height||440;
+      cv.width=W*dpr; cv.height=H*dpr; const x=cv.getContext('2d'); x.scale(dpr,dpr); x.clearRect(0,0,W,H);
+      const padL=48,padR=14,padT=16, volH=hasVol?70:0, gap=hasVol?16:0, priceH=H-padT-volH-gap-22, n=CHART.c.length;
+      let mn=Math.min(...CHART.l), mx=Math.max(...CHART.h);
+      if(CHART.ma)Object.values(CHART.ma).forEach(a=>a.forEach(v=>{if(v!=null){mn=Math.min(mn,v);mx=Math.max(mx,v)}}));
+      if(CHART.pivots)CHART.pivots.forEach(p=>{mn=Math.min(mn,p.lo);mx=Math.max(mx,p.hi)});
+      if(CHART.marks)CHART.marks.forEach(m=>{mn=Math.min(mn,m.price);mx=Math.max(mx,m.price)});
+      const pd=(mx-mn)*0.08; mn-=pd; mx+=pd;
+      const PW=W-padL-padR, px=i=> n===1?padL+PW/2:padL+PW*i/(n-1), py=p=>padT+priceH*(1-(p-mn)/(mx-mn));
+      x.font="11px JetBrains Mono"; x.textAlign="right";
+      for(let g=0;g<=4;g++){const p=mn+(mx-mn)*g/4,yy=py(p);
+        x.strokeStyle="rgba(255,255,255,.06)";x.beginPath();x.moveTo(padL,yy);x.lineTo(W-padR,yy);x.stroke();
+        x.fillStyle="#5b6470";x.fillText(p.toFixed(2),padL-6,yy+3)}
+      if(CHART.pivots)CHART.pivots.forEach(p=>{const x1=px(ri(p.from)),x2=px(ri(p.to)),y1=py(p.hi),y2=py(p.lo);
+        x.fillStyle="rgba(55,192,230,.10)";x.strokeStyle="rgba(55,192,230,.55)";x.lineWidth=1;
+        x.fillRect(x1,y1,x2-x1,y2-y1);x.strokeRect(x1,y1,x2-x1,y2-y1);
+        if(p.label){x.fillStyle="#37c0e6";x.textAlign="center";x.fillText(p.label,(x1+x2)/2,y1-5)}});
+      if(hasVol){const vmax=Math.max(...CHART.v),vt=padT+priceH+gap;
+        for(let i=0;i<n;i++){const up=CHART.c[i]>=CHART.o[i];x.fillStyle=up?"rgba(255,77,79,.5)":"rgba(22,199,132,.5)";
+          const bw=Math.max(1,PW/n*0.6),bh=volH*CHART.v[i]/vmax;x.fillRect(px(i)-bw/2,vt+volH-bh,bw,bh)}}
+      if(mode==='candle'){const bw=Math.max(1.5,PW/n*0.62);
+        for(let i=0;i<n;i++){const up=CHART.c[i]>=CHART.o[i],col=up?"#ff4d4f":"#16c784";x.strokeStyle=col;x.fillStyle=col;
+          x.beginPath();x.moveTo(px(i),py(CHART.h[i]));x.lineTo(px(i),py(CHART.l[i]));x.stroke();
+          const yo=py(CHART.o[i]),yc=py(CHART.c[i]);x.fillRect(px(i)-bw/2,Math.min(yo,yc),bw,Math.max(1,Math.abs(yc-yo)))}}
+      else{const cs=CHART.c;x.beginPath();for(let i=0;i<n;i++){const xx=px(i),yy=py(cs[i]);i?x.lineTo(xx,yy):x.moveTo(xx,yy)}
+        const gr=x.createLinearGradient(0,padT,0,padT+priceH);gr.addColorStop(0,"rgba(207,213,220,.16)");gr.addColorStop(1,"rgba(207,213,220,0)");
+        x.lineTo(px(n-1),padT+priceH);x.lineTo(px(0),padT+priceH);x.closePath();x.fillStyle=gr;x.fill();
+        x.beginPath();for(let i=0;i<n;i++){const xx=px(i),yy=py(cs[i]);i?x.lineTo(xx,yy):x.moveTo(xx,yy)}
+        x.strokeStyle="#cfd5dc";x.lineWidth=1.6;x.stroke()}
+      const MC={MA5:"#ff8a8c",MA10:"#c0a3ff",MA20:"#e8b339",MA60:"#37c0e6",MA120:"#9aa3ad",MA250:"#ff4d4f"};
+      if(CHART.ma)Object.entries(CHART.ma).forEach(([k,a])=>{x.beginPath();let st=false;
+        for(let i=0;i<n;i++){if(a[i]==null)continue;const xx=px(i),yy=py(a[i]);st?x.lineTo(xx,yy):(x.moveTo(xx,yy),st=true)}
+        x.strokeStyle=MC[k]||"#888";x.lineWidth=1.4;x.stroke()});
+      if(CHART.marks)CHART.marks.forEach(m=>{const xx=px(ri(m.date)),yy=py(m.price),buy=(m.type||'').startsWith('b'),col=buy?"#ff4d4f":"#16c784";
+        x.fillStyle=col;x.beginPath();x.arc(xx,yy,4,0,7);x.fill();
+        x.fillStyle="#fff";x.font="bold 11px -apple-system";x.textAlign="center";x.fillText(m.text||'',xx,buy?yy+18:yy-10)});
+      x.fillStyle="#5b6470";x.textAlign="center";x.font="11px JetBrains Mono";
+      const L=Math.min(6,n);for(let g=0;g<L;g++){const i=Math.round((n-1)*g/(L-1||1));x.fillText(CHART.dates[i],px(i),H-5)}
+    }
+    draw(); window.addEventListener('resize',draw);
+  }
+
+  const CHART_000001 = {"dates": ["2007-02-15", "2007-02-16", "2007-02-26", "2007-02-27", "2007-02-28", "2007-03-01", "2007-03-02", "2007-03-05", "2007-03-06", "2007-03-07", "2007-03-08", "2007-03-09", "2007-03-12", "2007-03-13", "2007-03-14", "2007-03-15", "2007-03-16", "2007-03-19", "2007-03-20", "2007-03-21", "2007-03-22", "2007-03-23", "2007-03-26", "2007-03-27", "2007-03-28", "2007-03-29", "2007-03-30", "2007-04-02", "2007-04-03", "2007-04-04", "2007-04-05", "2007-04-06", "2007-04-09", "2007-04-10", "2007-04-11", "2007-04-12", "2007-04-13"], "o": [2923.67, 3018.18, 2999.09, 3048.83, 2734.59, 2877.2, 2792.94, 2827.68, 2776.17, 2851.75, 2904.18, 2934.49, 2945.92, 2958.1, 2933.68, 2905.98, 2964.09, 2864.26, 3024.78, 3042.1, 3080.6, 3071.81, 3083.94, 3126.03, 3140.68, 3179.8, 3178.5, 3196.59, 3265.68, 3295.98, 3286.16, 3287.68, 3333.42, 3405.23, 3454.42, 3503.23, 3537.22], "h": [2994.62, 3036.35, 3041.34, 3049.77, 2888.9, 2878.36, 2846.16, 2858.44, 2866.33, 2911.42, 2928.8, 2962.42, 2958.63, 2966.19, 2934.45, 2955.46, 2979.71, 3038.0, 3033.02, 3057.71, 3099.82, 3085.32, 3123.18, 3145.04, 3180.33, 3273.73, 3212.39, 3253.43, 3292.58, 3308.15, 3326.92, 3334.22, 3399.51, 3444.37, 3497.52, 3532.86, 3563.86], "l": [2923.67, 2975.83, 2960.74, 2763.39, 2732.88, 2760.91, 2777.8, 2723.07, 2756.96, 2849.65, 2871.46, 2891.81, 2904.74, 2932.23, 2868.81, 2905.98, 2899.03, 2852.86, 2998.8, 3020.95, 3059.38, 3008.15, 3069.47, 3103.78, 3052.08, 3176.53, 3157.03, 3196.59, 3251.52, 3266.56, 3259.63, 3273.86, 3333.26, 3351.11, 3428.78, 3488.08, 3504.16], "c": [2993.01, 2998.47, 3040.6, 2771.79, 2881.07, 2797.19, 2831.53, 2785.31, 2840.18, 2896.59, 2928.01, 2937.91, 2954.91, 2964.79, 2906.33, 2951.7, 2930.48, 3014.44, 3032.2, 3057.38, 3071.22, 3074.29, 3122.81, 3138.83, 3173.02, 3197.54, 3183.98, 3252.59, 3291.3, 3291.54, 3319.14, 3323.59, 3398.95, 3444.29, 3495.22, 3531.03, 3518.27], "v": [10883117700, 11792172200, 11205699200, 16137566300, 12147916800, 12736486000, 9394396500, 10691058400, 7704048600, 8791393000, 8895512300, 10713910500, 10154244400, 10718931600, 11373073900, 10174575400, 12268130800, 10997175200, 9276189000, 9919012700, 12606554500, 11868641700, 12266053700, 12457893100, 16726793900, 14953966100, 8942400600, 9735044600, 10860139100, 11261610700, 11452805100, 11964488100, 13731410400, 14780728400, 14757211400, 13538987900, 15069587600], "ma": {"MA5": [null, null, null, null, 2936.99, 2897.83, 2864.44, 2813.38, 2827.05, 2830.16, 2856.32, 2877.6, 2911.52, 2936.45, 2938.39, 2943.13, 2941.64, 2953.55, 2967.03, 2997.24, 3021.14, 3049.91, 3071.58, 3092.91, 3116.03, 3141.3, 3163.24, 3189.19, 3219.69, 3243.39, 3267.71, 3295.63, 3324.9, 3355.5, 3396.24, 3438.62, 3477.55], "MA20": [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, 2925.69, 2929.61, 2933.4, 2937.51, 2955.86, 2970.46, 2990.47, 3008.1, 3031.46, 3054.02, 3073.76, 3093.32, 3112.6, 3134.81, 3158.78, 3188.23, 3217.19, 3246.58]},
+    "mode":"line",
+    "pivots":[
+      {"from":"2007-03-07","to":"2007-03-16","lo":2849,"hi":2979,"label":"3月中段中枢"}
+    ],
+    "marks":[
+      {"date":"2007-03-19","price":2852.86,"type":"b1","text":"阶段低 2852"},
+      {"date":"2007-03-26","price":3122.81,"type":"b","text":"突破 3100 长阳"},
+      {"date":"2007-03-27","price":3138.83,"type":"b","text":"127-224 连线破"},
+      {"date":"2007-04-13","price":3518.27,"type":"s","text":"主升 +23%"}
+    ]
+  };
+  drawChanChart("cv_000001", CHART_000001);
+</script>
+<script src="/assets/_nav.js"></script><script src="/assets/_shell.js"></script></body>
+</html>

@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>缠论 · 教你炒股票77：一些概念的再分辨</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@500;700;900&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0b0e12;
+    --bg-elev:#12161c;
+    --bg-card:#161b22;
+    --ink:#e8eaed;
+    --ink-dim:#9aa3ad;
+    --ink-faint:#5b6470;
+    --line:rgba(255,255,255,.07);
+    --up:#ff4d4f;
+    --down:#16c784;
+    --pivot:#37c0e6;
+    --gold:#e8b339;
+    --max:880px;
+    --serif:"Noto Serif SC",serif;
+    --mono:"JetBrains Mono",ui-monospace,monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--ink);font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;line-height:1.85;font-size:17px;-webkit-font-smoothing:antialiased;overflow-x:hidden;}
+  body::before{content:"";position:fixed;inset:0;z-index:-2;background:radial-gradient(1200px 600px at 70% -10%, rgba(55,192,230,.08), transparent 60%),radial-gradient(900px 500px at 0% 100%, rgba(232,179,57,.05), transparent 55%);pointer-events:none;}
+  body::after{content:"";position:fixed;inset:0;z-index:-1;opacity:.4;background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);background-size:46px 46px;-webkit-mask-image:radial-gradient(ellipse at 50% 0%, #000 30%, transparent 80%);mask-image:radial-gradient(ellipse at 50% 0%, #000 30%, transparent 80%);pointer-events:none;}
+  #bar{position:fixed;top:0;left:0;height:3px;width:0;z-index:50;background:linear-gradient(90deg,var(--pivot),var(--gold));box-shadow:0 0 12px var(--pivot);}
+  .wrap{max-width:var(--max);margin:0 auto;padding:0 24px}
+  header.hero{padding:120px 0 70px;text-align:center;position:relative}
+  .kicker{font-family:var(--mono);font-size:13px;letter-spacing:.32em;color:var(--pivot);text-transform:uppercase;margin-bottom:26px}
+  .kicker span{color:var(--ink-faint)}
+  h1.title{font-family:var(--serif);font-weight:900;line-height:1.05;font-size:clamp(44px,9.5vw,96px);letter-spacing:.04em;background:linear-gradient(180deg,#fff 30%,#8aa0ad 130%);-webkit-background-clip:text;background-clip:text;color:transparent;}
+  .sub{margin:22px auto 0;max-width:580px;color:var(--ink-dim);font-size:18px}
+  .meta{margin-top:34px;display:flex;gap:14px;justify-content:center;flex-wrap:wrap;font-family:var(--mono);font-size:12px;color:var(--ink-faint)}
+  .meta b{color:var(--ink-dim);font-weight:500}
+  .pill{border:1px solid var(--line);padding:6px 14px;border-radius:999px;background:rgba(255,255,255,.02)}
+  .scroll-hint{margin-top:60px;color:var(--ink-faint);font-family:var(--mono);font-size:12px;animation:bob 2.4s ease-in-out infinite}
+  @keyframes bob{0%,100%{transform:translateY(0);opacity:.5}50%{transform:translateY(8px);opacity:1}}
+  section{padding:64px 0;border-top:1px solid var(--line)}
+  .sec-no{font-family:var(--mono);font-size:13px;color:var(--gold);letter-spacing:.2em;margin-bottom:10px}
+  h2{font-family:var(--serif);font-weight:700;font-size:clamp(28px,5vw,42px);line-height:1.25;margin-bottom:8px;letter-spacing:.02em}
+  .lead{color:var(--ink-dim);font-size:16px;margin-bottom:28px;max-width:640px}
+  p{margin:0 0 18px;color:#cfd5dc}
+  p b,strong{color:#fff;font-weight:700}
+  .hl-pivot{color:var(--pivot);font-weight:700}
+  .hl-up{color:var(--up);font-weight:700}
+  .hl-down{color:var(--down);font-weight:700}
+  .hl-gold{color:var(--gold);font-weight:700}
+  blockquote{margin:26px 0;padding:20px 24px;border-left:3px solid var(--pivot);background:linear-gradient(90deg,rgba(55,192,230,.07),transparent);border-radius:0 10px 10px 0;font-family:var(--serif);font-size:18px;color:#eaf6fb}
+  blockquote .who{display:block;margin-top:8px;font-family:var(--mono);font-size:12px;color:var(--ink-faint);font-style:normal}
+  figure{margin:34px 0}
+  figure svg{width:100%;height:auto;border-radius:12px;border:1px solid var(--line);background:#0d1117;box-shadow:0 18px 50px rgba(0,0,0,.5);display:block}
+  figcaption{margin-top:12px;font-size:13px;color:var(--ink-faint);text-align:center;font-family:var(--mono)}
+  .grid{display:grid;gap:16px;grid-template-columns:1fr 1fr 1fr;margin:28px 0}
+  @media(max-width:640px){.grid{grid-template-columns:1fr}}
+  .card{background:var(--bg-card);border:1px solid var(--line);border-radius:14px;padding:22px;position:relative;overflow:hidden;transition:transform .35s ease,border-color .35s ease}
+  .card:hover{transform:translateY(-4px);border-color:rgba(55,192,230,.4)}
+  .card .tag{font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase}
+  .card.up .tag{color:var(--up)}.card.flat .tag{color:var(--gold)}.card.weak .tag{color:var(--down)}
+  .card h3{font-family:var(--serif);font-size:20px;margin:10px 0 8px;color:#fff}
+  .card p{font-size:14.5px;color:var(--ink-dim);margin:0;line-height:1.7}
+  .table{margin:28px 0;border:1px solid var(--line);border-radius:14px;overflow:hidden}
+  .table .row{display:grid;grid-template-columns:1.1fr 2.4fr;align-items:stretch}
+  .table .row+.row{border-top:1px solid var(--line)}
+  .table .row > div{padding:14px 18px}
+  .table .row.head{background:var(--bg-elev);font-family:var(--mono);font-size:12px;letter-spacing:.14em;color:var(--ink-faint);text-transform:uppercase}
+  .table .row > div+div{border-left:1px solid var(--line)}
+  .table .name{font-family:var(--serif);font-weight:700;font-size:17px;color:var(--pivot)}
+  @media(max-width:560px){.table .row{grid-template-columns:1fr}.table .row > div+div{border-left:0;border-top:1px solid var(--line)}.table .row.head{display:none}}
+  .steps{margin:26px 0;display:flex;flex-direction:column;gap:14px}
+  .step{display:flex;gap:16px;align-items:flex-start;background:var(--bg-card);border:1px solid var(--line);border-radius:12px;padding:18px 20px}
+  .step .num{flex:none;width:38px;height:38px;border-radius:10px;display:grid;place-items:center;font-family:var(--serif);font-weight:900;font-size:18px;background:var(--pivot);color:#0b0e12}
+  .step h4{font-size:16px;margin-bottom:4px;color:#fff}
+  .step p{font-size:14.5px;color:var(--ink-dim);margin:0}
+  ol.think{counter-reset:q;list-style:none;margin:24px 0;display:flex;flex-direction:column;gap:14px}
+  ol.think li{counter-increment:q;position:relative;padding:16px 20px 16px 56px;background:var(--bg-elev);border:1px solid var(--line);border-radius:12px;color:var(--ink-dim);font-size:15px}
+  ol.think li::before{content:counter(q,decimal-leading-zero);position:absolute;left:20px;top:16px;font-family:var(--mono);color:var(--gold);font-weight:700}
+  .tldr{margin:60px 0 0;padding:36px 30px;border:1px solid rgba(55,192,230,.3);border-radius:18px;background:radial-gradient(120% 120% at 100% 0%,rgba(55,192,230,.1),transparent 60%),var(--bg-elev);text-align:center}
+  .tldr .lab{font-family:var(--mono);font-size:12px;letter-spacing:.3em;color:var(--pivot);text-transform:uppercase}
+  .tldr p{font-family:var(--serif);font-size:clamp(19px,3vw,26px);line-height:1.7;color:#fff;margin:16px 0 0}
+  footer{padding:60px 0 90px;text-align:center;color:var(--ink-faint);font-family:var(--mono);font-size:12px;border-top:1px solid var(--line)}
+  .reveal{opacity:0;transform:translateY(26px);transition:opacity .8s ease,transform .8s ease}
+  .reveal.in{opacity:1;transform:none}
+  @media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}.scroll-hint{animation:none}}
+</style>
+<meta name="view-transition" content="same-origin"><style>@view-transition{navigation:auto}</style></head>
+<body>
+<div id="bar"></div>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="kicker">缠中说禅 · 教你炒股票108课 <span>/ 第 77 课</span></div>
+    <h1 class="title">概念再分辨</h1>
+    <p class="sub">缺口三分类、分型笔的唯一划分、线段两种破坏——把最基础的概念彻底搞清楚，后面才不会"一个字：乱"。</p>
+    <div class="meta">
+      <span class="pill"><b>原文</b> 2007-09-05</span>
+      <span class="pill"><b>类型</b> 基础补课</span>
+      <span class="pill"><b>关键词</b> 缺口 · 分型 · 笔 · 线段</span>
+    </div>
+    <div class="scroll-hint">↓ 向下滚动，逐层拆解</div>
+  </div>
+</header>
+
+<main>
+  <!-- 1 -->
+  <section class="wrap reveal">
+    <div class="sec-no">01 — 题眼</div>
+    <h2>"严格分类"是预测的唯一前提</h2>
+    <p class="lead">回到最基础的概念。缠师说：搞不清这些，后面"一个字：乱"。</p>
+    <blockquote>
+      任何预测，都必须基于严格分类的基础上，这是一个最基本的思维，否则，整天陶醉在纯概率的游戏中，只能是无聊当有趣。
+      <span class="who">— 缠中说禅</span>
+    </blockquote>
+    <p>本课的"分辨"分三块：<b>缺口的三种性质</b>、<b>分型与笔的唯一划分</b>、<b>线段的两种破坏</b>。每一块都先给<span class="hl-pivot">定义</span>，再做<span class="hl-pivot">完全分类</span>，最后落到操作。</p>
+  </section>
+
+  <!-- 2 -->
+  <section class="wrap reveal">
+    <div class="sec-no">02 — 缺口</div>
+    <h2>缺口的定义与三种性质</h2>
+    <p class="lead">先给缺口一个明确定义，分类才有意义。</p>
+    <blockquote>
+      在该单位 K 线图上两相邻的 K 线间出现没有成交的区间，称为缺口。缺口的回补，就是该区间最终全部再次出现成交的过程。
+      <span class="who">— 缺口定义</span>
+    </blockquote>
+    <p>例：上证日线 1994 年 7 月 29 日 → 8 月 1 日，[339, 377] 这段没成交——这就是一个缺口。这个缺口到今天可能都没回补。</p>
+    <p><b>按"是否回补 + 回补后是否再创新高新低"做完全分类</b>：</p>
+    <div class="grid">
+      <div class="card up">
+        <div class="tag">突破性 · 强</div>
+        <h3>不回补</h3>
+        <p>显然是强势的。<b>极少回补</b>，往往出现在趋势启动位置。</p>
+      </div>
+      <div class="card flat">
+        <div class="tag">中继性 · 平</div>
+        <h3>回补后继续创新高/新低</h3>
+        <p>趋势延续中的缺口。<b>回补几率对半</b>，但回补后一定继续走完原方向。</p>
+      </div>
+      <div class="card weak">
+        <div class="tag">衰竭性 · 弱</div>
+        <h3>回补后无法再创新高/新低</h3>
+        <p>原趋势<b>转折</b>。一旦出现，至少制造一个<b>大于原趋势级别</b>的调整：日线衰竭 → 至少周线级别调整。</p>
+      </div>
+    </div>
+    <figure>
+      <svg viewBox="0 0 800 280" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <pattern id="g77" width="40" height="40" patternUnits="userSpaceOnUse"><path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(255,255,255,.04)" stroke-width="1"/></pattern>
+        </defs>
+        <rect width="800" height="280" fill="url(#g77)"/>
+        <!-- 突破性 -->
+        <text x="130" y="30" fill="#9aa3ad" font-family="JetBrains Mono" font-size="12" text-anchor="middle">突破性 · 不回补</text>
+        <line x1="40" y1="200" x2="80" y2="200" stroke="#16c784" stroke-width="3"/>
+        <line x1="100" y1="150" x2="140" y2="150" stroke="#ff4d4f" stroke-width="3"/>
+        <line x1="160" y1="110" x2="200" y2="110" stroke="#ff4d4f" stroke-width="3"/>
+        <line x1="220" y1="70" x2="260" y2="70" stroke="#ff4d4f" stroke-width="3"/>
+        <rect x="80" y="150" width="20" height="50" fill="rgba(255,77,79,.25)" stroke="#ff4d4f" stroke-dasharray="3,3"/>
+        <text x="150" y="245" fill="#ff4d4f" font-family="JetBrains Mono" font-size="11" text-anchor="middle">强势</text>
+        <!-- 中继性 -->
+        <text x="400" y="30" fill="#9aa3ad" font-family="JetBrains Mono" font-size="12" text-anchor="middle">中继性 · 回补后继续</text>
+        <line x1="310" y1="200" x2="350" y2="200" stroke="#16c784" stroke-width="3"/>
+        <line x1="370" y1="150" x2="410" y2="150" stroke="#ff4d4f" stroke-width="3"/>
+        <line x1="430" y1="180" x2="470" y2="180" stroke="#16c784" stroke-width="3"/>
+        <line x1="490" y1="100" x2="530" y2="100" stroke="#ff4d4f" stroke-width="3"/>
+        <rect x="350" y="150" width="20" height="50" fill="rgba(232,179,57,.2)" stroke="#e8b339" stroke-dasharray="3,3"/>
+        <text x="420" y="245" fill="#e8b339" font-family="JetBrains Mono" font-size="11" text-anchor="middle">平势</text>
+        <!-- 衰竭性 -->
+        <text x="670" y="30" fill="#9aa3ad" font-family="JetBrains Mono" font-size="12" text-anchor="middle">衰竭性 · 回补后转向</text>
+        <line x1="580" y1="200" x2="620" y2="200" stroke="#16c784" stroke-width="3"/>
+        <line x1="640" y1="150" x2="680" y2="150" stroke="#ff4d4f" stroke-width="3"/>
+        <line x1="700" y1="170" x2="740" y2="170" stroke="#16c784" stroke-width="3"/>
+        <line x1="750" y1="210" x2="790" y2="210" stroke="#16c784" stroke-width="3"/>
+        <rect x="620" y="150" width="20" height="50" fill="rgba(22,199,132,.2)" stroke="#16c784" stroke-dasharray="3,3"/>
+        <text x="685" y="245" fill="#16c784" font-family="JetBrains Mono" font-size="11" text-anchor="middle">弱势 → 转向</text>
+      </svg>
+      <figcaption>三类缺口示意：虚线方框是缺口，下方标记走势性质</figcaption>
+    </figure>
+    <p><b>关键提示</b>：这里的<span class="hl-gold">级别</span>是<b>走势类型级别</b>，跟 K 线周期没关系。日线缺口在 30 分钟、5 分钟图上都看得到，但回补日线缺口不等于回补低周期缺口。<b>盘整中的缺口</b>属于普通缺口——基本都回补，唯一价值是给中枢震荡提供一个"回拉目标"。</p>
+  </section>
+
+  <!-- 3 -->
+  <section class="wrap reveal">
+    <div class="sec-no">03 — 分型</div>
+    <h2>分型：先处理包含，再认顶底</h2>
+    <p class="lead">分型不难，难在<b>包含关系</b>和<b>结合律</b>。</p>
+    <div class="table">
+      <div class="row head"><div>规则</div><div>说明</div></div>
+      <div class="row"><div class="name">包含处理</div><div>按定义先把相邻 K 线的包含关系处理掉，<b>不能跳过</b>。</div></div>
+      <div class="row"><div class="name">结合律</div><div>相邻分型之间必须满足结合律：<b>不能有 K 线分属不同的分型</b>。</div></div>
+      <div class="row"><div class="name">标记法</div><div>顶分型 ↓ 向下箭头，底分型 ↑ 向上箭头——一目了然。</div></div>
+    </div>
+    <p>处理完之后，图上就只剩"一串箭头"——相邻 K 线的细节都可暂时忽略，直接进入下一步：<b>定笔</b>。</p>
+    <figure>
+      <svg viewBox="0 0 800 240" xmlns="http://www.w3.org/2000/svg">
+        <rect width="800" height="240" fill="url(#g77)"/>
+        <!-- K 线列 -->
+        <g stroke="#e8eaed" stroke-width="1.5">
+          <line x1="60" y1="180" x2="60" y2="120"/><rect x="55" y="140" width="10" height="30" fill="#ff4d4f" stroke="none"/>
+          <line x1="110" y1="160" x2="110" y2="80"/><rect x="105" y="100" width="10" height="40" fill="#ff4d4f" stroke="none"/>
+          <line x1="160" y1="130" x2="160" y2="50"/><rect x="155" y="70" width="10" height="40" fill="#ff4d4f" stroke="none"/>
+          <line x1="210" y1="110" x2="210" y2="70"/><rect x="205" y="80" width="10" height="20" fill="#16c784" stroke="none"/>
+          <line x1="260" y1="150" x2="260" y2="100"/><rect x="255" y="110" width="10" height="30" fill="#16c784" stroke="none"/>
+          <line x1="310" y1="180" x2="310" y2="130"/><rect x="305" y="140" width="10" height="30" fill="#16c784" stroke="none"/>
+          <line x1="360" y1="200" x2="360" y2="150"/><rect x="355" y="160" width="10" height="30" fill="#16c784" stroke="none"/>
+          <line x1="410" y1="190" x2="410" y2="130"/><rect x="405" y="140" width="10" height="30" fill="#ff4d4f" stroke="none"/>
+          <line x1="460" y1="140" x2="460" y2="80"/><rect x="455" y="100" width="10" height="30" fill="#ff4d4f" stroke="none"/>
+          <line x1="510" y1="110" x2="510" y2="40"/><rect x="505" y="60" width="10" height="40" fill="#ff4d4f" stroke="none"/>
+          <line x1="560" y1="130" x2="560" y2="70"/><rect x="555" y="90" width="10" height="30" fill="#16c784" stroke="none"/>
+          <line x1="610" y1="170" x2="610" y2="100"/><rect x="605" y="120" width="10" height="40" fill="#16c784" stroke="none"/>
+          <line x1="660" y1="200" x2="660" y2="140"/><rect x="655" y="160" width="10" height="30" fill="#16c784" stroke="none"/>
+          <line x1="710" y1="180" x2="710" y2="130"/><rect x="705" y="140" width="10" height="30" fill="#ff4d4f" stroke="none"/>
+        </g>
+        <!-- 顶底箭头 -->
+        <text x="160" y="35" fill="#ff4d4f" font-size="22" text-anchor="middle">↓</text>
+        <text x="160" y="20" fill="#ff4d4f" font-family="JetBrains Mono" font-size="11" text-anchor="middle">顶</text>
+        <text x="360" y="225" fill="#16c784" font-size="22" text-anchor="middle">↑</text>
+        <text x="385" y="235" fill="#16c784" font-family="JetBrains Mono" font-size="11">底</text>
+        <text x="510" y="25" fill="#ff4d4f" font-size="22" text-anchor="middle">↓</text>
+        <text x="510" y="12" fill="#ff4d4f" font-family="JetBrains Mono" font-size="11" text-anchor="middle">顶</text>
+        <text x="660" y="225" fill="#16c784" font-size="22" text-anchor="middle">↑</text>
+        <text x="685" y="235" fill="#16c784" font-family="JetBrains Mono" font-size="11">底</text>
+        <!-- 笔连线 -->
+        <line x1="160" y1="50" x2="360" y2="200" stroke="#37c0e6" stroke-width="1.5" stroke-dasharray="4,4"/>
+        <line x1="360" y1="200" x2="510" y2="40" stroke="#37c0e6" stroke-width="1.5" stroke-dasharray="4,4"/>
+        <line x1="510" y1="40" x2="660" y2="200" stroke="#37c0e6" stroke-width="1.5" stroke-dasharray="4,4"/>
+      </svg>
+      <figcaption>处理完包含 → 标记顶底分型 → 顶↔底之间连成"笔"（虚线）</figcaption>
+    </figure>
+  </section>
+
+  <!-- 4 -->
+  <section class="wrap reveal">
+    <div class="sec-no">04 — 笔</div>
+    <h2>笔：三个步骤唯一划分</h2>
+    <p class="lead">笔必须满足"一顶一底 + 顶底之间至少一根独立 K 线 + 顶的最高区间至少有一部分高于底的最低区间"。</p>
+    <blockquote>
+      笔的划分是<b>唯一</b>的。这种唯一性，可以严格证明。
+      <span class="who">— 缠中说禅</span>
+    </blockquote>
+    <div class="steps">
+      <div class="step">
+        <div class="num">1</div>
+        <div>
+          <h4>标记所有合标准的分型</h4>
+          <p>按定义，把图上所有顶分型、底分型先全部找出来，箭头标好。</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="num">2</div>
+        <div>
+          <h4>同性质分型只留"更极端"的那个</h4>
+          <p>相邻两顶 → 留较高的那一个，前面的 X 掉；相邻两底 → 留较低的那一个，前面的 X 掉。相等的暂留。</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="num">3</div>
+        <div>
+          <h4>顶↔底相邻即可成笔</h4>
+          <p>处理后相邻的若是异性顶底，直接连成一笔。若仍是同性连续，则取连续顶/底中<b>最先</b>那一个，与下一个反向新极值连接。</p>
+        </div>
+      </div>
+    </div>
+    <p><b>反证逻辑</b>：假设笔的划分有两种，那么从第 N 笔开始必然出现不同——但第 N-1 笔结束的分型性质相同，第 N 笔反向极值的位置在两种划分里必有前后，可推出其中一种"笔没走完"，矛盾。所以笔的划分<span class="hl-gold">唯一</span>。</p>
+  </section>
+
+  <!-- 5 -->
+  <section class="wrap reveal">
+    <div class="sec-no">05 — 线段</div>
+    <h2>线段：至少三笔，必须被反向线段破坏</h2>
+    <p class="lead">线段的核心：起点和终点的分型性质必须<b>不同</b>，所以包含笔数为<b>奇数</b>。</p>
+    <div class="table">
+      <div class="row head"><div>规则</div><div>说明</div></div>
+      <div class="row"><div class="name">至少三笔</div><div>否则"一笔能成线段"，线段与笔就没区别。</div></div>
+      <div class="row"><div class="name">起始三笔有重合</div><div>开始三笔若没有价格区间重合，不构成线段。</div></div>
+      <div class="row"><div class="name">必被反向线段破坏</div><div>向上线段必须被一段"从向下笔开始"的<b>线段</b>所破坏，不能只是笔破坏。</div></div>
+      <div class="row"><div class="name">两种破坏情况</div><div>情况一：直接形成反向特征序列分型并回补缺口。<br>情况二：A 被 B 笔破坏但 B 未线段成立，由 C 线段反过来破坏 B，倒推 A 也完成。</div></div>
+    </div>
+    <p><b>为什么情况二的"第二特征序列"不再分一、二情况？</b> 因为若一直递归判断，假定线段串的区间会无限收敛到一点（极限思想），这不可能；所以必然在某一层出现"情况一"破坏，倒推回来即可——简化操作，避免无限套娃。</p>
+    <p><b>区分情况二的意义</b>：不希望线段层级出现"小级别转大级别"的不确定情况，情况二的规定恰好堵上了这个漏洞。</p>
+    <figure>
+      <svg viewBox="0 0 800 260" xmlns="http://www.w3.org/2000/svg">
+        <rect width="800" height="260" fill="url(#g77)"/>
+        <text x="200" y="28" fill="#9aa3ad" font-family="JetBrains Mono" font-size="12" text-anchor="middle">情况一：直接破坏 + 缺口回补</text>
+        <polyline points="40,200 110,80 170,140 230,60 290,160 350,90" fill="none" stroke="#ff4d4f" stroke-width="2.5"/>
+        <polyline points="350,90 400,180 440,120 490,220" fill="none" stroke="#16c784" stroke-width="2.5"/>
+        <circle cx="230" cy="60" r="5" fill="#e8b339"/>
+        <text x="245" y="55" fill="#e8b339" font-family="JetBrains Mono" font-size="11">线段A高点</text>
+        <text x="490" y="240" fill="#16c784" font-family="JetBrains Mono" font-size="11" text-anchor="middle">向下线段B破坏A</text>
+
+        <text x="640" y="28" fill="#9aa3ad" font-family="JetBrains Mono" font-size="12" text-anchor="middle">情况二：A→B 未确认，C 反破 B</text>
+        <polyline points="520,210 560,110 590,160 620,70 650,150" fill="none" stroke="#ff4d4f" stroke-width="2.5"/>
+        <polyline points="650,150 680,200 700,140 720,180" fill="none" stroke="#16c784" stroke-width="2"/>
+        <polyline points="720,180 740,90 760,150 780,60" fill="none" stroke="#ff4d4f" stroke-width="2.5" stroke-dasharray="4,3"/>
+        <text x="620" y="60" fill="#e8b339" font-family="JetBrains Mono" font-size="10">A</text>
+        <text x="700" y="130" fill="#37c0e6" font-family="JetBrains Mono" font-size="10">B</text>
+        <text x="770" y="55" fill="#ff4d4f" font-family="JetBrains Mono" font-size="10">C 反破 B → A 完成</text>
+      </svg>
+      <figcaption>线段两种破坏：左 = 标准的反向线段直接破坏；右 = 通过 C 反破 B 倒推 A 完成</figcaption>
+    </figure>
+  </section>
+
+  <!-- 6 -->
+  <section class="wrap reveal">
+    <div class="sec-no">06 — 复杂实例 & 思考</div>
+    <h2>"笔破坏 + 不创新低 + 反弹成段"的特殊划分</h2>
+    <p class="lead">课中举了 80-83 划分的实例，是最容易卡住的一种复杂情况。</p>
+    <p>情景：先出现<b>第一笔的笔破坏</b>，接着是符合线段标准的走势 A，但<b>没有创新低</b>——此时既不能算原线段延续，也不能算线段破坏（不满足三笔要求）。后续出现一个反弹：</p>
+    <div class="grid">
+      <div class="card up">
+        <div class="tag">情形 a</div>
+        <h3>反弹只一笔</h3>
+        <p>没有线段破坏走势 A → 后面新底意味着走势 A 延续 → <b>原 80-81 仍是一个整体</b>。</p>
+      </div>
+      <div class="card weak">
+        <div class="tag">情形 b</div>
+        <h3>反弹本身也成段</h3>
+        <p>反弹把走势 A 线段破坏了 → A 不再延续 → <b>必须把"笔破坏 + A + 反弹"合并为一个新线段</b>（即 81-82）。</p>
+      </div>
+      <div class="card flat">
+        <div class="tag">原则</div>
+        <h3>从定义出发</h3>
+        <p>线段划分一点都不难，关键<b>从定义出发</b>，用两种情况规则即可证明<b>划分唯一</b>。</p>
+      </div>
+    </div>
+    <blockquote>
+      有什么问题，请继续问，把事情彻底搞明白，才是最重要的。
+      <span class="who">— 缠师课末叮嘱</span>
+    </blockquote>
+    <ol class="think">
+      <li>同样的"下跌+盘整+下跌"形态，日线和 30 分钟级别在操作上为何不可混为一谈？</li>
+      <li>盘整中的普通缺口为什么"几乎一定回补"？提示：用中枢震荡的回拉性质。</li>
+      <li>若一段向上线段，被随后的向下一段"笔破坏"但反弹未创新高，下一段又破前低——该如何划分？</li>
+    </ol>
+
+    <div class="tldr">
+      <div class="lab">一句话总结</div>
+      <p>所有预测都建立在<b>严格分类</b>上：缺口按"回补 + 是否再创新高新低"分突破/中继/衰竭；分型按包含+结合律唯一标记；笔按三步骤唯一划分；线段至少三笔且必须被反向线段破坏——把这套定义吃透，后面就不会"乱"。</p>
+    </div>
+  </section>
+</main>
+
+<footer class="wrap">
+  原文出处：raw/缠中说禅/教你炒股票108课/教你炒股票77：一些概念的再分辨.md<br>
+  本页为个人学习复习用·非投资建议
+</footer>
+
+<script>
+  const bar=document.getElementById('bar');
+  const onScroll=()=>{const h=document.documentElement;const p=h.scrollTop/(h.scrollHeight-h.clientHeight);bar.style.width=(p*100)+'%';};
+  document.addEventListener('scroll',onScroll,{passive:true});onScroll();
+  const io=new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});},{threshold:.12});
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+</script>
+<script src="/assets/_nav.js"></script><script src="/assets/_shell.js"></script></body>
+</html>

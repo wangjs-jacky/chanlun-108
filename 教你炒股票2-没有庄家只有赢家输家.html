@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>缠论 · 教你炒股票2：没有庄家，有的只是赢家和输家</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@500;700;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0b0e12;--bg-elev:#12161c;--bg-card:#161b22;
+    --ink:#e8eaed;--ink-dim:#9aa3ad;--ink-faint:#5b6470;
+    --line:rgba(255,255,255,.07);
+    --up:#ff4d4f;--down:#16c784;--pivot:#37c0e6;--gold:#e8b339;--blue:#00d4ff;
+    --max:880px;--serif:"Noto Serif SC",serif;--mono:"JetBrains Mono",ui-monospace,monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--ink);font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;line-height:1.85;font-size:17px;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  body::before{content:"";position:fixed;inset:0;z-index:-2;background:radial-gradient(1200px 600px at 70% -10%,rgba(55,192,230,.08),transparent 60%),radial-gradient(900px 500px at 0% 100%,rgba(232,179,57,.05),transparent 55%);pointer-events:none}
+  body::after{content:"";position:fixed;inset:0;z-index:-1;opacity:.4;background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);background-size:46px 46px;-webkit-mask-image:radial-gradient(ellipse at 50% 0%,#000 30%,transparent 80%);mask-image:radial-gradient(ellipse at 50% 0%,#000 30%,transparent 80%);pointer-events:none}
+  #bar{position:fixed;top:0;left:0;height:3px;width:0;z-index:50;background:linear-gradient(90deg,var(--pivot),var(--gold));box-shadow:0 0 12px var(--pivot)}
+  .wrap{max-width:var(--max);margin:0 auto;padding:0 24px}
+  header.hero{padding:120px 0 70px;text-align:center;position:relative}
+  .kicker{font-family:var(--mono);font-size:13px;letter-spacing:.32em;color:var(--pivot);text-transform:uppercase;margin-bottom:26px}
+  .kicker span{color:var(--ink-faint)}
+  h1.title{font-family:var(--serif);font-weight:900;line-height:1.05;font-size:clamp(44px,10vw,100px);letter-spacing:.04em;background:linear-gradient(180deg,#fff 30%,#8aa0ad 130%);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .sub{margin:22px auto 0;max-width:580px;color:var(--ink-dim);font-size:18px}
+  .meta{margin-top:34px;display:flex;gap:14px;justify-content:center;flex-wrap:wrap;font-family:var(--mono);font-size:12px;color:var(--ink-faint)}
+  .meta b{color:var(--ink-dim);font-weight:500}
+  .pill{border:1px solid var(--line);padding:6px 14px;border-radius:999px;background:rgba(255,255,255,.02)}
+  .scroll-hint{margin-top:60px;color:var(--ink-faint);font-family:var(--mono);font-size:12px;animation:bob 2.4s ease-in-out infinite}
+  @keyframes bob{0%,100%{transform:translateY(0);opacity:.5}50%{transform:translateY(8px);opacity:1}}
+  section{padding:64px 0;border-top:1px solid var(--line)}
+  .sec-no{font-family:var(--mono);font-size:13px;color:var(--gold);letter-spacing:.2em;margin-bottom:10px}
+  h2{font-family:var(--serif);font-weight:700;font-size:clamp(28px,5vw,42px);line-height:1.25;margin-bottom:8px;letter-spacing:.02em}
+  .lead{color:var(--ink-dim);font-size:16px;margin-bottom:28px;max-width:660px}
+  p{margin:0 0 18px;color:#cfd5dc}
+  p b,strong{color:#fff;font-weight:700}
+  .hl-pivot{color:var(--pivot);font-weight:700}.hl-up{color:var(--up);font-weight:700}
+  .hl-down{color:var(--down);font-weight:700}.hl-gold{color:var(--gold);font-weight:700}
+  blockquote{margin:26px 0;padding:20px 24px;border-left:3px solid var(--pivot);background:linear-gradient(90deg,rgba(55,192,230,.07),transparent);border-radius:0 10px 10px 0;font-family:var(--serif);font-size:19px;color:#eaf6fb}
+  blockquote .who{display:block;margin-top:8px;font-family:var(--mono);font-size:12px;color:var(--ink-faint);font-style:normal}
+  figure{margin:34px 0}
+  figure img{width:100%;border-radius:12px;border:1px solid var(--line);background:#fff;box-shadow:0 18px 50px rgba(0,0,0,.5)}
+  figcaption{margin-top:12px;font-size:13px;color:var(--ink-faint);text-align:center;font-family:var(--mono)}
+  .grid{display:grid;gap:16px;grid-template-columns:1fr 1fr;margin:28px 0}
+  @media(max-width:640px){.grid{grid-template-columns:1fr}}
+  .card{background:var(--bg-card);border:1px solid var(--line);border-radius:14px;padding:24px;position:relative;overflow:hidden;transition:transform .35s ease,border-color .35s ease}
+  .card:hover{transform:translateY(-4px);border-color:rgba(55,192,230,.4)}
+  .card .tag{font-family:var(--mono);font-size:11px;letter-spacing:.18em;color:var(--gold);text-transform:uppercase}
+  .card h3{font-family:var(--serif);font-size:21px;margin:10px 0 8px;color:#fff}
+  .card p{font-size:15px;color:var(--ink-dim);margin:0}
+  .table{margin:28px 0;border:1px solid var(--line);border-radius:14px;overflow:hidden}
+  .table .row{display:grid;grid-template-columns:1.1fr 1.5fr 1.6fr;align-items:stretch}
+  .table .row+.row{border-top:1px solid var(--line)}
+  .table .row>div{padding:16px 18px}
+  .table .row.head{background:var(--bg-elev);font-family:var(--mono);font-size:12px;letter-spacing:.14em;color:var(--ink-faint);text-transform:uppercase}
+  .table .row>div+div{border-left:1px solid var(--line)}
+  .table .name{font-family:var(--serif);font-weight:700;font-size:18px}
+  .table .name.zheng{color:var(--ink)}
+  .table .name.qushi{color:var(--gold)}
+  .cnt{font-family:var(--mono);font-size:14px;color:var(--pivot)}
+  @media(max-width:560px){.table .row{grid-template-columns:1fr}.table .row>div+div{border-left:0;border-top:1px solid var(--line)}.table .row.head{display:none}}
+  .points{margin:26px 0;display:flex;flex-direction:column;gap:14px}
+  .pt{display:flex;gap:16px;align-items:flex-start;background:var(--bg-card);border:1px solid var(--line);border-radius:12px;padding:18px 20px}
+  .pt .dot{flex:none;width:42px;height:42px;border-radius:10px;display:grid;place-items:center;font-family:var(--serif);font-weight:900;font-size:20px;color:#0b0e12}
+  .pt.b .dot{background:var(--up)}.pt.s .dot{background:var(--down)}
+  .pt.n .dot{background:var(--gold)}
+  .pt h4{font-size:17px;margin-bottom:4px;color:#fff}.pt p{font-size:15px;color:var(--ink-dim);margin:0}
+  ol.think{counter-reset:q;list-style:none;margin:24px 0;display:flex;flex-direction:column;gap:14px}
+  ol.think li{counter-increment:q;position:relative;padding:18px 20px 18px 60px;background:var(--bg-elev);border:1px solid var(--line);border-radius:12px;color:var(--ink-dim);font-size:15px}
+  ol.think li::before{content:counter(q,decimal-leading-zero);position:absolute;left:20px;top:18px;font-family:var(--mono);color:var(--gold);font-weight:700}
+  .quiz{margin:22px 0;background:var(--bg-card);border:1px solid var(--line);border-radius:14px;padding:22px 24px}
+  .quiz h4{font-size:16px;color:#fff;margin-bottom:6px}
+  .quiz p{font-size:15px;color:var(--ink-dim);margin:0 0 6px}
+  .quiz .ans{margin-top:12px;color:var(--ink-faint);font-size:14px;cursor:pointer}
+  .quiz .ans[open] summary{color:var(--pivot)}
+  .quiz summary{color:var(--gold);font-family:var(--mono);font-size:13px;cursor:pointer}
+  /* 自绘 SVG 示意图容器 */
+  .schemabox{margin:30px 0;background:var(--bg-elev);border:1px solid var(--line);border-radius:14px;padding:22px;text-align:center}
+  .schemabox svg{width:100%;max-width:720px;height:auto;display:block;margin:0 auto}
+  .schemabox figcaption{margin-top:14px;font-size:13px;color:var(--ink-faint);font-family:var(--mono)}
+  .tldr{margin:60px 0 0;padding:36px 30px;border:1px solid rgba(55,192,230,.3);border-radius:18px;background:radial-gradient(120% 120% at 100% 0%,rgba(55,192,230,.1),transparent 60%),var(--bg-elev);text-align:center}
+  .tldr .lab{font-family:var(--mono);font-size:12px;letter-spacing:.3em;color:var(--pivot);text-transform:uppercase}
+  .tldr p{font-family:var(--serif);font-size:clamp(20px,3.4vw,28px);line-height:1.7;color:#fff;margin:16px 0 0}
+  footer{padding:60px 0 90px;text-align:center;color:var(--ink-faint);font-family:var(--mono);font-size:12px;border-top:1px solid var(--line)}
+  .reveal{opacity:0;transform:translateY(26px);transition:opacity .8s ease,transform .8s ease}
+  .reveal.in{opacity:1;transform:none}
+  @media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}.scroll-hint{animation:none}}
+</style>
+<meta name="view-transition" content="same-origin"><style>@view-transition{navigation:auto}</style></head>
+<body>
+<div id="bar"></div>
+<header class="hero">
+  <div class="wrap">
+    <div class="kicker">缠中说禅 · 教你炒股票108课 <span>/ 第 2 课</span></div>
+    <h1 class="title">没有庄家</h1>
+    <p class="sub">缠师拆穿散户脑子里那个最深的迷信——市场没有上帝，只有赢家、输家和极少数的猎手。</p>
+    <div class="meta">
+      <span class="pill"><b>原文</b> 2006-06-07</span>
+      <span class="pill"><b>类型</b> 心法 · 入门世界观</span>
+      <span class="pill"><b>关键词</b> 庄家神话 · 赢家输家 · 围猎 · 屠龙刀</span>
+    </div>
+    <div class="scroll-hint">↓ 向下滚动，逐层拆解</div>
+  </div>
+</header>
+
+<main>
+  <!-- 1 散户脑中的庄家神话 -->
+  <section class="wrap reveal">
+    <div class="sec-no">01 — 那个最深的迷信</div>
+    <h2>散户脑子里都住着一个"无所不能"的庄家</h2>
+    <p class="lead">先把第一课要砸碎的偶像抬出来——所谓"庄家"。</p>
+    <p>在很多人眼里，<b>庄家</b>就是那种<b>拿着大量资金、能控制股票走势</b>的神秘人。他们被想象成<span class="hl-gold">无所不能</span>的：</p>
+    <div class="grid">
+      <div class="card">
+        <div class="tag">迷信 · 1</div>
+        <h3>超越技术指标</h3>
+        <p>K 线、MACD、均线都"不管用"——庄家想怎么画就怎么画。</p>
+      </div>
+      <div class="card">
+        <div class="tag">迷信 · 2</div>
+        <h3>超越基本面</h3>
+        <p>财报、业绩、行业景气，全部都是表演给散户看的剧本。</p>
+      </div>
+      <div class="card">
+        <div class="tag">迷信 · 3</div>
+        <h3>能左右大盘</h3>
+        <p>个股庄家之上还有"国家级庄家"，宛如散户心中的<b>上帝</b>。</p>
+      </div>
+      <div class="card">
+        <div class="tag">迷信 · 4</div>
+        <h3>无所不在</h3>
+        <p>关于庄家的传闻"在市场中一秒钟都不曾消停"。</p>
+      </div>
+    </div>
+    <blockquote>
+      在有关庄家的神话中，庄家被描述成无所不能的，既能超越技术指标、更能超越基本面，大势大盘就更不在话下了。
+      <span class="who">— 缠中说禅</span>
+    </blockquote>
+    <p>缠师一句话点破：<b>这就是常识，而常识往往是<span class="hl-down">共同谬误</span>的同义词</b>。最危险的不是不懂的东西，是"大家都这么说，所以一定对"的那个东西。</p>
+  </section>
+
+  <!-- 2 真实的庄家：尸骨成山 -->
+  <section class="wrap reveal">
+    <div class="sec-no">02 — 真实的庄家</div>
+    <h2>所谓的庄家，前赴后继，尸骨早堆成了山</h2>
+    <p class="lead">把神话拉回地面：现实里的"庄家"，活下来的极少。</p>
+    <p>缠师亲口讲过一个画面——某个私人聚会，一位<b>50 年代</b>的老大叔，说自己<b>准备了二十亿</b>要"坐庄"，还想找他帮忙联系某公司。缠师当场没奚落，私底下感慨：<span class="hl-down">脑子锈着了</span>。</p>
+    <blockquote>
+      但所谓的庄家，前赴后继，尸骨早堆成了山。
+      <span class="who">— 缠中说禅</span>
+    </blockquote>
+    <p>市场不是没有"试图控盘"的钱——只是<b>大资金 ≠ 必赢</b>。把价格暂时托起来不难，把<b>整段走势按自己剧本写完</b>，对抗的是<b>无数对手盘、流动性周期、宏观环境、监管</b>。这是个负反馈极强的系统，越想"主宰"，死得越快。</p>
+    <div class="schemabox">
+      <svg viewBox="0 0 720 280" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="g1" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#ff4d4f" stop-opacity=".35"/>
+            <stop offset="1" stop-color="#ff4d4f" stop-opacity="0"/>
+          </linearGradient>
+          <linearGradient id="g2" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#16c784" stop-opacity=".35"/>
+            <stop offset="1" stop-color="#16c784" stop-opacity="0"/>
+          </linearGradient>
+        </defs>
+        <!-- 背景网格 -->
+        <g stroke="rgba(255,255,255,.06)" stroke-width="1">
+          <line x1="40" y1="40" x2="700" y2="40"/>
+          <line x1="40" y1="100" x2="700" y2="100"/>
+          <line x1="40" y1="160" x2="700" y2="160"/>
+          <line x1="40" y1="220" x2="700" y2="220"/>
+        </g>
+        <!-- 庄家想象中的剧本：稳步上涨 -->
+        <path d="M50,200 L150,180 L250,150 L350,120 L450,90 L550,70 L650,50" stroke="#37c0e6" stroke-width="2" fill="none" stroke-dasharray="6 4"/>
+        <text x="660" y="40" fill="#37c0e6" font-family="JetBrains Mono" font-size="11" text-anchor="end">想象中的"控盘剧本"</text>
+        <!-- 真实走势：先拉再崩 -->
+        <path d="M50,200 Q130,140 200,130 T350,80 Q400,75 430,90 Q470,110 490,150 Q520,200 560,230 L620,250 L660,255" stroke="#ff4d4f" stroke-width="2.4" fill="url(#g1)"/>
+        <!-- 崩盘点标注 -->
+        <circle cx="350" cy="80" r="5" fill="#e8b339"/>
+        <text x="356" y="68" fill="#e8b339" font-family="JetBrains Mono" font-size="11">幻觉顶点</text>
+        <circle cx="660" cy="255" r="5" fill="#16c784"/>
+        <text x="654" y="272" fill="#16c784" font-family="JetBrains Mono" font-size="11" text-anchor="end">尸骨堆</text>
+        <!-- 轴 -->
+        <text x="40" y="260" fill="#5b6470" font-family="JetBrains Mono" font-size="11">入场</text>
+        <text x="700" y="260" fill="#5b6470" font-family="JetBrains Mono" font-size="11" text-anchor="end">时间 →</text>
+      </svg>
+      <figcaption>蓝色虚线 = 庄家心中的剧本｜红色实线 = 现实里大多数"坐庄"的下场</figcaption>
+    </div>
+  </section>
+
+  <!-- 3 缠师的世界观重构 -->
+  <section class="wrap reveal">
+    <div class="sec-no">03 — 世界观重构</div>
+    <h2>市场不是庄家 vs 散户，而是赢家 vs 输家</h2>
+    <p class="lead">这是全课<b>真正的题眼</b>——一个新的二分。</p>
+    <blockquote>
+      市场没有什么庄家，有的只是<b>赢家和输家</b>！有的只是各种类型的动物，还有极少数的高明猎手。
+      <span class="who">— 缠中说禅</span>
+    </blockquote>
+    <p>缠师做的，是把市场参与者从<b>身份维度</b>（庄/散）切换到<b>结果维度</b>（赢/输）：</p>
+    <div class="table">
+      <div class="row head"><div>视角</div><div>关注什么</div><div>对自己的影响</div></div>
+      <div class="row">
+        <div class="name zheng">旧视角<br><span style="font-family:var(--mono);font-size:12px;color:var(--ink-faint);font-weight:normal">庄家 / 散户</span></div>
+        <div>"谁在背后操纵"——盘后猜动机、找消息、信传闻</div>
+        <div>把责任外包给"庄家"，永远等被告知"庄家想什么"</div>
+      </div>
+      <div class="row">
+        <div class="name qushi">新视角<br><span style="font-family:var(--mono);font-size:12px;color:var(--ink-faint);font-weight:normal">赢家 / 输家</span></div>
+        <div>"谁能持续在市场里拿走钱"——研究系统、纪律、技术</div>
+        <div>责任收回自己手里：<b>是否赢，取决于你的<span class="hl-gold">能力</span></b></div>
+      </div>
+    </div>
+    <p>这个切换非常重要——<b>身份是别人给的，结果是自己挣的</b>。一旦你停止追问"庄家在干嘛"，开始追问"我做对了没"，你才有资格谈进步。</p>
+  </section>
+
+  <!-- 4 围猎的比喻 -->
+  <section class="wrap reveal">
+    <div class="sec-no">04 — 围猎比喻</div>
+    <h2>市场是丛林，看你拿的是弓箭还是屠龙刀</h2>
+    <p class="lead">缠师用一个画面把整课收口：所有人都是猎人，只是装备不同。</p>
+    <blockquote>
+      市场就是一个围猎的游戏。当你只有一把小弓箭，你可以去打野兔；当你有了屠龙刀，抓几条蛇来玩当然就没劲了。关键你是否有屠龙刀！
+      <span class="who">— 缠中说禅</span>
+    </blockquote>
+    <div class="points">
+      <div class="pt n">
+        <div class="dot">猎</div>
+        <div>
+          <h4>装备 = 能力（技术 + 心法）</h4>
+          <p>"屠龙刀"不是钱，是<b>对市场结构的理解</b> + <b>严格执行的纪律</b>。资金量大不等于装备好。</p>
+        </div>
+      </div>
+      <div class="pt b">
+        <div class="dot">兔</div>
+        <div>
+          <h4>小弓箭：先打野兔</h4>
+          <p>能力一般时，<b>别贪大龙</b>——在自己能赢的小级别、小仓位上反复练手感。</p>
+        </div>
+      </div>
+      <div class="pt s">
+        <div class="dot">龙</div>
+        <div>
+          <h4>屠龙刀：才能去抓大鱼</h4>
+          <p>能稳定从市场拿到钱之后，再去打硬仗。<b>顺序不能反</b>——没刀就去打龙，下场就是上一节图里的红线。</p>
+        </div>
+      </div>
+    </div>
+    <p>所以，<b>这一课不是技术课，是一记<span class="hl-gold">认知耳光</span></b>。后面 100 多课所有的"分型、笔、线段、中枢、背驰、买卖点"——都是在帮你打造那把屠龙刀。但前提是：你得先承认<b>自己手里现在没有</b>。</p>
+  </section>
+
+  <!-- 5 自检：你属于哪一类 -->
+  <section class="wrap reveal">
+    <div class="sec-no">05 — 行动自检</div>
+    <h2>三个问题，照出你是赢家、输家，还是输家伪装的"庄家粉"</h2>
+    <p class="lead">不用骗自己，每个问题诚实回答。</p>
+    <ol class="think">
+      <li>最近一次亏损后，你的第一念头是"<b>庄家又洗盘了 / 主力砸盘</b>"，还是"<b>我哪一步判断错了</b>"？</li>
+      <li>你买入一只票的理由是"<b>听说有庄在做</b>"，还是"<b>这里出现了我能识别的买点</b>"？</li>
+      <li>过去一年你花在<b>研究消息/传闻</b>的时间，和花在<b>复盘自己交易</b>的时间，比例是多少？</li>
+    </ol>
+    <p style="color:var(--ink-faint);font-size:14px">如果三个里有两个偏向左边——你还在拿小弓箭找上帝；先回到第 1 课讲的<b>"过去 ≠ 未来"</b>的认知地基上重建。</p>
+
+    <div class="quiz">
+      <h4>判图练习：下面三种说法，谁更接近缠师的市场观？</h4>
+      <p>A. "今天大跌是国家队在出货。"</p>
+      <p>B. "今天大跌是因为公募基金 Q2 调仓集中砸了消费板块。"</p>
+      <p>C. "今天大跌——结果就是大跌，我在自己那个买点的纪律里执不执行才是关键。"</p>
+      <details class="ans"><summary>查看答案</summary><p><b>C</b>。A 是把责任甩给"上帝级庄家"，B 是把责任甩给一个"群体庄家"——两者本质相同：都在解释"庄家"做了什么。<b>C 把焦点拉回自己有没有按系统执行</b>，这才是赢家思维。注意：缠师并非否认<b>大资金存在</b>，他否认的是"大资金 = 全知全能、能写剧本"的那个<b>神话</b>。</p></details>
+    </div>
+  </section>
+
+  <!-- 6 与全 108 课的位置 -->
+  <section class="wrap reveal">
+    <div class="sec-no">06 — 在 108 课里的位置</div>
+    <h2>为什么把这一课放在第 2 位</h2>
+    <p class="lead">缠师的课不是按"技术从易到难"排的，而是按<b>认知从粗到细</b>排的。</p>
+    <div class="grid">
+      <div class="card">
+        <div class="tag">第 1 课</div>
+        <h3>过去 ≠ 未来</h3>
+        <p>砸碎"<b>历史推断未来</b>"这个认知幻觉，建立对市场不确定性的敬畏。</p>
+      </div>
+      <div class="card">
+        <div class="tag">第 2 课 · 本课</div>
+        <h3>没有庄家</h3>
+        <p>砸碎"<b>背后有人在控盘</b>"这个身份幻觉，把责任拿回自己手里。</p>
+      </div>
+      <div class="card">
+        <div class="tag">第 3-15 课</div>
+        <h3>市场结构 & 走势规律</h3>
+        <p>建立<b>分型、笔、线段</b>这些"看图的语言"，开始磨刀。</p>
+      </div>
+      <div class="card">
+        <div class="tag">第 17 课起</div>
+        <h3>走势终完美 → 买卖点</h3>
+        <p>正式锻造"<b>屠龙刀</b>"——中枢、级别、背驰、买卖点的几何体系。</p>
+      </div>
+    </div>
+    <p>所以第 2 课没讲一张 K 线，却是<b>整套体系的前置条件</b>：<span class="hl-gold">不破除庄家神话，后面再硬的技术也学不会</span>——因为你会永远在"找庄"和"猜庄"之间来回打转，从不真正盯自己的系统。</p>
+
+    <div class="tldr">
+      <div class="lab">一句话总结</div>
+      <p>把"庄家 vs 散户"这种身份二分扔进垃圾桶，换上"赢家 vs 输家"这副<b>结果导向的眼镜</b>——市场是围猎，技术与纪律是你的屠龙刀，能不能赢，全在自己手里。</p>
+    </div>
+  </section>
+</main>
+
+<footer class="wrap">
+  原文出处：raw/缠中说禅/教你炒股票108课/教你炒股票2：没有庄家，有的只是赢家和输家！.md<br>
+  本页为个人学习复习用 · 非投资建议
+</footer>
+
+<script>
+  const bar=document.getElementById('bar');
+  const onScroll=()=>{const h=document.documentElement;bar.style.width=(h.scrollTop/(h.scrollHeight-h.clientHeight)*100)+'%'};
+  document.addEventListener('scroll',onScroll,{passive:true});onScroll();
+  const io=new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{threshold:.12});
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+</script>
+<script src="/assets/_nav.js"></script><script src="/assets/_shell.js"></script></body>
+</html>

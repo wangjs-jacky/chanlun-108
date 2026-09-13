@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>缠论 · 教你炒股票31：资金管理的最稳固基础</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@500;700;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0b0e12;--bg-elev:#12161c;--bg-card:#161b22;
+    --ink:#e8eaed;--ink-dim:#9aa3ad;--ink-faint:#5b6470;
+    --line:rgba(255,255,255,.07);
+    --up:#ff4d4f;--down:#16c784;--pivot:#37c0e6;--gold:#e8b339;--blue:#00d4ff;
+    --max:880px;--serif:"Noto Serif SC",serif;--mono:"JetBrains Mono",ui-monospace,monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--ink);font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;line-height:1.85;font-size:17px;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  body::before{content:"";position:fixed;inset:0;z-index:-2;background:radial-gradient(1200px 600px at 70% -10%,rgba(55,192,230,.08),transparent 60%),radial-gradient(900px 500px at 0% 100%,rgba(232,179,57,.05),transparent 55%);pointer-events:none}
+  body::after{content:"";position:fixed;inset:0;z-index:-1;opacity:.4;background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);background-size:46px 46px;-webkit-mask-image:radial-gradient(ellipse at 50% 0%,#000 30%,transparent 80%);mask-image:radial-gradient(ellipse at 50% 0%,#000 30%,transparent 80%);pointer-events:none}
+  #bar{position:fixed;top:0;left:0;height:3px;width:0;z-index:50;background:linear-gradient(90deg,var(--pivot),var(--gold));box-shadow:0 0 12px var(--pivot)}
+  .wrap{max-width:var(--max);margin:0 auto;padding:0 24px}
+  header.hero{padding:120px 0 70px;text-align:center;position:relative}
+  .kicker{font-family:var(--mono);font-size:13px;letter-spacing:.32em;color:var(--pivot);text-transform:uppercase;margin-bottom:26px}
+  .kicker span{color:var(--ink-faint)}
+  h1.title{font-family:var(--serif);font-weight:900;line-height:1.05;font-size:clamp(44px,10vw,100px);letter-spacing:.04em;background:linear-gradient(180deg,#fff 30%,#8aa0ad 130%);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .sub{margin:22px auto 0;max-width:580px;color:var(--ink-dim);font-size:18px}
+  .meta{margin-top:34px;display:flex;gap:14px;justify-content:center;flex-wrap:wrap;font-family:var(--mono);font-size:12px;color:var(--ink-faint)}
+  .meta b{color:var(--ink-dim);font-weight:500}
+  .pill{border:1px solid var(--line);padding:6px 14px;border-radius:999px;background:rgba(255,255,255,.02)}
+  .scroll-hint{margin-top:60px;color:var(--ink-faint);font-family:var(--mono);font-size:12px;animation:bob 2.4s ease-in-out infinite}
+  @keyframes bob{0%,100%{transform:translateY(0);opacity:.5}50%{transform:translateY(8px);opacity:1}}
+  section{padding:64px 0;border-top:1px solid var(--line)}
+  .sec-no{font-family:var(--mono);font-size:13px;color:var(--gold);letter-spacing:.2em;margin-bottom:10px}
+  h2{font-family:var(--serif);font-weight:700;font-size:clamp(28px,5vw,42px);line-height:1.25;margin-bottom:8px;letter-spacing:.02em}
+  .lead{color:var(--ink-dim);font-size:16px;margin-bottom:28px;max-width:660px}
+  p{margin:0 0 18px;color:#cfd5dc}
+  p b,strong{color:#fff;font-weight:700}
+  .hl-pivot{color:var(--pivot);font-weight:700}.hl-up{color:var(--up);font-weight:700}
+  .hl-down{color:var(--down);font-weight:700}.hl-gold{color:var(--gold);font-weight:700}
+  blockquote{margin:26px 0;padding:20px 24px;border-left:3px solid var(--pivot);background:linear-gradient(90deg,rgba(55,192,230,.07),transparent);border-radius:0 10px 10px 0;font-family:var(--serif);font-size:19px;color:#eaf6fb}
+  blockquote .who{display:block;margin-top:8px;font-family:var(--mono);font-size:12px;color:var(--ink-faint);font-style:normal}
+  figure{margin:34px 0}
+  figure img{width:100%;border-radius:12px;border:1px solid var(--line);background:#fff;box-shadow:0 18px 50px rgba(0,0,0,.5)}
+  figcaption{margin-top:12px;font-size:13px;color:var(--ink-faint);text-align:center;font-family:var(--mono)}
+  .grid{display:grid;gap:16px;grid-template-columns:1fr 1fr;margin:28px 0}
+  @media(max-width:640px){.grid{grid-template-columns:1fr}}
+  .card{background:var(--bg-card);border:1px solid var(--line);border-radius:14px;padding:24px;position:relative;overflow:hidden;transition:transform .35s ease,border-color .35s ease}
+  .card:hover{transform:translateY(-4px);border-color:rgba(55,192,230,.4)}
+  .card .tag{font-family:var(--mono);font-size:11px;letter-spacing:.18em;color:var(--gold);text-transform:uppercase}
+  .card h3{font-family:var(--serif);font-size:21px;margin:10px 0 8px;color:#fff}
+  .card p{font-size:15px;color:var(--ink-dim);margin:0}
+  .table{margin:28px 0;border:1px solid var(--line);border-radius:14px;overflow:hidden}
+  .table .row{display:grid;grid-template-columns:1.1fr 1.5fr 1.6fr;align-items:stretch}
+  .table .row+.row{border-top:1px solid var(--line)}
+  .table .row>div{padding:16px 18px}
+  .table .row.head{background:var(--bg-elev);font-family:var(--mono);font-size:12px;letter-spacing:.14em;color:var(--ink-faint);text-transform:uppercase}
+  .table .row>div+div{border-left:1px solid var(--line)}
+  .table .name{font-family:var(--serif);font-weight:700;font-size:18px}
+  .table .name.qushi{color:var(--gold)}
+  .cnt{font-family:var(--mono);font-size:14px;color:var(--pivot)}
+  @media(max-width:560px){.table .row{grid-template-columns:1fr}.table .row>div+div{border-left:0;border-top:1px solid var(--line)}.table .row.head{display:none}}
+  .points{margin:26px 0;display:flex;flex-direction:column;gap:14px}
+  .pt{display:flex;gap:16px;align-items:flex-start;background:var(--bg-card);border:1px solid var(--line);border-radius:12px;padding:18px 20px}
+  .pt .dot{flex:none;width:42px;height:42px;border-radius:10px;display:grid;place-items:center;font-family:var(--serif);font-weight:900;font-size:20px;color:#0b0e12}
+  .pt.b .dot{background:var(--up)}.pt.s .dot{background:var(--down)}
+  .pt h4{font-size:17px;margin-bottom:4px;color:#fff}.pt p{font-size:15px;color:var(--ink-dim);margin:0}
+  .proof{margin:30px 0;background:linear-gradient(120deg,rgba(55,192,230,.06),transparent 70%),var(--bg-elev);border:1px solid rgba(55,192,230,.25);border-radius:16px;padding:26px}
+  .proof .badge{display:inline-block;font-family:var(--mono);font-weight:700;font-size:12px;letter-spacing:.12em;padding:6px 14px;border-radius:999px;background:rgba(55,192,230,.14);color:var(--pivot);border:1px solid rgba(55,192,230,.4);margin-bottom:14px}
+  .chartbox{background:var(--bg-card);border:1px solid var(--line);border-radius:14px;padding:18px 14px 8px;margin:18px 0}
+  .legend{display:flex;gap:16px;font-family:var(--mono);font-size:12px;color:var(--ink-dim);padding:0 8px 12px;flex-wrap:wrap}
+  .legend i{display:inline-block;width:16px;height:3px;vertical-align:middle;margin-right:6px;border-radius:2px}
+  canvas{width:100%;display:block}
+  .verdict{display:flex;gap:14px;align-items:flex-start;margin-top:8px;padding:16px 18px;background:var(--bg-card);border:1px solid var(--line);border-radius:12px}
+  .verdict .mk{flex:none;font-family:var(--mono);font-weight:700;color:var(--up)}
+  .verdict p{margin:0;font-size:15px;color:#d6dbe1}
+  ol.think{counter-reset:q;list-style:none;margin:24px 0;display:flex;flex-direction:column;gap:14px}
+  ol.think li{counter-increment:q;position:relative;padding:18px 20px 18px 60px;background:var(--bg-elev);border:1px solid var(--line);border-radius:12px;color:var(--ink-dim);font-size:15px}
+  ol.think li::before{content:counter(q,decimal-leading-zero);position:absolute;left:20px;top:18px;font-family:var(--mono);color:var(--gold);font-weight:700}
+  .quiz{margin:22px 0;background:var(--bg-card);border:1px solid var(--line);border-radius:14px;padding:22px 24px}
+  .quiz h4{font-size:16px;color:#fff;margin-bottom:6px}
+  .quiz .ans{margin-top:12px;color:var(--ink-faint);font-size:14px;cursor:pointer}
+  .quiz .ans[open] summary{color:var(--pivot)}
+  .quiz summary{color:var(--gold);font-family:var(--mono);font-size:13px}
+  .tldr{margin:60px 0 0;padding:36px 30px;border:1px solid rgba(55,192,230,.3);border-radius:18px;background:radial-gradient(120% 120% at 100% 0%,rgba(55,192,230,.1),transparent 60%),var(--bg-elev);text-align:center}
+  .tldr .lab{font-family:var(--mono);font-size:12px;letter-spacing:.3em;color:var(--pivot);text-transform:uppercase}
+  .tldr p{font-family:var(--serif);font-size:clamp(20px,3.4vw,28px);line-height:1.7;color:#fff;margin:16px 0 0}
+  footer{padding:60px 0 90px;text-align:center;color:var(--ink-faint);font-family:var(--mono);font-size:12px;border-top:1px solid var(--line)}
+  .reveal{opacity:0;transform:translateY(26px);transition:opacity .8s ease,transform .8s ease}
+  .reveal.in{opacity:1;transform:none}
+  @media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}.scroll-hint{animation:none}}
+  /* 本课专属：三阶段流程图 */
+  .phase{margin:30px 0;display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px}
+  @media(max-width:720px){.phase{grid-template-columns:1fr}}
+  .phase .ph{background:var(--bg-card);border:1px solid var(--line);border-radius:14px;padding:20px;position:relative;overflow:hidden}
+  .phase .ph .num{font-family:var(--mono);font-size:11px;letter-spacing:.18em;color:var(--gold)}
+  .phase .ph h4{font-family:var(--serif);font-size:18px;color:#fff;margin:8px 0 6px}
+  .phase .ph p{font-size:14px;color:var(--ink-dim);margin:0}
+  .phase .ph::after{content:"→";position:absolute;right:-6px;top:50%;transform:translateY(-50%);color:var(--pivot);font-size:22px;font-family:var(--mono);opacity:.45}
+  .phase .ph:last-child::after{display:none}
+  @media(max-width:720px){.phase .ph::after{right:50%;top:auto;bottom:-22px;transform:translateX(50%) rotate(90deg)}}
+  /* 故事卡 - 警示色 */
+  .story{margin:26px 0;padding:24px;border:1px solid rgba(255,77,79,.3);border-radius:14px;background:radial-gradient(140% 100% at 0% 0%,rgba(255,77,79,.06),transparent 70%),var(--bg-elev)}
+  .story .lab{font-family:var(--mono);font-size:11px;letter-spacing:.22em;color:var(--up);text-transform:uppercase;margin-bottom:8px}
+  .story h4{font-family:var(--serif);font-size:20px;color:#fff;margin-bottom:10px}
+  .story p{font-size:15px;color:#cfd5dc;margin:0 0 10px}
+  .story p:last-child{margin:0}
+  /* 规则条 - 三大铁律突出展示 */
+  .rule{margin:18px 0;display:flex;gap:18px;align-items:flex-start;padding:22px 24px;background:linear-gradient(90deg,rgba(232,179,57,.08),transparent 60%),var(--bg-card);border:1px solid var(--line);border-left:4px solid var(--gold);border-radius:0 14px 14px 0}
+  .rule .no{flex:none;font-family:var(--serif);font-weight:900;font-size:34px;color:var(--gold);line-height:1;width:42px}
+  .rule h4{font-family:var(--serif);font-size:20px;color:#fff;margin:0 0 6px;line-height:1.3}
+  .rule p{font-size:15px;color:var(--ink-dim);margin:0}
+</style>
+<meta name="view-transition" content="same-origin"><style>@view-transition{navigation:auto}</style></head>
+<body>
+<div id="bar"></div>
+<header class="hero">
+  <div class="wrap">
+    <div class="kicker">缠中说禅 · 教你炒股票108课 <span>/ 第 31 课</span></div>
+    <h1 class="title">资金管理的<br>最稳固基础</h1>
+    <p class="sub">技术再强，没有资金管理也会被打回原形。这一课讲的不是怎么"赚得多"，而是怎么<b>永远不会被消灭</b>。</p>
+    <div class="meta">
+      <span class="pill"><b>原文</b> 2007-02-15 ~ 02-27</span>
+      <span class="pill"><b>类型</b> 心法 / 资金纪律</span>
+      <span class="pill"><b>关键词</b> 无压力资金 · 成本归零 · 挣股票</span>
+    </div>
+    <div class="scroll-hint">↓ 从血泪故事到联通承诺兑现</div>
+  </div>
+</header>
+<main>
+
+<!-- 1 这堂课在讲什么 -->
+<section class="wrap reveal">
+  <div class="sec-no">01 — 这堂课讲了什么</div>
+  <h2>从"万元"到"千万"再到"被打回原形"</h2>
+  <p class="lead">一句话：技术能让你<b>从一万做到一千万</b>，但只有资金管理能让你<b>守住一千万、做到一个亿</b>。</p>
+  <p>缠师在原文开篇就把这堂课的层次说清楚了：<b>小资金阶段，资金管理不算大问题</b>——亏完再来过，没什么；但当资金做到千万级别，几乎所有短线客都会进入<b>滞涨</b>状态——一个大级别调整来，全部打回原形。"<b>投资是一生的游戏，被打回原形是很可悲的事情</b>"——这是缠师在这一课里最沉重的一句。</p>
+  <p>课文的结构是<b>"先讲血泪 + 再立铁律 + 最后是实战示范"</b>：</p>
+  <div class="grid">
+    <div class="card"><div class="tag">A · 血泪</div><h3>两个真实故事</h3><p>1996 年的东北朋友（10 万 → 2000 万 → 20 万 → 错失 10 倍黑马），和 1992 年那个把账户托管给他人结果全部蒸发的朋友。</p></div>
+    <div class="card"><div class="tag">B · 铁律</div><h3>三条底层原则</h3><p>资金必须<b>长期无压力</b>、自己的盘子<b>绝不交他人管理</b>、<b>不能背水一战</b>——这三条决定你能不能"活得久"。</p></div>
+    <div class="card"><div class="tag">C · 战术</div><h3>单股操作的三阶段</h3><p>一次性建仓 → 升幅一倍后部分卖出把<b>成本变为 0</b> → 之后只<b>挣股票</b>直到月线以上历史卖点。</p></div>
+    <div class="card"><div class="tag">D · 实战</div><h3>联通承诺 + 大盘 3000</h3><p>课文后半部分是缠师 2007-02-15 的"血战公告"——承诺<b>春节前联通上 5 元、大盘上 3000</b>。本页用 akshare 拉真实行情验证。</p></div>
+  </div>
+  <blockquote>资金，必须长期无压力……自己的资金，一定不能交给别人管理……不能把自己放置在一个危险的境地，所谓背水一战、置之死地而后生，都不是资本市场应该采取的态度。<span class="who">— 缠中说禅 (2007-02-15)</span></blockquote>
+</section>
+
+<!-- 2 三大铁律 -->
+<section class="wrap reveal">
+  <div class="sec-no">02 — 资金管理的三条铁律</div>
+  <h2>守住底线的三句话</h2>
+  <p class="lead">缠师把它叫"<b>资金管理最大的、最重要的一点</b>"——没有这三条，任何技术都是浮云。</p>
+
+  <div class="rule">
+    <div class="no">1</div>
+    <div>
+      <h4>资金必须长期无压力</h4>
+      <p>不能借钱投资，不能用要急用的钱投资，不能用有时间表的钱投资。<b>有压力的资金会让你在最该坚持的时候被迫卖出</b>，技术再准都救不了你。</p>
+    </div>
+  </div>
+  <div class="rule">
+    <div class="no">2</div>
+    <div>
+      <h4>自己的资金，绝不交给别人管理</h4>
+      <p>缠师原话：「<b>自己的盘子，一定要自己负责，不能把自己的命运交给别人</b>」。哪怕对方是"市场里的老人都知道"的名人，也不行——下一个故事就是真实代价。</p>
+    </div>
+  </div>
+  <div class="rule">
+    <div class="no">3</div>
+    <div>
+      <h4>永远不"背水一战"</h4>
+      <p>「<b>置之死地而后生</b>」是兵法不是投资法。资本市场的本质是"<b>任何人都可能被消灭</b>"——所以永远不要把自己放进必死的境地。<b>一万亿和一万元，按比例归零的速度一样</b>。</p>
+    </div>
+  </div>
+
+  <p style="margin-top:24px"><span class="hl-pivot">为什么是"无压力"而不是"大资金"</span>？缠师强调：<b>市场会按比例消灭你</b>——10000 亿被毁掉，跟 10000 块被毁掉，速度一样。所以决定你"活得久"的不是钱多钱少，而是这三条<b>抗冲击属性</b>。</p>
+</section>
+
+<!-- 3 血泪故事 -->
+<section class="wrap reveal">
+  <div class="sec-no">03 — 两个反面教材</div>
+  <h2>把这两个故事钉在墙上</h2>
+  <p class="lead">课文里两个故事互相印证：第一个违反了"无压力"和"不背水一战"，第二个违反了"不托管"。结果是惊人的对称——<b>资金全毁、错过 10 倍机会</b>。</p>
+
+  <div class="story">
+    <div class="lab">故事 A · 1996 年 · 东北朋友 · 杠杆死法</div>
+    <h4>从 10 万到 2000 万，再到 20 万</h4>
+    <p>1996 年，缠师在东北遇到的朋友："不到 10 万元开始"——但当时市场允许<b class="hl-up">1:10 透资</b>（10 倍杠杆）。在 1996 牛市里这位朋友把 10 万做到 <b>2000 多万</b>，杠杆已自然降到 1:1 多。<span class="hl-gold">本来这时还掉透资就安全了</span>——但他没还。</p>
+    <p>1996 年最后三周，他持仓那只深圳本地股从 <b>12 元在三周内瀑布式跌到 6 元以下</b>。下跌是"<b>突然转折</b>"，开局就没有机会走；等到能走时仓位已经触及平仓线，<b class="hl-down">证券部强行从 6 元多一路平下去，没有拒绝权</b>。最后还完透资，账上只剩<b>不到 20 万</b>——回到原点。</p>
+    <p><b class="hl-up">真正的剧本是：</b>这只股票从他被平仓的当天起，到 1997 年 5 月不到 5 个月，<b>一路涨到 30 元以上</b>，成了那年最大的黑马——但跟他已经没关系了。</p>
+  </div>
+
+  <figure>
+    <img src="/_assets/ch31_p01.png" alt="深圳本地股 1996-2007 年长线走势">
+    <figcaption>课文原图 ch31_p01：1996-2007 月线全图。可看到 1996 年末 5.67 元起点 → 12 元尖顶 → 急跌；1997 年才是真正的主升浪冲到 31.60 元；其后 2005 年再次跌到 3 元以下，目前 6 元出头</figcaption>
+  </figure>
+
+  <p><b>这个故事违反了三条铁律中的两条</b>：① 透资 = 有压力的资金（杠杆 1:10 等于借了 9 倍钱）；② 拒绝还掉透资 = 背水一战。技术再好也没用——<b>瀑布式下跌根本不给你"按图操作"的时间</b>。</p>
+
+  <div class="story">
+    <div class="lab">故事 B · 1992 年 · 几千万 · 托管死法</div>
+    <h4>把账户交给"特别出名"的朋友</h4>
+    <p>1992 年，缠师有个朋友账上已有"几千万"。因为家里有事，他把账户托管给一位<b>"后来特别出名"</b>的朋友打理（缠师暗示是个市场里都认识的名人）。</p>
+    <p>当时大盘从 <b>1400 多点</b>已跌了很多，托管的人以为见底了，<b class="hl-up">自作主张透资抄底</b>。结果大盘一直跌，跌破 <b class="hl-down">400 点</b>才见底——半年内下跌 <b>1000 多点</b>。等委托人 2-3 周后回来，账户里"<b>一切早已灰飞湮灭</b>"。</p>
+    <p><b class="hl-pivot">极度讽刺的尾声</b>：那一波从 400 点以下，<b>不到 4 个月又冲到 1558 点</b>历史新高——又是一次"近在咫尺却完全无关"的大行情。</p>
+  </div>
+
+  <p><b>这个故事是反例 +1</b>：违反了"不托管"原则——你不在场，对方决策时不会用<b>你的纪律</b>，他会用<b>他自己的赌性</b>。当事人"特别出名"无关紧要——名人不等于在你的钱上不会赌。</p>
+</section>
+
+<!-- 4 单股三阶段 -->
+<section class="wrap reveal">
+  <div class="sec-no">04 — 单股操作的三阶段</div>
+  <h2>"一次性建仓 → 成本归零 → 挣股票"</h2>
+  <p class="lead">这是本课最核心的<b>战术系统</b>——把它当成 SOP 记住，每只股票都按这三阶段走。</p>
+
+  <div class="phase">
+    <div class="ph"><div class="num">PHASE 01</div><h4>一次性建仓</h4><p>研究充分后<b>一次买入</b>。不分批、不加码、不补仓。这股票该买多少、占总资金多少，<b>一开始就定好</b>。</p></div>
+    <div class="ph"><div class="num">PHASE 02</div><h4>成本归零</h4><p>上涨过程中弄小差，并在涨幅<b>约一倍</b>附近找一个<b>大级别卖点</b>出掉部分，<b class="hl-gold">让剩余股票成本变为 0</b>。</p></div>
+    <div class="ph"><div class="num">PHASE 03</div><h4>挣股票</h4><p>成本已经为 0 后，<b>每次抛出全部回补</b>。股票数量越来越多，<b class="hl-up">成本永远是 0</b>，等待月线以上历史卖点一次清仓。</p></div>
+  </div>
+
+  <h3 style="font-family:var(--serif);font-size:22px;color:#fff;margin:30px 0 12px">阶段 1 · 一次性建仓的潜规则</h3>
+  <p>这是新手最容易破戒的地方。缠师的原则非常硬：</p>
+  <div class="points">
+    <div class="pt b"><div class="dot">买</div><div><h4>一次性买入 · 不"试仓"</h4><p>"<b>如果你连一次性买入的信心都没有，证明你根本没准备好，那就一股都不要买</b>"——这是缠师对仓位决策的最高标准。</p></div></div>
+    <div class="pt s"><div class="dot">忌</div><div><h4>绝不往上加码</h4><p>"宁愿不断跌不断买，也<b>绝对不往上加码</b>"。涨了再加是散户最常见的死法——<b>越涨买的均价就越高，反弹一次就被套</b>。</p></div></div>
+    <div class="pt b"><div class="dot">备</div><div><h4>留 1/10 机动资金</h4><p>针对每只买入的股票，<b>都要留约 1/10 的机动资金</b>，用来做小级别波段把成本降下来——但<b>不增加股票数量</b>。</p></div></div>
+    <div class="pt s"><div class="dot">守</div><div><h4>不抛 = 不证伪</h4><p>买入后如果上涨说明判断对了；如果下跌，<b>除非买入理由消失或技术上出现严重破坏</b>，一股都不能抛。这是用纪律对抗情绪。</p></div></div>
+  </div>
+
+  <h3 style="font-family:var(--serif);font-size:22px;color:#fff;margin:30px 0 12px">阶段 2 · 把成本变为 0 是分水岭</h3>
+  <p>缠师把"成本归零"称为<b>"最简单又最有效的管理"</b>。它的本质是：<b class="hl-gold">用一次大级别卖点把本金收回来，剩下的股票变成"无成本期权"</b>。</p>
+  <p>核心步骤：① 涨幅约 100% 时；② 找一个<b>大级别卖点</b>（不是分钟、不是 5 分钟，是日线甚至以上）；③ 卖出大致一半（让回收金额 ≈ 初始投入）；④ 剩下的股票成本归零。</p>
+  <blockquote>当成本变成 0 以后，就要挣股票，直到股票见到历史性大顶，也就是<b>至少出现月线以上的卖点</b>。<span class="who">— 缠中说禅</span></blockquote>
+
+  <h3 style="font-family:var(--serif);font-size:22px;color:#fff;margin:30px 0 12px">阶段 3 · "挣股票"为什么是最大利器</h3>
+  <p>这是缠师对"<b>盘整时间</b>"的逆向利用——大多数股票在大顶之前会有<b>盘整时间占总时长一半以上</b>。在盘整里反复"高抛低吸+全部回补"，<b>股票数量会越买越多</b>，而成本一直是 0：</p>
+  <div class="grid">
+    <div class="card"><div class="tag">机制</div><h3>盘整阶段反复填仓</h3><p>每次小高点抛出 → 跌下来后回补的资金量不变，但因为股价低了，<b>能换回比原来更多的股数</b>。</p></div>
+    <div class="card"><div class="tag">结果</div><h3>启动时股数远超底部</h3><p>大型盘整结束后再启动，你手里 0 成本的<b>股票数比当初买入时还要多</b>——这就是"最大的黑马"。</p></div>
+    <div class="card"><div class="tag">本质</div><h3>对庄家/基金的"吸血"</h3><p>主力反复洗盘是想吃散户筹码，但你 0 成本 + 反向操作，<b>洗盘越凶你筹码越多</b>。最终你在历史大顶把这些股票砸出去——主力的盘子就废了。</p></div>
+    <div class="card"><div class="tag">心法</div><h3>持仓结构 = 多只 0 成本股票</h3><p>合理的最终持仓：<b>不是一只重仓，而是多只 0 成本的股票分散持有</b>。这才是"<b class="hl-gold">最稳固的资金管理基础</b>"。</p></div>
+  </div>
+</section>
+
+<!-- 5 联通承诺兑现 + akshare 实证 -->
+<section class="wrap reveal">
+  <div class="sec-no">05 — 真金白银的实证</div>
+  <h2>"春节前让联通上 5 元，大盘上 3000"</h2>
+  <p class="lead">课文后半段是缠师 2007-02-15 的<b>"血战公告"</b>：「一言既出、驷马难追。既然承诺大家春节前一定让联通上 5 元，大盘上 3000，就无论如何都要办到」。我们用 akshare 拉真实行情验证。</p>
+
+  <figure>
+    <img src="/_assets/ch31_p02.png" alt="2007-02-15 上证日线 缠师承诺现场">
+    <figcaption>课文原图 ch31_p02：2007-02-15 上证日线，红框内是当天的"血战时刻"——盘中冲上 3000 又被打下；附文"既然承诺大家春节前一定让联通上 5 元、大盘上 3000，就无论如何都要办到"</figcaption>
+  </figure>
+
+  <h3 style="font-family:var(--serif);font-size:22px;color:#fff;margin:30px 0 12px">实证 1 · 中国联通 600050 是否上 5 元？</h3>
+
+  <div class="proof">
+    <span class="badge">数据实证 · 中国联通 SH 600050 · 日线</span>
+    <div class="chartbox">
+      <div class="legend">
+        <span><i style="background:#cfd5dc"></i>收盘</span>
+        <span><i style="background:#e8b339"></i>MA20</span>
+        <span><i style="background:#37c0e6"></i>MA60</span>
+        <span><i style="background:#ff4d4f"></i>关键事件</span>
+      </div>
+      <canvas id="cv_unicom" height="460"></canvas>
+    </div>
+    <div class="verdict"><span class="mk">✓ 承诺兑现</span><p>2007-02-15 当天联通 <b>开 4.96 元 → 高 5.13 元 → 收 5.04 元</b>——<b class="hl-up">盘中冲过 5 元、收盘站稳 5 元上方</b>，与缠师当天承诺完全吻合。2007-02-16 节前最后一个交易日 <b>开 5.10 → 高 5.15 → 收 5.06</b>，<b class="hl-gold">连续两天守住 5 元</b>。整段从 2006-08 低点 <b>2.19 元</b>启动，到 2007-02-15 收盘 <b>5.04 元 涨幅 130%</b>，再到 2007-05-10 见高 <b class="hl-up">6.69 元</b>，从底部约 <b class="hl-gold">3 倍</b>。</p></div>
+    <p style="font-family:var(--mono);font-size:12px;color:var(--ink-faint)">数据来源：新浪财经日K · akshare 取数 · 2006-08-01 至 2007-06-29 · 不构成投资建议</p>
+  </div>
+
+  <h3 style="font-family:var(--serif);font-size:22px;color:#fff;margin:30px 0 12px">实证 2 · 上证指数是否上 3000？</h3>
+
+  <div class="proof">
+    <span class="badge">数据实证 · 上证综指 000001 · 日线</span>
+    <div class="chartbox">
+      <div class="legend">
+        <span><i style="background:#cfd5dc"></i>收盘</span>
+        <span><i style="background:#e8b339"></i>MA20</span>
+        <span><i style="background:#37c0e6"></i>MA60</span>
+      </div>
+      <canvas id="cv_szi" height="460"></canvas>
+    </div>
+    <div class="verdict"><span class="mk">✓ 承诺兑现 → 立刻测试</span><p>2007-02-15 上证 <b>高 2994.62 / 收 2993.01</b>——盘中差 5 个点没破 3000；2007-02-16 节前最后一日 <b>开 3018.18 / 高 3036.35 / 收 2998.47</b>——<b class="hl-up">早盘跳空突破 3000</b>，完成承诺。但缠师马上预警「<b>就算大盘站稳 3000，也就是进入日线的背弛段</b>」——果然 2007-02-27 节后第一日，上证 <b class="hl-down">高 3049.77 → 低 2763.39，单日暴跌 9.3% / 286 点</b>，史称"<b>2.27 暴跌</b>"。缠师在 31 课结尾对此早有定调：「<b>大盘调整的必然性，在周线中枢必须有第三段，这叫走势必完美了，所以震荡是不可避免的</b>」。</p></div>
+    <p style="font-family:var(--mono);font-size:12px;color:var(--ink-faint)">数据来源：新浪财经指数日K · akshare 取数 · 2006-12-01 至 2007-06-29 · 不构成投资建议</p>
+  </div>
+
+  <p style="margin-top:18px"><span class="hl-pivot">资金管理视角的回放</span>：联通从 2.19 到 5.04 已是 130%——按本课"<b>升幅一倍附近找大级别卖点出部分把成本变 0</b>"原则，<b>这个 2 月份位置正是该执行的位置</b>。果然，2.27 暴跌后联通虽然继续创新高到 6.69，但很快走出大震荡——<b>守着不动只赚指数，按规则操作能在每次震荡里加股票数</b>。这就是"挣股票"实战。</p>
+</section>
+
+<!-- 6 缠师在课文末段的中枢教学 -->
+<section class="wrap reveal">
+  <div class="sec-no">06 — 顺带教学</div>
+  <h2>课文末段的中枢识别答疑</h2>
+  <p class="lead">本课除了资金管理主线，缠师还回答了几个读者问题——关于<b>怎么在 1 分钟图上找中枢</b>。这部分是穿插的教学，但非常实用。</p>
+
+  <figure>
+    <img src="/_assets/ch31_p04.png" alt="2007-02-15 1分钟图中枢">
+    <figcaption>课文原图 ch31_p04：2007-02-15 大盘 1 分钟图。学员问"11:10 ~ 14:08 中间高低点怎么定"——缠师圈出 <b>10:48 ~ 11:29</b> 那一段是「<b>上升中调整形成的中枢</b>」（标准三段：跌-升-跌），<b>14:13</b> 是该中枢的第三类买点，确认中枢的完结</figcaption>
+  </figure>
+
+  <blockquote>1048 到 1129，一个明显的上升中调整形成的中枢，<b>三段很明显的，后面是该中枢的延伸</b>。1413 是<b>第三类买点</b>，确认中枢的完结。<span class="who">— 缠中说禅 (2007-02-15)</span></blockquote>
+
+  <figure>
+    <img src="/_assets/ch31_p05.png" alt="2007-02-06 至 02-15 大盘 5分钟图中枢">
+    <figcaption>课文原图 ch31_p05：缠师标注从 2980 点开始的 5 分钟下跌，关键点是<b>第一个中枢从 1301055 算起</b>而不是从 1301035 算起——前者是「下跌走势类型里的中枢」，后者属于「上一个走势类型的尾部」，<b>不能混在同一个走势类型里</b></figcaption>
+  </figure>
+
+  <p>这里缠师在回答一个学员的疑惑——"<b>B 段低点能不能跌破 A 段</b>？"。缠师的答案非常重要：<b class="hl-pivot">中枢的定义里没有这个要求</b>。具体到本图：在同一个下跌走势类型里找中枢时，<b>不要把前一个走势类型的尾部拿来凑数</b>。这是新手常见的画法错误。</p>
+
+  <p>这两段答疑对应到第 29 课讲过的「<b>同一个走势类型里的中枢</b> vs <b>盘整里的中枢</b>」区别——本课让你看到：<b>缠师即使在最严肃的资金管理课里，也始终把"按图操作"挂在嘴边</b>。这不是为了教中枢，而是<b>用具体的小例子说明"资金管理的前提是技术稳定"</b>。</p>
+
+  <figure>
+    <img src="/_assets/ch31_p06.png" alt="2.27 暴跌前的周线中枢三段">
+    <figcaption>课文原图 ch31_p06：缠师在 2007-02-27 暴跌后用周线图复盘——上证从 2007-01 的 2541.52 起涨，构筑了<b>三段周线中枢</b>：周中枢第一段 → 周中枢第二段 → 周中枢第三段（即 02-27 暴跌段）。这就是缠师所说「<b>周中枢必须有第三段，走势必完美</b>」的原图。同时图上标了一个"<b>5 分背驰</b>"——5 分钟级别背驰是触发 02-27 暴跌的直接诱因</figcaption>
+  </figure>
+
+  <figure>
+    <img src="/_assets/ch31_p08.png" alt="2007-02-27 暴跌 1分钟图按图操作">
+    <figcaption>课文原图 ch31_p08：02-27 暴跌当天 1 分钟级别复盘。缠师标注「<b>这次下跌，在中午形成第一个 1 分钟的中枢</b>」（图中红框 2967-2869 区间）——明天只要不重回 2869 之上，<b>必然会有第二个中枢</b>，然后进入背弛段。这就是缠师反复讲的「<b>按图操作</b>」：哪怕暴跌 9.3% 也不慌乱，<b>每一笔买卖都在结构里</b></figcaption>
+  </figure>
+
+  <p style="margin-top:8px"><span class="hl-gold">承上启下</span>：缠师说「<b>今天一个短线背弛引发的单边下跌，没什么可奇怪的，都是计划之中</b>」——这就是<b>资金管理的最终意义</b>：如果你按"成本归零"原则在 02-15 已经收回本金，2.27 这种暴跌对你就只是"<b>0 成本筹码在天上飞</b>"，没有任何心理压力。<b>资金管理的胜利不在于赚多少，而在于让你能心如止水地看着下跌发生</b>。</p>
+</section>
+
+<!-- 7 思考题 + 判图 -->
+<section class="wrap reveal">
+  <div class="sec-no">07 — 思考与练习</div>
+  <h2>把这堂课变成你的习惯</h2>
+  <p class="lead">资金管理是<b>反人性</b>的：成本归零意味着要在赚得最爽的时候卖；不加码意味着要在最看好的时候忍住。下面是几道把它内化的题。</p>
+
+  <ol class="think">
+    <li>你目前在用的资金里，有多少是<b>"长期无压力"</b>的？如果明天市场暴跌 30%，你能不能<b>不抛一股</b>地等？如果不能，超出"无压力"边界的那部分应该<b>立刻撤回</b>。</li>
+    <li>你最近一次"<b>越涨越加仓</b>"是什么时候？如果当时不加，你现在的持仓成本会便宜多少？把这个数字写下来贴在交易桌前。</li>
+    <li>你手里有没有<b>0 成本</b>的股票？如果一只都没有，意味着你<b>从未真正度过单股操作的第二阶段</b>——是不是每次涨到一倍附近你都贪心地继续等？</li>
+    <li>缠师的"机动 1/10 资金"——这部分应该用来做<b>同一只股票</b>的小级别波段（不增加股数，只降成本），还是用来另开新仓？为什么？</li>
+    <li>2007-02-15 那天，如果你是缠师，你是<b>因为承诺而保联通到 5 元</b>（操盘心态），还是<b>因为联通技术上该到 5 元才公开喊出来</b>（按图办事心态）？这两种心态在资金管理上有何根本差别？</li>
+  </ol>
+
+  <div class="quiz">
+    <h4>练习一：辨别仓位行为</h4>
+    <p>下面三个动作，哪个是缠师本课所说"<b>资金管理最坏的习惯</b>"？</p>
+    <p>A. 涨了 30% 后把一半仓位卖掉锁定利润 ｜ B. 跌了 15% 后用机动资金做高抛低吸不增股数 ｜ C. 涨了 50% 后看技术继续往上加仓</p>
+    <details class="ans"><summary>查看答案</summary><p><b>C</b>。缠师原话：「一些最坏的习惯，就是<b>股票不断上涨，就不断加仓</b>，这样一定会出问题。买股票，宁愿不断跌不断买，也<b>绝对不往上加码</b>」。A 是合理止盈，B 是教科书做法（机动资金降成本而不增股数）。</p></details>
+  </div>
+
+  <div class="quiz">
+    <h4>练习二：识别"成本归零"时机</h4>
+    <p>一只股票从买入 10 元涨到 20 元，期间从未抛过。此时大级别（日线）出现一个标准卖点。按本课纪律应该：</p>
+    <p>A. 全部卖出锁定一倍利润 ｜ B. 卖一半把成本变为 0，剩下的等历史大顶 ｜ C. 加仓继续做趋势</p>
+    <details class="ans"><summary>查看答案</summary><p><b>B</b>。10 元买入 1000 股共 1 万元；20 元卖 500 股可收回 1 万元——本金归位，剩下 500 股<b>成本为 0</b>。这就是缠师所说"<b>在股票达到 1 倍升幅附近找一个大级别的卖点出掉部分，把成本降为 0</b>"。剩下的 500 股之后通过"挣股票"会越来越多。</p></details>
+  </div>
+
+  <div class="quiz">
+    <h4>练习三：判读 02-27 暴跌</h4>
+    <p>2007-02-27 上证从 3049 跌到 2763，单日 -9.3%。按本课资金管理原则，<b>2 月 15 日已经把联通卖出一半把成本归零的人</b>，在这天会怎么想？</p>
+    <details class="ans"><summary>查看答案</summary><p>缠师笔下的标准答案：「<b>第一个中枢才刚出现，回补什么？按图操作，利空是无意义的</b>」。已经成本归零的人持有的是<b>0 成本的剩余仓位</b>——暴跌不会让他心痛，因为<b>不是亏自己的本金，只是浮盈缩水</b>。他可以心平气和地等到第二个中枢、等到第二买点、再用机动资金回补股票数。这就是"<b>最稳固资金管理基础</b>"的真正含义——<b>暴跌时你不慌，因为你早已不在风险里</b>。</p></details>
+  </div>
+</section>
+
+<!-- 8 TLDR -->
+<section class="wrap reveal">
+  <div class="tldr">
+    <div class="lab">TL;DR · 一句话总结</div>
+    <p>技术再强也只能把你<b>从万元做到千万</b>；<br>只有<b>无压力、不托管、不背水</b>这三条铁律，<br>加上<b>"一次性建仓 → 成本归零 → 挣股票"</b>三阶段战术，<br>才能让你<b>守住千万、做到亿</b>。<br><span style="color:var(--gold)">投资是一生的游戏，最大的胜利是「永远不会被消灭」。</span></p>
+  </div>
+</section>
+
+</main>
+<footer class="wrap">
+  原文出处：raw/缠中说禅/教你炒股票108课/教你炒股票31：资金管理的最稳固基础.md（2007-02-15 ~ 02-27）<br>
+  本页为个人学习复习用 · 数据实证基于 akshare 历史日K（不复权）· 非投资建议
+</footer>
+<script>
+  const bar=document.getElementById('bar');
+  const onScroll=()=>{const h=document.documentElement;bar.style.width=(h.scrollTop/(h.scrollHeight-h.clientHeight)*100)+'%'};
+  document.addEventListener('scroll',onScroll,{passive:true});onScroll();
+  const io=new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{threshold:.12});
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+  /* CHAN_CHART_RENDERER */
+  function drawChanChart(canvasId, CHART){
+    const cv=document.getElementById(canvasId); if(!cv) return;
+    const mode=CHART.mode||'line', hasVol=!!CHART.v && CHART.showVol!==false;
+    const idxOf={}; CHART.dates.forEach((d,i)=>idxOf[d]=i);
+    const ri=d=>{ if(d in idxOf)return idxOf[d]; let b=0,bd=1/0;
+      CHART.dates.forEach((x,i)=>{const t=Math.abs(new Date(x)-new Date(d)); if(t<bd){bd=t;b=i}}); return b; };
+    function draw(){
+      const dpr=window.devicePixelRatio||1, W=cv.clientWidth, H=CHART.height||460;
+      cv.width=W*dpr; cv.height=H*dpr; const x=cv.getContext('2d'); x.scale(dpr,dpr); x.clearRect(0,0,W,H);
+      const padL=48,padR=14,padT=16, volH=hasVol?70:0, gap=hasVol?16:0, priceH=H-padT-volH-gap-22, n=CHART.c.length;
+      let mn=Math.min(...CHART.l), mx=Math.max(...CHART.h);
+      if(CHART.ma)Object.values(CHART.ma).forEach(a=>a.forEach(v=>{if(v!=null){mn=Math.min(mn,v);mx=Math.max(mx,v)}}));
+      if(CHART.pivots)CHART.pivots.forEach(p=>{mn=Math.min(mn,p.lo);mx=Math.max(mx,p.hi)});
+      if(CHART.marks)CHART.marks.forEach(m=>{mn=Math.min(mn,m.price);mx=Math.max(mx,m.price)});
+      const pd=(mx-mn)*0.08; mn-=pd; mx+=pd;
+      const PW=W-padL-padR, px=i=> n===1?padL+PW/2:padL+PW*i/(n-1), py=p=>padT+priceH*(1-(p-mn)/(mx-mn));
+      x.font="11px JetBrains Mono"; x.textAlign="right";
+      for(let g=0;g<=4;g++){const p=mn+(mx-mn)*g/4,yy=py(p);
+        x.strokeStyle="rgba(255,255,255,.06)";x.beginPath();x.moveTo(padL,yy);x.lineTo(W-padR,yy);x.stroke();
+        x.fillStyle="#5b6470";x.fillText(p.toFixed(2),padL-6,yy+3)}
+      if(CHART.pivots)CHART.pivots.forEach(p=>{const x1=px(ri(p.from)),x2=px(ri(p.to)),y1=py(p.hi),y2=py(p.lo);
+        x.fillStyle="rgba(55,192,230,.10)";x.strokeStyle="rgba(55,192,230,.55)";x.lineWidth=1;
+        x.fillRect(x1,y1,x2-x1,y2-y1);x.strokeRect(x1,y1,x2-x1,y2-y1);
+        if(p.label){x.fillStyle="#37c0e6";x.textAlign="center";x.fillText(p.label,(x1+x2)/2,y1-5)}});
+      if(hasVol){const vmax=Math.max(...CHART.v),vt=padT+priceH+gap;
+        for(let i=0;i<n;i++){const up=CHART.c[i]>=CHART.o[i];x.fillStyle=up?"rgba(255,77,79,.5)":"rgba(22,199,132,.5)";
+          const bw=Math.max(1,PW/n*0.6),bh=volH*CHART.v[i]/vmax;x.fillRect(px(i)-bw/2,vt+volH-bh,bw,bh)}}
+      if(mode==='candle'){const bw=Math.max(1.5,PW/n*0.62);
+        for(let i=0;i<n;i++){const up=CHART.c[i]>=CHART.o[i],col=up?"#ff4d4f":"#16c784";x.strokeStyle=col;x.fillStyle=col;
+          x.beginPath();x.moveTo(px(i),py(CHART.h[i]));x.lineTo(px(i),py(CHART.l[i]));x.stroke();
+          const yo=py(CHART.o[i]),yc=py(CHART.c[i]);x.fillRect(px(i)-bw/2,Math.min(yo,yc),bw,Math.max(1,Math.abs(yc-yo)))}}
+      else{const cs=CHART.c;x.beginPath();for(let i=0;i<n;i++){const xx=px(i),yy=py(cs[i]);i?x.lineTo(xx,yy):x.moveTo(xx,yy)}
+        const gr=x.createLinearGradient(0,padT,0,padT+priceH);gr.addColorStop(0,"rgba(207,213,220,.16)");gr.addColorStop(1,"rgba(207,213,220,0)");
+        x.lineTo(px(n-1),padT+priceH);x.lineTo(px(0),padT+priceH);x.closePath();x.fillStyle=gr;x.fill();
+        x.beginPath();for(let i=0;i<n;i++){const xx=px(i),yy=py(cs[i]);i?x.lineTo(xx,yy):x.moveTo(xx,yy)}
+        x.strokeStyle="#cfd5dc";x.lineWidth=1.6;x.stroke()}
+      const MC={MA5:"#ff8a8c",MA10:"#c0a3ff",MA20:"#e8b339",MA60:"#37c0e6",MA120:"#9aa3ad",MA250:"#ff4d4f"};
+      if(CHART.ma)Object.entries(CHART.ma).forEach(([k,a])=>{x.beginPath();let st=false;
+        for(let i=0;i<n;i++){if(a[i]==null)continue;const xx=px(i),yy=py(a[i]);st?x.lineTo(xx,yy):(x.moveTo(xx,yy),st=true)}
+        x.strokeStyle=MC[k]||"#888";x.lineWidth=1.4;x.stroke()});
+      if(CHART.marks)CHART.marks.forEach(m=>{const xx=px(ri(m.date)),yy=py(m.price),buy=(m.type||'').startsWith('b'),col=buy?"#ff4d4f":"#16c784";
+        x.fillStyle=col;x.beginPath();x.arc(xx,yy,4,0,7);x.fill();
+        x.fillStyle="#fff";x.font="bold 11px -apple-system";x.textAlign="center";x.fillText(m.text||'',xx,buy?yy+18:yy-10)});
+      x.fillStyle="#5b6470";x.textAlign="center";x.font="11px JetBrains Mono";
+      const L=Math.min(6,n);for(let g=0;g<L;g++){const i=Math.round((n-1)*g/(L-1||1));x.fillText(CHART.dates[i],px(i),H-5)}
+    }
+    draw(); window.addEventListener('resize',draw);
+  }
+
+  /* === 数据注入 === */
+  const CHART_UNICOM = {"mode":"line","dates":["2006-08-01","2006-08-02","2006-08-03","2006-08-04","2006-08-07","2006-08-08","2006-08-09","2006-08-10","2006-08-11","2006-08-14","2006-08-15","2006-08-16","2006-08-17","2006-08-18","2006-08-21","2006-08-22","2006-08-23","2006-08-24","2006-08-25","2006-08-28","2006-08-29","2006-08-30","2006-08-31","2006-09-01","2006-09-04","2006-09-05","2006-09-06","2006-09-07","2006-09-08","2006-09-11","2006-09-12","2006-09-13","2006-09-14","2006-09-15","2006-09-18","2006-09-19","2006-09-20","2006-09-21","2006-09-22","2006-09-25","2006-09-26","2006-09-27","2006-09-28","2006-09-29","2006-10-09","2006-10-10","2006-10-11","2006-10-12","2006-10-13","2006-10-16","2006-10-17","2006-10-18","2006-10-19","2006-10-20","2006-10-23","2006-10-24","2006-10-25","2006-10-26","2006-10-27","2006-10-30","2006-10-31","2006-11-01","2006-11-02","2006-11-03","2006-11-06","2006-11-07","2006-11-08","2006-11-09","2006-11-10","2006-11-13","2006-11-14","2006-11-15","2006-11-16","2006-11-17","2006-11-20","2006-11-21","2006-11-22","2006-11-23","2006-11-24","2006-11-27","2006-11-28","2006-11-29","2006-11-30","2006-12-04","2006-12-05","2006-12-06","2006-12-07","2006-12-08","2006-12-11","2006-12-12","2006-12-13","2006-12-14","2006-12-15","2006-12-18","2006-12-19","2006-12-20","2006-12-21","2006-12-22","2006-12-25","2006-12-26","2006-12-27","2006-12-28","2006-12-29","2007-01-04","2007-01-05","2007-01-08","2007-01-09","2007-01-10","2007-01-11","2007-01-12","2007-01-15","2007-01-16","2007-01-17","2007-01-18","2007-01-19","2007-01-22","2007-01-23","2007-01-24","2007-01-25","2007-01-26","2007-01-29","2007-01-30","2007-01-31","2007-02-01","2007-02-02","2007-02-05","2007-02-06","2007-02-07","2007-02-08","2007-02-09","2007-02-12","2007-02-13","2007-02-14","2007-02-15","2007-02-16","2007-02-26","2007-02-27","2007-02-28","2007-03-01","2007-03-02","2007-03-05","2007-03-06","2007-03-07","2007-03-08","2007-03-09","2007-03-12","2007-03-13","2007-03-14","2007-03-15","2007-03-16","2007-03-19","2007-03-20","2007-03-21","2007-03-22","2007-03-23","2007-03-26","2007-03-27","2007-03-28","2007-03-29","2007-03-30","2007-04-02","2007-04-03","2007-04-04","2007-04-05","2007-04-06","2007-04-09","2007-04-10","2007-04-11","2007-04-12","2007-04-13","2007-04-16","2007-04-17","2007-04-18","2007-04-19","2007-04-20","2007-04-23","2007-04-24","2007-04-25","2007-04-26","2007-04-27","2007-04-30","2007-05-08","2007-05-09","2007-05-10","2007-05-14","2007-05-15","2007-05-16","2007-05-17","2007-05-18","2007-05-21","2007-05-22","2007-05-23","2007-05-24","2007-05-25","2007-05-28","2007-05-29","2007-05-30","2007-05-31","2007-06-01","2007-06-04","2007-06-05","2007-06-06","2007-06-07","2007-06-08","2007-06-11","2007-06-12","2007-06-13","2007-06-14","2007-06-15","2007-06-18","2007-06-19","2007-06-20","2007-06-21","2007-06-22","2007-06-25","2007-06-26","2007-06-27","2007-06-28","2007-06-29"],"o":[2.25,2.24,2.24,2.26,2.22,2.2,2.22,2.23,2.3,2.29,2.27,2.3,2.3,2.34,2.3,2.31,2.33,2.32,2.35,2.35,2.36,2.34,2.34,2.32,2.3,2.32,2.32,2.36,2.33,2.35,2.35,2.39,2.43,2.42,2.55,2.52,2.49,2.48,2.53,2.48,2.48,2.43,2.43,2.47,2.57,2.63,2.68,2.75,2.69,2.69,2.63,2.62,2.7,2.69,2.65,2.55,2.64,2.64,2.8,2.77,2.84,2.85,2.82,2.79,2.82,2.96,2.92,2.86,2.88,2.82,2.76,2.75,2.84,2.84,2.88,2.96,2.93,2.94,3.06,3.13,3.15,3.0,3.13,3.12,3.4,3.46,3.8,3.8,3.61,3.91,3.89,3.76,3.85,3.84,3.95,4.05,4.08,3.95,3.9,4.0,4.15,4.48,4.66,4.78,4.86,4.68,4.75,4.94,4.82,4.68,4.46,4.74,4.7,4.62,4.54,4.69,4.99,4.84,4.77,4.5,4.7,5.27,5.08,4.58,4.81,4.6,4.55,4.69,4.66,4.58,4.6,4.76,4.7,4.96,5.1,5.1,5.45,4.88,5.2,5.12,5.28,5.15,5.22,5.41,5.33,5.18,5.22,5.14,5.11,5.16,4.9,5.18,5.22,5.22,5.17,5.33,5.41,5.37,5.69,5.76,5.67,5.7,5.66,5.61,5.55,5.71,5.7,5.63,5.8,5.72,5.59,5.7,5.66,5.57,5.33,5.64,5.9,5.72,5.81,5.85,5.69,5.8,5.81,6.4,6.31,6.41,6.06,6.23,6.25,6.0,6.5,6.38,6.39,6.28,6.39,6.47,6.17,5.96,6.1,6.0,5.3,5.5,5.45,5.5,5.46,5.73,5.76,5.84,5.61,5.85,6.03,6.17,5.99,6.24,6.0,5.58,5.74,5.85,5.64],"h":[2.27,2.25,2.26,2.27,2.23,2.23,2.24,2.32,2.32,2.32,2.3,2.32,2.32,2.4,2.32,2.35,2.34,2.33,2.36,2.36,2.38,2.34,2.34,2.33,2.32,2.33,2.38,2.37,2.36,2.36,2.41,2.47,2.46,2.53,2.57,2.53,2.5,2.53,2.56,2.53,2.49,2.46,2.49,2.51,2.71,2.7,2.76,2.78,2.75,2.72,2.68,2.7,2.72,2.71,2.66,2.65,2.65,2.83,2.84,2.85,2.88,2.85,2.82,2.87,2.94,2.97,2.96,2.92,2.94,2.85,2.79,2.83,2.9,2.88,2.96,2.96,2.98,3.09,3.17,3.19,3.17,3.14,3.16,3.43,3.49,3.72,4.09,3.91,3.93,3.94,3.91,3.83,3.87,3.92,4.13,4.06,4.15,4.02,4.11,4.06,4.41,4.66,4.78,5.14,4.93,4.85,4.97,4.97,4.93,4.77,4.71,4.85,4.74,4.66,4.64,4.96,5.02,4.95,4.81,4.64,5.01,5.34,5.08,4.92,4.81,4.74,4.65,4.74,4.67,4.59,4.79,4.79,4.96,5.13,5.15,5.48,5.52,5.3,5.34,5.36,5.41,5.23,5.42,5.44,5.35,5.26,5.25,5.19,5.18,5.19,5.18,5.3,5.23,5.25,5.29,5.47,5.42,5.78,5.97,5.84,5.73,5.77,5.68,5.63,5.7,5.74,5.72,5.85,5.8,5.72,5.7,5.81,5.66,5.59,5.5,5.85,5.94,5.84,5.85,5.86,5.74,5.85,6.35,6.69,6.54,6.44,6.17,6.49,6.3,6.45,6.54,6.41,6.47,6.39,6.42,6.63,6.34,6.22,6.3,6.06,5.5,5.53,5.52,5.51,5.8,5.78,5.89,5.84,5.77,6.05,6.32,6.24,6.25,6.25,6.08,5.82,5.89,6.06,6.04],"l":[2.23,2.22,2.23,2.22,2.19,2.19,2.2,2.22,2.28,2.26,2.26,2.29,2.28,2.33,2.28,2.31,2.31,2.31,2.33,2.33,2.34,2.3,2.31,2.29,2.3,2.29,2.31,2.33,2.33,2.33,2.34,2.38,2.4,2.42,2.5,2.47,2.46,2.48,2.48,2.46,2.43,2.42,2.43,2.47,2.56,2.6,2.67,2.68,2.68,2.64,2.63,2.62,2.68,2.63,2.5,2.55,2.6,2.6,2.74,2.75,2.79,2.79,2.76,2.78,2.81,2.89,2.87,2.82,2.78,2.7,2.68,2.75,2.78,2.79,2.83,2.86,2.86,2.92,3.04,3.09,3.01,2.98,3.09,3.11,3.35,3.46,3.73,3.6,3.61,3.7,3.68,3.71,3.74,3.78,3.94,3.96,3.95,3.85,3.9,3.95,4.15,4.41,4.53,4.67,4.65,4.47,4.65,4.74,4.7,4.46,4.4,4.63,4.45,4.43,4.51,4.68,4.7,4.72,4.56,4.34,4.7,5.0,4.58,4.51,4.55,4.5,4.35,4.55,4.5,4.5,4.56,4.66,4.67,4.96,5.0,4.98,4.89,4.88,5.04,5.08,5.03,5.07,5.22,5.29,5.13,5.14,5.15,5.03,5.08,5.01,4.85,5.14,5.13,5.17,5.07,5.33,5.3,5.37,5.61,5.62,5.6,5.57,5.55,5.5,5.51,5.65,5.52,5.6,5.68,5.58,5.55,5.56,5.53,5.11,5.31,5.59,5.71,5.61,5.7,5.68,5.6,5.71,5.76,6.37,6.21,6.05,5.98,6.22,6.16,6.0,6.33,6.28,6.21,6.21,6.33,6.41,5.85,5.65,5.8,5.38,4.88,5.35,5.37,5.39,5.39,5.5,5.72,5.66,5.52,5.79,5.98,5.97,5.99,5.81,5.57,5.5,5.65,5.75,5.58],"c":[2.24,2.24,2.26,2.23,2.2,2.23,2.23,2.31,2.29,2.27,2.29,2.31,2.31,2.33,2.31,2.33,2.32,2.32,2.34,2.36,2.34,2.34,2.32,2.3,2.32,2.32,2.36,2.33,2.35,2.35,2.38,2.42,2.42,2.52,2.52,2.5,2.48,2.5,2.49,2.48,2.44,2.44,2.47,2.5,2.63,2.68,2.75,2.69,2.69,2.65,2.63,2.69,2.69,2.64,2.53,2.64,2.64,2.78,2.77,2.84,2.86,2.84,2.79,2.83,2.94,2.95,2.88,2.9,2.82,2.76,2.75,2.82,2.85,2.85,2.94,2.94,2.94,3.09,3.13,3.14,3.04,3.12,3.15,3.41,3.38,3.72,3.93,3.61,3.9,3.87,3.78,3.81,3.81,3.91,4.09,4.02,3.98,3.89,4.0,4.01,4.41,4.51,4.67,4.95,4.71,4.77,4.93,4.85,4.76,4.49,4.7,4.7,4.64,4.54,4.63,4.95,4.85,4.83,4.59,4.55,5.01,5.08,4.61,4.85,4.65,4.53,4.63,4.66,4.6,4.55,4.78,4.73,4.89,5.04,5.06,5.43,4.89,5.25,5.16,5.28,5.18,5.19,5.36,5.35,5.21,5.22,5.19,5.11,5.13,5.05,5.15,5.21,5.2,5.19,5.28,5.4,5.37,5.66,5.69,5.65,5.7,5.67,5.63,5.6,5.67,5.7,5.65,5.81,5.74,5.6,5.68,5.67,5.59,5.29,5.47,5.82,5.74,5.78,5.81,5.7,5.67,5.77,6.35,6.48,6.39,6.08,6.16,6.3,6.19,6.42,6.38,6.37,6.3,6.33,6.4,6.49,5.96,6.09,5.98,5.39,5.49,5.42,5.49,5.46,5.72,5.69,5.83,5.67,5.73,6.0,6.15,5.98,6.2,5.96,5.65,5.81,5.86,5.76,5.87],"v":[45589626,52564099,54416820,48406132,54248990,40234497,47004013,175694162,63084695,63716909,36713662,65176804,69349622,166081001,52544885,43315053,45726431,31859249,63923893,68916911,86694289,64289285,47925097,47183469,38358688,51321417,126950916,47217991,39443492,51289143,191818222,360856580,125335683,450785682,231485138,139164323,124034526,148037358,145052494,104873367,118515584,74745521,96675953,143678616,361229744,266055481,283763449,147918137,149649491,136708088,83512949,94797773,102198142,76470377,178850670,126055892,95201872,539365846,274877505,178585978,212034186,142365670,166152470,109621970,195666066,129392211,147477916,205582657,234019212,205470870,217009924,185398296,366543256,222910230,431438608,266800979,334403897,542331316,473785170,253831375,311575747,276609094,250272840,499027219,338431152,910996482,1146752505,657541263,433622009,537590287,413388017,302247747,265715233,423584414,618327403,307760207,353414964,304048192,354905987,305094535,749102944,673052018,627513419,819762805,598322462,501825359,431459834,428372841,397752700,381521936,343109981,343024724,385307283,318664091,349343503,606463558,459570968,422397874,383801868,395057646,673298418,852689464,620609878,484429064,321680377,252367138,452018545,371216498,232518382,186834796,352154761,254607702,389046242,409517691,430756893,537942838,687132705,610237071,456237397,485906824,492200370,256633973,493326188,281137135,353507576,215602557,211756825,280213556,254228644,287367972,353963689,336810458,208546717,328729717,404399828,531136308,366730583,907496754,722632310,275015710,285536490,353665615,302169143,293427820,364278530,422879907,358724249,555954585,428445091,459012479,352137424,407768524,435203366,557946992,403071752,828781612,545693271,461753907,399764698,383497541,322031134,473313773,1133567503,1024905061,515129171,476292201,350133428,408391390,311732254,557900314,544151656,329477749,451877469,384582448,455263930,519631933,694435852,506363961,479311967,465120827,450531711,255619035,326838037,279310463,471475396,352943305,360813875,269018281,239586586,468802176,428702557,304555333,347751276,304386414,249042126,180801884,182176526,251387876,313469941],"ma":{"MA20":[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,2.29,2.29,2.3,2.3,2.3,2.31,2.31,2.32,2.32,2.32,2.33,2.33,2.34,2.34,2.35,2.36,2.37,2.38,2.39,2.4,2.4,2.41,2.41,2.42,2.43,2.45,2.46,2.48,2.5,2.52,2.53,2.54,2.56,2.57,2.58,2.58,2.59,2.59,2.61,2.62,2.64,2.66,2.68,2.7,2.71,2.73,2.74,2.75,2.76,2.77,2.77,2.78,2.78,2.79,2.8,2.82,2.84,2.85,2.87,2.89,2.9,2.91,2.92,2.94,2.97,2.99,3.03,3.08,3.12,3.17,3.23,3.28,3.33,3.38,3.43,3.49,3.54,3.59,3.63,3.68,3.72,3.79,3.86,3.94,4.01,4.08,4.13,4.18,4.24,4.29,4.32,4.36,4.41,4.45,4.48,4.51,4.55,4.6,4.64,4.67,4.7,4.73,4.76,4.76,4.75,4.75,4.74,4.72,4.71,4.7,4.71,4.71,4.71,4.73,4.75,4.77,4.8,4.8,4.82,4.85,4.88,4.89,4.9,4.94,4.96,4.99,5.02,5.05,5.07,5.1,5.12,5.14,5.17,5.18,5.19,5.2,5.2,5.22,5.24,5.27,5.29,5.32,5.34,5.35,5.37,5.39,5.41,5.44,5.47,5.5,5.53,5.55,5.58,5.6,5.6,5.61,5.63,5.65,5.66,5.66,5.67,5.66,5.67,5.71,5.75,5.79,5.8,5.83,5.85,5.88,5.92,5.95,5.99,6.02,6.08,6.12,6.16,6.17,6.18,6.19,6.17,6.17,6.15,6.11,6.05,6.02,6.0,5.99,5.95,5.93,5.91,5.9,5.88,5.87,5.85,5.82,5.78,5.78,5.76,5.76],"MA60":[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,2.44,2.45,2.46,2.47,2.48,2.49,2.51,2.52,2.53,2.54,2.54,2.55,2.56,2.57,2.58,2.59,2.6,2.61,2.62,2.63,2.65,2.66,2.67,2.69,2.7,2.72,2.75,2.77,2.79,2.82,2.84,2.87,2.89,2.91,2.94,2.96,2.99,3.01,3.04,3.06,3.09,3.12,3.15,3.19,3.23,3.27,3.3,3.34,3.37,3.41,3.44,3.47,3.51,3.54,3.57,3.61,3.64,3.68,3.72,3.75,3.77,3.81,3.85,3.88,3.91,3.94,3.97,4.0,4.03,4.05,4.08,4.12,4.15,4.18,4.22,4.26,4.3,4.33,4.37,4.4,4.44,4.47,4.51,4.54,4.58,4.61,4.63,4.65,4.68,4.7,4.72,4.74,4.76,4.79,4.81,4.83,4.85,4.87,4.9,4.93,4.96,4.98,5.0,5.02,5.03,5.04,5.06,5.07,5.09,5.1,5.12,5.14,5.15,5.17,5.18,5.2,5.21,5.22,5.24,5.26,5.28,5.29,5.3,5.33,5.36,5.39,5.41,5.44,5.47,5.49,5.52,5.55,5.58,5.6,5.62,5.65,5.66,5.68,5.69,5.71,5.71,5.72,5.72,5.72,5.72,5.73,5.74,5.75,5.76,5.77,5.79,5.8,5.81,5.83,5.84,5.85,5.86,5.87,5.87,5.87]}};
+  CHART_UNICOM.marks = [
+    {date:"2006-08-07", price:2.19, type:"b", text:"底 2.19"},
+    {date:"2007-02-15", price:5.13, type:"s", text:"承诺 5 元"},
+    {date:"2007-05-10", price:6.69, type:"s", text:"高 6.69"}
+  ];
+  drawChanChart("cv_unicom", CHART_UNICOM);
+
+  const CHART_SZI = {"mode":"line","dates":["2006-12-01","2006-12-04","2006-12-05","2006-12-06","2006-12-07","2006-12-08","2006-12-11","2006-12-12","2006-12-13","2006-12-14","2006-12-15","2006-12-18","2006-12-19","2006-12-20","2006-12-21","2006-12-22","2006-12-25","2006-12-26","2006-12-27","2006-12-28","2006-12-29","2007-01-04","2007-01-05","2007-01-08","2007-01-09","2007-01-10","2007-01-11","2007-01-12","2007-01-15","2007-01-16","2007-01-17","2007-01-18","2007-01-19","2007-01-22","2007-01-23","2007-01-24","2007-01-25","2007-01-26","2007-01-29","2007-01-30","2007-01-31","2007-02-01","2007-02-02","2007-02-05","2007-02-06","2007-02-07","2007-02-08","2007-02-09","2007-02-12","2007-02-13","2007-02-14","2007-02-15","2007-02-16","2007-02-26","2007-02-27","2007-02-28","2007-03-01","2007-03-02","2007-03-05","2007-03-06","2007-03-07","2007-03-08","2007-03-09","2007-03-12","2007-03-13","2007-03-14","2007-03-15","2007-03-16","2007-03-19","2007-03-20","2007-03-21","2007-03-22","2007-03-23","2007-03-26","2007-03-27","2007-03-28","2007-03-29","2007-03-30","2007-04-02","2007-04-03","2007-04-04","2007-04-05","2007-04-06","2007-04-09","2007-04-10","2007-04-11","2007-04-12","2007-04-13","2007-04-16","2007-04-17","2007-04-18","2007-04-19","2007-04-20","2007-04-23","2007-04-24","2007-04-25","2007-04-26","2007-04-27","2007-04-30","2007-05-08","2007-05-09","2007-05-10","2007-05-11","2007-05-14","2007-05-15","2007-05-16","2007-05-17","2007-05-18","2007-05-21","2007-05-22","2007-05-23","2007-05-24","2007-05-25","2007-05-28","2007-05-29","2007-05-30","2007-05-31","2007-06-01","2007-06-04","2007-06-05","2007-06-06","2007-06-07","2007-06-08","2007-06-11","2007-06-12","2007-06-13","2007-06-14","2007-06-15","2007-06-18","2007-06-19","2007-06-20","2007-06-21","2007-06-22","2007-06-25","2007-06-26","2007-06-27","2007-06-28","2007-06-29"],"o":[2106.3,2103.82,2167.36,2175.38,2152.59,2133.36,2085.06,2189.69,2224.43,2226.0,2255.24,2277.28,2342.18,2356.26,2372.46,2334.27,2350.13,2437.85,2478.06,2538.95,2585.42,2728.19,2668.58,2621.07,2711.05,2838.11,2819.37,2745.32,2660.07,2818.66,2828.4,2760.94,2761.89,2857.9,2964.69,2955.42,2946.5,2805.96,2897.25,2959.4,2926.07,2744.81,2791.49,2658.07,2612.84,2688.96,2725.14,2741.48,2729.84,2819.14,2836.82,2923.67,3018.18,2999.09,3048.83,2734.59,2877.2,2792.94,2827.68,2776.17,2851.75,2904.18,2934.49,2945.92,2958.1,2933.68,2905.98,2964.09,2864.26,3024.78,3042.1,3080.6,3071.81,3083.94,3126.03,3140.68,3179.8,3178.5,3196.59,3265.68,3295.98,3286.16,3287.68,3333.42,3405.23,3454.42,3503.23,3537.22,3523.22,3611.63,3614.68,3610.02,3460.9,3615.79,3736.15,3708.57,3766.48,3788.75,3784.27,3937.94,3961.1,4021.42,4024.42,3970.66,4055.83,3890.81,4002.49,4041.39,3902.35,4091.14,4125.43,4188.68,4133.19,4221.58,4288.98,4087.41,4006.28,4120.63,3981.82,3564.43,3781.38,3787.7,3900.03,3942.01,4011.68,4110.74,4162.21,4085.66,4195.39,4247.74,4269.45,4170.89,4230.97,4102.79,3863.25,3985.72,4080.19,3824.29],"h":[2112.58,2164.59,2195.53,2192.9,2206.51,2164.02,2181.16,2228.64,2244.41,2250.32,2275.49,2335.23,2381.63,2381.13,2386.82,2366.69,2452.43,2505.7,2538.66,2611.79,2698.9,2847.61,2685.8,2708.44,2809.39,2841.74,2841.18,2782.03,2795.33,2830.8,2870.42,2784.04,2833.45,2934.65,2970.68,2994.28,2947.15,2905.98,2954.34,2980.51,2929.65,2801.69,2796.44,2672.35,2677.04,2745.39,2751.16,2747.94,2807.51,2835.09,2915.06,2994.62,3036.35,3041.34,3049.77,2888.9,2878.36,2846.16,2858.44,2866.33,2911.42,2928.8,2962.42,2958.63,2966.19,2934.45,2955.46,2979.71,3038.0,3033.02,3057.71,3099.82,3085.32,3123.18,3145.04,3180.33,3273.73,3212.39,3253.43,3292.58,3308.15,3326.92,3334.22,3399.51,3444.37,3497.52,3532.86,3563.86,3597.22,3622.89,3623.87,3617.44,3591.46,3710.89,3762.39,3769.25,3784.68,3802.92,3851.35,3964.71,4015.22,4072.14,4039.67,4081.43,4069.85,3987.41,4064.28,4052.1,4083.42,4136.63,4175.44,4208.39,4190.47,4283.93,4335.96,4275.24,4178.11,4181.28,3987.27,3768.56,3821.7,3891.4,3935.79,4000.42,4073.18,4193.45,4179.73,4152.54,4267.74,4280.85,4312.0,4256.54,4249.43,4131.13,3976.19,4090.72,4113.28,3919.34],"l":[2087.6,2100.56,2159.32,2097.42,2145.79,2090.4,2084.27,2180.37,2195.64,2212.91,2241.2,2277.28,2315.99,2332.93,2339.91,2321.92,2350.13,2424.94,2461.07,2530.33,2585.42,2684.82,2617.02,2620.62,2691.36,2770.99,2763.89,2652.58,2658.88,2757.2,2742.59,2679.7,2761.89,2857.9,2851.92,2927.72,2853.82,2720.83,2885.86,2901.76,2766.75,2706.29,2666.86,2610.33,2541.53,2681.33,2691.27,2704.36,2728.78,2801.31,2823.38,2923.67,2975.83,2960.74,2763.39,2732.88,2760.91,2777.8,2723.07,2756.96,2849.65,2871.46,2891.81,2904.74,2932.23,2868.81,2905.98,2899.03,2852.86,2998.8,3020.95,3059.38,3008.15,3069.47,3103.78,3052.08,3176.53,3157.03,3196.59,3251.52,3266.56,3259.63,3273.86,3333.26,3351.11,3428.78,3488.08,3504.16,3523.22,3510.5,3564.23,3358.93,3460.9,3615.79,3689.13,3653.99,3732.6,3720.6,3759.48,3901.33,3875.38,3991.48,3949.37,3940.36,3891.36,3845.23,3982.99,3999.16,3892.97,4086.82,4093.91,4089.39,4111.26,4215.24,4262.02,4015.51,3858.04,3966.98,3659.09,3404.15,3682.79,3779.5,3852.05,3930.74,3910.0,4102.04,4085.78,4067.36,4193.31,4209.57,4164.27,4147.05,4024.49,3912.42,3818.85,3948.29,3912.81,3779.81],"c":[2102.05,2161.65,2173.28,2156.6,2156.75,2093.64,2180.5,2218.95,2223.45,2249.11,2273.91,2332.43,2364.18,2373.2,2342.94,2343.67,2435.76,2479.73,2536.39,2567.59,2675.47,2715.72,2641.33,2707.2,2807.8,2825.58,2770.11,2668.11,2794.7,2821.02,2778.9,2756.98,2832.21,2933.19,2949.14,2975.13,2857.36,2882.56,2945.26,2930.56,2786.34,2785.43,2673.21,2612.54,2675.7,2716.18,2737.73,2730.39,2807.17,2831.87,2905.09,2993.01,2998.47,3040.6,2771.79,2881.07,2797.19,2831.53,2785.31,2840.18,2896.59,2928.01,2937.91,2954.91,2964.79,2906.33,2951.7,2930.48,3014.44,3032.2,3057.38,3071.22,3074.29,3122.81,3138.83,3173.02,3197.54,3183.98,3252.59,3291.3,3291.54,3319.14,3323.59,3398.95,3444.29,3495.22,3531.03,3518.27,3596.44,3611.87,3612.4,3449.02,3584.2,3710.89,3720.53,3743.96,3783.06,3759.87,3841.27,3950.01,4013.09,4049.7,4021.68,4046.39,3899.18,3986.04,4048.29,4030.26,4072.22,4110.38,4173.71,4151.13,4179.78,4272.11,4334.92,4053.09,4109.65,4000.74,3670.4,3767.1,3776.32,3890.8,3913.14,3995.68,4072.14,4176.48,4115.21,4132.87,4253.35,4269.52,4181.32,4230.82,4091.45,3941.08,3973.37,4078.6,3914.2,3820.7],"v":[7617896400,8723279000,8815717100,10434780700,9927876600,8088971900,6267601700,7019177600,5749274900,5843932000,6061194900,7825219300,8705492800,7829893500,8318255100,7048462000,7393945000,7226149200,7211821800,7871894100,8676901200,12015602100,10615562500,10681324400,11075126700,11176936500,12159871700,10730376800,9176156100,11117857400,12737748000,11231395600,12206189400,13857609000,14279180300,12205679000,11719721500,10959913100,11206790600,11193172100,11426597000,9344353100,8544623600,6922451200,8662995000,9488376400,8843429500,8087443800,7900940300,7900167100,9404455500,10883117700,11792172200,11205699200,16137566300,12147916800,12736486000,9394396500,10691058400,7704048600,8791393000,8895512300,10713910500,10154244400,10718931600,11373073900,10174575400,12268130800,10997175200,9276189000,9919012700,12606554500,11868641700,12266053700,12457893100,16726793900,14953966100,8942400600,9735044600,10860139100,11261610700,11452805100,11964488100,13731410400,14780728400,14757211400,13538987900,15069587600,13103910100,16066064600,15048542400,17272554100,13888929200,16349811600,17438934100,15176306100,11725696800,13217545600,14652571300,16056820000,20839744900,17111394000,14063821000,13932622100,15667755300,13171977400,13927798800,13075627400,15617106200,17356209000,16139947800,18098438800,15419286000,17861517400,17209764200,18559672900,17311531200,16093498500,11485935700,15713795900,14587385200,14236647500,13587719200,13384273900,14947239800,16694849900,13838560400,10866553200,12897774800,12458181400,13521277500,11291985600,11969203700,10160665500,9381746900,9511348100,9783161000,8609998500],"ma":{"MA20":[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,2288.29,2316.96,2344.66,2368.07,2395.6,2428.15,2464.75,2494.23,2516.68,2545.25,2573.84,2599.09,2620.32,2643.72,2671.72,2702.03,2733.6,2754.68,2774.83,2795.27,2813.42,2818.96,2822.45,2824.04,2819.31,2812.7,2807.23,2805.61,2808.73,2809.35,2809.89,2816.2,2828.0,2836.32,2841.69,2832.82,2828.12,2825.11,2822.56,2814.56,2810.04,2815.55,2822.68,2835.92,2853.04,2867.49,2877.0,2887.7,2897.7,2908.06,2918.08,2925.69,2929.61,2933.4,2937.51,2955.86,2970.46,2990.47,3008.1,3031.46,3054.02,3073.76,3093.32,3112.6,3134.81,3158.78,3188.23,3217.19,3246.58,3275.68,3304.66,3332.42,3351.31,3376.8,3406.2,3435.29,3463.84,3493.11,3521.91,3551.34,3584.28,3620.35,3656.88,3691.79,3724.16,3746.9,3771.44,3797.31,3822.91,3846.7,3871.62,3899.69,3934.79,3964.57,3992.63,4023.35,4038.81,4055.14,4067.18,4058.64,4049.49,4037.66,4029.71,4024.28,4021.75,4030.4,4039.92,4043.26,4048.39,4057.45,4065.41,4065.79,4069.77,4065.36,4048.8,4030.73,4032.0,4022.23,4013.23],"MA60":[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,2637.25,2650.49,2663.26,2676.01,2689.31,2702.78,2716.33,2729.18,2741.04,2754.22,2767.27,2780.33,2792.64,2804.48,2816.97,2830.24,2844.06,2856.76,2868.49,2880.43,2892.49,2902.76,2912.82,2924.19,2935.72,2946.32,2957.48,2970.17,2984.34,2997.7,3010.88,3024.77,3036.3,3048.84,3061.8,3074.66,3087.47,3102.9,3117.52,3132.45,3149.44,3169.89,3190.96,3213.44,3237.33,3257.72,3278.89,3300.73,3322.4,3343.48,3364.79,3385.93,3405.23,3424.92,3445.45,3471.5,3491.03,3512.91,3532.4,3547.15,3562.6,3577.26,3593.3,3609.56,3626.9,3645.36,3666.53,3685.92,3705.96,3726.61,3747.23,3765.96,3785.29,3802.24,3815.88,3829.79,3844.88,3856.83,3867.44]}};
+  CHART_SZI.marks = [
+    {date:"2007-02-16", price:3036.35, type:"s", text:"破 3000"},
+    {date:"2007-02-27", price:2763.39, type:"b", text:"2.27 暴跌"}
+  ];
+  drawChanChart("cv_szi", CHART_SZI);
+</script>
+<script src="/assets/_nav.js"></script><script src="/assets/_shell.js"></script></body>
+</html>

@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>缠论 · 教你炒股票79：分型的辅助操作与一些问题的再解答</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@500;700;900&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0b0e12;
+    --bg-elev:#12161c;
+    --bg-card:#161b22;
+    --ink:#e8eaed;
+    --ink-dim:#9aa3ad;
+    --ink-faint:#5b6470;
+    --line:rgba(255,255,255,.07);
+    --up:#ff4d4f;
+    --down:#16c784;
+    --pivot:#37c0e6;
+    --gold:#e8b339;
+    --max:880px;
+    --serif:"Noto Serif SC",serif;
+    --mono:"JetBrains Mono",ui-monospace,monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--bg);color:var(--ink);
+    font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;
+    line-height:1.85;font-size:17px;
+    -webkit-font-smoothing:antialiased;overflow-x:hidden;
+  }
+  body::before{
+    content:"";position:fixed;inset:0;z-index:-2;
+    background:
+      radial-gradient(1200px 600px at 70% -10%, rgba(55,192,230,.08), transparent 60%),
+      radial-gradient(900px 500px at 0% 100%, rgba(232,179,57,.05), transparent 55%);
+    pointer-events:none;
+  }
+  body::after{
+    content:"";position:fixed;inset:0;z-index:-1;opacity:.4;
+    background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);
+    background-size:46px 46px;
+    -webkit-mask-image:radial-gradient(ellipse at 50% 0%, #000 30%, transparent 80%);
+            mask-image:radial-gradient(ellipse at 50% 0%, #000 30%, transparent 80%);
+    pointer-events:none;
+  }
+  #bar{position:fixed;top:0;left:0;height:3px;width:0;z-index:50;
+    background:linear-gradient(90deg,var(--pivot),var(--gold));box-shadow:0 0 12px var(--pivot);}
+  .wrap{max-width:var(--max);margin:0 auto;padding:0 24px}
+
+  header.hero{padding:120px 0 70px;text-align:center;position:relative}
+  .kicker{font-family:var(--mono);font-size:13px;letter-spacing:.32em;color:var(--pivot);
+    text-transform:uppercase;margin-bottom:26px}
+  .kicker span{color:var(--ink-faint)}
+  h1.title{font-family:var(--serif);font-weight:900;line-height:1.05;
+    font-size:clamp(40px,9vw,88px);letter-spacing:.04em;
+    background:linear-gradient(180deg,#fff 30%,#8aa0ad 130%);
+    -webkit-background-clip:text;background-clip:text;color:transparent;}
+  .sub{margin:22px auto 0;max-width:580px;color:var(--ink-dim);font-size:18px}
+  .meta{margin-top:34px;display:flex;gap:14px;justify-content:center;flex-wrap:wrap;
+    font-family:var(--mono);font-size:12px;color:var(--ink-faint)}
+  .meta b{color:var(--ink-dim);font-weight:500}
+  .pill{border:1px solid var(--line);padding:6px 14px;border-radius:999px;background:rgba(255,255,255,.02)}
+  .scroll-hint{margin-top:60px;color:var(--ink-faint);font-family:var(--mono);font-size:12px;
+    animation:bob 2.4s ease-in-out infinite}
+  @keyframes bob{0%,100%{transform:translateY(0);opacity:.5}50%{transform:translateY(8px);opacity:1}}
+
+  section{padding:64px 0;border-top:1px solid var(--line)}
+  .sec-no{font-family:var(--mono);font-size:13px;color:var(--gold);letter-spacing:.2em;margin-bottom:10px}
+  h2{font-family:var(--serif);font-weight:700;font-size:clamp(26px,4.6vw,38px);
+    line-height:1.25;margin-bottom:8px;letter-spacing:.02em}
+  .lead{color:var(--ink-dim);font-size:16px;margin-bottom:28px;max-width:640px}
+  p{margin:0 0 18px;color:#cfd5dc}
+  p b,strong{color:#fff;font-weight:700}
+  .hl-pivot{color:var(--pivot);font-weight:700}
+  .hl-up{color:var(--up);font-weight:700}
+  .hl-down{color:var(--down);font-weight:700}
+  .hl-gold{color:var(--gold);font-weight:700}
+
+  blockquote{margin:26px 0;padding:20px 24px;border-left:3px solid var(--pivot);
+    background:linear-gradient(90deg,rgba(55,192,230,.07),transparent);
+    border-radius:0 10px 10px 0;font-family:var(--serif);font-size:18px;color:#eaf6fb}
+  blockquote .who{display:block;margin-top:8px;font-family:var(--mono);font-size:12px;
+    color:var(--ink-faint);font-style:normal}
+
+  figure{margin:30px 0}
+  figure img{width:100%;border-radius:12px;border:1px solid var(--line);
+    background:#fff;box-shadow:0 18px 50px rgba(0,0,0,.5)}
+  figcaption{margin-top:12px;font-size:13px;color:var(--ink-faint);text-align:center;font-family:var(--mono)}
+
+  .grid{display:grid;gap:16px;grid-template-columns:1fr 1fr;margin:28px 0}
+  @media(max-width:640px){.grid{grid-template-columns:1fr}}
+  .card{background:var(--bg-card);border:1px solid var(--line);border-radius:14px;padding:22px;
+    position:relative;overflow:hidden;transition:transform .35s ease,border-color .35s ease}
+  .card:hover{transform:translateY(-4px);border-color:rgba(55,192,230,.4)}
+  .card .tag{font-family:var(--mono);font-size:11px;letter-spacing:.18em;color:var(--gold);text-transform:uppercase}
+  .card h3{font-family:var(--serif);font-size:20px;margin:10px 0 8px;color:#fff}
+  .card p{font-size:15px;color:var(--ink-dim);margin:0}
+
+  /* 操作步骤 */
+  .steps{margin:24px 0;display:flex;flex-direction:column;gap:12px}
+  .step{display:flex;gap:16px;align-items:flex-start;background:var(--bg-card);
+    border:1px solid var(--line);border-radius:12px;padding:16px 18px}
+  .step .n{flex:none;width:34px;height:34px;border-radius:8px;display:grid;place-items:center;
+    font-family:var(--mono);font-weight:700;font-size:14px;color:#0b0e12;background:var(--pivot)}
+  .step h4{font-size:16px;margin-bottom:4px;color:#fff}
+  .step p{font-size:14.5px;color:var(--ink-dim);margin:0}
+
+  /* 对照表 */
+  .table{margin:28px 0;border:1px solid var(--line);border-radius:14px;overflow:hidden}
+  .table .row{display:grid;grid-template-columns:1fr 1.4fr 1.4fr;align-items:stretch}
+  .table .row+.row{border-top:1px solid var(--line)}
+  .table .row > div{padding:14px 16px}
+  .table .row.head{background:var(--bg-elev);font-family:var(--mono);font-size:12px;
+    letter-spacing:.14em;color:var(--ink-faint);text-transform:uppercase}
+  .table .row > div+div{border-left:1px solid var(--line)}
+  .table .name{font-family:var(--serif);font-weight:700;font-size:17px}
+  .cnt{font-family:var(--mono);font-size:14px;color:var(--pivot)}
+  @media(max-width:560px){
+    .table .row{grid-template-columns:1fr}
+    .table .row > div+div{border-left:0;border-top:1px solid var(--line)}
+    .table .row.head{display:none}
+  }
+
+  /* 警示框 */
+  .warn{margin:24px 0;padding:18px 22px;border:1px solid rgba(232,179,57,.3);border-radius:12px;
+    background:linear-gradient(90deg,rgba(232,179,57,.06),transparent);font-size:15px;color:#f1e7ce}
+  .warn b{color:var(--gold)}
+
+  .tldr{margin:60px 0 0;padding:36px 30px;border:1px solid rgba(55,192,230,.3);border-radius:18px;
+    background:radial-gradient(120% 120% at 100% 0%,rgba(55,192,230,.1),transparent 60%),var(--bg-elev);text-align:center}
+  .tldr .lab{font-family:var(--mono);font-size:12px;letter-spacing:.3em;color:var(--pivot);text-transform:uppercase}
+  .tldr p{font-family:var(--serif);font-size:clamp(18px,3vw,24px);line-height:1.7;color:#fff;margin:16px 0 0}
+
+  footer{padding:60px 0 90px;text-align:center;color:var(--ink-faint);font-family:var(--mono);font-size:12px;border-top:1px solid var(--line)}
+
+  .reveal{opacity:0;transform:translateY(26px);transition:opacity .8s ease,transform .8s ease}
+  .reveal.in{opacity:1;transform:none}
+  @media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}.scroll-hint{animation:none}}
+</style>
+<meta name="view-transition" content="same-origin"><style>@view-transition{navigation:auto}</style></head>
+<body>
+<div id="bar"></div>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="kicker">缠中说禅 · 教你炒股票108课 <span>/ 第 79 课</span></div>
+    <h1 class="title">分型的辅助操作答疑</h1>
+    <p class="sub">把"分型"从识图工具升级为实战利刃——结合小级别买卖点，做T降本、止盈避险都靠它。</p>
+    <div class="meta">
+      <span class="pill"><b>原文</b> 2007-09-10</span>
+      <span class="pill"><b>类型</b> 实战操作</span>
+      <span class="pill"><b>关键词</b> 分型 · 第三类买卖点 · 5日线 · 盘整背驰</span>
+    </div>
+    <div class="scroll-hint">↓ 向下滚动，逐层拆解</div>
+  </div>
+</header>
+
+<main>
+  <!-- 1 -->
+  <section class="wrap reveal">
+    <div class="sec-no">01 — 答疑前置</div>
+    <h2>不要把理论当万能宝贝</h2>
+    <p class="lead">缠师在课首先泼一盆冷水——任何理论都只是合力中的一个因素。</p>
+    <p>用同一套理论操作，最终结果取决于三件事：<b>① 理论本身、② 你对理论的把握程度、③ 你的资金规模与操作时间</b>。三者合力，才是真实的盈亏。</p>
+    <blockquote>
+      世界上的一切事情，都是各种因素和合而生，没有任何是主宰，是唯一的决定力量。
+      <span class="who">— 缠中说禅</span>
+    </blockquote>
+    <p>第二条因人而异无法分析，第三条<span class="hl-pivot">资金量与时间</span>可以做分类——这就是接下来六类玩家的来由。</p>
+  </section>
+
+  <!-- 2 -->
+  <section class="wrap reveal">
+    <div class="sec-no">02 — 六类玩家</div>
+    <h2>资金量决定操作方式</h2>
+    <p class="lead">从最忙的散户到全局战争，每一级有对应打法。</p>
+    <div class="grid">
+      <div class="card">
+        <div class="tag">Level 1 · 没时间</div>
+        <h3>定投指数 + 成长基金</h3>
+        <p>60% 指数基金 + 40% 高成长股基金，按月定投，吃市场平均。</p>
+      </div>
+      <div class="card">
+        <div class="tag">Level 2 · 有时间散户</div>
+        <h3>第三类买点买卖法</h3>
+        <p>选定 30 分钟 / 5 分钟 / 日线一个级别，只介入<span class="hl-pivot">第一中枢</span>的三买。</p>
+      </div>
+      <div class="card">
+        <div class="tag">Level 3 · 大散户</div>
+        <h3>附骨抽髓震荡降本</h3>
+        <p>对基本面好的票，在各级别中枢震荡里来回做，降成本加筹码。</p>
+      </div>
+      <div class="card">
+        <div class="tag">Level 4 · 猎手</div>
+        <h3>选定目标猎杀</h3>
+        <p>资金庞大后吃大鱼，对特定标的进行猎杀式攻击。</p>
+      </div>
+      <div class="card">
+        <div class="tag">Level 5 · 战役</div>
+        <h3>板块级围歼</h3>
+        <p>对一个或多个板块、原潜伏大鳄做围歼式攻击。</p>
+      </div>
+      <div class="card">
+        <div class="tag">Level 6 · 战争</div>
+        <h3>全局金融战争</h3>
+        <p>已不只是市场问题——市场只是更大金融战争的一部分。</p>
+      </div>
+    </div>
+    <p>本课主要讲 Level 2 的具体动作——<b>第三类买点买卖法</b>，下面是骨架。</p>
+  </section>
+
+  <!-- 3 -->
+  <section class="wrap reveal">
+    <div class="sec-no">03 — 第三买卖法</div>
+    <h2>有时间散户的标准动作</h2>
+    <p class="lead">六个步骤，把"等三买—持有—走背驰"做成机械流程。</p>
+    <div class="steps">
+      <div class="step"><div class="n">1</div><div><h4>选定级别</h4><p>30 分钟 / 5 分钟 / 日线，<b>只选一个</b>足够大的去反应，目标少不乱。</p></div></div>
+      <div class="step"><div class="n">2</div><div><h4>只买三买</h4><p>该级别出现<span class="hl-pivot">第三类买点</span>的股票才介入，其余一概不碰。</p></div></div>
+      <div class="step"><div class="n">3</div><div><h4>立刻止盈</h4><p>买入后，新次级别<b>不能新高</b>或出现<span class="hl-gold">盘整背驰</span>——坚决卖。</p></div></div>
+      <div class="step"><div class="n">4</div><div><h4>中枢上移</h4><p>若没触发 3，就是进入新一轮中枢上移；走完出现背驰，<b>至少卖一半</b>，再用次级别下/上来减仓。</p></div></div>
+      <div class="step"><div class="n">5</div><div><h4>只吃第一中枢</h4><p>只介入<b>第一个中枢</b>的三买。第二个中枢后大级别中枢概率急增，性价比降低。</p></div></div>
+      <div class="step"><div class="n">6</div><div><h4>不动感情</h4><p>所有股票只是烂纸。走了就走了，下一个还会有——"天涯何处无芳草"。</p></div></div>
+    </div>
+    <div class="warn"><b>最狠版本：</b>对背驰判断特别有把握的人，一旦上移出现背驰<b>全走</b>，时间利用率最高。半桶水别学。</div>
+  </section>
+
+  <!-- 4 -->
+  <section class="wrap reveal">
+    <div class="sec-no">04 — 线段辨析</div>
+    <h2>两张图分辨：线段是否被破坏</h2>
+    <p class="lead">课中给的两张示意图，关键看<b>特征序列</b>与<b>笔的破坏类型</b>。</p>
+    <figure>
+      <img src="/_assets/ch79_p01.png" alt="两个线段辨析示意图">
+      <figcaption>线段辨析示意：左图—三线段成立 / 右图—未完成需再看两笔</figcaption>
+    </figure>
+    <p>两图都满足：3-4 是<span class="hl-pivot">第一种类型笔突破</span>，后面延伸出标准特征序列分型；其中 4-5、5-6 可做包含合并为 3-6 区间，于是 7-8 与 1-2、3-6 构成<b>底分型</b>——线段一被破坏，两图都至少 2 个线段。</p>
+    <div class="grid">
+      <div class="card">
+        <div class="tag">上图 · 已完成</div>
+        <h3>三线段</h3>
+        <p>8-9 是第一种笔破坏，后面延伸出特征序列分型，第二线段也被破坏。</p>
+      </div>
+      <div class="card">
+        <div class="tag">下图 · 未完成</div>
+        <h3>需再看两笔</h3>
+        <p>9-10 与 7-8 是包含关系，线段二延伸到 10；10-11 只一笔，必须再看两笔确认。若 9 跌破 7 且 10 不变，则为三线段。</p>
+      </div>
+    </div>
+    <blockquote>
+      线段的划分其实一点不难，关键<b>从概念出发</b>就可以。
+      <span class="who">— 缠师</span>
+    </blockquote>
+  </section>
+
+  <!-- 5 -->
+  <section class="wrap reveal">
+    <div class="sec-no">05 — 分型辅助实战</div>
+    <h2>顶分型 + 5 日线 + 小级别</h2>
+    <p class="lead">本课最核心的操作：用日/周线分型当扳机，用 5 日线判力度，用小级别精准下手。</p>
+    <p><b>前提：</b>分型至少用日线以上 K 线，30 分钟亦可；分钟级别太快，准确率有限。</p>
+
+    <figure>
+      <img src="/_assets/ch79_p02.png" alt="000778 日线顶分型">
+      <figcaption>000778（2007-08-27）日线 · 高开未破前一天高位 = 典型顶分型</figcaption>
+    </figure>
+    <figure>
+      <img src="/_assets/ch79_p03.png" alt="600139 周线顶分型">
+      <figcaption>600139 · 9 月 7 日所在周高开未破前一周高位 = 周线顶分型</figcaption>
+    </figure>
+    <figure>
+      <img src="/_assets/ch79_p04.png" alt="600737 包含关系后顶分型">
+      <figcaption>600737 · 9/4·5·6 三天包含关系，9/7 破包含且未创 14.28 新高 = 顶分型</figcaption>
+    </figure>
+
+    <h3 style="font-family:var(--serif);margin-top:32px;color:#fff;font-size:22px">关键判别：5 日线是分水岭</h3>
+    <div class="table">
+      <div class="row head"><div>顶分型后</div><div>性质</div><div>操作</div></div>
+      <div class="row">
+        <div class="name"><span class="hl-down">有效跌破 5 日线</span></div>
+        <div>没大戏，至少走出向下笔，时间换空间折腾</div>
+        <div>坚决出，等均线吻合再看</div>
+      </div>
+      <div class="row">
+        <div class="name"><span class="hl-up">未有效跌破 5 日线</span></div>
+        <div>多数是<b>中继</b>，盘整后继续上攻</div>
+        <div>假突破后回补</div>
+      </div>
+    </div>
+    <figure>
+      <img src="/_assets/ch79_p05.png" alt="000802 顶分型后跌破5日线">
+      <figcaption>000802（2007-08-09）顶分型 · 跌破 5 日线后多日折腾，均线吻合才再启动</figcaption>
+    </figure>
+    <figure>
+      <img src="/_assets/ch79_p06.png" alt="000938 顶分型后假突破5日线">
+      <figcaption>000938（2007-09-04）顶分型 · 假跌破 5 日线后继续上攻——典型中继</figcaption>
+    </figure>
+  </section>
+
+  <!-- 6 -->
+  <section class="wrap reveal">
+    <div class="sec-no">06 — 综合应用与陷阱</div>
+    <h2>当天冲高就动手，不等收盘</h2>
+    <p class="lead">利用分型操作的精髓——不需要等分型全部走完，提前用小级别确认即可下手。</p>
+    <figure>
+      <img src="/_assets/ch79_p07.png" alt="第二卖点后小级别盘整背驰示意">
+      <figcaption>第二卖点后次级别跌破 + 盘整背驰 = 调整有限</figcaption>
+    </figure>
+    <figure>
+      <img src="/_assets/ch79_p08.png" alt="第二卖点后非盘整背驰调整较大">
+      <figcaption>第二卖点后次级别跌破 ≠ 盘整背驰 = 调整力度大，须破 5 日线</figcaption>
+    </figure>
+    <p>以 000938 为例：9/4 冲高时一看在前高下形成<span class="hl-gold">小级别卖点</span>，不等收盘就出，下来形成顶分型，跌破 5 日线后等小级别<b>盘整背驰</b>回补，9/5 顺势走出 —— 等于打了 10%+ 的短差。</p>
+    <figure>
+      <img src="/_assets/ch79_p09.png" alt="600008 综合实例">
+      <figcaption>600008 · 8/8 顶分型破 5 日线后调整；9/3 顶分型未破 5 日线 → 次日盘整背驰回补</figcaption>
+    </figure>
+
+    <div class="warn">
+      <b>两个操作难点</b><br>
+      ① 必须配合<b>小级别第二买卖点</b>，否则只看"今天没破前一天高位"效果不好。<br>
+      ② 用好<b>盘整背驰</b>：非盘整背驰一定要等背驰出现才回补，否则容易回补过早。
+    </div>
+    <blockquote>
+      大级别分型与小级别第一、二买卖点<b>不是绝对对应</b>：有前者一定有后者，有后者不一定有前者——分型只是<span class="hl-gold">辅助</span>。
+      <span class="who">— 缠师强调</span>
+    </blockquote>
+    <figure>
+      <img src="/_assets/ch79_p10.png" alt="2007-09-11 大盘下跌后续判断">
+      <figcaption>9/11 大盘下跌实例 · 5265 点不破则第三类卖点成立，将至少扩张成 30 分钟中枢</figcaption>
+    </figure>
+
+    <div class="tldr">
+      <div class="lab">一句话总结</div>
+      <p>分型不是用来"看"的，是用来"做"的——日/周线顶分型出现时，结合<b>5 日线</b>判力度、配合<b>小级别第二买卖点</b>和<b>盘整背驰</b>，当天冲高就能出，回调到位就能回补，做出 10%+ 的高效短差。</p>
+    </div>
+  </section>
+</main>
+
+<footer class="wrap">
+  原文出处：raw/缠中说禅/教你炒股票108课/教你炒股票79：分型的辅助操作与一些问题的再解答.md<br>
+  本页为个人学习复习用 · 非投资建议
+</footer>
+
+<script>
+  const bar=document.getElementById('bar');
+  const onScroll=()=>{
+    const h=document.documentElement;
+    const p=h.scrollTop/(h.scrollHeight-h.clientHeight);
+    bar.style.width=(p*100)+'%';
+  };
+  document.addEventListener('scroll',onScroll,{passive:true});onScroll();
+  const io=new IntersectionObserver((es)=>{
+    es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});
+  },{threshold:.12});
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+</script>
+<script src="/assets/_nav.js"></script><script src="/assets/_shell.js"></script></body>
+</html>

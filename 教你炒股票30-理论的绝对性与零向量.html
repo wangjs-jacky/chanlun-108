@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>缠论 · 教你炒股票30：理论的绝对性与零向量</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@500;700;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0b0e12;--bg-elev:#12161c;--bg-card:#161b22;
+    --ink:#e8eaed;--ink-dim:#9aa3ad;--ink-faint:#5b6470;
+    --line:rgba(255,255,255,.07);
+    --up:#ff4d4f;--down:#16c784;--pivot:#37c0e6;--gold:#e8b339;--blue:#00d4ff;
+    --max:880px;--serif:"Noto Serif SC",serif;--mono:"JetBrains Mono",ui-monospace,monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--ink);font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;line-height:1.85;font-size:17px;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  body::before{content:"";position:fixed;inset:0;z-index:-2;background:radial-gradient(1200px 600px at 70% -10%,rgba(55,192,230,.08),transparent 60%),radial-gradient(900px 500px at 0% 100%,rgba(232,179,57,.05),transparent 55%);pointer-events:none}
+  body::after{content:"";position:fixed;inset:0;z-index:-1;opacity:.4;background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);background-size:46px 46px;-webkit-mask-image:radial-gradient(ellipse at 50% 0%,#000 30%,transparent 80%);mask-image:radial-gradient(ellipse at 50% 0%,#000 30%,transparent 80%);pointer-events:none}
+  #bar{position:fixed;top:0;left:0;height:3px;width:0;z-index:50;background:linear-gradient(90deg,var(--pivot),var(--gold));box-shadow:0 0 12px var(--pivot)}
+  .wrap{max-width:var(--max);margin:0 auto;padding:0 24px}
+  header.hero{padding:120px 0 70px;text-align:center;position:relative}
+  .kicker{font-family:var(--mono);font-size:13px;letter-spacing:.32em;color:var(--pivot);text-transform:uppercase;margin-bottom:26px}
+  .kicker span{color:var(--ink-faint)}
+  h1.title{font-family:var(--serif);font-weight:900;line-height:1.05;font-size:clamp(44px,10vw,100px);letter-spacing:.04em;background:linear-gradient(180deg,#fff 30%,#8aa0ad 130%);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .sub{margin:22px auto 0;max-width:580px;color:var(--ink-dim);font-size:18px}
+  .meta{margin-top:34px;display:flex;gap:14px;justify-content:center;flex-wrap:wrap;font-family:var(--mono);font-size:12px;color:var(--ink-faint)}
+  .meta b{color:var(--ink-dim);font-weight:500}
+  .pill{border:1px solid var(--line);padding:6px 14px;border-radius:999px;background:rgba(255,255,255,.02)}
+  .scroll-hint{margin-top:60px;color:var(--ink-faint);font-family:var(--mono);font-size:12px;animation:bob 2.4s ease-in-out infinite}
+  @keyframes bob{0%,100%{transform:translateY(0);opacity:.5}50%{transform:translateY(8px);opacity:1}}
+  section{padding:64px 0;border-top:1px solid var(--line)}
+  .sec-no{font-family:var(--mono);font-size:13px;color:var(--gold);letter-spacing:.2em;margin-bottom:10px}
+  h2{font-family:var(--serif);font-weight:700;font-size:clamp(28px,5vw,42px);line-height:1.25;margin-bottom:8px;letter-spacing:.02em}
+  .lead{color:var(--ink-dim);font-size:16px;margin-bottom:28px;max-width:660px}
+  p{margin:0 0 18px;color:#cfd5dc}
+  p b,strong{color:#fff;font-weight:700}
+  .hl-pivot{color:var(--pivot);font-weight:700}.hl-up{color:var(--up);font-weight:700}
+  .hl-down{color:var(--down);font-weight:700}.hl-gold{color:var(--gold);font-weight:700}
+  blockquote{margin:26px 0;padding:20px 24px;border-left:3px solid var(--pivot);background:linear-gradient(90deg,rgba(55,192,230,.07),transparent);border-radius:0 10px 10px 0;font-family:var(--serif);font-size:19px;color:#eaf6fb}
+  blockquote .who{display:block;margin-top:8px;font-family:var(--mono);font-size:12px;color:var(--ink-faint);font-style:normal}
+  figure{margin:34px 0}
+  figure img{width:100%;border-radius:12px;border:1px solid var(--line);background:#fff;box-shadow:0 18px 50px rgba(0,0,0,.5)}
+  figcaption{margin-top:12px;font-size:13px;color:var(--ink-faint);text-align:center;font-family:var(--mono)}
+  .grid{display:grid;gap:16px;grid-template-columns:1fr 1fr;margin:28px 0}
+  @media(max-width:640px){.grid{grid-template-columns:1fr}}
+  .card{background:var(--bg-card);border:1px solid var(--line);border-radius:14px;padding:24px;position:relative;overflow:hidden;transition:transform .35s ease,border-color .35s ease}
+  .card:hover{transform:translateY(-4px);border-color:rgba(55,192,230,.4)}
+  .card .tag{font-family:var(--mono);font-size:11px;letter-spacing:.18em;color:var(--gold);text-transform:uppercase}
+  .card h3{font-family:var(--serif);font-size:21px;margin:10px 0 8px;color:#fff}
+  .card p{font-size:15px;color:var(--ink-dim);margin:0}
+  .table{margin:28px 0;border:1px solid var(--line);border-radius:14px;overflow:hidden}
+  .table .row{display:grid;grid-template-columns:1.1fr 1.5fr 1.6fr;align-items:stretch}
+  .table .row+.row{border-top:1px solid var(--line)}
+  .table .row>div{padding:16px 18px}
+  .table .row.head{background:var(--bg-elev);font-family:var(--mono);font-size:12px;letter-spacing:.14em;color:var(--ink-faint);text-transform:uppercase}
+  .table .row>div+div{border-left:1px solid var(--line)}
+  .table .name{font-family:var(--serif);font-weight:700;font-size:18px}
+  .table .name.qushi{color:var(--gold)}
+  .cnt{font-family:var(--mono);font-size:14px;color:var(--pivot)}
+  @media(max-width:560px){.table .row{grid-template-columns:1fr}.table .row>div+div{border-left:0;border-top:1px solid var(--line)}.table .row.head{display:none}}
+  .points{margin:26px 0;display:flex;flex-direction:column;gap:14px}
+  .pt{display:flex;gap:16px;align-items:flex-start;background:var(--bg-card);border:1px solid var(--line);border-radius:12px;padding:18px 20px}
+  .pt .dot{flex:none;width:42px;height:42px;border-radius:10px;display:grid;place-items:center;font-family:var(--serif);font-weight:900;font-size:20px;color:#0b0e12}
+  .pt.b .dot{background:var(--up)}.pt.s .dot{background:var(--down)}
+  .pt h4{font-size:17px;margin-bottom:4px;color:#fff}.pt p{font-size:15px;color:var(--ink-dim);margin:0}
+  .proof{margin:30px 0;background:linear-gradient(120deg,rgba(55,192,230,.06),transparent 70%),var(--bg-elev);border:1px solid rgba(55,192,230,.25);border-radius:16px;padding:26px}
+  .proof .badge{display:inline-block;font-family:var(--mono);font-weight:700;font-size:12px;letter-spacing:.12em;padding:6px 14px;border-radius:999px;background:rgba(55,192,230,.14);color:var(--pivot);border:1px solid rgba(55,192,230,.4);margin-bottom:14px}
+  .chartbox{background:var(--bg-card);border:1px solid var(--line);border-radius:14px;padding:18px 14px 8px;margin:18px 0}
+  .legend{display:flex;gap:16px;font-family:var(--mono);font-size:12px;color:var(--ink-dim);padding:0 8px 12px;flex-wrap:wrap}
+  .legend i{display:inline-block;width:16px;height:3px;vertical-align:middle;margin-right:6px;border-radius:2px}
+  canvas{width:100%;display:block}
+  .verdict{display:flex;gap:14px;align-items:flex-start;margin-top:8px;padding:16px 18px;background:var(--bg-card);border:1px solid var(--line);border-radius:12px}
+  .verdict .mk{flex:none;font-family:var(--mono);font-weight:700;color:var(--up)}
+  .verdict p{margin:0;font-size:15px;color:#d6dbe1}
+  ol.think{counter-reset:q;list-style:none;margin:24px 0;display:flex;flex-direction:column;gap:14px}
+  ol.think li{counter-increment:q;position:relative;padding:18px 20px 18px 60px;background:var(--bg-elev);border:1px solid var(--line);border-radius:12px;color:var(--ink-dim);font-size:15px}
+  ol.think li::before{content:counter(q,decimal-leading-zero);position:absolute;left:20px;top:18px;font-family:var(--mono);color:var(--gold);font-weight:700}
+  .quiz{margin:22px 0;background:var(--bg-card);border:1px solid var(--line);border-radius:14px;padding:22px 24px}
+  .quiz h4{font-size:16px;color:#fff;margin-bottom:6px}
+  .quiz .ans{margin-top:12px;color:var(--ink-faint);font-size:14px;cursor:pointer}
+  .quiz .ans[open] summary{color:var(--pivot)}
+  .quiz summary{color:var(--gold);font-family:var(--mono);font-size:13px}
+  .tldr{margin:60px 0 0;padding:36px 30px;border:1px solid rgba(55,192,230,.3);border-radius:18px;background:radial-gradient(120% 120% at 100% 0%,rgba(55,192,230,.1),transparent 60%),var(--bg-elev);text-align:center}
+  .tldr .lab{font-family:var(--mono);font-size:12px;letter-spacing:.3em;color:var(--pivot);text-transform:uppercase}
+  .tldr p{font-family:var(--serif);font-size:clamp(20px,3.4vw,28px);line-height:1.7;color:#fff;margin:16px 0 0}
+  footer{padding:60px 0 90px;text-align:center;color:var(--ink-faint);font-family:var(--mono);font-size:12px;border-top:1px solid var(--line)}
+  .reveal{opacity:0;transform:translateY(26px);transition:opacity .8s ease,transform .8s ease}
+  .reveal.in{opacity:1;transform:none}
+  @media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}.scroll-hint{animation:none}}
+  /* 公理化模块专属：定理卡片样式 */
+  .axiom{margin:28px 0;padding:24px 26px;background:var(--bg-elev);border:1px solid var(--line);border-left:4px solid var(--gold);border-radius:0 12px 12px 0}
+  .axiom .ax-no{font-family:var(--mono);font-size:11px;color:var(--gold);letter-spacing:.22em;margin-bottom:6px}
+  .axiom h4{font-family:var(--serif);font-size:19px;color:#fff;margin-bottom:8px}
+  .axiom p{margin:0;font-size:15px;color:var(--ink-dim)}
+  /* 零向量示意图 */
+  .vec{margin:30px 0;display:flex;justify-content:center;align-items:center;padding:30px 16px;background:var(--bg-card);border:1px solid var(--line);border-radius:14px;overflow:hidden}
+  .vec svg{width:100%;max-width:640px;height:auto}
+</style>
+<meta name="view-transition" content="same-origin"><style>@view-transition{navigation:auto}</style></head>
+<body>
+<div id="bar"></div>
+<header class="hero">
+  <div class="wrap">
+    <div class="kicker">缠中说禅 · 教你炒股票108课 <span>/ 第 30 课</span></div>
+    <h1 class="title">理论的绝对性与零向量</h1>
+    <p class="sub">缠论为什么"公开了也不会失效"？要把自己活成零向量，才能与市场总向量合一。</p>
+    <div class="meta">
+      <span class="pill"><b>原文</b> 2007-02-13</span>
+      <span class="pill"><b>类型</b> 哲学方法论</span>
+      <span class="pill"><b>关键词</b> 公理化 · 当下 · 零向量 · 顺势</span>
+    </div>
+    <div class="scroll-hint">↓ 向下滚动，逐层拆解</div>
+  </div>
+</header>
+<main>
+
+  <!-- 01 这一课在讲什么 -->
+  <section class="wrap reveal">
+    <div class="sec-no">01 — 这一课在讲什么</div>
+    <h2>缠论的"地基"与"修行"</h2>
+    <p class="lead">前 29 课讲的是工具：分型、笔、线段、中枢、背驰、买卖点。第 30 课突然抽身，开始问一个哲学问题：<b>这套理论凭什么有效？凭什么公开了也不怕被破解？</b></p>
+    <p>这一课没有 K 线分析，没有新工具，缠师把交易剥到只剩两个字：<span class="hl-pivot">价格</span>。他用近乎数学家的口吻给整套理论划了两条边界，又用近乎禅师的口吻给操作者下了一道功夫：<span class="hl-gold">把自己变成零向量</span>。</p>
+    <p>读懂这一课，意味着你从"学招式"切换到"懂道理"——招式可以失传，道理失不了。下文按四步拆解：① 缠论的两条铁界限；② "永远当下"的判断方式；③ 公开理论不怕被学的底气；④ 零向量心法与如何修。</p>
+    <blockquote>本ID的理论是对<b>价格充分有效市场</b>非<b>完全绝对趋同交易</b>的一个完全的数学公理化理论。<span class="who">— 缠中说禅 · 第 30 课</span></blockquote>
+  </section>
+
+  <!-- 02 两条铁界限 -->
+  <section class="wrap reveal">
+    <div class="sec-no">02 — 缠论的两条铁界限</div>
+    <h2>什么时候它"永远绝对有效"</h2>
+    <p class="lead">缠师不是说自己包治百病，他给理论的适用范围划了两道明确的栏杆。栏杆之内永远成立，栏杆之外不归我管。</p>
+
+    <div class="axiom">
+      <div class="ax-no">界限 / A</div>
+      <h4>价格充分有效市场</h4>
+      <p>白话：交易达成后<b>不会被赖账</b>。你今天在 12 元买入的成交记录，明天不会被某个黑老大顶着枪改成"不算了"。世界上所有<b>正规交易所</b>都满足这条。反例：黑市/赌场被庄家一手控盘且单方面违约——那种"市场"不算。</p>
+    </div>
+
+    <div class="axiom">
+      <div class="ax-no">界限 / B</div>
+      <h4>非完全绝对趋同交易</h4>
+      <p>白话：<b>不是所有人在同一秒做完全一样的事</b>。哪怕大家用同一套理论，由于反应有时间差、社会结构分层、个体差异，<b>买卖永远不会完全同步</b>。反例：庄家一人持有全部流通筹码并自买自卖——那种走势等价于赌大小，没分析价值。</p>
+    </div>
+
+    <p>缠师说，这两条边界之内，<span class="hl-gold">缠论的有效性就如同"压缩映射不动点定理"在完备距离空间里的有效性</span>——这是数学里一个铁律：满足条件就一定收敛到唯一答案，没有例外。</p>
+
+    <div class="table">
+      <div class="row head"><div>对照项</div><div>满足缠论的市场</div><div>不满足的市场</div></div>
+      <div class="row"><div class="name">价格有效性</div><div>A 股、港股、美股、期货所、外汇所</div><div>赖账黑市、被强权改单的撮合</div></div>
+      <div class="row"><div class="name">交易非趋同</div><div>有大量买卖方、有时间差、有个性差异</div><div>单一庄家自买自卖且无任何对手盘</div></div>
+      <div class="row"><div class="name">理论是否生效</div><div class="cnt">永远有效</div><div class="cnt">不在讨论范围</div></div>
+    </div>
+
+    <p>这两条边界之外的世界，缠师没说自己管不管——他直接告诉你：<b>那种情况下不存在"市场"，没必要讨论</b>。</p>
+  </section>
+
+  <!-- 03 永远当下 -->
+  <section class="wrap reveal">
+    <div class="sec-no">03 — 永远当下</div>
+    <h2>判断不是预测，是"看见"</h2>
+    <p class="lead">很多人以为缠论是一套"如果A就一定B"的预言机。缠师说：错。缠论的判断<b>永远建立在当下的构成之上</b>。</p>
+
+    <p>什么叫"当下的构成"？比方说，你在 30 分钟图上判断它进入了背驰段，正准备卖出。这时候突然出了重大事件（缠师举的极端例子：有人按错键给某地扔了几颗核弹），1 分钟级别先崩，把 5 分钟级别打破，最后摧毁 30 分钟的结构——<b>这一刻整段走势的"构成"重写了</b>，你原来基于旧构成的判断就作废，要立刻按新的构成重新看。</p>
+
+    <blockquote>走势是<b>当下构成中的</b>，本ID的理论判断，同样是建筑在当下构成的判断中。<span class="who">— 缠中说禅</span></blockquote>
+
+    <div class="grid">
+      <div class="card">
+        <div class="tag">老式思维 / 目的论</div>
+        <h3>"我要它涨到 15 块"</h3>
+        <p>预先设定一个目标价、一个走势剧本，K 线不按剧本走就开始恐慌、加码、改剧本。</p>
+      </div>
+      <div class="card">
+        <div class="tag">缠论思维 / 当下论</div>
+        <h3>"它当下是什么我看什么"</h3>
+        <p>没有"它应该走成什么样"，只有"它<b>正在走成什么样</b>"。结构变了，判断也跟着变，没有面子问题。</p>
+      </div>
+    </div>
+
+    <p>缠师强调，这种"理论的当下性"是关键特征，他甚至说<span class="hl-gold">"按学历这是初中的课程"</span>——意思是：道理不深，但要做到很难。难的不是听懂，而是<b>放下"我已经判断了所以要让它对"的执念</b>。</p>
+  </section>
+
+  <!-- 04 为什么公开不怕被学 -->
+  <section class="wrap reveal">
+    <div class="sec-no">04 — 公开的底气</div>
+    <h2>为什么缠论"公开了也不会失效"</h2>
+    <p class="lead">一般技术分析理论流行后会逐渐"失效"——因为大家都按图操作，反而把图破坏掉。缠师说他的理论不会，原因有三层。</p>
+
+    <div class="points">
+      <div class="pt b">
+        <div class="dot">1</div>
+        <div>
+          <h4>不用缠论的人，永远比用的人多</h4>
+          <p>"那些不用本理论的人，就成了本ID理论吸血的对象，现实中，这种对象不是太少，而是太多了。"</p>
+        </div>
+      </div>
+      <div class="pt b">
+        <div class="dot">2</div>
+        <div>
+          <h4>大资金想学也吃不消大级别</h4>
+          <p>级别越大，企图控制干扰所需要的能量越大。<b>周线级别以后，基本没人能完全控制</b>。功力浅的散户反而可以提高操作级别来增加安全性——这是给小资金的偏门优势。</p>
+        </div>
+      </div>
+      <div class="pt b">
+        <div class="dot">3</div>
+        <div>
+          <h4>相同理论 + 不同执行 = 不同结果</h4>
+          <p>同一套核物理，并不会让德国和美国同一天造出原子弹。同一套缠论，在不同的资金规模、性格、气质、选股眼光下，也会呈现不同的面貌——<b>这天然保证了"非完全绝对趋同"</b>，等于自动满足界限 B。</p>
+        </div>
+      </div>
+    </div>
+
+    <p>所以缠师才敢说：<span class="hl-gold">"即使所有人都应用本ID的理论，依然不会造成完全绝对趋同交易，本ID理论依然有效。"</span> 这是公理化体系的霸气之处——只要前提成立，结论就成立，跟"有没有人知道这个公理"无关，就像万有引力不会因为牛顿写出来了就改变。</p>
+
+    <blockquote>就算是背驰这么简单的事情，就算是同一种方法，当成为群体性行为时，比的就是<b>心态与功力</b>。心态不好、出手早或出手迟的，就会在价格上留下痕迹。<span class="who">— 缠中说禅</span></blockquote>
+  </section>
+
+  <!-- 05 零向量心法 -->
+  <section class="wrap reveal">
+    <div class="sec-no">05 — 零向量心法</div>
+    <h2>把自己变成"零向量"</h2>
+    <p class="lead">这是这一课最像禅的部分，也是最有操作含义的部分。缠师把交易行为做了一个向量化的描述。</p>
+
+    <p>把每个人的交易意图想象成一个<b>向量</b>（有方向、有大小）：买入是向上的力，卖出是向下的力。市场的总走势，就是所有人向量的<b>叠加和</b>——这个"总向量"决定了 K 线的方向。</p>
+
+    <div class="vec">
+      <svg viewBox="0 0 640 240" xmlns="http://www.w3.org/2000/svg">
+        <!-- 背景网格 -->
+        <defs>
+          <pattern id="gp30" width="32" height="32" patternUnits="userSpaceOnUse">
+            <path d="M 32 0 L 0 0 0 32" fill="none" stroke="rgba(255,255,255,.05)" stroke-width="1"/>
+          </pattern>
+          <marker id="arr-up30" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+            <path d="M 0 0 L 10 5 L 0 10 z" fill="#ff4d4f"/>
+          </marker>
+          <marker id="arr-dn30" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+            <path d="M 0 0 L 10 5 L 0 10 z" fill="#16c784"/>
+          </marker>
+          <marker id="arr-gold30" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+            <path d="M 0 0 L 10 5 L 0 10 z" fill="#e8b339"/>
+          </marker>
+          <marker id="arr-blue30" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+            <path d="M 0 0 L 10 5 L 0 10 z" fill="#37c0e6"/>
+          </marker>
+        </defs>
+        <rect width="640" height="240" fill="url(#gp30)"/>
+        <!-- 左边：个体向量五彩斑斓 -->
+        <text x="100" y="28" fill="#9aa3ad" font-family="JetBrains Mono" font-size="11" text-anchor="middle">个体向量（贪婪/恐惧）</text>
+        <line x1="40" y1="80" x2="160" y2="60" stroke="#ff4d4f" stroke-width="2.5" marker-end="url(#arr-up30)"/>
+        <line x1="40" y1="120" x2="140" y2="160" stroke="#16c784" stroke-width="2.5" marker-end="url(#arr-dn30)"/>
+        <line x1="40" y1="160" x2="170" y2="140" stroke="#ff4d4f" stroke-width="2" marker-end="url(#arr-up30)"/>
+        <line x1="40" y1="200" x2="120" y2="190" stroke="#16c784" stroke-width="2" marker-end="url(#arr-dn30)"/>
+        <!-- 中间：总向量 -->
+        <text x="320" y="28" fill="#9aa3ad" font-family="JetBrains Mono" font-size="11" text-anchor="middle">市场总向量（走势）</text>
+        <line x1="230" y1="140" x2="410" y2="100" stroke="#e8b339" stroke-width="5" marker-end="url(#arr-gold30)"/>
+        <text x="320" y="190" fill="#e8b339" font-family="Noto Serif SC" font-weight="700" font-size="15" text-anchor="middle">总向量 = 所有个体向量之和</text>
+        <!-- 右边：零向量加入 -->
+        <text x="540" y="28" fill="#9aa3ad" font-family="JetBrains Mono" font-size="11" text-anchor="middle">你（零向量加入）</text>
+        <circle cx="510" cy="120" r="22" fill="none" stroke="#37c0e6" stroke-width="2.5" stroke-dasharray="4 4"/>
+        <text x="510" y="125" fill="#37c0e6" font-family="JetBrains Mono" font-weight="700" font-size="13" text-anchor="middle">0</text>
+        <line x1="450" y1="120" x2="488" y2="120" stroke="#37c0e6" stroke-width="2" stroke-dasharray="3 3"/>
+        <line x1="532" y1="120" x2="600" y2="100" stroke="#37c0e6" stroke-width="2.5" marker-end="url(#arr-blue30)"/>
+        <text x="540" y="175" fill="#37c0e6" font-family="Noto Serif SC" font-weight="700" font-size="13" text-anchor="middle">不改变总方向</text>
+        <text x="540" y="195" fill="#37c0e6" font-family="Noto Serif SC" font-size="12" text-anchor="middle">顺势加大力度</text>
+      </svg>
+    </div>
+
+    <p>缠师说：<span class="hl-gold">只有把自己变成零向量，加入到任何一个向量系统里，才不会影响总向量</span>。也就是——<b>你的贪婪和恐惧不再扰动你的判断，你看走势如同看自己的呼吸</b>。然后呢？然后你的交易就只是"顺着总向量再加点力"，这才叫真正的顺势而为。</p>
+
+    <p>这跟一般人理解的"顺势"差别很大：</p>
+
+    <div class="grid">
+      <div class="card">
+        <div class="tag">表面顺势 / 错</div>
+        <h3>"它涨我跟，它跌我跑"</h3>
+        <p>用情绪追涨杀跌，你的向量在不断变方向，反而被市场总向量牵着走，永远慢半拍。</p>
+      </div>
+      <div class="card">
+        <div class="tag">真正顺势 / 对</div>
+        <h3>"我没有方向，让它告诉我方向"</h3>
+        <p>先消掉自己的贪嗔，让总向量"长在自己身上"，然后只在该出手时给它加一份力。你不再是被走势"转"的人，而是"和走势合一"的人。</p>
+      </div>
+    </div>
+
+    <p style="color:var(--ink-faint);font-size:14px">追问："如果所有人都变成零向量呢？" 缠师答：那市场就没了，因为<b>交易市场存在的基础就是人的贪婪与恐惧</b>，所有人都没有贪嗔，资本主义本身就到头了。换句话说，市场是用来"吸贪嗔者的血"的，零向量是少数派，是这游戏的设计漏洞——而缠论就是教你怎么钻这个漏洞。</p>
+  </section>
+
+  <!-- 06 当日实战 -->
+  <section class="wrap reveal">
+    <div class="sec-no">06 — 同日实战 · 读者翻车</div>
+    <h2>"次级别没走出来就冲进去"</h2>
+    <p class="lead">理论再漂亮，落到当天的交易也会被检验。这节课正文之后，缠师贴了 2007-02-13 大盘 1 分钟背驰图，并回答了一位读者关于 30 分钟第三类买点的疑问。</p>
+
+    <figure>
+      <img src="/_assets/ch30_p01.png" alt="2007-02-13 上证 5/1 分钟级别走势">
+      <figcaption>原文配图 · 上证 2007-02-13：2850 压力下 1 分钟背驰进入震荡，下方 2541.92 为前低，DD 2720 为中枢下沿</figcaption>
+    </figure>
+
+    <p>第一张图是大盘示范："2850 压力下出现 1 分钟级别的背驰，进入震荡，是最正常不过的事情。"——这是缠师当天对大盘的"当下判断"，简洁得像在描述一杯水的温度，没有任何"会不会涨"的猜测。</p>
+
+    <figure>
+      <img src="/_assets/ch30_p02.png" alt="000581 30 分钟图：第三类买点骗线案例">
+      <figcaption>原文配图 · 000581 威孚高科 30 分钟图：读者在 2-13 自以为脱离中枢向上，结果当日次级别又回到中枢里，典型骗线</figcaption>
+    </figure>
+
+    <p>读者问：30 分钟第三类买点怎么样才能买在最低点？缠师没有教"必胜技巧"，反而把<span class="hl-gold">"当下"</span>四个字落到操作上：</p>
+
+    <blockquote>第三类买点还是要<b>按第一类买点的来操作</b>，只是看次级别以下的走势。<br>这种骗线很容易判别，关键就是<b>次级别的回抽不能又到中枢里</b>，只要耐心等待次级别的发展就可以，<b>不要次级别还没走出来就冲进去</b>，这样就容易被骗。<span class="who">— 缠中说禅 · 回复读者</span></blockquote>
+
+    <p>"次级别还没走出来就冲进去"——这一句正好对照前文：读者的"我以为它要脱离中枢"是<b>个体向量带着方向</b>，缠师的"耐心等待次级别发展"是<b>把自己清零，让结构自己说话</b>。</p>
+  </section>
+
+  <!-- 07 akshare 实证 -->
+  <section class="wrap reveal">
+    <div class="sec-no">07 — 真金白银的实证</div>
+    <h2>000581 威孚高科：骗线之后真的有"陷阱"</h2>
+    <p class="lead">缠师当天提醒读者"30 分钟买点是骗线"。我们拉真实日线数据，看 2-13 之后这只股票走出了什么样的剧情——结果出人意料。</p>
+
+    <div class="proof">
+      <span class="badge">数据实证 · 威孚高科 000581</span>
+      <div class="chartbox">
+        <div class="legend">
+          <span><i style="background:#cfd5dc"></i>收盘</span>
+          <span><i style="background:#ff8a8c"></i>MA5</span>
+          <span><i style="background:#e8b339"></i>MA20</span>
+          <span><i style="background:#37c0e6"></i>中枢</span>
+          <span><i style="background:#ff4d4f"></i>骗线/进入</span>
+          <span><i style="background:#16c784"></i>2-27 系统性大跌</span>
+        </div>
+        <canvas id="cv_000581" height="440"></canvas>
+      </div>
+      <div class="verdict">
+        <span class="mk">✓ 印证</span>
+        <p>2007-02-13 当日 K 线 o=<b>12.10</b> h=<b>12.25</b> l=<b>11.78</b> c=<b>11.90</b>。次级别确实如缠师所言"又回到中枢里"，看似失败。但接下来 2-14~2-26 反弹至 <b class="hl-up">13.47</b>，仿佛读者"对了"。<b>然后 2007-02-27 全市场系统性大跌</b>（A 股史上著名的"2·27 事件"，沪指单日 -8.84%），000581 当日下挫至 <b class="hl-down">11.84</b>。冲动追入第三类买点的人，账面浮盈几天后就被打回原形。这正是缠师强调的<b>"当下构成"</b>的杀伤力：判断一变（突发事件破坏小级别结构），整套剧本作废。</p>
+      </div>
+      <p style="font-family:var(--mono);font-size:12px;color:var(--ink-faint);margin-top:14px;margin-bottom:0">数据来源：新浪财经日 K（不复权）· akshare 取数 · 截至 2026-05-29 · 不构成投资建议</p>
+    </div>
+
+    <p>这个案例同时印证了第 30 课的两个核心：</p>
+    <ol class="think">
+      <li><b>当下的力量</b>：2-27 之前看 000581，剧本是"突破→新高"；2-27 之后看，剧本是"突破假象→被宏观事件击穿"。同一段 K 线，构成完全不同。</li>
+      <li><b>非完全绝对趋同</b>：当天追入的人各有理由（有人看技术、有人看消息），结果在 2-27 各有归宿。同一个标的，因为执行者不同，结局天差地别——这正是"功力的差别在价格上留下痕迹"。</li>
+    </ol>
+  </section>
+
+  <!-- 08 思考题 + 判图 -->
+  <section class="wrap reveal">
+    <div class="sec-no">08 — 思考题 与 判图</div>
+    <h2>看一遍懂了，不算懂</h2>
+    <p class="lead">这一课没有具体技术指标可以背，但有几个问题可以试着自问。</p>
+
+    <ol class="think">
+      <li>你昨天某笔交易的"判断依据"，是不是建立在"它<b>应该</b>怎么走"的剧本上？换成"它<b>正在</b>怎么走"，结论会变吗？</li>
+      <li>缠师说的"价格充分有效市场"+"非完全绝对趋同"两条边界，你能找出 A 股之外（比如某些场外 OTC、地下钱庄、被极端控盘的小盘股）哪些情形会逼近边界？逼近边界时，缠论还能用吗？</li>
+      <li>"零向量"听起来玄，但用一个简单测试就能自查：你下完单后，<b>K 线下一根没按你想的走</b>时，你的情绪有多大波动？波动越大，你的向量越长，越不是零。</li>
+      <li>缠师说理论"公开了也不会失效"，前提是"应用者依然非完全绝对趋同"。设想：如果某天 AI 全自动按缠论交易、覆盖 80% 成交量，这个前提是否会被破坏？为什么？</li>
+    </ol>
+
+    <div class="quiz">
+      <h4>判图练习：以下哪种操作符合本课的"当下原则"？</h4>
+      <p>
+        ① 提前设好"目标价 15 元，止损 10 元"，到价机械执行。<br>
+        ② 持仓中根据每根新 K 线重新评估当下结构，结构变了就重新做决定。<br>
+        ③ 听到利好消息立刻买入，亏了就死扛等回本。
+      </p>
+      <details class="ans"><summary>查看答案</summary>
+        <p>② 符合。<b>"当下原则"不是不预设</b>，而是<b>每一根新 K 线都允许推翻原来的判断</b>。① 把判断锁死在过去，③ 把判断锁死在情绪——都违背"理论的当下性"。</p>
+      </details>
+    </div>
+
+    <div class="quiz">
+      <h4>判图练习：000581 案例里，2-13 那位读者犯的最大错误是？</h4>
+      <p>
+        A. 选股选错了；&nbsp; B. 入场太晚；&nbsp; C. 次级别走势还没走完就抢跑；&nbsp; D. 没拿住，太早卖出。
+      </p>
+      <details class="ans"><summary>查看答案</summary>
+        <p>C 正解。缠师原话："不要次级别还没走出来就冲进去。" 即使 2-13~2-26 看似浮盈，2-27 系统性大跌就把所有"次级别没确认"的冲动追入者一起埋了。这不是运气问题，是<b>纪律问题</b>。</p>
+      </details>
+    </div>
+  </section>
+
+  <!-- 09 一句话总结 -->
+  <section class="wrap reveal">
+    <div class="tldr">
+      <div class="lab">TL;DR — 一句话带走</div>
+      <p>缠论是公理化体系，公开也不失效；要用好它，得在交易里把自己修成零向量——<br><span class="hl-gold">看走势如看呼吸，下单如有神</span>。</p>
+    </div>
+  </section>
+
+</main>
+<footer class="wrap">
+  原文出处：raw/缠中说禅/教你炒股票108课/教你炒股票30：缠中说禅理论的绝对性.md<br>
+  本页为个人学习复习用 · 非投资建议
+</footer>
+<script>
+  const bar=document.getElementById('bar');
+  const onScroll=()=>{const h=document.documentElement;bar.style.width=(h.scrollTop/(h.scrollHeight-h.clientHeight)*100)+'%'};
+  document.addEventListener('scroll',onScroll,{passive:true});onScroll();
+  const io=new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{threshold:.12});
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+  function drawChanChart(canvasId, CHART){
+    const cv=document.getElementById(canvasId); if(!cv) return;
+    const mode=CHART.mode||'line', hasVol=!!CHART.v && CHART.showVol!==false;
+    const idxOf={}; CHART.dates.forEach((d,i)=>idxOf[d]=i);
+    const ri=d=>{ if(d in idxOf)return idxOf[d]; let b=0,bd=1/0;
+      CHART.dates.forEach((x,i)=>{const t=Math.abs(new Date(x)-new Date(d)); if(t<bd){bd=t;b=i}}); return b; };
+    function draw(){
+      const dpr=window.devicePixelRatio||1, W=cv.clientWidth, H=CHART.height||440;
+      cv.width=W*dpr; cv.height=H*dpr; const x=cv.getContext('2d'); x.scale(dpr,dpr); x.clearRect(0,0,W,H);
+      const padL=48,padR=14,padT=16, volH=hasVol?70:0, gap=hasVol?16:0, priceH=H-padT-volH-gap-22, n=CHART.c.length;
+      let mn=Math.min(...CHART.l), mx=Math.max(...CHART.h);
+      if(CHART.ma)Object.values(CHART.ma).forEach(a=>a.forEach(v=>{if(v!=null){mn=Math.min(mn,v);mx=Math.max(mx,v)}}));
+      if(CHART.pivots)CHART.pivots.forEach(p=>{mn=Math.min(mn,p.lo);mx=Math.max(mx,p.hi)});
+      if(CHART.marks)CHART.marks.forEach(m=>{mn=Math.min(mn,m.price);mx=Math.max(mx,m.price)});
+      const pd=(mx-mn)*0.08; mn-=pd; mx+=pd;
+      const PW=W-padL-padR, px=i=> n===1?padL+PW/2:padL+PW*i/(n-1), py=p=>padT+priceH*(1-(p-mn)/(mx-mn));
+      x.font="11px JetBrains Mono"; x.textAlign="right";
+      for(let g=0;g<=4;g++){const p=mn+(mx-mn)*g/4,yy=py(p);
+        x.strokeStyle="rgba(255,255,255,.06)";x.beginPath();x.moveTo(padL,yy);x.lineTo(W-padR,yy);x.stroke();
+        x.fillStyle="#5b6470";x.fillText(p.toFixed(2),padL-6,yy+3)}
+      if(CHART.pivots)CHART.pivots.forEach(p=>{const x1=px(ri(p.from)),x2=px(ri(p.to)),y1=py(p.hi),y2=py(p.lo);
+        x.fillStyle="rgba(55,192,230,.10)";x.strokeStyle="rgba(55,192,230,.55)";x.lineWidth=1;
+        x.fillRect(x1,y1,x2-x1,y2-y1);x.strokeRect(x1,y1,x2-x1,y2-y1);
+        if(p.label){x.fillStyle="#37c0e6";x.textAlign="center";x.fillText(p.label,(x1+x2)/2,y1-5)}});
+      if(hasVol){const vmax=Math.max(...CHART.v),vt=padT+priceH+gap;
+        for(let i=0;i<n;i++){const up=CHART.c[i]>=CHART.o[i];x.fillStyle=up?"rgba(255,77,79,.5)":"rgba(22,199,132,.5)";
+          const bw=Math.max(1,PW/n*0.6),bh=volH*CHART.v[i]/vmax;x.fillRect(px(i)-bw/2,vt+volH-bh,bw,bh)}}
+      if(mode==='candle'){const bw=Math.max(1.5,PW/n*0.62);
+        for(let i=0;i<n;i++){const up=CHART.c[i]>=CHART.o[i],col=up?"#ff4d4f":"#16c784";x.strokeStyle=col;x.fillStyle=col;
+          x.beginPath();x.moveTo(px(i),py(CHART.h[i]));x.lineTo(px(i),py(CHART.l[i]));x.stroke();
+          const yo=py(CHART.o[i]),yc=py(CHART.c[i]);x.fillRect(px(i)-bw/2,Math.min(yo,yc),bw,Math.max(1,Math.abs(yc-yo)))}}
+      else{const cs=CHART.c;x.beginPath();for(let i=0;i<n;i++){const xx=px(i),yy=py(cs[i]);i?x.lineTo(xx,yy):x.moveTo(xx,yy)}
+        const gr=x.createLinearGradient(0,padT,0,padT+priceH);gr.addColorStop(0,"rgba(207,213,220,.16)");gr.addColorStop(1,"rgba(207,213,220,0)");
+        x.lineTo(px(n-1),padT+priceH);x.lineTo(px(0),padT+priceH);x.closePath();x.fillStyle=gr;x.fill();
+        x.beginPath();for(let i=0;i<n;i++){const xx=px(i),yy=py(cs[i]);i?x.lineTo(xx,yy):x.moveTo(xx,yy)}
+        x.strokeStyle="#cfd5dc";x.lineWidth=1.6;x.stroke()}
+      const MC={MA5:"#ff8a8c",MA10:"#c0a3ff",MA20:"#e8b339",MA60:"#37c0e6",MA120:"#9aa3ad",MA250:"#ff4d4f"};
+      if(CHART.ma)Object.entries(CHART.ma).forEach(([k,a])=>{x.beginPath();let st=false;
+        for(let i=0;i<n;i++){if(a[i]==null)continue;const xx=px(i),yy=py(a[i]);st?x.lineTo(xx,yy):(x.moveTo(xx,yy),st=true)}
+        x.strokeStyle=MC[k]||"#888";x.lineWidth=1.4;x.stroke()});
+      if(CHART.marks)CHART.marks.forEach(m=>{const xx=px(ri(m.date)),yy=py(m.price),buy=(m.type||'').startsWith('b'),col=buy?"#ff4d4f":"#16c784";
+        x.fillStyle=col;x.beginPath();x.arc(xx,yy,4,0,7);x.fill();
+        x.fillStyle="#fff";x.font="bold 11px -apple-system";x.textAlign="center";x.fillText(m.text||'',xx,buy?yy+18:yy-10)});
+      x.fillStyle="#5b6470";x.textAlign="center";x.font="11px JetBrains Mono";
+      const L=Math.min(6,n);for(let g=0;g<L;g++){const i=Math.round((n-1)*g/(L-1||1));x.fillText(CHART.dates[i],px(i),H-5)}
+    }
+    draw(); window.addEventListener('resize',draw);
+  }
+
+  /* === 000581 威孚高科 2007-01-15 ~ 2007-03-15 === */
+  const CHART_000581 = {"dates": ["2007-01-15", "2007-01-16", "2007-01-17", "2007-01-18", "2007-01-19", "2007-01-22", "2007-01-23", "2007-01-24", "2007-01-25", "2007-01-26", "2007-01-29", "2007-01-30", "2007-01-31", "2007-02-01", "2007-02-02", "2007-02-05", "2007-02-06", "2007-02-07", "2007-02-08", "2007-02-09", "2007-02-12", "2007-02-13", "2007-02-14", "2007-02-15", "2007-02-16", "2007-02-26", "2007-02-27", "2007-02-28", "2007-03-01", "2007-03-02", "2007-03-05", "2007-03-06", "2007-03-07", "2007-03-08", "2007-03-09", "2007-03-12", "2007-03-13", "2007-03-14", "2007-03-15"], "o": [9.57, 10.3, 10.39, 10.25, 10.21, 11.18, 10.99, 10.8, 10.65, 9.99, 10.31, 10.55, 10.88, 10.56, 11.04, 10.6, 10.93, 11.2, 11.7, 11.92, 11.85, 12.1, 11.99, 12.02, 12.31, 13.1, 13.16, 11.52, 12.21, 11.41, 11.7, 11.23, 11.59, 11.89, 12.0, 11.9, 11.7, 11.6, 11.31], "h": [10.5, 10.58, 10.8, 10.29, 10.98, 11.19, 11.03, 10.99, 10.83, 10.5, 10.66, 11.1, 11.61, 11.11, 11.5, 11.06, 11.23, 11.85, 12.08, 12.1, 12.01, 12.25, 12.08, 12.49, 13.39, 13.47, 13.2, 12.47, 12.26, 11.85, 12.0, 11.55, 11.97, 12.0, 12.37, 11.98, 11.89, 11.6, 11.45], "l": [9.56, 10.19, 9.5, 9.7, 10.1, 10.88, 10.21, 10.51, 10.07, 9.51, 10.2, 10.5, 10.56, 10.4, 10.65, 10.46, 10.6, 10.9, 11.65, 11.73, 11.5, 11.78, 11.75, 11.98, 12.31, 12.78, 11.84, 11.52, 11.2, 11.2, 10.85, 11.02, 11.48, 11.6, 11.79, 11.57, 11.55, 11.2, 11.17], "c": [10.5, 10.39, 10.29, 10.16, 10.88, 10.96, 10.77, 10.88, 10.07, 10.31, 10.55, 10.95, 10.6, 11.04, 10.73, 10.91, 10.98, 11.78, 11.88, 11.8, 12.01, 11.9, 11.98, 12.45, 13.1, 13.16, 11.84, 12.26, 11.36, 11.63, 11.15, 11.48, 11.94, 11.98, 11.85, 11.8, 11.75, 11.33, 11.41], "v": [14003822, 9252908, 12338753, 13958554, 14740286, 10212629, 14223254, 8770906, 10518399, 10866077, 9464832, 13915587, 16338754, 11923199, 9939720, 7478684, 7413714, 14793109, 9281071, 3577332, 5993210, 5601351, 5035513, 8755108, 7217645, 5100281, 11622337, 8641400, 6462105, 8002538, 7587066, 3595810, 5687554, 4388484, 6914282, 4463027, 4083662, 6853730, 9250644], "ma": {"MA5": [null, null, null, null, 10.44, 10.54, 10.61, 10.73, 10.71, 10.6, 10.52, 10.55, 10.5, 10.69, 10.77, 10.85, 10.85, 11.09, 11.26, 11.47, 11.69, 11.87, 11.91, 12.03, 12.29, 12.52, 12.51, 12.56, 12.34, 12.05, 11.65, 11.58, 11.51, 11.64, 11.68, 11.81, 11.86, 11.74, 11.63], "MA20": [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, 10.82, 10.9, 10.97, 11.06, 11.17, 11.28, 11.39, 11.45, 11.51, 11.58, 11.65, 11.68, 11.7, 11.77, 11.82, 11.87, 11.92, 11.96, 11.93, 11.91]},
+    "mode":"candle",
+    "pivots":[{"from":"2007-02-07","to":"2007-02-13","lo":10.9,"hi":12.25,"label":"30分钟中枢震荡"}],
+    "marks":[
+      {"date":"2007-02-13","price":12.10,"type":"b1","text":"读者冲入 骗线"},
+      {"date":"2007-02-26","price":13.47,"type":"s1","text":"高点 13.47"},
+      {"date":"2007-02-27","price":11.84,"type":"s1","text":"2-27 系统性大跌"}
+    ]
+  };
+  drawChanChart("cv_000581", CHART_000581);
+</script>
+<script src="/assets/_nav.js"></script><script src="/assets/_shell.js"></script></body>
+</html>

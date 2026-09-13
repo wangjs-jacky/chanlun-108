@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>缠论 · 教你炒股票67：线段的划分标准</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@500;700;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0b0e12;--bg-elev:#12161c;--bg-card:#161b22;
+    --ink:#e8eaed;--ink-dim:#9aa3ad;--ink-faint:#5b6470;
+    --line:rgba(255,255,255,.07);
+    --up:#ff4d4f;--down:#16c784;--pivot:#37c0e6;--gold:#e8b339;--blue:#00d4ff;
+    --max:880px;--serif:"Noto Serif SC",serif;--mono:"JetBrains Mono",ui-monospace,monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--ink);font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;line-height:1.85;font-size:17px;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  body::before{content:"";position:fixed;inset:0;z-index:-2;background:radial-gradient(1200px 600px at 70% -10%,rgba(55,192,230,.08),transparent 60%),radial-gradient(900px 500px at 0% 100%,rgba(232,179,57,.05),transparent 55%);pointer-events:none}
+  body::after{content:"";position:fixed;inset:0;z-index:-1;opacity:.4;background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);background-size:46px 46px;-webkit-mask-image:radial-gradient(ellipse at 50% 0%,#000 30%,transparent 80%);mask-image:radial-gradient(ellipse at 50% 0%,#000 30%,transparent 80%);pointer-events:none}
+  #bar{position:fixed;top:0;left:0;height:3px;width:0;z-index:50;background:linear-gradient(90deg,var(--pivot),var(--gold));box-shadow:0 0 12px var(--pivot)}
+  .wrap{max-width:var(--max);margin:0 auto;padding:0 24px}
+  header.hero{padding:120px 0 70px;text-align:center;position:relative}
+  .kicker{font-family:var(--mono);font-size:13px;letter-spacing:.32em;color:var(--pivot);text-transform:uppercase;margin-bottom:26px}
+  .kicker span{color:var(--ink-faint)}
+  h1.title{font-family:var(--serif);font-weight:900;line-height:1.05;font-size:clamp(44px,10vw,100px);letter-spacing:.04em;background:linear-gradient(180deg,#fff 30%,#8aa0ad 130%);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .sub{margin:22px auto 0;max-width:580px;color:var(--ink-dim);font-size:18px}
+  .meta{margin-top:34px;display:flex;gap:14px;justify-content:center;flex-wrap:wrap;font-family:var(--mono);font-size:12px;color:var(--ink-faint)}
+  .meta b{color:var(--ink-dim);font-weight:500}
+  .pill{border:1px solid var(--line);padding:6px 14px;border-radius:999px;background:rgba(255,255,255,.02)}
+  .scroll-hint{margin-top:60px;color:var(--ink-faint);font-family:var(--mono);font-size:12px;animation:bob 2.4s ease-in-out infinite}
+  @keyframes bob{0%,100%{transform:translateY(0);opacity:.5}50%{transform:translateY(8px);opacity:1}}
+  section{padding:64px 0;border-top:1px solid var(--line)}
+  .sec-no{font-family:var(--mono);font-size:13px;color:var(--gold);letter-spacing:.2em;margin-bottom:10px}
+  h2{font-family:var(--serif);font-weight:700;font-size:clamp(28px,5vw,42px);line-height:1.25;margin-bottom:8px;letter-spacing:.02em}
+  .lead{color:var(--ink-dim);font-size:16px;margin-bottom:28px;max-width:660px}
+  p{margin:0 0 18px;color:#cfd5dc}
+  p b,strong{color:#fff;font-weight:700}
+  .hl-pivot{color:var(--pivot);font-weight:700}.hl-up{color:var(--up);font-weight:700}
+  .hl-down{color:var(--down);font-weight:700}.hl-gold{color:var(--gold);font-weight:700}
+  blockquote{margin:26px 0;padding:20px 24px;border-left:3px solid var(--pivot);background:linear-gradient(90deg,rgba(55,192,230,.07),transparent);border-radius:0 10px 10px 0;font-family:var(--serif);font-size:19px;color:#eaf6fb}
+  blockquote .who{display:block;margin-top:8px;font-family:var(--mono);font-size:12px;color:var(--ink-faint);font-style:normal}
+  figure{margin:34px 0}
+  figure img{width:100%;border-radius:12px;border:1px solid var(--line);background:#fff;box-shadow:0 18px 50px rgba(0,0,0,.5)}
+  figcaption{margin-top:12px;font-size:13px;color:var(--ink-faint);text-align:center;font-family:var(--mono)}
+  .grid{display:grid;gap:16px;grid-template-columns:1fr 1fr;margin:28px 0}
+  @media(max-width:640px){.grid{grid-template-columns:1fr}}
+  .card{background:var(--bg-card);border:1px solid var(--line);border-radius:14px;padding:24px;position:relative;overflow:hidden;transition:transform .35s ease,border-color .35s ease}
+  .card:hover{transform:translateY(-4px);border-color:rgba(55,192,230,.4)}
+  .card .tag{font-family:var(--mono);font-size:11px;letter-spacing:.18em;color:var(--gold);text-transform:uppercase}
+  .card h3{font-family:var(--serif);font-size:21px;margin:10px 0 8px;color:#fff}
+  .card p{font-size:15px;color:var(--ink-dim);margin:0}
+  .table{margin:28px 0;border:1px solid var(--line);border-radius:14px;overflow:hidden}
+  .table .row{display:grid;grid-template-columns:1.1fr 1.5fr 1.6fr;align-items:stretch}
+  .table .row+.row{border-top:1px solid var(--line)}
+  .table .row>div{padding:16px 18px}
+  .table .row.head{background:var(--bg-elev);font-family:var(--mono);font-size:12px;letter-spacing:.14em;color:var(--ink-faint);text-transform:uppercase}
+  .table .row>div+div{border-left:1px solid var(--line)}
+  .table .name{font-family:var(--serif);font-weight:700;font-size:18px}
+  .table .name.qushi{color:var(--gold)}
+  .cnt{font-family:var(--mono);font-size:14px;color:var(--pivot)}
+  @media(max-width:560px){.table .row{grid-template-columns:1fr}.table .row>div+div{border-left:0;border-top:1px solid var(--line)}.table .row.head{display:none}}
+  .points{margin:26px 0;display:flex;flex-direction:column;gap:14px}
+  .pt{display:flex;gap:16px;align-items:flex-start;background:var(--bg-card);border:1px solid var(--line);border-radius:12px;padding:18px 20px}
+  .pt .dot{flex:none;width:42px;height:42px;border-radius:10px;display:grid;place-items:center;font-family:var(--serif);font-weight:900;font-size:20px;color:#0b0e12}
+  .pt.b .dot{background:var(--up)}.pt.s .dot{background:var(--down)}
+  .pt h4{font-size:17px;margin-bottom:4px;color:#fff}.pt p{font-size:15px;color:var(--ink-dim);margin:0}
+  /* akshare 实证区 */
+  .proof{margin:30px 0;background:linear-gradient(120deg,rgba(55,192,230,.06),transparent 70%),var(--bg-elev);border:1px solid rgba(55,192,230,.25);border-radius:16px;padding:26px}
+  .proof .badge{display:inline-block;font-family:var(--mono);font-weight:700;font-size:12px;letter-spacing:.12em;padding:6px 14px;border-radius:999px;background:rgba(55,192,230,.14);color:var(--pivot);border:1px solid rgba(55,192,230,.4);margin-bottom:14px}
+  .chartbox{background:var(--bg-card);border:1px solid var(--line);border-radius:14px;padding:18px 14px 8px;margin:18px 0}
+  .legend{display:flex;gap:16px;font-family:var(--mono);font-size:12px;color:var(--ink-dim);padding:0 8px 12px;flex-wrap:wrap}
+  .legend i{display:inline-block;width:16px;height:3px;vertical-align:middle;margin-right:6px;border-radius:2px}
+  canvas{width:100%;display:block}
+  .verdict{display:flex;gap:14px;align-items:flex-start;margin-top:8px;padding:16px 18px;background:var(--bg-card);border:1px solid var(--line);border-radius:12px}
+  .verdict .mk{flex:none;font-family:var(--mono);font-weight:700;color:var(--up)}
+  .verdict p{margin:0;font-size:15px;color:#d6dbe1}
+  ol.think{counter-reset:q;list-style:none;margin:24px 0;display:flex;flex-direction:column;gap:14px}
+  ol.think li{counter-increment:q;position:relative;padding:18px 20px 18px 60px;background:var(--bg-elev);border:1px solid var(--line);border-radius:12px;color:var(--ink-dim);font-size:15px}
+  ol.think li::before{content:counter(q,decimal-leading-zero);position:absolute;left:20px;top:18px;font-family:var(--mono);color:var(--gold);font-weight:700}
+  /* 判图练习 */
+  .quiz{margin:22px 0;background:var(--bg-card);border:1px solid var(--line);border-radius:14px;padding:22px 24px}
+  .quiz h4{font-size:16px;color:#fff;margin-bottom:6px}
+  .quiz .ans{margin-top:12px;color:var(--ink-faint);font-size:14px;cursor:pointer}
+  .quiz .ans[open] summary{color:var(--pivot)}
+  .quiz summary{color:var(--gold);font-family:var(--mono);font-size:13px}
+  .tldr{margin:60px 0 0;padding:36px 30px;border:1px solid rgba(55,192,230,.3);border-radius:18px;background:radial-gradient(120% 120% at 100% 0%,rgba(55,192,230,.1),transparent 60%),var(--bg-elev);text-align:center}
+  .tldr .lab{font-family:var(--mono);font-size:12px;letter-spacing:.3em;color:var(--pivot);text-transform:uppercase}
+  .tldr p{font-family:var(--serif);font-size:clamp(20px,3.4vw,28px);line-height:1.7;color:#fff;margin:16px 0 0}
+  footer{padding:60px 0 90px;text-align:center;color:var(--ink-faint);font-family:var(--mono);font-size:12px;border-top:1px solid var(--line)}
+  .reveal{opacity:0;transform:translateY(26px);transition:opacity .8s ease,transform .8s ease}
+  .reveal.in{opacity:1;transform:none}
+  @media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}.scroll-hint{animation:none}}
+  /* 笔序列示意 SVG */
+  .seqbox{margin:22px 0;background:var(--bg-card);border:1px solid var(--line);border-radius:14px;padding:18px}
+  .seqbox svg{width:100%;height:auto;display:block}
+  .seqbox .cap{margin-top:10px;text-align:center;font-family:var(--mono);font-size:12px;color:var(--ink-faint)}
+  /* 公式标记 */
+  .formula{font-family:var(--mono);background:rgba(55,192,230,.08);border:1px solid rgba(55,192,230,.22);border-radius:6px;padding:2px 8px;color:#cfeaf3;font-size:14px;font-weight:500;letter-spacing:.04em;display:inline-block;margin:0 2px}
+  .gap-mark{color:var(--gold);font-weight:700}
+  .case-tab{display:flex;gap:0;margin:24px 0 0;border-radius:14px 14px 0 0;overflow:hidden;border:1px solid var(--line);border-bottom:none}
+  .case-tab>div{flex:1;padding:14px 16px;text-align:center;background:var(--bg-elev);font-family:var(--serif);font-weight:700;color:var(--ink-dim);font-size:15px;border-right:1px solid var(--line)}
+  .case-tab>div:last-child{border-right:none}
+  .case-tab>div.c1{color:var(--up);background:rgba(255,77,79,.06)}
+  .case-tab>div.c2{color:var(--gold);background:rgba(232,179,57,.06)}
+</style>
+<meta name="view-transition" content="same-origin"><style>@view-transition{navigation:auto}</style></head>
+<body>
+<div id="bar"></div>
+<header class="hero">
+  <div class="wrap">
+    <div class="kicker">缠中说禅 · 教你炒股票108课 <span>/ 第 67 课</span></div>
+    <h1 class="title">线段划分标准</h1>
+    <p class="sub">把"线段被另一段破坏"这句模糊的话，精确成一套可机械执行的判定规则——缠论几何体系的最后一根承重柱。</p>
+    <div class="meta">
+      <span class="pill"><b>原文</b> 2007-08-01</span>
+      <span class="pill"><b>类型</b> 关键技术 · 结构定义</span>
+      <span class="pill"><b>关键词</b> 特征序列 · 标准化 · 缺口 · 顶/底分型 · 两种情况</span>
+    </div>
+    <div class="scroll-hint">↓ 向下滚动，逐层拆解</div>
+  </div>
+</header>
+<main>
+
+  <!-- 1 -->
+  <section class="wrap reveal">
+    <div class="sec-no">01 — 这一课要解决什么</div>
+    <h2>线段"什么时候算结束"，第一次有了精确答案</h2>
+    <p class="lead">在第 65 课之前，缠师只说过一句模糊的话："线段破坏的充要条件就是被另一个线段破坏"。这一课，把它精确化。</p>
+    <p>前面的课已经定义了 <b>分型</b>、<b>笔</b>。一笔之上的"段"该怎么数？以前只能凭感觉——"看起来像一段就是一段"。但凭感觉的东西，<span class="hl-down">十个人有十种数法</span>，整个几何体系就站不住脚。</p>
+    <p>本课的目标只有一个：给"<b>线段在哪里结束</b>"一个<b>没有任何歧义的、可机械执行的判定规则</b>，让任意一张走势图都能<b>唯一地</b>被划分成线段的连接。一旦做到这一点，<span class="hl-pivot">中枢、走势类型、买卖点</span>这套递归体系才有干净的零件可用。</p>
+    <blockquote>本课，就是把前面"线段破坏的充要条件就是被另一个线段破坏"<b>精确化</b>了。因此，以后关于线段的划分，都以此<b>精确的定义</b>为基础。<span class="who">— 缠中说禅</span></blockquote>
+    <p>读这一课的姿势：<b>抠定义、按顺序、别跳步</b>。缠师自己都说"这个定义有点复杂"——把"特征序列 → 标准特征序列 → 顶/底分型 → 第一种 / 第二种情况"这条逻辑链一步步搞清楚，否则<span class="hl-down">"一定晕倒"</span>。</p>
+  </section>
+
+  <!-- 2 -->
+  <section class="wrap reveal">
+    <div class="sec-no">02 — 准备 · 笔的 S/X 序列</div>
+    <h2>先把"线段"拆成笔的字母串</h2>
+    <p class="lead">缠师用两个字母给笔编号：<b>S = 向上笔</b>（Shang，上）、<b>X = 向下笔</b>（Xia，下）。</p>
+    <p>任意一条线段，要么从一根向上笔起步，要么从一根向下笔起步——只有这两种。以"<b>向上笔开头</b>"的线段为例，它一定长这样：</p>
+    <div class="seqbox">
+      <svg viewBox="0 0 760 110" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <marker id="ar1" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0 L10,5 L0,10 Z" fill="#ff4d4f"/></marker>
+          <marker id="ar2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0 L10,5 L0,10 Z" fill="#16c784"/></marker>
+        </defs>
+        <!-- S1 X1 S2 X2 S3 X3 ... -->
+        <g font-family="JetBrains Mono" font-size="13" font-weight="700">
+          <!-- 折线骨架 -->
+          <polyline points="40,90 110,30 180,70 250,20 320,60 390,15 460,55 530,12 600,50 670,18 720,52" fill="none" stroke="#cfd5dc" stroke-width="1.6"/>
+          <!-- S 标签 (向上笔, 红) -->
+          <text x="70" y="56" fill="#ff4d4f">S1</text>
+          <text x="210" y="46" fill="#ff4d4f">S2</text>
+          <text x="350" y="40" fill="#ff4d4f">S3</text>
+          <text x="490" y="38" fill="#ff4d4f">S4</text>
+          <text x="630" y="38" fill="#ff4d4f">S5</text>
+          <!-- X 标签 (向下笔, 绿) -->
+          <text x="140" y="56" fill="#16c784">X1</text>
+          <text x="280" y="48" fill="#16c784">X2</text>
+          <text x="420" y="42" fill="#16c784">X3</text>
+          <text x="560" y="38" fill="#16c784">X4</text>
+          <text x="690" y="40" fill="#16c784">X5</text>
+        </g>
+      </svg>
+      <div class="cap">向上笔开头的线段 = <span class="hl-up">S1</span> <span class="hl-down">X1</span> <span class="hl-up">S2</span> <span class="hl-down">X2</span> <span class="hl-up">S3</span> <span class="hl-down">X3</span> … 上下交替，无穷接龙</div>
+    </div>
+    <p>简写就是 <span class="formula">S1 X1 S2 X2 … Sn Xn</span>。这套字母串就是<b>分析线段的最小语言</b>——后面所有判断，都是在这串字母上做的。</p>
+  </section>
+
+  <!-- 3 -->
+  <section class="wrap reveal">
+    <div class="sec-no">03 — 关键发明 · 特征序列</div>
+    <h2>只盯"反方向"的那几笔——这就是特征序列</h2>
+    <p class="lead">缠师做了一个反直觉的关键动作：要分析一条<b>向上的</b>线段什么时候结束，<b>不要</b>去看那些向上笔（S），而要去看夹在中间的<b>向下笔</b>（X）。</p>
+    <p>原因藏在缠师那句"<b>容易证明</b>"里：</p>
+    <blockquote>容易证明，任何 Si 与 Si+1 之间，一定有重合区间。而考察序列 X1 X2 … Xn，该序列中，Xi 与 Xi+1 之间<b>并不一定有重合区间</b>，因此，这序列更能<b>代表线段的性质</b>。<span class="who">— 缠中说禅</span></blockquote>
+    <p>翻译：一条向上的线段里，相邻两根<b>向上笔</b>（S1 和 S2）一定会"打架重叠"在一起——所以盯它们看不出有用信息；而相邻两根<b>向下笔</b>（X1 和 X2），它们之间可能<b>有重叠也可能没重叠</b>，<span class="hl-pivot">这种"有没有重叠"的变化，正好用来判断线段是否走完了</span>。</p>
+    <div class="grid">
+      <div class="card"><div class="tag">定义</div><h3>特征序列</h3><p><b>以向上笔开始的线段</b>：把所有<b>向下笔</b>串起来 = <span class="formula">X1 X2 X3 …</span>，这串就是该线段的<b>特征序列</b>。</p></div>
+      <div class="card"><div class="tag">定义</div><h3>反过来同理</h3><p><b>以向下笔开始的线段</b>：把所有<b>向上笔</b>串起来 = <span class="formula">S1 S2 S3 …</span>，就是它的特征序列。</p></div>
+    </div>
+    <p><b>记住口诀</b>：<span class="hl-gold">线段往上走，看向下笔；线段往下走，看向上笔。永远盯反方向那串。</span></p>
+    <blockquote>特征序列两相邻元素间<b>没有重合区间</b>，称为该序列的一个<b class="hl-gold">缺口</b>。<span class="who">— 缠中说禅</span></blockquote>
+    <p>"缺口"是这一课的另一个核心词——后面区分两种情况，就靠它。<b>缺口 = 反方向那串里，前后两根笔的价格区间没碰上、中间有空</b>。这跟 K 线图上常说的"跳空缺口"是同一个意思，只是对象换成了"笔"。</p>
+  </section>
+
+  <!-- 4 -->
+  <section class="wrap reveal">
+    <div class="sec-no">04 — 把特征序列变"干净"</div>
+    <h2>标准特征序列：把每一笔当成一根 K 线，再处理包含</h2>
+    <p class="lead">原始的特征序列还有歧义，需要做一次"标准化"，方法和第 62 课处理 K 线包含关系一模一样。</p>
+    <p>关键的认知翻转——缠师让你<b>把特征序列里的每一根"笔"，当成一根"K 线"</b>来看：</p>
+    <div class="grid">
+      <div class="card"><div class="tag">视角切换</div><h3>一笔 → 一根"虚拟 K 线"</h3><p>每根笔有起点价、终点价 → 自然就有<b>高点和低点</b>，跟一根 K 线没区别。X 笔向下，它的高点是起点（顶分型处），低点是终点（底分型处）。</p></div>
+      <div class="card"><div class="tag">复用旧规矩</div><h3>包含关系怎么办</h3><p>两根"虚拟 K 线"互相包含时 → <b>按第 62 课的合并规则</b>：向上时取高高低高，向下时取低低高低。</p></div>
+    </div>
+    <blockquote>经过<b>非包含处理</b>的特征序列，成为<b>标准特征序列</b>。以后没有特别说明，特征序列都是指<b>标准特征序列</b>。<span class="who">— 缠中说禅</span></blockquote>
+    <p>之后所有判断都在<b>标准特征序列</b>上做。在它身上找<b>顶分型 / 底分型</b>——方法也和 K 线找分型一样，但有<span class="hl-gold">一条不能搞反的规则</span>：</p>
+    <div class="points">
+      <div class="pt b">
+        <div class="dot">↑</div>
+        <div>
+          <h4>向上笔开头的线段 → 只找顶分型</h4>
+          <p>你要确认的是"上涨走完了没"，所以在 X 笔（特征序列）里找<b>顶分型</b>，那个高点可能就是线段终点。</p>
+        </div>
+      </div>
+      <div class="pt s">
+        <div class="dot">↓</div>
+        <div>
+          <h4>向下笔开头的线段 → 只找底分型</h4>
+          <p>你要确认的是"下跌走完了没"，所以在 S 笔（特征序列）里找<b>底分型</b>，那个低点可能就是线段终点。</p>
+        </div>
+      </div>
+    </div>
+    <p>到这一步，定义铺垫终于齐了。接下来是这门课的"心脏"——<b>两种情况</b>的判定。</p>
+  </section>
+
+  <!-- 5 -->
+  <section class="wrap reveal">
+    <div class="sec-no">05 — 心脏 · 两种情况</div>
+    <h2>关键一刀：分型的"前两根"之间有没有缺口</h2>
+    <p class="lead">缠师把所有线段结束的图形，按一个细节切成两类——分型里的<b>第一元素和第二元素之间，有没有特征序列的缺口</b>。</p>
+
+    <div class="case-tab"><div class="c1">情况 1 · 无缺口</div><div class="c2">情况 2 · 有缺口</div></div>
+    <div class="table" style="border-radius:0 0 14px 14px;border-top:none;margin-top:0">
+      <div class="row head"><div>判定条件</div><div>什么时候算线段结束</div><div>实战含义（人话）</div></div>
+      <div class="row">
+        <div class="name" style="color:var(--up)">情况 1<br><span style="font-family:var(--mono);font-size:12px;color:var(--ink-faint);font-weight:500">无缺口</span></div>
+        <div>特征序列顶分型中，<b>第一元素与第二元素之间不存在缺口</b>（两笔有重叠）</div>
+        <div><b>该顶分型出现的那一刻</b>，线段就结束，顶分型的<span class="hl-up">最高点</span>即线段终点。<b>不用再等</b>，干净利落。</div>
+      </div>
+      <div class="row">
+        <div class="name" style="color:var(--gold)">情况 2<br><span style="font-family:var(--mono);font-size:12px;color:var(--ink-faint);font-weight:500">有缺口</span></div>
+        <div>特征序列顶分型中，<b>第一元素与第二元素之间存在缺口</b>（两笔不重叠、中间断开）</div>
+        <div>顶分型先<b>不算数</b>。要等从那个最高点开始的<b>反方向新线段的特征序列</b>，也走出<b class="hl-down">底分型</b>，原顶分型才被追认。</div>
+      </div>
+    </div>
+
+    <blockquote>强调，在第二种情况下，<b>后一特征序列不一定封闭前一特征序列相应的缺口</b>，而且，第二个序列中的分型，<b>不分第一二种情况</b>，只要有分型就可以。<span class="who">— 缠中说禅</span></blockquote>
+
+    <p>这句话要拆开看，<b>三个坑</b>都藏在里面：</p>
+    <div class="points">
+      <div class="pt b">
+        <div class="dot">①</div>
+        <div>
+          <h4>第二种情况下，缺口可以一直留着</h4>
+          <p>新线段走出来之后<b>不必把那个缺口补上</b>。很多人以为"缺口不补就不算"，<span class="hl-down">错</span>。</p>
+        </div>
+      </div>
+      <div class="pt b">
+        <div class="dot">②</div>
+        <div>
+          <h4>新序列里的分型，怎么样都行</h4>
+          <p>反方向那条新线段的特征序列里出现底分型时，它自己<b>是情况 1 还是情况 2 都无所谓</b>——只要"有底分型"就够，立刻就能反过去追认原顶分型。</p>
+        </div>
+      </div>
+      <div class="pt s">
+        <div class="dot">③</div>
+        <div>
+          <h4>底分型 vs 顶分型是对称的</h4>
+          <p>上面整段把"顶分型"换成"底分型"、"最高点"换成"最低点"，就是<b>以向下笔开始</b>的线段划分。逻辑完全镜像。</p>
+        </div>
+      </div>
+    </div>
+
+    <figure>
+      <img src="/_assets/ch67_p01.jpeg" alt="线段划分两种情况示意图">
+      <figcaption>缠师原图：情况1（左上）特征序列前两根无缺口、顶分型即线段终点 · 情况2（右上）有缺口、需要观察"顶分型后的新特征序列"出现底分型 · 下方反例：不构成顶分型则线段未结束</figcaption>
+    </figure>
+    <p>上面右上角那一串"<b>顶分型后的新特征序列</b>"——画了个底分型出来——就是情况 2 必须出现的"追认信号"。没等到它，<span class="hl-down">线段就还没死</span>。</p>
+  </section>
+
+  <!-- 6 -->
+  <section class="wrap reveal">
+    <div class="sec-no">06 — 一张图把流程穿起来</div>
+    <h2>判一条向上线段是否结束 · 四步法</h2>
+    <p class="lead">把上面的定义压缩成一条流水线，下次实战照着走就行。</p>
+    <ol class="think">
+      <li><b>圈出当前向上线段的所有 X 笔</b>（向下笔），按时间顺序串起来 = 原始特征序列。</li>
+      <li><b>非包含化</b>：把相邻 X 笔当 K 线看，遇到包含关系就按"向下方向合并"——得到<b>标准特征序列</b>。</li>
+      <li><b>在标准特征序列里找顶分型</b>。没有 → 线段还没结束。有 → 进入第 4 步。</li>
+      <li><b>看顶分型的第一、二根元素之间</b>：<br>　• 没缺口 → <span class="hl-up">情况 1</span>，顶分型最高点即线段终点，<b>当场成立</b>。<br>　• 有缺口 → <span class="hl-gold">情况 2</span>，盯住从那个最高点开始的下行新线段；等它的特征序列里出现<b>底分型</b>，原顶分型才被追认。</li>
+    </ol>
+    <p>向下线段同理，把"顶分型"换成"底分型"、"X 笔"换成"S 笔"、"最高点"换成"最低点"即可。</p>
+  </section>
+
+  <!-- 7 -->
+  <section class="wrap reveal">
+    <div class="sec-no">07 — 真实行情试一试</div>
+    <h2>用上证指数 2024-2025 这段，验证线段的"接力"</h2>
+    <p class="lead">2024 年 9 月底的"924 行情"+ 2025 年 4 月的关税恐慌底——这一段上证指数的走势，把"线段被新线段破坏"演了个标准范本。</p>
+
+    <div class="proof">
+      <span class="badge">数据实证 · 上证指数 000001</span>
+      <p style="margin:0 0 14px;color:var(--ink-dim);font-size:15px">下图把日 K（折线 = 收盘）画出来，标了三段关键的<b>线段终点</b>。注意：日 K 这个级别上的"段"是粗略示意——精确线段需要看 1F/5F 级别的笔来递归判断，本图用于<b>直观感受"段-段交替"这件事</b>。</p>
+      <div class="chartbox">
+        <div class="legend">
+          <span><i style="background:#cfd5dc"></i>上证收盘</span>
+          <span><i style="background:#e8b339"></i>MA20</span>
+          <span><i style="background:#37c0e6"></i>MA60</span>
+          <span><i style="background:#ff4d4f"></i>段底（线段终点·低）</span>
+          <span><i style="background:#16c784"></i>段顶（线段终点·高）</span>
+        </div>
+        <canvas id="cv_sh" height="460"></canvas>
+      </div>
+      <div class="verdict"><span class="mk">观测</span><p>① <b>2024-09-18 低 2690</b> → 924 行情拐点（向上新线段诞生）<br>② <b>2024-10-08 高 3674</b> → 第一段向上线段的<b>顶</b>，随后一根巨阴砸出来——典型"有缺口"形态，需等新一段向下的特征序列走出底分型才被追认<br>③ <b>2025-01-13 低 3141 / 2025-04-07 低 3041</b> → 关税恐慌引发的二次探底，向下线段的两个备选终点<br>④ <b>2025-05-14 高 3417</b> → 向上反弹线段在此遇阻<br>每一段"段-段接力"都在演绎本课的两条规则：<b class="hl-pivot">特征序列 + 缺口</b>。</p></div>
+      <p style="font-family:var(--mono);font-size:12px;color:var(--ink-faint);margin-top:14px">数据来源：新浪财经日K（不复权）· akshare 取数 · 截至 2025-05-30 · 共 177 个交易日 · 不构成投资建议</p>
+    </div>
+
+    <p>顺带提一句：缠师本课正文末尾还附了 [2007-08-02] [2007-08-03] 两段 2007 年牛市的盘面札记，讨论"第三拨人""第四拨人""醉生梦死疯一回"等市场心态——那部分是<b>盘面纪录</b>而非线段理论，看一遍当 2007 牛市的实景资料即可，不影响本课"线段划分标准"的核心。</p>
+  </section>
+
+  <!-- 8 -->
+  <section class="wrap reveal">
+    <div class="sec-no">08 — 判图练习</div>
+    <h2>动手判一判</h2>
+    <p class="lead">三道题，把上面的判定规则在脑子里走一遍。</p>
+
+    <div class="quiz">
+      <h4>练习 1：一条以向上笔开头的线段，它的特征序列应该串哪几根笔？</h4>
+      <p>（提示：盯反方向）</p>
+      <details class="ans"><summary>查看答案</summary><p>串<b>所有向下笔（X 笔）</b>：<span class="formula">X1 X2 X3 …</span>。向上笔（S 笔）不参与特征序列。口诀："线段往上走，看向下笔"。</p></details>
+    </div>
+
+    <div class="quiz">
+      <h4>练习 2：在标准特征序列里数出一个顶分型，发现它的<b>第一根和第二根元素之间隔了一大段没碰上</b>，能立刻判定原线段结束吗？</h4>
+      <p>（提示：缺口 → 情况几）</p>
+      <details class="ans"><summary>查看答案</summary><p><b>不能立刻判定</b>。这是<b>情况 2</b>——有缺口。必须再等：从顶分型最高点开始的<b>反方向新线段</b>，其特征序列也走出一个<b>底分型</b>，原顶分型才被追认。<span class="hl-down">否则原线段尚未结束</span>。</p></details>
+    </div>
+
+    <div class="quiz">
+      <h4>练习 3：情况 2 下，等到了新线段特征序列的底分型，但那个底分型自己<b>也带缺口</b>（也是情况 2），算不算数？</h4>
+      <p>（提示：原文那句"不分第一二种情况"）</p>
+      <details class="ans"><summary>查看答案</summary><p><b>算数</b>。缠师明确说："第二个序列中的分型，<b>不分第一二种情况</b>，只要有分型就可以"。新序列里的底分型不需要再追究自己是情况 1 还是情况 2，<b>只要存在</b>就足以追认原顶分型。</p></details>
+    </div>
+  </section>
+
+  <!-- 9 -->
+  <section class="wrap reveal">
+    <div class="sec-no">09 — 思考题</div>
+    <h2>再往深想一层</h2>
+    <p class="lead">这几题帮你把"线段划分"和后面的中枢、走势类型接上。</p>
+    <ol class="think">
+      <li>为什么相邻两根<b>同向</b>笔（S1 与 S2）一定有重合，而相邻两根<b>反向</b>笔（X1 与 X2）<b>不一定</b>有重合？想清楚这个，"特征序列为什么必须看反方向"这件事就通了。</li>
+      <li>情况 1 和情况 2 的本质区别，是不是"动能强度"的差异？情况 2 的缺口往往意味着原方向最后一击非常凶猛，所以才"打出空"——这对实战中识别"假反转 vs 真反转"有什么启示？</li>
+      <li>有了精确的线段划分，下一步缠师就要讲<b>走势中枢的精确定义</b>（第 68 课起）。线段是中枢的"零件"，本课的规则不严，整个中枢理论会散架。你能想出一两个"线段没数清"会导致"中枢误判"的具体例子吗？</li>
+      <li>同一张走势图，按本课规则划线段是<b>唯一</b>的，但日 K / 30F / 5F 上的线段并不相同。这就涉及<b>级别</b>——你打算用什么周期作"本级别"判断你常做的票？</li>
+    </ol>
+    <div class="tldr">
+      <div class="lab">一句话总结</div>
+      <p>把线段拆成 S/X 笔串，<b>盯反方向那串当特征序列</b>，处理掉包含关系得到标准序列；在里面找顶/底分型，看分型<b>前两根有没有缺口</b>——无缺口当场成段，有缺口必须等新线段的特征序列走出反向分型来追认。这就是缠论里线段划分<b>不可再细化</b>的唯一标准。</p>
+    </div>
+  </section>
+
+</main>
+<footer class="wrap">
+  原文出处：raw/缠中说禅/教你炒股票108课/教你炒股票67：线段的划分标准.md<br>
+  本页为个人学习复习用 · 非投资建议
+</footer>
+<script>
+  const bar=document.getElementById('bar');
+  const onScroll=()=>{const h=document.documentElement;bar.style.width=(h.scrollTop/(h.scrollHeight-h.clientHeight)*100)+'%'};
+  document.addEventListener('scroll',onScroll,{passive:true});onScroll();
+  const io=new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{threshold:.12});
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+  /* ===== Canvas 渲染器（与规范一致） ===== */
+  function drawChanChart(canvasId, CHART){
+    const cv=document.getElementById(canvasId); if(!cv) return;
+    const mode=CHART.mode||'line', hasVol=!!CHART.v && CHART.showVol!==false;
+    const idxOf={}; CHART.dates.forEach((d,i)=>idxOf[d]=i);
+    const ri=d=>{ if(d in idxOf)return idxOf[d]; let b=0,bd=1/0;
+      CHART.dates.forEach((x,i)=>{const t=Math.abs(new Date(x)-new Date(d)); if(t<bd){bd=t;b=i}}); return b; };
+    function draw(){
+      const dpr=window.devicePixelRatio||1, W=cv.clientWidth, H=CHART.height||440;
+      cv.width=W*dpr; cv.height=H*dpr; const x=cv.getContext('2d'); x.scale(dpr,dpr); x.clearRect(0,0,W,H);
+      const padL=48,padR=14,padT=16, volH=hasVol?70:0, gap=hasVol?16:0, priceH=H-padT-volH-gap-22, n=CHART.c.length;
+      let mn=Math.min(...CHART.l), mx=Math.max(...CHART.h);
+      if(CHART.ma)Object.values(CHART.ma).forEach(a=>a.forEach(v=>{if(v!=null){mn=Math.min(mn,v);mx=Math.max(mx,v)}}));
+      if(CHART.pivots)CHART.pivots.forEach(p=>{mn=Math.min(mn,p.lo);mx=Math.max(mx,p.hi)});
+      if(CHART.marks)CHART.marks.forEach(m=>{mn=Math.min(mn,m.price);mx=Math.max(mx,m.price)});
+      const pd=(mx-mn)*0.08; mn-=pd; mx+=pd;
+      const PW=W-padL-padR, px=i=> n===1?padL+PW/2:padL+PW*i/(n-1), py=p=>padT+priceH*(1-(p-mn)/(mx-mn));
+      x.font="11px JetBrains Mono"; x.textAlign="right";
+      for(let g=0;g<=4;g++){const p=mn+(mx-mn)*g/4,yy=py(p);
+        x.strokeStyle="rgba(255,255,255,.06)";x.beginPath();x.moveTo(padL,yy);x.lineTo(W-padR,yy);x.stroke();
+        x.fillStyle="#5b6470";x.fillText(p.toFixed(2),padL-6,yy+3)}
+      if(CHART.pivots)CHART.pivots.forEach(p=>{const x1=px(ri(p.from)),x2=px(ri(p.to)),y1=py(p.hi),y2=py(p.lo);
+        x.fillStyle="rgba(55,192,230,.10)";x.strokeStyle="rgba(55,192,230,.55)";x.lineWidth=1;
+        x.fillRect(x1,y1,x2-x1,y2-y1);x.strokeRect(x1,y1,x2-x1,y2-y1);
+        if(p.label){x.fillStyle="#37c0e6";x.textAlign="center";x.fillText(p.label,(x1+x2)/2,y1-5)}});
+      if(hasVol){const vmax=Math.max(...CHART.v),vt=padT+priceH+gap;
+        for(let i=0;i<n;i++){const up=CHART.c[i]>=CHART.o[i];x.fillStyle=up?"rgba(255,77,79,.5)":"rgba(22,199,132,.5)";
+          const bw=Math.max(1,PW/n*0.6),bh=volH*CHART.v[i]/vmax;x.fillRect(px(i)-bw/2,vt+volH-bh,bw,bh)}}
+      if(mode==='candle'){const bw=Math.max(1.5,PW/n*0.62);
+        for(let i=0;i<n;i++){const up=CHART.c[i]>=CHART.o[i],col=up?"#ff4d4f":"#16c784";x.strokeStyle=col;x.fillStyle=col;
+          x.beginPath();x.moveTo(px(i),py(CHART.h[i]));x.lineTo(px(i),py(CHART.l[i]));x.stroke();
+          const yo=py(CHART.o[i]),yc=py(CHART.c[i]);x.fillRect(px(i)-bw/2,Math.min(yo,yc),bw,Math.max(1,Math.abs(yc-yo)))}}
+      else{const cs=CHART.c;x.beginPath();for(let i=0;i<n;i++){const xx=px(i),yy=py(cs[i]);i?x.lineTo(xx,yy):x.moveTo(xx,yy)}
+        const gr=x.createLinearGradient(0,padT,0,padT+priceH);gr.addColorStop(0,"rgba(207,213,220,.16)");gr.addColorStop(1,"rgba(207,213,220,0)");
+        x.lineTo(px(n-1),padT+priceH);x.lineTo(px(0),padT+priceH);x.closePath();x.fillStyle=gr;x.fill();
+        x.beginPath();for(let i=0;i<n;i++){const xx=px(i),yy=py(cs[i]);i?x.lineTo(xx,yy):x.moveTo(xx,yy)}
+        x.strokeStyle="#cfd5dc";x.lineWidth=1.6;x.stroke()}
+      const MC={MA5:"#ff8a8c",MA10:"#c0a3ff",MA20:"#e8b339",MA60:"#37c0e6",MA120:"#9aa3ad",MA250:"#ff4d4f"};
+      if(CHART.ma)Object.entries(CHART.ma).forEach(([k,a])=>{x.beginPath();let st=false;
+        for(let i=0;i<n;i++){if(a[i]==null)continue;const xx=px(i),yy=py(a[i]);st?x.lineTo(xx,yy):(x.moveTo(xx,yy),st=true)}
+        x.strokeStyle=MC[k]||"#888";x.lineWidth=1.4;x.stroke()});
+      if(CHART.marks)CHART.marks.forEach(m=>{const xx=px(ri(m.date)),yy=py(m.price),buy=(m.type||'').startsWith('b'),col=buy?"#ff4d4f":"#16c784";
+        x.fillStyle=col;x.beginPath();x.arc(xx,yy,4,0,7);x.fill();
+        x.fillStyle="#fff";x.font="bold 11px -apple-system";x.textAlign="center";x.fillText(m.text||'',xx,buy?yy+18:yy-10)});
+      x.fillStyle="#5b6470";x.textAlign="center";x.font="11px JetBrains Mono";
+      const L=Math.min(6,n);for(let g=0;g<L;g++){const i=Math.round((n-1)*g/(L-1||1));x.fillText(CHART.dates[i],px(i),H-5)}
+    }
+    draw(); window.addEventListener('resize',draw);
+  }
+
+  /* ===== 上证指数 924 行情至今 · 177 个交易日 ===== */
+  const CHART_SH = "__DATA__";
+  CHART_SH.height = 460;
+  CHART_SH.showVol = false;
+  CHART_SH.marks = [
+    {date:"2024-09-18", price:2690, type:"b1", text:"底 2690"},
+    {date:"2024-10-08", price:3674, type:"s1", text:"顶 3674"},
+    {date:"2025-01-13", price:3141, type:"b2", text:"底 3141"},
+    {date:"2025-04-07", price:3041, type:"b3", text:"底 3041"},
+    {date:"2025-05-14", price:3417, type:"s2", text:"顶 3417"}
+  ];
+  drawChanChart("cv_sh", CHART_SH);
+</script>
+<script src="/assets/_nav.js"></script><script src="/assets/_shell.js"></script></body>
+</html>

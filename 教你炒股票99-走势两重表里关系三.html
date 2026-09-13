@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>缠论 · 教你炒股票99：走势结构的两重表里关系3</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@500;700;900&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0b0e12;
+    --bg-elev:#12161c;
+    --bg-card:#161b22;
+    --ink:#e8eaed;
+    --ink-dim:#9aa3ad;
+    --ink-faint:#5b6470;
+    --line:rgba(255,255,255,.07);
+    --up:#ff4d4f;
+    --down:#16c784;
+    --pivot:#37c0e6;
+    --gold:#e8b339;
+    --purple:#b07cff;
+    --max:880px;
+    --serif:"Noto Serif SC",serif;
+    --mono:"JetBrains Mono",ui-monospace,monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--bg);color:var(--ink);
+    font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;
+    line-height:1.85;font-size:17px;
+    -webkit-font-smoothing:antialiased;overflow-x:hidden;
+  }
+  body::before{
+    content:"";position:fixed;inset:0;z-index:-2;
+    background:
+      radial-gradient(1200px 600px at 70% -10%, rgba(176,124,255,.10), transparent 60%),
+      radial-gradient(900px 500px at 0% 100%, rgba(55,192,230,.06), transparent 55%);
+    pointer-events:none;
+  }
+  body::after{
+    content:"";position:fixed;inset:0;z-index:-1;opacity:.4;
+    background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);
+    background-size:46px 46px;
+    -webkit-mask-image:radial-gradient(ellipse at 50% 0%, #000 30%, transparent 80%);
+            mask-image:radial-gradient(ellipse at 50% 0%, #000 30%, transparent 80%);
+    pointer-events:none;
+  }
+
+  #bar{position:fixed;top:0;left:0;height:3px;width:0;z-index:50;
+    background:linear-gradient(90deg,var(--purple),var(--gold));box-shadow:0 0 12px var(--purple);}
+
+  .wrap{max-width:var(--max);margin:0 auto;padding:0 24px}
+
+  header.hero{padding:120px 0 70px;text-align:center;position:relative}
+  .kicker{font-family:var(--mono);font-size:13px;letter-spacing:.32em;color:var(--purple);
+    text-transform:uppercase;margin-bottom:26px}
+  .kicker span{color:var(--ink-faint)}
+  h1.title{font-family:var(--serif);font-weight:900;line-height:1.05;
+    font-size:clamp(44px,9vw,90px);letter-spacing:.04em;
+    background:linear-gradient(180deg,#fff 30%,#8aa0ad 130%);
+    -webkit-background-clip:text;background-clip:text;color:transparent;}
+  .sub{margin:22px auto 0;max-width:600px;color:var(--ink-dim);font-size:18px}
+  .meta{margin-top:34px;display:flex;gap:14px;justify-content:center;flex-wrap:wrap;
+    font-family:var(--mono);font-size:12px;color:var(--ink-faint)}
+  .meta b{color:var(--ink-dim);font-weight:500}
+  .pill{border:1px solid var(--line);padding:6px 14px;border-radius:999px;background:rgba(255,255,255,.02)}
+
+  .scroll-hint{margin-top:60px;color:var(--ink-faint);font-family:var(--mono);font-size:12px;
+    animation:bob 2.4s ease-in-out infinite}
+  @keyframes bob{0%,100%{transform:translateY(0);opacity:.5}50%{transform:translateY(8px);opacity:1}}
+
+  section{padding:64px 0;border-top:1px solid var(--line)}
+  .sec-no{font-family:var(--mono);font-size:13px;color:var(--gold);letter-spacing:.2em;margin-bottom:10px}
+  h2{font-family:var(--serif);font-weight:700;font-size:clamp(28px,5vw,42px);
+    line-height:1.25;margin-bottom:8px;letter-spacing:.02em}
+  .lead{color:var(--ink-dim);font-size:16px;margin-bottom:28px;max-width:640px}
+  p{margin:0 0 18px;color:#cfd5dc}
+  p b,strong{color:#fff;font-weight:700}
+  .hl-pivot{color:var(--pivot);font-weight:700}
+  .hl-purple{color:var(--purple);font-weight:700}
+  .hl-up{color:var(--up);font-weight:700}
+  .hl-down{color:var(--down);font-weight:700}
+  .hl-gold{color:var(--gold);font-weight:700}
+  code.k{font-family:var(--mono);font-size:.92em;color:var(--gold);
+    background:rgba(232,179,57,.08);padding:1px 6px;border-radius:4px;border:1px solid rgba(232,179,57,.2)}
+
+  blockquote{margin:26px 0;padding:20px 24px;border-left:3px solid var(--purple);
+    background:linear-gradient(90deg,rgba(176,124,255,.08),transparent);
+    border-radius:0 10px 10px 0;font-family:var(--serif);font-size:19px;color:#eee5fb}
+  blockquote .who{display:block;margin-top:8px;font-family:var(--mono);font-size:12px;
+    color:var(--ink-faint);font-style:normal}
+
+  figure{margin:34px 0}
+  figure img{width:100%;border-radius:12px;border:1px solid var(--line);
+    background:#fff;box-shadow:0 18px 50px rgba(0,0,0,.5)}
+  figcaption{margin-top:12px;font-size:13px;color:var(--ink-faint);text-align:center;font-family:var(--mono)}
+
+  .grid{display:grid;gap:16px;grid-template-columns:1fr 1fr;margin:28px 0}
+  @media(max-width:640px){.grid{grid-template-columns:1fr}}
+  .card{background:var(--bg-card);border:1px solid var(--line);border-radius:14px;padding:24px;
+    position:relative;overflow:hidden;transition:transform .35s ease,border-color .35s ease}
+  .card:hover{transform:translateY(-4px);border-color:rgba(176,124,255,.4)}
+  .card .tag{font-family:var(--mono);font-size:11px;letter-spacing:.18em;color:var(--gold);text-transform:uppercase}
+  .card h3{font-family:var(--serif);font-size:21px;margin:10px 0 8px;color:#fff}
+  .card p{font-size:15px;color:var(--ink-dim);margin:0}
+
+  /* 结合律公式块 */
+  .formula{margin:28px 0;padding:24px 26px;background:var(--bg-elev);border:1px solid var(--line);
+    border-radius:14px;font-family:var(--mono);font-size:15px;color:var(--ink);
+    line-height:1.9;text-align:center;overflow-x:auto}
+  .formula .eq{font-size:18px;color:#fff;letter-spacing:.06em}
+  .formula .note{margin-top:10px;font-family:var(--serif);font-size:14px;color:var(--ink-dim);text-align:left}
+  .formula .seg-line{color:var(--gold)}
+  .formula .seg-pivot{color:var(--purple)}
+  .formula .seg-after{color:var(--pivot)}
+
+  /* 状态对比表 */
+  .table{margin:28px 0;border:1px solid var(--line);border-radius:14px;overflow:hidden}
+  .table .row{display:grid;grid-template-columns:1fr 1.4fr 1.6fr;align-items:stretch}
+  .table .row+.row{border-top:1px solid var(--line)}
+  .table .row > div{padding:16px 18px}
+  .table .row.head{background:var(--bg-elev);font-family:var(--mono);font-size:12px;
+    letter-spacing:.14em;color:var(--ink-faint);text-transform:uppercase}
+  .table .row > div+div{border-left:1px solid var(--line)}
+  .table .name{font-family:var(--serif);font-weight:700;font-size:17px}
+  .table .name.ok{color:var(--down)}
+  .table .name.bad{color:var(--up)}
+  @media(max-width:560px){
+    .table .row{grid-template-columns:1fr}
+    .table .row > div+div{border-left:0;border-top:1px solid var(--line)}
+    .table .row.head{display:none}
+  }
+
+  /* 关键结论高亮 */
+  .keypoint{margin:30px 0;padding:24px 28px;border:1px solid rgba(232,179,57,.3);
+    background:radial-gradient(120% 120% at 100% 0%,rgba(232,179,57,.08),transparent 60%),var(--bg-elev);
+    border-radius:14px;position:relative}
+  .keypoint::before{content:"★";position:absolute;top:18px;right:22px;color:var(--gold);font-size:22px;opacity:.6}
+  .keypoint .lab{font-family:var(--mono);font-size:11px;letter-spacing:.24em;color:var(--gold);text-transform:uppercase;margin-bottom:10px}
+  .keypoint h3{font-family:var(--serif);color:#fff;font-size:20px;margin-bottom:8px}
+  .keypoint p{font-size:15px;color:var(--ink-dim);margin:0}
+
+  /* 读后感列表 */
+  ol.takeaways{counter-reset:t;list-style:none;margin:24px 0;display:flex;flex-direction:column;gap:12px}
+  ol.takeaways li{counter-increment:t;position:relative;padding:16px 20px 16px 56px;
+    background:var(--bg-elev);border:1px solid var(--line);border-radius:12px;color:var(--ink-dim);font-size:15px}
+  ol.takeaways li::before{content:counter(t,decimal-leading-zero);position:absolute;left:18px;top:16px;
+    font-family:var(--mono);color:var(--purple);font-weight:700;font-size:14px}
+  ol.takeaways li b{color:#fff}
+
+  footer{padding:60px 0 90px;text-align:center;color:var(--ink-faint);font-family:var(--mono);font-size:12px;border-top:1px solid var(--line)}
+
+  .reveal{opacity:0;transform:translateY(26px);transition:opacity .8s ease,transform .8s ease}
+  .reveal.in{opacity:1;transform:none}
+  @media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}.scroll-hint{animation:none}}
+</style>
+<meta name="view-transition" content="same-origin"><style>@view-transition{navigation:auto}</style></head>
+<body>
+<div id="bar"></div>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="kicker">缠中说禅 · 教你炒股票108课 <span>/ 第 99 课</span></div>
+    <h1 class="title">走势两重表里关系（三）</h1>
+    <p class="sub">中阴 · 结合律 · 后续中枢必更大——把"未确定"也变成可操作的部分。</p>
+    <div class="meta">
+      <span class="pill"><b>原文</b> 2008-02-18</span>
+      <span class="pill"><b>类型</b> 结构理论 · 划分原则</span>
+      <span class="pill"><b>承接</b> 第 97/98 课 表里关系（一/二）</span>
+    </div>
+    <div class="scroll-hint">↓ 中阴不是缺陷，是结构本身</div>
+  </div>
+</header>
+
+<main>
+
+  <!-- 1 中阴的必然性 -->
+  <section class="wrap reveal">
+    <div class="sec-no">01 — 中阴不是 BUG</div>
+    <h2>走势天生就有"未确定"的中间态</h2>
+    <p class="lead">很多人一遇到中阴就晕，觉得是理论没完善——缠师在第 99 课开篇就把这个误解掀开。</p>
+    <blockquote>
+      有人可能认为，中阴存在是理论不完善的结果，其实，这是典型的一根筋思维……世界更多是量子化的，是测不准的，<b>中阴的存在恰好客观地反映了走势的这种特性</b>。
+      <span class="who">— 缠中说禅 · 第 99 课</span>
+    </blockquote>
+    <p>走势的"生长阶段"本身就是<span class="hl-purple">未确定</span>的，这种未确定不会妨碍操作——因为<b>所有中阴状态都可以当成一次中枢震荡来处理</b>，按中枢震荡的规则操作即可。中阴像量子态，落定前都是叠加；落定后才会确认是 1 分钟、5 分钟还是更大级别。</p>
+  </section>
+
+  <!-- 2 不能给同级别一刀切 -->
+  <section class="wrap reveal">
+    <div class="sec-no">02 — 划分的难处</div>
+    <h2>中阴状态下，不能给走势"一般性划分"</h2>
+    <p class="lead">注意，缠师特别提醒：这里说的不是"同级别划分"，而是"一般性划分"。</p>
+    <p>一个<b>线段性类上涨</b>类背驰后，必然<b>首先出现一个 1 分钟中枢</b>，同时进入中阴状态。但你<b>不能就此断言这走势必然是 1 分钟类型</b>——最极端情况下：</p>
+    <div class="grid">
+      <div class="card">
+        <div class="tag">极端情况 A</div>
+        <h3>两个年中枢之间</h3>
+        <p>可以仅由一段线段连接——中间没有更小级别的中枢可看。</p>
+      </div>
+      <div class="card">
+        <div class="tag">极端情况 B</div>
+        <h3>缺口连接</h3>
+        <p>甚至连线段都没有，直接一个跳空缺口完成连接。</p>
+      </div>
+    </div>
+    <p>这两种"古怪"情况在 A 股极为常见——理论必须把它们都装下，所以才需要<span class="hl-gold">结合律</span>这把万能钥匙。</p>
+  </section>
+
+  <!-- 3 结合律 -->
+  <section class="wrap reveal">
+    <div class="sec-no">03 — 结合律登场</div>
+    <h2>把走势重新"括起来"</h2>
+    <p class="lead">这是第 99 课最硬核的一招：同一串次级别走势，可以根据划分目的，重新断句。</p>
+
+    <p>原文给的范式是这样的——已经走出一段 <code class="k">a+b+c+d+e</code> 的<b>线段类上涨</b>，其中 <code class="k">c+d+e</code> 重合部分构成最后一个类中枢，<code class="k">f</code> 是类背驰后的回调：</p>
+
+    <div class="formula">
+      <div class="eq"><span class="seg-line">a+b+c+d+e</span> + <span class="seg-after">f</span> = <span class="seg-line">a+b+c</span> + ( <span class="seg-pivot">d+e+f</span> )</div>
+      <div class="note">右边把 d/e/f 重新括成一组，<span class="hl-purple">d+e+f</span> 可以马上构成一个 1 分钟中枢，后面再直接继续上涨——构成 1 分钟上涨完全合理。代价是：左边那个原本完整的"线段类上涨"必须被拆开了。</div>
+    </div>
+
+    <figure>
+      <img src="/_assets/ch99_p01.png" alt="结合律范式：abcde+f = abc+(def)">
+      <figcaption>图 1 · 把 d+e+f 重新括成一组的结合律范式</figcaption>
+    </figure>
+
+    <p>但还有<b>另一种括法</b>——如果中阴里继续走出 <code class="k">g</code>、<code class="k">h</code>，使 <code class="k">f+g+h</code> 构成 1 分钟中枢：</p>
+
+    <div class="formula">
+      <div class="eq"><span class="seg-line">a+b+c+d+e+f+g+h</span> = <span class="seg-line">a+b+c+d+e</span> + ( <span class="seg-pivot">f+g+h</span> )</div>
+      <div class="note">这样原来的<b>线段类上涨 a+b+c+d+e</b> 就被完整保留下来，<span class="hl-purple">f+g+h</span> 成为它之后第一个新中枢。一段实际走势，被括号位置不同，可以解读出完全不同的级别结构。</div>
+    </div>
+
+    <figure>
+      <img src="/_assets/ch99_p02.png" alt="结合律范式：把 f+g+h 括成新中枢">
+      <figcaption>图 2 · 把 f+g+h 括成新中枢的另一种解读</figcaption>
+    </figure>
+
+    <p>第三种延伸情况是：<code class="k">d+e+f</code> 后又延伸出 9 段，然后直接上去——此时<b>划分必须先保证 5 分钟中枢的成立</b>。</p>
+
+    <figure>
+      <img src="/_assets/ch99_p03.png" alt="延伸 9 段后必须先保证 5 分钟中枢">
+      <figcaption>图 3 · 延伸 9 段时优先保证 5 分钟中枢的成立</figcaption>
+    </figure>
+  </section>
+
+  <!-- 4 划分总原则 -->
+  <section class="wrap reveal">
+    <div class="sec-no">04 — 划分总原则</div>
+    <h2>先保证中枢，再追求形态最美</h2>
+    <div class="keypoint">
+      <div class="lab">划分铁律</div>
+      <h3>中枢的确立优先；在此前提下，再用结合律把连接走势调成最完美的形态。</h3>
+      <p>顺序不能反——不能为了形态好看而牺牲一个本应成立的中枢；中枢成立后，括号怎么放才有自由度。</p>
+    </div>
+    <figure>
+      <img src="/_assets/ch99_p04.png" alt="结合律范式补充示意">
+      <figcaption>图 4 · 划分原则补充示意：括号位置随后续走势确认</figcaption>
+    </figure>
+    <figure>
+      <img src="/_assets/ch99_p05.png" alt="保线段上涨完整的括法">
+      <figcaption>图 5 · 优先保线段类上涨完整的另一种括法</figcaption>
+    </figure>
+    <figure>
+      <img src="/_assets/ch99_p06.png" alt="延伸段中枢确立后再调形态">
+      <figcaption>图 6 · 5 分钟中枢成立后再让连接走势保持最美形态</figcaption>
+    </figure>
+  </section>
+
+  <!-- 5 必然结论 -->
+  <section class="wrap reveal">
+    <div class="sec-no">05 — 整课题眼</div>
+    <h2>连接中枢的走势级别，一定小于中枢</h2>
+    <p class="lead">这是第 99 课最重要的"硬定理"——直接决定后续走势的预见性。</p>
+    <blockquote>
+      一个走势级别完成后，<b>必然面临至少大一级别的中枢震荡</b>。例如：一个 5 分钟的上涨结束后，必然至少要有一个 30 分钟的中枢震荡——任何走势都逃不掉。
+      <span class="who">— 缠师 · 必然结论</span>
+    </blockquote>
+    <p>反推一下就拿到了交易级别的预见性：<b>不管哪根走势刚结束，下一段中枢震荡的级别一定 ≥ 当前走势级别</b>。这就是为什么背驰之后要"换级别看待"——你不能再用刚才那个小级别去玩接下来的震荡。</p>
+    <div class="grid">
+      <div class="card">
+        <div class="tag">5 分钟上涨结束</div>
+        <h3>→ 至少 30 分钟中枢</h3>
+        <p>不会再有一个对等级别的小震荡了；要么 30 分钟震荡，要么更大。</p>
+      </div>
+      <div class="card">
+        <div class="tag">日线下跌结束</div>
+        <h3>→ 至少周线中枢</h3>
+        <p>所以见底之后的反复，本就该是周级别的事，不要用日内的眼光去逼它。</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6 健康 vs 危险 -->
+  <section class="wrap reveal">
+    <div class="sec-no">06 — 关键指标位</div>
+    <h2>后续中枢落在哪里，决定中阴是否健康</h2>
+    <p class="lead">既然下一个中枢必然更大、必然会出现，那它<b>第一个中枢震荡的位置</b>就是诊断行情的关键。</p>
+
+    <div class="table">
+      <div class="row head">
+        <div>状态</div>
+        <div>位置判断</div>
+        <div>含义</div>
+      </div>
+      <div class="row">
+        <div class="name ok">健康中阴</div>
+        <div>新中枢落在<b>前走势最后一个中枢</b>范围里</div>
+        <div>正常行为，结构平稳延续，按中枢震荡处理即可</div>
+      </div>
+      <div class="row">
+        <div class="name bad">危险中阴</div>
+        <div>新中枢<b>越界回到第二个甚至更后的中枢</b>里</div>
+        <div>结构异常，原走势最后一个中枢成为关键指标位</div>
+      </div>
+    </div>
+
+    <div class="keypoint">
+      <div class="lab">视角提醒</div>
+      <h3>"危险"是相对的</h3>
+      <p>对原下跌走势而言"危险的中阴"，恰恰意味着<b>回升力度够强</b>——对多头反而是好事。多空在同一张图上，把符号反过来就是机会。</p>
+    </div>
+
+    <p>结合分型来看：一个日分型出现，意味着笔中对应的小级别走势里出现了大的中枢，那么<span class="hl-purple">该分型对应的中枢位置</span>，几乎决定了这分型是否会成为真正的顶或底。</p>
+  </section>
+
+  <!-- 7 读后感 -->
+  <section class="wrap reveal">
+    <div class="sec-no">07 — 八点精要</div>
+    <h2>第 99 课读后感清单</h2>
+    <p class="lead">原文作者列了八条收获，作为本课记忆点，整理如下。</p>
+    <ol class="takeaways">
+      <li><b>中阴的必然性</b>——走势结构里必有中阴，反映生长阶段的未确定。</li>
+      <li><b>中阴 ≈ 中枢震荡的整理</b>——操作上按中枢震荡走，但本质有别于普通中枢震荡。</li>
+      <li><b>结合律</b>——连接中枢的走势，<b>不一定</b>是完整趋势类型，可以重新括组。</li>
+      <li><b>第一种括法</b>——<code class="k">abcdef = abc+(def)</code>，让 def 立成 1 分钟中枢、马上继续上涨。</li>
+      <li><b>第二种括法</b>——背驰点继续走 g/h，<code class="k">abcdefgh = abcde+(fgh)</code>，保住原线段类上涨。</li>
+      <li><b>延伸 9 段</b>——必须先让 5 分钟中枢成立，再用结合律修整形态。</li>
+      <li><b>必然结论</b>——一个走势级别完成后，必然面临至少大一级别的中枢震荡。</li>
+      <li><b>健康 vs 越界</b>——新中枢落在原最后一个中枢内是健康；回到第二个甚至更后就是危险。</li>
+    </ol>
+  </section>
+
+  <!-- 8 操作翻译 -->
+  <section class="wrap reveal">
+    <div class="sec-no">08 — 落到操作</div>
+    <h2>这些原则在盘中怎么用</h2>
+    <p class="lead">把抽象的结合律、必然结论翻译成可执行的几条纪律。</p>
+    <div class="grid">
+      <div class="card">
+        <div class="tag">纪律 1</div>
+        <h3>背驰后换级别看</h3>
+        <p>当前走势一旦背驰收尾，<b>立刻切换到至少大一级别的图</b>去等中枢——别再用原来的小周期纠结。</p>
+      </div>
+      <div class="card">
+        <div class="tag">纪律 2</div>
+        <h3>中阴就当中枢震荡做</h3>
+        <p>未确定阶段不必去赌方向。按<b>中枢震荡操作法</b>：上沿减、下沿加，不预判突破。</p>
+      </div>
+      <div class="card">
+        <div class="tag">纪律 3</div>
+        <h3>盯关键指标位</h3>
+        <p>原走势<b>最后一个中枢</b>是"健康线"。新震荡落在里面 = 平稳；越界回到更早的中枢 = 结构破坏，准备换角色。</p>
+      </div>
+      <div class="card">
+        <div class="tag">纪律 4</div>
+        <h3>分型 + 中枢 = 顶底判定</h3>
+        <p>日分型出现时，不要单看分型本身，先去对照<b>该分型对应的中枢位置</b>是否到位——它才是顶/底的真凭据。</p>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="wrap">
+  原文出处：raw/缠中说禅/教你炒股票108课/教你炒股票99：走势结构的两重表里关系3.md<br>
+  本页为个人学习复习用·非投资建议
+</footer>
+
+<script>
+  const bar=document.getElementById('bar');
+  const onScroll=()=>{
+    const h=document.documentElement;
+    const p=h.scrollTop/(h.scrollHeight-h.clientHeight);
+    bar.style.width=(p*100)+'%';
+  };
+  document.addEventListener('scroll',onScroll,{passive:true});onScroll();
+
+  const io=new IntersectionObserver((es)=>{
+    es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});
+  },{threshold:.12});
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+</script>
+<script src="/assets/_nav.js"></script><script src="/assets/_shell.js"></script></body>
+</html>

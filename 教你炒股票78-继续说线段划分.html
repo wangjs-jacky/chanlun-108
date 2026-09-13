@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>缠论 · 教你炒股票78：继续说线段的划分</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@500;700;900&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0b0e12;
+    --bg-elev:#12161c;
+    --bg-card:#161b22;
+    --ink:#e8eaed;
+    --ink-dim:#9aa3ad;
+    --ink-faint:#5b6470;
+    --line:rgba(255,255,255,.07);
+    --up:#ff4d4f;
+    --down:#16c784;
+    --pivot:#37c0e6;
+    --gold:#e8b339;
+    --max:880px;
+    --serif:"Noto Serif SC",serif;
+    --mono:"JetBrains Mono",ui-monospace,monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;
+    line-height:1.85;
+    font-size:17px;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  body::before{
+    content:"";position:fixed;inset:0;z-index:-2;
+    background:
+      radial-gradient(1200px 600px at 70% -10%, rgba(55,192,230,.08), transparent 60%),
+      radial-gradient(900px 500px at 0% 100%, rgba(232,179,57,.05), transparent 55%);
+    pointer-events:none;
+  }
+  body::after{
+    content:"";position:fixed;inset:0;z-index:-1;opacity:.4;
+    background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);
+    background-size:46px 46px;
+    -webkit-mask-image:radial-gradient(ellipse at 50% 0%, #000 30%, transparent 80%);
+            mask-image:radial-gradient(ellipse at 50% 0%, #000 30%, transparent 80%);
+    pointer-events:none;
+  }
+  #bar{position:fixed;top:0;left:0;height:3px;width:0;z-index:50;
+    background:linear-gradient(90deg,var(--pivot),var(--gold));box-shadow:0 0 12px var(--pivot);}
+  .wrap{max-width:var(--max);margin:0 auto;padding:0 24px}
+
+  header.hero{padding:120px 0 70px;text-align:center;position:relative}
+  .kicker{font-family:var(--mono);font-size:13px;letter-spacing:.32em;color:var(--pivot);
+    text-transform:uppercase;margin-bottom:26px}
+  .kicker span{color:var(--ink-faint)}
+  h1.title{font-family:var(--serif);font-weight:900;line-height:1.05;
+    font-size:clamp(44px,10vw,96px);letter-spacing:.04em;
+    background:linear-gradient(180deg,#fff 30%,#8aa0ad 130%);
+    -webkit-background-clip:text;background-clip:text;color:transparent;}
+  .sub{margin:22px auto 0;max-width:580px;color:var(--ink-dim);font-size:18px}
+  .meta{margin-top:34px;display:flex;gap:14px;justify-content:center;flex-wrap:wrap;
+    font-family:var(--mono);font-size:12px;color:var(--ink-faint)}
+  .meta b{color:var(--ink-dim);font-weight:500}
+  .pill{border:1px solid var(--line);padding:6px 14px;border-radius:999px;background:rgba(255,255,255,.02)}
+  .scroll-hint{margin-top:60px;color:var(--ink-faint);font-family:var(--mono);font-size:12px;
+    animation:bob 2.4s ease-in-out infinite}
+  @keyframes bob{0%,100%{transform:translateY(0);opacity:.5}50%{transform:translateY(8px);opacity:1}}
+
+  section{padding:64px 0;border-top:1px solid var(--line)}
+  .sec-no{font-family:var(--mono);font-size:13px;color:var(--gold);letter-spacing:.2em;margin-bottom:10px}
+  h2{font-family:var(--serif);font-weight:700;font-size:clamp(28px,5vw,42px);
+    line-height:1.25;margin-bottom:8px;letter-spacing:.02em}
+  .lead{color:var(--ink-dim);font-size:16px;margin-bottom:28px;max-width:640px}
+  p{margin:0 0 18px;color:#cfd5dc}
+  p b,strong{color:#fff;font-weight:700}
+  .hl-pivot{color:var(--pivot);font-weight:700}
+  .hl-up{color:var(--up);font-weight:700}
+  .hl-down{color:var(--down);font-weight:700}
+  .hl-gold{color:var(--gold);font-weight:700}
+
+  blockquote{margin:26px 0;padding:20px 24px;border-left:3px solid var(--pivot);
+    background:linear-gradient(90deg,rgba(55,192,230,.07),transparent);
+    border-radius:0 10px 10px 0;font-family:var(--serif);font-size:19px;color:#eaf6fb}
+  blockquote .who{display:block;margin-top:8px;font-family:var(--mono);font-size:12px;
+    color:var(--ink-faint);font-style:normal}
+
+  figure{margin:34px 0}
+  figure img{width:100%;border-radius:12px;border:1px solid var(--line);
+    background:#fff;box-shadow:0 18px 50px rgba(0,0,0,.5)}
+  figcaption{margin-top:12px;font-size:13px;color:var(--ink-faint);text-align:center;font-family:var(--mono)}
+
+  .grid{display:grid;gap:16px;grid-template-columns:1fr 1fr;margin:28px 0}
+  @media(max-width:640px){.grid{grid-template-columns:1fr}}
+  .card{background:var(--bg-card);border:1px solid var(--line);border-radius:14px;padding:24px;
+    position:relative;overflow:hidden;transition:transform .35s ease,border-color .35s ease}
+  .card:hover{transform:translateY(-4px);border-color:rgba(55,192,230,.4)}
+  .card .tag{font-family:var(--mono);font-size:11px;letter-spacing:.18em;color:var(--gold);text-transform:uppercase}
+  .card h3{font-family:var(--serif);font-size:21px;margin:10px 0 8px;color:#fff}
+  .card p{font-size:15px;color:var(--ink-dim);margin:0}
+
+  .table{margin:28px 0;border:1px solid var(--line);border-radius:14px;overflow:hidden}
+  .table .row{display:grid;grid-template-columns:1fr 1.4fr 1.4fr;align-items:stretch}
+  .table .row+.row{border-top:1px solid var(--line)}
+  .table .row > div{padding:16px 18px}
+  .table .row.head{background:var(--bg-elev);font-family:var(--mono);font-size:12px;
+    letter-spacing:.14em;color:var(--ink-faint);text-transform:uppercase}
+  .table .row > div+div{border-left:1px solid var(--line)}
+  .table .name{font-family:var(--serif);font-weight:700;font-size:17px;color:var(--gold)}
+  @media(max-width:560px){
+    .table .row{grid-template-columns:1fr}
+    .table .row > div+div{border-left:0;border-top:1px solid var(--line)}
+    .table .row.head{display:none}
+  }
+
+  /* 流程步骤 */
+  .steps{margin:28px 0;display:flex;flex-direction:column;gap:14px}
+  .step{display:flex;gap:18px;align-items:flex-start;background:var(--bg-card);
+    border:1px solid var(--line);border-radius:12px;padding:18px 20px}
+  .step .dot{flex:none;width:38px;height:38px;border-radius:10px;display:grid;place-items:center;
+    font-family:var(--serif);font-weight:900;font-size:18px;color:#0b0e12;background:var(--pivot)}
+  .step h4{font-size:17px;margin-bottom:4px;color:#fff}
+  .step p{font-size:15px;color:var(--ink-dim);margin:0}
+
+  /* 警示框 */
+  .warn{margin:26px 0;padding:18px 22px;border-left:3px solid var(--gold);border-radius:0 10px 10px 0;
+    background:linear-gradient(90deg,rgba(232,179,57,.08),transparent);color:#f3eecd}
+  .warn b{color:var(--gold)}
+
+  /* 思考题 */
+  ol.think{counter-reset:q;list-style:none;margin:24px 0;display:flex;flex-direction:column;gap:14px}
+  ol.think li{counter-increment:q;position:relative;padding:18px 20px 18px 60px;
+    background:var(--bg-elev);border:1px solid var(--line);border-radius:12px;color:var(--ink-dim);font-size:15px}
+  ol.think li::before{content:counter(q,decimal-leading-zero);position:absolute;left:20px;top:18px;
+    font-family:var(--mono);color:var(--gold);font-weight:700}
+
+  .tldr{margin:60px 0 0;padding:36px 30px;border:1px solid rgba(55,192,230,.3);border-radius:18px;
+    background:radial-gradient(120% 120% at 100% 0%,rgba(55,192,230,.1),transparent 60%),var(--bg-elev);text-align:center}
+  .tldr .lab{font-family:var(--mono);font-size:12px;letter-spacing:.3em;color:var(--pivot);text-transform:uppercase}
+  .tldr p{font-family:var(--serif);font-size:clamp(20px,3.4vw,28px);line-height:1.7;color:#fff;margin:16px 0 0}
+
+  footer{padding:60px 0 90px;text-align:center;color:var(--ink-faint);font-family:var(--mono);font-size:12px;border-top:1px solid var(--line)}
+  footer a{color:var(--ink-dim);text-decoration:none}
+
+  .reveal{opacity:0;transform:translateY(26px);transition:opacity .8s ease,transform .8s ease}
+  .reveal.in{opacity:1;transform:none}
+  @media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}.scroll-hint{animation:none}}
+</style>
+<meta name="view-transition" content="same-origin"><style>@view-transition{navigation:auto}</style></head>
+<body>
+<div id="bar"></div>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="kicker">缠中说禅 · 教你炒股票108课 <span>/ 第 78 课</span></div>
+    <h1 class="title">继续说线段的划分</h1>
+    <p class="sub">把上一课的"两种情况"落到笔上——基本概念、起止方向、奇怪线段的成因，以及标准化后的折线骨架。</p>
+    <div class="meta">
+      <span class="pill"><b>原文</b> 2007-09-06</span>
+      <span class="pill"><b>类型</b> 线段实操补课</span>
+      <span class="pill"><b>关键词</b> 线段方向 · 笔破坏 · 标准化</span>
+    </div>
+    <div class="scroll-hint">↓ 向下滚动，逐层拆解</div>
+  </div>
+</header>
+
+<main>
+  <!-- 1 -->
+  <section class="wrap reveal">
+    <div class="sec-no">01 — 起手概念</div>
+    <h2>线段也是有方向的：顶到底、底到顶</h2>
+    <p class="lead">很多人划不对，并不是定义难，而是最基础的"方向"两个字没吃透。</p>
+    <p>线段和笔一样<b>都有方向</b>。从顶开始的笔，一定结束在底；同样，<span class="hl-pivot">以向上笔开始的线段，一定结束于向上笔</span>，反之亦然。所以一个线段，<b>不可能从底到底、也不可能从顶到顶</b>。</p>
+    <p>由此推出一个非常硬的"画错检查项"：同一线段的两端是一顶一底，<span class="hl-up">顶</span>必须高于<span class="hl-down">底</span>。如果你画出来一段，顶反而低于底，那就<b>一定是划错了</b>。</p>
+    <blockquote>
+      正如同一笔不可能出现顶低于底的情况，同一线段中，两端的一顶一底，顶肯定要高于底。
+      <span class="who">— 缠中说禅</span>
+    </blockquote>
+  </section>
+
+  <!-- 2 -->
+  <section class="wrap reveal">
+    <div class="sec-no">02 — 自检准则</div>
+    <h2>每一段都必须被下一段"破坏"</h2>
+    <p class="lead">这是线段划分的连贯性原则——一个非常实用的快速自检方法。</p>
+    <p>除了新股上市后的第一段，<span class="hl-pivot">任何一段线段都是破坏前一段的</span>。如果你的划分里出现某一段没有被后一段破坏，那这个划分就是错的。</p>
+    <p>更强的是：<b>线段的破坏可以逆时间传递</b>。被后一线段破坏的线段，必然破坏前一线段。如果违反这条，划分一定有问题。</p>
+    <figure>
+      <img src="/_assets/ch78_p01.png" alt="线段方向与破坏关系示意">
+      <figcaption>原课配图 1：方向 + 顶低关系 + 逐段破坏</figcaption>
+    </figure>
+    <div class="warn">
+      <b>实操起点：</b>实际划分中，没必要都从上市第一天画起，从近期 K 线的最高/最低点开始即可。但要看清大行情，至少要从更早一个明显的极值点出发——否则只能看到局部，看不到全局。
+    </div>
+  </section>
+
+  <!-- 3 -->
+  <section class="wrap reveal">
+    <div class="sec-no">03 — 操作流程</div>
+    <h2>三步走：分型 → 笔 → 线段</h2>
+    <p class="lead">熟练之后可以一步到位，不熟练老老实实按顺序走。</p>
+    <div class="steps">
+      <div class="step">
+        <div class="dot">1</div>
+        <div>
+          <h4>选起点</h4>
+          <p>从近期 K 线明显的<b>最高或最低点</b>开始；要看清大走势，则从更早的极值点起笔。</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="dot">2</div>
+        <div>
+          <h4>找分型 → 连成笔</h4>
+          <p>顶分型和底分型先标出来，再按规则把分型之间连成一笔笔。</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="dot">3</div>
+        <div>
+          <h4>笔聚成线段</h4>
+          <p>按上一课的"两种情况"把笔归为线段，注意方向、顶底高低关系和"段段相破"。</p>
+        </div>
+      </div>
+    </div>
+    <p>熟练后可以心算——分型、笔同时在脑子里跑，直接落到线段。但只要划分一旦出疑问，<b>立刻回到第 1 步从分型重画</b>，这是最稳的纠错路径。</p>
+  </section>
+
+  <!-- 4 -->
+  <section class="wrap reveal">
+    <div class="sec-no">04 — 古怪溯源</div>
+    <h2>"奇怪的线段"到底奇怪在哪</h2>
+    <p class="lead">一般人脑里那种"一波比一波高/低"的简单线段，只在单边走势里成立。震荡里，奇怪的线段就出现了——但来源唯一。</p>
+    <blockquote>
+      所有古怪的线段，都是因为线段出现<b>第一种情况的笔破坏</b>后，最终<b>没有在该方向</b>由该笔发展形成线段破坏所造成的——这是线段古怪的<b>唯一原因</b>。
+      <span class="who">— 全课核心论断</span>
+    </blockquote>
+    <p>关键细节：<b>线段最终一定会被线段破坏</b>，但出现笔破坏后，<b>未必在那一笔的方向上完成线段破坏</b>。这一条想明白了，奇怪就不奇怪了。</p>
+    <p>设有线段 B，方向向下，结束笔也向下。如果它出现第一种情况的笔破坏，那破坏的一笔必为向上笔。但这一笔之后没能形成符合特征序列的分型，<span class="hl-pivot">第一种情况的线段破坏在这个方向上就成立不了</span>。</p>
+    <figure>
+      <img src="/_assets/ch78_p02.png" alt="第一种情况笔破坏后未形成线段破坏的真实图例">
+      <figcaption>原课配图 2：笔破坏出现但线段破坏未成立 → 古怪的成因</figcaption>
+    </figure>
+  </section>
+
+  <!-- 5 -->
+  <section class="wrap reveal">
+    <div class="sec-no">05 — 两种走向</div>
+    <h2>笔破坏之后会发生什么：两种分叉</h2>
+    <p class="lead">古怪线段的"未来"只有两种走向，把它们分清楚，划分就清楚了。</p>
+    <p>承上：那向上的破坏笔之后必然接一向下笔；按假设，<b>这向下笔会形成一个向下的线段</b>。接下来两种情况：</p>
+    <div class="grid">
+      <div class="card">
+        <div class="tag">情况 A · 没破底</div>
+        <h3>线段 B 真的结束了</h3>
+        <p>这个向下线段<b>没有跌破</b>那个向上破坏笔的底——那么由该向上笔就可以延伸出一个新线段，<b>线段 B 被正式破坏</b>，划分干净利落。</p>
+      </div>
+      <div class="card">
+        <div class="tag">情况 B · 破了底</div>
+        <h3>线段 B 其实没完，仍在延续</h3>
+        <p>这个向下线段<b>跌破了</b>那个向上破坏笔的底——线段 B 还没结束。<span class="hl-gold">如果之后向上笔再创新高</span>，就会出现<b>线段开始点不是最高点</b>的"奇怪"局面。</p>
+      </div>
+    </div>
+    <div class="warn">
+      <b>前提核对：</b>这一切分析的关键前提是：<b>线段 B 已经确认破坏了它前面的线段</b>。如果连这一步都未确认，先回头确认它对前段的破坏，再谈这里的分支推演。
+    </div>
+    <p>由此还能解决一类常见困惑：B 对 A 是第二种情况，C 又没形成第二特征序列分型却直接创新高/新低——这时 <b>A、B、C 加起来只能算<span class="hl-pivot">一个线段</span></b>，不能数成三个。</p>
+  </section>
+
+  <!-- 6 -->
+  <section class="wrap reveal">
+    <div class="sec-no">06 — 两条铁律 + 标准化</div>
+    <h2>包含处理 & 折线骨架</h2>
+    <p class="lead">最后两件事——关于第二特征序列的包含处理 + 标准化折线，是后面所有分析的基础。</p>
+    <div class="table">
+      <div class="row head"><div>场景</div><div>是否做包含处理</div><div>为什么</div></div>
+      <div class="row">
+        <div class="name">第一种情况<br>分界点两边</div>
+        <div><span class="hl-down">不能</span>做包含处理</div>
+        <div>出现包含意味着<b>转折力度特别大</b>，不能把它"压扁"掉</div>
+      </div>
+      <div class="row">
+        <div class="name">第二种情况<br>第二特征序列</div>
+        <div><span class="hl-up">必须严格</span>做包含处理</div>
+        <div>方向与原线段一致，包含意味着<b>能量充足</b>；而第二种情况本就代表转折能量不足，所以要按包含来</div>
+      </div>
+    </div>
+    <p><b>线段标准化：</b>如果线段中最高/最低点不是端点，在以线段为基础做更高级别分析（比如构建最小级别中枢）时，<b>可以把它标准化为最高低点都在端点</b>。因为这种分析里，线段被当作没有内部结构的基本部件，只关心区间。</p>
+    <p>标准化后，所有向上线段都从最低点开始、最高点结束；向下线段反之。<span class="hl-pivot">整张图就变成一条首尾相连、延续不断的折线</span>——复杂图形被极度规整化，为后面的中枢、走势类型分析提供最标准的部件。</p>
+    <figure>
+      <img src="/_assets/ch78_p05.png" alt="读后感学习图：标准化折线示意">
+      <figcaption>读后感配图：标准化后的线段折线骨架</figcaption>
+    </figure>
+    <ol class="think">
+      <li>为什么"线段不可能被同方向的线段破坏"？请用线段方向定义自己证明一遍。</li>
+      <li>遇到"开始点不是最高点"的向上线段时，如何用本课的两种分支倒推它的形成过程？</li>
+      <li>标准化折线丢掉了线段的内部结构，这种"简化"会不会让我们错过买卖点信号？什么时候必须看回内部？</li>
+    </ol>
+
+    <div class="tldr">
+      <div class="lab">一句话总结</div>
+      <p>线段划分的全部"古怪"，都来自"第一种情况的笔破坏，最终没在那个方向形成线段破坏"——记住方向、记住段段相破、第二种情况严格做包含处理、最后用标准化折线接管全图，复杂图形就被整理成一条首尾相连的骨架。</p>
+    </div>
+  </section>
+</main>
+
+<footer class="wrap">
+  原文出处：raw/缠中说禅/教你炒股票108课/教你炒股票78：继续说线段的划分.md<br>
+  本页为个人学习复习用·非投资建议
+</footer>
+
+<script>
+  const bar=document.getElementById('bar');
+  const onScroll=()=>{
+    const h=document.documentElement;
+    const p=h.scrollTop/(h.scrollHeight-h.clientHeight);
+    bar.style.width=(p*100)+'%';
+  };
+  document.addEventListener('scroll',onScroll,{passive:true});onScroll();
+
+  const io=new IntersectionObserver((es)=>{
+    es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});
+  },{threshold:.12});
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+</script>
+<script src="/assets/_nav.js"></script><script src="/assets/_shell.js"></script></body>
+</html>

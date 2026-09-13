@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>缠论 · 教你炒股票15：没有趋势，没有背驰</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@500;700;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0b0e12;--bg-elev:#12161c;--bg-card:#161b22;
+    --ink:#e8eaed;--ink-dim:#9aa3ad;--ink-faint:#5b6470;
+    --line:rgba(255,255,255,.07);
+    --up:#ff4d4f;--down:#16c784;--pivot:#37c0e6;--gold:#e8b339;--blue:#00d4ff;
+    --max:880px;--serif:"Noto Serif SC",serif;--mono:"JetBrains Mono",ui-monospace,monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--ink);font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;line-height:1.85;font-size:17px;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  body::before{content:"";position:fixed;inset:0;z-index:-2;background:radial-gradient(1200px 600px at 70% -10%,rgba(55,192,230,.08),transparent 60%),radial-gradient(900px 500px at 0% 100%,rgba(232,179,57,.05),transparent 55%);pointer-events:none}
+  body::after{content:"";position:fixed;inset:0;z-index:-1;opacity:.4;background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);background-size:46px 46px;-webkit-mask-image:radial-gradient(ellipse at 50% 0%,#000 30%,transparent 80%);mask-image:radial-gradient(ellipse at 50% 0%,#000 30%,transparent 80%);pointer-events:none}
+  #bar{position:fixed;top:0;left:0;height:3px;width:0;z-index:50;background:linear-gradient(90deg,var(--pivot),var(--gold));box-shadow:0 0 12px var(--pivot)}
+  .wrap{max-width:var(--max);margin:0 auto;padding:0 24px}
+  header.hero{padding:120px 0 70px;text-align:center;position:relative}
+  .kicker{font-family:var(--mono);font-size:13px;letter-spacing:.32em;color:var(--pivot);text-transform:uppercase;margin-bottom:26px}
+  .kicker span{color:var(--ink-faint)}
+  h1.title{font-family:var(--serif);font-weight:900;line-height:1.05;font-size:clamp(44px,10vw,100px);letter-spacing:.04em;background:linear-gradient(180deg,#fff 30%,#8aa0ad 130%);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .sub{margin:22px auto 0;max-width:580px;color:var(--ink-dim);font-size:18px}
+  .meta{margin-top:34px;display:flex;gap:14px;justify-content:center;flex-wrap:wrap;font-family:var(--mono);font-size:12px;color:var(--ink-faint)}
+  .meta b{color:var(--ink-dim);font-weight:500}
+  .pill{border:1px solid var(--line);padding:6px 14px;border-radius:999px;background:rgba(255,255,255,.02)}
+  .scroll-hint{margin-top:60px;color:var(--ink-faint);font-family:var(--mono);font-size:12px;animation:bob 2.4s ease-in-out infinite}
+  @keyframes bob{0%,100%{transform:translateY(0);opacity:.5}50%{transform:translateY(8px);opacity:1}}
+  section{padding:64px 0;border-top:1px solid var(--line)}
+  .sec-no{font-family:var(--mono);font-size:13px;color:var(--gold);letter-spacing:.2em;margin-bottom:10px}
+  h2{font-family:var(--serif);font-weight:700;font-size:clamp(28px,5vw,42px);line-height:1.25;margin-bottom:8px;letter-spacing:.02em}
+  .lead{color:var(--ink-dim);font-size:16px;margin-bottom:28px;max-width:660px}
+  p{margin:0 0 18px;color:#cfd5dc}
+  p b,strong{color:#fff;font-weight:700}
+  .hl-pivot{color:var(--pivot);font-weight:700}.hl-up{color:var(--up);font-weight:700}
+  .hl-down{color:var(--down);font-weight:700}.hl-gold{color:var(--gold);font-weight:700}
+  blockquote{margin:26px 0;padding:20px 24px;border-left:3px solid var(--pivot);background:linear-gradient(90deg,rgba(55,192,230,.07),transparent);border-radius:0 10px 10px 0;font-family:var(--serif);font-size:19px;color:#eaf6fb}
+  blockquote .who{display:block;margin-top:8px;font-family:var(--mono);font-size:12px;color:var(--ink-faint);font-style:normal}
+  figure{margin:34px 0}
+  figure img{width:100%;border-radius:12px;border:1px solid var(--line);background:#fff;box-shadow:0 18px 50px rgba(0,0,0,.5)}
+  figcaption{margin-top:12px;font-size:13px;color:var(--ink-faint);text-align:center;font-family:var(--mono)}
+  .grid{display:grid;gap:16px;grid-template-columns:1fr 1fr;margin:28px 0}
+  @media(max-width:640px){.grid{grid-template-columns:1fr}}
+  .card{background:var(--bg-card);border:1px solid var(--line);border-radius:14px;padding:24px;position:relative;overflow:hidden;transition:transform .35s ease,border-color .35s ease}
+  .card:hover{transform:translateY(-4px);border-color:rgba(55,192,230,.4)}
+  .card .tag{font-family:var(--mono);font-size:11px;letter-spacing:.18em;color:var(--gold);text-transform:uppercase}
+  .card h3{font-family:var(--serif);font-size:21px;margin:10px 0 8px;color:#fff}
+  .card p{font-size:15px;color:var(--ink-dim);margin:0}
+  .table{margin:28px 0;border:1px solid var(--line);border-radius:14px;overflow:hidden}
+  .table .row{display:grid;grid-template-columns:1.1fr 1.5fr 1.6fr;align-items:stretch}
+  .table .row+.row{border-top:1px solid var(--line)}
+  .table .row>div{padding:16px 18px}
+  .table .row.head{background:var(--bg-elev);font-family:var(--mono);font-size:12px;letter-spacing:.14em;color:var(--ink-faint);text-transform:uppercase}
+  .table .row>div+div{border-left:1px solid var(--line)}
+  .table .name{font-family:var(--serif);font-weight:700;font-size:18px}
+  .table .name.qushi{color:var(--gold)}
+  .cnt{font-family:var(--mono);font-size:14px;color:var(--pivot)}
+  @media(max-width:560px){.table .row{grid-template-columns:1fr}.table .row>div+div{border-left:0;border-top:1px solid var(--line)}.table .row.head{display:none}}
+  .points{margin:26px 0;display:flex;flex-direction:column;gap:14px}
+  .pt{display:flex;gap:16px;align-items:flex-start;background:var(--bg-card);border:1px solid var(--line);border-radius:12px;padding:18px 20px}
+  .pt .dot{flex:none;width:42px;height:42px;border-radius:10px;display:grid;place-items:center;font-family:var(--serif);font-weight:900;font-size:20px;color:#0b0e12}
+  .pt.b .dot{background:var(--up)}.pt.s .dot{background:var(--down)}
+  .pt h4{font-size:17px;margin-bottom:4px;color:#fff}.pt p{font-size:15px;color:var(--ink-dim);margin:0}
+  .proof{margin:30px 0;background:linear-gradient(120deg,rgba(55,192,230,.06),transparent 70%),var(--bg-elev);border:1px solid rgba(55,192,230,.25);border-radius:16px;padding:26px}
+  .proof .badge{display:inline-block;font-family:var(--mono);font-weight:700;font-size:12px;letter-spacing:.12em;padding:6px 14px;border-radius:999px;background:rgba(55,192,230,.14);color:var(--pivot);border:1px solid rgba(55,192,230,.4);margin-bottom:14px}
+  .chartbox{background:var(--bg-card);border:1px solid var(--line);border-radius:14px;padding:18px 14px 8px;margin:18px 0}
+  .legend{display:flex;gap:16px;font-family:var(--mono);font-size:12px;color:var(--ink-dim);padding:0 8px 12px;flex-wrap:wrap}
+  .legend i{display:inline-block;width:16px;height:3px;vertical-align:middle;margin-right:6px;border-radius:2px}
+  canvas{width:100%;display:block}
+  .verdict{display:flex;gap:14px;align-items:flex-start;margin-top:8px;padding:16px 18px;background:var(--bg-card);border:1px solid var(--line);border-radius:12px}
+  .verdict .mk{flex:none;font-family:var(--mono);font-weight:700;color:var(--up)}
+  .verdict p{margin:0;font-size:15px;color:#d6dbe1}
+  ol.think{counter-reset:q;list-style:none;margin:24px 0;display:flex;flex-direction:column;gap:14px}
+  ol.think li{counter-increment:q;position:relative;padding:18px 20px 18px 60px;background:var(--bg-elev);border:1px solid var(--line);border-radius:12px;color:var(--ink-dim);font-size:15px}
+  ol.think li::before{content:counter(q,decimal-leading-zero);position:absolute;left:20px;top:18px;font-family:var(--mono);color:var(--gold);font-weight:700}
+  .quiz{margin:22px 0;background:var(--bg-card);border:1px solid var(--line);border-radius:14px;padding:22px 24px}
+  .quiz h4{font-size:16px;color:#fff;margin-bottom:6px}
+  .quiz .ans{margin-top:12px;color:var(--ink-faint);font-size:14px;cursor:pointer}
+  .quiz .ans[open] summary{color:var(--pivot)}
+  .quiz summary{color:var(--gold);font-family:var(--mono);font-size:13px}
+  .tldr{margin:60px 0 0;padding:36px 30px;border:1px solid rgba(55,192,230,.3);border-radius:18px;background:radial-gradient(120% 120% at 100% 0%,rgba(55,192,230,.1),transparent 60%),var(--bg-elev);text-align:center}
+  .tldr .lab{font-family:var(--mono);font-size:12px;letter-spacing:.3em;color:var(--pivot);text-transform:uppercase}
+  .tldr p{font-family:var(--serif);font-size:clamp(20px,3.4vw,28px);line-height:1.7;color:#fff;margin:16px 0 0}
+  footer{padding:60px 0 90px;text-align:center;color:var(--ink-faint);font-family:var(--mono);font-size:12px;border-top:1px solid var(--line)}
+  .reveal{opacity:0;transform:translateY(26px);transition:opacity .8s ease,transform .8s ease}
+  .reveal.in{opacity:1;transform:none}
+  @media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}.scroll-hint{animation:none}}
+  /* 自绘示意图 */
+  .schema{margin:28px 0;background:var(--bg-card);border:1px solid var(--line);border-radius:14px;padding:24px;position:relative}
+  .schema h4{font-family:var(--serif);color:#fff;font-size:18px;margin-bottom:10px}
+  .schema svg{width:100%;height:auto;display:block;margin-top:8px}
+  .schema-cap{margin-top:14px;font-size:14px;color:var(--ink-dim)}
+  .formula{margin:20px 0;padding:20px 22px;background:linear-gradient(120deg,rgba(232,179,57,.07),transparent 70%),var(--bg-elev);border:1px dashed rgba(232,179,57,.4);border-radius:12px;font-family:var(--mono);font-size:14px;color:#eaf6fb}
+  .formula b{color:var(--gold)}
+  .law{padding:22px 24px;background:linear-gradient(120deg,rgba(255,77,79,.08),transparent 70%),var(--bg-elev);border:1px solid rgba(255,77,79,.35);border-radius:14px;margin:24px 0}
+  .law .ttl{font-family:var(--mono);font-size:12px;letter-spacing:.2em;color:var(--up);text-transform:uppercase;margin-bottom:8px}
+  .law h3{font-family:var(--serif);font-size:22px;color:#fff;margin-bottom:8px}
+</style>
+<meta name="view-transition" content="same-origin"><style>@view-transition{navigation:auto}</style></head>
+<body>
+<div id="bar"></div>
+<header class="hero">
+  <div class="wrap">
+    <div class="kicker">缠中说禅 · 教你炒股票108课 <span>/ 第 15 课</span></div>
+    <h1 class="title">没有趋势<br>没有背驰</h1>
+    <p class="sub">用三种走势 + 吻 + 背驰，把市场所有动作还原成一套可执行的语法。</p>
+    <div class="meta">
+      <span class="pill"><b>原文</b> 2006-12-08</span>
+      <span class="pill"><b>类型</b> 核心定义课</span>
+      <span class="pill"><b>关键词</b> 上涨·下跌·盘整 · 吻 · 背驰</span>
+    </div>
+    <div class="scroll-hint">↓ 向下滚动，逐层拆解</div>
+  </div>
+</header>
+<main>
+
+<section class="wrap reveal">
+  <div class="sec-no">01 — 起手式</div>
+  <h2>这一课在解决什么问题</h2>
+  <p class="lead">前 14 课，缠师讲哲学、讲心法、讲操作示范；从这一课开始，他第一次把<b>"看图说话"的语法</b>正式摊开。</p>
+  <p>市场每天上下波动，新手看着一片混乱：今天涨明天跌、看着像底买完接着跌、看着要突破又掉头。缠师说，<b>所有这些走势都逃不出三种分类：上涨、下跌、盘整。</b>三种走势加上"吻"的概念和"背驰"的概念，就够你应付市场了。</p>
+  <p>更关键的是这一课<span class="hl-pivot">第一次把"什么时候才能谈背驰"说清楚</span>——这是个底层规矩，违反了所有后面的分析都会走偏：</p>
+  <blockquote>没有趋势，没有背驰。在盘整中是无所谓「背驰」的，这点是必须特别明确的。<span class="who">— 缠中说禅</span></blockquote>
+  <p>很多新手在横盘里反复猜"是不是背驰了，要不要抄底"，恰恰栽在这一条上。这一课把这条铁律立住，后面三十多课讲第一类买点、盘整背驰、走势中枢，才有了根基。</p>
+</section>
+
+<section class="wrap reveal">
+  <div class="sec-no">02 — 第一块地基</div>
+  <h2>走势的三种分类：上涨、下跌、盘整</h2>
+  <p class="lead">缠师的定义直接、形式化，本质就是<b>比"最近一组高低点"和"上一组高低点"</b>的位置关系。</p>
+
+  <div class="table">
+    <div class="row head"><div>分类</div><div>定义</div><div>形象记忆</div></div>
+    <div class="row">
+      <div class="name" style="color:var(--up)">上涨</div>
+      <div>最近一个高点 <b>比前一高点高</b>，且最近一个低点 <b>比前一低点高</b>。</div>
+      <div>两组高低点 <span class="hl-up">同时往上抬</span>，像爬楼梯。</div>
+    </div>
+    <div class="row">
+      <div class="name" style="color:var(--down)">下跌</div>
+      <div>最近一个高点 <b>比前一高点低</b>，且最近一个低点 <b>比前一低点低</b>。</div>
+      <div>两组高低点 <span class="hl-down">同时往下掉</span>，像走下楼。</div>
+    </div>
+    <div class="row">
+      <div class="name qushi">盘整</div>
+      <div>"高高 + 低低"（外扩）<b>或</b> "高低 + 低高"（内收）——只要不满足上涨/下跌定义就是盘整。</div>
+      <div>方向不一致：要么是 <span class="hl-gold">扩散三角</span>，要么是 <span class="hl-gold">收敛三角</span>。</div>
+    </div>
+  </div>
+
+  <p>上涨和下跌合起来叫 <b>趋势</b>。所以世界上只有两种走势：<span class="hl-gold">趋势</span> 和 <span class="hl-pivot">盘整</span>。这个二分法是后面所有概念（背驰、买卖点、走势中枢）的源头。</p>
+
+  <figure>
+    <img src="/_assets/ch15_p01.png" alt="上涨/下跌/盘整三种走势示意">
+    <figcaption>上证指数日线上的三种走势分类：左上「上涨」(前后两组高低点同时抬高) · 左下「下跌」(同时降低) · 右下「盘整」(方向不一致)</figcaption>
+  </figure>
+
+  <div class="schema">
+    <h4>三种走势的拓扑示意</h4>
+    <svg viewBox="0 0 720 200" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <marker id="ar" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0 L5,3 L0,6 z" fill="#9aa3ad"/></marker>
+      </defs>
+      <!-- 上涨 -->
+      <g transform="translate(20,10)">
+        <text x="100" y="14" text-anchor="middle" fill="#ff4d4f" font-family="Noto Serif SC" font-size="14" font-weight="700">上涨</text>
+        <polyline points="10,160 40,110 70,140 110,70 140,100 180,30" fill="none" stroke="#ff4d4f" stroke-width="2"/>
+        <circle cx="40" cy="110" r="3" fill="#fff"/><text x="40" y="105" fill="#9aa3ad" font-size="9" text-anchor="middle">前高</text>
+        <circle cx="70" cy="140" r="3" fill="#fff"/><text x="70" y="155" fill="#9aa3ad" font-size="9" text-anchor="middle">前低</text>
+        <circle cx="110" cy="70" r="3" fill="#e8b339"/><text x="110" y="65" fill="#e8b339" font-size="9" text-anchor="middle">新高↑</text>
+        <circle cx="140" cy="100" r="3" fill="#e8b339"/><text x="140" y="115" fill="#e8b339" font-size="9" text-anchor="middle">新低↑</text>
+      </g>
+      <!-- 下跌 -->
+      <g transform="translate(240,10)">
+        <text x="100" y="14" text-anchor="middle" fill="#16c784" font-family="Noto Serif SC" font-size="14" font-weight="700">下跌</text>
+        <polyline points="10,30 40,90 70,60 110,130 140,100 180,170" fill="none" stroke="#16c784" stroke-width="2"/>
+        <circle cx="40" cy="90" r="3" fill="#fff"/><text x="40" y="85" fill="#9aa3ad" font-size="9" text-anchor="middle">前低</text>
+        <circle cx="70" cy="60" r="3" fill="#fff"/><text x="70" y="55" fill="#9aa3ad" font-size="9" text-anchor="middle">前高</text>
+        <circle cx="110" cy="130" r="3" fill="#e8b339"/><text x="110" y="145" fill="#e8b339" font-size="9" text-anchor="middle">新低↓</text>
+        <circle cx="140" cy="100" r="3" fill="#e8b339"/><text x="140" y="95" fill="#e8b339" font-size="9" text-anchor="middle">新高↓</text>
+      </g>
+      <!-- 盘整 -->
+      <g transform="translate(460,10)">
+        <text x="100" y="14" text-anchor="middle" fill="#37c0e6" font-family="Noto Serif SC" font-size="14" font-weight="700">盘整</text>
+        <polyline points="10,80 50,40 90,130 130,50 170,140 200,80" fill="none" stroke="#37c0e6" stroke-width="2"/>
+        <circle cx="50" cy="40" r="3" fill="#fff"/><text x="50" y="35" fill="#9aa3ad" font-size="9" text-anchor="middle">前高</text>
+        <circle cx="90" cy="130" r="3" fill="#fff"/><text x="90" y="145" fill="#9aa3ad" font-size="9" text-anchor="middle">前低</text>
+        <circle cx="130" cy="50" r="3" fill="#e8b339"/><text x="130" y="45" fill="#e8b339" font-size="9" text-anchor="middle">新高</text>
+        <circle cx="170" cy="140" r="3" fill="#e8b339"/><text x="170" y="155" fill="#e8b339" font-size="9" text-anchor="middle">新低</text>
+        <text x="100" y="180" text-anchor="middle" fill="#5b6470" font-size="10">高更高 + 低更低 = 外扩</text>
+      </g>
+    </svg>
+    <p class="schema-cap">三种走势的"拓扑指纹"——只看前后两组高低点的相对位置，一秒判断走势属性。</p>
+  </div>
+
+  <p style="color:var(--ink-faint);font-size:14px">⚠️ 一切判断都<b>建立在一定的周期图表上</b>。日线上的盘整，30 分钟线上可能就是一段上涨或下跌；周线上的盘整，日线上往往是几段大涨大跌。<span class="hl-gold">先选好你的级别，再套这套定义。</span></p>
+</section>
+
+<section class="wrap reveal">
+  <div class="sec-no">03 — 谁是"高点低点"</div>
+  <h2>用"吻"过滤噪音，找到真正的高低点</h2>
+  <p class="lead">定义看起来简单，难就难在——<b>哪个点才算"高点"？哪个才是"低点"？</b>30 分钟看着是高点，周线上可能连一根 K 线都没有。</p>
+  <p>缠师给的过滤器是 <b>均线系统</b>，更精确地说，是 <span class="hl-pivot">短期均线和长期均线"接吻"</span>（短期均线穿越长期均线后又回踩）这个事件。</p>
+
+  <blockquote>只有在「吻」前后出现的高、低点才有意义。<span class="who">— 缠中说禅</span></blockquote>
+
+  <p>反过来说：<b>如果一段走势连短期均线都突破不了</b>，那期间出现的所有高低点都只是更低一级别的事，本级别图上没意义——可以忽略。这是把图过滤干净的第一步。</p>
+
+  <h3 style="font-family:var(--serif);font-size:22px;color:#fff;margin:30px 0 14px">三种"吻"——按反抗强度排序</h3>
+
+  <div class="points">
+    <div class="pt b">
+      <div class="dot">飞</div>
+      <div>
+        <h4>飞吻 · 基本无反抗</h4>
+        <p>走势突破短期均线，但<b>连长期均线都没碰到</b>就掉头继续原方向。短期均线只是飞过去蹭一下，原趋势一点都没动摇。</p>
+      </div>
+    </div>
+    <div class="pt b">
+      <div class="dot">唇</div>
+      <div>
+        <h4>唇吻 · 反抗一般</h4>
+        <p>走势<b>突破长期均线后马上形成陷阱</b>，被打回原趋势方向。多空双方碰了一下，但攻方力度不够，没有形成真正的拉锯。</p>
+      </div>
+    </div>
+    <div class="pt s">
+      <div class="dot">湿</div>
+      <div>
+        <h4>湿吻 · 反抗强烈</h4>
+        <p>走势<b>突破长期均线之后还能反复纠缠</b>——上去站住、跌破、再上去……多空在长期均线附近反复拉锯。<span class="hl-gold">一切真正的转折，几乎都是从「湿吻」开始的。</span></p>
+      </div>
+    </div>
+  </div>
+
+  <div class="schema">
+    <h4>飞吻 / 唇吻 / 湿吻 拓扑示意</h4>
+    <svg viewBox="0 0 720 220" xmlns="http://www.w3.org/2000/svg">
+      <!-- 飞吻 -->
+      <g transform="translate(20,10)">
+        <text x="100" y="14" text-anchor="middle" fill="#ff4d4f" font-family="Noto Serif SC" font-size="13" font-weight="700">飞吻</text>
+        <!-- 长期均线 -->
+        <line x1="10" y1="80" x2="190" y2="80" stroke="#37c0e6" stroke-width="1.2"/>
+        <text x="190" y="78" fill="#37c0e6" font-size="9" text-anchor="end">长期均线</text>
+        <!-- 短期均线 -->
+        <path d="M10,120 C40,120 70,100 100,100 130,100 160,120 190,140" fill="none" stroke="#e8b339" stroke-width="1.6"/>
+        <text x="100" y="180" fill="#9aa3ad" font-size="10" text-anchor="middle">短线没碰到长线</text>
+      </g>
+      <!-- 唇吻 -->
+      <g transform="translate(240,10)">
+        <text x="100" y="14" text-anchor="middle" fill="#ff4d4f" font-family="Noto Serif SC" font-size="13" font-weight="700">唇吻</text>
+        <line x1="10" y1="80" x2="190" y2="80" stroke="#37c0e6" stroke-width="1.2"/>
+        <text x="190" y="78" fill="#37c0e6" font-size="9" text-anchor="end">长期均线</text>
+        <path d="M10,140 C40,140 70,90 100,75 130,70 160,90 190,130" fill="none" stroke="#e8b339" stroke-width="1.6"/>
+        <circle cx="100" cy="75" r="3" fill="#fff"/>
+        <text x="100" y="180" fill="#9aa3ad" font-size="10" text-anchor="middle">点一下就掉头</text>
+      </g>
+      <!-- 湿吻 -->
+      <g transform="translate(460,10)">
+        <text x="100" y="14" text-anchor="middle" fill="#16c784" font-family="Noto Serif SC" font-size="13" font-weight="700">湿吻</text>
+        <line x1="10" y1="80" x2="200" y2="80" stroke="#37c0e6" stroke-width="1.2"/>
+        <text x="200" y="78" fill="#37c0e6" font-size="9" text-anchor="end">长期均线</text>
+        <path d="M10,140 C30,140 45,90 60,70 75,55 90,90 110,80 130,70 150,100 165,75 180,50 195,90 210,110" fill="none" stroke="#e8b339" stroke-width="1.6"/>
+        <text x="100" y="180" fill="#9aa3ad" font-size="10" text-anchor="middle">反复纠缠 → 转折种子</text>
+      </g>
+    </svg>
+    <p class="schema-cap">蓝线=长期均线，金线=短期均线。三种吻的本质差别就是：<b>短线对长线的反抗力度</b>。湿吻一旦出现，原趋势就不再"理所当然"。</p>
+  </div>
+
+  <p>顺便记一条转折路径：</p>
+  <ol class="think">
+    <li><b>湿吻 → 走势继续原方向 → 制造陷阱 → 回头转折</b>（最经典，背驰判断就服务于这条路径）</li>
+    <li><b>湿吻 → 直接进入盘整</b>（以时间换空间型转折）</li>
+  </ol>
+</section>
+
+<section class="wrap reveal">
+  <div class="sec-no">04 — 核心铁律</div>
+  <h2>没有趋势，没有背驰</h2>
+  <p class="lead">这是<b>第15课画龙点睛的一句</b>，也是缠论整个买卖点体系的入口。</p>
+
+  <div class="law">
+    <div class="ttl">CHAN&nbsp;LAW · 第一条铁律</div>
+    <h3>背驰，是趋势的"内部裂缝"</h3>
+    <p>背驰描述的是 <b>同方向两段趋势之间，攻击力度逐次衰减</b> 这件事——没有趋势，何来"前后两段同向趋势"？所以<span class="hl-up">在盘整里谈背驰，是概念错误</span>。</p>
+  </div>
+
+  <p>很多人 MACD 看到红柱缩短就喊"背驰啦"——错了。MACD 红柱缩短在盘整里天天发生，那只是<b>箱体顶部回落的物理现象</b>，没有任何"力度衰竭"的含义。背驰这个词必须有"前一段攻击 vs 后一段攻击"做比较——只有在<span class="hl-gold">趋势里</span>，才有"前一段"和"后一段"两段方向一致的攻击。</p>
+
+  <p style="color:var(--ink-faint);font-size:14px">⚠️ 这里强调一句：在盘整里有<b>另外一个概念叫"盘整背驰"</b>（第 27 课会讲），但它讨论的是<span class="hl-pivot">盘整内部两段同向次级别走势</span>的力度对比，**不**是这里说的"在盘整里谈背驰"。不要混淆。</p>
+
+  <p>记住：<b>谈背驰之前，先问自己——这段走势是趋势吗？</b>是趋势，再去找它前后两段；如果只是个箱体来回，<span class="hl-down">背驰这个词收回去</span>。</p>
+</section>
+
+<section class="wrap reveal">
+  <div class="sec-no">05 — 把背驰算出来</div>
+  <h2>缠中说禅趋势力度 · 公式化定义</h2>
+  <p class="lead">缠师不靠"感觉",他给了一套<b>纯几何 + 纯均线</b>的力度度量。不涉及任何技术指标（MACD/KDJ 都没用上）。</p>
+
+  <div class="formula">
+    <b>① 缠中说禅趋势力度</b>（事后判断 · 稳妥）：<br>
+    &nbsp;&nbsp;= <b>前一"吻"结束</b> 到 <b>后一"吻"开始</b>，短期均线与长期均线相交所围成的<b>面积</b>。
+    <br><br>
+    判断背驰：<b>前后两段同向趋势</b>，若后一段力度 &lt; 前一段力度 → <span class="hl-gold">背驰成立</span>。
+  </div>
+
+  <div class="formula">
+    <b>② 缠中说禅趋势平均力度</b>（即时判断 · 风险大但抓得准）：<br>
+    &nbsp;&nbsp;= <b>当下时刻</b> 到 <b>前一"吻"结束</b>，短期与长期均线围成面积 ÷ 时间。
+    <br><br>
+    判断方法：<b>实时比较</b>当下平均力度 vs 上一次平均力度，前者更弱 → <span class="hl-up">背驰即将形成</span>，再观察短长均线"延伸长度"开始缩短 → <span class="hl-gold">真正底部就在眼前</span>。
+  </div>
+
+  <div class="schema">
+    <h4>"力度"面积示意</h4>
+    <svg viewBox="0 0 720 220" xmlns="http://www.w3.org/2000/svg">
+      <!-- 第一段 -->
+      <line x1="20" y1="120" x2="700" y2="120" stroke="#37c0e6" stroke-width="1.4"/>
+      <text x="700" y="115" fill="#37c0e6" font-size="10" text-anchor="end">长期均线</text>
+      <!-- 短期均线 (两段下行) -->
+      <path d="M40,120 C70,120 90,40 130,30 160,22 190,80 220,120 240,140 260,130 280,120" fill="none" stroke="#e8b339" stroke-width="1.6"/>
+      <path d="M280,120 C310,120 340,55 380,50 420,45 440,90 470,120 490,135 510,128 530,120" fill="none" stroke="#e8b339" stroke-width="1.6"/>
+      <!-- 面积填充 第一段 -->
+      <path d="M85,120 C95,120 110,40 145,30 180,22 210,80 220,120 Z" fill="rgba(232,179,57,.18)" stroke="none"/>
+      <!-- 面积填充 第二段 (小) -->
+      <path d="M320,120 C340,120 370,75 400,68 430,62 450,95 470,120 Z" fill="rgba(232,179,57,.12)" stroke="none"/>
+      <!-- 标注 -->
+      <text x="155" y="80" fill="#fff" font-family="Noto Serif SC" font-size="13" text-anchor="middle">面积₁ (大)</text>
+      <text x="395" y="92" fill="#fff" font-family="Noto Serif SC" font-size="13" text-anchor="middle">面积₂ (小)</text>
+      <text x="155" y="180" fill="#9aa3ad" font-size="11" text-anchor="middle">前一段同向趋势</text>
+      <text x="395" y="180" fill="#9aa3ad" font-size="11" text-anchor="middle">后一段同向趋势</text>
+      <!-- 箭头比较 -->
+      <text x="600" y="100" fill="#ff4d4f" font-family="Noto Serif SC" font-size="14" font-weight="700">面积₂ &lt; 面积₁</text>
+      <text x="600" y="120" fill="#e8b339" font-family="Noto Serif SC" font-size="14" font-weight="700">→ 背驰</text>
+    </svg>
+    <p class="schema-cap">缠论"力度"= 短期均线偏离长期均线所围出的面积。<b>同方向两次冲锋，面积缩水了，就是子弹打光了</b>——这就是背驰的几何本质。</p>
+  </div>
+
+  <p>缠师在原文里点出方法②的两个适用条件：</p>
+  <ol class="think">
+    <li><b>市场感觉要好</b>——能看出"延伸长度开始缩短"这种细节，需要盘感。</li>
+    <li><b>风险稍大</b>——方法②是当下判断、提前下注，方向看错就直接套住；方法①是吻完才确认，稳但晚。</li>
+    <li><b>如果用方法①</b>，缠师额外给了一招：去看<b>低一级别图表</b>，用同样方法找低级别的转折点——这样落地价就和真正的低点几乎贴在一起了。</li>
+  </ol>
+</section>
+
+<section class="wrap reveal">
+  <div class="sec-no">06 — 加分项</div>
+  <h2>MACD 定律：缠师罕见的"指标加成"</h2>
+  <p class="lead">缠师反复强调"两条均线+走势"就够了，但他在本课答疑里破例给了一条 MACD 实战定律——只<b>用来辅助确认</b>，不能替代均线判断。</p>
+
+  <div class="law" style="border-color:rgba(232,179,57,.4);background:linear-gradient(120deg,rgba(232,179,57,.07),transparent 70%),var(--bg-elev)">
+    <div class="ttl" style="color:var(--gold)">CHAN&nbsp;LAW · 缠中说禅 MACD 定律</div>
+    <h3 style="color:#fff">买点定律</h3>
+    <p><b>第一类买点</b>都是在 MACD <span class="hl-down">0 轴之下</span>背驰形成的（绿柱缩短 + 黄白线 DIFF/DEA 在 0 轴下方金叉）。<br>
+    <b>第二类买点</b>都是 DIFF/DEA <span class="hl-up">第一次上 0 轴后回抽</span>确认形成的。</p>
+    <p style="margin-top:8px;font-size:14px;color:var(--ink-dim)">卖点情况完全反过来：第一类卖点在 0 轴<b>之上</b>背驰；第二类卖点在 DIFF/DEA 第一次跌破 0 轴后反抽形成。</p>
+  </div>
+
+  <figure>
+    <img src="/_assets/ch15_p02.png" alt="MACD 背驰示意">
+    <figcaption>缠师强调：单纯看 MACD 红绿柱缩短不能判定背驰，必须<b>柱子的"一波"出现转折</b>（今天柱 &lt; 昨天柱 &lt; 前天柱），<br>再比较这波转折的高度是否低于上一波转折的高度。柱子背驰还要配合 DIFF（白线）/DEA（黄线）走势，<br>特别是通道式行情。</figcaption>
+  </figure>
+
+  <p style="color:var(--ink-faint);font-size:14px">⚠️ 缠师在原文里反复纠正读者的一个常见误解："<b>股价或指数创新高、MACD 红柱低于前一天</b>就叫背驰"——理解错误。柱子背驰要看<b>一整波柱子的高度</b>，不是单根日柱的比较。</p>
+</section>
+
+<section class="wrap reveal">
+  <div class="sec-no">07 — 真金白银的实证</div>
+  <h2>缠师当年喊的"250 周线撑住" · 中钢吉炭复盘</h2>
+  <p class="lead">课后答疑里，2006-12-13 有读者问 000928 中钢吉炭，缠师判断：<b>不是三角形，是平台式调整；周线还可以；关键是 250 周线不能有效跌破。</b>20 年后回头看，行情精确得让人后背发凉。</p>
+
+  <figure>
+    <img src="/_assets/ch15_p07.png" alt="000928中钢吉炭周线 缠师原批注">
+    <figcaption>缠师 2006-12-13 原图批注：<b>"这不是三角形，而是一个典型的平台式调整。<br>而且恰好相反，他的周线走得还可以，不过下面关键是 250 周线的支持，该位置不能有效跌破"</b></figcaption>
+  </figure>
+
+  <figure>
+    <img src="/_assets/ch15_p08.png" alt="000928 日线平台式调整">
+    <figcaption>同期日线视角：2006-04 到 2006-12 是一个<b>典型的平台箱体</b>，箱顶 3.50 上下、箱底 3.10 上下，反复整理 8 个月。这种"高低高低"的形态正是缠师定义的 <b>盘整</b>。</figcaption>
+  </figure>
+
+  <div class="proof">
+    <span class="badge">数据实证 · 中钢吉炭 000928 周线</span>
+    <div class="chartbox">
+      <div class="legend">
+        <span><i style="background:#ff4d4f"></i>红涨 K 线</span>
+        <span><i style="background:#16c784"></i>绿跌 K 线</span>
+        <span><i style="background:#e8b339"></i>MA20</span>
+        <span><i style="background:#37c0e6"></i>MA60</span>
+        <span><i style="background:#ff4d4f"></i>MA250</span>
+      </div>
+      <canvas id="cv_000928" height="460"></canvas>
+    </div>
+    <div class="verdict">
+      <span class="mk">✓ 印证</span>
+      <p>缠师 2006-12-13 发文时，000928 周收 <b>5.30 元</b>，周线 MA250 = <b>5.17 元</b>，悬空仅 13 分。<br>
+      两周后即 2006-12-31，周收一度砸到 <b class="hl-down">4.90</b>，周内最低 <b class="hl-down">4.84</b>，<b>短暂跌破 MA250 后立刻收回</b>——完美符合缠师"不能<b>有效</b>跌破"的措辞（短破长不破=不算有效跌破）。<br>
+      此后一路飙升，2007-05-23 见 <b class="hl-up">16.12 元</b>，从 5.30 起算 <b>+204%</b>。一个 250 周线的支撑判断，价值 3 倍。</p>
+    </div>
+  </div>
+  <p style="font-family:var(--mono);font-size:12px;color:var(--ink-faint)">数据来源：新浪财经周K（不复权）· akshare · 截至 2026-05-29 · 不构成投资建议</p>
+</section>
+
+<section class="wrap reveal">
+  <div class="sec-no">08 — 缠师同期作业</div>
+  <h2>038004 五粮液权证 · 用三角形构造第二类买点</h2>
+  <p class="lead">课后答疑里还提到一个权证作业。<b>权证已退市，无法 akshare 回测</b>，但缠师的原图保留了完整教学价值。</p>
+
+  <figure>
+    <img src="/_assets/ch15_p04.png" alt="038004 五粮液权证 缠师标注">
+    <figcaption>038004 五粮液权证 60 日线视角。缠师标注的三个关键节点：<b>10.23（建仓）→ 11.8 （减半仓）→ 12.7（加 1/2 仓）</b>，并用一个 11.8~12.7 的<b>对称三角形</b>构造出加仓位（第二类买点）。<br>三角形顶部的"33(T)/21(T)"是时间周期点——缠师在这一刻"几个因数都结合在一起"。</figcaption>
+  </figure>
+
+  <p>这个权证操作展示了缠师典型的<b>权证打法</b>：</p>
+  <ol class="think">
+    <li><b>第一类买点建仓</b>（10.23-10.25，本课定义里的背驰底）。</li>
+    <li><b>第一波拉升后减半仓</b>（11.8），把利润<b>装回口袋</b>。</li>
+    <li><b>沿 60 日线回补</b>仓位，等待第二个机会。</li>
+    <li><b>三角形末端 + 时间周期点 + 第二类买点</b> 三重共振时加 1/2 仓（12.6-12.7）。</li>
+    <li><b>5 分钟级别背驰出大半</b>（12.13），剩余仓位<b>成本归零</b>——立于不败之地。</li>
+  </ol>
+
+  <blockquote>本ID作权证，特别是认沽，第一轮上去都会这样减仓操作，<b>只持有成本是 0 的仓位等待第二波</b>，第二波是否有，这已经问题不大了，这样就绝对立于不败之地了。<span class="who">— 缠中说禅 2006-12-13</span></blockquote>
+</section>
+
+<section class="wrap reveal">
+  <div class="sec-no">09 — 巩固</div>
+  <h2>思考题 & 判图练习</h2>
+
+  <ol class="think">
+    <li>把第15课的三种走势定义和第7-8课"中小资金高效买卖法"对照——缠师那些"大跌买入、大涨卖出"的操作，对应着哪种走势的哪个段？</li>
+    <li>如果某段走势<b>从未突破短期均线</b>，缠师说"期间出现的高低点没意义"。这对你的<b>看盘级别选择</b>有什么启示？（提示：换更低级别看）</li>
+    <li>"延伸长度缩短"——为什么短长均线之间"绷开的距离"缩短，意味着力度衰竭？（提示：均线是平均成本，绷开=多空成本快速分化）</li>
+    <li>方法①稳妥但晚，方法②即时但风险大。你的资金性质、心理承受能力适合哪一种？或者用方法①+低一级别图，两全？</li>
+  </ol>
+
+  <div class="quiz">
+    <h4>练习 A · 三种走势辨识</h4>
+    <p>给你三组前后高低点（前高/前低 → 新高/新低）：</p>
+    <p>① 10/5 → 12/7 &nbsp;&nbsp;|&nbsp;&nbsp; ② 12/7 → 9/4 &nbsp;&nbsp;|&nbsp;&nbsp; ③ 10/5 → 12/4 &nbsp;&nbsp;|&nbsp;&nbsp; ④ 10/5 → 9/6</p>
+    <details class="ans"><summary>查看答案</summary>
+      <p>① 上涨（高高+低高） · ② 下跌（高低+低低） · ③ 盘整（高高+低低，外扩三角） · ④ 盘整（高低+低高，收敛三角）</p>
+    </details>
+  </div>
+
+  <div class="quiz">
+    <h4>练习 B · 背驰陷阱判断</h4>
+    <p>某股票横盘 3 个月，箱顶 10 元、箱底 8 元来回拉锯。某天股价从 9.5 跌到 8.1，MACD 红柱明显缩短，有人说"MACD 背驰了，可以抄底"。你怎么判断？</p>
+    <details class="ans"><summary>查看答案</summary>
+      <p>这是<b>盘整</b>，<span class="hl-down">不存在"背驰"这个概念</span>——"没有趋势，没有背驰"。MACD 红柱缩短只是箱体顶部下行的物理结果，不构成抄底依据。要谈，也只能谈"<b>盘整背驰</b>"（第27课），那是另一套规则。</p>
+    </details>
+  </div>
+
+  <div class="quiz">
+    <h4>练习 C · 吻的强度判断</h4>
+    <p>股价从下方上穿短期均线，顺势冲到长期均线下方 1% 的位置，第二天直接掉头收阴并跌破短期均线。这是飞吻还是唇吻？</p>
+    <details class="ans"><summary>查看答案</summary>
+      <p><b>飞吻</b>——短线只是顶到了长线下方，<b>从来没真正突破长线</b>。反抗力度最弱的一档，原趋势毫发无损。如果它突破长线一两根 K 线后被打回，那才是<b>唇吻</b>。</p>
+    </details>
+  </div>
+</section>
+
+<div class="wrap">
+  <div class="tldr reveal">
+    <div class="lab">TLDR · 一句话总结</div>
+    <p>市场所有动作 = 上涨 · 下跌 · 盘整 三选一；<br>
+    用「吻」过滤出有意义的高低点，用「面积」量化趋势力度；<br>
+    <span class="hl-pivot">没有趋势，就没有背驰</span>——这是缠论买卖点体系的入口铁律。</p>
+  </div>
+</div>
+
+</main>
+<footer class="wrap">
+  原文出处：raw/缠中说禅/教你炒股票108课/教你炒股票15：没有趋势，没有背驰.md<br>
+  本页为个人学习复习用 · 非投资建议
+</footer>
+<script>
+  const bar=document.getElementById('bar');
+  const onScroll=()=>{const h=document.documentElement;bar.style.width=(h.scrollTop/(h.scrollHeight-h.clientHeight)*100)+'%'};
+  document.addEventListener('scroll',onScroll,{passive:true});onScroll();
+  const io=new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{threshold:.12});
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+  function drawChanChart(canvasId, CHART){
+    const cv=document.getElementById(canvasId); if(!cv) return;
+    const mode=CHART.mode||'line', hasVol=!!CHART.v && CHART.showVol!==false;
+    const idxOf={}; CHART.dates.forEach((d,i)=>idxOf[d]=i);
+    const ri=d=>{ if(d in idxOf)return idxOf[d]; let b=0,bd=1/0;
+      CHART.dates.forEach((x,i)=>{const t=Math.abs(new Date(x)-new Date(d)); if(t<bd){bd=t;b=i}}); return b; };
+    function draw(){
+      const dpr=window.devicePixelRatio||1, W=cv.clientWidth, H=CHART.height||460;
+      cv.width=W*dpr; cv.height=H*dpr; const x=cv.getContext('2d'); x.scale(dpr,dpr); x.clearRect(0,0,W,H);
+      const padL=48,padR=14,padT=16, volH=hasVol?70:0, gap=hasVol?16:0, priceH=H-padT-volH-gap-22, n=CHART.c.length;
+      let mn=Math.min(...CHART.l), mx=Math.max(...CHART.h);
+      if(CHART.ma)Object.values(CHART.ma).forEach(a=>a.forEach(v=>{if(v!=null){mn=Math.min(mn,v);mx=Math.max(mx,v)}}));
+      if(CHART.pivots)CHART.pivots.forEach(p=>{mn=Math.min(mn,p.lo);mx=Math.max(mx,p.hi)});
+      if(CHART.marks)CHART.marks.forEach(m=>{mn=Math.min(mn,m.price);mx=Math.max(mx,m.price)});
+      const pd=(mx-mn)*0.08; mn-=pd; mx+=pd;
+      const PW=W-padL-padR, px=i=> n===1?padL+PW/2:padL+PW*i/(n-1), py=p=>padT+priceH*(1-(p-mn)/(mx-mn));
+      x.font="11px JetBrains Mono"; x.textAlign="right";
+      for(let g=0;g<=4;g++){const p=mn+(mx-mn)*g/4,yy=py(p);
+        x.strokeStyle="rgba(255,255,255,.06)";x.beginPath();x.moveTo(padL,yy);x.lineTo(W-padR,yy);x.stroke();
+        x.fillStyle="#5b6470";x.fillText(p.toFixed(2),padL-6,yy+3)}
+      if(CHART.pivots)CHART.pivots.forEach(p=>{const x1=px(ri(p.from)),x2=px(ri(p.to)),y1=py(p.hi),y2=py(p.lo);
+        x.fillStyle="rgba(55,192,230,.10)";x.strokeStyle="rgba(55,192,230,.55)";x.lineWidth=1;
+        x.fillRect(x1,y1,x2-x1,y2-y1);x.strokeRect(x1,y1,x2-x1,y2-y1);
+        if(p.label){x.fillStyle="#37c0e6";x.textAlign="center";x.fillText(p.label,(x1+x2)/2,y1-5)}});
+      if(hasVol){const vmax=Math.max(...CHART.v),vt=padT+priceH+gap;
+        for(let i=0;i<n;i++){const up=CHART.c[i]>=CHART.o[i];x.fillStyle=up?"rgba(255,77,79,.5)":"rgba(22,199,132,.5)";
+          const bw=Math.max(1,PW/n*0.6),bh=volH*CHART.v[i]/vmax;x.fillRect(px(i)-bw/2,vt+volH-bh,bw,bh)}}
+      if(mode==='candle'){const bw=Math.max(1.5,PW/n*0.62);
+        for(let i=0;i<n;i++){const up=CHART.c[i]>=CHART.o[i],col=up?"#ff4d4f":"#16c784";x.strokeStyle=col;x.fillStyle=col;
+          x.beginPath();x.moveTo(px(i),py(CHART.h[i]));x.lineTo(px(i),py(CHART.l[i]));x.stroke();
+          const yo=py(CHART.o[i]),yc=py(CHART.c[i]);x.fillRect(px(i)-bw/2,Math.min(yo,yc),bw,Math.max(1,Math.abs(yc-yo)))}}
+      else{const cs=CHART.c;x.beginPath();for(let i=0;i<n;i++){const xx=px(i),yy=py(cs[i]);i?x.lineTo(xx,yy):x.moveTo(xx,yy)}
+        const gr=x.createLinearGradient(0,padT,0,padT+priceH);gr.addColorStop(0,"rgba(207,213,220,.16)");gr.addColorStop(1,"rgba(207,213,220,0)");
+        x.lineTo(px(n-1),padT+priceH);x.lineTo(px(0),padT+priceH);x.closePath();x.fillStyle=gr;x.fill();
+        x.beginPath();for(let i=0;i<n;i++){const xx=px(i),yy=py(cs[i]);i?x.lineTo(xx,yy):x.moveTo(xx,yy)}
+        x.strokeStyle="#cfd5dc";x.lineWidth=1.6;x.stroke()}
+      const MC={MA5:"#ff8a8c",MA10:"#c0a3ff",MA20:"#e8b339",MA60:"#37c0e6",MA120:"#9aa3ad",MA250:"#ff4d4f"};
+      if(CHART.ma)Object.entries(CHART.ma).forEach(([k,a])=>{x.beginPath();let st=false;
+        for(let i=0;i<n;i++){if(a[i]==null)continue;const xx=px(i),yy=py(a[i]);st?x.lineTo(xx,yy):(x.moveTo(xx,yy),st=true)}
+        x.strokeStyle=MC[k]||"#888";x.lineWidth=1.4;x.stroke()});
+      if(CHART.marks)CHART.marks.forEach(m=>{const xx=px(ri(m.date)),yy=py(m.price),buy=(m.type||'').startsWith('b'),col=buy?"#ff4d4f":"#16c784";
+        x.fillStyle=col;x.beginPath();x.arc(xx,yy,4,0,7);x.fill();
+        x.fillStyle="#fff";x.font="bold 11px -apple-system";x.textAlign="center";x.fillText(m.text||'',xx,buy?yy+18:yy-10)});
+      x.fillStyle="#5b6470";x.textAlign="center";x.font="11px JetBrains Mono";
+      const L=Math.min(6,n);for(let g=0;g<L;g++){const i=Math.round((n-1)*g/(L-1||1));x.fillText(CHART.dates[i],px(i),H-5)}
+    }
+    draw(); window.addEventListener('resize',draw);
+  }
+
+  const CHART_000928 = {"dates": ["2004-01-04", "2004-01-11", "2004-01-18", "2004-02-01", "2004-02-08", "2004-02-15", "2004-02-22", "2004-02-29", "2004-03-07", "2004-03-14", "2004-03-21", "2004-03-28", "2004-04-04", "2004-04-11", "2004-04-18", "2004-04-25", "2004-05-02", "2004-05-16", "2004-05-23", "2004-05-30", "2004-06-06", "2004-06-13", "2004-06-20", "2004-06-27", "2004-07-04", "2004-07-11", "2004-07-18", "2004-07-25", "2004-08-01", "2004-08-08", "2004-08-15", "2004-08-22", "2004-08-29", "2004-09-05", "2004-09-12", "2004-09-19", "2004-09-26", "2004-10-03", "2004-10-10", "2004-10-17", "2004-10-24", "2004-10-31", "2004-11-07", "2004-11-14", "2004-11-21", "2004-11-28", "2004-12-05", "2004-12-12", "2004-12-19", "2004-12-26", "2005-01-02", "2005-01-09", "2005-01-16", "2005-01-23", "2005-01-30", "2005-02-06", "2005-02-20", "2005-02-27", "2005-03-06", "2005-03-13", "2005-03-20", "2005-03-27", "2005-04-03", "2005-04-10", "2005-04-17", "2005-04-24", "2005-05-01", "2005-05-15", "2005-05-22", "2005-05-29", "2005-06-05", "2005-06-12", "2005-06-19", "2005-06-26", "2005-07-03", "2005-07-10", "2005-07-17", "2005-07-24", "2005-07-31", "2005-08-07", "2005-08-14", "2005-08-21", "2005-08-28", "2005-09-04", "2005-09-11", "2005-09-18", "2005-09-25", "2005-10-02", "2005-10-16", "2005-10-23", "2005-10-30", "2005-11-06", "2005-11-13", "2005-11-20", "2005-11-27", "2005-12-11", "2005-12-18", "2005-12-25", "2006-01-01", "2006-01-08", "2006-01-15", "2006-01-22", "2006-01-29", "2006-02-12", "2006-02-19", "2006-02-26", "2006-03-05", "2006-03-12", "2006-03-19", "2006-04-02", "2006-04-09", "2006-04-16", "2006-06-11", "2006-06-18", "2006-06-25", "2006-07-02", "2006-07-09", "2006-07-16", "2006-07-23", "2006-07-30", "2006-08-06", "2006-08-13", "2006-08-20", "2006-08-27", "2006-09-03", "2006-09-10", "2006-09-17", "2006-09-24", "2006-10-01", "2006-10-15", "2006-10-22", "2006-10-29", "2006-11-05", "2006-11-12", "2006-11-19", "2006-11-26", "2006-12-03", "2006-12-10", "2006-12-17", "2006-12-24", "2006-12-31", "2007-01-07", "2007-01-14", "2007-01-21", "2007-01-28", "2007-02-04", "2007-02-11", "2007-02-18", "2007-03-04", "2007-03-11", "2007-03-18", "2007-03-25", "2007-04-01", "2007-04-08", "2007-04-15", "2007-04-22", "2007-04-29", "2007-05-06", "2007-05-13", "2007-05-20", "2007-05-27", "2007-06-03", "2007-06-10", "2007-06-17", "2007-06-24", "2007-07-01", "2007-07-08", "2007-07-15", "2007-07-22", "2007-07-29", "2007-08-05", "2007-08-12", "2007-08-19", "2007-08-26", "2007-09-02", "2007-09-09", "2007-09-16", "2007-09-23", "2007-09-30", "2007-10-14", "2007-10-21", "2007-10-28", "2007-11-04", "2007-11-11", "2007-11-18", "2007-11-25", "2007-12-02", "2007-12-09", "2007-12-16", "2007-12-23", "2007-12-30", "2008-01-06", "2008-01-13", "2008-01-20", "2008-01-27", "2008-02-03", "2008-02-10", "2008-02-17", "2008-02-24", "2008-03-02", "2008-03-09", "2008-03-16", "2008-03-23", "2008-03-30", "2008-04-06", "2008-04-13", "2008-04-20", "2008-04-27", "2008-05-04", "2008-05-11", "2008-05-18", "2008-05-25", "2008-06-01", "2008-06-08", "2008-06-15", "2008-06-22", "2008-06-29", "2008-07-06"], "o": [5.05, 4.95, 5.02, 5.08, 5.26, 5.3, 5.49, 5.68, 5.7, 5.43, 5.43, 5.58, 5.66, 5.85, 5.52, 5.41, 5.13, 4.97, 4.97, 5.1, 4.95, 4.83, 4.56, 4.43, 4.33, 4.4, 4.22, 4.16, 4.03, 4.03, 4.0, 3.94, 3.58, 3.55, 3.8, 3.66, 4.11, 4.08, 4.12, 4.23, 3.99, 3.66, 3.33, 3.2, 3.38, 3.49, 3.45, 3.58, 3.33, 3.16, 3.22, 2.95, 2.97, 2.9, 3.09, 2.74, 2.75, 2.82, 3.3, 3.22, 3.39, 3.02, 3.05, 3.21, 3.15, 2.92, 2.7, 2.82, 2.52, 2.5, 2.49, 2.52, 2.87, 2.74, 2.7, 2.52, 2.58, 2.52, 2.48, 2.46, 2.7, 2.63, 2.66, 2.83, 3.07, 3.2, 3.23, 2.98, 2.91, 3.0, 3.14, 2.8, 3.02, 2.92, 3.1, 3.46, 3.18, 3.16, 3.11, 3.16, 3.24, 3.43, 3.64, 3.41, 3.3, 3.1, 3.23, 3.52, 3.41, 3.6, 3.27, 3.81, 5.05, 5.55, 5.12, 5.52, 6.12, 6.3, 6.3, 6.09, 5.7, 5.41, 5.53, 5.22, 5.33, 5.78, 5.28, 5.32, 5.21, 5.48, 6.26, 6.25, 5.78, 5.7, 5.6, 5.58, 5.37, 5.41, 5.31, 5.36, 5.3, 4.9, 5.58, 5.7, 6.0, 8.04, 8.51, 9.8, 10.41, 9.0, 9.72, 9.41, 9.39, 9.54, 10.3, 12.41, 12.2, 12.69, 12.91, 12.58, 13.65, 14.7, 12.01, 11.1, 11.26, 9.05, 7.45, 7.39, 7.28, 7.93, 8.95, 8.0, 8.15, 8.9, 10.87, 10.21, 9.7, 10.21, 11.1, 10.78, 9.35, 8.89, 7.86, 8.17, 7.74, 8.12, 8.17, 7.8, 8.49, 8.32, 8.6, 9.12, 9.7, 9.41, 9.62, 10.34, 9.15, 9.15, 9.63, 9.85, 9.73, 9.35, 9.07, 8.31, 7.8, 6.62, 6.94, 6.65, 6.34, 6.9, 6.74, 6.74, 6.65, 7.0, 6.68, 5.51, 5.14, 5.11], "h": [5.17, 5.14, 5.15, 5.28, 5.49, 5.66, 5.72, 5.72, 5.87, 5.49, 5.7, 5.73, 5.95, 5.95, 5.68, 5.53, 5.15, 5.05, 5.2, 5.1, 5.01, 4.83, 4.56, 4.48, 4.49, 4.43, 4.22, 4.3, 4.13, 4.12, 4.02, 3.94, 3.89, 3.91, 3.84, 4.17, 4.35, 4.35, 4.25, 4.45, 4.14, 3.66, 3.42, 3.57, 3.5, 3.64, 3.62, 3.62, 3.42, 3.36, 3.22, 3.03, 3.04, 3.1, 3.16, 2.82, 2.85, 3.05, 3.63, 3.47, 3.45, 3.19, 3.36, 3.32, 3.19, 2.92, 2.9, 2.83, 2.59, 2.61, 2.59, 3.1, 2.92, 2.84, 2.87, 2.62, 2.68, 2.6, 2.58, 2.69, 2.81, 2.99, 2.83, 3.3, 3.48, 3.29, 3.27, 3.01, 3.05, 3.21, 3.24, 3.05, 3.08, 3.19, 3.19, 3.46, 3.24, 3.16, 3.2, 3.24, 3.53, 3.66, 4.0, 3.41, 3.35, 3.33, 3.55, 3.66, 3.48, 3.6, 3.88, 4.05, 6.11, 5.55, 5.62, 6.12, 6.32, 6.72, 6.44, 6.33, 5.8, 5.57, 5.79, 5.46, 6.02, 5.8, 5.53, 5.46, 5.47, 6.26, 6.46, 6.29, 5.91, 5.88, 5.88, 5.59, 5.73, 5.9, 5.5, 5.47, 5.38, 5.41, 6.18, 6.27, 7.67, 9.3, 9.67, 10.34, 11.4, 10.0, 10.21, 10.25, 10.35, 10.48, 11.82, 12.99, 13.2, 12.81, 13.88, 13.92, 16.12, 14.75, 12.01, 11.75, 11.33, 9.19, 8.05, 7.76, 7.74, 9.15, 9.29, 8.7, 8.98, 11.11, 10.87, 11.22, 10.95, 11.5, 11.36, 10.78, 10.22, 9.1, 8.6, 8.56, 8.4, 8.45, 8.18, 8.25, 8.91, 8.65, 9.47, 9.89, 10.15, 10.27, 10.66, 10.75, 9.73, 9.8, 10.15, 10.05, 10.46, 9.86, 9.2, 8.58, 7.96, 7.29, 7.33, 6.78, 6.9, 7.1, 7.07, 6.8, 7.57, 7.28, 6.68, 5.74, 5.79, 5.3], "l": [4.93, 4.78, 4.95, 5.0, 5.16, 5.27, 5.48, 5.34, 5.35, 5.2, 5.41, 5.5, 5.51, 5.5, 5.25, 5.12, 4.8, 4.8, 4.91, 4.85, 4.8, 4.5, 4.33, 4.31, 4.1, 4.25, 3.87, 4.04, 3.95, 3.96, 3.88, 3.52, 3.57, 3.55, 3.6, 3.58, 4.05, 3.95, 4.02, 3.92, 3.58, 3.12, 3.21, 3.12, 3.35, 3.35, 3.38, 3.32, 3.14, 3.16, 2.95, 2.84, 2.93, 2.86, 2.74, 2.6, 2.74, 2.82, 3.2, 3.1, 2.94, 2.76, 2.85, 2.99, 2.92, 2.59, 2.68, 2.39, 2.41, 2.4, 2.45, 2.51, 2.64, 2.66, 2.51, 2.4, 2.53, 2.3, 2.43, 2.46, 2.61, 2.59, 2.66, 2.7, 3.03, 3.17, 2.98, 2.83, 2.85, 2.92, 2.72, 2.76, 2.85, 2.92, 3.01, 2.9, 3.1, 3.06, 3.08, 3.12, 3.17, 3.32, 3.39, 3.17, 3.0, 3.09, 3.14, 3.26, 3.32, 3.19, 3.27, 3.61, 4.89, 5.01, 5.02, 5.47, 5.57, 6.0, 5.99, 5.65, 5.41, 5.1, 5.25, 5.13, 5.33, 5.25, 5.2, 5.2, 5.2, 5.48, 5.93, 5.78, 5.62, 5.5, 5.32, 5.15, 5.28, 5.31, 5.17, 5.22, 4.84, 4.9, 5.5, 5.7, 5.98, 8.0, 7.71, 9.22, 9.47, 8.55, 9.29, 9.28, 9.2, 9.38, 10.3, 11.39, 12.1, 12.06, 12.68, 12.12, 13.51, 12.64, 10.3, 10.58, 9.53, 7.68, 6.91, 6.92, 6.72, 7.81, 7.91, 8.0, 8.0, 8.73, 9.52, 10.06, 9.52, 10.21, 10.36, 9.25, 8.79, 7.51, 7.28, 7.61, 7.51, 7.62, 7.68, 7.61, 8.09, 8.22, 8.5, 9.12, 9.28, 9.41, 9.52, 9.3, 9.15, 9.14, 9.54, 9.15, 9.59, 8.88, 7.78, 7.5, 6.56, 6.52, 6.46, 5.8, 6.19, 6.69, 6.39, 6.07, 6.62, 6.71, 5.61, 4.87, 5.11, 5.08], "c": [4.97, 5.02, 5.01, 5.23, 5.35, 5.5, 5.68, 5.67, 5.47, 5.4, 5.59, 5.67, 5.85, 5.53, 5.41, 5.13, 4.95, 4.98, 5.06, 4.96, 4.84, 4.56, 4.41, 4.34, 4.4, 4.25, 4.16, 4.08, 4.04, 4.03, 3.95, 3.63, 3.59, 3.81, 3.66, 4.11, 4.08, 4.12, 4.23, 3.97, 3.66, 3.34, 3.22, 3.38, 3.47, 3.5, 3.58, 3.33, 3.19, 3.22, 2.95, 2.96, 2.94, 3.06, 2.75, 2.71, 2.83, 3.0, 3.21, 3.38, 2.97, 3.06, 3.29, 3.19, 2.95, 2.77, 2.81, 2.52, 2.52, 2.49, 2.57, 2.89, 2.73, 2.7, 2.52, 2.56, 2.55, 2.48, 2.48, 2.68, 2.66, 2.68, 2.81, 3.07, 3.28, 3.23, 2.98, 2.91, 3.03, 3.14, 2.8, 2.99, 2.93, 3.13, 3.15, 3.17, 3.16, 3.1, 3.15, 3.21, 3.43, 3.64, 3.41, 3.3, 3.1, 3.24, 3.49, 3.43, 3.36, 3.29, 3.81, 3.89, 5.59, 5.15, 5.54, 6.12, 6.32, 6.2, 6.11, 5.73, 5.41, 5.56, 5.36, 5.32, 5.72, 5.25, 5.32, 5.25, 5.41, 6.15, 6.19, 5.8, 5.79, 5.6, 5.62, 5.37, 5.37, 5.31, 5.26, 5.3, 4.9, 5.41, 5.72, 6.0, 7.66, 8.52, 9.6, 10.34, 9.47, 9.72, 9.83, 9.43, 9.55, 10.26, 11.82, 12.08, 12.69, 12.52, 12.71, 13.92, 14.7, 12.64, 11.14, 10.83, 9.53, 7.68, 7.39, 7.28, 7.55, 8.89, 8.0, 8.17, 8.7, 10.88, 10.18, 10.06, 10.3, 11.0, 10.59, 9.25, 9.15, 7.66, 8.15, 7.88, 8.12, 7.85, 7.9, 8.09, 8.32, 8.51, 9.09, 9.65, 9.4, 9.63, 10.55, 9.3, 9.4, 9.58, 9.9, 9.71, 9.7, 9.07, 8.3, 7.93, 6.65, 7.06, 6.46, 6.36, 6.87, 6.88, 6.74, 6.7, 7.09, 6.88, 5.61, 5.23, 5.35, 5.17], "v": [3354645, 6061196, 4569979, 3066048, 9291283, 8104463, 6672607, 10682524, 12224684, 4914375, 7334094, 6018989, 14114092, 7058511, 4103539, 2827366, 3157250, 1523499, 3419812, 1248818, 1857441, 1649898, 1440769, 1125794, 3274904, 1464969, 2048159, 2893172, 1110229, 913798, 1188830, 2542563, 1348715, 1955330, 1153296, 5039921, 8588080, 5587259, 651293, 6680154, 3602949, 6672263, 2189719, 3427468, 2428623, 4139597, 3775865, 2454484, 1759150, 2128999, 2192944, 963254, 1340607, 2172297, 2720784, 2932269, 1499837, 4583059, 28527299, 8541002, 9868422, 6165358, 12008950, 10659363, 6413438, 8429364, 8540204, 4650998, 2634110, 2695450, 3127443, 15778066, 4005463, 2748824, 4366760, 3439893, 4517332, 4603671, 4034251, 5839703, 8299580, 14720210, 4582911, 17031028, 24445928, 9467508, 9929125, 4412949, 4106673, 8970193, 8298283, 4766936, 4103189, 6788812, 4853560, 7241633, 5152343, 2687286, 4489957, 4265122, 15769730, 10320856, 14306733, 13920829, 8277944, 7050076, 15426210, 11377432, 6698009, 5551305, 23477608, 24748550, 59436655, 11730834, 15618145, 16300652, 20785226, 20982148, 7036648, 9613112, 5667815, 6842210, 5576650, 3817757, 10261684, 7060041, 6943869, 5151433, 5921235, 15574390, 12557413, 7586070, 4986357, 4595977, 6288655, 9371036, 11071378, 14621682, 8721699, 9724298, 14054640, 5449004, 18817192, 15996411, 24956411, 29453791, 19852225, 14379710, 21528687, 20584031, 18576388, 18212528, 17386776, 17437516, 21574101, 44622679, 44542216, 8702495, 40204230, 41799514, 54499940, 17394913, 57312896, 79944272, 39624303, 34942821, 34967271, 24147475, 20155595, 32704721, 32684084, 24178868, 26583804, 44964793, 36757546, 33008126, 26573243, 45876203, 19989816, 22335268, 21874531, 12416091, 13823481, 6843337, 6959968, 7076328, 4685497, 6781694, 16665028, 10490494, 16693710, 9601617, 14797554, 19098910, 33192953, 29278744, 9217633, 4219885, 12640931, 9491077, 16967992, 10710546, 8841521, 5113516, 5622154, 5084815, 5011404, 7087938, 7288779, 7863265, 11383567, 7026927, 19645589, 5560037, 3824606, 6734056, 3337215, 574452], "ma": {"MA20": [5.06, 5.05, 5.03, 5.03, 5.04, 5.06, 5.09, 5.11, 5.11, 5.12, 5.15, 5.19, 5.25, 5.29, 5.31, 5.33, 5.31, 5.3, 5.32, 5.32, 5.31, 5.29, 5.26, 5.22, 5.17, 5.11, 5.03, 4.95, 4.88, 4.81, 4.73, 4.63, 4.52, 4.43, 4.34, 4.29, 4.25, 4.2, 4.16, 4.11, 4.05, 3.99, 3.93, 3.89, 3.84, 3.8, 3.77, 3.74, 3.69, 3.65, 3.6, 3.57, 3.54, 3.5, 3.45, 3.38, 3.32, 3.26, 3.21, 3.18, 3.15, 3.14, 3.14, 3.13, 3.1, 3.07, 3.03, 2.99, 2.95, 2.92, 2.9, 2.9, 2.88, 2.87, 2.86, 2.85, 2.83, 2.81, 2.77, 2.74, 2.72, 2.7, 2.68, 2.67, 2.69, 2.71, 2.72, 2.74, 2.77, 2.8, 2.81, 2.81, 2.82, 2.85, 2.88, 2.91, 2.94, 2.97, 3.0, 3.03, 3.07, 3.12, 3.15, 3.16, 3.15, 3.15, 3.17, 3.2, 3.22, 3.22, 3.27, 3.32, 3.45, 3.55, 3.67, 3.82, 3.98, 4.13, 4.28, 4.41, 4.51, 4.6, 4.7, 4.8, 4.93, 5.03, 5.12, 5.21, 5.32, 5.46, 5.58, 5.68, 5.69, 5.71, 5.71, 5.67, 5.63, 5.58, 5.54, 5.52, 5.49, 5.49, 5.5, 5.54, 5.63, 5.8, 6.01, 6.27, 6.47, 6.65, 6.83, 7.01, 7.2, 7.43, 7.74, 8.08, 8.44, 8.8, 9.18, 9.61, 10.1, 10.46, 10.73, 10.97, 11.06, 11.02, 10.91, 10.76, 10.66, 10.62, 10.53, 10.47, 10.43, 10.46, 10.37, 10.27, 10.15, 10.08, 9.97, 9.74, 9.46, 9.21, 9.06, 8.91, 8.84, 8.85, 8.88, 8.92, 8.96, 8.94, 8.99, 9.07, 9.1, 9.04, 9.06, 9.02, 8.97, 8.9, 8.87, 8.89, 8.92, 8.99, 9.0, 9.0, 8.93, 8.89, 8.82, 8.73, 8.66, 8.57, 8.46, 8.31, 8.19, 8.06, 7.81, 7.61, 7.4, 7.18], "MA60": [5.64, 5.62, 5.59, 5.58, 5.58, 5.57, 5.57, 5.57, 5.56, 5.56, 5.56, 5.55, 5.55, 5.54, 5.53, 5.51, 5.48, 5.46, 5.44, 5.43, 5.41, 5.39, 5.36, 5.34, 5.32, 5.29, 5.26, 5.24, 5.21, 5.17, 5.14, 5.1, 5.06, 5.02, 4.99, 4.95, 4.92, 4.89, 4.87, 4.84, 4.81, 4.78, 4.74, 4.71, 4.68, 4.66, 4.63, 4.6, 4.56, 4.53, 4.49, 4.46, 4.43, 4.4, 4.37, 4.33, 4.29, 4.26, 4.23, 4.21, 4.17, 4.14, 4.11, 4.08, 4.04, 3.99, 3.94, 3.89, 3.84, 3.79, 3.74, 3.7, 3.65, 3.6, 3.55, 3.51, 3.47, 3.43, 3.38, 3.34, 3.31, 3.28, 3.25, 3.23, 3.21, 3.19, 3.17, 3.15, 3.14, 3.12, 3.1, 3.09, 3.08, 3.07, 3.06, 3.05, 3.03, 3.01, 3.0, 2.98, 2.98, 2.98, 2.99, 2.99, 2.98, 2.98, 2.97, 2.98, 2.98, 2.98, 2.99, 3.01, 3.05, 3.09, 3.14, 3.19, 3.25, 3.3, 3.35, 3.39, 3.43, 3.47, 3.51, 3.54, 3.59, 3.63, 3.67, 3.72, 3.77, 3.83, 3.89, 3.94, 3.99, 4.04, 4.09, 4.13, 4.18, 4.23, 4.27, 4.32, 4.36, 4.4, 4.45, 4.5, 4.57, 4.66, 4.77, 4.89, 5.0, 5.11, 5.23, 5.34, 5.45, 5.56, 5.71, 5.86, 6.02, 6.17, 6.33, 6.51, 6.7, 6.85, 6.98, 7.1, 7.21, 7.28, 7.35, 7.41, 7.48, 7.58, 7.65, 7.72, 7.77, 7.87, 7.94, 8.01, 8.07, 8.15, 8.23, 8.29, 8.35, 8.39, 8.43, 8.47, 8.51, 8.56, 8.6, 8.65, 8.7, 8.74, 8.78, 8.85, 8.91, 8.98, 9.06, 9.12, 9.19, 9.26, 9.34, 9.41, 9.49, 9.55, 9.6, 9.63, 9.61, 9.59, 9.54, 9.47, 9.43, 9.38, 9.33, 9.28, 9.24, 9.18, 9.08, 8.97, 8.84, 8.72], "MA250": [null, null, null, null, null, null, null, null, null, null, 7.73, 7.72, 7.72, 7.71, 7.71, 7.7, 7.69, 7.68, 7.68, 7.67, 7.66, 7.66, 7.65, 7.63, 7.62, 7.6, 7.59, 7.57, 7.55, 7.54, 7.52, 7.5, 7.48, 7.47, 7.45, 7.43, 7.41, 7.39, 7.38, 7.36, 7.34, 7.32, 7.3, 7.29, 7.27, 7.25, 7.24, 7.22, 7.2, 7.19, 7.17, 7.15, 7.13, 7.12, 7.1, 7.08, 7.06, 7.04, 7.03, 7.01, 6.99, 6.97, 6.96, 6.94, 6.92, 6.89, 6.87, 6.85, 6.82, 6.8, 6.78, 6.76, 6.74, 6.72, 6.69, 6.67, 6.64, 6.62, 6.59, 6.56, 6.53, 6.5, 6.47, 6.45, 6.42, 6.39, 6.37, 6.35, 6.32, 6.3, 6.28, 6.25, 6.23, 6.2, 6.17, 6.14, 6.11, 6.08, 6.05, 6.03, 6.0, 5.97, 5.94, 5.91, 5.88, 5.86, 5.83, 5.81, 5.78, 5.75, 5.73, 5.71, 5.69, 5.67, 5.65, 5.63, 5.61, 5.6, 5.58, 5.56, 5.53, 5.51, 5.49, 5.46, 5.44, 5.41, 5.39, 5.37, 5.34, 5.32, 5.31, 5.29, 5.27, 5.25, 5.24, 5.22, 5.2, 5.19, 5.17, 5.16, 5.15, 5.13, 5.12, 5.12, 5.11, 5.11, 5.12, 5.12, 5.13, 5.13, 5.14, 5.15, 5.15, 5.17, 5.19, 5.21, 5.24, 5.26, 5.28, 5.3, 5.33, 5.35, 5.36, 5.37, 5.38, 5.38, 5.38, 5.38, 5.38, 5.38, 5.39, 5.39, 5.4, 5.41, 5.42, 5.43, 5.44, 5.45, 5.46, 5.47, 5.47, 5.48, 5.48, 5.48, 5.48, 5.48, 5.48, 5.49, 5.49, 5.5, 5.51, 5.52, 5.53, 5.55, 5.57, 5.58, 5.6, 5.61, 5.63, 5.64, 5.66, 5.67, 5.68, 5.69, 5.69, 5.69, 5.69, 5.69, 5.7, 5.7, 5.7, 5.71, 5.71, 5.72, 5.72, 5.71, 5.71, 5.71]}, "mode": "candle", "showVol": true, "pivots": [{"from": "2005-05-15", "to": "2006-08-13", "lo": 2.3, "hi": 3.66, "label": "平台式盘整"}], "marks": [{"date": "2006-12-13", "price": 5.3, "type": "b", "text": "缠师发文 5.30"}, {"date": "2006-12-31", "price": 4.84, "type": "b", "text": "破MA250 4.84"}, {"date": "2007-05-20", "price": 16.12, "type": "s", "text": "高点 16.12"}]};
+  drawChanChart("cv_000928", CHART_000928);
+</script>
+<script src="/assets/_nav.js"></script><script src="/assets/_shell.js"></script></body>
+</html>

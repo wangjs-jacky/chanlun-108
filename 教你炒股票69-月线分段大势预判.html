@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>缠论 · 教你炒股票69:月线分段与上海大走势预判</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@500;700;900&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0b0e12;
+    --bg-elev:#12161c;
+    --bg-card:#161b22;
+    --ink:#e8eaed;
+    --ink-dim:#9aa3ad;
+    --ink-faint:#5b6470;
+    --line:rgba(255,255,255,.07);
+    --up:#ff4d4f;
+    --down:#16c784;
+    --pivot:#37c0e6;
+    --gold:#e8b339;
+    --max:880px;
+    --serif:"Noto Serif SC",serif;
+    --mono:"JetBrains Mono",ui-monospace,monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--ink);
+    font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;
+    line-height:1.85;font-size:17px;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  body::before{content:"";position:fixed;inset:0;z-index:-2;
+    background:radial-gradient(1200px 600px at 70% -10%, rgba(55,192,230,.08), transparent 60%),
+      radial-gradient(900px 500px at 0% 100%, rgba(232,179,57,.05), transparent 55%);pointer-events:none}
+  body::after{content:"";position:fixed;inset:0;z-index:-1;opacity:.4;
+    background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);
+    background-size:46px 46px;
+    -webkit-mask-image:radial-gradient(ellipse at 50% 0%, #000 30%, transparent 80%);
+    mask-image:radial-gradient(ellipse at 50% 0%, #000 30%, transparent 80%);pointer-events:none}
+  #bar{position:fixed;top:0;left:0;height:3px;width:0;z-index:50;
+    background:linear-gradient(90deg,var(--pivot),var(--gold));box-shadow:0 0 12px var(--pivot)}
+  .wrap{max-width:var(--max);margin:0 auto;padding:0 24px}
+  header.hero{padding:120px 0 70px;text-align:center;position:relative}
+  .kicker{font-family:var(--mono);font-size:13px;letter-spacing:.32em;color:var(--pivot);
+    text-transform:uppercase;margin-bottom:26px}
+  .kicker span{color:var(--ink-faint)}
+  h1.title{font-family:var(--serif);font-weight:900;line-height:1.05;
+    font-size:clamp(42px,9vw,92px);letter-spacing:.04em;
+    background:linear-gradient(180deg,#fff 30%,#8aa0ad 130%);
+    -webkit-background-clip:text;background-clip:text;color:transparent}
+  .sub{margin:22px auto 0;max-width:600px;color:var(--ink-dim);font-size:18px}
+  .meta{margin-top:34px;display:flex;gap:14px;justify-content:center;flex-wrap:wrap;
+    font-family:var(--mono);font-size:12px;color:var(--ink-faint)}
+  .meta b{color:var(--ink-dim);font-weight:500}
+  .pill{border:1px solid var(--line);padding:6px 14px;border-radius:999px;background:rgba(255,255,255,.02)}
+  .scroll-hint{margin-top:60px;color:var(--ink-faint);font-family:var(--mono);font-size:12px;
+    animation:bob 2.4s ease-in-out infinite}
+  @keyframes bob{0%,100%{transform:translateY(0);opacity:.5}50%{transform:translateY(8px);opacity:1}}
+  section{padding:64px 0;border-top:1px solid var(--line)}
+  .sec-no{font-family:var(--mono);font-size:13px;color:var(--gold);letter-spacing:.2em;margin-bottom:10px}
+  h2{font-family:var(--serif);font-weight:700;font-size:clamp(28px,5vw,42px);
+    line-height:1.25;margin-bottom:8px;letter-spacing:.02em}
+  .lead{color:var(--ink-dim);font-size:16px;margin-bottom:28px;max-width:640px}
+  p{margin:0 0 18px;color:#cfd5dc}
+  p b,strong{color:#fff;font-weight:700}
+  .hl-pivot{color:var(--pivot);font-weight:700}
+  .hl-up{color:var(--up);font-weight:700}
+  .hl-down{color:var(--down);font-weight:700}
+  .hl-gold{color:var(--gold);font-weight:700}
+  blockquote{margin:26px 0;padding:20px 24px;border-left:3px solid var(--pivot);
+    background:linear-gradient(90deg,rgba(55,192,230,.07),transparent);
+    border-radius:0 10px 10px 0;font-family:var(--serif);font-size:18px;color:#eaf6fb}
+  blockquote .who{display:block;margin-top:8px;font-family:var(--mono);font-size:12px;
+    color:var(--ink-faint);font-style:normal}
+  figure{margin:34px 0}
+  figure img{width:100%;border-radius:12px;border:1px solid var(--line);
+    background:#fff;box-shadow:0 18px 50px rgba(0,0,0,.5)}
+  figcaption{margin-top:12px;font-size:13px;color:var(--ink-faint);text-align:center;font-family:var(--mono)}
+  .grid{display:grid;gap:16px;grid-template-columns:1fr 1fr;margin:28px 0}
+  @media(max-width:640px){.grid{grid-template-columns:1fr}}
+  .card{background:var(--bg-card);border:1px solid var(--line);border-radius:14px;padding:24px;
+    position:relative;overflow:hidden;transition:transform .35s ease,border-color .35s ease}
+  .card:hover{transform:translateY(-4px);border-color:rgba(55,192,230,.4)}
+  .card .tag{font-family:var(--mono);font-size:11px;letter-spacing:.18em;color:var(--gold);text-transform:uppercase}
+  .card h3{font-family:var(--serif);font-size:21px;margin:10px 0 8px;color:#fff}
+  .card p{font-size:15px;color:var(--ink-dim);margin:0}
+  .table{margin:28px 0;border:1px solid var(--line);border-radius:14px;overflow:hidden}
+  .table .row{display:grid;grid-template-columns:1fr 1.5fr 1.6fr;align-items:stretch}
+  .table .row+.row{border-top:1px solid var(--line)}
+  .table .row > div{padding:16px 18px}
+  .table .row.head{background:var(--bg-elev);font-family:var(--mono);font-size:12px;
+    letter-spacing:.14em;color:var(--ink-faint);text-transform:uppercase}
+  .table .row > div+div{border-left:1px solid var(--line)}
+  .table .name{font-family:var(--serif);font-weight:700;font-size:17px}
+  .table .name.s1{color:var(--up)}
+  .table .name.s2{color:var(--down)}
+  .table .name.s3{color:var(--gold)}
+  .cnt{font-family:var(--mono);font-size:14px;color:var(--pivot)}
+  @media(max-width:560px){
+    .table .row{grid-template-columns:1fr}
+    .table .row > div+div{border-left:0;border-top:1px solid var(--line)}
+    .table .row.head{display:none}
+  }
+  ol.think{counter-reset:q;list-style:none;margin:24px 0;display:flex;flex-direction:column;gap:14px}
+  ol.think li{counter-increment:q;position:relative;padding:18px 20px 18px 60px;
+    background:var(--bg-elev);border:1px solid var(--line);border-radius:12px;color:var(--ink-dim);font-size:15px}
+  ol.think li::before{content:counter(q,decimal-leading-zero);position:absolute;left:20px;top:18px;
+    font-family:var(--mono);color:var(--gold);font-weight:700}
+  .warn{margin:24px 0;padding:18px 22px;border:1px solid rgba(255,77,79,.3);border-radius:12px;
+    background:rgba(255,77,79,.06);font-size:15px;color:#ffdcdd}
+  .warn b{color:#ff8a8c}
+  .tldr{margin:60px 0 0;padding:36px 30px;border:1px solid rgba(55,192,230,.3);border-radius:18px;
+    background:radial-gradient(120% 120% at 100% 0%,rgba(55,192,230,.1),transparent 60%),var(--bg-elev);text-align:center}
+  .tldr .lab{font-family:var(--mono);font-size:12px;letter-spacing:.3em;color:var(--pivot);text-transform:uppercase}
+  .tldr p{font-family:var(--serif);font-size:clamp(20px,3.2vw,26px);line-height:1.7;color:#fff;margin:16px 0 0}
+  footer{padding:60px 0 90px;text-align:center;color:var(--ink-faint);font-family:var(--mono);font-size:12px;border-top:1px solid var(--line)}
+  .reveal{opacity:0;transform:translateY(26px);transition:opacity .8s ease,transform .8s ease}
+  .reveal.in{opacity:1;transform:none}
+  @media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}.scroll-hint{animation:none}}
+</style>
+<meta name="view-transition" content="same-origin"><style>@view-transition{navigation:auto}</style></head>
+<body>
+<div id="bar"></div>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="kicker">缠中说禅 · 教你炒股票108课 <span>/ 第 69 课</span></div>
+    <h1 class="title">月线分段<br>与大势预判</h1>
+    <p class="sub">用「精度超低的显微镜」看上证月线——分型、笔、线段的原理不变，但看到的是 17 年大方向。</p>
+    <div class="meta">
+      <span class="pill"><b>原文</b> 2007-08-09</span>
+      <span class="pill"><b>类型</b> 大级别实战</span>
+      <span class="pill"><b>关键词</b> 月线 · 线段 · 类中枢 · 走势必完美</span>
+    </div>
+    <div class="scroll-hint">↓ 向下滚动,逐层拆解</div>
+  </div>
+</header>
+
+<main>
+  <!-- 1 -->
+  <section class="wrap reveal">
+    <div class="sec-no">01 — 题眼</div>
+    <h2>月线只是「显微镜倍率不同」</h2>
+    <p class="lead">把 1 分钟图的方法,搬到月线图。</p>
+    <blockquote>
+      分型、笔、线段,在 1 分钟图上可以分辨,在月线图上的道理是一样的。<br>
+      用月线图分辨,等于用一个<b>精度超低的显微镜</b>,只能看一个大概——但这个大概,却是最实质性的,是一个大方向。
+      <span class="who">— 缠中说禅</span>
+    </blockquote>
+    <p>这一课的价值,不在某个新工具,而在<span class="hl-gold">态度</span>:同一套规则,既能管 1 分钟的进出,也能管 17 年的方向。<b>大小级别没有特殊性,只有精度差别</b>。</p>
+  </section>
+
+  <!-- 2 -->
+  <section class="wrap reveal">
+    <div class="sec-no">02 — 分型规范</div>
+    <h2>月线上的分型该如何取舍?</h2>
+    <p class="lead">缠师在月线图上对顶/底分型逐一筛选,打叉的就是不合规范的。</p>
+    <figure>
+      <img src="/_assets/ch69_p01.png" alt="上证月线顶底分型筛选图">
+      <figcaption>绿箭头 = 顶分型 · 红箭头 = 底分型 · 打 X 的不符合「笔」的规范</figcaption>
+    </figure>
+    <p>判定笔中分型只看两条铁律:</p>
+    <div class="grid">
+      <div class="card">
+        <div class="tag">规范一</div>
+        <h3>至少隔 1 根 K 线</h3>
+        <p>顶分型和底分型之间,中间<b>必须至少有 1 根 K 线</b>。挨着的不算。</p>
+      </div>
+      <div class="card">
+        <div class="tag">规范二</div>
+        <h3>顶底必须交替</h3>
+        <p>顶后面必须接底,底后面必须接顶——<b>不允许顶接顶、底接底</b>。出现连续同向就要重新取舍。</p>
+      </div>
+    </div>
+    <blockquote>
+      第一红箭头和第二绿箭头之间显然不能构成一笔。<br>
+      这两个,只能取一个——按规范回溯,只能取第二个绿箭头,第一个绿箭头对应的顶,自然就不算笔中的顶了。
+      <span class="who">— 缠师示范取舍逻辑</span>
+    </blockquote>
+  </section>
+
+  <!-- 3 -->
+  <section class="wrap reveal">
+    <div class="sec-no">03 — 当下与修改</div>
+    <h2>分型是否可以随时修改?</h2>
+    <p class="lead">这是初学者最常问的问题。答案,非常关键。</p>
+    <div class="grid">
+      <div class="card">
+        <div class="tag">未完成时</div>
+        <h3>可以修改</h3>
+        <p>图形<b>没完成时</b>,分型的取舍可能随新数据改变。例如第二绿箭头走出后,前面的取舍就要重做。</p>
+      </div>
+      <div class="card">
+        <div class="tag">完成后</div>
+        <h3>永不修改</h3>
+        <p>一旦图形<b>完成</b>,这部分的分型、笔、线段就<b>百分百锁死</b>,不可能再改。</p>
+      </div>
+    </div>
+    <p>这个"可修改性"反而是一个<span class="hl-gold">大优势</span>。它告诉你:<b>这一段还没走完</b>。而走势必完美——必然要走完——意味着接下来要走的"可能性",在理论框架下被严格收窄。</p>
+    <blockquote>
+      根据各级别图形的未完成性质,就可以使得走势的<b>边界条件极端的明确与狭小</b>,这对具体操作,就是极为有利的。<br>
+      注意,这可和概率无关,是<b>百分百的纯理论保证</b>。
+      <span class="who">— 全课最硬核的一段</span>
+    </blockquote>
+  </section>
+
+  <!-- 4 -->
+  <section class="wrap reveal">
+    <div class="sec-no">04 — 全课题眼</div>
+    <h2>核心,从来不是中枢</h2>
+    <p class="lead">缠师亲自点破:本理论最核心的关键词是什么。</p>
+    <blockquote>
+      其实,本 ID 理论的关键<b>不是什么中枢、走势类型</b>,而是<span class="hl-pivot">走势必完美</span>——这才是本 ID 理论的核心。<br>
+      但要真正理解这个关键,可不是看字面意思就能明白的。
+      <span class="who">— 缠中说禅</span>
+    </blockquote>
+    <p>"中枢"只是工具,"走势必完美"才是公理。所有买卖点的"严格保证",最终都回溯到这一条:<b>任何走势必然走完,走完必然转化</b>。这条公理在 1 分钟图上成立,在月线图上同样成立——所以才能用月线指导大方向。</p>
+  </section>
+
+  <!-- 5 -->
+  <section class="wrap reveal">
+    <div class="sec-no">05 — 上证三段</div>
+    <h2>2245 → 998 → 6124:历史大顶大底</h2>
+    <p class="lead">用线段方法分上证月线,历史顶底"都不是什么难搞的秘密"。</p>
+    <p>按月线线段划分,2007 年中以前的上证可以清晰分成两段已完成的大走势,第 3 段当时正在进行中(对应那波最终冲到 <b>6124</b> 的牛市):</p>
+    <div class="table">
+      <div class="row head"><div>段</div><div>方向 · 区间</div><div>结束方式</div></div>
+      <div class="row">
+        <div class="name s1">第 1 段</div>
+        <div><span class="hl-up">向上</span>:延续多年,顶在 <span class="cnt">2245 点</span></div>
+        <div>线段里"笔的类背驰",顶极易判断</div>
+      </div>
+      <div class="row">
+        <div class="name s2">第 2 段</div>
+        <div><span class="hl-down">向下</span>:2245 → <span class="cnt">998 点</span></div>
+        <div>同样靠"笔的类背驰",底极易判断</div>
+      </div>
+      <div class="row">
+        <div class="name s3">第 3 段</div>
+        <div><span class="hl-up">向上 · 进行中</span>:从 998 起步,2007-08 已到 4300+</div>
+        <div>当时"连一笔都没走完",方向远未到头</div>
+      </div>
+    </div>
+    <figure>
+      <img src="/_assets/ch69_p02.png" alt="上证月线两段已完成、第三段进行中">
+      <figcaption>上证月线线段划分 · 2007-08 视角(后来第 3 段最终在 2007-10 见顶 6124)</figcaption>
+    </figure>
+    <p>从这张图,缠师推出对当下的两条<b>百分百确定</b>的判断,见下一节。</p>
+  </section>
+
+  <!-- 6 -->
+  <section class="wrap reveal">
+    <div class="sec-no">06 — 确定性推理</div>
+    <h2>对"进行中"的第 3 段,能确定什么?</h2>
+    <p class="lead">不靠预测、不靠经验,只靠定理。</p>
+    <div class="grid">
+      <div class="card">
+        <div class="tag">推理一</div>
+        <h3>段至少三笔</h3>
+        <p>第 3 段要成"段",至少要有 3 笔。当下连第 1 笔都没走完——<b>所以这轮行情的幅度,可想而知</b>。即使该笔走完,一个笔的调整后,<b>至少还有一笔向上</b>。</p>
+      </div>
+      <div class="card">
+        <div class="tag">推理二</div>
+        <h3>类中枢三买保护</h3>
+        <p><b>2245 → 998</b> 是线段的"类中枢"。只要调整不跌破 <span class="cnt">2245 点</span>,就构成线段的<span class="hl-gold">类第三类买点</span>——同样支持后面至少还有一笔向上。</p>
+      </div>
+    </div>
+    <div class="warn">
+      <b>实战注释(缠师后补):</b>2245 是"强势 3 买"位置,理论 3 买位置是不破前一笔起点 <b>1783</b>。当年禅师按常理推断月线一笔一般不会破 2245,后来一笔直接破 1783 砸到 <b>1664</b>。<br>
+      <b>启示:</b>大级别的"3 买保护",理论位是底层兜底,常理推断只是优雅版——不要把"强势位"当成必然守住的防线。
+    </div>
+    <blockquote>
+      笔的完成,必须要构成一个顶分型。<br>
+      一个月线的顶分型将如何构成?这意味着什么?<br>
+      ——这个问题,当成作业,各位去思考一下,然后给出对应的操作策略。
+      <span class="who">— 缠师留下的月线操作题</span>
+    </blockquote>
+  </section>
+
+  <!-- 7 -->
+  <section class="wrap reveal">
+    <div class="sec-no">07 — 实战回响</div>
+    <h2>"7 月满江红,8 月坐轿子"的技术解释</h2>
+    <p class="lead">缠师在课末抛了个思考题,自己给的标准答案非常清晰。</p>
+    <p>2007 年 7 月,缠师在博客里"大搞满江红"(让粉丝出货避险);8 月之后却"放手坐轿子"——表面看像是反复横跳,技术上是同一个逻辑。</p>
+    <div class="grid">
+      <div class="card">
+        <div class="tag">7 月动作</div>
+        <h3>满江红</h3>
+        <p>当时月线<b>顶分型尚未排除</b>,如果不打掉那个潜在的顶分型,月线第 3 段第 1 笔就要终结。必须先<b>满江红一把</b>压风险。</p>
+      </div>
+      <div class="card">
+        <div class="tag">8 月动作</div>
+        <h3>坐轿子</h3>
+        <p>7 月长阳上来后,<b>月线顶分型不再成立</b>,上升笔确认延续——既然定理保证后面"至少还有一笔向上",当然放手坐轿子。</p>
+      </div>
+    </div>
+    <p>技术上的一句话答案:<span class="hl-gold">前期动作是为了让月线顶分型不成立,从而保证上升笔延续</span>。这就是月线层面的"操作策略"——和分型规范、走势必完美完全自洽。</p>
+  </section>
+
+  <!-- 8 -->
+  <section class="wrap reveal">
+    <div class="sec-no">08 — 思考题</div>
+    <h2>带回家的作业</h2>
+    <ol class="think">
+      <li>17-18 之间 1122-1312 这一段,为什么不算一段?(提示:三笔重合且破坏了上一笔,该段特征序列的底分型也不构成。)</li>
+      <li>一个月线的顶分型将如何构成?它意味着什么?对应的操作策略是什么?</li>
+      <li>32-33 为什么不是三段?(提示:特征序列的底/顶必须都属于该特征序列;前面下跌、第二上涨,其特征序列看向下,第三个向下已跌破第一段的底,不能算第二段特征序列。)</li>
+    </ol>
+
+    <div class="tldr">
+      <div class="lab">一句话总结</div>
+      <p>同一套分型/笔/线段规则,在月线图上看到的是 17 年大方向;靠"走势必完美"+"段至少三笔"+"类中枢 3 买",在大牛市进行到一半时就能给出"幅度可想而知、至少还有一笔向上"的<b>百分百确定结论</b>。</p>
+    </div>
+  </section>
+</main>
+
+<footer class="wrap">
+  原文出处:raw/缠中说禅/教你炒股票108课/教你炒股票69:月线分段与上海大走势分析、预判.md<br>
+  本页为个人学习复习用·非投资建议
+</footer>
+
+<script>
+  const bar=document.getElementById('bar');
+  const onScroll=()=>{
+    const h=document.documentElement;
+    const p=h.scrollTop/(h.scrollHeight-h.clientHeight);
+    bar.style.width=(p*100)+'%';
+  };
+  document.addEventListener('scroll',onScroll,{passive:true});onScroll();
+  const io=new IntersectionObserver((es)=>{
+    es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});
+  },{threshold:.12});
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+</script>
+<script src="/assets/_nav.js"></script><script src="/assets/_shell.js"></script></body>
+</html>

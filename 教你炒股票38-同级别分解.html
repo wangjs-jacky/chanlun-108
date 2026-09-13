@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>缠论 · 教你炒股票38：走势类型连接的同级别分解</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@500;700;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0b0e12;--bg-elev:#12161c;--bg-card:#161b22;
+    --ink:#e8eaed;--ink-dim:#9aa3ad;--ink-faint:#5b6470;
+    --line:rgba(255,255,255,.07);
+    --up:#ff4d4f;--down:#16c784;--pivot:#37c0e6;--gold:#e8b339;--blue:#00d4ff;
+    --max:880px;--serif:"Noto Serif SC",serif;--mono:"JetBrains Mono",ui-monospace,monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--ink);font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;line-height:1.85;font-size:17px;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  body::before{content:"";position:fixed;inset:0;z-index:-2;background:radial-gradient(1200px 600px at 70% -10%,rgba(55,192,230,.08),transparent 60%),radial-gradient(900px 500px at 0% 100%,rgba(232,179,57,.05),transparent 55%);pointer-events:none}
+  body::after{content:"";position:fixed;inset:0;z-index:-1;opacity:.4;background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);background-size:46px 46px;-webkit-mask-image:radial-gradient(ellipse at 50% 0%,#000 30%,transparent 80%);mask-image:radial-gradient(ellipse at 50% 0%,#000 30%,transparent 80%);pointer-events:none}
+  #bar{position:fixed;top:0;left:0;height:3px;width:0;z-index:50;background:linear-gradient(90deg,var(--pivot),var(--gold));box-shadow:0 0 12px var(--pivot)}
+  .wrap{max-width:var(--max);margin:0 auto;padding:0 24px}
+  header.hero{padding:120px 0 70px;text-align:center;position:relative}
+  .kicker{font-family:var(--mono);font-size:13px;letter-spacing:.32em;color:var(--pivot);text-transform:uppercase;margin-bottom:26px}
+  .kicker span{color:var(--ink-faint)}
+  h1.title{font-family:var(--serif);font-weight:900;line-height:1.05;font-size:clamp(44px,10vw,100px);letter-spacing:.04em;background:linear-gradient(180deg,#fff 30%,#8aa0ad 130%);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .sub{margin:22px auto 0;max-width:580px;color:var(--ink-dim);font-size:18px}
+  .meta{margin-top:34px;display:flex;gap:14px;justify-content:center;flex-wrap:wrap;font-family:var(--mono);font-size:12px;color:var(--ink-faint)}
+  .meta b{color:var(--ink-dim);font-weight:500}
+  .pill{border:1px solid var(--line);padding:6px 14px;border-radius:999px;background:rgba(255,255,255,.02)}
+  .scroll-hint{margin-top:60px;color:var(--ink-faint);font-family:var(--mono);font-size:12px;animation:bob 2.4s ease-in-out infinite}
+  @keyframes bob{0%,100%{transform:translateY(0);opacity:.5}50%{transform:translateY(8px);opacity:1}}
+  section{padding:64px 0;border-top:1px solid var(--line)}
+  .sec-no{font-family:var(--mono);font-size:13px;color:var(--gold);letter-spacing:.2em;margin-bottom:10px}
+  h2{font-family:var(--serif);font-weight:700;font-size:clamp(28px,5vw,42px);line-height:1.25;margin-bottom:8px;letter-spacing:.02em}
+  .lead{color:var(--ink-dim);font-size:16px;margin-bottom:28px;max-width:660px}
+  p{margin:0 0 18px;color:#cfd5dc}
+  p b,strong{color:#fff;font-weight:700}
+  .hl-pivot{color:var(--pivot);font-weight:700}.hl-up{color:var(--up);font-weight:700}
+  .hl-down{color:var(--down);font-weight:700}.hl-gold{color:var(--gold);font-weight:700}
+  blockquote{margin:26px 0;padding:20px 24px;border-left:3px solid var(--pivot);background:linear-gradient(90deg,rgba(55,192,230,.07),transparent);border-radius:0 10px 10px 0;font-family:var(--serif);font-size:19px;color:#eaf6fb}
+  blockquote .who{display:block;margin-top:8px;font-family:var(--mono);font-size:12px;color:var(--ink-faint);font-style:normal}
+  figure{margin:34px 0}
+  figure img{width:100%;border-radius:12px;border:1px solid var(--line);background:#fff;box-shadow:0 18px 50px rgba(0,0,0,.5)}
+  figcaption{margin-top:12px;font-size:13px;color:var(--ink-faint);text-align:center;font-family:var(--mono)}
+  .grid{display:grid;gap:16px;grid-template-columns:1fr 1fr;margin:28px 0}
+  @media(max-width:640px){.grid{grid-template-columns:1fr}}
+  .card{background:var(--bg-card);border:1px solid var(--line);border-radius:14px;padding:24px;position:relative;overflow:hidden;transition:transform .35s ease,border-color .35s ease}
+  .card:hover{transform:translateY(-4px);border-color:rgba(55,192,230,.4)}
+  .card .tag{font-family:var(--mono);font-size:11px;letter-spacing:.18em;color:var(--gold);text-transform:uppercase}
+  .card h3{font-family:var(--serif);font-size:21px;margin:10px 0 8px;color:#fff}
+  .card p{font-size:15px;color:var(--ink-dim);margin:0}
+  .table{margin:28px 0;border:1px solid var(--line);border-radius:14px;overflow:hidden}
+  .table .row{display:grid;grid-template-columns:1.1fr 1.5fr 1.6fr;align-items:stretch}
+  .table .row+.row{border-top:1px solid var(--line)}
+  .table .row>div{padding:16px 18px}
+  .table .row.head{background:var(--bg-elev);font-family:var(--mono);font-size:12px;letter-spacing:.14em;color:var(--ink-faint);text-transform:uppercase}
+  .table .row>div+div{border-left:1px solid var(--line)}
+  .table .name{font-family:var(--serif);font-weight:700;font-size:18px}
+  .table .name.qushi{color:var(--gold)}
+  .cnt{font-family:var(--mono);font-size:14px;color:var(--pivot)}
+  @media(max-width:560px){.table .row{grid-template-columns:1fr}.table .row>div+div{border-left:0;border-top:1px solid var(--line)}.table .row.head{display:none}}
+  .points{margin:26px 0;display:flex;flex-direction:column;gap:14px}
+  .pt{display:flex;gap:16px;align-items:flex-start;background:var(--bg-card);border:1px solid var(--line);border-radius:12px;padding:18px 20px}
+  .pt .dot{flex:none;width:42px;height:42px;border-radius:10px;display:grid;place-items:center;font-family:var(--serif);font-weight:900;font-size:20px;color:#0b0e12}
+  .pt.b .dot{background:var(--up)}.pt.s .dot{background:var(--down)}
+  .pt h4{font-size:17px;margin-bottom:4px;color:#fff}.pt p{font-size:15px;color:var(--ink-dim);margin:0}
+  /* SVG 流程图自绘 */
+  .flowsvg{margin:30px 0;background:var(--bg-card);border:1px solid var(--line);border-radius:14px;padding:24px 18px}
+  .flowsvg svg{width:100%;height:auto;display:block}
+  .flowsvg .cap{margin-top:14px;font-family:var(--mono);font-size:12px;color:var(--ink-faint);text-align:center}
+  ol.think{counter-reset:q;list-style:none;margin:24px 0;display:flex;flex-direction:column;gap:14px}
+  ol.think li{counter-increment:q;position:relative;padding:18px 20px 18px 60px;background:var(--bg-elev);border:1px solid var(--line);border-radius:12px;color:var(--ink-dim);font-size:15px}
+  ol.think li::before{content:counter(q,decimal-leading-zero);position:absolute;left:20px;top:18px;font-family:var(--mono);color:var(--gold);font-weight:700}
+  /* 判图练习 */
+  .quiz{margin:22px 0;background:var(--bg-card);border:1px solid var(--line);border-radius:14px;padding:22px 24px}
+  .quiz h4{font-size:16px;color:#fff;margin-bottom:6px}
+  .quiz .ans{margin-top:12px;color:var(--ink-faint);font-size:14px;cursor:pointer}
+  .quiz .ans[open] summary{color:var(--pivot)}
+  .quiz summary{color:var(--gold);font-family:var(--mono);font-size:13px}
+  .tldr{margin:60px 0 0;padding:36px 30px;border:1px solid rgba(55,192,230,.3);border-radius:18px;background:radial-gradient(120% 120% at 100% 0%,rgba(55,192,230,.1),transparent 60%),var(--bg-elev);text-align:center}
+  .tldr .lab{font-family:var(--mono);font-size:12px;letter-spacing:.3em;color:var(--pivot);text-transform:uppercase}
+  .tldr p{font-family:var(--serif);font-size:clamp(20px,3.4vw,28px);line-height:1.7;color:#fff;margin:16px 0 0}
+  footer{padding:60px 0 90px;text-align:center;color:var(--ink-faint);font-family:var(--mono);font-size:12px;border-top:1px solid var(--line)}
+  .reveal{opacity:0;transform:translateY(26px);transition:opacity .8s ease,transform .8s ease}
+  .reveal.in{opacity:1;transform:none}
+  @media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}.scroll-hint{animation:none}}
+</style>
+<meta name="view-transition" content="same-origin"><style>@view-transition{navigation:auto}</style></head>
+<body>
+<div id="bar"></div>
+<header class="hero">
+  <div class="wrap">
+    <div class="kicker">缠中说禅 · 教你炒股票108课 <span>/ 第 38 课</span></div>
+    <h1 class="title">同级别分解</h1>
+    <p class="sub">把混沌的走势用一把固定尺子切成一段段——分解唯一、操作机械、不需要预测牛熊。</p>
+    <div class="meta">
+      <span class="pill"><b>原文</b> 2007-03-21</span>
+      <span class="pill"><b>类型</b> 理论 + 机械化操作</span>
+      <span class="pill"><b>关键词</b> 同级别分解 · 唯一性 · 机械化操作</span>
+    </div>
+    <div class="scroll-hint">↓ 向下滚动，逐层拆解</div>
+  </div>
+</header>
+<main>
+
+<!-- 1. 为什么需要"分解" -->
+<section class="wrap reveal">
+  <div class="sec-no">01 — 起点</div>
+  <h2>纯操作角度，背驰一招就够了</h2>
+  <p class="lead">缠师在开篇说，把市场看到极致，本质上只剩两件事：判断背驰 + 选好级别。但要做到不漏不错、不靠"感觉"，必须先有一套<b>分解走势的固定方法</b>。</p>
+  <blockquote>站在纯操作的角度，由于任何买卖点，归根结底都是某级别的第一类买卖点，因此，只要搞清楚如何判断背驰，然后选好适合的级别，当该级别出现底背驰时买入，顶背驰时卖出，就一招鲜也足以在市场上混好了。<span class="who">— 缠中说禅 · 2007-03-21</span></blockquote>
+  <p>问题在于：同一段历史走势，<span class="hl-pivot">第36课</span>讲过结合律——它可以被切成 A+B，也可以被切成 B+A、AB+C 等多种合法组合。<b>哪一种切法最有用？</b>这就是本课要回答的。</p>
+  <p>缠师给出最简单、也最好用的一种答案：<span class="hl-gold">同级别分解</span>——把所有走势统一按某一个固定级别（比如 30 分钟）切成一段段同级别走势类型的连接。</p>
+</section>
+
+<!-- 2. 同级别分解的定义 -->
+<section class="wrap reveal">
+  <div class="sec-no">02 — 核心定义</div>
+  <h2>什么是「同级别分解」？</h2>
+  <p class="lead">一把固定的尺子，把所有走势都按同一个级别切。</p>
+  <blockquote>所谓同级别分解，就是把所有走势按一固定级别的走势类型进行分解。根据"缠中说禅走势分解定理"，同级别分解具有<b>唯一性</b>，不存在任何含糊乱分解的可能。<span class="who">— 缠中说禅</span></blockquote>
+  <p>这里有三个关键词必须分清：</p>
+  <div class="grid">
+    <div class="card">
+      <div class="tag">固定级别</div>
+      <h3>选定一把尺子</h3>
+      <p>提前规定好操作级别（比如 30 分钟、日线），之后所有走势都用这把尺子切，不再换。</p>
+    </div>
+    <div class="card">
+      <div class="tag">类型连接</div>
+      <h3>切成"上涨/下跌/盘整"序列</h3>
+      <p>切完之后，整个市场被拆成一段段同级别的<span class="hl-up">上涨</span>、<span class="hl-down">下跌</span>、<span class="hl-pivot">盘整</span>的连接。</p>
+    </div>
+    <div class="card">
+      <div class="tag">唯一性</div>
+      <h3>切法只有一种</h3>
+      <p>同一段走势，按同级别分解，只有一种合法切法——这就杜绝了"凭感觉乱画"的空间。</p>
+    </div>
+    <div class="card">
+      <div class="tag">机械可执行</div>
+      <h3>不预测、不靠手感</h3>
+      <p>只看尺子切出来的段，按规则做买卖动作。所谓"机械化操作"就是这个意思。</p>
+    </div>
+  </div>
+</section>
+
+<!-- 3. 30分钟为例 -->
+<section class="wrap reveal">
+  <div class="sec-no">03 — 举例说明</div>
+  <h2>以 30 分钟级别为例：怎么切？怎么用？</h2>
+  <p class="lead">这一段是本课最重要的实操规则，一定要逐字看清楚。</p>
+  <p>缠师说，如果选 30 分钟作为操作级别，那么对任何图形，都把它分解成<b>一段段 30 分钟走势类型的连接</b>。操作上：</p>
+
+  <div class="points">
+    <div class="pt b"><div class="dot">买</div><div><h4>只参与上涨段 + 盘整段</h4><p>30 分钟上涨段进去、盘整段窝着等突破方向，到了背驰点卖。</p></div></div>
+    <div class="pt s"><div class="dot">避</div><div><h4>避开所有下跌段</h4><p>30 分钟下跌段一律观望，跌完出现底背驰再考虑下一轮。</p></div></div>
+  </div>
+
+  <h3 style="font-family:var(--serif);font-size:22px;color:#fff;margin:30px 0 12px">关键一：永远只盯一个"正在完成的"中枢</h3>
+  <p>在 30 分钟同级别分解视角下，<b>同一时刻只关注一个 30 分钟中枢</b>。这个中枢完成（被走出去）之后，立刻把目光切到下一个 30 分钟中枢，不回头纠结上一个。</p>
+
+  <h3 style="font-family:var(--serif);font-size:22px;color:#fff;margin:30px 0 12px">关键二：不需要"中枢延伸"概念</h3>
+  <p>对 30 分钟来说，<b>只要 5 分钟级别的三段 上下上 或 下上下 类型有价格区间的重合，就构成中枢</b>。如果 5 分钟次级别延伸出 6 段，那么就当成<span class="hl-pivot">两个 30 分钟盘整类型的连接</span>。</p>
+  <blockquote>在这种分解中，是允许 <b>盘整+盘整</b> 情况的。<br>注意，以前说不允许"盘整+盘整"是在<b>非同级别分解方式</b>下的，不要搞混了。<span class="who">— 缠中说禅</span></blockquote>
+
+  <div class="table">
+    <div class="row head"><div>视角</div><div>能不能"盘整+盘整"</div><div>是否用中枢延伸</div></div>
+    <div class="row"><div class="name">非同级别分解（之前几课）</div><div>不允许</div><div>用，6 段以上算延伸</div></div>
+    <div class="row"><div class="name qushi">同级别分解（本课）</div><div><span class="hl-gold">允许</span>，6 段=两段盘整连接</div><div>不需要</div></div>
+  </div>
+  <p style="font-size:14px;color:var(--ink-faint)">这是初学者最容易混淆的地方——同一个"盘整+盘整"，在不同分解视角下是不同的存在物。</p>
+</section>
+
+<!-- 4. 一个分解规则的扩展 -->
+<section class="wrap reveal">
+  <div class="sec-no">04 — 灵活组合</div>
+  <h2>分解规则可以"分级别混搭"</h2>
+  <p class="lead">同级别分解的次级别，<b>不必</b>也用同级别分解。</p>
+  <p>缠师在课文里特别澄清一个思维误区——一般人喜欢一套规则贯穿所有级别，但实际不需要。完全可以这样规定：</p>
+  <ul style="margin:18px 0 24px 30px;color:#cfd5dc">
+    <li>选定某级别（比如 30 分钟）做同级别分解，<b>该级别允许"盘整+盘整"</b>、不用延伸概念；</li>
+    <li>但该级别<b>以下的所有次级别</b>（5 分钟、1 分钟…），照旧用<span class="hl-pivot">中枢延伸/扩展</span>来认定中枢，不允许盘整+盘整；</li>
+    <li>该级别<b>以上</b>的级别，干脆不去看——反正所有走势都已经被这把尺子切完了。</li>
+  </ul>
+  <blockquote>这里只涉及一个组合规则的问题，组合的规则，是为了方便操作以及判断，<b>只要不违反连接的结合律以及分解的唯一性，就是允许的</b>，问题的关键在于是否明晰且易于操作。<span class="who">— 缠中说禅</span></blockquote>
+  <p>换句话说：缠论给你的是"自由 + 约束"——约束是结合律和唯一性，自由是你可以根据资金大小、性格快慢，<b>自己设计</b>最顺手的分解规则。</p>
+</section>
+
+<!-- 5. 同级别分解的标准操作程式 -->
+<section class="wrap reveal">
+  <div class="sec-no">05 — 操作流程</div>
+  <h2>机械化操作程式（本课压轴）</h2>
+  <p class="lead">缠师给了一段非常密集的"决策树"，这里逐步拆解。仍以 30 分钟同级别分解、从一个下跌背驰开始为例。</p>
+
+  <div class="flowsvg">
+    <svg viewBox="0 0 880 540" xmlns="http://www.w3.org/2000/svg" font-family="Noto Serif SC, sans-serif">
+      <defs>
+        <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+          <path d="M0,0 L10,5 L0,10 z" fill="#37c0e6"/>
+        </marker>
+        <marker id="arrgold" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+          <path d="M0,0 L10,5 L0,10 z" fill="#e8b339"/>
+        </marker>
+      </defs>
+      <!-- 起点 -->
+      <rect x="20" y="240" width="120" height="56" rx="10" fill="rgba(55,192,230,.12)" stroke="#37c0e6" stroke-width="1.2"/>
+      <text x="80" y="265" text-anchor="middle" fill="#e8eaed" font-size="13" font-weight="700">下跌背驰</text>
+      <text x="80" y="285" text-anchor="middle" fill="#9aa3ad" font-size="11">起点：买入</text>
+      <!-- 箭头 -->
+      <line x1="140" y1="268" x2="180" y2="268" stroke="#37c0e6" stroke-width="1.6" marker-end="url(#arr)"/>
+      <!-- 第一段 上 -->
+      <rect x="180" y="240" width="130" height="56" rx="10" fill="rgba(255,77,79,.12)" stroke="#ff4d4f" stroke-width="1.2"/>
+      <text x="245" y="265" text-anchor="middle" fill="#fff" font-size="13" font-weight="700">第①段 上涨</text>
+      <text x="245" y="285" text-anchor="middle" fill="#9aa3ad" font-size="11">出现背驰 → 卖出</text>
+      <!-- 箭头 -->
+      <line x1="310" y1="268" x2="350" y2="268" stroke="#37c0e6" stroke-width="1.6" marker-end="url(#arr)"/>
+      <!-- 第二段 下 -->
+      <rect x="350" y="240" width="130" height="56" rx="10" fill="rgba(22,199,132,.12)" stroke="#16c784" stroke-width="1.2"/>
+      <text x="415" y="265" text-anchor="middle" fill="#fff" font-size="13" font-weight="700">第②段 下跌</text>
+      <text x="415" y="285" text-anchor="middle" fill="#9aa3ad" font-size="11">看是否跌破①低点</text>
+      <!-- 分叉 -->
+      <line x1="480" y1="268" x2="540" y2="180" stroke="#37c0e6" stroke-width="1.6" marker-end="url(#arr)"/>
+      <line x1="480" y1="268" x2="540" y2="356" stroke="#37c0e6" stroke-width="1.6" marker-end="url(#arr)"/>
+
+      <!-- 上分支 不破 -->
+      <rect x="540" y="150" width="140" height="60" rx="10" fill="rgba(232,179,57,.08)" stroke="#e8b339" stroke-width="1.2"/>
+      <text x="610" y="175" text-anchor="middle" fill="#fff" font-size="13" font-weight="700">不破①低</text>
+      <text x="610" y="195" text-anchor="middle" fill="#ff4d4f" font-size="11">→ 重新买入</text>
+
+      <!-- 下分支 破 -->
+      <rect x="540" y="326" width="140" height="60" rx="10" fill="rgba(232,179,57,.08)" stroke="#e8b339" stroke-width="1.2"/>
+      <text x="610" y="350" text-anchor="middle" fill="#fff" font-size="13" font-weight="700">破①低</text>
+      <text x="610" y="370" text-anchor="middle" fill="#9aa3ad" font-size="11">看对前段是否盘整背驰</text>
+
+      <!-- 破①低 → 再分叉 -->
+      <line x1="680" y1="356" x2="720" y2="326" stroke="#e8b339" stroke-width="1.4" marker-end="url(#arrgold)"/>
+      <line x1="680" y1="356" x2="720" y2="386" stroke="#e8b339" stroke-width="1.4" marker-end="url(#arrgold)"/>
+      <rect x="720" y="296" width="150" height="56" rx="10" fill="rgba(255,77,79,.12)" stroke="#ff4d4f" stroke-width="1.2"/>
+      <text x="795" y="320" text-anchor="middle" fill="#fff" font-size="12" font-weight="700">是 → 盘整背驰</text>
+      <text x="795" y="338" text-anchor="middle" fill="#ff4d4f" font-size="11">重新买入</text>
+      <rect x="720" y="362" width="150" height="56" rx="10" fill="rgba(22,199,132,.08)" stroke="#16c784" stroke-width="1.2"/>
+      <text x="795" y="386" text-anchor="middle" fill="#fff" font-size="12" font-weight="700">否</text>
+      <text x="795" y="404" text-anchor="middle" fill="#9aa3ad" font-size="11">观望，等下次下跌背驰</text>
+
+      <!-- 顶部说明 -->
+      <text x="440" y="40" text-anchor="middle" fill="#e8b339" font-size="14" font-family="JetBrains Mono" font-weight="700">30 分钟同级别分解 · 上涨段操作树（前两段）</text>
+      <text x="440" y="60" text-anchor="middle" fill="#9aa3ad" font-size="12">蓝框=判断节点 · 红=买卖 · 绿=观望 · 金=条件分叉</text>
+
+      <!-- 第三段提示 -->
+      <text x="440" y="475" text-anchor="middle" fill="#cfd5dc" font-size="13">→ 第③段上涨：超过①高点&amp;不发生盘整背驰 = <tspan fill="#ff4d4f" font-weight="700">继续持有</tspan>；</text>
+      <text x="440" y="497" text-anchor="middle" fill="#cfd5dc" font-size="13">超过但盘整背驰 / 没超过 = <tspan fill="#16c784" font-weight="700">卖出</tspan>。如此往复，直到向上段不创新高或盘整背驰，向上段结束。</text>
+      <text x="440" y="520" text-anchor="middle" fill="#9aa3ad" font-size="12" font-style="italic">向下段刚好反过来：先卖后买，规则镜像。</text>
+    </svg>
+    <div class="cap">本图据缠师课文逐句翻译为决策树，对照下方原文配图与文字理解</div>
+  </div>
+
+  <figure>
+    <img src="/_assets/ch38_p01.png" alt="缠师原课文操作程式分支图">
+    <figcaption>缠师原图 · 同级别分解的操作分支（紫线=走势段，圆点=买卖点）：从下跌背驰起，分别按"不破①低 / 破①低且盘整背驰 / 破①低不盘整背驰"三种情况推进，过①高点后再分"是否盘整背驰"两种处置。本质就是上面 SVG 决策树。</figcaption>
+  </figure>
+
+  <h3 style="font-family:var(--serif);font-size:20px;color:#fff;margin:24px 0 10px">用人话总结这套程式</h3>
+  <ul style="margin-left:24px;color:#cfd5dc">
+    <li><b>方向规则</b>：30 分钟上涨段 → <span class="hl-up">先买后卖</span>；30 分钟下跌段 → <span class="hl-down">先卖后买</span>。</li>
+    <li><b>段间规则</b>：每段背驰点切换持仓状态；新段对前同向段是否盘整背驰，决定继续还是离场。</li>
+    <li><b>结束条件</b>：向上段连续多段直到"不创新高 或 出现盘整背驰"，向上段结束、整体翻向。</li>
+  </ul>
+</section>
+
+<!-- 6. 牛熊重新定义 + 多账户分级 -->
+<section class="wrap reveal">
+  <div class="sec-no">06 — 视角转变</div>
+  <h2>没有"牛熊"，只有"上涨段 / 下跌段"</h2>
+  <p class="lead">同级别分解给出了一个简洁的世界观：市场永远在做"一段段同级别走势类型的连接"，无所谓总体牛熊。</p>
+  <blockquote>如果分解的级别规定是 30 分钟，那么<b>只要 30 分钟上涨就是牛市，否则就是熊市</b>，完全可以不管市场的实际走势如何。<br>在这种分解的视角下，市场被有效地肢解成一段段 30 分钟走势类型的连接，如此分解，如此操作，如此而已。<span class="who">— 缠中说禅</span></blockquote>
+
+  <h3 style="font-family:var(--serif);font-size:20px;color:#fff;margin:24px 0 10px">资金大了，可以做"分级别多账户"</h3>
+  <p>缠师顺手给了一个进阶玩法：把资金切成两份（或多份），<b>一份按 30 分钟同级别分解操作，另一份按日线同级别分解操作</b>。这样：</p>
+  <div class="grid">
+    <div class="card">
+      <div class="tag">小级别仓</div>
+      <h3>波段频繁吸血</h3>
+      <p>30 分钟级别上下都做，节奏快，单次空间小，但次数多，长期成本能不断压低。</p>
+    </div>
+    <div class="card">
+      <div class="tag">大级别仓</div>
+      <h3>大波段稳吃趋势</h3>
+      <p>日线/周线级别只做主升、避主跌，单次空间大，节奏慢，安全垫足。</p>
+    </div>
+  </div>
+  <blockquote>这样不断地机械操作下去，<b>成本就会不断减少</b>，而这种机械化操作的力量是很大的。<span class="who">— 缠中说禅</span></blockquote>
+
+  <h3 style="font-family:var(--serif);font-size:20px;color:#fff;margin:24px 0 10px">选股的反直觉建议</h3>
+  <p>缠师在这里抛出一个反直觉的看法：</p>
+  <blockquote>根本无须关心个股的具体涨幅有多少，<b>只要足够活跃，上下震荡大</b>，这种机械化操作产生的利润是与时间成正比的，只要时间足够长，就会比任何单边上涨的股票产生更大的利润。<span class="who">— 缠中说禅</span></blockquote>
+  <p>翻译：在同级别分解的框架下，<span class="hl-gold">震荡大的活跃股 ≥ 单边大牛股</span>。前者每个 30 分钟段都能反复吸血，后者只有一波。这给"选股"打开了完全不同的视角。</p>
+</section>
+
+<!-- 7. 实战示范：2007 大盘 -->
+<section class="wrap reveal">
+  <div class="sec-no">07 — 课文实战示范</div>
+  <h2>原课文配图：2007 年 3 月大盘解盘</h2>
+  <p class="lead">缠师在课文末尾用 2007-03 上证指数为例，把同级别分解的视角直接套到了当时的盘面。这些图并非课程主图，但能帮我们直观看到"<b>把图切成一段段</b>"是什么意思。</p>
+
+  <figure>
+    <img src="/_assets/ch38_p02.png" alt="上证 2007-01~03 1分钟图 30分3买标注">
+    <figcaption>上证 2007-01~03 走势 · 缠师把图切成多个 30 分钟级别的红/青色框（中枢区），标注"<b style="color:#37c0e6">30 分 3 买</b>"与"3 买"位置 —— 即同级别分解后，多个 30 分钟中枢之间的第三类买点。</figcaption>
+  </figure>
+
+  <figure>
+    <img src="/_assets/ch38_p03.png" alt="上证日线 2006-2007 上涨形态">
+    <figcaption>上证日线 2006-2007 · 绿色线为日中枢上沿延伸 —— 缠师指出"<b style="color:#e8b339">macd 双 0 轴回试</b>"形态，提示日线级别可能有盘整背驰。日线级别的"同级别分解"视角与 30 分钟的<b>独立并行</b>，互不冲突。</figcaption>
+  </figure>
+
+  <figure>
+    <img src="/_assets/ch38_p04.png" alt="大盘日线两个日中枢标注">
+    <figcaption>课文圈注 · "大盘从去年上来，算上去年 6 月份后的日中枢，<b>也有两个了</b>" —— 用日线同级别分解看，已经经过两个日中枢，第三个能否成型决定行情延续性。这就是把"两份资金做不同级别"中"日线那份"该看的东西。</figcaption>
+  </figure>
+
+  <p>对照前面理论，可以观察到：</p>
+  <ul style="margin-left:24px;color:#cfd5dc">
+    <li>缠师在图上画的<b>红/青矩形框</b>就是 30 分钟级别的中枢；</li>
+    <li>每两个同向中枢之间是一个 30 分钟级别的<span class="hl-pivot">第三类买点</span>位置；</li>
+    <li>这些中枢之间出现"盘整+盘整"是完全允许的——这正是同级别分解的特征。</li>
+  </ul>
+</section>
+
+<!-- 8. 三组易混淆 -->
+<section class="wrap reveal">
+  <div class="sec-no">08 — 易混点澄清</div>
+  <h2>三组容易混淆的概念</h2>
+  <p class="lead">同级别分解牵涉很多前几课的概念，下面把最容易绊倒人的三组拎出来对照。</p>
+
+  <div class="table">
+    <div class="row head"><div>概念对</div><div>非同级别分解 / 前几课</div><div>同级别分解 / 本课</div></div>
+    <div class="row">
+      <div class="name">是否允许"盘整+盘整"</div>
+      <div><span class="hl-down">不允许</span>（用中枢延伸吸收）</div>
+      <div><span class="hl-gold">允许</span>（直接连成两段）</div>
+    </div>
+    <div class="row">
+      <div class="name">中枢延伸/扩展</div>
+      <div>常用工具，识别大中枢</div>
+      <div>不用，6 段以上 = 两个盘整</div>
+    </div>
+    <div class="row">
+      <div class="name qushi">操作焦点</div>
+      <div>识别走势类型 + 找背驰</div>
+      <div>切段 + 段间机械买卖</div>
+    </div>
+  </div>
+
+  <blockquote>同级别分解的次级别<b>不必也是同级别分解</b>。次级别完全可以照旧用中枢延伸/扩展。这是组合规则的自由，只要不违反结合律和唯一性即可。<span class="who">— 缠中说禅</span></blockquote>
+</section>
+
+<!-- 9. 思考题 -->
+<section class="wrap reveal">
+  <div class="sec-no">09 — 思考题</div>
+  <h2>留下来反复琢磨的几道题</h2>
+  <ol class="think">
+    <li>同级别分解的"唯一性"是怎么来的？它和走势分解定理是什么关系？（提示：参考第 36 课结合律）</li>
+    <li>为什么在同级别分解中允许"盘整+盘整"，而前面几课说不允许？两个"盘整"的存在物一样吗？</li>
+    <li>如果选 30 分钟级别做同级别分解，5 分钟和 1 分钟级别用什么规则？背后理由是什么？</li>
+    <li>"震荡活跃股长期跑赢单边牛股"在什么前提下成立？什么时候会失效？</li>
+    <li>设计你自己的同级别分解：要看多大资金、多少时间、能承受多大回撤，才能反推应该选哪个操作级别？</li>
+    <li>课文里反复提到"机械化"，但人脑容易在亏损段动摇。从行为金融学角度，怎么把机械化执行变成肌肉记忆？</li>
+  </ol>
+</section>
+
+<!-- 10. 判图练习 -->
+<section class="wrap reveal">
+  <div class="sec-no">10 — 判图练习</div>
+  <h2>同级别分解的"看图说话"</h2>
+
+  <div class="quiz">
+    <h4>题 1：30 分钟同级别分解视角下，5 分钟级别连续走了 9 段，价格区间互相重合。该怎么处理？</h4>
+    <details class="ans"><summary>查看答案</summary>
+      <p>按同级别分解规则，30 分钟级别只看"是否有 3 段 5 分钟构成一个 30 分钟中枢"。9 段 = <b>3 个 30 分钟盘整类型的连接</b>，即"盘整+盘整+盘整"，三个 30 分钟中枢依次相连。在非同级别分解里这会被当成一个延伸的大中枢，但在同级别分解里就是三段。</p>
+    </details>
+  </div>
+
+  <div class="quiz">
+    <h4>题 2：以 30 分钟级别同级别分解操作，刚走完一段上涨（背驰卖出），接下来出现一段下跌没破前低，应该怎么动作？</h4>
+    <details class="ans"><summary>查看答案</summary>
+      <p>对照本课操作程式：第②段下跌"<b>不跌破①低点</b>"→ 直接<span class="hl-up">重新买入</span>，进入第③段的判断（看是否超过①高点 + 是否盘整背驰）。</p>
+    </details>
+  </div>
+
+  <div class="quiz">
+    <h4>题 3：第③段上涨超过了第①段高点，但 MACD 出现明显的盘整背驰，怎么办？</h4>
+    <details class="ans"><summary>查看答案</summary>
+      <p>"<b>超过①高点 + 盘整背驰</b>" → <span class="hl-down">卖出</span>。不要因为创了新高就贪心拿着——本课强调"机械化"，触发条件就动手，不要预测后面。</p>
+    </details>
+  </div>
+
+  <div class="quiz">
+    <h4>题 4：用同级别分解看，"30 分钟上涨"段里嵌套了 5 分钟的下跌。这段 5 分钟下跌要不要做？</h4>
+    <details class="ans"><summary>查看答案</summary>
+      <p>本课规则：<b>30 分钟同级别分解下，只关心 30 分钟段的方向</b>。30 分钟还在上涨段里、没出现该段的背驰卖点，就<span class="hl-up">不动</span>。5 分钟级别的下跌属于内部细节，不构成本级别操作信号——除非你把这部分资金归到"5 分钟级别仓"另算（即第 6 部分讲的分级别多账户）。</p>
+    </details>
+  </div>
+</section>
+
+<!-- 11. 与前后课呼应 -->
+<section class="wrap reveal">
+  <div class="sec-no">11 — 上下文</div>
+  <h2>第 38 课在课程链里的位置</h2>
+  <div class="grid">
+    <div class="card">
+      <div class="tag">前序</div>
+      <h3>第 36 课 · 结合律</h3>
+      <p>讲过同一段走势可以有多种合法组合方式（结合律）——这是"分解多义性"的来源。</p>
+    </div>
+    <div class="card">
+      <div class="tag">本课</div>
+      <h3>第 38 课 · 同级别分解</h3>
+      <p>给出多义中"最简单、最有用"的一种切法：固定级别、唯一性、可机械化。</p>
+    </div>
+    <div class="card">
+      <div class="tag">后续</div>
+      <h3>第 39+ 课 · 非同级别分解</h3>
+      <p>下一课会讲"非同级别分解"——更复杂但能更精细地刻画走势，与本课形成对照。</p>
+    </div>
+    <div class="card">
+      <div class="tag">回溯</div>
+      <h3>第 17 课 · 走势终完美</h3>
+      <p>同级别分解之所以可行，根基在"走势必完美"——任何一段都会按某种走势类型走完，分解才有意义。</p>
+    </div>
+  </div>
+</section>
+
+<!-- TLDR -->
+<section class="wrap reveal">
+  <div class="tldr">
+    <div class="lab">TL;DR</div>
+    <p>"同级别分解"就是<b>挑一把固定尺子</b>把所有走势切成一段段同级别类型的连接。<br>切法<span class="hl-gold">唯一</span>、允许盘整+盘整、不用中枢延伸；<br>操作上<span class="hl-up">上涨段先买后卖</span>、<span class="hl-down">下跌段先卖后买</span>，机械执行、不预测牛熊。</p>
+  </div>
+</section>
+
+</main>
+<footer class="wrap">
+  原文出处：raw/缠中说禅/教你炒股票108课/教你炒股票38：走势类型连接的同级别分解.md<br>
+  本页为个人学习复习用 · 非投资建议
+</footer>
+<script>
+  const bar=document.getElementById('bar');
+  const onScroll=()=>{const h=document.documentElement;bar.style.width=(h.scrollTop/(h.scrollHeight-h.clientHeight)*100)+'%'};
+  document.addEventListener('scroll',onScroll,{passive:true});onScroll();
+  const io=new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{threshold:.12});
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+</script>
+<script src="/assets/_nav.js"></script><script src="/assets/_shell.js"></script></body>
+</html>

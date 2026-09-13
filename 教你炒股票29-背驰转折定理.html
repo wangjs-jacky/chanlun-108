@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>缠论 · 教你炒股票29：转折的力度与级别</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@500;700;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0b0e12;--bg-elev:#12161c;--bg-card:#161b22;
+    --ink:#e8eaed;--ink-dim:#9aa3ad;--ink-faint:#5b6470;
+    --line:rgba(255,255,255,.07);
+    --up:#ff4d4f;--down:#16c784;--pivot:#37c0e6;--gold:#e8b339;--blue:#00d4ff;
+    --max:880px;--serif:"Noto Serif SC",serif;--mono:"JetBrains Mono",ui-monospace,monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--ink);font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;line-height:1.85;font-size:17px;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  body::before{content:"";position:fixed;inset:0;z-index:-2;background:radial-gradient(1200px 600px at 70% -10%,rgba(55,192,230,.08),transparent 60%),radial-gradient(900px 500px at 0% 100%,rgba(232,179,57,.05),transparent 55%);pointer-events:none}
+  body::after{content:"";position:fixed;inset:0;z-index:-1;opacity:.4;background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);background-size:46px 46px;-webkit-mask-image:radial-gradient(ellipse at 50% 0%,#000 30%,transparent 80%);mask-image:radial-gradient(ellipse at 50% 0%,#000 30%,transparent 80%);pointer-events:none}
+  #bar{position:fixed;top:0;left:0;height:3px;width:0;z-index:50;background:linear-gradient(90deg,var(--pivot),var(--gold));box-shadow:0 0 12px var(--pivot)}
+  .wrap{max-width:var(--max);margin:0 auto;padding:0 24px}
+  header.hero{padding:120px 0 70px;text-align:center;position:relative}
+  .kicker{font-family:var(--mono);font-size:13px;letter-spacing:.32em;color:var(--pivot);text-transform:uppercase;margin-bottom:26px}
+  .kicker span{color:var(--ink-faint)}
+  h1.title{font-family:var(--serif);font-weight:900;line-height:1.05;font-size:clamp(44px,10vw,100px);letter-spacing:.04em;background:linear-gradient(180deg,#fff 30%,#8aa0ad 130%);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .sub{margin:22px auto 0;max-width:580px;color:var(--ink-dim);font-size:18px}
+  .meta{margin-top:34px;display:flex;gap:14px;justify-content:center;flex-wrap:wrap;font-family:var(--mono);font-size:12px;color:var(--ink-faint)}
+  .meta b{color:var(--ink-dim);font-weight:500}
+  .pill{border:1px solid var(--line);padding:6px 14px;border-radius:999px;background:rgba(255,255,255,.02)}
+  .scroll-hint{margin-top:60px;color:var(--ink-faint);font-family:var(--mono);font-size:12px;animation:bob 2.4s ease-in-out infinite}
+  @keyframes bob{0%,100%{transform:translateY(0);opacity:.5}50%{transform:translateY(8px);opacity:1}}
+  section{padding:64px 0;border-top:1px solid var(--line)}
+  .sec-no{font-family:var(--mono);font-size:13px;color:var(--gold);letter-spacing:.2em;margin-bottom:10px}
+  h2{font-family:var(--serif);font-weight:700;font-size:clamp(28px,5vw,42px);line-height:1.25;margin-bottom:8px;letter-spacing:.02em}
+  .lead{color:var(--ink-dim);font-size:16px;margin-bottom:28px;max-width:660px}
+  p{margin:0 0 18px;color:#cfd5dc}
+  p b,strong{color:#fff;font-weight:700}
+  .hl-pivot{color:var(--pivot);font-weight:700}.hl-up{color:var(--up);font-weight:700}
+  .hl-down{color:var(--down);font-weight:700}.hl-gold{color:var(--gold);font-weight:700}
+  blockquote{margin:26px 0;padding:20px 24px;border-left:3px solid var(--pivot);background:linear-gradient(90deg,rgba(55,192,230,.07),transparent);border-radius:0 10px 10px 0;font-family:var(--serif);font-size:19px;color:#eaf6fb}
+  blockquote .who{display:block;margin-top:8px;font-family:var(--mono);font-size:12px;color:var(--ink-faint);font-style:normal}
+  figure{margin:34px 0}
+  figure img{width:100%;border-radius:12px;border:1px solid var(--line);background:#fff;box-shadow:0 18px 50px rgba(0,0,0,.5)}
+  figcaption{margin-top:12px;font-size:13px;color:var(--ink-faint);text-align:center;font-family:var(--mono)}
+  .grid{display:grid;gap:16px;grid-template-columns:1fr 1fr;margin:28px 0}
+  @media(max-width:640px){.grid{grid-template-columns:1fr}}
+  .card{background:var(--bg-card);border:1px solid var(--line);border-radius:14px;padding:24px;position:relative;overflow:hidden;transition:transform .35s ease,border-color .35s ease}
+  .card:hover{transform:translateY(-4px);border-color:rgba(55,192,230,.4)}
+  .card .tag{font-family:var(--mono);font-size:11px;letter-spacing:.18em;color:var(--gold);text-transform:uppercase}
+  .card h3{font-family:var(--serif);font-size:21px;margin:10px 0 8px;color:#fff}
+  .card p{font-size:15px;color:var(--ink-dim);margin:0}
+  .table{margin:28px 0;border:1px solid var(--line);border-radius:14px;overflow:hidden}
+  .table .row{display:grid;grid-template-columns:1.1fr 1.5fr 1.6fr;align-items:stretch}
+  .table .row+.row{border-top:1px solid var(--line)}
+  .table .row>div{padding:16px 18px}
+  .table .row.head{background:var(--bg-elev);font-family:var(--mono);font-size:12px;letter-spacing:.14em;color:var(--ink-faint);text-transform:uppercase}
+  .table .row>div+div{border-left:1px solid var(--line)}
+  .table .name{font-family:var(--serif);font-weight:700;font-size:18px}
+  .table .name.qushi{color:var(--gold)}
+  .cnt{font-family:var(--mono);font-size:14px;color:var(--pivot)}
+  @media(max-width:560px){.table .row{grid-template-columns:1fr}.table .row>div+div{border-left:0;border-top:1px solid var(--line)}.table .row.head{display:none}}
+  .points{margin:26px 0;display:flex;flex-direction:column;gap:14px}
+  .pt{display:flex;gap:16px;align-items:flex-start;background:var(--bg-card);border:1px solid var(--line);border-radius:12px;padding:18px 20px}
+  .pt .dot{flex:none;width:42px;height:42px;border-radius:10px;display:grid;place-items:center;font-family:var(--serif);font-weight:900;font-size:20px;color:#0b0e12}
+  .pt.b .dot{background:var(--up)}.pt.s .dot{background:var(--down)}
+  .pt h4{font-size:17px;margin-bottom:4px;color:#fff}.pt p{font-size:15px;color:var(--ink-dim);margin:0}
+  /* akshare 实证区 */
+  .proof{margin:30px 0;background:linear-gradient(120deg,rgba(55,192,230,.06),transparent 70%),var(--bg-elev);border:1px solid rgba(55,192,230,.25);border-radius:16px;padding:26px}
+  .proof .badge{display:inline-block;font-family:var(--mono);font-weight:700;font-size:12px;letter-spacing:.12em;padding:6px 14px;border-radius:999px;background:rgba(55,192,230,.14);color:var(--pivot);border:1px solid rgba(55,192,230,.4);margin-bottom:14px}
+  .chartbox{background:var(--bg-card);border:1px solid var(--line);border-radius:14px;padding:18px 14px 8px;margin:18px 0}
+  .legend{display:flex;gap:16px;font-family:var(--mono);font-size:12px;color:var(--ink-dim);padding:0 8px 12px;flex-wrap:wrap}
+  .legend i{display:inline-block;width:16px;height:3px;vertical-align:middle;margin-right:6px;border-radius:2px}
+  canvas{width:100%;display:block}
+  .verdict{display:flex;gap:14px;align-items:flex-start;margin-top:8px;padding:16px 18px;background:var(--bg-card);border:1px solid var(--line);border-radius:12px}
+  .verdict .mk{flex:none;font-family:var(--mono);font-weight:700;color:var(--up)}
+  .verdict p{margin:0;font-size:15px;color:#d6dbe1}
+  ol.think{counter-reset:q;list-style:none;margin:24px 0;display:flex;flex-direction:column;gap:14px}
+  ol.think li{counter-increment:q;position:relative;padding:18px 20px 18px 60px;background:var(--bg-elev);border:1px solid var(--line);border-radius:12px;color:var(--ink-dim);font-size:15px}
+  ol.think li::before{content:counter(q,decimal-leading-zero);position:absolute;left:20px;top:18px;font-family:var(--mono);color:var(--gold);font-weight:700}
+  /* 判图练习 */
+  .quiz{margin:22px 0;background:var(--bg-card);border:1px solid var(--line);border-radius:14px;padding:22px 24px}
+  .quiz h4{font-size:16px;color:#fff;margin-bottom:6px}
+  .quiz .ans{margin-top:12px;color:var(--ink-faint);font-size:14px;cursor:pointer}
+  .quiz .ans[open] summary{color:var(--pivot)}
+  .quiz summary{color:var(--gold);font-family:var(--mono);font-size:13px}
+  .tldr{margin:60px 0 0;padding:36px 30px;border:1px solid rgba(55,192,230,.3);border-radius:18px;background:radial-gradient(120% 120% at 100% 0%,rgba(55,192,230,.1),transparent 60%),var(--bg-elev);text-align:center}
+  .tldr .lab{font-family:var(--mono);font-size:12px;letter-spacing:.3em;color:var(--pivot);text-transform:uppercase}
+  .tldr p{font-family:var(--serif);font-size:clamp(20px,3.4vw,28px);line-height:1.7;color:#fff;margin:16px 0 0}
+  footer{padding:60px 0 90px;text-align:center;color:var(--ink-faint);font-family:var(--mono);font-size:12px;border-top:1px solid var(--line)}
+  .reveal{opacity:0;transform:translateY(26px);transition:opacity .8s ease,transform .8s ease}
+  .reveal.in{opacity:1;transform:none}
+  @media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}.scroll-hint{animation:none}}
+</style>
+<meta name="view-transition" content="same-origin"><style>@view-transition{navigation:auto}</style></head>
+<body>
+<div id="bar"></div>
+<header class="hero">
+  <div class="wrap">
+    <div class="kicker">缠中说禅 · 教你炒股票108课 <span>/ 第 29 课</span></div>
+    <h1 class="title">背驰转折定理</h1>
+    <p class="sub">背驰之后会发生什么？缠师给出完全分类的三种可能 —— 这是把"反弹"讲清楚的第一堂数学课。</p>
+    <div class="meta">
+      <span class="pill"><b>原文</b> 2007-02-09</span>
+      <span class="pill"><b>类型</b> 核心定理 / 完全分类</span>
+      <span class="pill"><b>关键词</b> 背驰 · 转折 · 中枢扩展 · 反趋势</span>
+    </div>
+    <div class="scroll-hint">↓ 向下滚动，逐层拆解</div>
+  </div>
+</header>
+<main>
+
+<section class="wrap reveal">
+  <div class="sec-no">01 — 先理解问题</div>
+  <h2>"反弹"到底意味着什么？</h2>
+  <p class="lead">你看到 K 线触底回升、跌不动了、突然拉起一大根阳线。市场叫这"反弹"。但缠师说：这个词太粗糙。</p>
+  <p>在缠论之外，"反弹"就是个模糊的术语 —— 涨一点也叫反弹，涨翻一倍也叫反弹。但<b>对操作者而言</b>，这两种是天差地别的：第一种你必须马上跑路，第二种你可以拿一段时间。</p>
+  <p>第 29 课要解决的就是这个问题：<span class="hl-gold">某个级别的下跌（趋势）出现背驰之后，紧接着会出现什么？</span>缠师用一条定理给出了<b>完全分类</b> —— 不是"大概可能"，是数学意义上的"穷举三种情况，再无其他"。</p>
+  <p>这件事的重要性在于：买了第一类买点之后，你得知道<b>这次行情的天花板大致在哪</b>，才能决定是马上撤、拿一波、还是拿一大段。</p>
+</section>
+
+<section class="wrap reveal">
+  <div class="sec-no">02 — 核心定理</div>
+  <h2>背驰之后，只有三种走法</h2>
+  <p class="lead">把这条定理背下来 —— 它是缠论里最重要的几条定理之一。</p>
+  <blockquote>某级别趋势的背驰，将导致<b>该趋势最后一个中枢的级别扩展</b>、<b>该级别更大级别的盘整</b>，或<b>该级别以上级别的反趋势</b>。<span class="who">— 缠中说禅 · 背驰-转折定理</span></blockquote>
+  <p>三句话翻译成大白话：</p>
+  <div class="grid">
+    <div class="card">
+      <div class="tag">情况一 · 最弱</div>
+      <h3>中枢级别扩展</h3>
+      <p>反弹只够到原中枢的下沿（DD 线），跌不下去也涨不上去 —— 原来的小中枢被"撑大"成更高级别的盘整。你买的票几乎没空间，应当尽快撤。</p>
+    </div>
+    <div class="card">
+      <div class="tag">情况二 · 中性</div>
+      <h3>更大级别的盘整</h3>
+      <p>反弹重新回到原中枢里，并形成一个比原下跌中枢<b>更大级别</b>的全新盘整。你买在底，可以拿一段，但顶部不会太高。</p>
+    </div>
+    <div class="card">
+      <div class="tag">情况三 · 最强</div>
+      <h3>更大级别的反趋势</h3>
+      <p>反弹直接转身变成一个新的、级别相当甚至更大的上涨趋势。V 型反转就是这个 —— 你买在底，可以拿一大段。</p>
+    </div>
+    <div class="card" style="background:linear-gradient(120deg,rgba(232,179,57,.08),transparent 70%),var(--bg-card);border-color:rgba(232,179,57,.3)">
+      <div class="tag" style="color:var(--gold)">关键差别</div>
+      <h3>力度从弱到强</h3>
+      <p>三种情况按反弹高度依次递增。<b>区分它们靠什么？</b> 看反弹的第一波 —— 能不能重新进入原下跌的"最后一个中枢"里。</p>
+    </div>
+  </div>
+</section>
+
+<section class="wrap reveal">
+  <div class="sec-no">03 — 情况一：中枢级别扩展</div>
+  <h2>反弹最弱：原中枢被"撑大"</h2>
+  <p class="lead">假想一个 5 分钟下跌走完了，最后一段背驰、出现第一类买点。但反弹只摸到原中枢的最低点（DD = min(dn)），就再也上不去。这种情况下，原来的 5 分钟中枢会被扩展成 30 分钟甚至更大的中枢。</p>
+  <figure>
+    <img src="/_assets/ch29_p07.png" alt="趋势的最后一个中枢的级别扩展示意图">
+    <figcaption>缠师示意图：a + A + b + B + c 是原 5 分钟下跌结构（绿色框 A、蓝色框 B 是两个小中枢）；反弹只摸到 B 的 DD 线就上不去，于是 b + B + c 整段被"框"进一个更大的蓝色中枢 A'，形成"中枢级别扩展"。</figcaption>
+  </figure>
+  <p>这种走法的<b>关键判别</b>：原下跌结构里，本来 a + A + b + B + c 是一个 5 分钟级别的<span class="hl-down">走势类型（已完成）</span>。但中枢一旦扩展，c 段的下跌就被新中枢"吞掉"了 —— 整段 a~ + A~ 又变成一个未完成的、级别更大的走势类型，<b>故事还没结束</b>。</p>
+  <p>对你的操作意义：<span class="hl-down">这种反弹最弱、空间最小</span>。即使一类买点保证你不亏，但资金占着没机会，应当机立断撤掉，去找力度更强的票。</p>
+  <blockquote>这种情况和盘整背驰中转化成第三类卖点的情况不同 —— 那种情况下反弹的级别一定<b>比最后一个中枢低</b>；而这种情况，反弹的级别一定<b>等于或大于最后一个中枢</b>。<span class="who">— 缠中说禅</span></blockquote>
+</section>
+
+<section class="wrap reveal">
+  <div class="sec-no">04 — 情况二：更大级别的盘整</div>
+  <h2>反弹中性：先盘住，再选方向</h2>
+  <p class="lead">反弹能重新回到原"最后一个中枢"里，但还没强到能把价格送出新趋势。它在原下跌结束位置上方，建一个全新的、级别更大的盘整中枢。</p>
+  <figure>
+    <img src="/_assets/ch29_p08.png" alt="该级别更大级别的盘整示意图">
+    <figcaption>反弹之后，市场在原下跌的低位区域建立一个<b>明显比 A、B 都大的红色中枢</b>（围绕 ZD-DD 上下震荡）—— 这就是"5 分钟下跌 + 30 分钟盘整"。盘整的级别<b>一定大于</b>原下跌中枢，否则就退化成情况一了。</figcaption>
+  </figure>
+  <figure>
+    <img src="/_assets/ch29_p09.png" alt="该级别更大级别的盘整示意图变体">
+    <figcaption>同样的"下跌 + 盘整"结构 —— 红色中枢明显是一个更大级别的横盘箱体，价格在里面来回多次，等待下一次方向选择。</figcaption>
+  </figure>
+  <p>缠师在这里讲了一段非常深的"<b>走势类型连接</b>"逻辑：</p>
+  <ul style="margin:0 0 18px 22px;color:#cfd5dc;list-style:disc">
+    <li><b>"下跌 + 盘整"是两个走势类型的连接</b> —— 5 分钟下跌已经完成、走完了；30 分钟盘整是一个新的、独立的走势类型。</li>
+    <li><b>"中枢扩展"是一个走势类型内部的延续</b> —— 故事还在原来的篇章里，只是中枢"长大"了。</li>
+  </ul>
+  <p>从数量上也能看出来：一个 5 分钟下跌的 a + A + b + B + c 至少包含 9 个 1 分钟走势类型；一个 30 分钟盘整也至少包含 9 个 1 分钟走势类型 —— 数量上对得齐。如果连接的是 5 分钟盘整（只有 3 个 1 分钟走势类型），就<b>不匹配</b>。</p>
+</section>
+
+<section class="wrap reveal">
+  <div class="sec-no">05 — 情况三：更大级别的反趋势</div>
+  <h2>反弹最强：V 型反转</h2>
+  <p class="lead">反弹直接转身、不停留 —— 一个 5 分钟下跌之后跟着一个<b>同级别甚至更大级别的上涨</b>。这就是市场上俗称的"V 型反转"。</p>
+  <figure>
+    <img src="/_assets/ch29_p10.png" alt="该级别以上级别的反趋势示意图">
+    <figcaption>左侧是原 5 分钟下跌（A、B 两个中枢、c 段背驰），右侧是新生的 5 分钟上涨（蓝色中枢逐级抬高） —— 两段走势类型在底部 c 段尾端无缝衔接，形成完整的 V 型结构。<b>盘整的级别有约束，反趋势的级别没有约束</b> —— 这是情况二、三的差别。</figcaption>
+  </figure>
+  <p>关于盘整与上涨的级别要求，缠师讲得特别精准：</p>
+  <blockquote>这里盘整的中枢级别<b>一定大于</b>下跌中的中枢级别。而上涨的中枢，<b>不一定大于</b>下跌中的中枢 —— 一个 5 分钟下跌后反过来是一个 5 分钟上涨，这是很正常的；但如果是盘整，那就至少是 30 分钟的。<span class="who">— 缠中说禅</span></blockquote>
+  <p>为什么有这个不对称？因为"下跌 + 上涨"的两段方向相反、内部独立计价；而"下跌 + 盘整"中如果盘整级别不够大，就会被吞进原下跌中变成情况一，无法独立出来。</p>
+</section>
+
+<section class="wrap reveal">
+  <div class="sec-no">06 — 三种情况对比</div>
+  <h2>力度从弱到强：一张表分清</h2>
+  <div class="table">
+    <div class="row head">
+      <div>情况</div>
+      <div>反弹力度</div>
+      <div>判别依据 / 操作建议</div>
+    </div>
+    <div class="row">
+      <div class="name" style="color:var(--down)">一、中枢扩展</div>
+      <div><b class="hl-down">最弱</b><br>只触及原中枢下沿 DD，原中枢被"撑大"</div>
+      <div>反弹的第一波次级别走势<b>进不去</b>原最后一个中枢 → 大概率是这种<br>操作：<b>尽快撤</b>，资金转移到更强的票</div>
+    </div>
+    <div class="row">
+      <div class="name" style="color:var(--gold)">二、更大盘整</div>
+      <div><b class="hl-gold">中等</b><br>反弹重新进入原中枢，并建立更大级别新中枢</div>
+      <div>反弹能进入原中枢，但<b>突破后没形成第三类买点</b><br>操作：拿一波次级别向上，背驰就出</div>
+    </div>
+    <div class="row">
+      <div class="name qushi">三、反趋势</div>
+      <div><b class="hl-up">最强</b><br>新趋势直接形成，V 型反转</div>
+      <div>反弹突破原中枢后<b>回试形成第三类买点</b> → 站稳<br>操作：<b>拿一大段</b>，直到出现下一级别背驰</div>
+    </div>
+  </div>
+  <p style="font-family:var(--mono);font-size:13px;color:var(--ink-faint);text-align:center;margin-top:18px">三种情况按反弹力度递增 · 通过"反弹第一波能否重回原中枢"快速分辨</p>
+</section>
+
+<section class="wrap reveal">
+  <div class="sec-no">07 — 真金白银的实证</div>
+  <h2>缠师当年喊的 2007-02-06 底，用日 K 验证</h2>
+  <p class="lead">课文 2007-02-09 写作当天，缠师明确提到："这次 20070206 的反弹，用 5 分钟背驰段……精确地把握了这个底部。"我们用上证指数日 K 还原当时的走势 —— 看看缠师的判断后来怎么演化。</p>
+  <div class="proof">
+    <span class="badge">数据实证 · 上证指数 000001</span>
+    <p style="color:#d6dbe1;font-size:15px;margin-bottom:18px">区间 2006-12-01 ~ 2007-04-30。<span class="hl-up">2007-01-24 高点 2994.28</span>（缠师所说"从 2980 开始的 5 分钟下跌"），<span class="hl-down">2007-02-06 低点 2541.53</span>（5 分钟背驰段的第一类买点），其后反弹突破<span class="hl-up">3049.77</span>新高，<b>3 月一路上行到 3300+，4 月底 3800+</b>。</p>
+    <div class="chartbox">
+      <div class="legend">
+        <span><i style="background:#cfd5dc"></i>收盘</span>
+        <span><i style="background:#ff8a8c"></i>MA5</span>
+        <span><i style="background:#e8b339"></i>MA20</span>
+        <span><i style="background:#37c0e6"></i>MA60</span>
+        <span><i style="background:rgba(55,192,230,.55);width:16px;height:10px"></i>中枢</span>
+        <span><i style="background:#ff4d4f;border-radius:50%;width:8px;height:8px"></i>1 类买</span>
+      </div>
+      <canvas id="cv_sse" height="440"></canvas>
+    </div>
+    <div class="verdict">
+      <span class="mk">✓ 印证</span>
+      <p>2007-02-06 实际最低 <b>2541.53</b>，与缠师"5 分钟背驰底部"精准吻合；其后反弹第一波<b>直接突破原中枢回到 2700-2800 区间</b>，意味着情况一被排除；2-12 至 2-27 在 2800-3050 形成一个明显比 5 分钟更大级别的盘整（30 分钟级别中枢）；3 月起<b>突破中枢后回试站稳形成第三类买点</b>，演化为<b class="hl-up">大级别上涨</b> —— 这正是定理预测的第二、三种情况的实证。</p>
+    </div>
+  </div>
+  <p style="font-family:var(--mono);font-size:12px;color:var(--ink-faint)">数据来源：新浪财经日 K（不复权）· akshare 取数 · 区间 2006-12-01 至 2007-04-30 · 不构成投资建议</p>
+</section>
+
+<section class="wrap reveal">
+  <div class="sec-no">08 — 实战操作策略</div>
+  <h2>知道了三种情况，怎么真金白银地用？</h2>
+  <p class="lead">理论再漂亮，落不到买卖点上就没用。缠师在课尾给出了具体的两段式操作 —— 先抄底，再加仓。</p>
+  <div class="points">
+    <div class="pt b">
+      <div class="dot">B1</div>
+      <div>
+        <h4>第一次抄底：选离 DD 最远的票</h4>
+        <p>背驰段出现第一类买点时，挑那些当下价格离最后一个中枢的 <b>DD = min(dn) 幅度最大</b>的股票。所谓"超跌"，应当以此为标准。定理保证反弹至少摸到 DD —— 离得越远，可榨取的空间越大。</p>
+      </div>
+    </div>
+    <div class="pt s">
+      <div class="dot">S1</div>
+      <div>
+        <h4>第一波反弹见次级别背驰即撤</h4>
+        <p>反弹的第一波出现次级别背驰就出。如果此时<b>价格连原中枢都没碰到</b>，那基本是情况一（最弱反弹），这只股票不用再考虑了。</p>
+      </div>
+    </div>
+    <div class="pt b">
+      <div class="dot">B2</div>
+      <div>
+        <h4>第二次买点：能进中枢的回试</h4>
+        <p>反弹第一波出掉后，等回试。买<b>能突破最后一个中枢且回试站稳</b>的股票 —— 这是情况二、三的特征，反弹力度有保证。</p>
+      </div>
+    </div>
+    <div class="pt s">
+      <div class="dot">S2</div>
+      <div>
+        <h4>看次级别背驰再决断</h4>
+        <p>根据"走势必完美"，回试后一定还有一个次级别向上走势。如果出现盘整背驰 → 是情况二（更大盘整），出掉；如果没背驰、一路上行 → 恭喜，是情况三（V 型反转），<b>拿住</b>。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="wrap reveal">
+  <div class="sec-no">09 — 容易混淆的两个坑</div>
+  <h2>这两个误区，缠师专门拎出来说</h2>
+  <div class="grid">
+    <div class="card">
+      <div class="tag">误区 A</div>
+      <h3>把"中枢扩展"当成"下跌+盘整"</h3>
+      <p>都是反弹之后出现一个更大级别的"框"，但二者本质不同：<b>中枢扩展</b>是原下跌走势类型<span class="hl-down">还没走完</span>，故事仍在原章节；<b>下跌+盘整</b>是两个独立、已完成的走势类型的连接。区分法：看原下跌的"最后一段"和这个"框"之间，有没有完整的"反弹+回踩"两段走势。</p>
+    </div>
+    <div class="card">
+      <div class="tag">误区 B</div>
+      <h3>认为"上涨级别也必须 > 下跌"</h3>
+      <p>缠师明确：盘整的级别<b>一定大于</b>原下跌中枢级别；但上涨<b>不一定大于</b>，<span class="hl-pivot">同级别 5 分钟下跌 → 5 分钟上涨</span>是合法的、常见的。原因：方向相反的走势类型独立计价；同方向才有"被吞掉"的风险。</p>
+    </div>
+  </div>
+</section>
+
+<section class="wrap reveal">
+  <div class="sec-no">10 — 思考题</div>
+  <h2>把定理掰开来想一想</h2>
+  <ol class="think">
+    <li>为什么"下跌 + 盘整"中盘整的中枢级别一定大于下跌的中枢级别？请用"内含次级别走势类型数量"的角度自己推一遍。</li>
+    <li>"中枢扩展"和"下跌 + 盘整"的图形可能非常像 —— 都是先下来再横住。你怎么用 K 线图本身（而不是文字描述）判断是哪种？</li>
+    <li>三种情况里只有情况三能拿大段。但 V 型反转无法<b>提前</b>判断（缠师说"必须在以后的课程里才能解决"）。在不知道是不是情况三的时候，你为什么仍然敢在第一类买点买入？</li>
+    <li>反过来想：第一类<b>卖点</b>出现后，行情有哪三种走法？请按本课定理类比推一遍（方向相反即可）。</li>
+    <li>课文里缠师讲了"2 月 6 日反弹后 2 月 7 日 11 点前后 1 分钟背驰制造上涨结束"——你能不能在自己常用的看盘软件里，复现这种"从大级别看到小级别再回到大级别"的区间套分析？</li>
+  </ol>
+</section>
+
+<section class="wrap reveal">
+  <div class="sec-no">11 — 判图练习</div>
+  <h2>看图判定理</h2>
+  <div class="quiz">
+    <h4>练习一：5 分钟下跌背驰底之后，反弹只摸到原中枢下沿就转头，新画出来的"框"比原中枢大。这是哪种情况？</h4>
+    <details class="ans"><summary>查看答案</summary><p>情况一：中枢级别扩展。原中枢被"撑大"成更高级别中枢，原走势类型仍未完成。操作上应当撤离。</p></details>
+  </div>
+  <div class="quiz">
+    <h4>练习二：5 分钟下跌之后，价格反弹回到原中枢上沿之上，并在原下跌低位上方建立一个明显比原中枢更大的横盘箱体，反复 3 次以上。这是哪种？</h4>
+    <details class="ans"><summary>查看答案</summary><p>情况二：更大级别的盘整。这是"下跌 + 盘整"的走势类型连接，原下跌走势类型已完成。操作上可以拿次级别向上，背驰就出。</p></details>
+  </div>
+  <div class="quiz">
+    <h4>练习三：5 分钟下跌见底后，价格<b>不停留</b>地一路上行，突破原中枢，回试不破，逐级抬高建立新中枢。这是哪种？</h4>
+    <details class="ans"><summary>查看答案</summary><p>情况三：更大级别的反趋势（V 型反转）。两段走势类型方向相反，独立计价，上涨可以同级别或更大。操作上拿到下一级别背驰为止。</p></details>
+  </div>
+</section>
+
+<section class="wrap reveal">
+  <div class="sec-no">12 — 配图全解</div>
+  <h2>课文原图：缠师 2007 与 2008 的两次实证</h2>
+  <figure>
+    <img src="/_assets/ch29_p01.png" alt="2007-02-06 反弹分析图">
+    <figcaption>2007-02 大盘反弹的多级别分析 —— 5 分钟背驰段在 2 月 6 日见底 2541.53，其后 1 分钟反弹直接回到原中枢里，扩展成 5 分钟上涨；2 月 7 日 11 点 1 分钟背驰结束上涨，进入 30 分钟级别盘整。</figcaption>
+  </figure>
+  <figure>
+    <img src="/_assets/ch29_p02.png" alt="2007 上证一中枢级别扩张实例">
+    <figcaption>缠师后期补的实例：上证 4812 → 5336 期间，第三类卖点出现标准顶背驰后，走势从 1 分钟扩展成 5 分钟级别 —— 这是"该趋势最后一个中枢的级别扩展"的真实案例。</figcaption>
+  </figure>
+  <figure>
+    <img src="/_assets/ch29_p03.png" alt="2010 上证下跌后大级别盘整实例">
+    <figcaption>2010-05-21 后上证 5 分钟下跌背驰，转化成更大级别（30 分钟）的盘整 —— "该级别更大级别的盘整"实例。日 K 上看就是一个箱体把前面的下跌承接住了。</figcaption>
+  </figure>
+  <figure>
+    <img src="/_assets/ch29_p04.png" alt="2008 上证从一分中枢扩展成 2.5 分钟中枢">
+    <figcaption>2008-02-20 ~ 03-05 上证 1 分中枢扩展为 2.5 分钟中枢 —— "中枢扩展"在更小级别上的演化，逻辑相同。</figcaption>
+  </figure>
+  <figure>
+    <img src="/_assets/ch29_p05.png" alt="2010 上证 V 型反转实例">
+    <figcaption>2010-07 上证从 2319.84 底部反弹 —— 1 分趋势背驰后接 5 分趋势上涨，正是"<b>该级别以上级别的反趋势</b>"（情况三）的标准 V 型反转实例。</figcaption>
+  </figure>
+</section>
+
+<section class="wrap reveal">
+  <div class="sec-no">13 — 课文金句</div>
+  <h2>缠师那句"市场哲学的数学原理"</h2>
+  <blockquote>本 ID 的理论是最市场走势最精确的分析，必须把所有情况以及其分辨了然于胸，才可能对市场的走势有一个精确的把握。如果本 ID 把这套理论出版，书名就可以是<b>《市场哲学的数学原理》</b> —— 因为本 ID 的理论的严密性以及对市场的意义，一点不比牛顿对物理的意义差。<span class="who">— 缠中说禅 · 第 29 课</span></blockquote>
+  <p>这句话不是炫耀。它指向缠论的<b>方法论本质</b>：用纯数学的<span class="hl-pivot">穷举分类</span>覆盖一切走势可能性。背驰之后只有三种情况、没有第四种 —— 这才是"了然于胸"的真正含义。</p>
+  <p>对应到本课定理：你不需要"预测"市场，只需要识别<b>反弹的第一波处在三种情况里的哪一种</b>。识别错了亏小钱（情况一抢跑），识别对了赚大钱（情况三拿满）。<span class="hl-gold">市场不需要被预测，只需要被分类。</span></p>
+</section>
+
+<section class="wrap reveal">
+  <div class="sec-no">14 — 承上启下</div>
+  <h2>这一课在缠论体系中的位置</h2>
+  <div class="table">
+    <div class="row head">
+      <div>章节</div>
+      <div>对接内容</div>
+      <div>本课作用</div>
+    </div>
+    <div class="row">
+      <div class="name">第 17 课</div>
+      <div>走势终完美</div>
+      <div>第 17 课说"任何走势必完成自己"，本课告诉你<b>完成之后衔接什么</b></div>
+    </div>
+    <div class="row">
+      <div class="name">第 18 课</div>
+      <div>中枢三定理</div>
+      <div>本课的"中枢扩展"就是第 18 课中枢扩展定理的应用</div>
+    </div>
+    <div class="row">
+      <div class="name qushi">第 20、21 课</div>
+      <div>第三类买卖点 / 完备性</div>
+      <div>本课"情况二、三"通过<b>第三类买点</b>分辨 —— 情况三必有 3 买，情况二必无</div>
+    </div>
+    <div class="row">
+      <div class="name">第 27 课</div>
+      <div>盘整背驰与历史底部</div>
+      <div>第 27 课讨论"何时是历史大底"，本课讨论"底之后会怎么走"</div>
+    </div>
+    <div class="row">
+      <div class="name" style="color:var(--up)">第 29 课</div>
+      <div><b>本课</b></div>
+      <div>给出"背驰之后"的<b>完全分类</b> —— 让你对反弹有数学级别的把握</div>
+    </div>
+  </div>
+</section>
+
+<div class="wrap">
+  <div class="tldr reveal">
+    <div class="lab">TL;DR · 一句话总结</div>
+    <p>背驰之后的反弹只有三种走法 —— <span class="hl-down">中枢扩展</span>、<span class="hl-gold">更大盘整</span>、<span class="hl-up">反趋势</span>，看反弹第一波能否重回原中枢就能分类，分对了就能在 1 买之后精准决定"撤、拿一段、还是拿一大段"。</p>
+  </div>
+</div>
+
+</main>
+<footer class="wrap">
+  原文出处：raw/缠中说禅/教你炒股票108课/教你炒股票29：转折的力度与级别.md<br>
+  本页为个人学习复习用 · 非投资建议
+</footer>
+<script>
+  const bar=document.getElementById('bar');
+  const onScroll=()=>{const h=document.documentElement;bar.style.width=(h.scrollTop/(h.scrollHeight-h.clientHeight)*100)+'%'};
+  document.addEventListener('scroll',onScroll,{passive:true});onScroll();
+  const io=new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{threshold:.12});
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+function drawChanChart(canvasId, CHART){
+  const cv=document.getElementById(canvasId); if(!cv) return;
+  const mode=CHART.mode||'line', hasVol=!!CHART.v && CHART.showVol!==false;
+  const idxOf={}; CHART.dates.forEach((d,i)=>idxOf[d]=i);
+  const ri=d=>{ if(d in idxOf)return idxOf[d]; let b=0,bd=1/0;
+    CHART.dates.forEach((x,i)=>{const t=Math.abs(new Date(x)-new Date(d)); if(t<bd){bd=t;b=i}}); return b; };
+  function draw(){
+    const dpr=window.devicePixelRatio||1, W=cv.clientWidth, H=CHART.height||440;
+    cv.width=W*dpr; cv.height=H*dpr; const x=cv.getContext('2d'); x.scale(dpr,dpr); x.clearRect(0,0,W,H);
+    const padL=48,padR=14,padT=16, volH=hasVol?70:0, gap=hasVol?16:0, priceH=H-padT-volH-gap-22, n=CHART.c.length;
+    let mn=Math.min(...CHART.l), mx=Math.max(...CHART.h);
+    if(CHART.ma)Object.values(CHART.ma).forEach(a=>a.forEach(v=>{if(v!=null){mn=Math.min(mn,v);mx=Math.max(mx,v)}}));
+    if(CHART.pivots)CHART.pivots.forEach(p=>{mn=Math.min(mn,p.lo);mx=Math.max(mx,p.hi)});
+    if(CHART.marks)CHART.marks.forEach(m=>{mn=Math.min(mn,m.price);mx=Math.max(mx,m.price)});
+    const pd=(mx-mn)*0.08; mn-=pd; mx+=pd;
+    const PW=W-padL-padR, px=i=> n===1?padL+PW/2:padL+PW*i/(n-1), py=p=>padT+priceH*(1-(p-mn)/(mx-mn));
+    x.font="11px JetBrains Mono"; x.textAlign="right";
+    for(let g=0;g<=4;g++){const p=mn+(mx-mn)*g/4,yy=py(p);
+      x.strokeStyle="rgba(255,255,255,.06)";x.beginPath();x.moveTo(padL,yy);x.lineTo(W-padR,yy);x.stroke();
+      x.fillStyle="#5b6470";x.fillText(p.toFixed(2),padL-6,yy+3)}
+    if(CHART.pivots)CHART.pivots.forEach(p=>{const x1=px(ri(p.from)),x2=px(ri(p.to)),y1=py(p.hi),y2=py(p.lo);
+      x.fillStyle="rgba(55,192,230,.10)";x.strokeStyle="rgba(55,192,230,.55)";x.lineWidth=1;
+      x.fillRect(x1,y1,x2-x1,y2-y1);x.strokeRect(x1,y1,x2-x1,y2-y1);
+      if(p.label){x.fillStyle="#37c0e6";x.textAlign="center";x.fillText(p.label,(x1+x2)/2,y1-5)}});
+    if(hasVol){const vmax=Math.max(...CHART.v),vt=padT+priceH+gap;
+      for(let i=0;i<n;i++){const up=CHART.c[i]>=CHART.o[i];x.fillStyle=up?"rgba(255,77,79,.5)":"rgba(22,199,132,.5)";
+        const bw=Math.max(1,PW/n*0.6),bh=volH*CHART.v[i]/vmax;x.fillRect(px(i)-bw/2,vt+volH-bh,bw,bh)}}
+    if(mode==='candle'){const bw=Math.max(1.5,PW/n*0.62);
+      for(let i=0;i<n;i++){const up=CHART.c[i]>=CHART.o[i],col=up?"#ff4d4f":"#16c784";x.strokeStyle=col;x.fillStyle=col;
+        x.beginPath();x.moveTo(px(i),py(CHART.h[i]));x.lineTo(px(i),py(CHART.l[i]));x.stroke();
+        const yo=py(CHART.o[i]),yc=py(CHART.c[i]);x.fillRect(px(i)-bw/2,Math.min(yo,yc),bw,Math.max(1,Math.abs(yc-yo)))}}
+    else{const cs=CHART.c;x.beginPath();for(let i=0;i<n;i++){const xx=px(i),yy=py(cs[i]);i?x.lineTo(xx,yy):x.moveTo(xx,yy)}
+      const gr=x.createLinearGradient(0,padT,0,padT+priceH);gr.addColorStop(0,"rgba(207,213,220,.16)");gr.addColorStop(1,"rgba(207,213,220,0)");
+      x.lineTo(px(n-1),padT+priceH);x.lineTo(px(0),padT+priceH);x.closePath();x.fillStyle=gr;x.fill();
+      x.beginPath();for(let i=0;i<n;i++){const xx=px(i),yy=py(cs[i]);i?x.lineTo(xx,yy):x.moveTo(xx,yy)}
+      x.strokeStyle="#cfd5dc";x.lineWidth=1.6;x.stroke()}
+    const MC={MA5:"#ff8a8c",MA10:"#c0a3ff",MA20:"#e8b339",MA60:"#37c0e6",MA120:"#9aa3ad",MA250:"#ff4d4f"};
+    if(CHART.ma)Object.entries(CHART.ma).forEach(([k,a])=>{x.beginPath();let st=false;
+      for(let i=0;i<n;i++){if(a[i]==null)continue;const xx=px(i),yy=py(a[i]);st?x.lineTo(xx,yy):(x.moveTo(xx,yy),st=true)}
+      x.strokeStyle=MC[k]||"#888";x.lineWidth=1.4;x.stroke()});
+    if(CHART.marks)CHART.marks.forEach(m=>{const xx=px(ri(m.date)),yy=py(m.price),buy=(m.type||'').startsWith('b'),col=buy?"#ff4d4f":"#16c784";
+      x.fillStyle=col;x.beginPath();x.arc(xx,yy,4,0,7);x.fill();
+      x.fillStyle="#fff";x.font="bold 11px -apple-system";x.textAlign="center";x.fillText(m.text||'',xx,buy?yy+18:yy-10)});
+    x.fillStyle="#5b6470";x.textAlign="center";x.font="11px JetBrains Mono";
+    const L=Math.min(6,n);for(let g=0;g<L;g++){const i=Math.round((n-1)*g/(L-1||1));x.fillText(CHART.dates[i],px(i),H-5)}
+  }
+  draw(); window.addEventListener('resize',draw);
+}
+
+const CHART_SSE = {"dates": ["2006-12-01", "2006-12-04", "2006-12-05", "2006-12-06", "2006-12-07", "2006-12-08", "2006-12-11", "2006-12-12", "2006-12-13", "2006-12-14", "2006-12-15", "2006-12-18", "2006-12-19", "2006-12-20", "2006-12-21", "2006-12-22", "2006-12-25", "2006-12-26", "2006-12-27", "2006-12-28", "2006-12-29", "2007-01-04", "2007-01-05", "2007-01-08", "2007-01-09", "2007-01-10", "2007-01-11", "2007-01-12", "2007-01-15", "2007-01-16", "2007-01-17", "2007-01-18", "2007-01-19", "2007-01-22", "2007-01-23", "2007-01-24", "2007-01-25", "2007-01-26", "2007-01-29", "2007-01-30", "2007-01-31", "2007-02-01", "2007-02-02", "2007-02-05", "2007-02-06", "2007-02-07", "2007-02-08", "2007-02-09", "2007-02-12", "2007-02-13", "2007-02-14", "2007-02-15", "2007-02-16", "2007-02-26", "2007-02-27", "2007-02-28", "2007-03-01", "2007-03-02", "2007-03-05", "2007-03-06", "2007-03-07", "2007-03-08", "2007-03-09", "2007-03-12", "2007-03-13", "2007-03-14", "2007-03-15", "2007-03-16", "2007-03-19", "2007-03-20", "2007-03-21", "2007-03-22", "2007-03-23", "2007-03-26", "2007-03-27", "2007-03-28", "2007-03-29", "2007-03-30", "2007-04-02", "2007-04-03", "2007-04-04", "2007-04-05", "2007-04-06", "2007-04-09", "2007-04-10", "2007-04-11", "2007-04-12", "2007-04-13", "2007-04-16", "2007-04-17", "2007-04-18", "2007-04-19", "2007-04-20", "2007-04-23", "2007-04-24", "2007-04-25", "2007-04-26", "2007-04-27", "2007-04-30"], "o": [2106.3, 2103.82, 2167.36, 2175.38, 2152.59, 2133.36, 2085.06, 2189.69, 2224.43, 2226.0, 2255.24, 2277.28, 2342.18, 2356.26, 2372.46, 2334.27, 2350.13, 2437.85, 2478.06, 2538.95, 2585.42, 2728.19, 2668.58, 2621.07, 2711.05, 2838.11, 2819.37, 2745.32, 2660.07, 2818.66, 2828.4, 2760.94, 2761.89, 2857.9, 2964.69, 2955.42, 2946.5, 2805.96, 2897.25, 2959.4, 2926.07, 2744.81, 2791.49, 2658.07, 2612.84, 2688.96, 2725.14, 2741.48, 2729.84, 2819.14, 2836.82, 2923.67, 3018.18, 2999.09, 3048.83, 2734.59, 2877.2, 2792.94, 2827.68, 2776.17, 2851.75, 2904.18, 2934.49, 2945.92, 2958.1, 2933.68, 2905.98, 2964.09, 2864.26, 3024.78, 3042.1, 3080.6, 3071.81, 3083.94, 3126.03, 3140.68, 3179.8, 3178.5, 3196.59, 3265.68, 3295.98, 3286.16, 3287.68, 3333.42, 3405.23, 3454.42, 3503.23, 3537.22, 3523.22, 3611.63, 3614.68, 3610.02, 3460.9, 3615.79, 3736.15, 3708.57, 3766.48, 3788.75, 3784.27], "h": [2112.58, 2164.59, 2195.53, 2192.9, 2206.51, 2164.02, 2181.16, 2228.64, 2244.41, 2250.32, 2275.49, 2335.23, 2381.63, 2381.13, 2386.82, 2366.69, 2452.43, 2505.7, 2538.66, 2611.79, 2698.9, 2847.61, 2685.8, 2708.44, 2809.39, 2841.74, 2841.18, 2782.03, 2795.33, 2830.8, 2870.42, 2784.04, 2833.45, 2934.65, 2970.68, 2994.28, 2947.15, 2905.98, 2954.34, 2980.51, 2929.65, 2801.69, 2796.44, 2672.35, 2677.04, 2745.39, 2751.16, 2747.94, 2807.51, 2835.09, 2915.06, 2994.62, 3036.35, 3041.34, 3049.77, 2888.9, 2878.36, 2846.16, 2858.44, 2866.33, 2911.42, 2928.8, 2962.42, 2958.63, 2966.19, 2934.45, 2955.46, 2979.71, 3038.0, 3033.02, 3057.71, 3099.82, 3085.32, 3123.18, 3145.04, 3180.33, 3273.73, 3212.39, 3253.43, 3292.58, 3308.15, 3326.92, 3334.22, 3399.51, 3444.37, 3497.52, 3532.86, 3563.86, 3597.22, 3622.89, 3623.87, 3617.44, 3591.46, 3710.89, 3762.39, 3769.25, 3784.68, 3802.92, 3851.35], "l": [2087.6, 2100.56, 2159.32, 2097.42, 2145.79, 2090.4, 2084.27, 2180.37, 2195.64, 2212.91, 2241.2, 2277.28, 2315.99, 2332.93, 2339.91, 2321.92, 2350.13, 2424.94, 2461.07, 2530.33, 2585.42, 2684.82, 2617.02, 2620.62, 2691.36, 2770.99, 2763.89, 2652.58, 2658.88, 2757.2, 2742.59, 2679.7, 2761.89, 2857.9, 2851.92, 2927.72, 2853.82, 2720.83, 2885.86, 2901.76, 2766.75, 2706.29, 2666.86, 2610.33, 2541.53, 2681.33, 2691.27, 2704.36, 2728.78, 2801.31, 2823.38, 2923.67, 2975.83, 2960.74, 2763.39, 2732.88, 2760.91, 2777.8, 2723.07, 2756.96, 2849.65, 2871.46, 2891.81, 2904.74, 2932.23, 2868.81, 2905.98, 2899.03, 2852.86, 2998.8, 3020.95, 3059.38, 3008.15, 3069.47, 3103.78, 3052.08, 3176.53, 3157.03, 3196.59, 3251.52, 3266.56, 3259.63, 3273.86, 3333.26, 3351.11, 3428.78, 3488.08, 3504.16, 3523.22, 3510.5, 3564.23, 3358.93, 3460.9, 3615.79, 3689.13, 3653.99, 3732.6, 3720.6, 3759.48], "c": [2102.05, 2161.65, 2173.28, 2156.6, 2156.75, 2093.64, 2180.5, 2218.95, 2223.45, 2249.11, 2273.91, 2332.43, 2364.18, 2373.2, 2342.94, 2343.67, 2435.76, 2479.73, 2536.39, 2567.59, 2675.47, 2715.72, 2641.33, 2707.2, 2807.8, 2825.58, 2770.11, 2668.11, 2794.7, 2821.02, 2778.9, 2756.98, 2832.21, 2933.19, 2949.14, 2975.13, 2857.36, 2882.56, 2945.26, 2930.56, 2786.34, 2785.43, 2673.21, 2612.54, 2675.7, 2716.18, 2737.73, 2730.39, 2807.17, 2831.87, 2905.09, 2993.01, 2998.47, 3040.6, 2771.79, 2881.07, 2797.19, 2831.53, 2785.31, 2840.18, 2896.59, 2928.01, 2937.91, 2954.91, 2964.79, 2906.33, 2951.7, 2930.48, 3014.44, 3032.2, 3057.38, 3071.22, 3074.29, 3122.81, 3138.83, 3173.02, 3197.54, 3183.98, 3252.59, 3291.3, 3291.54, 3319.14, 3323.59, 3398.95, 3444.29, 3495.22, 3531.03, 3518.27, 3596.44, 3611.87, 3612.4, 3449.02, 3584.2, 3710.89, 3720.53, 3743.96, 3783.06, 3759.87, 3841.27], "v": [7617896400, 8723279000, 8815717100, 10434780700, 9927876600, 8088971900, 6267601700, 7019177600, 5749274900, 5843932000, 6061194900, 7825219300, 8705492800, 7829893500, 8318255100, 7048462000, 7393945000, 7226149200, 7211821800, 7871894100, 8676901200, 12015602100, 10615562500, 10681324400, 11075126700, 11176936500, 12159871700, 10730376800, 9176156100, 11117857400, 12737748000, 11231395600, 12206189400, 13857609000, 14279180300, 12205679000, 11719721500, 10959913100, 11206790600, 11193172100, 11426597000, 9344353100, 8544623600, 6922451200, 8662995000, 9488376400, 8843429500, 8087443800, 7900940300, 7900167100, 9404455500, 10883117700, 11792172200, 11205699200, 16137566300, 12147916800, 12736486000, 9394396500, 10691058400, 7704048600, 8791393000, 8895512300, 10713910500, 10154244400, 10718931600, 11373073900, 10174575400, 12268130800, 10997175200, 9276189000, 9919012700, 12606554500, 11868641700, 12266053700, 12457893100, 16726793900, 14953966100, 8942400600, 9735044600, 10860139100, 11261610700, 11452805100, 11964488100, 13731410400, 14780728400, 14757211400, 13538987900, 15069587600, 13103910100, 16066064600, 15048542400, 17272554100, 13888929200, 16349811600, 17438934100, 15176306100, 11725696800, 13217545600, 14652571300], "ma": {"MA5": [null, null, null, null, 2150.07, 2148.39, 2152.15, 2161.29, 2174.66, 2193.13, 2229.18, 2259.57, 2288.62, 2318.57, 2337.33, 2351.28, 2371.95, 2395.06, 2427.7, 2472.63, 2538.99, 2594.98, 2627.3, 2661.46, 2709.51, 2739.53, 2750.4, 2755.76, 2773.26, 2775.9, 2766.57, 2763.94, 2796.76, 2824.46, 2850.08, 2889.33, 2909.41, 2919.48, 2921.89, 2918.18, 2880.42, 2866.03, 2824.16, 2757.62, 2706.64, 2692.61, 2683.07, 2694.51, 2733.43, 2764.67, 2802.45, 2853.51, 2907.12, 2953.81, 2941.79, 2936.99, 2897.83, 2864.44, 2813.38, 2827.05, 2830.16, 2856.32, 2877.6, 2911.52, 2936.45, 2938.39, 2943.13, 2941.64, 2953.55, 2967.03, 2997.24, 3021.14, 3049.91, 3071.58, 3092.91, 3116.03, 3141.3, 3163.23, 3189.19, 3219.69, 3243.39, 3267.71, 3295.63, 3324.9, 3355.5, 3396.24, 3438.62, 3477.55, 3517.05, 3550.57, 3574.0, 3557.6, 3570.79, 3593.67, 3615.41, 3641.72, 3708.53, 3743.66, 3769.74], "MA20": [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, 2288.29, 2316.96, 2344.66, 2368.07, 2395.6, 2428.15, 2464.75, 2494.23, 2516.68, 2545.25, 2573.84, 2599.09, 2620.32, 2643.72, 2671.72, 2702.03, 2733.6, 2754.68, 2774.83, 2795.27, 2813.42, 2818.96, 2822.45, 2824.04, 2819.31, 2812.7, 2807.23, 2805.61, 2808.73, 2809.35, 2809.89, 2816.2, 2828.0, 2836.32, 2841.69, 2832.82, 2828.12, 2825.11, 2822.56, 2814.56, 2810.04, 2815.55, 2822.68, 2835.92, 2853.04, 2867.49, 2877.0, 2887.7, 2897.7, 2908.06, 2918.08, 2925.69, 2929.61, 2933.4, 2937.51, 2955.86, 2970.46, 2990.47, 3008.1, 3031.46, 3054.02, 3073.76, 3093.32, 3112.6, 3134.81, 3158.78, 3188.23, 3217.19, 3246.58, 3275.68, 3304.66, 3332.42, 3351.31, 3376.8, 3406.2, 3435.29, 3463.84, 3493.11, 3521.91, 3551.34], "MA60": [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, 2637.25, 2650.49, 2663.26, 2676.01, 2689.31, 2702.78, 2716.33, 2729.18, 2741.04, 2754.22, 2767.27, 2780.33, 2792.64, 2804.48, 2816.97, 2830.24, 2844.06, 2856.76, 2868.49, 2880.43, 2892.49, 2902.76, 2912.82, 2924.19, 2935.72, 2946.32, 2957.48, 2970.17, 2984.34, 2997.7, 3010.88, 3024.77, 3036.3, 3048.84, 3061.8, 3074.66, 3087.47, 3102.9, 3117.52, 3132.45]}};
+CHART_SSE.mode = "candle";
+CHART_SSE.height = 460;
+CHART_SSE.pivots = [
+  {"from":"2007-02-12","to":"2007-02-27","lo":2700,"hi":3050,"label":"反弹后 30 分钟级别盘整中枢"}
+];
+CHART_SSE.marks = [
+  {"date":"2007-01-24","price":2994.28,"type":"s","text":"2980 起跌点"},
+  {"date":"2007-02-06","price":2541.53,"type":"b1","text":"1 买 2541"},
+  {"date":"2007-02-16","price":3049.77,"type":"s","text":"反弹高 3050"}
+];
+drawChanChart("cv_sse", CHART_SSE);
+</script>
+<script src="/assets/_nav.js"></script><script src="/assets/_shell.js"></script></body>
+</html>

@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>缠论 · 教你炒股票48：牛市暴跌应对法</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@500;700;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0b0e12;--bg-elev:#12161c;--bg-card:#161b22;
+    --ink:#e8eaed;--ink-dim:#9aa3ad;--ink-faint:#5b6470;
+    --line:rgba(255,255,255,.07);
+    --up:#ff4d4f;--down:#16c784;--pivot:#37c0e6;--gold:#e8b339;--blue:#00d4ff;
+    --max:880px;--serif:"Noto Serif SC",serif;--mono:"JetBrains Mono",ui-monospace,monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--ink);font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;line-height:1.85;font-size:17px;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  body::before{content:"";position:fixed;inset:0;z-index:-2;background:radial-gradient(1200px 600px at 70% -10%,rgba(55,192,230,.08),transparent 60%),radial-gradient(900px 500px at 0% 100%,rgba(232,179,57,.05),transparent 55%);pointer-events:none}
+  body::after{content:"";position:fixed;inset:0;z-index:-1;opacity:.4;background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);background-size:46px 46px;-webkit-mask-image:radial-gradient(ellipse at 50% 0%,#000 30%,transparent 80%);mask-image:radial-gradient(ellipse at 50% 0%,#000 30%,transparent 80%);pointer-events:none}
+  #bar{position:fixed;top:0;left:0;height:3px;width:0;z-index:50;background:linear-gradient(90deg,var(--pivot),var(--gold));box-shadow:0 0 12px var(--pivot)}
+  .wrap{max-width:var(--max);margin:0 auto;padding:0 24px}
+  header.hero{padding:120px 0 70px;text-align:center;position:relative}
+  .kicker{font-family:var(--mono);font-size:13px;letter-spacing:.32em;color:var(--pivot);text-transform:uppercase;margin-bottom:26px}
+  .kicker span{color:var(--ink-faint)}
+  h1.title{font-family:var(--serif);font-weight:900;line-height:1.05;font-size:clamp(44px,10vw,100px);letter-spacing:.04em;background:linear-gradient(180deg,#fff 30%,#8aa0ad 130%);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .sub{margin:22px auto 0;max-width:580px;color:var(--ink-dim);font-size:18px}
+  .meta{margin-top:34px;display:flex;gap:14px;justify-content:center;flex-wrap:wrap;font-family:var(--mono);font-size:12px;color:var(--ink-faint)}
+  .meta b{color:var(--ink-dim);font-weight:500}
+  .pill{border:1px solid var(--line);padding:6px 14px;border-radius:999px;background:rgba(255,255,255,.02)}
+  .scroll-hint{margin-top:60px;color:var(--ink-faint);font-family:var(--mono);font-size:12px;animation:bob 2.4s ease-in-out infinite}
+  @keyframes bob{0%,100%{transform:translateY(0);opacity:.5}50%{transform:translateY(8px);opacity:1}}
+  section{padding:64px 0;border-top:1px solid var(--line)}
+  .sec-no{font-family:var(--mono);font-size:13px;color:var(--gold);letter-spacing:.2em;margin-bottom:10px}
+  h2{font-family:var(--serif);font-weight:700;font-size:clamp(28px,5vw,42px);line-height:1.25;margin-bottom:8px;letter-spacing:.02em}
+  .lead{color:var(--ink-dim);font-size:16px;margin-bottom:28px;max-width:660px}
+  p{margin:0 0 18px;color:#cfd5dc}
+  p b,strong{color:#fff;font-weight:700}
+  .hl-pivot{color:var(--pivot);font-weight:700}.hl-up{color:var(--up);font-weight:700}
+  .hl-down{color:var(--down);font-weight:700}.hl-gold{color:var(--gold);font-weight:700}
+  blockquote{margin:26px 0;padding:20px 24px;border-left:3px solid var(--pivot);background:linear-gradient(90deg,rgba(55,192,230,.07),transparent);border-radius:0 10px 10px 0;font-family:var(--serif);font-size:19px;color:#eaf6fb}
+  blockquote .who{display:block;margin-top:8px;font-family:var(--mono);font-size:12px;color:var(--ink-faint);font-style:normal}
+  figure{margin:34px 0}
+  figure img{width:100%;border-radius:12px;border:1px solid var(--line);background:#fff;box-shadow:0 18px 50px rgba(0,0,0,.5)}
+  figcaption{margin-top:12px;font-size:13px;color:var(--ink-faint);text-align:center;font-family:var(--mono)}
+  .grid{display:grid;gap:16px;grid-template-columns:1fr 1fr;margin:28px 0}
+  @media(max-width:640px){.grid{grid-template-columns:1fr}}
+  .card{background:var(--bg-card);border:1px solid var(--line);border-radius:14px;padding:24px;position:relative;overflow:hidden;transition:transform .35s ease,border-color .35s ease}
+  .card:hover{transform:translateY(-4px);border-color:rgba(55,192,230,.4)}
+  .card .tag{font-family:var(--mono);font-size:11px;letter-spacing:.18em;color:var(--gold);text-transform:uppercase}
+  .card h3{font-family:var(--serif);font-size:21px;margin:10px 0 8px;color:#fff}
+  .card p{font-size:15px;color:var(--ink-dim);margin:0}
+  .table{margin:28px 0;border:1px solid var(--line);border-radius:14px;overflow:hidden}
+  .table .row{display:grid;grid-template-columns:1.1fr 1.5fr 1.6fr;align-items:stretch}
+  .table .row+.row{border-top:1px solid var(--line)}
+  .table .row>div{padding:16px 18px}
+  .table .row.head{background:var(--bg-elev);font-family:var(--mono);font-size:12px;letter-spacing:.14em;color:var(--ink-faint);text-transform:uppercase}
+  .table .row>div+div{border-left:1px solid var(--line)}
+  .table .name{font-family:var(--serif);font-weight:700;font-size:18px}
+  .table .name.qushi{color:var(--gold)}
+  .table .name.bear{color:var(--down)}
+  .table .name.bull{color:var(--up)}
+  .cnt{font-family:var(--mono);font-size:14px;color:var(--pivot)}
+  @media(max-width:560px){.table .row{grid-template-columns:1fr}.table .row>div+div{border-left:0;border-top:1px solid var(--line)}.table .row.head{display:none}}
+  .points{margin:26px 0;display:flex;flex-direction:column;gap:14px}
+  .pt{display:flex;gap:16px;align-items:flex-start;background:var(--bg-card);border:1px solid var(--line);border-radius:12px;padding:18px 20px}
+  .pt .dot{flex:none;width:42px;height:42px;border-radius:10px;display:grid;place-items:center;font-family:var(--serif);font-weight:900;font-size:20px;color:#0b0e12}
+  .pt.b .dot{background:var(--up)}.pt.s .dot{background:var(--down)}
+  .pt h4{font-size:17px;margin-bottom:4px;color:#fff}.pt p{font-size:15px;color:var(--ink-dim);margin:0}
+  .proof{margin:30px 0;background:linear-gradient(120deg,rgba(55,192,230,.06),transparent 70%),var(--bg-elev);border:1px solid rgba(55,192,230,.25);border-radius:16px;padding:26px}
+  .proof .badge{display:inline-block;font-family:var(--mono);font-weight:700;font-size:12px;letter-spacing:.12em;padding:6px 14px;border-radius:999px;background:rgba(55,192,230,.14);color:var(--pivot);border:1px solid rgba(55,192,230,.4);margin-bottom:14px}
+  .chartbox{background:var(--bg-card);border:1px solid var(--line);border-radius:14px;padding:18px 14px 8px;margin:18px 0}
+  .legend{display:flex;gap:16px;font-family:var(--mono);font-size:12px;color:var(--ink-dim);padding:0 8px 12px;flex-wrap:wrap}
+  .legend i{display:inline-block;width:16px;height:3px;vertical-align:middle;margin-right:6px;border-radius:2px}
+  canvas{width:100%;display:block}
+  .verdict{display:flex;gap:14px;align-items:flex-start;margin-top:8px;padding:16px 18px;background:var(--bg-card);border:1px solid var(--line);border-radius:12px}
+  .verdict .mk{flex:none;font-family:var(--mono);font-weight:700;color:var(--up)}
+  .verdict p{margin:0;font-size:15px;color:#d6dbe1}
+  ol.think{counter-reset:q;list-style:none;margin:24px 0;display:flex;flex-direction:column;gap:14px}
+  ol.think li{counter-increment:q;position:relative;padding:18px 20px 18px 60px;background:var(--bg-elev);border:1px solid var(--line);border-radius:12px;color:var(--ink-dim);font-size:15px}
+  ol.think li::before{content:counter(q,decimal-leading-zero);position:absolute;left:20px;top:18px;font-family:var(--mono);color:var(--gold);font-weight:700}
+  .quiz{margin:22px 0;background:var(--bg-card);border:1px solid var(--line);border-radius:14px;padding:22px 24px}
+  .quiz h4{font-size:16px;color:#fff;margin-bottom:6px}
+  .quiz .ans{margin-top:12px;color:var(--ink-faint);font-size:14px;cursor:pointer}
+  .quiz .ans[open] summary{color:var(--pivot)}
+  .quiz summary{color:var(--gold);font-family:var(--mono);font-size:13px}
+  .tldr{margin:60px 0 0;padding:36px 30px;border:1px solid rgba(55,192,230,.3);border-radius:18px;background:radial-gradient(120% 120% at 100% 0%,rgba(55,192,230,.1),transparent 60%),var(--bg-elev);text-align:center}
+  .tldr .lab{font-family:var(--mono);font-size:12px;letter-spacing:.3em;color:var(--pivot);text-transform:uppercase}
+  .tldr p{font-family:var(--serif);font-size:clamp(20px,3.4vw,28px);line-height:1.7;color:#fff;margin:16px 0 0}
+  footer{padding:60px 0 90px;text-align:center;color:var(--ink-faint);font-family:var(--mono);font-size:12px;border-top:1px solid var(--line)}
+  .reveal{opacity:0;transform:translateY(26px);transition:opacity .8s ease,transform .8s ease}
+  .reveal.in{opacity:1;transform:none}
+  @media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}.scroll-hint{animation:none}}
+</style>
+<meta name="view-transition" content="same-origin"><style>@view-transition{navigation:auto}</style></head>
+<body>
+<div id="bar"></div>
+<header class="hero">
+  <div class="wrap">
+    <div class="kicker">缠中说禅 · 教你炒股票108课 <span>/ 第 48 课</span></div>
+    <h1 class="title">牛市暴跌应对法</h1>
+    <p class="sub">牛市中的暴跌猛烈而短暂——它不是要你割肉，是给你<b>降成本、加筹码</b>的机会。原标题"暴跌，牛市行情的一夜情"。</p>
+    <div class="meta">
+      <span class="pill"><b>原文</b> 2007-04-24</span>
+      <span class="pill"><b>类型</b> 操作心法</span>
+      <span class="pill"><b>关键词</b> 牛市调整 · 短线暴跌 · 筹码积累 · 级别</span>
+    </div>
+    <div class="scroll-hint">↓ 向下滚动，逐层拆解</div>
+  </div>
+</header>
+<main>
+
+  <!-- 1 -->
+  <section class="wrap reveal">
+    <div class="sec-no">01 — 起点观点</div>
+    <h2>暴跌，与空头无关</h2>
+    <p class="lead">本课所有结论的出发点：盼跌的人，永远等不到他满意的位置。</p>
+    <p>缠师在每天的行情评论里多次说：<b>空头日夜盼望的暴跌，本质上跟空头无关</b>。因为真跌下来的时候，空头只是<span class="hl-down">嘴上爽一下、心里满足一下</span>，但人的思维惯性让他们<b>永远不会在自己设想的"满意位置"伸手接货</b>——跌得越深越觉得"还会更深"，等真涨起来又觉得"这是反弹"，于是错过整个行情。</p>
+    <blockquote>
+      暴跌，对于牛市行情来说，就如同一夜情，<b>猛烈而刺激</b>，但实质上，一夜情就是一夜情，<b>该干什么还是什么</b>。
+      <span class="who">— 缠中说禅 2007-04-24</span>
+    </blockquote>
+    <p>这句话是全课题眼。"一夜情"是缠师用来形容<span class="hl-pivot">牛市中突如其来、力度极大、但持续时间极短</span>的一段暴跌——为方便严肃讨论，本文学术化称之为<span class="hl-gold">短线暴跌</span>。</p>
+  </section>
+
+  <!-- 2 -->
+  <section class="wrap reveal">
+    <div class="sec-no">02 — 形态对比</div>
+    <h2>牛市暴跌 vs 熊市反弹：同一枚硬币的两面</h2>
+    <p class="lead">缠师用对称视角，把"牛市中的暴跌"和"熊市中的暴涨"放到一起看。</p>
+    <p>能量积聚之后必然宣泄。<b>牛市的调整宣泄方式，和熊市最大的不同，就是"419 化"</b>——来就是<span class="hl-down">狂风暴雨、几天就过</span>，否则达不到调整效果。熊市里也一样：最猛的反弹也是几天翻一倍，然后接着跌。</p>
+    <div class="table">
+      <div class="row head"><div>市场状态</div><div>对应暴动形态</div><div>真实案例（缠师原文）</div></div>
+      <div class="row">
+        <div class="name bull">大牛市</div>
+        <div>突如其来的<b class="hl-down">暴跌</b>——"短线一夜情"</div>
+        <div>1996-12 政策打击，指数从 1250 几天跌到 850（−32%），其后继续上涨</div>
+      </div>
+      <div class="row">
+        <div class="name bear">大熊市</div>
+        <div>突如其来的<b class="hl-up">暴涨</b>——反向"一夜情"</div>
+        <div>停国债期货那次，三天从 550 翻上 920（+67%），其后继续下跌</div>
+      </div>
+      <div class="row">
+        <div class="name qushi">共同结论</div>
+        <div>方向反转的力度越夸张、时间越短，<b>越证明它只是趋势中的一段对冲</b></div>
+        <div>真正的大顶/大底，<b>从来都是反复冲击出来的</b>，给你足够时间反应判断</div>
+      </div>
+    </div>
+    <blockquote>
+      所有真正的大顶，都是反复冲击出来的，有足够的时间让你去反应判断。那种 V 型顶，在大型走势中基本不会构成真正的顶部——就如同一夜情最后天长地久的机会基本为 0。
+      <span class="who">— 缠中说禅</span>
+    </blockquote>
+  </section>
+
+  <!-- 3 -->
+  <section class="wrap reveal">
+    <div class="sec-no">03 — 核心心法</div>
+    <h2>风险的真定义：不是高位，是没筹码</h2>
+    <p class="lead">缠师在这一课重新定义了"风险"——颠覆了绝大多数股民的直觉。</p>
+    <p>有一种错误观点：股价高了、市盈率高了风险就大；股价低了、市盈率低了风险就小。<b>缠师说这是把风险静态化、外部化了</b>。真正的风险是相对的——<span class="hl-pivot">站在社会财富增长的角度，最大的风险是你的财富增长赶不上社会平均增长</span>。具体到牛市，<b>没拿到对应的筹码、就是最大的风险</b>。</p>
+
+    <div class="grid">
+      <div class="card">
+        <div class="tag">错误的风险观</div>
+        <h3>静态高低看风险</h3>
+        <p>"涨多了就有风险，跌多了就安全。"<br>结果：牛市中越涨越怕、空仓踏空；下跌中越跌越买、抄底套牢。股价和市盈率都是<b>变动因数</b>，本身没有绝对意义。</p>
+      </div>
+      <div class="card">
+        <div class="tag">缠师的风险观</div>
+        <h3>没筹码就是最大风险</h3>
+        <p>3 元持有 1 万股，到 4 元只剩 1 千股，到 30 元一股没有——这就是<span class="hl-down">最大的风险</span>。市场涨了，<b>你没拿到该有的总体利润</b>，等于被市场抛弃。没筹码，在市场里就<span class="hl-gold">没赢利的准入证</span>。</p>
+      </div>
+      <div class="card">
+        <div class="tag">最佳路径</div>
+        <h3>0 成本前降成本</h3>
+        <p>每一次震荡都用来降低持仓成本。震荡换出去一部分高位筹码，再在低位接回更多，等成本逐步压到 0——这是<b>用市场波动给自己打补贴</b>。</p>
+      </div>
+      <div class="card">
+        <div class="tag">最高境界</div>
+        <h3>0 成本后挣筹码</h3>
+        <p>成本归 0 之后不再追求出货，而是<b>用震荡持续增加筹码数量</b>。股价越涨，你的筹码越多，<b>真正市值才会越滚越大</b>——这才叫战胜市场。</p>
+      </div>
+    </div>
+
+    <blockquote>
+      为什么要出货？每一次震荡，都是降低成本、增加筹码的机会。最高境界，是大牛市真正结束那天，你拥有股票的<b>数量最多</b>而<b>成本是 0</b>。
+      <span class="who">— 缠中说禅</span>
+    </blockquote>
+  </section>
+
+  <!-- 4 -->
+  <section class="wrap reveal">
+    <div class="sec-no">04 — 关键技术</div>
+    <h2>把握"短线暴跌"的级别</h2>
+    <p class="lead">同样是一段暴跌，发生在 5 分钟、日线、还是季线，意义完全不同。</p>
+    <p>缠师在课文末尾给了一个关键操作框架：<b>短线暴跌也是分级别的</b>。日线上的一段一夜情，和年线上的一段一夜情，<span class="hl-gold">力度和持续期都不在一个数量级</span>。判断错级别，应对方法就全错。</p>
+
+    <div class="table">
+      <div class="row head"><div>级别</div><div>典型持续期</div><div>对应操作</div></div>
+      <div class="row">
+        <div class="name">5分钟</div>
+        <div>几小时 ~ 1 天</div>
+        <div>盘中 T+0 对冲（对冲 5 分钟中枢震荡幅度）</div>
+      </div>
+      <div class="row">
+        <div class="name">30分钟 / 日线</div>
+        <div>几天 ~ 1 周</div>
+        <div>波段降成本：跌出第一类买点附近接回</div>
+      </div>
+      <div class="row">
+        <div class="name qushi">周线 / 月线</div>
+        <div>1 月 ~ 数月</div>
+        <div>大波段加仓：用周线第二买点重新建仓</div>
+      </div>
+      <div class="row">
+        <div class="name">季线 / 年线</div>
+        <div>数月 ~ 1 年</div>
+        <div>战略级筹码再分配，可能是新一轮牛市起点</div>
+      </div>
+    </div>
+
+    <p>缠师 2007-04-24 的判断：<b>这次大牛市自 2005 年中以来，本质上周线没有出现过真正意义上的一夜情</b>——周线两次大调整跌幅都只有 7%，<b>还赶不上 2007-02-27 日线那一次 8.84% 的"227 一夜情"</b>。月线则连一次有意义的下跌都没有。这是缠师对牛市级别强度的精准定位。</p>
+
+    <figure>
+      <img src="/_assets/ch48_p03.png" alt="2007-04-19 上证 5 分钟"  style="background:#fff">
+      <figcaption>缠师当日配图：2007-04-19 至 04-25 上证 5 分钟走势，标注"喇叭形态"与"5 分钟段的延伸"——日线上的"419 一夜情"在 5 分钟图上展开成一个延伸中枢</figcaption>
+    </figure>
+  </section>
+
+  <!-- 5 -->
+  <section class="wrap reveal">
+    <div class="sec-no">05 — 真金白银的实证</div>
+    <h2>缠师写完这篇之后，市场怎么走？</h2>
+    <p class="lead">缠师 4/24 在文中预言："周线、月线、季线上的一夜情，在这长达 20 年以上的大牛市中绝对存在。"36 天后，市场把答案交了上来。</p>
+
+    <div class="proof">
+      <span class="badge">数据实证 · 上证综指 000001 · 2007-02 至 2007-07</span>
+      <div class="chartbox">
+        <div class="legend">
+          <span><i style="background:#cfd5dc"></i>收盘</span>
+          <span><i style="background:#ff8a8c"></i>MA5</span>
+          <span><i style="background:#e8b339"></i>MA20</span>
+          <span><i style="background:#37c0e6"></i>MA60</span>
+          <span><i style="background:#ff4d4f"></i>暴跌点</span>
+        </div>
+        <canvas id="cv_sh2007" height="440"></canvas>
+      </div>
+      <div class="verdict">
+        <span class="mk">✓ 印证</span>
+        <p>
+          <b>227 暴跌</b>（2007-02-27）：单日从 3049 砸到 2763、收 2771，<b class="hl-down">−8.84%</b>，缠师称为"日线级别一夜情"；3 周后指数收复失地继续创新高。<br>
+          <b>419 暴跌</b>（2007-04-19）：本课写作前 5 天，盘中从 3617 跌到 3358，最大跌幅 <b class="hl-down">−7.2%</b>，缠师当晚定性"日线一夜情"；同样 2 周内突破前高。<br>
+          <b>530 印花税大跌</b>（缠师写完 36 天后）：5/30 起连续 6 个交易日重挫，从 4334.92 直插 3404.15，区间最大跌幅 <b class="hl-down">−21.5%</b>，<b class="hl-gold">这才是缠师预言的"周线级别一夜情"</b>。其后市场一路上行至 2007-10-16 见 <b class="hl-up">6124 点历史顶</b>。
+        </p>
+      </div>
+      <p style="font-family:var(--mono);font-size:12px;color:var(--ink-faint);margin-top:14px">
+        数据来源：新浪财经日K（不复权）· akshare 取数 · 截至 2007-07-31 · 不构成投资建议
+      </p>
+    </div>
+
+    <p>三次"短线暴跌"全都被缠师当年的框架完美命中：<b>来得猛、走得快、改变不了主趋势</b>。盼跌出局的人在每次暴跌都被洗下车，理解缠师心法的人则在每次暴跌中<span class="hl-up">降成本、加筹码</span>，享受了之后整整 5 个月的<b class="hl-up">主升浪</b>（4000 → 6124，再涨 50%）。</p>
+  </section>
+
+  <!-- 6 -->
+  <section class="wrap reveal">
+    <div class="sec-no">06 — 操作落地</div>
+    <h2>遇到牛市暴跌，三步操作清单</h2>
+    <p class="lead">从心法到动作。下次再遇到突如其来的大跌，按这套流程走，不要凭感觉。</p>
+
+    <div class="points">
+      <div class="pt b">
+        <div class="dot">1</div>
+        <div>
+          <h4>识别级别：这是几分钟图上的一夜情？</h4>
+          <p>先看是<b>哪个级别的下跌</b>。5 分钟、30 分钟、日线、周线？技术不够就退一级处理——把握不住日线就去把握周线、月线，<b>对精度要求更低</b>。</p>
+        </div>
+      </div>
+      <div class="pt b">
+        <div class="dot">2</div>
+        <div>
+          <h4>确认主趋势没破：大牛市还在不在？</h4>
+          <p>看上一级别。<b>日线一夜情期间，周线/月线均线没破、结构没变</b>，主升浪就还在。最大风险是误判级别——把"周线级别调整"当成"日线一夜情"接回，结果套牢一个月。</p>
+        </div>
+      </div>
+      <div class="pt b">
+        <div class="dot">3</div>
+        <div>
+          <h4>执行操作：降成本 / 加筹码</h4>
+          <p>对应级别的<span class="hl-pivot">第一类/第二类买点</span>出现时分批接货。技术高的能精确到 5 分钟级别用 T+0 对冲，技术一般的看 5 周均线做大波段——<b>都没问题</b>，只是收益效率不同。</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="quiz">
+      <h4>判图练习：下面三种走势属于"一夜情"还是"真顶/真底"？</h4>
+      <p>
+        <b>A</b> 指数从 5500 在 3 天内插针式跌到 4200（−24%），第 4 天 V 字反转拉升 ／<br>
+        <b>B</b> 指数在 5800-6100 区间反复盘整 2 个月，多次冲高回落，量能逐步萎缩 ／<br>
+        <b>C</b> 个股连续 4 个跌停板，1 周跌 40%，第 7 天起每天涨停反弹
+      </p>
+      <details class="ans">
+        <summary>查看答案</summary>
+        <p>A = 一夜情（V 型顶概率极低，本质是趋势中段对冲）；B = <b class="hl-gold">真顶</b>（反复冲击、量能背驰，给足判断时间）；C = 一夜情反向版（熊市猛烈反弹，多半再创新低）。</p>
+      </details>
+    </div>
+
+    <ol class="think">
+      <li>为什么"V 型顶"在大型走势中基本不会构成真正的顶？用走势中枢和级别的概念解释。</li>
+      <li>"无风险是可以创造出来的，0 成本就是绝对的无风险。"——这句话的逻辑前提是什么？什么样的市场和级别下成立？</li>
+      <li>缠师说"没有筹码，在市场中就没有赢利的准入证"。如果在熊市，这句话还成立吗？应该怎么修正？</li>
+      <li>你能区分日线一夜情和周线一夜情吗？给一个本地市场近几年的例子。</li>
+    </ol>
+
+    <div class="tldr">
+      <div class="lab">一句话总结</div>
+      <p>牛市中的暴跌叫"短线一夜情"——猛烈、刺激、改变不了趋势。盼跌出局的人在每次暴跌被洗下车，懂规则的人则用它<b>降成本、加筹码</b>。<b>真正的风险不是高位，是没筹码。</b></p>
+    </div>
+  </section>
+
+</main>
+<footer class="wrap">
+  原文出处：raw/缠中说禅/教你炒股票108课/教你炒股票48：暴跌，牛市行情的一夜情.md<br>
+  本页为个人学习复习用 · 非投资建议
+</footer>
+<script>
+  const bar=document.getElementById('bar');
+  const onScroll=()=>{const h=document.documentElement;bar.style.width=(h.scrollTop/(h.scrollHeight-h.clientHeight)*100)+'%'};
+  document.addEventListener('scroll',onScroll,{passive:true});onScroll();
+  const io=new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{threshold:.12});
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+  function drawChanChart(canvasId, CHART){
+    const cv=document.getElementById(canvasId); if(!cv) return;
+    const mode=CHART.mode||'line', hasVol=!!CHART.v && CHART.showVol!==false;
+    const idxOf={}; CHART.dates.forEach((d,i)=>idxOf[d]=i);
+    const ri=d=>{ if(d in idxOf)return idxOf[d]; let b=0,bd=1/0;
+      CHART.dates.forEach((x,i)=>{const t=Math.abs(new Date(x)-new Date(d)); if(t<bd){bd=t;b=i}}); return b; };
+    function draw(){
+      const dpr=window.devicePixelRatio||1, W=cv.clientWidth, H=CHART.height||440;
+      cv.width=W*dpr; cv.height=H*dpr; const x=cv.getContext('2d'); x.scale(dpr,dpr); x.clearRect(0,0,W,H);
+      const padL=58,padR=14,padT=16, volH=hasVol?70:0, gap=hasVol?16:0, priceH=H-padT-volH-gap-22, n=CHART.c.length;
+      let mn=Math.min(...CHART.l), mx=Math.max(...CHART.h);
+      if(CHART.ma)Object.values(CHART.ma).forEach(a=>a.forEach(v=>{if(v!=null){mn=Math.min(mn,v);mx=Math.max(mx,v)}}));
+      if(CHART.pivots)CHART.pivots.forEach(p=>{mn=Math.min(mn,p.lo);mx=Math.max(mx,p.hi)});
+      if(CHART.marks)CHART.marks.forEach(m=>{mn=Math.min(mn,m.price);mx=Math.max(mx,m.price)});
+      const pd=(mx-mn)*0.08; mn-=pd; mx+=pd;
+      const PW=W-padL-padR, px=i=> n===1?padL+PW/2:padL+PW*i/(n-1), py=p=>padT+priceH*(1-(p-mn)/(mx-mn));
+      x.font="11px JetBrains Mono"; x.textAlign="right";
+      for(let g=0;g<=4;g++){const p=mn+(mx-mn)*g/4,yy=py(p);
+        x.strokeStyle="rgba(255,255,255,.06)";x.beginPath();x.moveTo(padL,yy);x.lineTo(W-padR,yy);x.stroke();
+        x.fillStyle="#5b6470";x.fillText(p.toFixed(0),padL-6,yy+3)}
+      if(CHART.pivots)CHART.pivots.forEach(p=>{const x1=px(ri(p.from)),x2=px(ri(p.to)),y1=py(p.hi),y2=py(p.lo);
+        x.fillStyle="rgba(55,192,230,.10)";x.strokeStyle="rgba(55,192,230,.55)";x.lineWidth=1;
+        x.fillRect(x1,y1,x2-x1,y2-y1);x.strokeRect(x1,y1,x2-x1,y2-y1);
+        if(p.label){x.fillStyle="#37c0e6";x.textAlign="center";x.fillText(p.label,(x1+x2)/2,y1-5)}});
+      if(hasVol){const vmax=Math.max(...CHART.v),vt=padT+priceH+gap;
+        for(let i=0;i<n;i++){const up=CHART.c[i]>=CHART.o[i];x.fillStyle=up?"rgba(255,77,79,.5)":"rgba(22,199,132,.5)";
+          const bw=Math.max(1,PW/n*0.6),bh=volH*CHART.v[i]/vmax;x.fillRect(px(i)-bw/2,vt+volH-bh,bw,bh)}}
+      if(mode==='candle'){const bw=Math.max(1.5,PW/n*0.62);
+        for(let i=0;i<n;i++){const up=CHART.c[i]>=CHART.o[i],col=up?"#ff4d4f":"#16c784";x.strokeStyle=col;x.fillStyle=col;
+          x.beginPath();x.moveTo(px(i),py(CHART.h[i]));x.lineTo(px(i),py(CHART.l[i]));x.stroke();
+          const yo=py(CHART.o[i]),yc=py(CHART.c[i]);x.fillRect(px(i)-bw/2,Math.min(yo,yc),bw,Math.max(1,Math.abs(yc-yo)))}}
+      else{const cs=CHART.c;x.beginPath();for(let i=0;i<n;i++){const xx=px(i),yy=py(cs[i]);i?x.lineTo(xx,yy):x.moveTo(xx,yy)}
+        const gr=x.createLinearGradient(0,padT,0,padT+priceH);gr.addColorStop(0,"rgba(207,213,220,.16)");gr.addColorStop(1,"rgba(207,213,220,0)");
+        x.lineTo(px(n-1),padT+priceH);x.lineTo(px(0),padT+priceH);x.closePath();x.fillStyle=gr;x.fill();
+        x.beginPath();for(let i=0;i<n;i++){const xx=px(i),yy=py(cs[i]);i?x.lineTo(xx,yy):x.moveTo(xx,yy)}
+        x.strokeStyle="#cfd5dc";x.lineWidth=1.6;x.stroke()}
+      const MC={MA5:"#ff8a8c",MA10:"#c0a3ff",MA20:"#e8b339",MA60:"#37c0e6",MA120:"#9aa3ad",MA250:"#ff4d4f"};
+      if(CHART.ma)Object.entries(CHART.ma).forEach(([k,a])=>{x.beginPath();let st=false;
+        for(let i=0;i<n;i++){if(a[i]==null)continue;const xx=px(i),yy=py(a[i]);st?x.lineTo(xx,yy):(x.moveTo(xx,yy),st=true)}
+        x.strokeStyle=MC[k]||"#888";x.lineWidth=1.4;x.stroke()});
+      if(CHART.marks)CHART.marks.forEach(m=>{const xx=px(ri(m.date)),yy=py(m.price),buy=(m.type||'').startsWith('b'),col=buy?"#ff4d4f":"#16c784";
+        x.fillStyle=col;x.beginPath();x.arc(xx,yy,5,0,7);x.fill();
+        x.fillStyle="#fff";x.font="bold 11px -apple-system";x.textAlign="center";x.fillText(m.text||'',xx,buy?yy+18:yy-10)});
+      x.fillStyle="#5b6470";x.textAlign="center";x.font="11px JetBrains Mono";
+      const L=Math.min(6,n);for(let g=0;g<L;g++){const i=Math.round((n-1)*g/(L-1||1));x.fillText(CHART.dates[i],px(i),H-5)}
+    }
+    draw(); window.addEventListener('resize',draw);
+  }
+
+  const CHART_SH = __DATA__;
+  CHART_SH.mode = "line";
+  CHART_SH.pivots = [
+    {"from":"2007-02-26","to":"2007-03-12","lo":2723,"hi":3050,"label":"227日线一夜情"},
+    {"from":"2007-04-18","to":"2007-05-08","lo":3358,"hi":3622,"label":"419日线一夜情"},
+    {"from":"2007-05-29","to":"2007-06-15","lo":3404,"hi":4336,"label":"530周线级一夜情"}
+  ];
+  CHART_SH.marks = [
+    {"date":"2007-02-27","price":2763.39,"type":"b","text":"227 −8.84%"},
+    {"date":"2007-04-19","price":3358.93,"type":"b","text":"419 −7.2%"},
+    {"date":"2007-06-04","price":3404.15,"type":"b","text":"530后 −21.5%"}
+  ];
+  drawChanChart("cv_sh2007", CHART_SH);
+</script>
+<script src="/assets/_nav.js"></script><script src="/assets/_shell.js"></script></body>
+</html>

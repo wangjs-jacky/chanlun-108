@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>缠论 · 教你炒股票49：利润率最大的操作模式</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@500;700;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0b0e12;--bg-elev:#12161c;--bg-card:#161b22;
+    --ink:#e8eaed;--ink-dim:#9aa3ad;--ink-faint:#5b6470;
+    --line:rgba(255,255,255,.07);
+    --up:#ff4d4f;--down:#16c784;--pivot:#37c0e6;--gold:#e8b339;--blue:#00d4ff;
+    --max:880px;--serif:"Noto Serif SC",serif;--mono:"JetBrains Mono",ui-monospace,monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--ink);font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;line-height:1.85;font-size:17px;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  body::before{content:"";position:fixed;inset:0;z-index:-2;background:radial-gradient(1200px 600px at 70% -10%,rgba(55,192,230,.08),transparent 60%),radial-gradient(900px 500px at 0% 100%,rgba(232,179,57,.05),transparent 55%);pointer-events:none}
+  body::after{content:"";position:fixed;inset:0;z-index:-1;opacity:.4;background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);background-size:46px 46px;-webkit-mask-image:radial-gradient(ellipse at 50% 0%,#000 30%,transparent 80%);mask-image:radial-gradient(ellipse at 50% 0%,#000 30%,transparent 80%);pointer-events:none}
+  #bar{position:fixed;top:0;left:0;height:3px;width:0;z-index:50;background:linear-gradient(90deg,var(--pivot),var(--gold));box-shadow:0 0 12px var(--pivot)}
+  .wrap{max-width:var(--max);margin:0 auto;padding:0 24px}
+  header.hero{padding:120px 0 70px;text-align:center;position:relative}
+  .kicker{font-family:var(--mono);font-size:13px;letter-spacing:.32em;color:var(--pivot);text-transform:uppercase;margin-bottom:26px}
+  .kicker span{color:var(--ink-faint)}
+  h1.title{font-family:var(--serif);font-weight:900;line-height:1.05;font-size:clamp(44px,10vw,100px);letter-spacing:.04em;background:linear-gradient(180deg,#fff 30%,#8aa0ad 130%);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .sub{margin:22px auto 0;max-width:580px;color:var(--ink-dim);font-size:18px}
+  .meta{margin-top:34px;display:flex;gap:14px;justify-content:center;flex-wrap:wrap;font-family:var(--mono);font-size:12px;color:var(--ink-faint)}
+  .meta b{color:var(--ink-dim);font-weight:500}
+  .pill{border:1px solid var(--line);padding:6px 14px;border-radius:999px;background:rgba(255,255,255,.02)}
+  .scroll-hint{margin-top:60px;color:var(--ink-faint);font-family:var(--mono);font-size:12px;animation:bob 2.4s ease-in-out infinite}
+  @keyframes bob{0%,100%{transform:translateY(0);opacity:.5}50%{transform:translateY(8px);opacity:1}}
+  section{padding:64px 0;border-top:1px solid var(--line)}
+  .sec-no{font-family:var(--mono);font-size:13px;color:var(--gold);letter-spacing:.2em;margin-bottom:10px}
+  h2{font-family:var(--serif);font-weight:700;font-size:clamp(28px,5vw,42px);line-height:1.25;margin-bottom:8px;letter-spacing:.02em}
+  .lead{color:var(--ink-dim);font-size:16px;margin-bottom:28px;max-width:660px}
+  p{margin:0 0 18px;color:#cfd5dc}
+  p b,strong{color:#fff;font-weight:700}
+  .hl-pivot{color:var(--pivot);font-weight:700}.hl-up{color:var(--up);font-weight:700}
+  .hl-down{color:var(--down);font-weight:700}.hl-gold{color:var(--gold);font-weight:700}
+  blockquote{margin:26px 0;padding:20px 24px;border-left:3px solid var(--pivot);background:linear-gradient(90deg,rgba(55,192,230,.07),transparent);border-radius:0 10px 10px 0;font-family:var(--serif);font-size:19px;color:#eaf6fb}
+  blockquote .who{display:block;margin-top:8px;font-family:var(--mono);font-size:12px;color:var(--ink-faint);font-style:normal}
+  figure{margin:34px 0}
+  figure img{width:100%;border-radius:12px;border:1px solid var(--line);background:#fff;box-shadow:0 18px 50px rgba(0,0,0,.5)}
+  figcaption{margin-top:12px;font-size:13px;color:var(--ink-faint);text-align:center;font-family:var(--mono)}
+  .grid{display:grid;gap:16px;grid-template-columns:1fr 1fr;margin:28px 0}
+  @media(max-width:640px){.grid{grid-template-columns:1fr}}
+  .card{background:var(--bg-card);border:1px solid var(--line);border-radius:14px;padding:24px;position:relative;overflow:hidden;transition:transform .35s ease,border-color .35s ease}
+  .card:hover{transform:translateY(-4px);border-color:rgba(55,192,230,.4)}
+  .card .tag{font-family:var(--mono);font-size:11px;letter-spacing:.18em;color:var(--gold);text-transform:uppercase}
+  .card h3{font-family:var(--serif);font-size:21px;margin:10px 0 8px;color:#fff}
+  .card p{font-size:15px;color:var(--ink-dim);margin:0}
+  .table{margin:28px 0;border:1px solid var(--line);border-radius:14px;overflow:hidden}
+  .table .row{display:grid;grid-template-columns:1.1fr 1.5fr 1.6fr;align-items:stretch}
+  .table .row+.row{border-top:1px solid var(--line)}
+  .table .row>div{padding:16px 18px}
+  .table .row.head{background:var(--bg-elev);font-family:var(--mono);font-size:12px;letter-spacing:.14em;color:var(--ink-faint);text-transform:uppercase}
+  .table .row>div+div{border-left:1px solid var(--line)}
+  .table .name{font-family:var(--serif);font-weight:700;font-size:18px}
+  .table .name.qushi{color:var(--gold)}
+  .cnt{font-family:var(--mono);font-size:14px;color:var(--pivot)}
+  @media(max-width:560px){.table .row{grid-template-columns:1fr}.table .row>div+div{border-left:0;border-top:1px solid var(--line)}.table .row.head{display:none}}
+  .points{margin:26px 0;display:flex;flex-direction:column;gap:14px}
+  .pt{display:flex;gap:16px;align-items:flex-start;background:var(--bg-card);border:1px solid var(--line);border-radius:12px;padding:18px 20px}
+  .pt .dot{flex:none;width:42px;height:42px;border-radius:10px;display:grid;place-items:center;font-family:var(--serif);font-weight:900;font-size:20px;color:#0b0e12}
+  .pt.b .dot{background:var(--up)}.pt.s .dot{background:var(--down)}
+  .pt h4{font-size:17px;margin-bottom:4px;color:#fff}.pt p{font-size:15px;color:var(--ink-dim);margin:0}
+  .proof{margin:30px 0;background:linear-gradient(120deg,rgba(55,192,230,.06),transparent 70%),var(--bg-elev);border:1px solid rgba(55,192,230,.25);border-radius:16px;padding:26px}
+  .proof .badge{display:inline-block;font-family:var(--mono);font-weight:700;font-size:12px;letter-spacing:.12em;padding:6px 14px;border-radius:999px;background:rgba(55,192,230,.14);color:var(--pivot);border:1px solid rgba(55,192,230,.4);margin-bottom:14px}
+  .chartbox{background:var(--bg-card);border:1px solid var(--line);border-radius:14px;padding:18px 14px 8px;margin:18px 0}
+  .legend{display:flex;gap:16px;font-family:var(--mono);font-size:12px;color:var(--ink-dim);padding:0 8px 12px;flex-wrap:wrap}
+  .legend i{display:inline-block;width:16px;height:3px;vertical-align:middle;margin-right:6px;border-radius:2px}
+  canvas{width:100%;display:block}
+  .verdict{display:flex;gap:14px;align-items:flex-start;margin-top:8px;padding:16px 18px;background:var(--bg-card);border:1px solid var(--line);border-radius:12px}
+  .verdict .mk{flex:none;font-family:var(--mono);font-weight:700;color:var(--up)}
+  .verdict p{margin:0;font-size:15px;color:#d6dbe1}
+  ol.think{counter-reset:q;list-style:none;margin:24px 0;display:flex;flex-direction:column;gap:14px}
+  ol.think li{counter-increment:q;position:relative;padding:18px 20px 18px 60px;background:var(--bg-elev);border:1px solid var(--line);border-radius:12px;color:var(--ink-dim);font-size:15px}
+  ol.think li::before{content:counter(q,decimal-leading-zero);position:absolute;left:20px;top:18px;font-family:var(--mono);color:var(--gold);font-weight:700}
+  .quiz{margin:22px 0;background:var(--bg-card);border:1px solid var(--line);border-radius:14px;padding:22px 24px}
+  .quiz h4{font-size:16px;color:#fff;margin-bottom:6px}
+  .quiz .ans{margin-top:12px;color:var(--ink-faint);font-size:14px;cursor:pointer}
+  .quiz .ans[open] summary{color:var(--pivot)}
+  .quiz summary{color:var(--gold);font-family:var(--mono);font-size:13px}
+  .tldr{margin:60px 0 0;padding:36px 30px;border:1px solid rgba(55,192,230,.3);border-radius:18px;background:radial-gradient(120% 120% at 100% 0%,rgba(55,192,230,.1),transparent 60%),var(--bg-elev);text-align:center}
+  .tldr .lab{font-family:var(--mono);font-size:12px;letter-spacing:.3em;color:var(--pivot);text-transform:uppercase}
+  .tldr p{font-family:var(--serif);font-size:clamp(20px,3.4vw,28px);line-height:1.7;color:#fff;margin:16px 0 0}
+  footer{padding:60px 0 90px;text-align:center;color:var(--ink-faint);font-family:var(--mono);font-size:12px;border-top:1px solid var(--line)}
+  .reveal{opacity:0;transform:translateY(26px);transition:opacity .8s ease,transform .8s ease}
+  .reveal.in{opacity:1;transform:none}
+  @media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}.scroll-hint{animation:none}}
+  /* 决策树自绘 */
+  .tree{margin:32px 0;padding:30px 18px 20px;background:var(--bg-elev);border:1px solid var(--line);border-radius:16px;overflow-x:auto}
+  .tree svg{display:block;margin:0 auto;max-width:100%;height:auto}
+  /* 关键定理框 */
+  .theorem{margin:30px 0;padding:24px 26px;border:1px solid rgba(232,179,57,.35);border-radius:14px;background:linear-gradient(120deg,rgba(232,179,57,.08),transparent 60%),var(--bg-card)}
+  .theorem .lab{font-family:var(--mono);font-weight:700;font-size:11px;letter-spacing:.2em;color:var(--gold);text-transform:uppercase;margin-bottom:8px}
+  .theorem h3{font-family:var(--serif);font-size:22px;color:#fff;margin-bottom:10px}
+  .theorem p{font-size:15px;color:var(--ink-dim);margin:0}
+  /* 仓位轴示意 */
+  .posbar{margin:20px 0;background:var(--bg-card);border:1px solid var(--line);border-radius:12px;padding:24px}
+  .posbar .axis{position:relative;height:160px;margin-bottom:18px}
+  .posbar svg{width:100%;height:100%;overflow:visible}
+  .posbar .note{font-family:var(--mono);font-size:12px;color:var(--ink-faint);text-align:center}
+</style>
+<meta name="view-transition" content="same-origin"><style>@view-transition{navigation:auto}</style></head>
+<body>
+<div id="bar"></div>
+<header class="hero">
+  <div class="wrap">
+    <div class="kicker">缠中说禅 · 教你炒股票108课 <span>/ 第 49 课</span></div>
+    <h1 class="title">利润最大操作模式</h1>
+    <p class="sub">把"什么时候不动、什么时候满仓、什么时候清仓"做成一张决策树，跟着走就能拿到最大利润率。</p>
+    <div class="meta">
+      <span class="pill"><b>原文</b> 2007-04-26</span>
+      <span class="pill"><b>类型</b> 关键操作课 · 含两条定理</span>
+      <span class="pill"><b>关键词</b> 操作级别 · 中枢震荡 · 三买三卖 · 仓位管理</span>
+    </div>
+    <div class="scroll-hint">↓ 向下滚动，逐层拆解</div>
+  </div>
+</header>
+<main>
+
+<!-- 01 这课解决什么问题 -->
+<section class="wrap reveal">
+  <div class="sec-no">01 — 这一课的位置</div>
+  <h2>为什么这一课是"实操总开关"</h2>
+  <p class="lead">第40-48课讲了背驰、级别、节奏这些零件，但你打开 K 线还是会犯怵：「现在到底该买还该卖、该满仓还是空仓？」第49课就是把这些零件拼成<span class="hl-gold">一张可执行的决策流程图</span>——只要按图走，理论上能在<span class="hl-pivot">固定操作级别</span>里把利润率做到最大。</p>
+  <p>缠师在课首就明说：「<b>从实用角度，为了理清实际操作中的基本思路，先穿插这堂课</b>」——也就是说，前面铺垫了半年的概念，到这一课要<b>收口成操作流程</b>了。后面 50-108 课的所有进阶（背驰精度、转折定理、五段同跌……），本质都是在<b>提升这套流程的执行精度</b>，而流程骨架就在第49课。</p>
+  <blockquote>本周就不解《论语》了，从实用角度，为了理清实际操作中的基本思路，先穿插这堂课。<span class="who">— 缠中说禅 · 2007-04-26</span></blockquote>
+  <p>这堂课要解决三个问题——</p>
+  <div class="grid">
+    <div class="card"><span class="tag">Q1 · 怎么开局</span><h3>新进一只票，先看什么</h3><p>不看 K 线漂亮不漂亮，先找<b>当下之前最后一个操作级别中枢</b>，然后判断当下处在中枢的哪个位置。</p></div>
+    <div class="card"><span class="tag">Q2 · 怎么决策</span><h3>三种位置 · 五种处理</h3><p>当下在中枢之中/之上/之下，叠加三买三卖是否出现，全部可能性被穷举为五种处理方式，没有模糊地带。</p></div>
+    <div class="card"><span class="tag">Q3 · 怎么收益最大</span><h3>两条利润最大定理</h3><p>缠师用严格证明给出两套模式——一种不换股（适合普通行情），一种激进换股（适合大牛市），各自利润率达到该级别的上限。</p></div>
+  </div>
+</section>
+
+<!-- 02 开局动作 -->
+<section class="wrap reveal">
+  <div class="sec-no">02 — 开局动作</div>
+  <h2>第一步：找到"当下之前最后一个操作级别中枢"</h2>
+  <p class="lead">所有判断都从这个锚点开始。它不是预测，是回头看就能 100% 确认的客观事实。</p>
+  <p>缠师对操作起点做了非常明确的定义——</p>
+  <blockquote>打开走势图，找当下之前最后一个操作级别中枢。这最后的30分钟中枢，是<b>一定可以马上确认的，无须任何预测</b>。<span class="who">— 缠中说禅 · 操作起点</span></blockquote>
+  <p>这句话拆开看：</p>
+  <ul style="margin:0 0 18px 20px;color:#cfd5dc">
+    <li><b>"操作级别"</b>：你打算用多大的级别交易（5分钟/30分钟/日线/周线…）。资金小、心理弱可以小级别；资金大必须用大级别。一旦选定，<span class="hl-up">本次操作期间不再变</span>。</li>
+    <li><b>"最后一个中枢"</b>：往左数，离当下最近的那个由三段次级别走势重叠形成的<span class="hl-pivot">长方形区间</span>。</li>
+    <li><b>"无须预测"</b>：中枢是已经完成的事实，画出来就行。你需要预测的只是「下一步会演化成什么」——而下一步只会有三种，跑不出去。</li>
+  </ul>
+  <p>找到这个中枢后，看当下价格在它哪里——情况就锁定在三个分支里——</p>
+</section>
+
+<!-- 03 决策树 -->
+<section class="wrap reveal">
+  <div class="sec-no">03 — 决策树</div>
+  <h2>三种位置 × 三买三卖：五种处理方式</h2>
+  <p class="lead">缠师在原课文里穷举了所有当下状态，并给出每一支的标准动作。下面这张原图就是这棵决策树。</p>
+  <figure>
+    <img src="/_assets/ch49_p01.jpeg" alt="当下状态决策树">
+    <figcaption>原文配图 · 当下状态决策树：先分中枢之上/中/下，再分三买/三卖出没出现</figcaption>
+  </figure>
+  <p>把这张原图翻成可执行的话——</p>
+  <div class="tree">
+    <svg viewBox="0 0 820 520" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+          <path d="M0,0 L10,5 L0,10 z" fill="#9aa3ad"/>
+        </marker>
+      </defs>
+      <!-- 根节点 -->
+      <rect x="340" y="10" width="140" height="44" rx="10" fill="#161b22" stroke="#37c0e6" stroke-width="1.5"/>
+      <text x="410" y="38" fill="#fff" font-family="Noto Serif SC" font-size="16" text-anchor="middle">当下状态</text>
+      <!-- 三大分支线 -->
+      <path d="M410 54 L130 100" stroke="#9aa3ad" stroke-width="1.4" fill="none" marker-end="url(#ar)"/>
+      <path d="M410 54 L410 100" stroke="#9aa3ad" stroke-width="1.4" fill="none" marker-end="url(#ar)"/>
+      <path d="M410 54 L690 100" stroke="#9aa3ad" stroke-width="1.4" fill="none" marker-end="url(#ar)"/>
+      <!-- 三大分支 -->
+      <rect x="50" y="105" width="160" height="44" rx="10" fill="#161b22" stroke="#ff4d4f" stroke-width="1.5"/>
+      <text x="130" y="133" fill="#ff4d4f" font-family="Noto Serif SC" font-size="15" text-anchor="middle">中枢之上</text>
+      <rect x="330" y="105" width="160" height="44" rx="10" fill="#161b22" stroke="#9aa3ad" stroke-width="1.5"/>
+      <text x="410" y="133" fill="#e8eaed" font-family="Noto Serif SC" font-size="15" text-anchor="middle">中枢之中</text>
+      <rect x="610" y="105" width="160" height="44" rx="10" fill="#161b22" stroke="#16c784" stroke-width="1.5"/>
+      <text x="690" y="133" fill="#16c784" font-family="Noto Serif SC" font-size="15" text-anchor="middle">中枢之下</text>
+      <!-- 中之 -->
+      <path d="M410 149 L410 220" stroke="#9aa3ad" stroke-width="1.4" fill="none" marker-end="url(#ar)"/>
+      <rect x="320" y="225" width="180" height="44" rx="10" fill="#12161c" stroke="#5b6470" stroke-width="1.2"/>
+      <text x="410" y="252" fill="#e8b339" font-family="Noto Serif SC" font-size="15" text-anchor="middle">不操作 · 等</text>
+      <!-- 上左：已三买 -->
+      <path d="M130 149 L70 220" stroke="#9aa3ad" stroke-width="1.4" fill="none" marker-end="url(#ar)"/>
+      <path d="M130 149 L190 220" stroke="#9aa3ad" stroke-width="1.4" fill="none" marker-end="url(#ar)"/>
+      <rect x="12" y="225" width="120" height="44" rx="10" fill="#12161c" stroke="#5b6470"/>
+      <text x="72" y="252" fill="#cfd5dc" font-family="Noto Serif SC" font-size="13" text-anchor="middle">已出现三买</text>
+      <rect x="138" y="225" width="120" height="44" rx="10" fill="#12161c" stroke="#5b6470"/>
+      <text x="198" y="252" fill="#cfd5dc" font-family="Noto Serif SC" font-size="13" text-anchor="middle">未出现三买</text>
+      <!-- 上左叶子 -->
+      <path d="M72 269 L72 320" stroke="#9aa3ad" stroke-width="1.4" fill="none" marker-end="url(#ar)"/>
+      <path d="M198 269 L198 320" stroke="#9aa3ad" stroke-width="1.4" fill="none" marker-end="url(#ar)"/>
+      <rect x="12" y="325" width="120" height="64" rx="10" fill="#161b22" stroke="#ff4d4f"/>
+      <text x="72" y="352" fill="#ff4d4f" font-family="Noto Serif SC" font-size="13" text-anchor="middle">①</text>
+      <text x="72" y="372" fill="#e8eaed" font-family="Noto Serif SC" font-size="12" text-anchor="middle">刚形成可介入</text>
+      <rect x="138" y="325" width="120" height="64" rx="10" fill="#161b22" stroke="#5b6470"/>
+      <text x="198" y="352" fill="#e8b339" font-family="Noto Serif SC" font-size="13" text-anchor="middle">②</text>
+      <text x="198" y="372" fill="#e8eaed" font-family="Noto Serif SC" font-size="12" text-anchor="middle">等待</text>
+      <!-- 下：已/未三卖 -->
+      <path d="M690 149 L620 220" stroke="#9aa3ad" stroke-width="1.4" fill="none" marker-end="url(#ar)"/>
+      <path d="M690 149 L760 220" stroke="#9aa3ad" stroke-width="1.4" fill="none" marker-end="url(#ar)"/>
+      <rect x="562" y="225" width="120" height="44" rx="10" fill="#12161c" stroke="#5b6470"/>
+      <text x="622" y="252" fill="#cfd5dc" font-family="Noto Serif SC" font-size="13" text-anchor="middle">已出现三卖</text>
+      <rect x="700" y="225" width="120" height="44" rx="10" fill="#12161c" stroke="#5b6470"/>
+      <text x="760" y="252" fill="#cfd5dc" font-family="Noto Serif SC" font-size="13" text-anchor="middle">未出现三卖</text>
+      <path d="M622 269 L622 320" stroke="#9aa3ad" stroke-width="1.4" fill="none" marker-end="url(#ar)"/>
+      <path d="M760 269 L760 320" stroke="#9aa3ad" stroke-width="1.4" fill="none" marker-end="url(#ar)"/>
+      <rect x="562" y="325" width="120" height="84" rx="10" fill="#161b22" stroke="#5b6470"/>
+      <text x="622" y="352" fill="#16c784" font-family="Noto Serif SC" font-size="13" text-anchor="middle">③</text>
+      <text x="622" y="372" fill="#e8eaed" font-family="Noto Serif SC" font-size="12" text-anchor="middle">等次级别完成</text>
+      <text x="622" y="392" fill="#e8eaed" font-family="Noto Serif SC" font-size="12" text-anchor="middle">或干脆不参与</text>
+      <rect x="700" y="325" width="120" height="84" rx="10" fill="#161b22" stroke="#16c784"/>
+      <text x="760" y="352" fill="#16c784" font-family="Noto Serif SC" font-size="13" text-anchor="middle">④</text>
+      <text x="760" y="372" fill="#e8eaed" font-family="Noto Serif SC" font-size="12" text-anchor="middle">中枢震荡依旧</text>
+      <text x="760" y="392" fill="#e8eaed" font-family="Noto Serif SC" font-size="12" text-anchor="middle">用背驰找买点</text>
+      <!-- 中枢之中叶子⑤ -->
+      <rect x="320" y="280" width="180" height="64" rx="10" fill="#161b22" stroke="#e8b339"/>
+      <text x="410" y="307" fill="#e8b339" font-family="Noto Serif SC" font-size="13" text-anchor="middle">⑤</text>
+      <text x="410" y="327" fill="#e8eaed" font-family="Noto Serif SC" font-size="12" text-anchor="middle">技术好可抓次级别二买</text>
+      <path d="M410 269 L410 280" stroke="#9aa3ad" stroke-width="1.4" fill="none"/>
+      <!-- 底部标签 -->
+      <text x="410" y="470" fill="#5b6470" font-family="JetBrains Mono" font-size="11" text-anchor="middle">五种处理 · 五种期望值 · 决策不再模糊</text>
+    </svg>
+  </div>
+  <p>下面把这五种处理逐条讲清楚。</p>
+</section>
+
+<!-- 04 五种处理逐条 -->
+<section class="wrap reveal">
+  <div class="sec-no">04 — 五种处理</div>
+  <h2>逐支拆解：每一种状态该怎么做</h2>
+  <p class="lead">用买点（红）/卖点（绿）/等待（金）三种颜色标注，对应决策树的 ①~⑤。</p>
+  <div class="points">
+    <div class="pt b"><div class="dot">①</div><div><h4>中枢之上 · 已出现三买 → 可介入</h4><p>三买就是从中枢之上回拉但<b>不破中枢上沿</b>的那一击。<b class="hl-up">最好的介入时点是刚形成时</b>。若买点已经走远，且后面已经出现次级别走势的盘整顶背驰，则<b>必须等待</b>——后面是一个更大盘整的形成，按规矩不参与。</p></div></div>
+    <div class="pt"><div class="dot" style="background:var(--gold)">②</div><div><h4>中枢之上 · 未出现三买 → 等</h4><p>此时不存在合适买点，<b class="hl-gold">耐心等</b>。要么等回拉形成三买（变成①），要么等再次反弹后形成背驰段、做空机会出现。强行追涨是新手最大的亏损来源。</p></div></div>
+    <div class="pt s"><div class="dot">③</div><div><h4>中枢之下 · 已出现三卖 → 中枢已结束</h4><p>意味着原来的盘整结束了，将形成一个新的<b class="hl-down">下跌中枢</b>或演化为更大级别中枢。两种应对：(a) 分析包含三卖的次级别走势完成，用背驰找抢反弹的买点；(b) <b>更干脆——不参与</b>，等下跌走完再说。缠师强烈推荐方案 b：<b>没必要参与操作级别及以上级别的下跌</b>，这种习惯必须养成。</p></div></div>
+    <div class="pt b"><div class="dot">④</div><div><h4>中枢之下 · 未出现三卖 → 中枢震荡依旧</h4><p>这是缠师反复强调的<b class="hl-pivot">中枢震荡降成本</b>的核心场景。把当下这一段向下离开中枢的走势，与<b>前面最近向下的那一段</b>用 MACD 比力度——若当下这段力度变小（背驰），用区间套精确锁定买点；若力度反而变大（扩张），可能直接破成三卖，得另算（后面用图形形态课处理）。</p></div></div>
+    <div class="pt"><div class="dot" style="background:var(--gold)">⑤</div><div><h4>中枢之中 · 一律不操作</h4><p>这是<b>最反直觉的一条</b>——很多人在中枢里手痒到处买卖。缠师明确说：「<b>怎么演化都是对的，不操作是最好的操作</b>」。中枢里波动小、方向乱，盈亏比极差。除非技术精到能抓次级别二买，否则<b class="hl-gold">手放裤兜里就是最大的盈利</b>。</p></div></div>
+  </div>
+  <blockquote>没必要参与操作级别及以上级别的下跌与超过操作级别的盘整，这种习惯，必须养成。<span class="who">— 缠中说禅 · 操作纪律最重要的一条</span></blockquote>
+</section>
+
+<!-- 05 仓位 -->
+<section class="wrap reveal">
+  <div class="sec-no">05 — 仓位策略</div>
+  <h2>什么时候满仓、什么时候动差价</h2>
+  <p class="lead">缠师对仓位有非常违反"经验直觉"的判断——很多人以为应该越涨越减，但缠师恰恰相反。</p>
+  <p>核心结论：<b>中枢震荡时</b>动差价，<b>中枢完成向上移动时</b>必须满仓。</p>
+  <div class="posbar">
+    <div class="axis">
+      <svg viewBox="0 0 760 160" preserveAspectRatio="none">
+        <!-- 价格区域：中枢 -->
+        <rect x="40" y="50" width="280" height="55" fill="rgba(55,192,230,.10)" stroke="rgba(55,192,230,.55)" stroke-width="1.2"/>
+        <text x="180" y="85" fill="#37c0e6" font-family="Noto Serif SC" font-size="13" text-anchor="middle">操作级别中枢</text>
+        <!-- 中枢前后 -->
+        <text x="180" y="30" fill="#5b6470" font-family="JetBrains Mono" font-size="11" text-anchor="middle">震荡阶段 · 上方减/下方加</text>
+        <!-- 中枢上沿之上：满仓 -->
+        <rect x="320" y="20" width="200" height="85" fill="rgba(255,77,79,.10)" stroke="rgba(255,77,79,.5)" stroke-width="1.2"/>
+        <text x="420" y="65" fill="#ff4d4f" font-family="Noto Serif SC" font-size="14" text-anchor="middle">中枢完成上移</text>
+        <text x="420" y="83" fill="#ff4d4f" font-family="Noto Serif SC" font-size="12" text-anchor="middle">必须满仓</text>
+        <!-- 顶背驰：清仓 -->
+        <rect x="520" y="20" width="200" height="85" fill="rgba(22,199,132,.10)" stroke="rgba(22,199,132,.5)" stroke-width="1.2"/>
+        <text x="620" y="65" fill="#16c784" font-family="Noto Serif SC" font-size="14" text-anchor="middle">向上移动顶背驰</text>
+        <text x="620" y="83" fill="#16c784" font-family="Noto Serif SC" font-size="12" text-anchor="middle">抛出所有筹码</text>
+        <!-- 仓位曲线 -->
+        <path d="M40 130 Q 90 110, 180 130 Q 260 145, 320 130 L 520 130 Q 540 130, 560 145" fill="none" stroke="#e8b339" stroke-width="1.8" stroke-dasharray="4 4"/>
+        <text x="40" y="148" fill="#e8b339" font-family="JetBrains Mono" font-size="11">动差价(部分仓)</text>
+        <text x="420" y="148" fill="#ff4d4f" font-family="JetBrains Mono" font-size="11" text-anchor="middle">满仓</text>
+        <text x="620" y="148" fill="#16c784" font-family="JetBrains Mono" font-size="11" text-anchor="middle">空仓</text>
+      </svg>
+    </div>
+    <div class="note">价格走势示意 · 黄虚线为仓位水平 · 红涨绿跌</div>
+  </div>
+  <p>关键操作分三步——</p>
+  <ol style="margin:0 0 18px 22px;color:#cfd5dc">
+    <li><b class="hl-pivot">震荡阶段（中枢未破）</b>：中枢上方减仓、中枢下方加仓。最严格做法是<b>全仓操作</b>——上方全抛、下方全接。技术不够则保留底仓。</li>
+    <li><b class="hl-up">中枢完成上移阶段（突破中枢上沿）</b>：<b>必须满仓</b>。这段不能做差价！很多人在此减仓，看似锁利，实则丢失主升浪。</li>
+    <li><b class="hl-down">向上移动出现背驰</b>：<b>抛光所有筹码</b>，等下一个买点。若不背驰，就形成新中枢，继续按①开始震荡操作。</li>
+  </ol>
+  <blockquote>那种中枢完成后的向上移动时的差价是不能做的，中枢向上移动时，<b>就应该满仓</b>，这才是最正确的仓位。<span class="who">— 缠中说禅 · 仓位核心结论</span></blockquote>
+  <p style="background:rgba(232,179,57,.08);padding:14px 18px;border-radius:10px;border-left:3px solid var(--gold);font-size:15px">⚠️ <b class="hl-gold">两种背驰要分清</b>——中枢震荡内"类似盘整背驰的走势段"在<b>三买之前</b>，找的是震荡内买点；中枢上移出现的背驰段在<b>三买之后</b>，是清仓信号。一前一后，性质完全不同，<span class="hl-up">不能搞混</span>。</p>
+</section>
+
+<!-- 06 两条定理 -->
+<section class="wrap reveal">
+  <div class="sec-no">06 — 两条定理</div>
+  <h2>缠中说禅利润最大定理：第一与第二</h2>
+  <p class="lead">缠师给出两套"定理级"的操作模式，分别对应不换股和换股两种风格。</p>
+  <div class="theorem">
+    <div class="lab">第一利润最大定理</div>
+    <h3>固定品种 · 不换股版本</h3>
+    <p>对于<b>任何固定交易品种</b>，在确定的操作级别下，以上缠中说禅操作模式（中枢震荡 + 三买持股 + 上移满仓 + 背驰清仓）的<b class="hl-gold">利润率最大</b>。</p>
+  </div>
+  <div class="theorem">
+    <div class="lab">第二利润最大定理</div>
+    <h3>不同品种 · 激进换股版本</h3>
+    <p>对于<b>不同交易品种交易中</b>，在确定的操作级别下，激进版操作模式（<b>不参与中枢震荡，只在三买买入，一旦形成新中枢就退出换股</b>）的<b class="hl-gold">利润率最大</b>。例：30分钟级别，若中枢完成上移后出现一个5分钟向下级别+下一个5分钟向上不创新高/出现背驰，<b>立刻清仓换股</b>。</p>
+  </div>
+  <p>两种模式各自适用什么场景——</p>
+  <div class="table">
+    <div class="row head"><div>维度</div><div>第一定理（不换股）</div><div>第二定理（激进换股）</div></div>
+    <div class="row"><div class="name">利润率</div><div>该品种该级别上限</div><div>跨品种该级别上限</div></div>
+    <div class="row"><div class="name">市场条件</div><div>除极端单边下跌外都能做</div><div>需要市场有足够多三买机会</div></div>
+    <div class="row"><div class="name">操作频率</div><div>中等（震荡 + 上移）</div><div>高（不断换股抢三买）</div></div>
+    <div class="row"><div class="name">技术难度</div><div>需要识别中枢震荡力度</div><div>需要精准识别三买及次级别背驰</div></div>
+    <div class="row"><div class="name">适合谁</div><div>小中型资金 · 稳健派</div><div>有市场嗅觉 · 操作精度高</div></div>
+    <div class="row"><div class="name">缠师建议</div><div class="cnt">两者不能偏废</div><div class="cnt">两者不能偏废</div></div>
+  </div>
+  <p style="background:rgba(255,77,79,.06);padding:14px 18px;border-radius:10px;border-left:3px solid var(--up);font-size:15px">📌 <b class="hl-up">利润率 ≠ 总利润</b>。这里所说"利润率最大"，是指<b>每次操作的平均利润 ÷ 占用资金的平均时间</b>。但真正的总利润还和频率有关——第二定理利润率高但要看天，第一定理利润率略低但适应面广。所以缠师明说：<b>两者不能偏废</b>。</p>
+</section>
+
+<!-- 07 大盘实证 -->
+<section class="wrap reveal">
+  <div class="sec-no">07 — 真金白银的实证</div>
+  <h2>缠师当天说"明天站稳 3745 继续向上"，后来呢？</h2>
+  <p class="lead">本课没具名个股，但缠师在课文末尾贴了 2007-04-26 的大盘5分钟图，并给出当下判断：「明天只要能站稳3745，就继续向上发展」。我们拉真实日K验证一下这句"当下判断"。</p>
+  <figure>
+    <img src="/_assets/ch49_p02.png" alt="2007-04-26 大盘5分钟图">
+    <figcaption>原文配图 · 2007-04-26 大盘5分钟图 · 中枢上沿在 3745 一线</figcaption>
+  </figure>
+  <div class="proof">
+    <span class="badge">数据实证 · 上证指数 000001</span>
+    <div class="chartbox">
+      <div class="legend">
+        <span><i style="background:#cfd5dc"></i>收盘</span>
+        <span><i style="background:#ff8a8c"></i>MA5</span>
+        <span><i style="background:#e8b339"></i>MA20</span>
+        <span><i style="background:#ff4d4f"></i>当日</span>
+        <span><i style="background:#37c0e6"></i>关键位 3745</span>
+      </div>
+      <canvas id="cv_sh000001" height="440"></canvas>
+    </div>
+    <div class="verdict"><span class="mk">✓ 印证</span><p>2007-04-26 收盘 <b>3783.06</b>，缠师说「站稳 3745 继续向上」。之后大盘一路推进，5月29日（印花税前一日）见到 <b class="hl-up">4334.92</b>，约 <b>+14.6%</b>。5-30 印花税事件单日急跌至 3670（短暂破 3745），随后又站稳并继续推升至 6月29日 <b>3914</b>。<b class="hl-gold">缠师当下判断方向完全正确</b>——这正是第49课"找最后一个中枢、判断当下位置、跟着规则做"的典型示范。</p></div>
+  </div>
+  <p style="font-family:var(--mono);font-size:12px;color:var(--ink-faint)">数据来源：新浪财经日K · akshare 取数 · 截至 2007-06-29 · 不构成投资建议</p>
+</section>
+
+<!-- 08 思考 -->
+<section class="wrap reveal">
+  <div class="sec-no">08 — 思考题</div>
+  <h2>把这五条问题想清楚，第49课就过关了</h2>
+  <ol class="think">
+    <li>你打算用什么操作级别？依据是什么（资金量？时间精力？心理承受？）——这个级别一旦定下来，本次操作期间能否做到不变？</li>
+    <li>面对一只新票，你能不能在 30 秒内画出"最后一个操作级别中枢"？画不出来说明对中枢识别还不到位，要回 18-21 课补课。</li>
+    <li>同样涨了 5%，为什么"中枢内反弹 5%"不该做、而"中枢突破后上移 5%"必须满仓拿住？背后的理由是什么？</li>
+    <li>第一定理和第二定理你会选哪个？为什么？（提示：和市场状态、资金量、技术精度都有关）</li>
+    <li>缠师说"宁愿抛错也要严格按方法来"——抛错最坏不过 50%，对了一次差价 10%+。这话你认不认？如果不认，是哪里有顾虑？</li>
+  </ol>
+</section>
+
+<!-- 09 判图 -->
+<section class="wrap reveal">
+  <div class="sec-no">09 — 判图练习</div>
+  <h2>看图判断：现在该怎么做</h2>
+  <div class="quiz">
+    <h4>场景 A：30 分钟操作级别 · 当下价格在最后一个 30 分钟中枢上方 · 中枢上沿被回拉但未破 · 这是第一次回拉</h4>
+    <p>请判断：当下属于决策树第几支？该怎么做？</p>
+    <details class="ans"><summary>查看答案</summary><p>属于 ① 中枢之上 · 已出现三买（回拉不破上沿即三买）。<b>动作：可以介入，越早越好</b>。介入后只要不出现盘整顶背驰，就持股不动；出现盘整顶背驰则等待新中枢形成或换股。</p></details>
+  </div>
+  <div class="quiz">
+    <h4>场景 B：当下价格在中枢内部反复横盘 · MACD 红绿柱来回切 · 你手痒想做差价</h4>
+    <p>该不该做？</p>
+    <details class="ans"><summary>查看答案</summary><p>属于 ⑤ 中枢之中。<b>除非你能精确识别次级别二买，否则不操作就是最好的操作</b>。中枢内波动小、方向乱、止损位模糊，盈亏比极差。手放裤兜，等中枢被打破再说。</p></details>
+  </div>
+  <div class="quiz">
+    <h4>场景 C：当下在中枢下方 · 已经出现明确的三类卖点 · 但价格只比三卖低 1%</h4>
+    <p>能不能抢反弹？</p>
+    <details class="ans"><summary>查看答案</summary><p>属于 ③ 中枢之下 · 已三卖。理论上可以分析包含三卖的次级别走势完成 + 背驰找抢反弹买点；<b>但缠师更推荐"干脆不参与"</b>——因为后面要么形成新下跌中枢，要么演化成更大盘整，参与这种走势违背"不参与操作级别及以上级别下跌"的纪律。<b class="hl-gold">习惯比技巧更重要</b>。</p></details>
+  </div>
+</section>
+
+<!-- 10 总结 -->
+<section class="wrap reveal">
+  <div class="tldr">
+    <div class="lab">TLDR · 第49课一句话</div>
+    <p>打开走势图，找最后一个操作级别中枢；当下在中枢之上等三买进场，在中枢之中坐着不动，在中枢之下且震荡未破时做差价降成本——中枢突破后满仓拿住直到背驰再抛光，<b class="hl-gold">这就是利润率的上限</b>。</p>
+  </div>
+</section>
+
+</main>
+<footer class="wrap">
+  原文出处：raw/缠中说禅/教你炒股票108课/教你炒股票49：利润率最大的操作模式.md<br>
+  本页为个人学习复习用 · 非投资建议
+</footer>
+<script>
+  const bar=document.getElementById('bar');
+  const onScroll=()=>{const h=document.documentElement;bar.style.width=(h.scrollTop/(h.scrollHeight-h.clientHeight)*100)+'%'};
+  document.addEventListener('scroll',onScroll,{passive:true});onScroll();
+  const io=new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{threshold:.12});
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+  function drawChanChart(canvasId, CHART){
+    const cv=document.getElementById(canvasId); if(!cv) return;
+    const mode=CHART.mode||'line', hasVol=!!CHART.v && CHART.showVol!==false;
+    const idxOf={}; CHART.dates.forEach((d,i)=>idxOf[d]=i);
+    const ri=d=>{ if(d in idxOf)return idxOf[d]; let b=0,bd=1/0;
+      CHART.dates.forEach((x,i)=>{const t=Math.abs(new Date(x)-new Date(d)); if(t<bd){bd=t;b=i}}); return b; };
+    function draw(){
+      const dpr=window.devicePixelRatio||1, W=cv.clientWidth, H=CHART.height||440;
+      cv.width=W*dpr; cv.height=H*dpr; const x=cv.getContext('2d'); x.scale(dpr,dpr); x.clearRect(0,0,W,H);
+      const padL=58,padR=14,padT=16, volH=hasVol?70:0, gap=hasVol?16:0, priceH=H-padT-volH-gap-22, n=CHART.c.length;
+      let mn=Math.min(...CHART.l), mx=Math.max(...CHART.h);
+      if(CHART.ma)Object.values(CHART.ma).forEach(a=>a.forEach(v=>{if(v!=null){mn=Math.min(mn,v);mx=Math.max(mx,v)}}));
+      if(CHART.pivots)CHART.pivots.forEach(p=>{mn=Math.min(mn,p.lo);mx=Math.max(mx,p.hi)});
+      if(CHART.marks)CHART.marks.forEach(m=>{mn=Math.min(mn,m.price);mx=Math.max(mx,m.price)});
+      const pd=(mx-mn)*0.08; mn-=pd; mx+=pd;
+      const PW=W-padL-padR, px=i=> n===1?padL+PW/2:padL+PW*i/(n-1), py=p=>padT+priceH*(1-(p-mn)/(mx-mn));
+      x.font="11px JetBrains Mono"; x.textAlign="right";
+      for(let g=0;g<=4;g++){const p=mn+(mx-mn)*g/4,yy=py(p);
+        x.strokeStyle="rgba(255,255,255,.06)";x.beginPath();x.moveTo(padL,yy);x.lineTo(W-padR,yy);x.stroke();
+        x.fillStyle="#5b6470";x.fillText(p.toFixed(0),padL-6,yy+3)}
+      if(CHART.pivots)CHART.pivots.forEach(p=>{const x1=px(ri(p.from)),x2=px(ri(p.to)),y1=py(p.hi),y2=py(p.lo);
+        x.fillStyle="rgba(55,192,230,.10)";x.strokeStyle="rgba(55,192,230,.55)";x.lineWidth=1;
+        x.fillRect(x1,y1,x2-x1,y2-y1);x.strokeRect(x1,y1,x2-x1,y2-y1);
+        if(p.label){x.fillStyle="#37c0e6";x.textAlign="center";x.fillText(p.label,(x1+x2)/2,y1-5)}});
+      if(CHART.hlines)CHART.hlines.forEach(h=>{const yy=py(h.price);
+        x.setLineDash([5,4]); x.strokeStyle=h.color||"#37c0e6"; x.lineWidth=1.2;
+        x.beginPath(); x.moveTo(padL,yy); x.lineTo(W-padR,yy); x.stroke(); x.setLineDash([]);
+        if(h.label){x.fillStyle=h.color||"#37c0e6"; x.textAlign="left"; x.font="11px JetBrains Mono"; x.fillText(h.label, padL+6, yy-4)}});
+      if(hasVol){const vmax=Math.max(...CHART.v),vt=padT+priceH+gap;
+        for(let i=0;i<n;i++){const up=CHART.c[i]>=CHART.o[i];x.fillStyle=up?"rgba(255,77,79,.5)":"rgba(22,199,132,.5)";
+          const bw=Math.max(1,PW/n*0.6),bh=volH*CHART.v[i]/vmax;x.fillRect(px(i)-bw/2,vt+volH-bh,bw,bh)}}
+      if(mode==='candle'){const bw=Math.max(1.5,PW/n*0.62);
+        for(let i=0;i<n;i++){const up=CHART.c[i]>=CHART.o[i],col=up?"#ff4d4f":"#16c784";x.strokeStyle=col;x.fillStyle=col;
+          x.beginPath();x.moveTo(px(i),py(CHART.h[i]));x.lineTo(px(i),py(CHART.l[i]));x.stroke();
+          const yo=py(CHART.o[i]),yc=py(CHART.c[i]);x.fillRect(px(i)-bw/2,Math.min(yo,yc),bw,Math.max(1,Math.abs(yc-yo)))}}
+      else{const cs=CHART.c;x.beginPath();for(let i=0;i<n;i++){const xx=px(i),yy=py(cs[i]);i?x.lineTo(xx,yy):x.moveTo(xx,yy)}
+        const gr=x.createLinearGradient(0,padT,0,padT+priceH);gr.addColorStop(0,"rgba(207,213,220,.16)");gr.addColorStop(1,"rgba(207,213,220,0)");
+        x.lineTo(px(n-1),padT+priceH);x.lineTo(px(0),padT+priceH);x.closePath();x.fillStyle=gr;x.fill();
+        x.beginPath();for(let i=0;i<n;i++){const xx=px(i),yy=py(cs[i]);i?x.lineTo(xx,yy):x.moveTo(xx,yy)}
+        x.strokeStyle="#cfd5dc";x.lineWidth=1.6;x.stroke()}
+      const MC={MA5:"#ff8a8c",MA10:"#c0a3ff",MA20:"#e8b339",MA60:"#37c0e6",MA120:"#9aa3ad",MA250:"#ff4d4f"};
+      if(CHART.ma)Object.entries(CHART.ma).forEach(([k,a])=>{x.beginPath();let st=false;
+        for(let i=0;i<n;i++){if(a[i]==null)continue;const xx=px(i),yy=py(a[i]);st?x.lineTo(xx,yy):(x.moveTo(xx,yy),st=true)}
+        x.strokeStyle=MC[k]||"#888";x.lineWidth=1.4;x.stroke()});
+      if(CHART.marks)CHART.marks.forEach(m=>{const xx=px(ri(m.date)),yy=py(m.price),buy=(m.type||'').startsWith('b'),col=m.color||(buy?"#ff4d4f":"#16c784");
+        x.fillStyle=col;x.beginPath();x.arc(xx,yy,4,0,7);x.fill();
+        x.fillStyle="#fff";x.font="bold 11px -apple-system";x.textAlign="center";x.fillText(m.text||'',xx,buy?yy+18:yy-10)});
+      x.fillStyle="#5b6470";x.textAlign="center";x.font="11px JetBrains Mono";
+      const L=Math.min(6,n);for(let g=0;g<L;g++){const i=Math.round((n-1)*g/(L-1||1));x.fillText(CHART.dates[i],px(i),H-5)}
+    }
+    draw(); window.addEventListener('resize',draw);
+  }
+
+  const CHART_SH = {"dates": ["2007-04-02", "2007-04-03", "2007-04-04", "2007-04-05", "2007-04-06", "2007-04-09", "2007-04-10", "2007-04-11", "2007-04-12", "2007-04-13", "2007-04-16", "2007-04-17", "2007-04-18", "2007-04-19", "2007-04-20", "2007-04-23", "2007-04-24", "2007-04-25", "2007-04-26", "2007-04-27", "2007-04-30", "2007-05-08", "2007-05-09", "2007-05-10", "2007-05-11", "2007-05-14", "2007-05-15", "2007-05-16", "2007-05-17", "2007-05-18", "2007-05-21", "2007-05-22", "2007-05-23", "2007-05-24", "2007-05-25", "2007-05-28", "2007-05-29", "2007-05-30", "2007-05-31", "2007-06-01", "2007-06-04", "2007-06-05", "2007-06-06", "2007-06-07", "2007-06-08", "2007-06-11", "2007-06-12", "2007-06-13", "2007-06-14", "2007-06-15", "2007-06-18", "2007-06-19", "2007-06-20", "2007-06-21", "2007-06-22", "2007-06-25", "2007-06-26", "2007-06-27", "2007-06-28", "2007-06-29"],
+    "o": [3196.59, 3265.68, 3295.98, 3286.16, 3287.68, 3333.42, 3405.23, 3454.42, 3503.23, 3537.22, 3523.22, 3611.63, 3614.68, 3610.02, 3460.9, 3615.79, 3736.15, 3708.57, 3766.48, 3788.75, 3784.27, 3937.94, 3961.1, 4021.42, 4024.42, 3970.66, 4055.83, 3890.81, 4002.49, 4041.39, 3902.35, 4091.14, 4125.43, 4188.68, 4133.19, 4221.58, 4288.98, 4087.41, 4006.28, 4120.63, 3981.82, 3564.43, 3781.38, 3787.7, 3900.03, 3942.01, 4011.68, 4110.74, 4162.21, 4085.66, 4195.39, 4247.74, 4269.45, 4170.89, 4230.97, 4102.79, 3863.25, 3985.72, 4080.19, 3824.29],
+    "h": [3253.43, 3292.58, 3308.15, 3326.92, 3334.22, 3399.51, 3444.37, 3497.52, 3532.86, 3563.86, 3597.22, 3622.89, 3623.87, 3617.44, 3591.46, 3710.89, 3762.39, 3769.25, 3784.68, 3802.92, 3851.35, 3964.71, 4015.22, 4072.14, 4039.67, 4081.43, 4069.85, 3987.41, 4064.28, 4052.1, 4083.42, 4136.63, 4175.44, 4208.39, 4190.47, 4283.93, 4335.96, 4275.24, 4178.11, 4181.28, 3987.27, 3768.56, 3821.7, 3891.4, 3935.79, 4000.42, 4073.18, 4193.45, 4179.73, 4152.54, 4267.74, 4280.85, 4312.0, 4256.54, 4249.43, 4131.13, 3976.19, 4090.72, 4113.28, 3919.34],
+    "l": [3196.59, 3251.52, 3266.56, 3259.63, 3273.86, 3333.26, 3351.11, 3428.78, 3488.08, 3504.16, 3523.22, 3510.5, 3564.23, 3358.93, 3460.9, 3615.79, 3689.13, 3653.99, 3732.6, 3720.6, 3759.48, 3901.33, 3875.38, 3991.48, 3949.37, 3940.36, 3891.36, 3845.23, 3982.99, 3999.16, 3892.97, 4086.82, 4093.91, 4089.39, 4111.26, 4215.24, 4262.02, 4015.51, 3858.04, 3966.98, 3659.09, 3404.15, 3682.79, 3779.5, 3852.05, 3930.74, 3910.0, 4102.04, 4085.78, 4067.36, 4193.31, 4209.57, 4164.27, 4147.05, 4024.49, 3912.42, 3818.85, 3948.29, 3912.81, 3779.81],
+    "c": [3252.59, 3291.3, 3291.54, 3319.14, 3323.59, 3398.95, 3444.29, 3495.22, 3531.03, 3518.27, 3596.44, 3611.87, 3612.4, 3449.02, 3584.2, 3710.89, 3720.53, 3743.96, 3783.06, 3759.87, 3841.27, 3950.01, 4013.09, 4049.7, 4021.68, 4046.39, 3899.18, 3986.04, 4048.29, 4030.26, 4072.22, 4110.38, 4173.71, 4151.13, 4179.78, 4272.11, 4334.92, 4053.09, 4109.65, 4000.74, 3670.4, 3767.1, 3776.32, 3890.8, 3913.14, 3995.68, 4072.14, 4176.48, 4115.21, 4132.87, 4253.35, 4269.52, 4181.32, 4230.82, 4091.45, 3941.08, 3973.37, 4078.6, 3914.2, 3820.7],
+    "v": [9735044600, 10860139100, 11261610700, 11452805100, 11964488100, 13731410400, 14780728400, 14757211400, 13538987900, 15069587600, 13103910100, 16066064600, 15048542400, 17272554100, 13888929200, 16349811600, 17438934100, 15176306100, 11725696800, 13217545600, 14652571300, 16056820000, 20839744900, 17111394000, 14063821000, 13932622100, 15667755300, 13171977400, 13927798800, 13075627400, 15617106200, 17356209000, 16139947800, 18098438800, 15419286000, 17861517400, 17209764200, 18559672900, 17311531200, 16093498500, 11485935700, 15713795900, 14587385200, 14236647500, 13587719200, 13384273900, 14947239800, 16694849900, 13838560400, 10866553200, 12897774800, 12458181400, 13521277500, 11291985600, 11969203700, 10160665500, 9381746900, 9511348100, 9783161000, 8609998500],
+    "ma": {"MA5": [null, null, null, null, 3295.63, 3324.9, 3355.5, 3396.24, 3438.62, 3477.55, 3517.05, 3550.57, 3574.0, 3557.6, 3570.79, 3593.67, 3615.41, 3641.72, 3708.53, 3743.66, 3769.74, 3815.63, 3869.46, 3922.79, 3975.15, 4016.17, 4006.01, 4000.6, 4000.32, 4002.03, 4007.2, 4049.44, 4086.97, 4107.54, 4137.44, 4177.42, 4222.33, 4198.21, 4189.91, 4154.1, 4033.76, 3920.2, 3864.84, 3821.07, 3803.55, 3868.61, 3929.61, 4009.65, 4054.53, 4098.48, 4150.01, 4189.49, 4190.45, 4213.58, 4205.29, 4142.84, 4083.61, 4063.06, 3999.74, 3945.59],
+    "MA20": [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, 3521.91, 3551.34, 3584.28, 3620.35, 3656.88, 3691.79, 3724.16, 3746.9, 3771.44, 3797.31, 3822.91, 3846.7, 3871.62, 3899.69, 3934.79, 3964.57, 3992.63, 4023.35, 4038.81, 4055.14, 4067.18, 4058.64, 4049.49, 4037.66, 4029.71, 4024.28, 4021.75, 4030.4, 4039.92, 4043.26, 4048.39, 4057.45, 4065.41, 4065.79, 4069.77, 4065.36, 4048.8, 4030.73, 4032.0, 4022.23, 4013.23]},
+    "mode":"line",
+    "hlines":[{"price":3745,"color":"#37c0e6","label":"3745 关键位"}],
+    "marks":[
+      {"date":"2007-04-26","price":3783.06,"type":"b","color":"#ff4d4f","text":"4/26 缠师当下 3783"},
+      {"date":"2007-05-29","price":4334.92,"type":"s","color":"#e8b339","text":"5/29 顶 4335"},
+      {"date":"2007-06-04","price":3670.40,"type":"s","color":"#16c784","text":"6/4 印花税后低 3670"}
+    ]
+  };
+  drawChanChart("cv_sh000001", CHART_SH);
+</script>
+<script src="/assets/_nav.js"></script><script src="/assets/_shell.js"></script></body>
+</html>

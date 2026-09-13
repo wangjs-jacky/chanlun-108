@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>缠论 · 教你炒股票63：显微镜与基本概念</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@500;700;900&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0b0e12;
+    --bg-elev:#12161c;
+    --bg-card:#161b22;
+    --ink:#e8eaed;
+    --ink-dim:#9aa3ad;
+    --ink-faint:#5b6470;
+    --line:rgba(255,255,255,.07);
+    --up:#ff4d4f;
+    --down:#16c784;
+    --pivot:#37c0e6;
+    --gold:#e8b339;
+    --max:880px;
+    --serif:"Noto Serif SC",serif;
+    --mono:"JetBrains Mono",ui-monospace,monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;
+    line-height:1.85;
+    font-size:17px;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  body::before{
+    content:"";position:fixed;inset:0;z-index:-2;
+    background:
+      radial-gradient(1200px 600px at 70% -10%, rgba(55,192,230,.08), transparent 60%),
+      radial-gradient(900px 500px at 0% 100%, rgba(232,179,57,.05), transparent 55%);
+    pointer-events:none;
+  }
+  body::after{
+    content:"";position:fixed;inset:0;z-index:-1;opacity:.4;
+    background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);
+    background-size:46px 46px;
+    -webkit-mask-image:radial-gradient(ellipse at 50% 0%, #000 30%, transparent 80%);
+            mask-image:radial-gradient(ellipse at 50% 0%, #000 30%, transparent 80%);
+    pointer-events:none;
+  }
+
+  #bar{position:fixed;top:0;left:0;height:3px;width:0;z-index:50;
+    background:linear-gradient(90deg,var(--pivot),var(--gold));box-shadow:0 0 12px var(--pivot);}
+
+  .wrap{max-width:var(--max);margin:0 auto;padding:0 24px}
+
+  header.hero{padding:120px 0 70px;text-align:center;position:relative}
+  .kicker{font-family:var(--mono);font-size:13px;letter-spacing:.32em;color:var(--pivot);
+    text-transform:uppercase;margin-bottom:26px}
+  .kicker span{color:var(--ink-faint)}
+  h1.title{font-family:var(--serif);font-weight:900;line-height:1.05;
+    font-size:clamp(44px,10vw,96px);letter-spacing:.04em;
+    background:linear-gradient(180deg,#fff 30%,#8aa0ad 130%);
+    -webkit-background-clip:text;background-clip:text;color:transparent;}
+  .sub{margin:22px auto 0;max-width:600px;color:var(--ink-dim);font-size:18px}
+  .meta{margin-top:34px;display:flex;gap:14px;justify-content:center;flex-wrap:wrap;
+    font-family:var(--mono);font-size:12px;color:var(--ink-faint)}
+  .meta b{color:var(--ink-dim);font-weight:500}
+  .pill{border:1px solid var(--line);padding:6px 14px;border-radius:999px;background:rgba(255,255,255,.02)}
+
+  .scroll-hint{margin-top:60px;color:var(--ink-faint);font-family:var(--mono);font-size:12px;
+    animation:bob 2.4s ease-in-out infinite}
+  @keyframes bob{0%,100%{transform:translateY(0);opacity:.5}50%{transform:translateY(8px);opacity:1}}
+
+  section{padding:64px 0;border-top:1px solid var(--line)}
+  .sec-no{font-family:var(--mono);font-size:13px;color:var(--gold);letter-spacing:.2em;margin-bottom:10px}
+  h2{font-family:var(--serif);font-weight:700;font-size:clamp(28px,5vw,42px);
+    line-height:1.25;margin-bottom:8px;letter-spacing:.02em}
+  .lead{color:var(--ink-dim);font-size:16px;margin-bottom:28px;max-width:640px}
+  p{margin:0 0 18px;color:#cfd5dc}
+  p b,strong{color:#fff;font-weight:700}
+  .hl-pivot{color:var(--pivot);font-weight:700}
+  .hl-up{color:var(--up);font-weight:700}
+  .hl-down{color:var(--down);font-weight:700}
+  .hl-gold{color:var(--gold);font-weight:700}
+
+  blockquote{margin:26px 0;padding:20px 24px;border-left:3px solid var(--pivot);
+    background:linear-gradient(90deg,rgba(55,192,230,.07),transparent);
+    border-radius:0 10px 10px 0;font-family:var(--serif);font-size:19px;color:#eaf6fb}
+  blockquote .who{display:block;margin-top:8px;font-family:var(--mono);font-size:12px;
+    color:var(--ink-faint);font-style:normal}
+
+  figure{margin:34px 0}
+  figure img{width:100%;border-radius:12px;border:1px solid var(--line);
+    background:#fff;box-shadow:0 18px 50px rgba(0,0,0,.5)}
+  figcaption{margin-top:12px;font-size:13px;color:var(--ink-faint);text-align:center;font-family:var(--mono)}
+
+  /* 显微镜示意图 SVG */
+  .scope-svg{margin:30px 0;background:var(--bg-elev);border:1px solid var(--line);
+    border-radius:14px;padding:24px;display:block;width:100%}
+
+  .grid{display:grid;gap:16px;grid-template-columns:1fr 1fr;margin:28px 0}
+  @media(max-width:640px){.grid{grid-template-columns:1fr}}
+  .card{background:var(--bg-card);border:1px solid var(--line);border-radius:14px;padding:24px;
+    position:relative;overflow:hidden;transition:transform .35s ease,border-color .35s ease}
+  .card:hover{transform:translateY(-4px);border-color:rgba(55,192,230,.4)}
+  .card .tag{font-family:var(--mono);font-size:11px;letter-spacing:.18em;color:var(--gold);text-transform:uppercase}
+  .card h3{font-family:var(--serif);font-size:21px;margin:10px 0 8px;color:#fff}
+  .card p{font-size:15px;color:var(--ink-dim);margin:0}
+
+  /* 级别对照表 */
+  .table{margin:28px 0;border:1px solid var(--line);border-radius:14px;overflow:hidden}
+  .table .row{display:grid;grid-template-columns:1.1fr 1.3fr 1.8fr;align-items:stretch}
+  .table .row+.row{border-top:1px solid var(--line)}
+  .table .row > div{padding:16px 18px}
+  .table .row.head{background:var(--bg-elev);font-family:var(--mono);font-size:12px;
+    letter-spacing:.14em;color:var(--ink-faint);text-transform:uppercase}
+  .table .row > div+div{border-left:1px solid var(--line)}
+  .table .name{font-family:var(--serif);font-weight:700;font-size:17px;color:var(--ink)}
+  .cnt{font-family:var(--mono);font-size:14px;color:var(--pivot)}
+  @media(max-width:560px){
+    .table .row{grid-template-columns:1fr}
+    .table .row > div+div{border-left:0;border-top:1px solid var(--line)}
+    .table .row.head{display:none}
+  }
+
+  /* 误区警示 */
+  .warn{margin:26px 0;padding:20px 24px;border-left:3px solid var(--up);
+    background:linear-gradient(90deg,rgba(255,77,79,.08),transparent);
+    border-radius:0 10px 10px 0;color:#ffe7e8}
+  .warn .lab{font-family:var(--mono);font-size:11px;letter-spacing:.2em;color:var(--up);
+    text-transform:uppercase;margin-bottom:6px;display:block}
+
+  /* 思考题 */
+  ol.think{counter-reset:q;list-style:none;margin:24px 0;display:flex;flex-direction:column;gap:14px}
+  ol.think li{counter-increment:q;position:relative;padding:18px 20px 18px 60px;
+    background:var(--bg-elev);border:1px solid var(--line);border-radius:12px;color:var(--ink-dim);font-size:15px}
+  ol.think li::before{content:counter(q,decimal-leading-zero);position:absolute;left:20px;top:18px;
+    font-family:var(--mono);color:var(--gold);font-weight:700}
+
+  .tldr{margin:60px 0 0;padding:36px 30px;border:1px solid rgba(55,192,230,.3);border-radius:18px;
+    background:radial-gradient(120% 120% at 100% 0%,rgba(55,192,230,.1),transparent 60%),var(--bg-elev);text-align:center}
+  .tldr .lab{font-family:var(--mono);font-size:12px;letter-spacing:.3em;color:var(--pivot);text-transform:uppercase}
+  .tldr p{font-family:var(--serif);font-size:clamp(20px,3.4vw,28px);line-height:1.7;color:#fff;margin:16px 0 0}
+
+  footer{padding:60px 0 90px;text-align:center;color:var(--ink-faint);font-family:var(--mono);font-size:12px;border-top:1px solid var(--line)}
+
+  .reveal{opacity:0;transform:translateY(26px);transition:opacity .8s ease,transform .8s ease}
+  .reveal.in{opacity:1;transform:none}
+  @media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}.scroll-hint{animation:none}}
+</style>
+<meta name="view-transition" content="same-origin"><style>@view-transition{navigation:auto}</style></head>
+<body>
+<div id="bar"></div>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="kicker">缠中说禅 · 教你炒股票108课 <span>/ 第 63 课</span></div>
+    <h1 class="title">显微镜<br>与基本概念</h1>
+    <p class="sub">同一只股票，为什么 1 分钟、30 分钟、日线看起来完全不同？——这一课用「显微镜倍数」彻底讲透级别。</p>
+    <div class="meta">
+      <span class="pill"><b>原文</b> 2007-07-02</span>
+      <span class="pill"><b>类型</b> 概念澄清</span>
+      <span class="pill"><b>关键词</b> 显微镜 · 级别 · 中枢存在性 · 递归</span>
+    </div>
+    <div class="scroll-hint">↓ 向下滚动，逐层拆解</div>
+  </div>
+</header>
+
+<main>
+  <!-- 1 -->
+  <section class="wrap reveal">
+    <div class="sec-no">01 — 起点</div>
+    <h2>先问一个奇怪的问题：中枢存在吗？</h2>
+    <p class="lead">数学家研究任何对象前，都得先证明"这东西真的存在"。</p>
+    <p>缠师说，<b>一个对象的确立，特别是数学和几何对象，首先要证明其存在性</b>。如果中枢、走势类型这些东西根本就不存在，再多的讨论都是空中楼阁。</p>
+    <p>前面几课的<span class="hl-pivot">中枢递归定义</span>，干的就是这件事——它不只是个定义，更是一种<b>可操作的"找出中枢的方法"</b>。按这方法走一遍，就一定能找到定义中的中枢。这就把中枢的存在性问题给"证"了。</p>
+    <blockquote>
+      中枢是可以递归式地定义出来的，而该定义是可操作的，该定义实际上是如何找出中枢的一种方法。
+      <span class="who">— 缠中说禅</span>
+    </blockquote>
+  </section>
+
+  <!-- 2 -->
+  <section class="wrap reveal">
+    <div class="sec-no">02 — 难题</div>
+    <h2>理论上可操作 ≠ 实际中可操作</h2>
+    <p class="lead">这是 63 课要解决的关键工程问题。</p>
+    <p>缠师举了一个绝妙的类比：<b>质数分解</b>。数学上能证明任何自然数的质数分解唯一且方法明确，但实际上，对一个足够大的数，用世界上最强的超算也跑不出来。</p>
+    <p>同样的事在缠论里也发生：你能从最原始的<b>分笔成交记录</b>出发，逐笔逐笔地递归构造中枢——理论上没问题，<span class="hl-up">实际上完全没法操作</span>。一只票一天几万笔成交，谁能盯着这些数据画走势？</p>
+    <div class="warn">
+      <span class="lab">核心矛盾</span>
+      存在性定理告诉你"中枢一定能找到"；可操作性告诉你"在合理时间里找不出来"。<b>必须有变通的方法</b>。
+    </div>
+    <p>变通的方法就是——<span class="hl-gold">借助不同级别的图</span>。这就引出了全课最核心的比喻。</p>
+  </section>
+
+  <!-- 3 -->
+  <section class="wrap reveal">
+    <div class="sec-no">03 — 核心比喻</div>
+    <h2>显微镜：看东西的工具，不是东西本身</h2>
+    <p class="lead">这是 63 课最该背下来的一段话。</p>
+    <blockquote>
+      走势类型以及中枢就如同显微镜下的观察物，是客观存在的；而级别的图，就如同显微镜，不同倍数的看这客观的图就看到不同的精细程度。<br>
+      <b>不能把显微镜和显微镜观察的东西混在一起了。</b>
+      <span class="who">— 缠中说禅 · 63课</span>
+    </blockquote>
+
+    <svg class="scope-svg" viewBox="0 0 800 280" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="lens" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#37c0e6" stop-opacity=".25"/>
+          <stop offset="1" stop-color="#37c0e6" stop-opacity=".05"/>
+        </linearGradient>
+      </defs>
+      <!-- 观察物 (客观的走势) -->
+      <rect x="40" y="200" width="720" height="60" rx="6" fill="#161b22" stroke="rgba(232,179,57,.5)" stroke-dasharray="4 4"/>
+      <text x="400" y="278" text-anchor="middle" font-family="JetBrains Mono" font-size="12" fill="#e8b339">客观的走势 / 中枢（递归定义保证存在）</text>
+
+      <!-- 三个不同倍数的显微镜 -->
+      <!-- 1分钟 -->
+      <g transform="translate(110,40)">
+        <circle cx="40" cy="40" r="38" fill="url(#lens)" stroke="#37c0e6" stroke-width="2"/>
+        <text x="40" y="46" text-anchor="middle" font-family="Noto Serif SC" font-size="16" font-weight="700" fill="#fff">1分钟</text>
+        <line x1="40" y1="80" x2="40" y2="195" stroke="#37c0e6" stroke-width="1.5" stroke-dasharray="3 3"/>
+        <text x="40" y="100" text-anchor="middle" font-family="JetBrains Mono" font-size="10" fill="#9aa3ad">高倍 · 看得最细</text>
+      </g>
+      <!-- 30分钟 -->
+      <g transform="translate(360,40)">
+        <circle cx="40" cy="40" r="38" fill="url(#lens)" stroke="#37c0e6" stroke-width="2"/>
+        <text x="40" y="46" text-anchor="middle" font-family="Noto Serif SC" font-size="16" font-weight="700" fill="#fff">30分钟</text>
+        <line x1="40" y1="80" x2="40" y2="195" stroke="#37c0e6" stroke-width="1.5" stroke-dasharray="3 3"/>
+        <text x="40" y="100" text-anchor="middle" font-family="JetBrains Mono" font-size="10" fill="#9aa3ad">中倍</text>
+      </g>
+      <!-- 日线 -->
+      <g transform="translate(610,40)">
+        <circle cx="40" cy="40" r="38" fill="url(#lens)" stroke="#37c0e6" stroke-width="2"/>
+        <text x="40" y="46" text-anchor="middle" font-family="Noto Serif SC" font-size="16" font-weight="700" fill="#fff">日线</text>
+        <line x1="40" y1="80" x2="40" y2="195" stroke="#37c0e6" stroke-width="1.5" stroke-dasharray="3 3"/>
+        <text x="40" y="100" text-anchor="middle" font-family="JetBrains Mono" font-size="10" fill="#9aa3ad">低倍 · 粗略</text>
+      </g>
+
+      <text x="400" y="20" text-anchor="middle" font-family="JetBrains Mono" font-size="12" fill="#5b6470">不同级别的图 = 不同倍数的显微镜</text>
+    </svg>
+
+    <p>这个比喻的精髓：</p>
+    <div class="grid">
+      <div class="card">
+        <div class="tag">观察物（客观）</div>
+        <h3>走势 / 中枢</h3>
+        <p>由递归定义保证<b>客观存在</b>。它就在那里，不依赖你用哪张图看。</p>
+      </div>
+      <div class="card">
+        <div class="tag">显微镜（主观工具）</div>
+        <h3>K 线图的级别</h3>
+        <p>1分钟、5分钟、30分钟、日、周——只是你选的<b>放大倍数</b>。倍数大看得细，倍数小看得粗。</p>
+      </div>
+    </div>
+
+    <div class="warn">
+      <span class="lab">最常见的误区</span>
+      <b>"5 分钟图怎么看？30 分钟图怎么看？"</b> ——这问题问错了。看法<b>都一样</b>，只是你手里的显微镜倍数不同，看到的精细程度不同而已。
+    </div>
+  </section>
+
+  <!-- 4 -->
+  <section class="wrap reveal">
+    <div class="sec-no">04 — 选定倍数</div>
+    <h2>选好"最基本的图"之后，所有定义照搬</h2>
+    <p class="lead">一旦定了显微镜倍数，分型、笔、线段、中枢就一路递归上去。</p>
+    <p>缠师的工作流是这样的：</p>
+    <ol class="think" style="counter-reset:q -1">
+      <li>选定一个<b>最基本的图</b>，比如 1 分钟图（也可以是 5 分钟，只是倍数小一点）</li>
+      <li>在这个图上定义<b>分型 → 笔 → 线段</b></li>
+      <li>有了线段，就能定义这个级别的<b>中枢</b>，进而是<b>走势类型</b></li>
+      <li>然后按<b>递归方法</b>，逐级向上：5 分钟 → 30 分钟 → 日 → 周 → 月 → 季 → 年</li>
+    </ol>
+    <p>缠师本人选的是<span class="hl-pivot">1 分钟</span>作为"最基本的图"，所以他一直在 1 分钟图上画线段做示范。但他强调：<b>什么级别的图和什么级别的中枢，没有任何必然关系</b>。</p>
+  </section>
+
+  <!-- 5 -->
+  <section class="wrap reveal">
+    <div class="sec-no">05 — 多图协作</div>
+    <h2>那为什么还要看大级别图？</h2>
+    <p class="lead">既然 1 分钟图理论上能搞定一切，为什么还要看 5 分钟、30 分钟、日线？</p>
+    <p>缠师给出两个非常实际的理由：</p>
+
+    <div class="grid">
+      <div class="card">
+        <div class="tag">理由 1</div>
+        <h3>帮助记忆</h3>
+        <p>1 分钟图上的线段成千上万，记不住会"抓狂"。把已经走完的 1 分钟走势类型，<b>记号到 5 分钟、30 分钟、日线图上</b>，这样你在 1 分钟图上只要记住"最近一个未完成的走势类型"就够了。</p>
+      </div>
+      <div class="card">
+        <div class="tag">理由 2</div>
+        <h3>MACD 一目了然</h3>
+        <p>看 MACD 辅助判断<b>背驰</b>时，如果用 1 分钟图，要把日线对应的几百根柱子面积全加起来——根本不切实际。直接看日线 MACD 一眼就够了。<b>理论上没区别，只是为了方便</b>。</p>
+      </div>
+    </div>
+
+    <p>所以多级别看图，<b>不是因为各级别"互相独立"，而是因为人的记忆和软件的精度有限</b>。本质上是一回事。</p>
+  </section>
+
+  <!-- 6 -->
+  <section class="wrap reveal">
+    <div class="sec-no">06 — 实战流程</div>
+    <h2>实际操作：从大到小，先肉眼再显微镜</h2>
+    <p class="lead">真正盯盘时，没人一上来就死扣 1 分钟图。</p>
+    <p>缠师给出的实战路径：</p>
+    <div class="table">
+      <div class="row head"><div>阶段</div><div>用什么级别</div><div>目的</div></div>
+      <div class="row">
+        <div class="name">① 选股粗筛</div>
+        <div><span class="cnt">日 / 周 / 月 / 季 / 年</span></div>
+        <div>用倍数小的显微镜，甚至"肉眼"扫一遍，1 秒看不明白就跳过</div>
+      </div>
+      <div class="row">
+        <div class="name">② 精细跟踪</div>
+        <div><span class="cnt">1 分钟 / 5 分钟</span></div>
+        <div>对粗选出的标的，换成大倍数显微镜做精细分析</div>
+      </div>
+      <div class="row">
+        <div class="name">③ 操作执行</div>
+        <div><span class="cnt">你的操作级别</span></div>
+        <div>在符合自己操作级别的买点建仓，按相应级别操作直到走完</div>
+      </div>
+    </div>
+
+    <blockquote>
+      在大级别图粗略选定攻击目标后，就要选好显微镜，进行精细的跟踪分析，然后定位好符合自己操作级别的买点建仓，按照相应的操作级别进行操作。
+      <span class="who">— 缠中说禅 · 63课</span>
+    </blockquote>
+  </section>
+
+  <!-- 7 -->
+  <section class="wrap reveal">
+    <div class="sec-no">07 — 心法</div>
+    <h2>四句话原则</h2>
+    <p class="lead">63 课除了理论澄清，还甩出了四条传播极广的心法。</p>
+    <div class="grid">
+      <div class="card">
+        <div class="tag">原则一</div>
+        <h3>只有坏的操作者，没有坏的股票</h3>
+        <p>技术、心态不到位，<b>任何股票都能让你倾家荡产</b>。问题在人不在票。</p>
+      </div>
+      <div class="card">
+        <div class="tag">原则二</div>
+        <h3>股票本质上是废纸</h3>
+        <p>没有任何股票"特别有操作价值"。中枢震荡的票产生的利润，<b>不一定比单边上涨的票少</b>。</p>
+      </div>
+      <div class="card">
+        <div class="tag">原则三</div>
+        <h3>小资金选股性好的</h3>
+        <p>波动适中、节奏清晰的票，更容易被小资金抓住中枢和背驰。</p>
+      </div>
+      <div class="card">
+        <div class="tag">原则四</div>
+        <h3>大资金可以改造股性</h3>
+        <p>任何股票的股性<b>都可被改造</b>，区别只是需要的能量不同。</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 8 -->
+  <section class="wrap reveal">
+    <div class="sec-no">08 — 当日解盘</div>
+    <h2>震荡市的标准教科书</h2>
+    <p class="lead">课文当天，缠师发了一份配套解盘——用真实走势演示前面几课的理论。</p>
+    <p>当天 1 分钟图上：</p>
+    <ul style="margin:18px 0 24px;padding-left:24px;color:#cfd5dc">
+      <li style="margin-bottom:8px"><span class="hl-up">110 点的小顶背驰</span>——极端标准</li>
+      <li style="margin-bottom:8px"><span class="hl-down">111 点的小底背驰</span>——MACD 红柱面积比一目了然</li>
+      <li style="margin-bottom:8px">那些<b>底分型怎么构成笔</b>，都有最严格的标准</li>
+    </ul>
+    <figure>
+      <img src="/_assets/ch63_p01.png" alt="63课当日解盘 1 分钟图标注">
+      <figcaption>当日 1 分钟标注：小顶背驰、小底背驰、笔的标准构成</figcaption>
+    </figure>
+    <p>缠师强调，<b>这种震荡才是缠论的"天堂"</b>：</p>
+    <blockquote>
+      单边势傻瓜都能赚钱，那么这种市场，就不是一般人能把握的了。能把握，就有了一个好的吸血机器，练习好了，那算有点模样。
+      <span class="who">— 缠中说禅 · 63课解盘</span>
+    </blockquote>
+    <figure>
+      <img src="/_assets/ch63_p02.png" alt="63课当日大级别图技术位">
+      <figcaption>大级别图：3919 点颈线位、5 周均线、5 月均线 —— 三角形 vs 平台型的分界</figcaption>
+    </figure>
+    <div class="warn">
+      <span class="lab">震荡铁律</span>
+      <b>宁愿卖早，一定不卖晚</b>。有钱还怕买不到股票？——这是 63 课最重要的实战纪律。
+    </div>
+  </section>
+
+  <!-- 思考题 + tldr -->
+  <section class="wrap reveal">
+    <div class="sec-no">09 — 自我检验</div>
+    <h2>读完应该能答对的几个问题</h2>
+    <ol class="think">
+      <li>"5 分钟图怎么看？" 这个问法错在哪里？</li>
+      <li>为什么不能直接从原始分笔成交去逐笔定义中枢，而要借助级别图？</li>
+      <li>1 分钟级别的中枢和 1 分钟图，是什么关系？同一个东西吗？</li>
+      <li>为什么实战中要从日线开始看，而不是直接 1 分钟？</li>
+      <li>为什么说"震荡市才是缠论的天堂，单边势傻瓜都能赚钱"？</li>
+    </ol>
+
+    <div class="tldr">
+      <div class="lab">一句话总结</div>
+      <p>中枢和走势是客观存在的"观察物"，K 线图的级别只是"显微镜的倍数"——别把显微镜和它看的东西混为一谈。多级别看图不是为了"各看各的"，而是为了帮记忆、看 MACD、做粗筛。</p>
+    </div>
+  </section>
+</main>
+
+<footer class="wrap">
+  原文出处：raw/缠中说禅/教你炒股票108课/教你炒股票63：替各位理理基本概念.md<br>
+  本页为个人学习复习用·非投资建议
+</footer>
+
+<script>
+  const bar=document.getElementById('bar');
+  const onScroll=()=>{
+    const h=document.documentElement;
+    const p=h.scrollTop/(h.scrollHeight-h.clientHeight);
+    bar.style.width=(p*100)+'%';
+  };
+  document.addEventListener('scroll',onScroll,{passive:true});onScroll();
+
+  const io=new IntersectionObserver((es)=>{
+    es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});
+  },{threshold:.12});
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+</script>
+<script src="/assets/_nav.js"></script><script src="/assets/_shell.js"></script></body>
+</html>

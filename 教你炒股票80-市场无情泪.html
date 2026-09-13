@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>缠论 · 教你炒股票80：市场没有同情、不信眼泪</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@500;700;900&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0b0e12;
+    --bg-elev:#12161c;
+    --bg-card:#161b22;
+    --ink:#e8eaed;
+    --ink-dim:#9aa3ad;
+    --ink-faint:#5b6470;
+    --line:rgba(255,255,255,.07);
+    --up:#ff4d4f;
+    --down:#16c784;
+    --pivot:#37c0e6;
+    --gold:#e8b339;
+    --max:880px;
+    --serif:"Noto Serif SC",serif;
+    --mono:"JetBrains Mono",ui-monospace,monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--bg);color:var(--ink);
+    font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;
+    line-height:1.85;font-size:17px;
+    -webkit-font-smoothing:antialiased;overflow-x:hidden;
+  }
+  body::before{
+    content:"";position:fixed;inset:0;z-index:-2;
+    background:
+      radial-gradient(1200px 600px at 70% -10%, rgba(255,77,79,.08), transparent 60%),
+      radial-gradient(900px 500px at 0% 100%, rgba(232,179,57,.05), transparent 55%);
+    pointer-events:none;
+  }
+  body::after{
+    content:"";position:fixed;inset:0;z-index:-1;opacity:.4;
+    background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);
+    background-size:46px 46px;
+    -webkit-mask-image:radial-gradient(ellipse at 50% 0%, #000 30%, transparent 80%);
+            mask-image:radial-gradient(ellipse at 50% 0%, #000 30%, transparent 80%);
+    pointer-events:none;
+  }
+  #bar{position:fixed;top:0;left:0;height:3px;width:0;z-index:50;
+    background:linear-gradient(90deg,var(--up),var(--gold));box-shadow:0 0 12px var(--up);}
+  .wrap{max-width:var(--max);margin:0 auto;padding:0 24px}
+  header.hero{padding:120px 0 70px;text-align:center;position:relative}
+  .kicker{font-family:var(--mono);font-size:13px;letter-spacing:.32em;color:var(--up);
+    text-transform:uppercase;margin-bottom:26px}
+  .kicker span{color:var(--ink-faint)}
+  h1.title{font-family:var(--serif);font-weight:900;line-height:1.05;
+    font-size:clamp(44px,10vw,96px);letter-spacing:.04em;
+    background:linear-gradient(180deg,#fff 30%,#8aa0ad 130%);
+    -webkit-background-clip:text;background-clip:text;color:transparent;}
+  .sub{margin:22px auto 0;max-width:600px;color:var(--ink-dim);font-size:18px}
+  .meta{margin-top:34px;display:flex;gap:14px;justify-content:center;flex-wrap:wrap;
+    font-family:var(--mono);font-size:12px;color:var(--ink-faint)}
+  .meta b{color:var(--ink-dim);font-weight:500}
+  .pill{border:1px solid var(--line);padding:6px 14px;border-radius:999px;background:rgba(255,255,255,.02)}
+  .scroll-hint{margin-top:60px;color:var(--ink-faint);font-family:var(--mono);font-size:12px;
+    animation:bob 2.4s ease-in-out infinite}
+  @keyframes bob{0%,100%{transform:translateY(0);opacity:.5}50%{transform:translateY(8px);opacity:1}}
+  section{padding:64px 0;border-top:1px solid var(--line)}
+  .sec-no{font-family:var(--mono);font-size:13px;color:var(--gold);letter-spacing:.2em;margin-bottom:10px}
+  h2{font-family:var(--serif);font-weight:700;font-size:clamp(28px,5vw,42px);
+    line-height:1.25;margin-bottom:8px;letter-spacing:.02em}
+  .lead{color:var(--ink-dim);font-size:16px;margin-bottom:28px;max-width:640px}
+  p{margin:0 0 18px;color:#cfd5dc}
+  p b,strong{color:#fff;font-weight:700}
+  .hl-pivot{color:var(--pivot);font-weight:700}
+  .hl-up{color:var(--up);font-weight:700}
+  .hl-down{color:var(--down);font-weight:700}
+  .hl-gold{color:var(--gold);font-weight:700}
+  blockquote{margin:26px 0;padding:20px 24px;border-left:3px solid var(--up);
+    background:linear-gradient(90deg,rgba(255,77,79,.07),transparent);
+    border-radius:0 10px 10px 0;font-family:var(--serif);font-size:19px;color:#fbeaea}
+  blockquote .who{display:block;margin-top:8px;font-family:var(--mono);font-size:12px;
+    color:var(--ink-faint);font-style:normal}
+  figure{margin:34px 0}
+  figure img{width:100%;border-radius:12px;border:1px solid var(--line);
+    background:#fff;box-shadow:0 18px 50px rgba(0,0,0,.5)}
+  figcaption{margin-top:12px;font-size:13px;color:var(--ink-faint);text-align:center;font-family:var(--mono)}
+  .grid{display:grid;gap:16px;grid-template-columns:1fr 1fr;margin:28px 0}
+  @media(max-width:640px){.grid{grid-template-columns:1fr}}
+  .card{background:var(--bg-card);border:1px solid var(--line);border-radius:14px;padding:24px;
+    position:relative;overflow:hidden;transition:transform .35s ease,border-color .35s ease}
+  .card:hover{transform:translateY(-4px);border-color:rgba(255,77,79,.4)}
+  .card .tag{font-family:var(--mono);font-size:11px;letter-spacing:.18em;color:var(--gold);text-transform:uppercase}
+  .card h3{font-family:var(--serif);font-size:20px;margin:10px 0 8px;color:#fff}
+  .card p{font-size:15px;color:var(--ink-dim);margin:0}
+  .table{margin:28px 0;border:1px solid var(--line);border-radius:14px;overflow:hidden}
+  .table .row{display:grid;grid-template-columns:1fr 1.4fr 1.6fr;align-items:stretch}
+  .table .row+.row{border-top:1px solid var(--line)}
+  .table .row > div{padding:16px 18px}
+  .table .row.head{background:var(--bg-elev);font-family:var(--mono);font-size:12px;
+    letter-spacing:.14em;color:var(--ink-faint);text-transform:uppercase}
+  .table .row > div+div{border-left:1px solid var(--line)}
+  .table .name{font-family:var(--serif);font-weight:700;font-size:17px}
+  .cnt{font-family:var(--mono);font-size:14px;color:var(--pivot)}
+  @media(max-width:560px){
+    .table .row{grid-template-columns:1fr}
+    .table .row > div+div{border-left:0;border-top:1px solid var(--line)}
+    .table .row.head{display:none}
+  }
+  ol.rules{counter-reset:r;list-style:none;margin:24px 0;display:flex;flex-direction:column;gap:14px}
+  ol.rules li{counter-increment:r;position:relative;padding:20px 22px 20px 64px;
+    background:var(--bg-card);border:1px solid var(--line);border-radius:12px;color:#cfd5dc;font-size:15.5px;line-height:1.75}
+  ol.rules li::before{content:counter(r,decimal-leading-zero);position:absolute;left:20px;top:20px;
+    font-family:var(--mono);color:var(--gold);font-weight:700;font-size:14px}
+  ol.rules li b{color:#fff}
+  .tldr{margin:60px 0 0;padding:36px 30px;border:1px solid rgba(255,77,79,.3);border-radius:18px;
+    background:radial-gradient(120% 120% at 100% 0%,rgba(255,77,79,.1),transparent 60%),var(--bg-elev);text-align:center}
+  .tldr .lab{font-family:var(--mono);font-size:12px;letter-spacing:.3em;color:var(--up);text-transform:uppercase}
+  .tldr p{font-family:var(--serif);font-size:clamp(20px,3.2vw,26px);line-height:1.7;color:#fff;margin:16px 0 0}
+  footer{padding:60px 0 90px;text-align:center;color:var(--ink-faint);font-family:var(--mono);font-size:12px;border-top:1px solid var(--line)}
+  .reveal{opacity:0;transform:translateY(26px);transition:opacity .8s ease,transform .8s ease}
+  .reveal.in{opacity:1;transform:none}
+  @media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}.scroll-hint{animation:none}}
+</style>
+<meta name="view-transition" content="same-origin"><style>@view-transition{navigation:auto}</style></head>
+<body>
+<div id="bar"></div>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="kicker">缠中说禅 · 教你炒股票108课 <span>/ 第 80 课</span></div>
+    <h1 class="title">市场没有同情<br>不信眼泪</h1>
+    <p class="sub">市场不需要温情，需要的是手起刀落的强悍——把"贪嗔痴疑慢"剥离出去，照着定理操作。</p>
+    <div class="meta">
+      <span class="pill"><b>原文</b> 2007-09-11</span>
+      <span class="pill"><b>类型</b> 心法 + 实战</span>
+      <span class="pill"><b>关键词</b> 顶分型 · 中枢震荡卖点 · 钢铁战士</span>
+    </div>
+    <div class="scroll-hint">↓ 棒喝七条，逐条照做</div>
+  </div>
+</header>
+
+<main>
+  <!-- 1 -->
+  <section class="wrap reveal">
+    <div class="sec-no">01 — 课程语境</div>
+    <h2>市场不是温情场，是刀锋</h2>
+    <p class="lead">这一课为何这么"狠"？因为当时大盘已亮出明确卖点信号。</p>
+    <p>2007 年 9 月 11 日大盘出现明显跌势，但很多人在亮明卖点后仍在<b>幻想反转</b>、在<b>恐慌中犹豫</b>。缠师没有讲新理论，而是用<span class="hl-up">棒喝</span>的方式刺激读者：来市场找温情、同情、眼泪的，都可以回家磨豆腐。</p>
+    <blockquote>
+      在市场里要成功，除了比市场还要强悍，别无他法。
+      <span class="who">— 缠中说禅</span>
+    </blockquote>
+    <p>缠师把所有失败都归到五个字：<span class="hl-gold">贪、嗔、痴、疑、慢</span>。股票从来不是股票，只是这五毒的<b>幌子和道具</b>。把这道幌子拆穿了，定理才用得起来。</p>
+  </section>
+
+  <!-- 2 -->
+  <section class="wrap reveal">
+    <div class="sec-no">02 — 第一最简结论</div>
+    <h2>所有顶点都必然是顶分型</h2>
+    <p class="lead">这是缠论体系内一个"几何定理级"的结论，可以严格推导出操作纪律。</p>
+    <p>从这条最简结论可以严格推出：<b>一旦出现顶分型，离开就是唯一的选择。</b>至于顶分型后是否形成笔，那是<span class="hl-pivot">离开后再判断</span>的事情。</p>
+    <div class="table">
+      <div class="row head"><div>顶分型后</div><div>结构</div><div>调整幅度</div></div>
+      <div class="row">
+        <div class="name"><span class="hl-up">情形 1：成笔</span></div>
+        <div>底分型与顶分型之间<b>有不共用 K 线</b></div>
+        <div>调整<span class="cnt">较大</span>，预留充足反应时间</div>
+      </div>
+      <div class="row">
+        <div class="name">情形 2：不成笔</div>
+        <div>底分型与顶分型之间<b>只共用 K 线</b></div>
+        <div>调整<span class="cnt">较小</span>，但同样需要先离开</div>
+      </div>
+    </div>
+    <figure>
+      <img src="/_assets/ch80_p01.png" alt="顶分型示意图1">
+      <figcaption>顶分型出现 → 离开是唯一选择，至于后续形态属于"离开后"的事</figcaption>
+    </figure>
+    <figure>
+      <img src="/_assets/ch80_p02.png" alt="顶分型示意图2">
+      <figcaption>无论成笔还是不成笔，都有足够空间让你反应——前提是你真的肯离开</figcaption>
+    </figure>
+    <blockquote>
+      顶分型的时候，是<b>形成顶分型那天冲高卖</b>，而不是收盘等顶分型都很明确了再走。
+      <span class="who">— 实战提醒</span>
+    </blockquote>
+  </section>
+
+  <!-- 3 -->
+  <section class="wrap reveal">
+    <div class="sec-no">03 — 第二最简结论</div>
+    <h2>中枢震荡的卖点都在向上离开时</h2>
+    <p class="lead">把"何时卖"这个问题，从感觉化降为定理化。</p>
+    <p>在已经形成的中枢里，<b>任何向上离开中枢的震荡，最终都将形成卖点</b>。卖点后若回抽<span class="hl-pivot">回不到中枢上沿</span>，可能形成第三类买点——但那是"卖点之后的事情"，<span class="hl-up">没有任何可能比当下的卖点更重要</span>。</p>
+    <p>而且，股票的交易规则<b>没有规定卖了就不能再买</b>。所以当下逻辑清晰：</p>
+    <ol class="rules">
+      <li>中枢震荡向上离开 → 出现明显类背驰 → 出现明显破坏 → <b>当下卖点已成立</b>。</li>
+      <li>就算高一级别（周线）顶分型最终不成立，<b>也有第三类买点可以重新介入</b>。</li>
+      <li>但若高级别顶分型成立，调整幅度可能是 <span class="hl-gold">450 点起步</span>（按当时市况，3600 以来调整的 1/4），用 17 点的潜在收益对赌几百点风险，<b>明显赔率不对</b>。</li>
+    </ol>
+    <figure>
+      <img src="/_assets/ch80_p03.png" alt="中枢震荡卖点示意">
+      <figcaption>5333 点的中枢被向上离开到 5395 点，对应线段出现类背驰 + 破坏 → 卖点成立</figcaption>
+    </figure>
+    <figure>
+      <img src="/_assets/ch80_p04.png" alt="周K线顶分型成立的级别意义">
+      <figcaption>同一形态，周线级别成立 vs 不成立，对应的潜在调整空间天差地别</figcaption>
+    </figure>
+  </section>
+
+  <!-- 4 -->
+  <section class="wrap reveal">
+    <div class="sec-no">04 — 操作不对称性</div>
+    <h2>"宁愿卖错，绝对不能买错"</h2>
+    <p class="lead">这一节是给散户的核心操作不对称原则。</p>
+    <p>缠师极端强调：<b>对散户来说，本质上没有卖错，只有买错。</b>原因极简单——</p>
+    <div class="grid">
+      <div class="card">
+        <div class="tag">卖错 / 安全侧</div>
+        <h3>卖错不亏钱</h3>
+        <p>卖错了，<b>手里有钱</b>。这么多股票可以"被面首"，为什么要在一棵树上吊死？</p>
+      </div>
+      <div class="card">
+        <div class="tag">买错 / 危险侧</div>
+        <h3>买错真亏钱</h3>
+        <p>买错了，<b>资金被套</b>，亏损实打实，还失去后续的选择权。</p>
+      </div>
+    </div>
+    <p>但人的颠倒在于：<span class="hl-down">连日顶分型雏形都没有的时候</span>，因为觉得"高了"就乱卖；等到<span class="hl-up">真的顶分型出来了</span>，反而要假设它是假的、调整一下就能突破——<b>不觉得高了，不觉得恐慌了</b>。这正是被"贪嗔痴疑慢"反向操控的状态。</p>
+    <blockquote>
+      用 1% 的可能去对赌 99% 的可能——只有 1% 能换来 100 倍收益时才合理，但市场上几乎从不是这样。
+      <span class="who">— 缠中说禅</span>
+    </blockquote>
+  </section>
+
+  <!-- 5 -->
+  <section class="wrap reveal">
+    <div class="sec-no">05 — 钢铁战士七律</div>
+    <h2>把定理变成行为：钢铁战士的基本标准</h2>
+    <p class="lead">这一节是全课操作部分的核心，七条纪律一字不改地照做。</p>
+    <ol class="rules">
+      <li><b>买点在恐慌中形成</b>——只要买点出现，<span class="hl-up">义无返顾地买进</span>。</li>
+      <li><b>上涨在情绪交织中进行</b>——抵抗各种干扰，用钢铁般的意志<span class="hl-gold">把股票持住</span>，决不中途被抛下车。</li>
+      <li><b>卖点在疯狂的上涨中形成</b>——只要卖点出现，<span class="hl-up">手起刀落</span>，让股票见鬼去。</li>
+      <li><b>失误只是一次跌倒</b>——跌倒爬不起来的，不可能是钢铁战士。失误就总结，绝不在同一错误上犯两次。</li>
+      <li><b>买错比卖错严重</b>——确认买错就手起刀落；错过第二类买卖点就<span class="hl-faint">回家买豆腐</span>；错过第三类买卖点就<span class="hl-faint">回家磨墙</span>。</li>
+      <li><b>市场只有你才能帮助你</b>——毁掉你的是你，战胜市场的也是你。你比市场强悍，市场就是你的；否则你就是市场的点心。</li>
+      <li><b>踏准市场节奏</b>——就可以在<span class="hl-pivot">刀山火海中逍遥游</span>。</li>
+    </ol>
+    <blockquote>
+      没到能在刀锋上舞蹈的水平，就别玩悬的，干自己能力范围内的事情。<br>
+      市场上不是每一笔钱都适合任何人去赚。
+      <span class="who">— 给"还没钢铁"的人的话</span>
+    </blockquote>
+  </section>
+
+  <!-- 6 -->
+  <section class="wrap reveal">
+    <div class="sec-no">06 — 教科书演示</div>
+    <h2>下周一的"现场教科书"</h2>
+    <p class="lead">课后附录的几篇即时分析，把上面纪律落进真实走势——也包含缠师罕见的公开认错。</p>
+    <p><span class="hl-pivot">9 月 12 日</span>盘中：93 点出现的标准线段类背驰，按理论 <b>100% 保证</b>意味着该处第三类卖点将触发中枢扩展，至少形成一个 1 分钟中枢。后面的演化"如教科书般标准"——按理论操作的人，<b>当下就能判断，无须事后分析</b>。</p>
+    <figure>
+      <img src="/_assets/ch80_p05.png" alt="9月12日盘中走势演示">
+      <figcaption>93 处线段类背驰 → 第三类卖点 → 中枢扩展，理论 100% 保证</figcaption>
+    </figure>
+    <p><span class="hl-pivot">9 月 13 日</span>分析中，缠师误把一笔当成一段，被多位网友指出。他罕见地公开承认错误、并把错误版本和更正版一同保留：</p>
+    <blockquote>
+      本ID的理论如同几何学，是可以 100% 严密地讨论的，这里没有权威，<b>连本ID都不是</b>，本ID错了也就错了，没有什么可说的。<br>
+      但这里的差别大了去了——把线段类上涨误判为 1 分钟走势类型，<b>市场的真实力度就分析错了</b>。
+      <span class="who">— 严重更正</span>
+    </blockquote>
+    <figure>
+      <img src="/_assets/ch80_p11.png" alt="缠师公开认错的更正图">
+      <figcaption>更正后：93 开始的回抽是标准线段类上涨，比错版显示的 1 分钟走势更强势</figcaption>
+    </figure>
+    <p><span class="hl-pivot">9 月 17 日</span>盘后：早上 11 点多教科书级别的 1 分钟第三类买点出现 → 后面的走势是"理论 100% 保证"的活动。缠师再次点题——<b>股票是用来操作而不是用来预测的</b>。</p>
+    <figure>
+      <img src="/_assets/ch80_p13.png" alt="9月17日中枢震荡力度比较">
+      <figcaption>力度比较：从 96 起算的中枢震荡 + 黄柱面积对比，当下判断回补位置</figcaption>
+    </figure>
+
+    <div class="tldr">
+      <div class="lab">一句话总结</div>
+      <p>把"顶分型必离开 + 中枢震荡向上离开必出卖点"两条几何级结论，配上"宁卖错不买错 + 钢铁战士七律"的纪律，就可以在刀锋上跳舞——但前提是先把"贪嗔痴疑慢"剥掉。</p>
+    </div>
+  </section>
+</main>
+
+<footer class="wrap">
+  原文出处：raw/缠中说禅/教你炒股票108课/教你炒股票80：市场没有同情、不信眼泪.md<br>
+  本页为个人学习复习用·非投资建议
+</footer>
+
+<script>
+  const bar=document.getElementById('bar');
+  const onScroll=()=>{
+    const h=document.documentElement;
+    const p=h.scrollTop/(h.scrollHeight-h.clientHeight);
+    bar.style.width=(p*100)+'%';
+  };
+  document.addEventListener('scroll',onScroll,{passive:true});onScroll();
+  const io=new IntersectionObserver((es)=>{
+    es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});
+  },{threshold:.12});
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+</script>
+<script src="/assets/_nav.js"></script><script src="/assets/_shell.js"></script></body>
+</html>

@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>缠论 · 教你炒股票75：与主力博弈杂史一</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@500;700;900&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0b0e12;
+    --bg-elev:#12161c;
+    --bg-card:#161b22;
+    --ink:#e8eaed;
+    --ink-dim:#9aa3ad;
+    --ink-faint:#5b6470;
+    --line:rgba(255,255,255,.07);
+    --up:#ff4d4f;
+    --down:#16c784;
+    --pivot:#37c0e6;
+    --gold:#e8b339;
+    --max:880px;
+    --serif:"Noto Serif SC",serif;
+    --mono:"JetBrains Mono",ui-monospace,monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;
+    line-height:1.85;
+    font-size:17px;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  body::before{
+    content:"";position:fixed;inset:0;z-index:-2;
+    background:
+      radial-gradient(1200px 600px at 70% -10%, rgba(232,179,57,.08), transparent 60%),
+      radial-gradient(900px 500px at 0% 100%, rgba(255,77,79,.06), transparent 55%);
+    pointer-events:none;
+  }
+  body::after{
+    content:"";position:fixed;inset:0;z-index:-1;opacity:.4;
+    background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);
+    background-size:46px 46px;
+    -webkit-mask-image:radial-gradient(ellipse at 50% 0%, #000 30%, transparent 80%);
+            mask-image:radial-gradient(ellipse at 50% 0%, #000 30%, transparent 80%);
+    pointer-events:none;
+  }
+  #bar{position:fixed;top:0;left:0;height:3px;width:0;z-index:50;
+    background:linear-gradient(90deg,var(--gold),var(--up));box-shadow:0 0 12px var(--gold);}
+  .wrap{max-width:var(--max);margin:0 auto;padding:0 24px}
+
+  header.hero{padding:120px 0 70px;text-align:center;position:relative}
+  .kicker{font-family:var(--mono);font-size:13px;letter-spacing:.32em;color:var(--gold);
+    text-transform:uppercase;margin-bottom:26px}
+  .kicker span{color:var(--ink-faint)}
+  h1.title{font-family:var(--serif);font-weight:900;line-height:1.05;
+    font-size:clamp(46px,10vw,98px);letter-spacing:.04em;
+    background:linear-gradient(180deg,#fff 30%,#8aa0ad 130%);
+    -webkit-background-clip:text;background-clip:text;color:transparent;}
+  .sub{margin:22px auto 0;max-width:620px;color:var(--ink-dim);font-size:18px}
+  .meta{margin-top:34px;display:flex;gap:14px;justify-content:center;flex-wrap:wrap;
+    font-family:var(--mono);font-size:12px;color:var(--ink-faint)}
+  .meta b{color:var(--ink-dim);font-weight:500}
+  .pill{border:1px solid var(--line);padding:6px 14px;border-radius:999px;background:rgba(255,255,255,.02)}
+  .scroll-hint{margin-top:60px;color:var(--ink-faint);font-family:var(--mono);font-size:12px;
+    animation:bob 2.4s ease-in-out infinite}
+  @keyframes bob{0%,100%{transform:translateY(0);opacity:.5}50%{transform:translateY(8px);opacity:1}}
+
+  section{padding:64px 0;border-top:1px solid var(--line)}
+  .sec-no{font-family:var(--mono);font-size:13px;color:var(--gold);letter-spacing:.2em;margin-bottom:10px}
+  h2{font-family:var(--serif);font-weight:700;font-size:clamp(28px,5vw,42px);
+    line-height:1.25;margin-bottom:8px;letter-spacing:.02em}
+  .lead{color:var(--ink-dim);font-size:16px;margin-bottom:28px;max-width:640px}
+  p{margin:0 0 18px;color:#cfd5dc}
+  p b,strong{color:#fff;font-weight:700}
+  .hl-pivot{color:var(--pivot);font-weight:700}
+  .hl-up{color:var(--up);font-weight:700}
+  .hl-down{color:var(--down);font-weight:700}
+  .hl-gold{color:var(--gold);font-weight:700}
+
+  blockquote{margin:26px 0;padding:20px 24px;border-left:3px solid var(--gold);
+    background:linear-gradient(90deg,rgba(232,179,57,.08),transparent);
+    border-radius:0 10px 10px 0;font-family:var(--serif);font-size:18px;color:#f4ecd6}
+  blockquote .who{display:block;margin-top:8px;font-family:var(--mono);font-size:12px;
+    color:var(--ink-faint);font-style:normal}
+
+  figure{margin:34px 0}
+  figure img{width:100%;border-radius:12px;border:1px solid var(--line);
+    background:#fff;box-shadow:0 18px 50px rgba(0,0,0,.5)}
+  figcaption{margin-top:12px;font-size:13px;color:var(--ink-faint);text-align:center;font-family:var(--mono)}
+
+  .grid{display:grid;gap:16px;grid-template-columns:1fr 1fr;margin:28px 0}
+  @media(max-width:640px){.grid{grid-template-columns:1fr}}
+  .card{background:var(--bg-card);border:1px solid var(--line);border-radius:14px;padding:24px;
+    position:relative;overflow:hidden;transition:transform .35s ease,border-color .35s ease}
+  .card:hover{transform:translateY(-4px);border-color:rgba(232,179,57,.4)}
+  .card .tag{font-family:var(--mono);font-size:11px;letter-spacing:.18em;color:var(--gold);text-transform:uppercase}
+  .card h3{font-family:var(--serif);font-size:21px;margin:10px 0 8px;color:#fff}
+  .card p{font-size:15px;color:var(--ink-dim);margin:0}
+
+  .table{margin:28px 0;border:1px solid var(--line);border-radius:14px;overflow:hidden}
+  .table .row{display:grid;grid-template-columns:1.1fr 1.5fr 1.6fr;align-items:stretch}
+  .table .row+.row{border-top:1px solid var(--line)}
+  .table .row > div{padding:16px 18px}
+  .table .row.head{background:var(--bg-elev);font-family:var(--mono);font-size:12px;
+    letter-spacing:.14em;color:var(--ink-faint);text-transform:uppercase}
+  .table .row > div+div{border-left:1px solid var(--line)}
+  .table .name{font-family:var(--serif);font-weight:700;font-size:18px}
+  .cnt{font-family:var(--mono);font-size:14px;color:var(--gold)}
+  @media(max-width:560px){
+    .table .row{grid-template-columns:1fr}
+    .table .row > div+div{border-left:0;border-top:1px solid var(--line)}
+    .table .row.head{display:none}
+  }
+
+  .points{margin:26px 0;display:flex;flex-direction:column;gap:14px}
+  .pt{display:flex;gap:16px;align-items:flex-start;background:var(--bg-card);
+    border:1px solid var(--line);border-radius:12px;padding:18px 20px}
+  .pt .dot{flex:none;width:42px;height:42px;border-radius:10px;display:grid;place-items:center;
+    font-family:var(--serif);font-weight:900;font-size:18px;color:#0b0e12;background:var(--gold)}
+
+  .pt h4{font-size:17px;margin-bottom:4px;color:#fff}
+  .pt p{font-size:15px;color:var(--ink-dim);margin:0}
+
+  ol.think{counter-reset:q;list-style:none;margin:24px 0;display:flex;flex-direction:column;gap:14px}
+  ol.think li{counter-increment:q;position:relative;padding:18px 20px 18px 60px;
+    background:var(--bg-elev);border:1px solid var(--line);border-radius:12px;color:var(--ink-dim);font-size:15px}
+  ol.think li::before{content:counter(q,decimal-leading-zero);position:absolute;left:20px;top:18px;
+    font-family:var(--mono);color:var(--gold);font-weight:700}
+
+  .tldr{margin:60px 0 0;padding:36px 30px;border:1px solid rgba(232,179,57,.3);border-radius:18px;
+    background:radial-gradient(120% 120% at 100% 0%,rgba(232,179,57,.1),transparent 60%),var(--bg-elev);text-align:center}
+  .tldr .lab{font-family:var(--mono);font-size:12px;letter-spacing:.3em;color:var(--gold);text-transform:uppercase}
+  .tldr p{font-family:var(--serif);font-size:clamp(20px,3.4vw,28px);line-height:1.7;color:#fff;margin:16px 0 0}
+
+  footer{padding:60px 0 90px;text-align:center;color:var(--ink-faint);font-family:var(--mono);font-size:12px;border-top:1px solid var(--line)}
+
+  .reveal{opacity:0;transform:translateY(26px);transition:opacity .8s ease,transform .8s ease}
+  .reveal.in{opacity:1;transform:none}
+  @media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}.scroll-hint{animation:none}}
+</style>
+<meta name="view-transition" content="same-origin"><style>@view-transition{navigation:auto}</style></head>
+<body>
+<div id="bar"></div>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="kicker">缠中说禅 · 教你炒股票108课 <span>/ 第 75 课</span></div>
+    <h1 class="title">与主力博弈杂史一</h1>
+    <p class="sub">不是技术课，是江湖课。缠师以"梦话"口吻揭开庄家、玩庄家者、刀锋行走者的真实生态——以及大资金真正能熬住的唯一活法。</p>
+    <div class="meta">
+      <span class="pill"><b>原文</b> 2007-08-29 至 09-03</span>
+      <span class="pill"><b>类型</b> 市场生态 · 心法</span>
+      <span class="pill"><b>关键词</b> 庄家 · 玩庄家 · 0成本 · 刀锋 · 漂漂拳</span>
+    </div>
+    <div class="scroll-hint">↓ 进入江湖</div>
+  </div>
+</header>
+
+<main>
+  <!-- 1 -->
+  <section class="wrap reveal">
+    <div class="sec-no">01 — 立场</div>
+    <h2>合力背后是真实的人</h2>
+    <p class="lead">这一课之所以叫"杂史"，因为它讲的不是 K 线，而是 K 线背后的<b>人</b>。</p>
+    <p>缠师开篇先做了一个非常坦白的定调：走势归根到底是<b>合力</b>构成的，但每一份分力，都是真实的、有思想有感情的人。所以了解一些<span class="hl-gold">心理与江湖层面</span>的东西，有好处。</p>
+    <blockquote>
+      对一般散户来说，多了解一点事情，并不能改变对走势完全严格客观的态度。因为其影响力对合力可以忽略不算，操作只看合力最终的结果即可。
+      <span class="who">— 缠中说禅</span>
+    </blockquote>
+    <p>但缠师紧接着抛出本课真正的引信：<b>"人必须有远大目标，不想成为大资金的散户，就如同不想成为元帅的士兵。"</b> 这一课讲的，正是<span class="hl-gold">士兵想成为元帅之前</span>，必须先看懂的战场。</p>
+  </section>
+
+  <!-- 2 -->
+  <section class="wrap reveal">
+    <div class="sec-no">02 — 江湖角色</div>
+    <h2>个股操作的两种主力：庄家 vs 玩庄家的人</h2>
+    <p class="lead">缠师亲手撕掉了散户对"庄家"的崇拜——市场里真正可怕的，不是庄家，是<b>专门玩庄家的人</b>。</p>
+    <div class="table">
+      <div class="row head"><div>角色</div><div>资金/打法</div><div>缠师定性</div></div>
+      <div class="row">
+        <div class="name" style="color:var(--up)">庄家</div>
+        <div>建仓、洗盘、拉抬、出货的常规节奏</div>
+        <div>多数会死，<span class="cnt">死掉的远多于活下来的</span>。其中一种很常见的死法，就是被"玩庄家的人"搞死</div>
+      </div>
+      <div class="row">
+        <div class="name" style="color:var(--gold)">玩庄家的人</div>
+        <div>本人就是牛庄出身，资金、信息网络一流，不亲自当庄，专挑别人的庄来打</div>
+        <div>赚钱是次要的，"为了开心、教训暴发户"。是<b>个股层面合力的真正裁决者</b></div>
+      </div>
+      <div class="row">
+        <div class="name" style="color:var(--ink-dim)">一般散户</div>
+        <div>影响力对合力可忽略</div>
+        <div>只看合力结果，不必参与博弈，但要看懂规则才能晋级</div>
+      </div>
+    </div>
+    <p>缠师还特别点出：玩庄家的老手在市场里有最广泛的信息网络——<b>"如藤倚树，资本市场的树长多大，这藤也跟着绕了多大"</b>。市场的大动静一般都逃不过他们的眼线。</p>
+  </section>
+
+  <!-- 3 -->
+  <section class="wrap reveal">
+    <div class="sec-no">03 — 猎物画像</div>
+    <h2>四类最该被收拾的庄家</h2>
+    <p class="lead">缠师明牌：什么样的庄家是优先猎杀对象。这不是教你当猎人，而是让你看清自己手里的票背后<b>有没有可能正被人狩猎</b>。</p>
+    <div class="grid">
+      <div class="card">
+        <div class="tag">猎物一</div>
+        <h3>资金面有弱点</h3>
+        <p>"光有几个钱、靠收买了个把刺史郡守就蚁假猫威的暴发户"——资金来路不干净、链条脆弱，最该收拾也最容易收拾。</p>
+      </div>
+      <div class="card">
+        <div class="tag">猎物二</div>
+        <h3>水平不高的新庄家</h3>
+        <p>"新人新猪肉，被吃是天经地义的。" 经验不足、节奏混乱，一打就慌。</p>
+      </div>
+      <div class="card">
+        <div class="tag">猎物三</div>
+        <h3>正在 G 点上的庄家</h3>
+        <p>"刚成功了一把正在 G 点上 G 着的，是绝佳的猎杀对象。" 春风得意、警惕性最低的时候。</p>
+      </div>
+      <div class="card">
+        <div class="tag">规避</div>
+        <h3>老狐狸尽量不碰</h3>
+        <p>"一旦介入，就要准备好长期作战。" 除非有特别理由或纯粹找乐子，否则远离。</p>
+      </div>
+    </div>
+    <blockquote>
+      搞股票，归根结底是搞资源组合的能力，功夫在诗外。组合能力强，资金能长期坚持，有什么不能成功的？
+      <span class="who">— 缠师论"搞股票"的本质</span>
+    </blockquote>
+  </section>
+
+  <!-- 4 -->
+  <section class="wrap reveal">
+    <div class="sec-no">04 — 漂漂拳</div>
+    <h2>"指数耷拉、二三雄起"的剧本</h2>
+    <p class="lead">8月30日盘后，缠师抛出当时的市场剧本——为什么不让漂亮50继续疯，要把能量引到二、三线股。</p>
+    <p>当时的核心矛盾：<b>市场做多冲动太强</b>，但<b>政策风险随时可能落刀</b>。缠师给出的"折中剧本"是：</p>
+    <div class="points">
+      <div class="pt">
+        <div class="dot">1</div>
+        <div>
+          <h4>指数耷拉</h4>
+          <p>压住一、二线蓝筹的涨速，避免迫切矛盾被一下激化，给政策留缓冲。</p>
+        </div>
+      </div>
+      <div class="pt">
+        <div class="dot">2</div>
+        <div>
+          <h4>二三雄起</h4>
+          <p>消耗过剩的多头能量，让"贪嗔痴疑慢"的疯狂在更广的面上燃烧——"多数人的疯狂总比单纯漂亮50的疯狂更公平、更有趣"。</p>
+        </div>
+      </div>
+      <div class="pt">
+        <div class="dot">3</div>
+        <div>
+          <h4>打击"快男"</h4>
+          <p>所谓"快男"，指节奏被打乱、拿着别人的钱乱搞的资金。把他们的气焰压下去，剧本才走得通。</p>
+        </div>
+      </div>
+    </div>
+    <figure>
+      <img src="/_assets/ch75_p01.png" alt="还你漂漂拳之风再起时 K 线图示">
+      <figcaption>缠师点名"一吻高潮"的二三线股：600635 / 000998 / 000938 / 000099 / 600578 / 000915 等</figcaption>
+    </figure>
+    <p>缠师强调这种"吻"的形态特征——"<b>万草狂舞、风沙走石、天昏地暗、日月无光</b>"，是补涨二三线启动的<span class="hl-gold">视觉信号</span>。但同时反复警告：<b>没有任何股票值得追高。</b></p>
+    <figure>
+      <img src="/_assets/ch75_p02.png" alt="二三线股启动形态示意">
+      <figcaption>"技术上的小技巧，以后不再说了，有缘得之，爱谁谁去"</figcaption>
+    </figure>
+  </section>
+
+  <!-- 5 -->
+  <section class="wrap reveal">
+    <div class="sec-no">05 — 刀锋心法</div>
+    <h2>大牛市三阶段 & 0 成本海枯石烂</h2>
+    <p class="lead">这是本课最具操作意义的一节——大资金在泡沫化阶段唯一可行的活法。</p>
+    <blockquote>
+      在刀锋上行走，无论市场还是个人，都要明确知道这行走的代价。其实，没有什么是不可以的，但必须知道代价以及能够去承受这代价。那些又要玩刀又怕被刀杀着的，回家玩豆腐吧。
+      <span class="who">— 刀锋宣言</span>
+    </blockquote>
+    <p>缠师重申他对当时大牛市的基本判断（依旧适用作为<span class="hl-gold">长周期框架的范本</span>）：</p>
+    <div class="grid">
+      <div class="card">
+        <div class="tag">阶段一</div>
+        <h3>泡沫化</h3>
+        <p>从低估回到正常用了 2 年涨 4.5 倍，对称外推，泡沫化也可能再 2 年再 4.5 倍。极端情况指数可达更高，但破裂后<b>必回到 GDP 对应位置</b>，也就是当前以下。</p>
+      </div>
+      <div class="card">
+        <div class="tag">破裂</div>
+        <h3>自然破 vs 人为戳</h3>
+        <p>自然破裂时间长、伤害小；人为戳穿杀伤大但不改长期趋势——最多制造一个<b>中线调整</b>，不要怪罪任何人。</p>
+      </div>
+      <div class="card">
+        <div class="tag">心法</div>
+        <h3>选定就熬到天荒地老</h3>
+        <p>有些股票值得持有 20 年。一旦选定，就<b>海枯石烂</b>。中短波动是用来<b>降成本、加筹码</b>的工具，不是用来跑掉的理由。</p>
+      </div>
+      <div class="card">
+        <div class="tag">活法</div>
+        <h3>0 成本之后</h3>
+        <p>"没有成本，本质上就是没有占用资金，才有安心持股的可能与效率。" 那些几个月都熬不住的，根本不适宜做股票。</p>
+      </div>
+    </div>
+    <p>缠师举自己的两只"无聊"持仓做证：<b>000938（清华企业，0 成本海枯石烂）</b>、<b>000021（深科技，7 元入，0 成本缘定三生）</b>。看着无聊，但 0 成本后无聊与否已无关紧要——<span class="hl-gold">大资金在大牛市里，缠师只知道这一种活法</span>。</p>
+    <figure>
+      <img src="/_assets/ch75_p03.png" alt="吃得咸鱼抵得渴 大盘走势">
+      <figcaption>9月3日大盘：5330 点下徘徊不敢上——4330 点上的记忆太深</figcaption>
+    </figure>
+    <figure>
+      <img src="/_assets/ch75_p04.png" alt="大盘缺口与短线震荡">
+      <figcaption>当日的跳空缺口，是引发短线震荡的技术隐患</figcaption>
+    </figure>
+  </section>
+
+  <!-- 6 -->
+  <section class="wrap reveal">
+    <div class="sec-no">06 — 三类站位</div>
+    <h2>补涨二三线股的三种技术状态</h2>
+    <p class="lead">课末缠师用自己持仓做样本，把所有"二三线补涨股"归为三类站位——可直接照搬到任何补涨行情。</p>
+    <div class="table">
+      <div class="row head"><div>类型</div><div>样本</div><div>任务</div></div>
+      <div class="row">
+        <div class="name" style="color:var(--down)">第一类</div>
+        <div>600636（最弱）</div>
+        <div>还没站上半年线 → 先<b>站住半年线</b>，再谈展开</div>
+      </div>
+      <div class="row">
+        <div class="name" style="color:var(--gold)">第二类</div>
+        <div>600737（中等）</div>
+        <div>刚突破 530 后首个反弹高位然后回调 → <b>震荡站稳该位置</b>，再去挑战 530 高位</div>
+      </div>
+      <div class="row">
+        <div class="name" style="color:var(--up)">第三类</div>
+        <div>000938（最强）</div>
+        <div>已突破 530 高位后正常震荡 → 关键看<b>530 高位能否在震荡后站稳</b></div>
+      </div>
+    </div>
+    <figure>
+      <img src="/_assets/ch75_p05.png" alt="600636 第一类：未站上半年线">
+      <figcaption>第一类 · 600636：未站上半年线，任务=先站上来</figcaption>
+    </figure>
+    <figure>
+      <img src="/_assets/ch75_p06.png" alt="600737 第二类：突破反弹后回调">
+      <figcaption>第二类 · 600737：突破反弹后回调，任务=站稳再战</figcaption>
+    </figure>
+    <figure>
+      <img src="/_assets/ch75_p07.png" alt="000938 第三类：突破530后震荡">
+      <figcaption>第三类 · 000938：突破 530 后震荡，任务=守住高位</figcaption>
+    </figure>
+    <p>缠师的纪律提醒——这一段几乎是本课的<span class="hl-up">硬约束</span>：</p>
+    <blockquote>
+      长线介入，一定是在长线买点。在短线买点介入要持有长线，是绝对地违反本ID理论的。短线买点的介入就只意味着短线的操作。
+      <span class="who">— 长短不混的铁律</span>
+    </blockquote>
+    <ol class="think">
+      <li>你手里的票，更接近"庄家"还是"玩庄家的人"在控盘？资金面上有没有被锁定的弱点？</li>
+      <li>如果当前处于"泡沫化"阶段，你的持仓是为了短线吃泡沫，还是为了 0 成本熬过破裂？心态匹配吗？</li>
+      <li>对照三类站位，你的票属于哪一类？它当前的"任务"完成了吗？</li>
+    </ol>
+
+    <div class="tldr">
+      <div class="lab">一句话总结</div>
+      <p>个股博弈的真相是"庄家 vs 玩庄家的人"，多数庄家被搞死；大资金活下来的唯一活法是<b>选定后 0 成本海枯石烂</b>——其余的，都是在刀锋上行走，得自己承受代价。</p>
+    </div>
+  </section>
+</main>
+
+<footer class="wrap">
+  原文出处：raw/缠中说禅/教你炒股票108课/教你炒股票75：逗庄家玩的一些杂史1.md<br>
+  本页为个人学习复习用·非投资建议
+</footer>
+
+<script>
+  const bar=document.getElementById('bar');
+  const onScroll=()=>{
+    const h=document.documentElement;
+    const p=h.scrollTop/(h.scrollHeight-h.clientHeight);
+    bar.style.width=(p*100)+'%';
+  };
+  document.addEventListener('scroll',onScroll,{passive:true});onScroll();
+  const io=new IntersectionObserver((es)=>{
+    es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});
+  },{threshold:.12});
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+</script>
+<script src="/assets/_nav.js"></script><script src="/assets/_shell.js"></script></body>
+</html>

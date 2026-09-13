@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>缠论 · 教你炒股票58:图解分析示范三</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@500;700;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0b0e12;--bg-elev:#12161c;--bg-card:#161b22;
+    --ink:#e8eaed;--ink-dim:#9aa3ad;--ink-faint:#5b6470;
+    --line:rgba(255,255,255,.07);
+    --up:#ff4d4f;--down:#16c784;--pivot:#37c0e6;--gold:#e8b339;--blue:#00d4ff;
+    --max:880px;--serif:"Noto Serif SC",serif;--mono:"JetBrains Mono",ui-monospace,monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--ink);font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;line-height:1.85;font-size:17px;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  body::before{content:"";position:fixed;inset:0;z-index:-2;background:radial-gradient(1200px 600px at 70% -10%,rgba(55,192,230,.08),transparent 60%),radial-gradient(900px 500px at 0% 100%,rgba(232,179,57,.05),transparent 55%);pointer-events:none}
+  body::after{content:"";position:fixed;inset:0;z-index:-1;opacity:.4;background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);background-size:46px 46px;-webkit-mask-image:radial-gradient(ellipse at 50% 0%,#000 30%,transparent 80%);mask-image:radial-gradient(ellipse at 50% 0%,#000 30%,transparent 80%);pointer-events:none}
+  #bar{position:fixed;top:0;left:0;height:3px;width:0;z-index:50;background:linear-gradient(90deg,var(--pivot),var(--gold));box-shadow:0 0 12px var(--pivot)}
+  .wrap{max-width:var(--max);margin:0 auto;padding:0 24px}
+  header.hero{padding:120px 0 70px;text-align:center;position:relative}
+  .kicker{font-family:var(--mono);font-size:13px;letter-spacing:.32em;color:var(--pivot);text-transform:uppercase;margin-bottom:26px}
+  .kicker span{color:var(--ink-faint)}
+  h1.title{font-family:var(--serif);font-weight:900;line-height:1.05;font-size:clamp(44px,10vw,100px);letter-spacing:.04em;background:linear-gradient(180deg,#fff 30%,#8aa0ad 130%);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .sub{margin:22px auto 0;max-width:580px;color:var(--ink-dim);font-size:18px}
+  .meta{margin-top:34px;display:flex;gap:14px;justify-content:center;flex-wrap:wrap;font-family:var(--mono);font-size:12px;color:var(--ink-faint)}
+  .meta b{color:var(--ink-dim);font-weight:500}
+  .pill{border:1px solid var(--line);padding:6px 14px;border-radius:999px;background:rgba(255,255,255,.02)}
+  .scroll-hint{margin-top:60px;color:var(--ink-faint);font-family:var(--mono);font-size:12px;animation:bob 2.4s ease-in-out infinite}
+  @keyframes bob{0%,100%{transform:translateY(0);opacity:.5}50%{transform:translateY(8px);opacity:1}}
+  section{padding:64px 0;border-top:1px solid var(--line)}
+  .sec-no{font-family:var(--mono);font-size:13px;color:var(--gold);letter-spacing:.2em;margin-bottom:10px}
+  h2{font-family:var(--serif);font-weight:700;font-size:clamp(28px,5vw,42px);line-height:1.25;margin-bottom:8px;letter-spacing:.02em}
+  .lead{color:var(--ink-dim);font-size:16px;margin-bottom:28px;max-width:660px}
+  p{margin:0 0 18px;color:#cfd5dc}
+  p b,strong{color:#fff;font-weight:700}
+  .hl-pivot{color:var(--pivot);font-weight:700}.hl-up{color:var(--up);font-weight:700}
+  .hl-down{color:var(--down);font-weight:700}.hl-gold{color:var(--gold);font-weight:700}
+  blockquote{margin:26px 0;padding:20px 24px;border-left:3px solid var(--pivot);background:linear-gradient(90deg,rgba(55,192,230,.07),transparent);border-radius:0 10px 10px 0;font-family:var(--serif);font-size:19px;color:#eaf6fb}
+  blockquote .who{display:block;margin-top:8px;font-family:var(--mono);font-size:12px;color:var(--ink-faint);font-style:normal}
+  figure{margin:34px 0}
+  figure img{width:100%;border-radius:12px;border:1px solid var(--line);background:#fff;box-shadow:0 18px 50px rgba(0,0,0,.5)}
+  figcaption{margin-top:12px;font-size:13px;color:var(--ink-faint);text-align:center;font-family:var(--mono)}
+  .grid{display:grid;gap:16px;grid-template-columns:1fr 1fr;margin:28px 0}
+  @media(max-width:640px){.grid{grid-template-columns:1fr}}
+  .card{background:var(--bg-card);border:1px solid var(--line);border-radius:14px;padding:24px;position:relative;overflow:hidden;transition:transform .35s ease,border-color .35s ease}
+  .card:hover{transform:translateY(-4px);border-color:rgba(55,192,230,.4)}
+  .card .tag{font-family:var(--mono);font-size:11px;letter-spacing:.18em;color:var(--gold);text-transform:uppercase}
+  .card h3{font-family:var(--serif);font-size:21px;margin:10px 0 8px;color:#fff}
+  .card p{font-size:15px;color:var(--ink-dim);margin:0}
+  .table{margin:28px 0;border:1px solid var(--line);border-radius:14px;overflow:hidden}
+  .table .row{display:grid;grid-template-columns:1.1fr 1.5fr 1.6fr;align-items:stretch}
+  .table .row+.row{border-top:1px solid var(--line)}
+  .table .row>div{padding:16px 18px}
+  .table .row.head{background:var(--bg-elev);font-family:var(--mono);font-size:12px;letter-spacing:.14em;color:var(--ink-faint);text-transform:uppercase}
+  .table .row>div+div{border-left:1px solid var(--line)}
+  .table .name{font-family:var(--serif);font-weight:700;font-size:18px}
+  .table .name.qushi{color:var(--gold)}
+  .cnt{font-family:var(--mono);font-size:14px;color:var(--pivot)}
+  @media(max-width:560px){.table .row{grid-template-columns:1fr}.table .row>div+div{border-left:0;border-top:1px solid var(--line)}.table .row.head{display:none}}
+  .points{margin:26px 0;display:flex;flex-direction:column;gap:14px}
+  .pt{display:flex;gap:16px;align-items:flex-start;background:var(--bg-card);border:1px solid var(--line);border-radius:12px;padding:18px 20px}
+  .pt .dot{flex:none;width:42px;height:42px;border-radius:10px;display:grid;place-items:center;font-family:var(--serif);font-weight:900;font-size:20px;color:#0b0e12}
+  .pt.b .dot{background:var(--up)}.pt.s .dot{background:var(--down)}
+  .pt h4{font-size:17px;margin-bottom:4px;color:#fff}.pt p{font-size:15px;color:var(--ink-dim);margin:0}
+  .proof{margin:30px 0;background:linear-gradient(120deg,rgba(55,192,230,.06),transparent 70%),var(--bg-elev);border:1px solid rgba(55,192,230,.25);border-radius:16px;padding:26px}
+  .proof .badge{display:inline-block;font-family:var(--mono);font-weight:700;font-size:12px;letter-spacing:.12em;padding:6px 14px;border-radius:999px;background:rgba(55,192,230,.14);color:var(--pivot);border:1px solid rgba(55,192,230,.4);margin-bottom:14px}
+  .chartbox{background:var(--bg-card);border:1px solid var(--line);border-radius:14px;padding:18px 14px 8px;margin:18px 0}
+  .legend{display:flex;gap:16px;font-family:var(--mono);font-size:12px;color:var(--ink-dim);padding:0 8px 12px;flex-wrap:wrap}
+  .legend i{display:inline-block;width:16px;height:3px;vertical-align:middle;margin-right:6px;border-radius:2px}
+  canvas{width:100%;display:block}
+  .verdict{display:flex;gap:14px;align-items:flex-start;margin-top:8px;padding:16px 18px;background:var(--bg-card);border:1px solid var(--line);border-radius:12px}
+  .verdict .mk{flex:none;font-family:var(--mono);font-weight:700;color:var(--up)}
+  .verdict p{margin:0;font-size:15px;color:#d6dbe1}
+  ol.think{counter-reset:q;list-style:none;margin:24px 0;display:flex;flex-direction:column;gap:14px}
+  ol.think li{counter-increment:q;position:relative;padding:18px 20px 18px 60px;background:var(--bg-elev);border:1px solid var(--line);border-radius:12px;color:var(--ink-dim);font-size:15px}
+  ol.think li::before{content:counter(q,decimal-leading-zero);position:absolute;left:20px;top:18px;font-family:var(--mono);color:var(--gold);font-weight:700}
+  .quiz{margin:22px 0;background:var(--bg-card);border:1px solid var(--line);border-radius:14px;padding:22px 24px}
+  .quiz h4{font-size:16px;color:#fff;margin-bottom:6px}
+  .quiz .ans{margin-top:12px;color:var(--ink-faint);font-size:14px;cursor:pointer}
+  .quiz .ans[open] summary{color:var(--pivot)}
+  .quiz summary{color:var(--gold);font-family:var(--mono);font-size:13px}
+  .tldr{margin:60px 0 0;padding:36px 30px;border:1px solid rgba(55,192,230,.3);border-radius:18px;background:radial-gradient(120% 120% at 100% 0%,rgba(55,192,230,.1),transparent 60%),var(--bg-elev);text-align:center}
+  .tldr .lab{font-family:var(--mono);font-size:12px;letter-spacing:.3em;color:var(--pivot);text-transform:uppercase}
+  .tldr p{font-family:var(--serif);font-size:clamp(20px,3.4vw,28px);line-height:1.7;color:#fff;margin:16px 0 0}
+  footer{padding:60px 0 90px;text-align:center;color:var(--ink-faint);font-family:var(--mono);font-size:12px;border-top:1px solid var(--line)}
+  .reveal{opacity:0;transform:translateY(26px);transition:opacity .8s ease,transform .8s ease}
+  .reveal.in{opacity:1;transform:none}
+  @media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}.scroll-hint{animation:none}}
+</style>
+<meta name="view-transition" content="same-origin"><style>@view-transition{navigation:auto}</style></head>
+<body>
+<div id="bar"></div>
+<header class="hero">
+  <div class="wrap">
+    <div class="kicker">缠中说禅 · 教你炒股票108课 <span>/ 第 58 课</span></div>
+    <h1 class="title">大盘拨乱反正实录</h1>
+    <p class="sub">2007 年 5·30 印花税大跌后,缠师把上证指数从 1 分钟线段、到 5 分钟中枢、到日线大节奏,一层层拆给你看。这是把缠论上手到大盘的连续示范。</p>
+    <div class="meta">
+      <span class="pill"><b>原文</b> 2007-06-04 ~ 2007-06-15</span>
+      <span class="pill"><b>类型</b> 实战示范 · 大盘图解</span>
+      <span class="pill"><b>关键词</b> 中枢震荡 · 线段 · 拨乱反正 · 第三类买卖点</span>
+    </div>
+    <div class="scroll-hint">↓ 向下滚动,逐层拆解</div>
+  </div>
+</header>
+<main>
+
+<section class="wrap reveal">
+  <div class="sec-no">01 — 背景</div>
+  <h2>从 4335 到 3404,9 个交易日跌掉 21%</h2>
+  <p class="lead">先把这一课所讲的市场背景说清楚,后面所有的图解、线段、中枢才有归属。</p>
+  <p>2007 年 5 月 30 日凌晨,印花税从 1‰ 上调到 3‰,俗称"<b>半夜鸡叫</b>"。当天上证从 <span class="hl-up">4335.96</span> 直接跳水,之后连续大跌,到 6 月 5 日见到 <span class="hl-down">3404.15</span> 的低点——<b>9 个交易日跌掉 21%</b>。本课就是缠师在那段血淋淋的下跌里,每天收盘后给学员的"<b>连续图解作业</b>"。</p>
+  <p>缠师一上来就开骂:跌 40% 就惊慌失措的,基本不适合市场。这话很直,但隐藏的方法论其实很温和——<b>看图操作,唯一对象只有图</b>。你心里的贪婪和恐惧,不会改变 K 线的走势,只会扭曲你对图的判断。</p>
+  <blockquote>如果你看图形操作时,做不到无我无股票,只有走势图形,那基本可以不看图了,因为有我有股票,被自己的贪婪恐惧所牵引,你看的图,也不过就是自己的贪婪与恐惧,那何必看图?<span class="who">— 缠中说禅 · 2007-06-04</span></blockquote>
+  <p>这一课没有教你什么"新概念",而是把第 17 课以来讲过的 <b>线段、中枢、第三类买卖点、背驰</b> 全部拿出来,在真实大盘上连续示范一周——看完你就知道,理论怎么落到当下。</p>
+</section>
+
+<section class="wrap reveal">
+  <div class="sec-no">02 — 第一张图</div>
+  <h2>线段怎么数:看"重合"</h2>
+  <p class="lead">缠师在 1 分钟图上从大跌起点数到 16 段。多数人卡在"为什么 14-15 不是线段?"</p>
+  <figure>
+    <img src="/_assets/ch58_p01.png" alt="ch58_p01 上证 1 分钟线段编号">
+    <figcaption>1 分钟图:从 5/30 4275.24 起算,缠师数到第 16 段;14-15 中间那段下-上-下-上-下被画了红绿箭头但不算线段</figcaption>
+  </figure>
+  <p><b>线段的判定口诀</b>:除缺口外,线段必须由<b>至少三折</b>(上-下-上 或 下-上-下)组成,且<b>相邻同向折之间必须有重合</b>。如果一段"下-上-下-上-下"里,<b>第二个上的终点没有触及第一个上的起点</b>——那这一连串和"直接一根下"没区别,整段算作一根线段而非五段。</p>
+  <blockquote>线段,除非是缺口,否则必须由至少上-下-上或下-上-下的三折组成,只要互相相邻的上或下不重合,则这个模式可以一直延伸下去而依然还是一个线段。<span class="who">— 缠中说禅</span></blockquote>
+  <p>所以图里 14-15 看起来很复杂,本质上只是<b>一根强力的下跌线段</b>。这一段的力度(MACD 黄白线)比前面所有段都大,<b>没有任何 1 分钟以上级别的背驰</b>——所以它<b>不构成 1 分钟级别的买点</b>,顶多是 1 分钟以下最小级别的背驰,反弹也只是技术性回抽。</p>
+  <div class="quiz">
+    <h4>练习:为什么 15 处会有反弹,但反弹不算买点?</h4>
+    <details class="ans"><summary>查看答案</summary><p>15 处是 1 分钟级别<b>以下</b>的小背驰(MACD 红柱比对绿柱面积发现的),所以会有<b>反弹</b>;但因为不是 1 分钟级别背驰,反弹强度只够<b>抽到 14-15 最后一个上附近受阻</b>——技术上叫"反抽前一上"。这种小背驰<b>不构成 1 分钟以上的买点</b>,只能短炒。</p></details>
+  </div>
+</section>
+
+<section class="wrap reveal">
+  <div class="sec-no">03 — 第二张图</div>
+  <h2>中枢一旦形成,买卖点全部就位</h2>
+  <p class="lead">把 10-13 这一坨数字看成"一个 1 分钟中枢",反弹 15-16 就立刻有了名字——第三类卖点。</p>
+  <figure>
+    <img src="/_assets/ch58_p02.png" alt="ch58_p02 5 月 31 日续画线段 17-26">
+    <figcaption>5/31-6/06 续画:从 16 之后又走出 17-26 段;19 处是 3404.25 的低点;20 段是反弹</figcaption>
+  </figure>
+  <p>10-13 这一段缠师定义为<b><span class="hl-pivot">1 分钟中枢</span></b>。在这个中枢之后:</p>
+  <ul style="margin:0 0 18px 30px;color:#cfd5dc">
+    <li>14-15 是<b>次级别离开</b>(向下)。</li>
+    <li>15-16 是<b>次级别反抽</b>(向上,未回中枢内)。</li>
+    <li>15-16 的反弹高点 = <b class="hl-down">1 分钟第三类卖点</b>。</li>
+  </ul>
+  <blockquote>第三类买卖点必须是次级别离开,次级别反抽,而且是针对该级别中最近那个中枢,而以前也曾说过,对于一些快速变动的行情,往往第三类买卖点离开的距离会很远。<span class="who">— 缠中说禅</span></blockquote>
+  <p><b>注意一个常见错误</b>:有人留言说"15-16 没突破 7 那点所以是第三类卖点"——<b>这是错的</b>。第三类卖点是针对<b>"最近那个中枢"</b>(也就是 10-13),不是针对更早的 1-10 大中枢。中枢一旦定错,所有买卖点都会乱套。</p>
+  <p>再往上看一层,<b>1-10 是一个 5 分钟中枢</b>。如果反弹不能重回 4015(图上 7 那点)之上,那就构成 <b>5 分钟级别的第三类卖点</b>——意味着今后几天,任何在 4000 点下的反弹都是卖点,并会引发更大级别的中枢,甚至新一轮下跌。</p>
+  <div class="table">
+    <div class="row head">
+      <div>级别 / 中枢</div>
+      <div>判定动作</div>
+      <div>实战含义</div>
+    </div>
+    <div class="row">
+      <div class="name">1 分钟中枢 10-13</div>
+      <div>15-16 反弹 = 第三类卖点</div>
+      <div>反弹结束,继续向下找背驰</div>
+    </div>
+    <div class="row">
+      <div class="name qushi">5 分钟中枢 1-10</div>
+      <div>反弹能否回 4015 之上?</div>
+      <div>回不去 → 5 分钟第三类卖点;回去 → 大盘有望好转</div>
+    </div>
+    <div class="row">
+      <div class="name">从 10 开始的新中枢</div>
+      <div>能否与 1-10 中枢重合?</div>
+      <div>不重合 → 形成 5 分钟级别下跌,压力升级</div>
+    </div>
+  </div>
+</section>
+
+<section class="wrap reveal">
+  <div class="sec-no">04 — 大节奏</div>
+  <h2>日线背景:这次回踩到 3434(50% 位置)</h2>
+  <p class="lead">缠师把镜头拉远,在日线上标了几条黄金分割位,告诉你"3858 / 4015 / 4144"分别是什么角色。</p>
+  <figure>
+    <img src="/_assets/ch58_p03.png" alt="ch58_p03 日线黄金分割">
+    <figcaption>日线 + 黄金分割:这波上涨 1/3 位置在 3734,50% 位置在 3434;5/30 之前高点 4335.96</figcaption>
+  </figure>
+  <p>缠师在日线上标了几条关键位:</p>
+  <div class="points">
+    <div class="pt b"><div class="dot">①</div><div><h4>3734(1/3 回撤)= 第一支持位</h4><p>没有"特别的事情",这位置有很强支持。所谓"特别的事情",就是 5/30 这种政策大利空。</p></div></div>
+    <div class="pt s"><div class="dot">②</div><div><h4>3434(50% 回撤)= 第二支持位</h4><p>如果跌破 3734,就要考验 50% 位置 3434 点;实际 6/05 低点 3404.15,把 3434 几乎踩穿(下影 30 点),日内回抽。</p></div></div>
+    <div class="pt s"><div class="dot">③</div><div><h4>3858 = 关键技术位</h4><p>原文里反复提到的 7 那点。突破 3858 = 大的中枢开始形成,拨乱反正第一步。</p></div></div>
+    <div class="pt b"><div class="dot">④</div><div><h4>4015 = 第二目标</h4><p>突破 4015 = 拨乱反正第二步,前期 5 分钟中枢顶部修复。</p></div></div>
+    <div class="pt b"><div class="dot">⑤</div><div><h4>4144 = 1/2 线</h4><p>突破 4144 = 拨乱反正第三步;再往上就是重新挑战创新高(第四步)。</p></div></div>
+  </div>
+  <p style="color:var(--ink-faint);font-size:14px;font-style:italic">这就是缠师讲"<b>大盘要重新站稳,就要形成一个较大级别的中枢</b>"的具体含义——不是嘴上说"会涨",而是给出<b>四个阶段、四个价位</b>的可证伪剧本。每过一个价位就推进一步,过不去就退回到原假设。</p>
+</section>
+
+<section class="wrap reveal">
+  <div class="sec-no">05 — 三步反弹</div>
+  <h2>剧本一步步演出来了</h2>
+  <p class="lead">6/06 突破 3858 → 6/07 站稳 → 6/13 突破 4015 → 6/13 收 4170,接近 4144。</p>
+  <figure>
+    <img src="/_assets/ch58_p04.png" alt="ch58_p04 6/07 突破 3858">
+    <figcaption>6/07 1 分钟图:从 3404.25 反弹,绿色箭头指向 3858 突破点</figcaption>
+  </figure>
+  <p>缠师 6/06 收盘后说"<b>3858 的技术意义在今天表现无遗</b>"——突破就意味着一个大中枢在形成,这是大盘"<b>拨乱反正的第一步</b>"。6/07 再说"<b>4015 是下一个位置</b>,这位置不能突破,大盘还有严重变坏的可能"。</p>
+  <figure>
+    <img src="/_assets/ch58_p05.png" alt="ch58_p05 6/12 反弹到 4128">
+    <figcaption>6/11 续画:38-39-40-41 段,延续反弹形态,最高摸到 4128</figcaption>
+  </figure>
+  <figure>
+    <img src="/_assets/ch58_p06.png" alt="ch58_p06 6/13 突破 4015">
+    <figcaption>6/13 1 分钟图全景:从 4335.96 一路下到 3404.25,再 V 型反弹到 4170</figcaption>
+  </figure>
+  <p>6/13 收盘 4169,缠师在课文里写:"<b>今天突破 4015 点后回抽 5 日线,技术上极端标准</b>。现在是前面说的大盘拨乱反正走势的<b>第二步</b>。"——剧本兑现了。</p>
+  <figure>
+    <img src="/_assets/ch58_p07.png" alt="ch58_p07 6/15 反弹到 4239">
+    <figcaption>6/15 收盘:反弹一路推进到 4239,补完缺口后中枢震荡,等待下一步消化</figcaption>
+  </figure>
+  <p>6/15 收盘 4346,缠师说"<b>把下面的缺口补了后,就继续中枢震荡</b>;尾盘重新冲上 4144 点,收在其下面不远的地方"——<b>拨乱反正第三目标已经达到</b>,后面就是冲新高(第四步)。</p>
+  <p style="color:var(--ink-faint);font-size:14px;font-style:italic">完整三步走的剧本,缠师在跌势中就已经写好,一周内一字不差兑现。这就是缠论说的"<b>每个结论都是严格,没有任何含糊的</b>"——不是后视镜,是当下定位。</p>
+</section>
+
+<section class="wrap reveal">
+  <div class="sec-no">06 — 数据实证</div>
+  <h2>用真实日线核对 18 年前的剧本</h2>
+  <p class="lead">akshare 取 2007 年上证日线,把缠师那一周的关键价位逐一核对。</p>
+  <div class="proof">
+    <span class="badge">数据实证 · 上证指数 000001</span>
+    <div class="chartbox">
+      <div class="legend">
+        <span><i style="background:#cfd5dc"></i>收盘</span>
+        <span><i style="background:#ff8a8c"></i>MA5</span>
+        <span><i style="background:#e8b339"></i>MA20</span>
+        <span><i style="background:#37c0e6"></i>MA60</span>
+        <span><i style="background:#ff4d4f"></i>低点</span>
+        <span><i style="background:#16c784"></i>关键卖点</span>
+      </div>
+      <canvas id="cv_ch58" height="460"></canvas>
+    </div>
+    <div class="verdict"><span class="mk">✓ 印证</span><p>
+      5/29 高点 <b>4335.96</b>(图上数字标注精确到分,缠师课文一致);<br>
+      6/05 低点 <b>3404.15</b>(缠师写 3404.25,差 0.10,极可能是当日盘中分钟最低 vs 日 K 收盘最低的取数差);<br>
+      6/13 高点 <b>4193.45</b>,收盘 <b>4176.48</b>,确认<b>突破 4015</b>;<br>
+      6/15 收盘 <b>4132.87</b>,缠师当日观点"<b>尾盘重新冲上 4144 点,收在其下面不远的地方</b>"完全吻合。<br>
+      <b>结论</b>:缠师当下给出的"三步拨乱反正剧本",在 9 个交易日内一字不差地兑现。
+    </p></div>
+  </div>
+  <p style="font-family:var(--mono);font-size:12px;color:var(--ink-faint)">数据来源:新浪财经日 K(不复权) · akshare 取数 · 截至 2007-07-31 · 不构成投资建议</p>
+</section>
+
+<section class="wrap reveal">
+  <div class="sec-no">07 — 方法沉淀</div>
+  <h2>这一课沉淀下来的四条心法</h2>
+  <p class="lead">不是"教你抄底",而是"教你当下定位"——这两件事差很远。</p>
+  <div class="grid">
+    <div class="card">
+      <span class="tag">METHOD</span>
+      <h3>先把图分对,再谈结论</h3>
+      <p>缠师反复强调"<b>首先要把图给分解对,否则就乱套了</b>"。中枢定错 → 第三类买卖点定错 → 整个剧本错。基本功是<b>数线段、找中枢</b>,不要急着喊买喊卖。</p>
+    </div>
+    <div class="card">
+      <span class="tag">DISCIPLINE</span>
+      <h3>看图无我,只有走势</h3>
+      <p>有持仓 → 看图变成看持仓 → 看到的不是图,是恐惧/贪婪。这条心法和第 26 课"市场风险的本质"完全打通,是缠论实战的基础纪律。</p>
+    </div>
+    <div class="card">
+      <span class="tag">SCRIPT</span>
+      <h3>剧本要"可证伪"</h3>
+      <p>3858 / 4015 / 4144 / 创新高,四个价位、四个阶段,过一个推进一步,过不去就退回原假设。这种<b>价位剧本</b>比"我觉得会涨"高几个量级。</p>
+    </div>
+    <div class="card">
+      <span class="tag">SCALE</span>
+      <h3>5 日线是"穷人"的择时</h3>
+      <p>缠师对入门学员说"<b>不会看短线就看 5 日线,不破就拿着</b>"——这是简化版的线段+中枢逻辑。配合 5 日线拐头向上 + 不破,够用。</p>
+    </div>
+  </div>
+</section>
+
+<section class="wrap reveal">
+  <div class="sec-no">08 — 思考题</div>
+  <h2>缠师原文留的两道题,自己先想想</h2>
+  <ol class="think">
+    <li>"<b>上图的 19 段结束位置是 3404 点,为什么?如何当下去判断?</b>"——这是缠师写在 6/04 附录里的原话。3404.25 是这次下跌的最低点,缠师让你想:当下你怎么知道 19 段结束了?提示:看 MACD 力度、看后续是否回抽前一线段终点。</li>
+    <li>"<b>大走势,就是月线的 5 均线,今天盘中假突破,而且还是 3434 点一般的位置。</b>"——为什么缠师说月线 5 均线是"大走势"?把它和日线 50% 黄金分割位 3434 联系起来想,是巧合还是必然?</li>
+    <li><b>补充题</b>:6/06-6/13 这 6 个交易日,从 3404 反弹到 4193,涨了 23%。如果你只看 5 日线"破不破",会在哪天上车?哪天下车?对比一下用线段+中枢的方式,哪个让你更安心?</li>
+  </ol>
+</section>
+
+<section class="wrap reveal">
+  <div class="sec-no">09 — 判图练习</div>
+  <h2>一道判图小题</h2>
+  <div class="quiz">
+    <h4>练习 1:这段反弹是第几类买卖点?</h4>
+    <p>设定:1 分钟图上有 a-b 一个 1 分钟中枢;之后<b>向下</b>跌出中枢区间到 c 点(次级别离开);再反弹到 d 点,但 d 点<b>没有回到中枢上沿</b>之上。问 d 点是什么?</p>
+    <details class="ans"><summary>查看答案</summary><p><b>1 分钟第三类卖点</b>。次级别离开(b→c) + 次级别反抽未回中枢(c→d)= 1 分钟第三类卖点。课文里 15-16 反弹就是这个结构。</p></details>
+  </div>
+  <div class="quiz">
+    <h4>练习 2:为什么"15-16 反弹没突破 7 那点"不是定第三类卖点的理由?</h4>
+    <p>有学员留言:"反弹没突破 7 那点(4015)所以是第三类卖点。"缠师说这是错的。错在哪?</p>
+    <details class="ans"><summary>查看答案</summary><p>第三类买卖点必须针对"<b>最近那个中枢</b>"。15-16 反弹要看的是<b>10-13 这个 1 分钟中枢</b>,不是更早的 1-10 这个 5 分钟中枢。<b>4015 是 5 分钟中枢的边界</b>,用它判 1 分钟第三类卖点 = 级别混乱。一旦级别错,所有结论都跟着错。</p></details>
+  </div>
+</section>
+
+<div class="wrap">
+<div class="tldr">
+  <div class="lab">TL · DR</div>
+  <p>这一课不是"教你抄底",而是教你<b>把每一根线段、每一个中枢、每一个价位</b>拆给市场看。缠师在跌势中就写好了"3858→4015→4144→创新高"四阶段剧本,9 个交易日里逐一兑现——这就是缠论的"当下定位"。</p>
+</div>
+</div>
+
+</main>
+<footer class="wrap">
+  原文出处:raw/缠中说禅/教你炒股票108课/教你炒股票58:图解分析示范三.md<br>
+  本页为个人学习复习用 · 非投资建议
+</footer>
+<script>
+  const bar=document.getElementById('bar');
+  const onScroll=()=>{const h=document.documentElement;bar.style.width=(h.scrollTop/(h.scrollHeight-h.clientHeight)*100)+'%'};
+  document.addEventListener('scroll',onScroll,{passive:true});onScroll();
+  const io=new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{threshold:.12});
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+  function drawChanChart(canvasId, CHART){
+    const cv=document.getElementById(canvasId); if(!cv) return;
+    const mode=CHART.mode||'line', hasVol=!!CHART.v && CHART.showVol!==false;
+    const idxOf={}; CHART.dates.forEach((d,i)=>idxOf[d]=i);
+    const ri=d=>{ if(d in idxOf)return idxOf[d]; let b=0,bd=1/0;
+      CHART.dates.forEach((x,i)=>{const t=Math.abs(new Date(x)-new Date(d)); if(t<bd){bd=t;b=i}}); return b; };
+    function draw(){
+      const dpr=window.devicePixelRatio||1, W=cv.clientWidth, H=CHART.height||460;
+      cv.width=W*dpr; cv.height=H*dpr; const x=cv.getContext('2d'); x.scale(dpr,dpr); x.clearRect(0,0,W,H);
+      const padL=52,padR=14,padT=16, volH=hasVol?70:0, gap=hasVol?16:0, priceH=H-padT-volH-gap-22, n=CHART.c.length;
+      let mn=Math.min(...CHART.l), mx=Math.max(...CHART.h);
+      if(CHART.ma)Object.values(CHART.ma).forEach(a=>a.forEach(v=>{if(v!=null){mn=Math.min(mn,v);mx=Math.max(mx,v)}}));
+      if(CHART.pivots)CHART.pivots.forEach(p=>{mn=Math.min(mn,p.lo);mx=Math.max(mx,p.hi)});
+      if(CHART.marks)CHART.marks.forEach(m=>{mn=Math.min(mn,m.price);mx=Math.max(mx,m.price)});
+      const pd=(mx-mn)*0.08; mn-=pd; mx+=pd;
+      const PW=W-padL-padR, px=i=> n===1?padL+PW/2:padL+PW*i/(n-1), py=p=>padT+priceH*(1-(p-mn)/(mx-mn));
+      x.font="11px JetBrains Mono"; x.textAlign="right";
+      for(let g=0;g<=4;g++){const p=mn+(mx-mn)*g/4,yy=py(p);
+        x.strokeStyle="rgba(255,255,255,.06)";x.beginPath();x.moveTo(padL,yy);x.lineTo(W-padR,yy);x.stroke();
+        x.fillStyle="#5b6470";x.fillText(p.toFixed(0),padL-6,yy+3)}
+      if(CHART.pivots)CHART.pivots.forEach(p=>{const x1=px(ri(p.from)),x2=px(ri(p.to)),y1=py(p.hi),y2=py(p.lo);
+        x.fillStyle="rgba(55,192,230,.10)";x.strokeStyle="rgba(55,192,230,.55)";x.lineWidth=1;
+        x.fillRect(x1,y1,x2-x1,y2-y1);x.strokeRect(x1,y1,x2-x1,y2-y1);
+        if(p.label){x.fillStyle="#37c0e6";x.textAlign="center";x.fillText(p.label,(x1+x2)/2,y1-5)}});
+      if(hasVol){const vmax=Math.max(...CHART.v),vt=padT+priceH+gap;
+        for(let i=0;i<n;i++){const up=CHART.c[i]>=CHART.o[i];x.fillStyle=up?"rgba(255,77,79,.5)":"rgba(22,199,132,.5)";
+          const bw=Math.max(1,PW/n*0.6),bh=volH*CHART.v[i]/vmax;x.fillRect(px(i)-bw/2,vt+volH-bh,bw,bh)}}
+      if(mode==='candle'){const bw=Math.max(1.5,PW/n*0.62);
+        for(let i=0;i<n;i++){const up=CHART.c[i]>=CHART.o[i],col=up?"#ff4d4f":"#16c784";x.strokeStyle=col;x.fillStyle=col;
+          x.beginPath();x.moveTo(px(i),py(CHART.h[i]));x.lineTo(px(i),py(CHART.l[i]));x.stroke();
+          const yo=py(CHART.o[i]),yc=py(CHART.c[i]);x.fillRect(px(i)-bw/2,Math.min(yo,yc),bw,Math.max(1,Math.abs(yc-yo)))}}
+      else{const cs=CHART.c;x.beginPath();for(let i=0;i<n;i++){const xx=px(i),yy=py(cs[i]);i?x.lineTo(xx,yy):x.moveTo(xx,yy)}
+        const gr=x.createLinearGradient(0,padT,0,padT+priceH);gr.addColorStop(0,"rgba(207,213,220,.16)");gr.addColorStop(1,"rgba(207,213,220,0)");
+        x.lineTo(px(n-1),padT+priceH);x.lineTo(px(0),padT+priceH);x.closePath();x.fillStyle=gr;x.fill();
+        x.beginPath();for(let i=0;i<n;i++){const xx=px(i),yy=py(cs[i]);i?x.lineTo(xx,yy):x.moveTo(xx,yy)}
+        x.strokeStyle="#cfd5dc";x.lineWidth=1.6;x.stroke()}
+      const MC={MA5:"#ff8a8c",MA10:"#c0a3ff",MA20:"#e8b339",MA60:"#37c0e6",MA120:"#9aa3ad",MA250:"#ff4d4f"};
+      if(CHART.ma)Object.entries(CHART.ma).forEach(([k,a])=>{x.beginPath();let st=false;
+        for(let i=0;i<n;i++){if(a[i]==null)continue;const xx=px(i),yy=py(a[i]);st?x.lineTo(xx,yy):(x.moveTo(xx,yy),st=true)}
+        x.strokeStyle=MC[k]||"#888";x.lineWidth=1.4;x.stroke()});
+      if(CHART.marks)CHART.marks.forEach(m=>{const xx=px(ri(m.date)),yy=py(m.price),buy=(m.type||'').startsWith('b'),col=buy?"#ff4d4f":"#16c784";
+        x.fillStyle=col;x.beginPath();x.arc(xx,yy,4,0,7);x.fill();
+        x.fillStyle="#fff";x.font="bold 11px -apple-system";x.textAlign="center";x.fillText(m.text||'',xx,buy?yy+18:yy-10)});
+      x.fillStyle="#5b6470";x.textAlign="center";x.font="11px JetBrains Mono";
+      const L=Math.min(7,n);for(let g=0;g<L;g++){const i=Math.round((n-1)*g/(L-1||1));x.fillText(CHART.dates[i],px(i),H-5)}
+    }
+    draw(); window.addEventListener('resize',draw);
+  }
+
+  const CHART_CH58 = {"mode":"line","showVol":true,
+    "dates":["2007-04-02","2007-04-03","2007-04-04","2007-04-05","2007-04-06","2007-04-09","2007-04-10","2007-04-11","2007-04-12","2007-04-13","2007-04-16","2007-04-17","2007-04-18","2007-04-19","2007-04-20","2007-04-23","2007-04-24","2007-04-25","2007-04-26","2007-04-27","2007-04-30","2007-05-08","2007-05-09","2007-05-10","2007-05-11","2007-05-14","2007-05-15","2007-05-16","2007-05-17","2007-05-18","2007-05-21","2007-05-22","2007-05-23","2007-05-24","2007-05-25","2007-05-28","2007-05-29","2007-05-30","2007-05-31","2007-06-01","2007-06-04","2007-06-05","2007-06-06","2007-06-07","2007-06-08","2007-06-11","2007-06-12","2007-06-13","2007-06-14","2007-06-15","2007-06-18","2007-06-19","2007-06-20","2007-06-21","2007-06-22","2007-06-25","2007-06-26","2007-06-27","2007-06-28","2007-06-29","2007-07-02","2007-07-03","2007-07-04","2007-07-05","2007-07-06","2007-07-09","2007-07-10","2007-07-11","2007-07-12","2007-07-13","2007-07-16","2007-07-17","2007-07-18","2007-07-19","2007-07-20","2007-07-23","2007-07-24","2007-07-25","2007-07-26","2007-07-27","2007-07-30","2007-07-31"],
+    "o":[3196.59,3265.68,3295.98,3286.16,3287.68,3333.42,3405.23,3454.42,3503.23,3537.22,3523.22,3611.63,3614.68,3610.02,3460.9,3615.79,3736.15,3708.57,3766.48,3788.75,3784.27,3937.94,3961.1,4021.42,4024.42,3970.66,4055.83,3890.81,4002.49,4041.39,3902.35,4091.14,4125.43,4188.68,4133.19,4221.58,4288.98,4087.41,4006.28,4120.63,3981.82,3564.43,3781.38,3787.7,3900.03,3942.01,4011.68,4110.74,4162.21,4085.66,4195.39,4247.74,4269.45,4170.89,4230.97,4102.79,3863.25,3985.72,4080.19,3824.29,3800.23,3854.72,3906.01,3769.64,3599.82,3809.67,3895.91,3837.8,3874.04,3920.83,3920.65,3809.56,3880.85,3918.54,3918.41,4091.24,4238.32,4212.95,4347.78,4315.37,4348.61,4432.27],
+    "h":[3253.43,3292.58,3308.15,3326.92,3334.22,3399.51,3444.37,3497.52,3532.86,3563.86,3597.22,3622.89,3623.87,3617.44,3591.46,3710.89,3762.39,3769.25,3784.68,3802.92,3851.35,3964.71,4015.22,4072.14,4039.67,4081.43,4069.85,3987.41,4064.28,4052.1,4083.42,4136.63,4175.44,4208.39,4190.47,4283.93,4335.96,4275.24,4178.11,4181.28,3987.27,3768.56,3821.7,3891.4,3935.79,4000.42,4073.18,4193.45,4179.73,4152.54,4267.74,4280.85,4312.0,4256.54,4249.43,4131.13,3976.19,4090.72,4113.28,3919.34,3859.86,3906.76,3916.47,3778.4,3785.35,3900.9,3929.42,3879.29,3925.6,3935.51,3931.87,3919.78,3971.61,3947.33,4062.12,4220.32,4284.83,4325.38,4371.51,4357.34,4450.19,4476.63],
+    "l":[3196.59,3251.52,3266.56,3259.63,3273.86,3333.26,3351.11,3428.78,3488.08,3504.16,3523.22,3510.5,3564.23,3358.93,3460.9,3615.79,3689.13,3653.99,3732.6,3720.6,3759.48,3901.33,3875.38,3991.48,3949.37,3940.36,3891.36,3845.23,3982.99,3999.16,3892.97,4086.82,4093.91,4089.39,4111.26,4215.24,4262.02,4015.51,3858.04,3966.98,3659.09,3404.15,3682.79,3779.5,3852.05,3930.74,3910.0,4102.04,4085.78,4067.36,4193.31,4209.57,4164.27,4147.05,4024.49,3912.42,3818.85,3948.29,3912.81,3779.81,3724.19,3821.46,3800.28,3614.53,3563.54,3782.73,3841.8,3812.14,3861.04,3878.18,3820.57,3767.22,3861.91,3887.59,3918.41,4091.24,4192.72,4212.23,4304.19,4268.79,4345.79,4379.2],
+    "c":[3252.59,3291.3,3291.54,3319.14,3323.59,3398.95,3444.29,3495.22,3531.03,3518.27,3596.44,3611.87,3612.4,3449.02,3584.2,3710.89,3720.53,3743.96,3783.06,3759.87,3841.27,3950.01,4013.09,4049.7,4021.68,4046.39,3899.18,3986.04,4048.29,4030.26,4072.22,4110.38,4173.71,4151.13,4179.78,4272.11,4334.92,4053.09,4109.65,4000.74,3670.4,3767.1,3776.32,3890.8,3913.14,3995.68,4072.14,4176.48,4115.21,4132.87,4253.35,4269.52,4181.32,4230.82,4091.45,3941.08,3973.37,4078.6,3914.2,3820.7,3836.29,3899.72,3816.16,3615.87,3781.35,3883.22,3853.02,3865.72,3915.99,3914.39,3821.92,3896.19,3930.06,3912.94,4058.85,4213.36,4210.33,4323.97,4346.46,4345.36,4440.77,4471.03],
+    "v":[9735044600,10860139100,11261610700,11452805100,11964488100,13731410400,14780728400,14757211400,13538987900,15069587600,13103910100,16066064600,15048542400,17272554100,13888929200,16349811600,17438934100,15176306100,11725696800,13217545600,14652571300,16056820000,20839744900,17111394000,14063821000,13932622100,15667755300,13171977400,13927798800,13075627400,15617106200,17356209000,16139947800,18098438800,15419286000,17861517400,17209764200,18559672900,17311531200,16093498500,11485935700,15713795900,14587385200,14236647500,13587719200,13384273900,14947239800,16694849900,13838560400,10866553200,12897774800,12458181400,13521277500,11291985600,11969203700,10160665500,9381746900,9511348100,9783161000,8609998500,7425406000,6974921700,5647477700,6340593600,8073724100,8348053900,7656333400,5135388000,5515836300,4602447100,4761528000,4871222300,6287183400,4873759500,8311064600,12166896400,11098925200,9395004300,9921066900,10024581300,11258976800,10856141000],
+    "ma":{
+      "MA5":[null,null,null,null,3295.63,3324.9,3355.5,3396.24,3438.62,3477.55,3517.05,3550.57,3574.0,3557.6,3570.79,3593.67,3615.41,3641.72,3708.53,3743.66,3769.74,3815.63,3869.46,3922.79,3975.15,4016.17,4006.01,4000.6,4000.32,4002.03,4007.2,4049.44,4086.97,4107.54,4137.44,4177.42,4222.33,4198.21,4189.91,4154.1,4033.76,3920.2,3864.84,3821.07,3803.55,3868.61,3929.61,4009.65,4054.53,4098.48,4150.01,4189.49,4190.45,4213.58,4205.29,4142.84,4083.61,4063.06,3999.74,3945.59,3924.63,3909.9,3857.42,3797.75,3789.88,3799.27,3789.92,3799.84,3859.86,3886.47,3874.21,3882.84,3895.71,3895.1,3923.99,4002.28,4065.11,4143.89,4230.59,4287.89,4333.38,4385.52],
+      "MA20":[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,3521.91,3551.34,3584.28,3620.35,3656.88,3691.79,3724.16,3746.9,3771.44,3797.31,3822.91,3846.7,3871.62,3899.69,3934.79,3964.57,3992.63,4023.35,4038.81,4055.14,4067.18,4058.64,4049.49,4037.66,4029.71,4024.28,4021.75,4030.4,4039.92,4043.26,4048.39,4057.45,4065.41,4065.79,4069.77,4065.36,4048.8,4030.73,4032.0,4022.23,4013.23,4021.52,4028.15,4030.15,4016.4,4009.81,4004.19,3993.23,3977.69,3967.73,3956.81,3935.24,3916.57,3904.01,3888.11,3886.48,3900.1,3911.95,3924.21,3945.83,3972.06,4002.28,4030.85],
+      "MA60":[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,3867.44,3877.17,3887.31,3896.05,3901.0,3908.63,3916.7,3923.51,3929.68,3936.1,3942.7,3946.46,3951.2,3956.49,3964.23,3972.14,3980.51,3988.67,3998.34,4007.73,4017.49,4027.48,4036.17]
+    },
+    "pivots":[
+      {"from":"2007-06-06","to":"2007-06-15","lo":3858,"hi":4144,"label":"中枢震荡 3858 - 4144"}
+    ],
+    "marks":[
+      {"date":"2007-05-29","price":4335.96,"type":"s","text":"高点 4335.96"},
+      {"date":"2007-06-05","price":3404.15,"type":"b","text":"低点 3404.15"},
+      {"date":"2007-06-06","price":3776.32,"type":"b","text":"突破 3858 第一步"},
+      {"date":"2007-06-13","price":4176.48,"type":"b","text":"突破 4015 第二步"}
+    ]
+  };
+  drawChanChart("cv_ch58", CHART_CH58);
+</script>
+<script src="/assets/_nav.js"></script><script src="/assets/_shell.js"></script></body>
+</html>

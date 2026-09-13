@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>缠论 · 教你炒股票102：再说走势必完美</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@500;700;900&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0b0e12;
+    --bg-elev:#12161c;
+    --bg-card:#161b22;
+    --ink:#e8eaed;
+    --ink-dim:#9aa3ad;
+    --ink-faint:#5b6470;
+    --line:rgba(255,255,255,.07);
+    --up:#ff4d4f;
+    --down:#16c784;
+    --pivot:#37c0e6;
+    --gold:#e8b339;
+    --max:880px;
+    --serif:"Noto Serif SC",serif;
+    --mono:"JetBrains Mono",ui-monospace,monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--bg);color:var(--ink);
+    font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;
+    line-height:1.85;font-size:17px;-webkit-font-smoothing:antialiased;overflow-x:hidden;
+  }
+  body::before{
+    content:"";position:fixed;inset:0;z-index:-2;
+    background:
+      radial-gradient(1200px 600px at 70% -10%, rgba(55,192,230,.08), transparent 60%),
+      radial-gradient(900px 500px at 0% 100%, rgba(232,179,57,.05), transparent 55%);
+    pointer-events:none;
+  }
+  body::after{
+    content:"";position:fixed;inset:0;z-index:-1;opacity:.4;
+    background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);
+    background-size:46px 46px;
+    -webkit-mask-image:radial-gradient(ellipse at 50% 0%, #000 30%, transparent 80%);
+            mask-image:radial-gradient(ellipse at 50% 0%, #000 30%, transparent 80%);
+    pointer-events:none;
+  }
+  #bar{position:fixed;top:0;left:0;height:3px;width:0;z-index:50;
+    background:linear-gradient(90deg,var(--pivot),var(--gold));box-shadow:0 0 12px var(--pivot);}
+  .wrap{max-width:var(--max);margin:0 auto;padding:0 24px}
+
+  header.hero{padding:120px 0 70px;text-align:center;position:relative}
+  .kicker{font-family:var(--mono);font-size:13px;letter-spacing:.32em;color:var(--pivot);
+    text-transform:uppercase;margin-bottom:26px}
+  .kicker span{color:var(--ink-faint)}
+  h1.title{font-family:var(--serif);font-weight:900;line-height:1.05;
+    font-size:clamp(48px,11vw,108px);letter-spacing:.04em;
+    background:linear-gradient(180deg,#fff 30%,#8aa0ad 130%);
+    -webkit-background-clip:text;background-clip:text;color:transparent;}
+  .sub{margin:22px auto 0;max-width:580px;color:var(--ink-dim);font-size:18px}
+  .meta{margin-top:34px;display:flex;gap:14px;justify-content:center;flex-wrap:wrap;
+    font-family:var(--mono);font-size:12px;color:var(--ink-faint)}
+  .meta b{color:var(--ink-dim);font-weight:500}
+  .pill{border:1px solid var(--line);padding:6px 14px;border-radius:999px;background:rgba(255,255,255,.02)}
+  .scroll-hint{margin-top:60px;color:var(--ink-faint);font-family:var(--mono);font-size:12px;
+    animation:bob 2.4s ease-in-out infinite}
+  @keyframes bob{0%,100%{transform:translateY(0);opacity:.5}50%{transform:translateY(8px);opacity:1}}
+
+  section{padding:64px 0;border-top:1px solid var(--line)}
+  .sec-no{font-family:var(--mono);font-size:13px;color:var(--gold);letter-spacing:.2em;margin-bottom:10px}
+  h2{font-family:var(--serif);font-weight:700;font-size:clamp(28px,5vw,42px);
+    line-height:1.25;margin-bottom:8px;letter-spacing:.02em}
+  .lead{color:var(--ink-dim);font-size:16px;margin-bottom:28px;max-width:640px}
+  p{margin:0 0 18px;color:#cfd5dc}
+  p b,strong{color:#fff;font-weight:700}
+  .hl-pivot{color:var(--pivot);font-weight:700}
+  .hl-up{color:var(--up);font-weight:700}
+  .hl-down{color:var(--down);font-weight:700}
+  .hl-gold{color:var(--gold);font-weight:700}
+
+  blockquote{margin:26px 0;padding:20px 24px;border-left:3px solid var(--pivot);
+    background:linear-gradient(90deg,rgba(55,192,230,.07),transparent);
+    border-radius:0 10px 10px 0;font-family:var(--serif);font-size:19px;color:#eaf6fb}
+  blockquote .who{display:block;margin-top:8px;font-family:var(--mono);font-size:12px;
+    color:var(--ink-faint);font-style:normal}
+
+  figure{margin:34px 0}
+  figure img{width:100%;border-radius:12px;border:1px solid var(--line);
+    background:#fff;box-shadow:0 18px 50px rgba(0,0,0,.5)}
+  figcaption{margin-top:12px;font-size:13px;color:var(--ink-faint);text-align:center;font-family:var(--mono)}
+
+  .grid{display:grid;gap:16px;grid-template-columns:1fr 1fr;margin:28px 0}
+  @media(max-width:640px){.grid{grid-template-columns:1fr}}
+  .card{background:var(--bg-card);border:1px solid var(--line);border-radius:14px;padding:24px;
+    position:relative;overflow:hidden;transition:transform .35s ease,border-color .35s ease}
+  .card:hover{transform:translateY(-4px);border-color:rgba(55,192,230,.4)}
+  .card .tag{font-family:var(--mono);font-size:11px;letter-spacing:.18em;color:var(--gold);text-transform:uppercase}
+  .card h3{font-family:var(--serif);font-size:21px;margin:10px 0 8px;color:#fff}
+  .card p{font-size:15px;color:var(--ink-dim);margin:0}
+
+  /* 级别阶梯图 */
+  .levels{margin:28px 0;display:flex;flex-direction:column;gap:8px}
+  .lvl{display:grid;grid-template-columns:120px 1fr 90px;align-items:center;gap:14px;
+    padding:14px 18px;background:var(--bg-card);border:1px solid var(--line);border-radius:10px}
+  .lvl .name{font-family:var(--mono);color:var(--pivot);font-weight:700;font-size:14px;letter-spacing:.08em}
+  .lvl .bar{height:8px;border-radius:4px;background:linear-gradient(90deg,var(--pivot),var(--gold));opacity:.55}
+  .lvl .tag{font-family:var(--mono);font-size:11px;color:var(--ink-faint);text-align:right;letter-spacing:.1em}
+  .lvl.use{border-color:rgba(232,179,57,.45);background:linear-gradient(90deg,rgba(232,179,57,.06),var(--bg-card))}
+  .lvl.use .tag{color:var(--gold)}
+
+  /* 公式块 */
+  .formula{margin:28px 0;padding:30px 24px;background:var(--bg-elev);border:1px solid var(--line);
+    border-radius:14px;text-align:center;font-family:var(--mono);font-size:clamp(18px,3vw,24px);
+    letter-spacing:.04em;color:#fff;line-height:1.6}
+  .formula em{color:var(--gold);font-style:normal}
+  .formula sub{color:var(--pivot);font-size:.7em}
+  .formula .note{display:block;margin-top:14px;font-family:var(--serif);font-size:14px;color:var(--ink-dim);letter-spacing:0}
+
+  /* 对比表 */
+  .table{margin:28px 0;border:1px solid var(--line);border-radius:14px;overflow:hidden}
+  .table .row{display:grid;grid-template-columns:1.1fr 1.5fr 1.6fr;align-items:stretch}
+  .table .row+.row{border-top:1px solid var(--line)}
+  .table .row > div{padding:16px 18px}
+  .table .row.head{background:var(--bg-elev);font-family:var(--mono);font-size:12px;
+    letter-spacing:.14em;color:var(--ink-faint);text-transform:uppercase}
+  .table .row > div+div{border-left:1px solid var(--line)}
+  .table .name{font-family:var(--serif);font-weight:700;font-size:18px}
+  @media(max-width:560px){
+    .table .row{grid-template-columns:1fr}
+    .table .row > div+div{border-left:0;border-top:1px solid var(--line)}
+    .table .row.head{display:none}
+  }
+
+  /* 苹果引用 */
+  .apple{margin:48px 0;padding:30px;border:1px dashed rgba(232,179,57,.4);border-radius:14px;
+    background:radial-gradient(120% 120% at 0% 0%,rgba(232,179,57,.05),transparent 60%);text-align:center}
+  .apple .lab{font-family:var(--mono);font-size:11px;letter-spacing:.3em;color:var(--gold);text-transform:uppercase}
+  .apple p{font-family:var(--serif);font-size:18px;color:#fff;margin:12px 0 0;line-height:1.7}
+
+  /* 双栏 锅/肉 */
+  .duo{margin:28px 0;display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  @media(max-width:640px){.duo{grid-template-columns:1fr}}
+  .duo .col{padding:24px;border-radius:14px;border:1px solid var(--line);background:var(--bg-card)}
+  .duo .col h3{font-family:var(--serif);font-size:22px;margin-bottom:10px;color:#fff}
+  .duo .col.guo{border-color:rgba(232,179,57,.4)}
+  .duo .col.guo h3{color:var(--gold)}
+  .duo .col.rou{border-color:rgba(55,192,230,.4)}
+  .duo .col.rou h3{color:var(--pivot)}
+  .duo .col p{font-size:15px;color:var(--ink-dim);margin:0}
+
+  /* 思考题 */
+  ol.think{counter-reset:q;list-style:none;margin:24px 0;display:flex;flex-direction:column;gap:14px}
+  ol.think li{counter-increment:q;position:relative;padding:18px 20px 18px 60px;
+    background:var(--bg-elev);border:1px solid var(--line);border-radius:12px;color:var(--ink-dim);font-size:15px}
+  ol.think li::before{content:counter(q,decimal-leading-zero);position:absolute;left:20px;top:18px;
+    font-family:var(--mono);color:var(--gold);font-weight:700}
+
+  footer{padding:60px 0 90px;text-align:center;color:var(--ink-faint);font-family:var(--mono);font-size:12px;border-top:1px solid var(--line)}
+  footer a{color:var(--ink-dim);text-decoration:none}
+
+  .reveal{opacity:0;transform:translateY(26px);transition:opacity .8s ease,transform .8s ease}
+  .reveal.in{opacity:1;transform:none}
+  @media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}.scroll-hint{animation:none}}
+</style>
+<meta name="view-transition" content="same-origin"><style>@view-transition{navigation:auto}</style></head>
+<body>
+<div id="bar"></div>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="kicker">缠中说禅 · 教你炒股票108课 <span>/ 第 102 课</span></div>
+    <h1 class="title">再说走势必完美</h1>
+    <p class="sub">把市场走势变成"自然数式"的唯一分解——走势必完美的真正威力，是给操作装上记数法。</p>
+    <div class="meta">
+      <span class="pill"><b>原文</b> 2008-03-06</span>
+      <span class="pill"><b>类型</b> 理论深化</span>
+      <span class="pill"><b>关键词</b> 唯一分解 · 级别 · 完全分类 · 区间套</span>
+    </div>
+    <div class="scroll-hint">↓ 向下滚动，逐层拆解</div>
+  </div>
+</header>
+
+<main>
+  <!-- 1 -->
+  <section class="wrap reveal">
+    <div class="sec-no">01 — 重新出发</div>
+    <h2>不只是"会走完"，而是"完美地唯一分解"</h2>
+    <p class="lead">17 课讲的是基石（走势会走完、走完必转向）；102 课要把这块基石升级——揭示走势竟然有一种<b>类似自然数</b>的整体结构。</p>
+    <p>很多人把"走势必完美"理解成"走势一定会结束"。这只是表层。<span class="hl-gold">真正厉害的地方在于</span>：走势必完美对应的，是一种<b>最特殊、最强有力的唯一分解</b>。看似毫无规律的市场，竟然有这样完美的整体结构，这才是缠论最牛的部分。</p>
+    <blockquote>
+      如果是单纯地唯一分解，并不能显示本ID理论真正厉害之处，因为走势必完美对应的是一种最特殊、最强有力的唯一分解。这看似毫无规律的市场走势竟然有这样完美的整体结构，这才是最牛的地方。
+      <span class="who">— 缠中说禅 · 教你炒股票 102</span>
+    </blockquote>
+  </section>
+
+  <!-- 2 -->
+  <section class="wrap reveal">
+    <div class="sec-no">02 — 最强类比</div>
+    <h2>走势之于市场，就像记数法之于自然数</h2>
+    <p class="lead">为什么自然数最完美？因为它有"记数法"这种唯一分解。</p>
+    <p>自然数有很多分解方式——比如素数分解。但其中<b>最牛的一种</b>，是基于<span class="hl-pivot">幂级数的唯一分解</span>：2 的幂级数对应二进制，10 的幂级数对应十进制。<b>如果没有这种分解，我们根本无法用记数法表示自然数。</b></p>
+    <p>这种性质在数学上其实非常稀有——<b>一般的数系，根本没有这种性质</b>。我们之所以觉得"自然数有记数法"理所应当，是因为我们活在其中、太熟悉了；其实那才是自然数整体结构里最强大的地方。</p>
+    <blockquote>
+      本ID的理论给出的递归函数，完美地给出市场走势一个<b>类似记数法一样的唯一分解</b>——也就是说，本ID揭示了看似毫无规律的市场走势，竟然有着和自然数有着类似的整体结构。
+      <span class="who">— 缠中说禅</span>
+    </blockquote>
+    <p>这就是为什么"走势必完美"是整套理论的命根：它保证了走势可以像写数字一样<b>逐位拆解</b>，每一位都对应着一个级别。</p>
+  </section>
+
+  <!-- 3 -->
+  <section class="wrap reveal">
+    <div class="sec-no">03 — 级别系统</div>
+    <h2>八个级别 = 走势的"进位"</h2>
+    <p class="lead">递归函数是<b>级别依次升大</b>的。搞不明白级别，就不可能明白缠论。</p>
+    <div class="levels">
+      <div class="lvl"><div class="name">1 分钟</div><div class="bar" style="width:12%"></div><div class="tag">最小</div></div>
+      <div class="lvl use"><div class="name">5 分钟</div><div class="bar" style="width:22%"></div><div class="tag">常用</div></div>
+      <div class="lvl use"><div class="name">30 分钟</div><div class="bar" style="width:36%"></div><div class="tag">常用</div></div>
+      <div class="lvl"><div class="name">日</div><div class="bar" style="width:52%"></div><div class="tag">大资金</div></div>
+      <div class="lvl"><div class="name">周</div><div class="bar" style="width:66%"></div><div class="tag">一般不变</div></div>
+      <div class="lvl"><div class="name">月</div><div class="bar" style="width:78%"></div><div class="tag">一般不变</div></div>
+      <div class="lvl"><div class="name">季</div><div class="bar" style="width:88%"></div><div class="tag">一般不变</div></div>
+      <div class="lvl"><div class="name">年</div><div class="bar" style="width:98%"></div><div class="tag">最大</div></div>
+    </div>
+    <p>这些级别的名字可以随意取，只是这样比较符合习惯（否则说"级别 1、2"容易混）。<b>加上线段与笔可以更精细，但一般没必要。</b></p>
+    <p>实战上：<span class="hl-gold">1、5、30 分钟三个级别，足以应付所有走势</span>。大资金可加上日级别。周、月、季、年这些级别，往往几年都不变一下——比如 6124 点下来 N 个月了，还在 30 分钟级别里混。</p>
+  </section>
+
+  <!-- 4 -->
+  <section class="wrap reveal">
+    <div class="sec-no">04 — 唯一表达式</div>
+    <h2>任何走势都可以写成 a₁A₁ + a₅A₅ + a₃₀A₃₀</h2>
+    <p class="lead">这就是缠论的"记数法"——像写十进制数字一样，把当下走势分解到各个级别上。</p>
+    <div class="formula">
+      走势 = <em>a</em><sub>1</sub><em>A</em><sub>1</sub> + <em>a</em><sub>5</sub><em>A</em><sub>5</sub> + <em>a</em><sub>30</sub><em>A</em><sub>30</sub>
+      <span class="note">每一项对应一个级别的走势"位"，整体唯一确定</span>
+    </div>
+    <p>这种唯一表达带来一个<b>必然的结论</b>：</p>
+    <blockquote>
+      任何高级别的改变，都<b>必须先从低级别开始</b>。绝对不可能出现：5 分钟从下跌转折为上涨，而 1 分钟还在下跌段中。
+      <span class="who">— 级别递归的硬约束</span>
+    </blockquote>
+    <p>这一条<b>极其重要</b>——它意味着：</p>
+    <div class="grid">
+      <div class="card">
+        <div class="tag">观察序列</div>
+        <h3>从下往上看</h3>
+        <p>判断大级别要转向，<b>先看小级别</b>有没有先转向。小级别没动，大级别绝无可能动。</p>
+      </div>
+      <div class="card">
+        <div class="tag">操作时机</div>
+        <h3>从小到大确认</h3>
+        <p>1 分钟先转 → 5 分钟才有机会转 → 30 分钟才可能跟上。这是<b>层级传导的因果链</b>。</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5 -->
+  <section class="wrap reveal">
+    <div class="sec-no">05 — 完全分类</div>
+    <h2>不是"上下平"那种粗糙概念</h2>
+    <p class="lead">有了完美结构，关于走势操作的<b>完全分类</b>就成为可能——这是一个"超强的实质性质"。</p>
+    <p>学点现代数学就知道：<b>绝大多数系统并不存在完全分类的可能</b>。要研究一个系统，最关键的就是找到某种方式实现完全分类——专业一点说，就是具备某种<span class="hl-pivot">等价关系</span>。</p>
+    <p>缠论之所以能"完全分类"，根源就在走势必完美。所有的分类都有<b>明确的界限</b>，任何走势都成为可控的——而这种可控<b>不需要任何人的预测或干预</b>，而是当下直接显现的。你只需要根据当下显示，按操作原则操作就可以。</p>
+    <div class="table">
+      <div class="row head"><div>对比项</div><div>普通技术分析</div><div>缠论完全分类</div></div>
+      <div class="row">
+        <div class="name">边界</div>
+        <div>模糊的"上 / 下 / 平"概念</div>
+        <div><span class="hl-pivot">明确的点位界限</span>，级别性的</div>
+      </div>
+      <div class="row">
+        <div class="name">性质</div>
+        <div>经验描述，依赖直觉</div>
+        <div><b>数量化、精确化</b>，无含糊地带</div>
+      </div>
+      <div class="row">
+        <div class="name">使用方式</div>
+        <div>需要"预测"和"判断"</div>
+        <div>当下显现，<b>按原则执行</b>即可</div>
+      </div>
+    </div>
+    <p><b>明白上面这些，就有了一个大概的框架，不至于迷失于理论中。</b></p>
+  </section>
+
+  <!-- 6 -->
+  <section class="wrap reveal">
+    <div class="sec-no">06 — 实战延伸</div>
+    <h2>区间套：买卖点精确定位的根</h2>
+    <p class="lead">完美结构能推演的东西太多了，最重要的应用之一就是区间套。</p>
+    <blockquote>
+      如果市场走势没有本ID所揭示的整体结构，那么<b>区间套是不会存在</b>、也就是没有操作意义的。<br>有了区间套，<b>买卖点的精确定位才有可能</b>——这显然是操作中最牛的一种方式了。
+      <span class="who">— 走势必完美 → 区间套 → 精确买卖点</span>
+    </blockquote>
+    <p>这条逻辑链非常关键，串起来看：</p>
+    <div class="formula" style="font-size:clamp(15px,2.4vw,18px)">
+      走势必完美 → 唯一分解 → 级别递归 → 完全分类 → <em>区间套</em> → 买卖点精确定位
+      <span class="note">每一步都是前一步的逻辑必然结果</span>
+    </div>
+  </section>
+
+  <!-- 7 -->
+  <section class="wrap reveal">
+    <div class="sec-no">07 — 当时市况</div>
+    <h2>2008 年 3 月：用理论看真实的崩盘</h2>
+    <p class="lead">这一系列日记写于平安再融资引爆的暴跌期间——是理论的实战示范。</p>
+    <p>背景：6124 点下来 N 个月，大盘<span class="hl-down">仍在 30 分钟级别下跌</span>里混。5500 点平安圈钱消息小范围泄露，5200 点证实，市场开始大幅破位。</p>
+    <figure>
+      <img src="/_assets/ch102_p01.png" alt="2008年3月7日大盘走势">
+      <figcaption>2008-03-07 · 大盘勉强保持 4331 上下 5 分钟震荡，但所有股票都有疲态</figcaption>
+    </figure>
+    <p>缠师当时的技术判断（用 102 课刚讲的级别理论直接落地）：</p>
+    <div class="grid">
+      <div class="card">
+        <div class="tag">当下分解</div>
+        <h3>1 分钟级别下跌中</h3>
+        <p>3 月 7 日那个 1 分钟中枢，有极大可能成为<b>新的 1 分钟下跌的第一个中枢</b>；当天早上的微弱反弹，构成该中枢的<span class="hl-down">第三类卖点</span>。</p>
+      </div>
+      <div class="card">
+        <div class="tag">最坏推演</div>
+        <h3>升级成 5 分钟下跌</h3>
+        <p>反弹后形成 5 分钟下跌的第一个中枢，<b>继续跌破前两个底点的连线</b>，最后去形成真正的 30 分钟背驰。</p>
+      </div>
+    </div>
+    <figure>
+      <img src="/_assets/ch102_p02.png" alt="3月10日大盘1分钟中枢与第三类卖点">
+      <figcaption>3-10 · 1 分钟中枢与第三类卖点（图中红箭头位置）</figcaption>
+    </figure>
+    <figure>
+      <img src="/_assets/ch102_p11.png" alt="60分钟图上的级别分解">
+      <figcaption>3-17 · 60 分钟图上看大走势：6124 点下来只走了 4 个线段，连一个 1 分钟中枢都没形成（这里"1 分钟中枢"是 60 分钟图上的）</figcaption>
+    </figure>
+    <p>这正是 102 课强调"<b>任何走势都可唯一表达为各级别分量之和</b>"的实战体现——同样的形态，标在不同级别图上，含义完全不同。</p>
+  </section>
+
+  <!-- 8 -->
+  <section class="wrap reveal">
+    <div class="sec-no">08 — 区间套实战</div>
+    <h2>用区间套找精确买点</h2>
+    <p class="lead">理论 → 操作：3-18 缠师宣布尾盘建仓，背后是区间套定位。</p>
+    <p>3-17 缠师写道："一个标准的跌法，就是这第 5 线段中，有 1 笔对 3 进行反抽，形成一个类的第三类卖点，然后再破底，<b>一旦当下满足区间套，那么真正的底部就可以精确定位</b>。"</p>
+    <figure>
+      <img src="/_assets/ch102_p12.png" alt="3月18日尾盘买入信号">
+      <figcaption>3-18 · 记者会绝望盘杀跌后，尾盘缠师宣布开始建仓买入</figcaption>
+    </figure>
+    <p>3-19 复盘：早上高开后回试<b>刚好构成底分型</b>——60 分钟图上 3775 点正是这底分型的上边沿。如果你明白这技术问题，就会放心地在早上第一小时回试时买入。</p>
+    <figure>
+      <img src="/_assets/ch102_p14.png" alt="60分钟底分型与3775点">
+      <figcaption>3-19 · 60 分钟图底分型，3775 点决定反弹能否延续</figcaption>
+    </figure>
+    <blockquote>
+      由于目前还没有出现明确的区间套，不能完全确认从 4 下来的这下跌就一定走完。<br>不过按通常情况，<b>最终回拉图中 3 的位置是必然的事情</b>——唯一需要选择的，是完美完成区间套，还是就此直接上去了。
+      <span class="who">— 区间套的当下判断逻辑</span>
+    </blockquote>
+  </section>
+
+  <!-- 9 -->
+  <section class="wrap reveal">
+    <div class="sec-no">09 — 锅与肉</div>
+    <h2>市场的两个层面</h2>
+    <p class="lead">这是缠师在 102 课旁注里写下的最深刻比喻，关乎视野。</p>
+    <p>市场至少分两层——<b>大多数人停留在肉的层面被市场之锅熬煎</b>。</p>
+    <div class="duo">
+      <div class="col rou">
+        <h3>肉的层面</h3>
+        <p>多空、涨跌、单只股票的输赢。<br>拿着股票时被多头思维控制，没拿时是空头的奴隶。<br><b>市场情绪由此积聚、被引导。</b>脱离不了这种状态，永远成不了真正的市场参与者。</p>
+      </div>
+      <div class="col guo">
+        <h3>锅的层面</h3>
+        <p>整个市场的生态、规则、信心、资金流。<br>个股可以烂，但<b>锅不可以</b>——锅烂了是致命的。<br>缠师写市场评论，只在写"重塑这市场之锅"，与个股多空毫无关系。</p>
+      </div>
+    </div>
+    <p>站在锅的层面思考，自然就生出一句操作哲学：</p>
+    <blockquote>
+      只有你<b>自由于肉的层面</b>，才会有心情去关心锅的事情。<br>对于本ID这种资金，<b>锅是最重要的</b>——只要锅在，那肉还不是随意去玩弄的对象。
+      <span class="who">— 缠师视野观</span>
+    </blockquote>
+  </section>
+
+  <!-- 10 -->
+  <section class="wrap reveal">
+    <div class="sec-no">10 — 自知之明</div>
+    <h2>市场是铁血游戏，不是慈善场所</h2>
+    <p class="lead">102 课旁注里有几句被反复引用的"狠话"——关于性格、关于震荡、关于钢铁战士。</p>
+    <p>缠师反复强调：<b>市场永远正确，错的永远是你</b>。但有些人的性格就是死不认错，那唯一的归宿就死在市场中了。</p>
+    <div class="grid">
+      <div class="card">
+        <div class="tag">性格</div>
+        <h3>不适合市场的人</h3>
+        <p>一根筋的、依赖心理的、太多正义感的。<b>只有战胜了市场才有正义，失败者从来没有正义可言。</b></p>
+      </div>
+      <div class="card">
+        <div class="tag">震荡</div>
+        <h3>市场的本相</h3>
+        <p>单边市永远稀有，前两年那种走势十年难得一遇。<b>市场归根结底以震荡为主</b>——不会震荡的人，就少了一种武器。</p>
+      </div>
+      <div class="card">
+        <div class="tag">小板凳</div>
+        <h3>没本事就远离</h3>
+        <p>如果 10 年才会有 1 次单边机会，那就 10 年玩一次，这难道不可以？为什么一定要整天在市场里被市场折腾？</p>
+      </div>
+      <div class="card">
+        <div class="tag">钢铁战士</div>
+        <h3>对得起市场</h3>
+        <p>就算国家经济崩溃、像 1929 年那样，也能在市场上屹立——这才有点象样。<b>这世界上没有一样东西可以依靠，包括叫"政府"的那个东西。</b></p>
+      </div>
+    </div>
+    <div class="apple">
+      <div class="lab">缠师签名式收尾</div>
+      <p>对管理层，本ID无话可说。<br><span class="hl-gold">我的苹果。</span></p>
+    </div>
+  </section>
+
+  <!-- 11 -->
+  <section class="wrap reveal">
+    <div class="sec-no">11 — 思考题</div>
+    <h2>把 102 课装回脑子里</h2>
+    <p class="lead">几个核心问题，自检是否真的理解。</p>
+    <ol class="think">
+      <li>为什么说"走势必完美"对应的是<b>最强有力的唯一分解</b>，而不是普通的唯一分解？类比自然数的记数法说一说。</li>
+      <li>"任何高级别的改变都必须先从低级别开始"——这条结论是怎么从级别递归推出来的？反过来想：如果你正在等 30 分钟级别转向，你应该先盯哪个级别？</li>
+      <li>为什么说缠论是<b>完全分类</b>、是数量化精确化的，而不是粗糙的"上下平"？请举一个 102 课里 1/5/30 分钟级别表达式的例子。</li>
+      <li>区间套为什么是"走势必完美"的必然推论？没有完美结构，区间套为什么就没有意义？</li>
+      <li>"锅 / 肉"两个层面，对应到你自己的操作上，你大部分时间是在哪一层？怎么自由出来？</li>
+    </ol>
+  </section>
+
+  <!-- 关联 -->
+  <section class="wrap reveal">
+    <div class="sec-no">12 — 关联课程</div>
+    <h2>承上启下</h2>
+    <div class="grid">
+      <div class="card">
+        <div class="tag">承自</div>
+        <h3>第 17 课 · 走势终完美</h3>
+        <p>17 课立下"走势会走完、走完必转向"的基石；102 课把这条基石升级为"<b>类自然数的唯一分解</b>"。</p>
+      </div>
+      <div class="card">
+        <div class="tag">开启</div>
+        <h3>区间套 / 精确买卖点</h3>
+        <p>102 课给出了区间套作为操作落地：完美结构 → 唯一分解 → 区间套 → 买卖点可精确定位。</p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="wrap">
+  原文出处：raw/缠中说禅/教你炒股票108课/教你炒股票102：再说走势必完美.md<br>
+  本页为个人学习复习用 · 非投资建议
+</footer>
+
+<script>
+  const bar=document.getElementById('bar');
+  const onScroll=()=>{
+    const h=document.documentElement;
+    const p=h.scrollTop/(h.scrollHeight-h.clientHeight);
+    bar.style.width=(p*100)+'%';
+  };
+  document.addEventListener('scroll',onScroll,{passive:true});onScroll();
+
+  const io=new IntersectionObserver((es)=>{
+    es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});
+  },{threshold:.12});
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+</script>
+<script src="/assets/_nav.js"></script><script src="/assets/_shell.js"></script></body>
+</html>

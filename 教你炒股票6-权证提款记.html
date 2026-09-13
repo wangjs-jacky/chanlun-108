@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>缠论 · 教你炒股票6：权证提款记</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@500;700;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0b0e12;--bg-elev:#12161c;--bg-card:#161b22;
+    --ink:#e8eaed;--ink-dim:#9aa3ad;--ink-faint:#5b6470;
+    --line:rgba(255,255,255,.07);
+    --up:#ff4d4f;--down:#16c784;--pivot:#37c0e6;--gold:#e8b339;--blue:#00d4ff;
+    --max:880px;--serif:"Noto Serif SC",serif;--mono:"JetBrains Mono",ui-monospace,monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--ink);font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;line-height:1.85;font-size:17px;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  body::before{content:"";position:fixed;inset:0;z-index:-2;background:radial-gradient(1200px 600px at 70% -10%,rgba(55,192,230,.08),transparent 60%),radial-gradient(900px 500px at 0% 100%,rgba(232,179,57,.05),transparent 55%);pointer-events:none}
+  body::after{content:"";position:fixed;inset:0;z-index:-1;opacity:.4;background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);background-size:46px 46px;-webkit-mask-image:radial-gradient(ellipse at 50% 0%,#000 30%,transparent 80%);mask-image:radial-gradient(ellipse at 50% 0%,#000 30%,transparent 80%);pointer-events:none}
+  #bar{position:fixed;top:0;left:0;height:3px;width:0;z-index:50;background:linear-gradient(90deg,var(--pivot),var(--gold));box-shadow:0 0 12px var(--pivot)}
+  .wrap{max-width:var(--max);margin:0 auto;padding:0 24px}
+  header.hero{padding:120px 0 70px;text-align:center;position:relative}
+  .kicker{font-family:var(--mono);font-size:13px;letter-spacing:.32em;color:var(--pivot);text-transform:uppercase;margin-bottom:26px}
+  .kicker span{color:var(--ink-faint)}
+  h1.title{font-family:var(--serif);font-weight:900;line-height:1.05;font-size:clamp(44px,10vw,100px);letter-spacing:.04em;background:linear-gradient(180deg,#fff 30%,#8aa0ad 130%);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .sub{margin:22px auto 0;max-width:580px;color:var(--ink-dim);font-size:18px}
+  .meta{margin-top:34px;display:flex;gap:14px;justify-content:center;flex-wrap:wrap;font-family:var(--mono);font-size:12px;color:var(--ink-faint)}
+  .meta b{color:var(--ink-dim);font-weight:500}
+  .pill{border:1px solid var(--line);padding:6px 14px;border-radius:999px;background:rgba(255,255,255,.02)}
+  .scroll-hint{margin-top:60px;color:var(--ink-faint);font-family:var(--mono);font-size:12px;animation:bob 2.4s ease-in-out infinite}
+  @keyframes bob{0%,100%{transform:translateY(0);opacity:.5}50%{transform:translateY(8px);opacity:1}}
+  section{padding:64px 0;border-top:1px solid var(--line)}
+  .sec-no{font-family:var(--mono);font-size:13px;color:var(--gold);letter-spacing:.2em;margin-bottom:10px}
+  h2{font-family:var(--serif);font-weight:700;font-size:clamp(28px,5vw,42px);line-height:1.25;margin-bottom:8px;letter-spacing:.02em}
+  .lead{color:var(--ink-dim);font-size:16px;margin-bottom:28px;max-width:660px}
+  p{margin:0 0 18px;color:#cfd5dc}
+  p b,strong{color:#fff;font-weight:700}
+  .hl-pivot{color:var(--pivot);font-weight:700}.hl-up{color:var(--up);font-weight:700}
+  .hl-down{color:var(--down);font-weight:700}.hl-gold{color:var(--gold);font-weight:700}
+  blockquote{margin:26px 0;padding:20px 24px;border-left:3px solid var(--pivot);background:linear-gradient(90deg,rgba(55,192,230,.07),transparent);border-radius:0 10px 10px 0;font-family:var(--serif);font-size:19px;color:#eaf6fb}
+  blockquote .who{display:block;margin-top:8px;font-family:var(--mono);font-size:12px;color:var(--ink-faint);font-style:normal}
+  figure{margin:34px 0}
+  figure img{width:100%;border-radius:12px;border:1px solid var(--line);background:#fff;box-shadow:0 18px 50px rgba(0,0,0,.5)}
+  figcaption{margin-top:12px;font-size:13px;color:var(--ink-faint);text-align:center;font-family:var(--mono)}
+  .grid{display:grid;gap:16px;grid-template-columns:1fr 1fr;margin:28px 0}
+  @media(max-width:640px){.grid{grid-template-columns:1fr}}
+  .card{background:var(--bg-card);border:1px solid var(--line);border-radius:14px;padding:24px;position:relative;overflow:hidden;transition:transform .35s ease,border-color .35s ease}
+  .card:hover{transform:translateY(-4px);border-color:rgba(55,192,230,.4)}
+  .card .tag{font-family:var(--mono);font-size:11px;letter-spacing:.18em;color:var(--gold);text-transform:uppercase}
+  .card h3{font-family:var(--serif);font-size:21px;margin:10px 0 8px;color:#fff}
+  .card p{font-size:15px;color:var(--ink-dim);margin:0}
+  .table{margin:28px 0;border:1px solid var(--line);border-radius:14px;overflow:hidden}
+  .table .row{display:grid;grid-template-columns:1.1fr 1.5fr 1.6fr;align-items:stretch}
+  .table .row+.row{border-top:1px solid var(--line)}
+  .table .row>div{padding:16px 18px}
+  .table .row.head{background:var(--bg-elev);font-family:var(--mono);font-size:12px;letter-spacing:.14em;color:var(--ink-faint);text-transform:uppercase}
+  .table .row>div+div{border-left:1px solid var(--line)}
+  .table .name{font-family:var(--serif);font-weight:700;font-size:18px}
+  .table .name.qushi{color:var(--gold)}
+  .cnt{font-family:var(--mono);font-size:14px;color:var(--pivot)}
+  @media(max-width:560px){.table .row{grid-template-columns:1fr}.table .row>div+div{border-left:0;border-top:1px solid var(--line)}.table .row.head{display:none}}
+  .points{margin:26px 0;display:flex;flex-direction:column;gap:14px}
+  .pt{display:flex;gap:16px;align-items:flex-start;background:var(--bg-card);border:1px solid var(--line);border-radius:12px;padding:18px 20px}
+  .pt .dot{flex:none;width:42px;height:42px;border-radius:10px;display:grid;place-items:center;font-family:var(--serif);font-weight:900;font-size:20px;color:#0b0e12}
+  .pt.b .dot{background:var(--up)}.pt.s .dot{background:var(--down)}
+  .pt h4{font-size:17px;margin-bottom:4px;color:#fff}.pt p{font-size:15px;color:var(--ink-dim);margin:0}
+  .proof{margin:30px 0;background:linear-gradient(120deg,rgba(55,192,230,.06),transparent 70%),var(--bg-elev);border:1px solid rgba(55,192,230,.25);border-radius:16px;padding:26px}
+  .proof .badge{display:inline-block;font-family:var(--mono);font-weight:700;font-size:12px;letter-spacing:.12em;padding:6px 14px;border-radius:999px;background:rgba(55,192,230,.14);color:var(--pivot);border:1px solid rgba(55,192,230,.4);margin-bottom:14px}
+  .chartbox{background:var(--bg-card);border:1px solid var(--line);border-radius:14px;padding:18px 14px 8px;margin:18px 0}
+  .legend{display:flex;gap:16px;font-family:var(--mono);font-size:12px;color:var(--ink-dim);padding:0 8px 12px;flex-wrap:wrap}
+  .legend i{display:inline-block;width:16px;height:3px;vertical-align:middle;margin-right:6px;border-radius:2px}
+  canvas{width:100%;display:block}
+  .verdict{display:flex;gap:14px;align-items:flex-start;margin-top:8px;padding:16px 18px;background:var(--bg-card);border:1px solid var(--line);border-radius:12px}
+  .verdict .mk{flex:none;font-family:var(--mono);font-weight:700;color:var(--up)}
+  .verdict p{margin:0;font-size:15px;color:#d6dbe1}
+  ol.think{counter-reset:q;list-style:none;margin:24px 0;display:flex;flex-direction:column;gap:14px}
+  ol.think li{counter-increment:q;position:relative;padding:18px 20px 18px 60px;background:var(--bg-elev);border:1px solid var(--line);border-radius:12px;color:var(--ink-dim);font-size:15px}
+  ol.think li::before{content:counter(q,decimal-leading-zero);position:absolute;left:20px;top:18px;font-family:var(--mono);color:var(--gold);font-weight:700}
+  .quiz{margin:22px 0;background:var(--bg-card);border:1px solid var(--line);border-radius:14px;padding:22px 24px}
+  .quiz h4{font-size:16px;color:#fff;margin-bottom:6px}
+  .quiz .ans{margin-top:12px;color:var(--ink-faint);font-size:14px;cursor:pointer}
+  .quiz .ans[open] summary{color:var(--pivot)}
+  .quiz summary{color:var(--gold);font-family:var(--mono);font-size:13px}
+  .tldr{margin:60px 0 0;padding:36px 30px;border:1px solid rgba(55,192,230,.3);border-radius:18px;background:radial-gradient(120% 120% at 100% 0%,rgba(55,192,230,.1),transparent 60%),var(--bg-elev);text-align:center}
+  .tldr .lab{font-family:var(--mono);font-size:12px;letter-spacing:.3em;color:var(--pivot);text-transform:uppercase}
+  .tldr p{font-family:var(--serif);font-size:clamp(20px,3.4vw,28px);line-height:1.7;color:#fff;margin:16px 0 0}
+  footer{padding:60px 0 90px;text-align:center;color:var(--ink-faint);font-family:var(--mono);font-size:12px;border-top:1px solid var(--line)}
+  .reveal{opacity:0;transform:translateY(26px);transition:opacity .8s ease,transform .8s ease}
+  .reveal.in{opacity:1;transform:none}
+  @media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}.scroll-hint{animation:none}}
+  /* 权证结构示意 */
+  .warrant-diag{margin:28px 0;background:var(--bg-card);border:1px solid var(--line);border-radius:14px;padding:24px 20px}
+  .warrant-diag svg{width:100%;height:auto;display:block}
+</style>
+<meta name="view-transition" content="same-origin"><style>@view-transition{navigation:auto}</style></head>
+<body>
+<div id="bar"></div>
+<header class="hero">
+  <div class="wrap">
+    <div class="kicker">缠中说禅 · 教你炒股票108课 <span>/ 第 6 课</span></div>
+    <h1 class="title">权证提款记</h1>
+    <p class="sub">缠师 2006 年公开布局：在五粮液、包钢认购权证上"像去银行提款一样安全"——为什么？我们用真实行情验证。</p>
+    <div class="meta">
+      <span class="pill"><b>原文</b> 2006-10-24</span>
+      <span class="pill"><b>类型</b> 实战示范 · 风控心法</span>
+      <span class="pill"><b>关键词</b> 权证 · 认购 · 认沽 · 安全底线 · 投机纪律</span>
+    </div>
+    <div class="scroll-hint">↓ 向下滚动，逐层拆解</div>
+  </div>
+</header>
+<main>
+
+<section class="wrap reveal">
+  <div class="sec-no">01 — 这一课在讲什么</div>
+  <h2>"投机"不是瞎搞，是清清楚楚地搞</h2>
+  <p class="lead">第 6 课表面是缠师吹自己在权证上赚到爆的炫耀帖，骨子里是一篇藏得很深的<b>风控课</b>：教你怎么在一堆赌博工具里挑出"亏损封顶、上涨敞开"的那种。</p>
+  <p>缠师把市场比作"提款机"和"男人"，强调一件事——<b>时机不到不动手</b>，动手就必须<span class="hl-pivot">既有安全保底、又有上行空间</span>。这一思路贯穿《教你炒股票108课》全书，本课只是用"权证"这个 2005-2008 年特有的金融工具，做了一次<b>极端示范</b>。</p>
+  <blockquote>对于本ID来说，这股票市场就如同提款机，时机到了，就去提款，时机不到，就让他搁在那。<span class="who">— 缠中说禅 2006-10-24</span></blockquote>
+  <p>注意：缠师反复嘲讽"投资派"是穿着内裤的投机——他不是反对投机，是反对"自欺欺人的投机"。本课的关键词，是<span class="hl-gold">"安全"</span>。</p>
+</section>
+
+<section class="wrap reveal">
+  <div class="sec-no">02 — 看懂工具</div>
+  <h2>什么是权证：买票还是不买？</h2>
+  <p class="lead">2005-2008 年是 A 股权证最活跃的年代，散户大量参与，缠师正是在这个窗口期下手。先把工具看懂，才能看懂他凭什么说"安全"。</p>
+
+  <div class="warrant-diag">
+    <svg viewBox="0 0 760 260" xmlns="http://www.w3.org/2000/svg">
+      <!-- 背景网格 -->
+      <defs>
+        <pattern id="g6" width="38" height="38" patternUnits="userSpaceOnUse">
+          <path d="M38 0 L0 0 L0 38" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="1"/>
+        </pattern>
+      </defs>
+      <rect width="760" height="260" fill="url(#g6)"/>
+      <!-- 标题 -->
+      <text x="380" y="28" text-anchor="middle" fill="#e8b339" font-family="JetBrains Mono" font-size="13" letter-spacing="3">认购权证 vs 认沽权证</text>
+      <!-- 认购侧 -->
+      <rect x="40" y="60" width="320" height="170" rx="12" fill="rgba(255,77,79,0.07)" stroke="rgba(255,77,79,0.45)" stroke-width="1.2"/>
+      <text x="200" y="92" text-anchor="middle" fill="#ff4d4f" font-family="Noto Serif SC" font-weight="700" font-size="20">认购权证（Call）</text>
+      <text x="200" y="120" text-anchor="middle" fill="#cfd5dc" font-family="-apple-system" font-size="14">"我有权按某价 买入 这只股"</text>
+      <text x="200" y="150" text-anchor="middle" fill="#9aa3ad" font-family="JetBrains Mono" font-size="12">股价 ↑ → 权证 ↑</text>
+      <text x="200" y="172" text-anchor="middle" fill="#9aa3ad" font-family="JetBrains Mono" font-size="12">最大亏损 = 权证买入价</text>
+      <text x="200" y="200" text-anchor="middle" fill="#ff4d4f" font-family="-apple-system" font-size="13">看涨工具 · 杠杆数十倍</text>
+      <!-- 认沽侧 -->
+      <rect x="400" y="60" width="320" height="170" rx="12" fill="rgba(22,199,132,0.07)" stroke="rgba(22,199,132,0.45)" stroke-width="1.2"/>
+      <text x="560" y="92" text-anchor="middle" fill="#16c784" font-family="Noto Serif SC" font-weight="700" font-size="20">认沽权证（Put）</text>
+      <text x="560" y="120" text-anchor="middle" fill="#cfd5dc" font-family="-apple-system" font-size="14">"我有权按某价 卖出 这只股"</text>
+      <text x="560" y="150" text-anchor="middle" fill="#9aa3ad" font-family="JetBrains Mono" font-size="12">股价 ↓ → 权证 ↑</text>
+      <text x="560" y="172" text-anchor="middle" fill="#9aa3ad" font-family="JetBrains Mono" font-size="12">最大亏损 = 权证买入价</text>
+      <text x="560" y="200" text-anchor="middle" fill="#16c784" font-family="-apple-system" font-size="13">看跌工具 · 类似买保险</text>
+    </svg>
+  </div>
+
+  <p>权证本质上是<b>期权</b>——花一笔小钱（权利金），换一个"将来按事先约定的价格买/卖某只股票"的权利。在五粮液、包钢的这次<b>"分离交易可转债"</b>中，上市公司在发债的时候，<span class="hl-gold">同时送出了认购权证和认沽权证两种</span>——这是关键。</p>
+  <ul style="margin:0 0 18px 22px;color:#cfd5dc">
+    <li><b>认购权证</b>：行权价（约定的买价）越低，越有利；股价高于行权价就能套利。</li>
+    <li><b>认沽权证</b>：行权价（约定的卖价）越高，越有利；股价低于行权价就能套利。</li>
+  </ul>
+  <p>缠师抓的是：<span class="hl-pivot">同一家公司同时存在认购 + 认沽时的"差价漏洞"</span>。下一节细看。</p>
+</section>
+
+<section class="wrap reveal">
+  <div class="sec-no">03 — 核心洞察</div>
+  <h2>"安全底线"是怎么算出来的？</h2>
+  <p class="lead">缠师只用了一句话点破——但这句话需要展开。</p>
+
+  <blockquote>对既有认购又有认沽的认购权证来说，认沽和认购的行权价之间的差价，就是认购权证最安全的底线。对于五粮液、包钢认购权证，这个底线就分别是 <b>1.02</b> 和 <b>0.43</b> 元。<span class="who">— 缠中说禅 2006-10-24</span></blockquote>
+
+  <p>这是什么意思？翻成大白话：</p>
+  <ol style="margin:0 0 18px 22px;color:#cfd5dc;line-height:1.95">
+    <li>公司同时发了认购权证（约定<b>认购行权价</b>买入）+ 认沽权证（约定<b>认沽行权价</b>卖出）。</li>
+    <li>"<b>认沽行权价 &gt; 认购行权价</b>"是常见结构——发行人不希望真的兑现认沽（兑现要掏真金白银），所以把认沽门槛拉得相对高。</li>
+    <li>这两个行权价的<b>差额</b>（如五粮液 = 认沽行权价 − 认购行权价 = 1.02 元）就是一个<span class="hl-gold">几乎无风险的套利底</span>：到期日如果股价跌到很低，可以买入正股 + 行使认沽 → 锁定收益；而认购权证至少值这个差价。</li>
+    <li>只要权证价格<b>低于这个差价</b>，理论上买入就稳赚不赔——这就是缠师说的"<b>提款机</b>"。</li>
+  </ol>
+
+  <div class="table">
+    <div class="row head"><div>权证</div><div>缠师入场价</div><div>安全底线（行权差价）</div></div>
+    <div class="row"><div class="name">五粮液认购 030002</div><div class="cnt">≈ 1 元多（2006-04）</div><div class="cnt">1.02 元</div></div>
+    <div class="row"><div class="name">包钢认购 580013</div><div class="cnt">≈ 0.4 元多（2006-04）</div><div class="cnt">0.43 元</div></div>
+  </div>
+
+  <p><b>关键点</b>：缠师买入价 ≈ 安全底线价。意味着——<span class="hl-up">几乎不亏</span>，但只要正股启动，权证因为<b>高杠杆</b>会爆涨。这就是缠师定义的"既安全、又能 G 点"的机会。</p>
+</section>
+
+<section class="wrap reveal">
+  <div class="sec-no">04 — 原文配图</div>
+  <h2>五粮液认购权证：从 1.2 元到 21.3 元</h2>
+  <p class="lead">这张图缠师本人当年贴在博客上：标注了发文时间 2006-10-24 在哪一根 K 线上。</p>
+  <figure>
+    <img src="/_assets/ch6_p01.png" alt="五粮液认购权证 030002 2006-2007 走势图">
+    <figcaption>五粮液认购权证 YGC1 (代码 030002)，2006-04 上市价约 1.2 元，2007-01-17 见 21.3 元 — 蓝色箭头标注的就是缠师 2006-10-24 发文位置</figcaption>
+  </figure>
+  <p>读图三个看点：</p>
+  <ol style="margin:0 0 18px 22px;color:#cfd5dc;line-height:1.95">
+    <li><b>2006-04 上市后</b>横盘 6 个月，价格大部分时间在 <b>1.2 - 2.0 元</b>区间——这是缠师"<span class="hl-pivot">在 1 元多吃</span>"的窗口。</li>
+    <li><b>2006-10-24</b>（蓝箭头位置）权证价格大约在 <b>2 元上下</b>，缠师此时已经布局完毕，发文晒成果。</li>
+    <li><b>2006-11 后</b>权证一路飞升，到 <b>2007-01-17</b> 见 <span class="hl-up">21.3 元</span> — 从 1.2 起步算，<b>约 17 倍</b>。</li>
+  </ol>
+  <p style="font-family:var(--mono);font-size:12px;color:var(--ink-faint)">图源：缠师当年博客原图（飞狐交易师截图），文件名 ch6_p01.png</p>
+</section>
+
+<section class="wrap reveal">
+  <div class="sec-no">05 — 真金白银的实证</div>
+  <h2>正股飞了：缠师吃到的是"权证 × 正股"双重杠杆</h2>
+  <p class="lead">权证的暴利来自<b>正股启动</b>。我们用 akshare 拉<b>五粮液 000858</b> 和 <b>包钢股份 600010</b> 同期日线，看看缠师布局后的正股走势——这是权证起飞的真正引擎。</p>
+
+  <div class="proof">
+    <span class="badge">数据实证 · 五粮液 000858</span>
+    <div class="chartbox">
+      <div class="legend"><span><i style="background:#cfd5dc"></i>收盘</span><span><i style="background:#e8b339"></i>MA20</span><span><i style="background:#37c0e6"></i>MA60</span><span><i style="background:#ff4d4f"></i>关键点</span></div>
+      <canvas id="cv_000858" height="440"></canvas>
+    </div>
+    <div class="verdict"><span class="mk">✓ 印证</span><p>缠师 2006-04 布局时五粮液正股最低 <b>6.48 元</b>；2006-10-24 发文当日收 <b>12.58 元</b>（已涨近 1 倍）；2007-01-17（图片截止日）收 <b>30.94 元</b>，<b class="hl-up">9 个月正股翻 4.8 倍</b>。正股 ×5，认购权证因为高杠杆放大成 ×17——这就是缠师说的"提款"。</p></div>
+  </div>
+
+  <div class="proof">
+    <span class="badge">数据实证 · 包钢股份 600010</span>
+    <div class="chartbox">
+      <div class="legend"><span><i style="background:#cfd5dc"></i>收盘</span><span><i style="background:#e8b339"></i>MA20</span><span><i style="background:#37c0e6"></i>MA60</span><span><i style="background:#ff4d4f"></i>关键点</span></div>
+      <canvas id="cv_600010" height="440"></canvas>
+    </div>
+    <div class="verdict"><span class="mk">✓ 印证</span><p>包钢股份 2006-04 最低 <b>1.85 元</b>，缠师发文当日收 <b>2.25 元</b>，2007-02-28 收 <b>5.49 元</b>，全期间最高 <b>5.64 元</b>。<b class="hl-up">正股 10 个月翻 3 倍</b>，对应的认购权证（580013）以更高杠杆吃到这波行情——也对得上缠师"4 毛多吃"的描述。</p></div>
+  </div>
+
+  <p style="font-family:var(--mono);font-size:12px;color:var(--ink-faint)">数据来源：新浪财经日K（不复权）· akshare 取数 · 截至 2007-02-28 · 不构成投资建议</p>
+</section>
+
+<section class="wrap reveal">
+  <div class="sec-no">06 — 提炼方法</div>
+  <h2>从这次交易抽出的 4 条纪律</h2>
+  <p class="lead">把"权证"这层皮剥掉，剩下的纪律对今天所有炒股的人都成立。</p>
+
+  <div class="grid">
+    <div class="card">
+      <span class="tag">RULE · 01</span>
+      <h3>找"亏损封顶"的工具</h3>
+      <p>权证有"安全底线"的差价漏洞；今天则可以是<b>深度破净 + 强基本面</b>的股票、<b>大级别盘整背驰</b>后的位置等——共同点是"再跌空间小、上涨空间大"。</p>
+    </div>
+    <div class="card">
+      <span class="tag">RULE · 02</span>
+      <h3>时机不到就不动</h3>
+      <p>缠师全文反复强调"等"。"市场不骚动，是不能搞的"——对应缠论里的<b>第一/二/三类买点</b>都没出现时，<span class="hl-down">空仓也是仓位</span>。</p>
+    </div>
+    <div class="card">
+      <span class="tag">RULE · 03</span>
+      <h3>规模匹配 G 点</h3>
+      <p>缠师吐槽"权证盘子太小，是小男人"——这条今天依然成立：<b>资金量大就别玩小盘股</b>，否则进出冲击成本能把利润全吃掉。</p>
+    </div>
+    <div class="card">
+      <span class="tag">RULE · 04</span>
+      <h3>不掩盖"投机"本质</h3>
+      <p>缠师对"投资派"嘲讽到底，不是反对长期持有，是反对<b>把投机包装成投资的自欺</b>。明白自己在投机 → 才会带止损、控仓位、看技术。</p>
+    </div>
+  </div>
+</section>
+
+<section class="wrap reveal">
+  <div class="sec-no">07 — 三个买卖点视角的回看</div>
+  <h2>用缠论的语言重述这次交易</h2>
+  <p class="lead">第 6 课写在缠论体系完整提出之前，但事后用缠论术语回看，结构非常干净：</p>
+
+  <div class="points">
+    <div class="pt b"><div class="dot">1</div><div><h4>2006-04 · 第一类买点（底部启动）</h4><p>五粮液正股 6.48 元、包钢 1.85 元——属于<b>多年盘整 + MACD 底背驰</b>的位置，正是缠论第一类买点。叠加权证的"安全底线"双保险。</p></div></div>
+    <div class="pt b"><div class="dot">2</div><div><h4>2006-09~10 · 第三类买点（中枢突破）</h4><p>正股冲过整理平台后回踩不破，对应第三类买点；权证因杠杆放大，从 2 元出头开启主升。缠师此时发文，等于在<b>第三类买点之后</b>"晒单"。</p></div></div>
+    <div class="pt s"><div class="dot">S</div><div><h4>2007-Q1 · 警惕背驰</h4><p>权证从 1.2 涨到 21.3，正股从 6.48 涨到 33.18，幅度均超过 5 倍，<b>必须警惕大级别趋势背驰</b>。课文没讲卖点（也没法在博客实时披露），但缠论体系里，这类暴涨末段必须严密盯背驰指标。</p></div></div>
+  </div>
+</section>
+
+<section class="wrap reveal">
+  <div class="sec-no">08 — 思考与练习</div>
+  <h2>课后思考</h2>
+  <ol class="think">
+    <li>缠师在文末问："男 G 点在哪儿里？"——他没给答案，直说"实践是检验真理的唯一标准。自己检验去！"放到股票上，这句话怎么理解？（提示：行情的"G 点"=多空双方情绪极值出现时的<b>那一根 K 线</b>，只能在事后被印证，但事前可以通过<b>多周期共振</b>逼近。）</li>
+    <li>权证之所以可以套利，是因为"认沽和认购的差价"提供了无风险底线。今天 A 股没有这种工具了，那么 <b>同样的结构思路</b> 可以套到哪里？（提示：ETF 折溢价、可转债下修条款、回购托底股价等。）</li>
+    <li>本课与第 27 课"<b>盘整背驰找历史大底</b>"的关系是什么？两者都在讲"<b>安全的进场点</b>"，差别在哪？</li>
+  </ol>
+
+  <div class="quiz">
+    <h4>判图练习：下列哪种结构最像缠师在权证上找到的"提款机"？</h4>
+    <p>A. 一只热门股，盘口活跃，连续涨停 5 天<br>
+    B. 一个工具，<b>最大亏损封顶 = 5%</b>，潜在收益 5-20 倍，标的正在大级别底部盘整<br>
+    C. 一只新股次新股，没有历史走势，市场情绪火爆<br>
+    D. 一个工具，杠杆高、波动大、没有保底</p>
+    <details class="ans"><summary>查看答案</summary><p>正确答案：<b class="hl-pivot">B</b>。缠师选权证的核心是"<b>亏损封顶 + 上涨敞开</b>"。A 是追高、C 是赌博、D 是裸投机——三者都不符合"安全"前提。B 同时满足两个条件，才是真正的"提款机"。</p></details>
+  </div>
+</section>
+
+<section class="wrap reveal">
+  <div class="sec-no">09 — 一句话总结</div>
+  <div class="tldr">
+    <span class="lab">TL;DR</span>
+    <p>真正能稳定提款的机会，必须先满足"<span class="hl-pivot">亏损封顶</span>"——缠师在 2006 年权证差价的漏洞里抓住了它；今天没有权证，但<b>"先找安全垫，再谈上行空间"</b>的纪律永不过时。</p>
+  </div>
+</section>
+
+</main>
+<footer class="wrap">
+  原文出处：raw/缠中说禅/教你炒股票108课/教你炒股票6：本ID如何在五粮液、包钢权证上提款的！.md<br>
+  本页为个人学习复习用 · 非投资建议
+</footer>
+<script>
+  const bar=document.getElementById('bar');
+  const onScroll=()=>{const h=document.documentElement;bar.style.width=(h.scrollTop/(h.scrollHeight-h.clientHeight)*100)+'%'};
+  document.addEventListener('scroll',onScroll,{passive:true});onScroll();
+  const io=new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{threshold:.12});
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+function drawChanChart(canvasId, CHART){
+  const cv=document.getElementById(canvasId); if(!cv) return;
+  const mode=CHART.mode||'line', hasVol=!!CHART.v && CHART.showVol!==false;
+  const idxOf={}; CHART.dates.forEach((d,i)=>idxOf[d]=i);
+  const ri=d=>{ if(d in idxOf)return idxOf[d]; let b=0,bd=1/0;
+    CHART.dates.forEach((x,i)=>{const t=Math.abs(new Date(x)-new Date(d)); if(t<bd){bd=t;b=i}}); return b; };
+  function draw(){
+    const dpr=window.devicePixelRatio||1, W=cv.clientWidth, H=CHART.height||440;
+    cv.width=W*dpr; cv.height=H*dpr; const x=cv.getContext('2d'); x.scale(dpr,dpr); x.clearRect(0,0,W,H);
+    const padL=48,padR=14,padT=16, volH=hasVol?70:0, gap=hasVol?16:0, priceH=H-padT-volH-gap-22, n=CHART.c.length;
+    let mn=Math.min(...CHART.l), mx=Math.max(...CHART.h);
+    if(CHART.ma)Object.values(CHART.ma).forEach(a=>a.forEach(v=>{if(v!=null){mn=Math.min(mn,v);mx=Math.max(mx,v)}}));
+    if(CHART.pivots)CHART.pivots.forEach(p=>{mn=Math.min(mn,p.lo);mx=Math.max(mx,p.hi)});
+    if(CHART.marks)CHART.marks.forEach(m=>{mn=Math.min(mn,m.price);mx=Math.max(mx,m.price)});
+    const pd=(mx-mn)*0.08; mn-=pd; mx+=pd;
+    const PW=W-padL-padR, px=i=> n===1?padL+PW/2:padL+PW*i/(n-1), py=p=>padT+priceH*(1-(p-mn)/(mx-mn));
+    x.font="11px JetBrains Mono"; x.textAlign="right";
+    for(let g=0;g<=4;g++){const p=mn+(mx-mn)*g/4,yy=py(p);
+      x.strokeStyle="rgba(255,255,255,.06)";x.beginPath();x.moveTo(padL,yy);x.lineTo(W-padR,yy);x.stroke();
+      x.fillStyle="#5b6470";x.fillText(p.toFixed(2),padL-6,yy+3)}
+    if(CHART.pivots)CHART.pivots.forEach(p=>{const x1=px(ri(p.from)),x2=px(ri(p.to)),y1=py(p.hi),y2=py(p.lo);
+      x.fillStyle="rgba(55,192,230,.10)";x.strokeStyle="rgba(55,192,230,.55)";x.lineWidth=1;
+      x.fillRect(x1,y1,x2-x1,y2-y1);x.strokeRect(x1,y1,x2-x1,y2-y1);
+      if(p.label){x.fillStyle="#37c0e6";x.textAlign="center";x.fillText(p.label,(x1+x2)/2,y1-5)}});
+    if(hasVol){const vmax=Math.max(...CHART.v),vt=padT+priceH+gap;
+      for(let i=0;i<n;i++){const up=CHART.c[i]>=CHART.o[i];x.fillStyle=up?"rgba(255,77,79,.5)":"rgba(22,199,132,.5)";
+        const bw=Math.max(1,PW/n*0.6),bh=volH*CHART.v[i]/vmax;x.fillRect(px(i)-bw/2,vt+volH-bh,bw,bh)}}
+    if(mode==='candle'){const bw=Math.max(1.5,PW/n*0.62);
+      for(let i=0;i<n;i++){const up=CHART.c[i]>=CHART.o[i],col=up?"#ff4d4f":"#16c784";x.strokeStyle=col;x.fillStyle=col;
+        x.beginPath();x.moveTo(px(i),py(CHART.h[i]));x.lineTo(px(i),py(CHART.l[i]));x.stroke();
+        const yo=py(CHART.o[i]),yc=py(CHART.c[i]);x.fillRect(px(i)-bw/2,Math.min(yo,yc),bw,Math.max(1,Math.abs(yc-yo)))}}
+    else{const cs=CHART.c;x.beginPath();for(let i=0;i<n;i++){const xx=px(i),yy=py(cs[i]);i?x.lineTo(xx,yy):x.moveTo(xx,yy)}
+      const gr=x.createLinearGradient(0,padT,0,padT+priceH);gr.addColorStop(0,"rgba(207,213,220,.16)");gr.addColorStop(1,"rgba(207,213,220,0)");
+      x.lineTo(px(n-1),padT+priceH);x.lineTo(px(0),padT+priceH);x.closePath();x.fillStyle=gr;x.fill();
+      x.beginPath();for(let i=0;i<n;i++){const xx=px(i),yy=py(cs[i]);i?x.lineTo(xx,yy):x.moveTo(xx,yy)}
+      x.strokeStyle="#cfd5dc";x.lineWidth=1.6;x.stroke()}
+    const MC={MA5:"#ff8a8c",MA10:"#c0a3ff",MA20:"#e8b339",MA60:"#37c0e6",MA120:"#9aa3ad",MA250:"#ff4d4f"};
+    if(CHART.ma)Object.entries(CHART.ma).forEach(([k,a])=>{x.beginPath();let st=false;
+      for(let i=0;i<n;i++){if(a[i]==null)continue;const xx=px(i),yy=py(a[i]);st?x.lineTo(xx,yy):(x.moveTo(xx,yy),st=true)}
+      x.strokeStyle=MC[k]||"#888";x.lineWidth=1.4;x.stroke()});
+    if(CHART.marks)CHART.marks.forEach(m=>{const xx=px(ri(m.date)),yy=py(m.price),buy=(m.type||'').startsWith('b'),col=buy?"#ff4d4f":"#16c784";
+      x.fillStyle=col;x.beginPath();x.arc(xx,yy,4,0,7);x.fill();
+      x.fillStyle="#fff";x.font="bold 11px -apple-system";x.textAlign="center";x.fillText(m.text||'',xx,buy?yy+18:yy-10)});
+    x.fillStyle="#5b6470";x.textAlign="center";x.font="11px JetBrains Mono";
+    const L=Math.min(6,n);for(let g=0;g<L;g++){const i=Math.round((n-1)*g/(L-1||1));x.fillText(CHART.dates[i],px(i),H-5)}
+  }
+  draw(); window.addEventListener('resize',draw);
+}
+
+const CHART_000858 = {"dates": ["2006-01-04", "2006-01-05", "2006-01-06", "2006-01-09", "2006-01-10", "2006-01-11", "2006-01-12", "2006-01-13", "2006-01-16", "2006-01-17", "2006-01-18", "2006-01-19", "2006-01-20", "2006-01-23", "2006-01-24", "2006-03-02", "2006-03-03", "2006-03-06", "2006-03-07", "2006-03-08", "2006-03-09", "2006-03-10", "2006-03-13", "2006-03-14", "2006-03-31", "2006-04-03", "2006-04-04", "2006-04-05", "2006-04-06", "2006-04-07", "2006-04-10", "2006-04-11", "2006-04-12", "2006-04-13", "2006-04-14", "2006-04-17", "2006-04-18", "2006-04-19", "2006-04-20", "2006-04-21", "2006-04-24", "2006-04-25", "2006-04-26", "2006-04-27", "2006-04-28", "2006-05-08", "2006-05-09", "2006-05-10", "2006-05-11", "2006-05-15", "2006-05-16", "2006-05-17", "2006-05-18", "2006-05-19", "2006-05-23", "2006-05-24", "2006-05-25", "2006-05-26", "2006-05-29", "2006-05-30", "2006-05-31", "2006-06-01", "2006-06-02", "2006-06-05", "2006-06-06", "2006-06-07", "2006-06-08", "2006-06-09", "2006-06-12", "2006-06-13", "2006-06-14", "2006-06-15", "2006-06-16", "2006-06-19", "2006-06-20", "2006-06-21", "2006-06-22", "2006-06-23", "2006-06-26", "2006-06-28", "2006-06-29", "2006-06-30", "2006-07-03", "2006-07-04", "2006-07-05", "2006-07-06", "2006-07-07", "2006-07-10", "2006-07-11", "2006-07-12", "2006-07-13", "2006-07-14", "2006-07-17", "2006-07-18", "2006-07-19", "2006-07-20", "2006-07-21", "2006-07-24", "2006-07-25", "2006-07-26", "2006-07-27", "2006-07-28", "2006-07-31", "2006-08-01", "2006-08-02", "2006-08-03", "2006-08-04", "2006-08-07", "2006-08-08", "2006-08-09", "2006-08-10", "2006-08-11", "2006-08-14", "2006-08-15", "2006-08-16", "2006-08-17", "2006-08-18", "2006-08-21", "2006-08-22", "2006-08-23", "2006-08-24", "2006-08-25", "2006-08-28", "2006-08-29", "2006-08-30", "2006-08-31", "2006-09-01", "2006-09-04", "2006-09-05", "2006-09-06", "2006-09-07", "2006-09-08", "2006-09-11", "2006-09-12", "2006-09-13", "2006-09-14", "2006-09-15", "2006-09-18", "2006-09-19", "2006-09-20", "2006-09-21", "2006-09-22", "2006-09-25", "2006-09-26", "2006-09-27", "2006-09-28", "2006-09-29", "2006-10-09", "2006-10-10", "2006-10-11", "2006-10-12", "2006-10-13", "2006-10-16", "2006-10-17", "2006-10-18", "2006-10-19", "2006-10-20", "2006-10-23", "2006-10-24", "2006-10-25", "2006-10-26", "2006-10-27", "2006-10-30", "2006-10-31", "2006-11-01", "2006-11-02", "2006-11-03", "2006-11-06", "2006-11-07", "2006-11-08", "2006-11-09", "2006-11-10", "2006-11-13", "2006-11-14", "2006-11-15", "2006-11-16", "2006-11-17", "2006-11-20", "2006-11-21", "2006-11-22", "2006-11-23", "2006-11-24", "2006-11-27", "2006-11-28", "2006-11-29", "2006-11-30", "2006-12-01", "2006-12-04", "2006-12-05", "2006-12-06", "2006-12-07", "2006-12-08", "2006-12-11", "2006-12-12", "2006-12-13", "2006-12-14", "2006-12-15", "2006-12-18", "2006-12-19", "2006-12-20", "2006-12-21", "2006-12-22", "2006-12-25", "2006-12-26", "2006-12-27", "2006-12-28", "2006-12-29", "2007-01-04", "2007-01-05", "2007-01-08", "2007-01-09", "2007-01-10", "2007-01-11", "2007-01-12", "2007-01-15", "2007-01-16", "2007-01-17", "2007-01-18", "2007-01-23", "2007-01-24", "2007-01-25", "2007-01-26", "2007-01-29", "2007-01-30", "2007-01-31", "2007-02-01", "2007-02-02", "2007-02-05", "2007-02-06", "2007-02-07", "2007-02-08", "2007-02-09", "2007-02-12", "2007-02-13", "2007-02-14", "2007-02-15", "2007-02-16", "2007-02-26", "2007-02-27", "2007-02-28"], "o": [7.37, 7.65, 7.87, 7.9, 7.87, 7.9, 7.78, 7.88, 7.9, 7.73, 7.77, 8.06, 7.92, 7.95, 7.98, 8.88, 8.7, 8.7, 8.58, 8.44, 8.18, 8.2, 8.39, 8.51, 6.8, 6.7, 7.13, 7.14, 7.33, 7.86, 7.62, 7.69, 7.6, 7.64, 7.35, 7.76, 7.8, 8.28, 8.24, 8.75, 9.28, 9.63, 9.35, 9.18, 9.42, 10.71, 12.0, 13.5, 12.6, 14.17, 14.9, 14.91, 13.95, 13.55, 13.3, 13.58, 13.18, 12.75, 12.83, 13.76, 13.5, 12.94, 13.59, 13.0, 13.0, 12.8, 11.65, 12.01, 11.2, 11.67, 12.0, 12.31, 12.3, 12.4, 13.49, 13.5, 13.4, 13.51, 14.15, 15.0, 14.95, 15.2, 14.54, 14.6, 14.22, 14.08, 14.3, 14.25, 14.15, 14.33, 14.05, 13.24, 13.33, 13.34, 13.5, 12.91, 13.3, 12.8, 14.26, 14.25, 14.22, 13.78, 13.46, 13.6, 13.5, 13.33, 13.1, 12.59, 12.85, 13.43, 13.38, 13.0, 12.73, 12.66, 12.66, 12.69, 12.5, 12.18, 12.4, 12.68, 12.58, 12.51, 12.36, 12.56, 12.85, 13.03, 13.3, 12.8, 13.03, 12.98, 12.85, 12.58, 12.56, 12.6, 12.8, 12.58, 12.83, 13.01, 13.05, 12.98, 12.88, 13.16, 12.99, 12.68, 12.6, 12.6, 13.01, 13.15, 13.61, 13.25, 12.74, 12.59, 12.62, 12.29, 12.4, 12.6, 12.48, 12.5, 12.38, 12.58, 12.8, 12.65, 12.4, 12.31, 12.35, 12.29, 12.34, 12.38, 12.8, 12.99, 13.27, 13.5, 13.07, 13.18, 13.98, 14.62, 14.3, 14.78, 14.85, 14.63, 14.79, 14.75, 14.7, 15.26, 14.84, 16.2, 16.8, 17.15, 17.63, 16.9, 16.36, 16.14, 15.63, 17.1, 17.0, 16.8, 18.0, 18.68, 20.65, 20.29, 20.39, 19.82, 19.2, 20.35, 20.03, 21.18, 21.33, 23.6, 22.88, 23.7, 23.6, 24.65, 24.8, 25.3, 27.3, 29.6, 30.87, 30.7, 31.1, 29.97, 29.6, 28.0, 28.16, 28.1, 28.21, 24.81, 25.06, 23.65, 23.71, 24.8, 25.2, 26.08, 25.5, 26.5, 26.77, 27.5, 29.55, 28.85, 27.9, 23.2], "h": [7.7, 7.89, 7.97, 7.95, 7.91, 7.92, 7.92, 8.03, 7.91, 7.81, 8.14, 8.07, 8.06, 8.02, 8.21, 8.88, 8.95, 8.7, 8.58, 8.5, 8.3, 8.49, 8.52, 8.56, 6.82, 7.22, 7.18, 7.35, 8.04, 7.86, 7.79, 7.8, 7.85, 7.68, 7.8, 7.98, 8.36, 8.36, 8.81, 9.48, 9.86, 9.75, 9.57, 9.75, 10.58, 11.64, 12.8, 13.6, 13.68, 14.17, 15.59, 15.84, 13.97, 14.7, 14.19, 14.0, 13.18, 13.0, 13.84, 14.5, 13.77, 13.77, 13.6, 13.23, 13.2, 12.8, 12.1, 12.1, 11.73, 12.48, 12.44, 12.62, 12.55, 13.7, 14.04, 13.67, 13.85, 14.19, 15.28, 15.8, 15.28, 15.27, 14.97, 14.6, 14.41, 14.59, 14.68, 14.31, 14.52, 14.36, 14.27, 13.58, 13.4, 13.49, 13.55, 13.29, 13.3, 14.21, 14.33, 14.34, 14.28, 13.9, 13.89, 13.78, 13.6, 13.46, 13.32, 12.96, 13.5, 13.57, 13.55, 13.05, 12.88, 12.8, 12.82, 12.69, 12.73, 12.45, 12.8, 12.79, 12.66, 12.69, 12.76, 13.25, 13.05, 13.35, 13.35, 13.1, 13.18, 12.99, 12.85, 12.74, 12.66, 12.96, 12.9, 12.85, 12.98, 13.3, 13.22, 13.04, 13.17, 13.19, 12.99, 12.76, 12.69, 13.05, 13.13, 13.85, 13.65, 13.28, 12.74, 12.7, 12.62, 12.38, 12.66, 12.65, 12.68, 12.55, 12.58, 12.97, 12.84, 12.7, 12.5, 12.45, 12.42, 12.38, 12.65, 12.79, 13.02, 13.48, 13.64, 13.55, 13.51, 14.05, 14.76, 14.9, 14.88, 15.42, 15.09, 15.07, 15.09, 14.93, 15.25, 15.46, 16.5, 17.17, 17.4, 17.75, 17.63, 16.91, 16.8, 16.27, 17.1, 17.58, 17.15, 18.1, 18.7, 20.33, 20.65, 20.9, 20.6, 20.0, 20.79, 20.65, 21.7, 21.48, 23.33, 24.95, 24.28, 23.98, 24.8, 25.16, 26.33, 27.7, 30.03, 31.0, 32.85, 32.05, 33.18, 31.16, 30.0, 28.77, 29.53, 29.0, 28.21, 26.7, 25.57, 24.27, 24.6, 25.67, 26.26, 26.66, 26.5, 27.22, 27.28, 29.36, 29.9, 28.85, 27.9, 26.2], "l": [7.37, 7.6, 7.74, 7.7, 7.6, 7.68, 7.77, 7.83, 7.67, 7.69, 7.74, 7.89, 7.92, 7.82, 7.98, 8.48, 8.65, 8.54, 8.3, 8.16, 8.13, 8.2, 8.32, 8.33, 6.48, 6.53, 7.01, 7.11, 7.27, 7.62, 7.42, 7.5, 7.58, 7.35, 7.31, 7.7, 7.8, 8.15, 8.24, 8.65, 9.28, 9.1, 9.0, 9.12, 9.32, 10.71, 12.0, 12.51, 12.11, 13.72, 14.13, 13.41, 12.98, 13.3, 13.08, 12.18, 12.31, 12.43, 12.7, 13.5, 12.78, 12.75, 12.78, 12.61, 12.8, 11.7, 11.31, 11.4, 11.01, 11.6, 11.81, 12.03, 12.25, 12.22, 13.47, 13.19, 13.38, 13.51, 14.06, 14.48, 14.71, 14.31, 14.0, 14.03, 13.9, 13.92, 14.14, 13.93, 14.05, 14.0, 13.1, 13.14, 13.1, 13.19, 12.8, 12.88, 12.99, 12.7, 14.01, 14.02, 13.6, 13.45, 13.21, 13.36, 12.9, 12.92, 12.7, 12.37, 12.76, 13.22, 12.98, 12.4, 12.51, 12.42, 12.55, 12.48, 12.48, 12.12, 12.33, 12.53, 12.37, 12.2, 12.15, 12.56, 12.82, 13.0, 12.9, 12.75, 12.83, 12.75, 12.53, 12.5, 12.46, 12.58, 12.6, 12.48, 12.75, 12.97, 12.91, 12.84, 12.87, 12.8, 12.55, 12.55, 12.42, 12.6, 12.88, 13.11, 13.16, 12.56, 12.41, 12.37, 12.15, 12.18, 12.3, 12.44, 12.47, 12.35, 12.38, 12.5, 12.61, 12.36, 12.18, 12.2, 12.13, 12.13, 12.25, 12.32, 12.66, 12.85, 13.26, 13.02, 13.02, 13.16, 13.98, 14.38, 14.28, 14.61, 14.28, 14.39, 14.5, 14.53, 14.6, 14.86, 14.68, 16.2, 16.55, 16.98, 16.92, 15.7, 16.29, 15.61, 15.63, 16.53, 16.4, 16.8, 17.75, 18.63, 19.67, 19.71, 19.9, 19.01, 19.18, 19.61, 19.9, 20.85, 21.33, 22.0, 22.5, 22.94, 23.4, 24.15, 24.31, 24.96, 27.3, 28.99, 29.1, 29.82, 29.5, 28.91, 28.0, 25.8, 27.8, 27.48, 25.39, 23.31, 24.0, 22.8, 22.6, 24.5, 24.66, 25.3, 25.5, 26.27, 26.25, 27.1, 28.83, 27.8, 25.22, 23.12], "c": [7.65, 7.87, 7.95, 7.93, 7.9, 7.81, 7.88, 7.9, 7.78, 7.79, 8.05, 7.9, 7.94, 7.96, 8.11, 8.78, 8.7, 8.59, 8.44, 8.21, 8.18, 8.4, 8.51, 8.36, 6.73, 7.11, 7.12, 7.32, 7.88, 7.81, 7.69, 7.6, 7.67, 7.36, 7.75, 7.71, 8.28, 8.24, 8.62, 9.22, 9.59, 9.37, 9.19, 9.62, 10.58, 11.64, 12.8, 12.66, 12.88, 14.17, 14.9, 14.16, 13.52, 14.53, 13.47, 13.39, 12.78, 12.81, 13.76, 13.53, 12.97, 13.58, 13.4, 13.06, 12.84, 11.82, 11.97, 11.43, 11.69, 12.1, 12.29, 12.2, 12.45, 13.49, 13.58, 13.47, 13.49, 14.05, 15.04, 14.95, 15.09, 14.54, 14.56, 14.24, 14.09, 14.35, 14.35, 14.14, 14.33, 14.11, 13.41, 13.48, 13.35, 13.48, 12.91, 13.1, 13.0, 14.21, 14.21, 14.24, 13.84, 13.64, 13.65, 13.5, 13.38, 13.1, 12.76, 12.76, 13.43, 13.35, 13.1, 12.78, 12.67, 12.7, 12.74, 12.56, 12.55, 12.45, 12.7, 12.69, 12.59, 12.36, 12.64, 12.9, 13.0, 13.21, 12.94, 13.03, 12.88, 12.87, 12.6, 12.57, 12.6, 12.86, 12.6, 12.83, 12.9, 13.0, 13.01, 12.89, 13.12, 12.92, 12.68, 12.6, 12.59, 12.97, 12.99, 13.59, 13.2, 12.77, 12.61, 12.62, 12.3, 12.32, 12.54, 12.47, 12.48, 12.4, 12.58, 12.81, 12.7, 12.4, 12.25, 12.41, 12.3, 12.35, 12.43, 12.76, 12.95, 13.26, 13.44, 13.08, 13.19, 13.96, 14.6, 14.41, 14.71, 14.85, 14.62, 14.79, 14.75, 14.63, 15.25, 15.13, 16.19, 16.62, 16.92, 17.2, 16.95, 16.55, 16.33, 15.75, 17.0, 17.0, 16.82, 17.92, 18.63, 20.15, 20.2, 20.4, 20.0, 19.3, 20.37, 20.03, 21.0, 21.25, 22.85, 22.9, 23.7, 23.5, 24.65, 24.8, 25.48, 27.3, 29.49, 30.98, 30.94, 31.0, 30.4, 30.0, 28.5, 28.13, 27.99, 28.21, 25.58, 25.89, 24.18, 23.71, 24.46, 25.0, 26.05, 25.48, 26.28, 26.71, 26.9, 29.2, 28.85, 28.02, 25.22, 25.16], "v": [13263138, 17713837, 21303756, 17655194, 11759111, 7908778, 8855361, 8870211, 8372628, 4817070, 10908999, 5967529, 12938422, 11102282, 24230316, 59049577, 21662917, 9579687, 12227231, 11287430, 5939388, 8606619, 10682406, 15679358, 52603963, 60530424, 33320819, 41092174, 63776901, 42690638, 42305254, 22581515, 23886760, 21917271, 39319317, 42663804, 62922711, 35055207, 47407285, 52815238, 50890772, 33850245, 31499824, 31914196, 67019939, 44759881, 64638807, 84216605, 65355279, 57767884, 79999607, 78988615, 54494276, 60335752, 58588921, 50846400, 30297065, 30947450, 47365509, 55175205, 39848938, 38847484, 42870130, 20727883, 17284453, 33000714, 26677864, 18489926, 23612697, 27218289, 25626053, 18393294, 14100271, 53893781, 39920259, 24669080, 14857654, 41242409, 36325565, 32627286, 25511734, 27337794, 30412861, 26517340, 15546591, 18206523, 14273076, 12905033, 15331408, 13621156, 29061510, 14840430, 14995646, 10717526, 14942846, 12215137, 9766645, 34521224, 19959645, 14189929, 17443724, 11905811, 13775784, 8160020, 10470635, 7153005, 8424484, 8680871, 12975275, 8022118, 12091682, 23118912, 11867237, 5849979, 7071350, 6173253, 4963060, 6455810, 9064807, 6341798, 7974019, 11696707, 21222517, 24041223, 10560882, 14442029, 9644288, 6320612, 5740648, 4914267, 5870881, 3002020, 4155411, 8990033, 5744279, 6476023, 7851627, 7122461, 8062155, 5528568, 13155785, 8307694, 6991574, 4925331, 5823493, 14689417, 18072324, 51945977, 31458763, 32905048, 27316964, 22408379, 22571945, 13872691, 26091456, 11859342, 11940598, 13452679, 9414342, 27092856, 10418462, 10890284, 13581391, 13509833, 20311077, 13659214, 18649355, 22984886, 25892746, 42858827, 33057901, 22485583, 24779438, 50277521, 52375835, 38068724, 28557483, 23496479, 24163223, 24255499, 15887624, 12690695, 23680601, 20329398, 40138158, 27354822, 24647546, 28683072, 27882469, 34607343, 18235787, 20506199, 24139306, 20178471, 11959151, 35897688, 26484166, 38936921, 34161016, 18492426, 16277879, 19956069, 20243200, 12850469, 25193009, 20234335, 27862095, 37886842, 34421339, 29992324, 20077867, 17112699, 19658391, 31112498, 41681580, 25252298, 33290738, 30699906, 44032611, 30588687, 32222673, 35065541, 28580391, 30903265, 27703452, 36063568, 23288470, 24095736, 29495143, 38031589, 21088698, 12105890, 13227762, 12386028, 19690451, 29949016, 20965331, 15993086, 28841313, 38428954], "ma": {"MA5": [null, null, null, null, 7.86, 7.89, 7.89, 7.88, 7.85, 7.83, 7.88, 7.88, 7.89, 7.93, 7.99, 8.14, 8.3, 8.43, 8.52, 8.54, 8.42, 8.36, 8.35, 8.33, 8.04, 7.82, 7.57, 7.33, 7.23, 7.45, 7.56, 7.66, 7.73, 7.63, 7.61, 7.62, 7.75, 7.87, 8.12, 8.41, 8.79, 9.01, 9.2, 9.4, 9.67, 10.08, 10.77, 11.46, 12.11, 12.83, 13.48, 13.75, 13.93, 14.26, 14.12, 13.81, 13.54, 13.4, 13.24, 13.25, 13.17, 13.33, 13.45, 13.31, 13.17, 12.94, 12.62, 12.22, 11.95, 11.8, 11.9, 11.94, 12.15, 12.51, 12.8, 13.04, 13.3, 13.62, 13.93, 14.2, 14.52, 14.73, 14.84, 14.68, 14.5, 14.36, 14.32, 14.23, 14.25, 14.26, 14.07, 13.89, 13.74, 13.57, 13.33, 13.26, 13.17, 13.34, 13.49, 13.75, 13.9, 14.03, 13.92, 13.77, 13.6, 13.45, 13.28, 13.1, 13.09, 13.08, 13.08, 13.08, 13.07, 12.92, 12.8, 12.69, 12.64, 12.6, 12.6, 12.59, 12.6, 12.56, 12.6, 12.64, 12.7, 12.82, 12.94, 13.02, 13.01, 12.99, 12.86, 12.79, 12.7, 12.7, 12.65, 12.69, 12.76, 12.84, 12.87, 12.93, 12.98, 12.99, 12.92, 12.84, 12.78, 12.75, 12.77, 12.95, 13.07, 13.1, 13.03, 12.96, 12.7, 12.52, 12.48, 12.45, 12.42, 12.44, 12.49, 12.55, 12.59, 12.58, 12.55, 12.51, 12.41, 12.34, 12.35, 12.45, 12.56, 12.75, 12.97, 13.1, 13.18, 13.39, 13.65, 13.85, 14.17, 14.51, 14.64, 14.68, 14.74, 14.73, 14.81, 14.91, 15.19, 15.56, 16.02, 16.41, 16.78, 16.85, 16.79, 16.56, 16.52, 16.53, 16.58, 16.9, 17.47, 18.1, 18.74, 19.46, 19.88, 20.01, 20.05, 20.02, 20.14, 20.39, 21.1, 21.61, 22.34, 22.84, 23.52, 23.91, 24.43, 25.15, 26.34, 27.61, 28.84, 29.94, 30.56, 30.66, 30.17, 29.61, 29.0, 28.57, 27.68, 27.16, 26.37, 25.51, 24.76, 24.65, 24.68, 24.94, 25.45, 25.9, 26.28, 26.91, 27.59, 27.94, 27.64, 27.29], "MA20": [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, 8.06, 8.08, 8.11, 8.14, 8.16, 8.1, 8.07, 8.03, 8.0, 8.0, 8.0, 7.99, 7.97, 7.96, 7.93, 7.91, 7.86, 7.84, 7.82, 7.83, 7.88, 7.95, 8.0, 8.03, 8.09, 8.29, 8.51, 8.8, 9.06, 9.31, 9.63, 9.99, 10.32, 10.61, 10.97, 11.26, 11.54, 11.77, 11.99, 12.25, 12.47, 12.64, 12.85, 13.06, 13.23, 13.34, 13.35, 13.31, 13.25, 13.19, 13.09, 12.96, 12.86, 12.8, 12.75, 12.76, 12.76, 12.8, 12.86, 12.92, 12.99, 13.1, 13.15, 13.21, 13.26, 13.33, 13.45, 13.57, 13.71, 13.84, 13.94, 14.0, 14.06, 14.11, 14.11, 14.07, 14.05, 14.03, 14.04, 13.99, 13.96, 13.9, 13.85, 13.81, 13.77, 13.73, 13.67, 13.59, 13.52, 13.48, 13.44, 13.42, 13.39, 13.36, 13.32, 13.31, 13.28, 13.26, 13.17, 13.09, 13.02, 12.96, 12.89, 12.84, 12.81, 12.79, 12.8, 12.81, 12.82, 12.79, 12.77, 12.74, 12.73, 12.73, 12.74, 12.73, 12.74, 12.76, 12.79, 12.8, 12.81, 12.84, 12.87, 12.87, 12.86, 12.83, 12.82, 12.83, 12.85, 12.87, 12.86, 12.87, 12.87, 12.85, 12.83, 12.82, 12.8, 12.78, 12.75, 12.73, 12.73, 12.71, 12.68, 12.66, 12.65, 12.64, 12.6, 12.58, 12.54, 12.52, 12.55, 12.59, 12.61, 12.66, 12.74, 12.84, 12.94, 13.05, 13.17, 13.27, 13.37, 13.48, 13.59, 13.74, 13.87, 14.07, 14.28, 14.51, 14.73, 14.93, 15.09, 15.24, 15.37, 15.56, 15.71, 15.82, 16.0, 16.2, 16.46, 16.74, 17.02, 17.28, 17.52, 17.77, 18.02, 18.26, 18.49, 18.79, 19.07, 19.41, 19.76, 20.17, 20.62, 21.05, 21.56, 22.2, 22.85, 23.46, 24.01, 24.52, 25.0, 25.42, 25.86, 26.24, 26.65, 26.88, 27.11, 27.18, 27.22, 27.26, 27.33, 27.4, 27.44, 27.48, 27.45, 27.32, 27.23, 27.13, 26.98, 26.72, 26.48], "MA60": [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, 9.47, 9.56, 9.65, 9.74, 9.83, 9.91, 9.98, 10.04, 10.1, 10.17, 10.24, 10.31, 10.38, 10.46, 10.55, 10.64, 10.72, 10.8, 10.89, 11.0, 11.11, 11.23, 11.33, 11.43, 11.53, 11.65, 11.77, 11.89, 12.01, 12.11, 12.22, 12.31, 12.41, 12.51, 12.61, 12.7, 12.79, 12.86, 12.96, 13.06, 13.14, 13.21, 13.28, 13.36, 13.42, 13.47, 13.49, 13.49, 13.49, 13.5, 13.49, 13.46, 13.44, 13.42, 13.39, 13.38, 13.37, 13.36, 13.36, 13.34, 13.32, 13.32, 13.3, 13.28, 13.28, 13.28, 13.31, 13.32, 13.35, 13.37, 13.38, 13.39, 13.39, 13.4, 13.39, 13.37, 13.36, 13.35, 13.33, 13.3, 13.26, 13.23, 13.2, 13.17, 13.15, 13.12, 13.1, 13.07, 13.07, 13.05, 13.02, 13.01, 13.0, 12.98, 12.96, 12.95, 12.94, 12.93, 12.9, 12.88, 12.85, 12.83, 12.81, 12.79, 12.77, 12.75, 12.74, 12.74, 12.74, 12.73, 12.73, 12.73, 12.74, 12.75, 12.77, 12.8, 12.83, 12.86, 12.9, 12.94, 12.97, 13.01, 13.05, 13.09, 13.13, 13.18, 13.24, 13.3, 13.37, 13.44, 13.5, 13.56, 13.62, 13.69, 13.76, 13.83, 13.91, 14.01, 14.13, 14.25, 14.37, 14.49, 14.59, 14.72, 14.85, 14.99, 15.12, 15.29, 15.44, 15.62, 15.8, 16.0, 16.2, 16.42, 16.67, 16.95, 17.26, 17.57, 17.88, 18.18, 18.46, 18.73, 18.99, 19.25, 19.51, 19.74, 19.96, 20.16, 20.34, 20.53, 20.73, 20.94, 21.14, 21.36, 21.57, 21.78, 22.03, 22.26, 22.48, 22.66, 22.83]}};
+CHART_000858.mode = "candle";
+CHART_000858.marks = [
+  {"date":"2006-04-03","price":6.53,"type":"b1","text":"缠师布局 6.5"},
+  {"date":"2006-10-24","price":12.58,"type":"b3","text":"发文日 12.58"},
+  {"date":"2007-01-17","price":30.94,"type":"top","text":"图片截止 30.94"}
+];
+drawChanChart("cv_000858", CHART_000858);
+
+const CHART_600010 = {"dates": ["2006-01-04", "2006-01-05", "2006-01-06", "2006-01-09", "2006-01-10", "2006-01-11", "2006-01-12", "2006-01-13", "2006-01-16", "2006-01-17", "2006-01-18", "2006-01-19", "2006-01-20", "2006-02-13", "2006-02-14", "2006-02-15", "2006-02-16", "2006-02-17", "2006-02-20", "2006-02-21", "2006-02-22", "2006-02-23", "2006-02-24", "2006-02-27", "2006-02-28", "2006-03-01", "2006-03-02", "2006-03-03", "2006-03-06", "2006-03-07", "2006-03-08", "2006-03-09", "2006-03-28", "2006-03-29", "2006-03-30", "2006-03-31", "2006-04-03", "2006-04-04", "2006-04-05", "2006-04-06", "2006-04-07", "2006-04-10", "2006-04-11", "2006-04-12", "2006-04-13", "2006-04-14", "2006-04-17", "2006-04-18", "2006-04-19", "2006-04-20", "2006-04-21", "2006-04-24", "2006-04-25", "2006-04-26", "2006-04-27", "2006-04-28", "2006-05-08", "2006-05-09", "2006-05-10", "2006-05-11", "2006-05-12", "2006-05-15", "2006-05-16", "2006-05-17", "2006-05-18", "2006-05-19", "2006-05-22", "2006-05-23", "2006-05-25", "2006-05-26", "2006-05-29", "2006-05-30", "2006-05-31", "2006-06-01", "2006-06-02", "2006-06-05", "2006-06-06", "2006-06-07", "2006-06-08", "2006-06-09", "2006-06-12", "2006-06-13", "2006-06-14", "2006-06-15", "2006-06-16", "2006-06-19", "2006-06-20", "2006-06-21", "2006-06-22", "2006-06-23", "2006-06-26", "2006-06-27", "2006-06-28", "2006-06-29", "2006-06-30", "2006-07-03", "2006-07-04", "2006-07-05", "2006-07-06", "2006-07-07", "2006-07-10", "2006-07-11", "2006-07-12", "2006-07-13", "2006-07-14", "2006-07-17", "2006-07-18", "2006-07-19", "2006-07-20", "2006-07-21", "2006-07-24", "2006-07-25", "2006-07-26", "2006-07-27", "2006-07-28", "2006-07-31", "2006-08-01", "2006-08-02", "2006-08-03", "2006-08-04", "2006-08-07", "2006-08-08", "2006-08-09", "2006-08-10", "2006-08-11", "2006-08-14", "2006-08-15", "2006-08-16", "2006-08-17", "2006-08-18", "2006-08-21", "2006-08-22", "2006-08-23", "2006-08-24", "2006-08-25", "2006-08-28", "2006-08-29", "2006-08-30", "2006-08-31", "2006-09-01", "2006-09-04", "2006-09-05", "2006-09-06", "2006-09-07", "2006-09-08", "2006-09-11", "2006-09-12", "2006-09-13", "2006-09-14", "2006-09-15", "2006-09-18", "2006-09-19", "2006-09-20", "2006-09-21", "2006-09-22", "2006-09-25", "2006-09-26", "2006-09-27", "2006-09-28", "2006-09-29", "2006-10-09", "2006-10-10", "2006-10-11", "2006-10-12", "2006-10-13", "2006-10-16", "2006-10-17", "2006-10-18", "2006-10-19", "2006-10-20", "2006-10-23", "2006-10-24", "2006-10-25", "2006-10-26", "2006-10-27", "2006-11-02", "2006-11-03", "2006-11-06", "2006-11-07", "2006-11-08", "2006-11-09", "2006-11-10", "2006-11-13", "2006-11-14", "2006-11-15", "2006-11-16", "2006-11-20", "2006-11-21", "2006-11-22", "2006-11-23", "2006-11-24", "2006-11-27", "2006-11-28", "2006-11-29", "2006-11-30", "2006-12-01", "2006-12-04", "2006-12-05", "2006-12-06", "2006-12-07", "2006-12-08", "2006-12-11", "2006-12-12", "2006-12-13", "2006-12-14", "2006-12-15", "2006-12-18", "2006-12-19", "2006-12-20", "2006-12-21", "2006-12-22", "2006-12-25", "2006-12-26", "2006-12-27", "2006-12-28", "2006-12-29", "2007-01-04", "2007-01-05", "2007-01-08", "2007-01-09", "2007-01-10", "2007-01-11", "2007-01-12", "2007-01-15", "2007-01-16", "2007-01-17", "2007-01-18", "2007-01-19", "2007-01-22", "2007-01-23", "2007-01-24", "2007-01-25", "2007-01-26", "2007-01-29", "2007-01-30", "2007-01-31", "2007-02-01", "2007-02-02", "2007-02-05", "2007-02-06", "2007-02-07", "2007-02-08", "2007-02-09", "2007-02-12", "2007-02-13", "2007-02-14", "2007-02-15", "2007-02-16", "2007-02-26", "2007-02-27", "2007-02-28"], "o": [2.21, 2.23, 2.26, 2.3, 2.32, 2.39, 2.48, 2.5, 2.44, 2.43, 2.52, 2.63, 2.73, 2.99, 2.86, 2.85, 2.83, 2.7, 2.63, 2.74, 2.84, 2.84, 2.91, 2.95, 2.88, 2.98, 2.92, 2.82, 2.9, 2.86, 2.83, 2.74, 2.06, 2.15, 2.12, 2.07, 2.1, 2.06, 2.08, 2.09, 2.07, 2.07, 2.08, 2.07, 2.05, 2.09, 2.16, 2.1, 2.16, 2.1, 2.06, 2.07, 2.01, 1.93, 1.94, 1.89, 1.9, 1.93, 1.96, 2.01, 2.01, 2.03, 2.18, 2.19, 2.23, 2.35, 2.45, 2.71, 2.44, 2.3, 2.38, 2.6, 2.49, 2.53, 2.58, 2.7, 2.83, 2.76, 2.48, 2.57, 2.5, 2.47, 2.38, 2.29, 2.32, 2.41, 2.41, 2.37, 2.37, 2.33, 2.36, 2.39, 2.38, 2.45, 2.55, 2.59, 2.65, 2.56, 2.5, 2.55, 2.52, 2.46, 2.41, 2.41, 2.28, 2.32, 2.32, 2.36, 2.3, 2.3, 2.3, 2.33, 2.32, 2.31, 2.3, 2.3, 2.26, 2.23, 2.18, 2.15, 2.1, 2.03, 2.1, 2.08, 2.13, 2.12, 2.07, 2.1, 2.12, 2.09, 2.05, 2.08, 2.1, 2.09, 2.09, 2.08, 2.12, 2.11, 2.1, 2.2, 2.33, 2.33, 2.28, 2.3, 2.22, 2.25, 2.21, 2.23, 2.22, 2.22, 2.27, 2.29, 2.25, 2.24, 2.23, 2.18, 2.17, 2.14, 2.16, 2.17, 2.2, 2.22, 2.24, 2.24, 2.31, 2.27, 2.28, 2.24, 2.28, 2.25, 2.25, 2.22, 2.27, 2.23, 2.28, 2.54, 2.79, 2.57, 2.7, 2.62, 2.5, 2.55, 2.43, 2.47, 2.45, 2.54, 2.54, 2.5, 2.47, 2.49, 2.56, 2.57, 2.56, 2.48, 2.53, 2.58, 2.54, 2.7, 2.68, 2.6, 2.65, 2.56, 2.64, 2.62, 2.61, 2.65, 2.66, 2.74, 2.76, 2.71, 2.7, 2.67, 2.79, 3.1, 3.15, 3.08, 3.16, 3.32, 3.36, 3.38, 3.64, 3.68, 3.54, 3.29, 3.65, 3.68, 3.64, 3.6, 3.64, 3.98, 4.2, 4.18, 3.84, 4.03, 4.11, 3.99, 3.69, 3.69, 3.51, 3.48, 3.67, 3.67, 3.88, 3.88, 4.01, 4.0, 4.05, 4.35, 5.05, 5.0, 4.99], "h": [2.26, 2.27, 2.34, 2.34, 2.4, 2.54, 2.5, 2.5, 2.5, 2.53, 2.65, 2.79, 2.85, 2.99, 2.9, 2.89, 2.84, 2.73, 2.77, 2.84, 2.89, 2.93, 2.96, 2.95, 2.96, 2.98, 2.93, 2.92, 2.91, 2.86, 2.84, 2.87, 2.25, 2.16, 2.13, 2.13, 2.11, 2.09, 2.12, 2.12, 2.09, 2.08, 2.08, 2.08, 2.1, 2.22, 2.21, 2.2, 2.16, 2.12, 2.09, 2.07, 2.02, 1.97, 1.94, 1.9, 1.94, 1.97, 2.02, 2.07, 2.03, 2.19, 2.29, 2.26, 2.34, 2.47, 2.7, 2.74, 2.44, 2.4, 2.6, 2.66, 2.59, 2.56, 2.65, 2.84, 2.84, 2.81, 2.58, 2.71, 2.54, 2.49, 2.39, 2.33, 2.44, 2.44, 2.42, 2.39, 2.39, 2.35, 2.39, 2.4, 2.46, 2.55, 2.57, 2.65, 2.66, 2.56, 2.55, 2.57, 2.53, 2.46, 2.43, 2.41, 2.33, 2.33, 2.38, 2.36, 2.32, 2.42, 2.33, 2.36, 2.34, 2.32, 2.31, 2.33, 2.29, 2.24, 2.2, 2.17, 2.1, 2.11, 2.11, 2.13, 2.13, 2.12, 2.11, 2.15, 2.12, 2.11, 2.09, 2.1, 2.11, 2.1, 2.09, 2.12, 2.15, 2.12, 2.18, 2.39, 2.38, 2.35, 2.34, 2.31, 2.25, 2.25, 2.25, 2.28, 2.26, 2.28, 2.33, 2.29, 2.26, 2.27, 2.25, 2.19, 2.17, 2.17, 2.2, 2.2, 2.23, 2.26, 2.26, 2.36, 2.31, 2.32, 2.28, 2.28, 2.29, 2.27, 2.27, 2.26, 2.28, 2.32, 2.35, 2.54, 2.79, 2.68, 2.74, 2.62, 2.59, 2.56, 2.51, 2.48, 2.55, 2.62, 2.56, 2.5, 2.51, 2.55, 2.62, 2.6, 2.56, 2.54, 2.6, 2.61, 2.69, 2.75, 2.72, 2.75, 2.66, 2.65, 2.66, 2.65, 2.66, 2.68, 2.75, 2.81, 2.76, 2.8, 2.74, 2.76, 3.03, 3.26, 3.18, 3.16, 3.43, 3.49, 3.45, 3.7, 3.76, 3.7, 3.57, 3.54, 3.73, 3.79, 3.73, 3.67, 3.98, 4.28, 4.34, 4.19, 4.08, 4.15, 4.15, 4.05, 3.76, 3.69, 3.55, 3.66, 3.73, 3.95, 3.94, 3.98, 4.07, 4.06, 4.26, 4.66, 5.13, 5.64, 5.49], "l": [2.21, 2.23, 2.26, 2.3, 2.32, 2.39, 2.42, 2.42, 2.42, 2.41, 2.52, 2.57, 2.72, 2.8, 2.83, 2.81, 2.7, 2.63, 2.62, 2.72, 2.83, 2.83, 2.9, 2.88, 2.86, 2.92, 2.8, 2.81, 2.85, 2.81, 2.65, 2.72, 1.98, 2.1, 2.06, 2.06, 2.03, 2.03, 2.05, 2.06, 2.04, 2.04, 2.04, 2.03, 2.04, 2.08, 2.16, 2.1, 2.09, 2.05, 2.04, 2.01, 1.92, 1.88, 1.9, 1.85, 1.88, 1.9, 1.93, 2.0, 1.99, 2.02, 2.11, 2.17, 2.18, 2.34, 2.45, 2.47, 2.25, 2.3, 2.35, 2.45, 2.39, 2.44, 2.55, 2.64, 2.74, 2.5, 2.4, 2.5, 2.44, 2.35, 2.27, 2.28, 2.32, 2.35, 2.35, 2.31, 2.34, 2.29, 2.32, 2.34, 2.34, 2.44, 2.5, 2.59, 2.54, 2.45, 2.47, 2.5, 2.48, 2.39, 2.37, 2.28, 2.26, 2.29, 2.3, 2.29, 2.28, 2.29, 2.28, 2.3, 2.29, 2.28, 2.26, 2.27, 2.22, 2.14, 2.13, 2.1, 2.03, 2.02, 2.08, 2.08, 2.09, 2.05, 2.07, 2.08, 2.08, 2.08, 2.02, 2.06, 2.08, 2.06, 2.07, 2.08, 2.1, 2.08, 2.08, 2.18, 2.27, 2.25, 2.23, 2.2, 2.21, 2.18, 2.19, 2.22, 2.2, 2.19, 2.26, 2.24, 2.23, 2.23, 2.16, 2.15, 2.12, 2.13, 2.15, 2.17, 2.19, 2.2, 2.22, 2.23, 2.26, 2.26, 2.24, 2.24, 2.25, 2.23, 2.2, 2.22, 2.2, 2.21, 2.25, 2.54, 2.55, 2.5, 2.6, 2.52, 2.48, 2.42, 2.38, 2.4, 2.42, 2.49, 2.45, 2.43, 2.43, 2.45, 2.54, 2.52, 2.5, 2.46, 2.53, 2.54, 2.53, 2.65, 2.55, 2.59, 2.57, 2.56, 2.6, 2.58, 2.6, 2.62, 2.65, 2.71, 2.69, 2.69, 2.65, 2.66, 2.79, 3.1, 3.03, 3.08, 3.15, 3.19, 3.2, 3.32, 3.6, 3.56, 3.3, 3.22, 3.56, 3.5, 3.45, 3.53, 3.6, 3.86, 4.08, 3.92, 3.62, 4.0, 3.96, 3.7, 3.5, 3.53, 3.41, 3.46, 3.6, 3.6, 3.8, 3.88, 3.98, 3.95, 4.03, 4.3, 4.75, 4.97, 4.99], "c": [2.23, 2.26, 2.3, 2.32, 2.39, 2.49, 2.5, 2.44, 2.43, 2.52, 2.63, 2.73, 2.76, 2.88, 2.86, 2.83, 2.71, 2.63, 2.75, 2.84, 2.84, 2.9, 2.94, 2.88, 2.95, 2.93, 2.83, 2.9, 2.87, 2.83, 2.74, 2.83, 2.16, 2.12, 2.07, 2.1, 2.06, 2.08, 2.09, 2.07, 2.06, 2.08, 2.07, 2.05, 2.08, 2.16, 2.19, 2.17, 2.12, 2.07, 2.07, 2.03, 1.94, 1.96, 1.91, 1.9, 1.93, 1.97, 2.01, 2.01, 2.03, 2.18, 2.19, 2.24, 2.31, 2.45, 2.7, 2.5, 2.3, 2.37, 2.58, 2.51, 2.47, 2.53, 2.63, 2.83, 2.76, 2.51, 2.58, 2.52, 2.47, 2.39, 2.29, 2.32, 2.43, 2.41, 2.39, 2.36, 2.34, 2.35, 2.39, 2.37, 2.45, 2.53, 2.55, 2.64, 2.56, 2.51, 2.54, 2.52, 2.53, 2.41, 2.42, 2.3, 2.32, 2.32, 2.37, 2.3, 2.3, 2.35, 2.32, 2.32, 2.31, 2.29, 2.29, 2.27, 2.23, 2.18, 2.15, 2.11, 2.04, 2.1, 2.09, 2.12, 2.11, 2.07, 2.1, 2.12, 2.1, 2.09, 2.08, 2.09, 2.09, 2.08, 2.08, 2.12, 2.13, 2.1, 2.18, 2.33, 2.33, 2.28, 2.3, 2.22, 2.23, 2.22, 2.23, 2.24, 2.22, 2.26, 2.29, 2.26, 2.25, 2.24, 2.18, 2.17, 2.14, 2.16, 2.17, 2.18, 2.21, 2.24, 2.24, 2.31, 2.27, 2.28, 2.25, 2.27, 2.26, 2.26, 2.21, 2.25, 2.24, 2.3, 2.31, 2.54, 2.59, 2.67, 2.63, 2.52, 2.55, 2.44, 2.47, 2.44, 2.54, 2.5, 2.5, 2.47, 2.49, 2.55, 2.57, 2.56, 2.51, 2.53, 2.58, 2.55, 2.68, 2.68, 2.61, 2.67, 2.58, 2.65, 2.62, 2.61, 2.65, 2.65, 2.74, 2.76, 2.72, 2.7, 2.66, 2.75, 3.03, 3.13, 3.07, 3.12, 3.31, 3.36, 3.37, 3.64, 3.68, 3.57, 3.31, 3.52, 3.63, 3.63, 3.6, 3.62, 3.98, 4.22, 4.2, 3.93, 4.0, 4.11, 4.0, 3.76, 3.69, 3.54, 3.48, 3.65, 3.67, 3.91, 3.88, 3.96, 4.0, 4.03, 4.24, 4.66, 5.13, 4.99, 5.49], "v": [14084146, 22236538, 38148061, 41689737, 33080589, 85119830, 31882231, 28050402, 36729378, 54575115, 67405738, 80448752, 92310180, 115933677, 39890653, 44417649, 53646967, 44117956, 49956600, 43525255, 46274902, 36254030, 38885026, 33117004, 48112426, 29290796, 40540550, 35089163, 28015613, 32003959, 48434402, 70159597, 222476991, 144664697, 65959875, 79634211, 90504635, 51180663, 65097382, 85119519, 68377254, 56734967, 58128750, 62149125, 87844733, 285253859, 121124655, 98698340, 92956921, 63611133, 42226508, 64690546, 83602748, 87010101, 37166538, 44163239, 44384957, 70346603, 74290190, 87166319, 66625720, 173118852, 173965684, 106744946, 155979302, 223494518, 208957900, 181727089, 113137532, 80606989, 125707614, 102200749, 105168526, 107561097, 187444087, 237825515, 99694064, 109485580, 88989619, 92829673, 55925424, 58364529, 52198731, 32486082, 39443600, 41558461, 27449203, 35109813, 21786508, 28094279, 28785823, 26188053, 50364194, 77698431, 69772939, 80840928, 55781582, 34064206, 23699376, 24071287, 24103500, 28415761, 35374846, 43926427, 23806033, 17858259, 23105777, 20041949, 13972718, 26962949, 19282946, 25865088, 26954591, 19561489, 29081949, 35695011, 17914049, 24380201, 13366842, 16611904, 17591655, 17682710, 9278374, 12181459, 9660787, 12481378, 10520818, 19111632, 8689256, 5719583, 13279416, 8844003, 9258991, 7982040, 8617385, 15567556, 25316299, 16254355, 39763995, 115170293, 50615961, 31471476, 29793385, 26690530, 12701855, 13285634, 15032128, 21980914, 13484801, 30013915, 28780662, 20026638, 15547535, 14898496, 26980302, 14978123, 13270931, 8857315, 12446593, 11051799, 17781695, 20891917, 16178402, 89636367, 21250800, 28230606, 15894273, 12041680, 13737580, 23640550, 16884825, 20739786, 42748874, 64748212, 69425605, 18036262, 249114304, 132047742, 86699189, 57432012, 53065703, 57999566, 61303562, 25672867, 53078543, 82478890, 53659914, 40293326, 50519340, 72707949, 88654797, 48908292, 35255775, 33914957, 80071340, 67153697, 116657669, 127683588, 78052920, 140511688, 78502149, 38583281, 48015470, 43670288, 42520605, 39910579, 107466123, 97730082, 47109454, 60458526, 36662328, 104942408, 293340733, 226014372, 129439750, 92596221, 197140659, 145408694, 97737648, 147028194, 107148380, 97928938, 101417936, 86726945, 142867192, 155630153, 108611736, 91407519, 206416137, 258864838, 146603127, 129293687, 128313093, 106443509, 94417840, 101708121, 99968050, 70052836, 64761015, 69008082, 70005382, 103705281, 101696134, 63620226, 74679488, 72975097, 143368198, 278212921, 213495067, 337641834, 229672148], "ma": {"MA5": [null, null, null, null, 2.3, 2.35, 2.4, 2.43, 2.45, 2.48, 2.5, 2.55, 2.61, 2.7, 2.77, 2.81, 2.81, 2.78, 2.76, 2.75, 2.75, 2.79, 2.85, 2.88, 2.9, 2.92, 2.91, 2.9, 2.9, 2.87, 2.83, 2.83, 2.69, 2.54, 2.38, 2.26, 2.1, 2.09, 2.08, 2.08, 2.07, 2.08, 2.07, 2.07, 2.07, 2.09, 2.11, 2.13, 2.14, 2.14, 2.12, 2.09, 2.05, 2.01, 1.98, 1.95, 1.93, 1.93, 1.94, 1.96, 1.99, 2.04, 2.08, 2.13, 2.19, 2.27, 2.38, 2.44, 2.45, 2.46, 2.49, 2.45, 2.45, 2.49, 2.54, 2.59, 2.64, 2.65, 2.66, 2.64, 2.57, 2.49, 2.45, 2.4, 2.38, 2.37, 2.37, 2.38, 2.39, 2.37, 2.37, 2.36, 2.38, 2.42, 2.46, 2.51, 2.55, 2.56, 2.56, 2.55, 2.53, 2.5, 2.48, 2.44, 2.4, 2.35, 2.35, 2.32, 2.32, 2.33, 2.33, 2.32, 2.32, 2.32, 2.31, 2.3, 2.28, 2.25, 2.22, 2.19, 2.14, 2.12, 2.1, 2.09, 2.09, 2.1, 2.1, 2.1, 2.1, 2.1, 2.1, 2.1, 2.09, 2.09, 2.08, 2.09, 2.1, 2.1, 2.12, 2.17, 2.21, 2.24, 2.28, 2.29, 2.27, 2.25, 2.24, 2.23, 2.23, 2.23, 2.25, 2.25, 2.26, 2.26, 2.24, 2.22, 2.2, 2.18, 2.16, 2.16, 2.17, 2.19, 2.21, 2.24, 2.25, 2.27, 2.27, 2.28, 2.27, 2.26, 2.25, 2.25, 2.24, 2.25, 2.26, 2.33, 2.4, 2.48, 2.55, 2.59, 2.59, 2.56, 2.52, 2.48, 2.49, 2.48, 2.49, 2.49, 2.5, 2.5, 2.52, 2.53, 2.54, 2.54, 2.55, 2.55, 2.57, 2.6, 2.62, 2.64, 2.64, 2.64, 2.63, 2.63, 2.62, 2.64, 2.65, 2.68, 2.7, 2.71, 2.72, 2.72, 2.77, 2.85, 2.93, 3.02, 3.13, 3.2, 3.25, 3.36, 3.47, 3.52, 3.51, 3.54, 3.54, 3.53, 3.54, 3.6, 3.69, 3.81, 3.92, 3.99, 4.07, 4.09, 4.05, 3.96, 3.91, 3.82, 3.69, 3.62, 3.61, 3.65, 3.72, 3.81, 3.88, 3.96, 4.02, 4.18, 4.41, 4.61, 4.9], "MA20": [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, 2.58, 2.61, 2.64, 2.67, 2.7, 2.73, 2.75, 2.76, 2.79, 2.81, 2.82, 2.83, 2.83, 2.81, 2.77, 2.73, 2.69, 2.66, 2.63, 2.6, 2.56, 2.52, 2.48, 2.44, 2.39, 2.35, 2.31, 2.28, 2.24, 2.21, 2.17, 2.14, 2.09, 2.08, 2.08, 2.07, 2.06, 2.05, 2.05, 2.04, 2.04, 2.04, 2.04, 2.05, 2.06, 2.07, 2.08, 2.11, 2.13, 2.13, 2.15, 2.18, 2.2, 2.23, 2.25, 2.29, 2.34, 2.38, 2.41, 2.43, 2.46, 2.48, 2.49, 2.5, 2.5, 2.51, 2.5, 2.49, 2.48, 2.48, 2.48, 2.47, 2.47, 2.47, 2.47, 2.46, 2.45, 2.44, 2.44, 2.44, 2.44, 2.44, 2.44, 2.45, 2.45, 2.44, 2.44, 2.44, 2.44, 2.43, 2.43, 2.43, 2.43, 2.42, 2.41, 2.4, 2.38, 2.36, 2.34, 2.33, 2.3, 2.28, 2.26, 2.25, 2.24, 2.23, 2.22, 2.2, 2.19, 2.18, 2.17, 2.16, 2.15, 2.14, 2.13, 2.11, 2.11, 2.1, 2.1, 2.1, 2.11, 2.13, 2.13, 2.15, 2.15, 2.16, 2.16, 2.17, 2.18, 2.18, 2.19, 2.2, 2.21, 2.22, 2.23, 2.23, 2.23, 2.23, 2.24, 2.24, 2.23, 2.22, 2.22, 2.22, 2.22, 2.22, 2.23, 2.23, 2.23, 2.23, 2.23, 2.23, 2.23, 2.23, 2.23, 2.24, 2.25, 2.28, 2.3, 2.33, 2.34, 2.36, 2.37, 2.38, 2.39, 2.4, 2.41, 2.42, 2.43, 2.45, 2.46, 2.48, 2.49, 2.51, 2.52, 2.53, 2.53, 2.54, 2.54, 2.54, 2.54, 2.55, 2.56, 2.56, 2.57, 2.58, 2.59, 2.6, 2.61, 2.62, 2.63, 2.64, 2.65, 2.67, 2.7, 2.73, 2.75, 2.79, 2.82, 2.86, 2.91, 2.96, 3.01, 3.04, 3.09, 3.14, 3.19, 3.23, 3.27, 3.33, 3.41, 3.49, 3.55, 3.59, 3.64, 3.69, 3.72, 3.74, 3.75, 3.76, 3.76, 3.76, 3.77, 3.8, 3.82, 3.84, 3.86, 3.89, 3.95, 4.0, 4.04, 4.11], "MA60": [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, 2.39, 2.39, 2.39, 2.38, 2.38, 2.38, 2.38, 2.38, 2.39, 2.38, 2.38, 2.38, 2.38, 2.37, 2.37, 2.36, 2.36, 2.36, 2.36, 2.36, 2.35, 2.35, 2.34, 2.33, 2.32, 2.31, 2.3, 2.29, 2.28, 2.28, 2.27, 2.26, 2.25, 2.26, 2.27, 2.27, 2.28, 2.29, 2.3, 2.31, 2.31, 2.32, 2.33, 2.33, 2.34, 2.34, 2.34, 2.35, 2.35, 2.35, 2.36, 2.36, 2.36, 2.37, 2.38, 2.38, 2.39, 2.39, 2.4, 2.4, 2.4, 2.4, 2.4, 2.4, 2.4, 2.39, 2.39, 2.38, 2.37, 2.37, 2.36, 2.35, 2.35, 2.34, 2.33, 2.32, 2.31, 2.3, 2.3, 2.29, 2.29, 2.28, 2.28, 2.28, 2.28, 2.28, 2.27, 2.27, 2.27, 2.27, 2.27, 2.26, 2.26, 2.26, 2.25, 2.25, 2.24, 2.23, 2.23, 2.22, 2.21, 2.21, 2.21, 2.2, 2.2, 2.2, 2.2, 2.2, 2.2, 2.2, 2.2, 2.2, 2.19, 2.19, 2.19, 2.19, 2.2, 2.2, 2.21, 2.22, 2.23, 2.24, 2.24, 2.25, 2.25, 2.26, 2.27, 2.27, 2.28, 2.29, 2.29, 2.3, 2.31, 2.32, 2.32, 2.33, 2.34, 2.35, 2.36, 2.37, 2.37, 2.38, 2.38, 2.39, 2.39, 2.4, 2.41, 2.42, 2.43, 2.43, 2.44, 2.45, 2.46, 2.47, 2.48, 2.5, 2.51, 2.53, 2.55, 2.57, 2.6, 2.62, 2.64, 2.66, 2.68, 2.7, 2.73, 2.75, 2.77, 2.8, 2.83, 2.87, 2.9, 2.92, 2.95, 2.98, 3.0, 3.02, 3.04, 3.05, 3.07, 3.09, 3.11, 3.14, 3.16, 3.19, 3.21, 3.24, 3.28, 3.32, 3.36, 3.41]}};
+CHART_600010.mode = "candle";
+CHART_600010.marks = [
+  {"date":"2006-04-03","price":1.85,"type":"b1","text":"缠师布局 1.85"},
+  {"date":"2006-10-24","price":2.25,"type":"b3","text":"发文日 2.25"},
+  {"date":"2007-02-28","price":5.49,"type":"top","text":"翻 3 倍 5.49"}
+];
+drawChanChart("cv_600010", CHART_600010);
+</script>
+<script src="/assets/_nav.js"></script><script src="/assets/_shell.js"></script></body>
+</html>

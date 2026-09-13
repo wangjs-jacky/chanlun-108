@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>缠论 · 教你炒股票41:没有节奏,只有死</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@500;700;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0b0e12;--bg-elev:#12161c;--bg-card:#161b22;
+    --ink:#e8eaed;--ink-dim:#9aa3ad;--ink-faint:#5b6470;
+    --line:rgba(255,255,255,.07);
+    --up:#ff4d4f;--down:#16c784;--pivot:#37c0e6;--gold:#e8b339;--blue:#00d4ff;
+    --max:880px;--serif:"Noto Serif SC",serif;--mono:"JetBrains Mono",ui-monospace,monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--ink);font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;line-height:1.85;font-size:17px;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  body::before{content:"";position:fixed;inset:0;z-index:-2;background:radial-gradient(1200px 600px at 70% -10%,rgba(55,192,230,.08),transparent 60%),radial-gradient(900px 500px at 0% 100%,rgba(232,179,57,.05),transparent 55%);pointer-events:none}
+  body::after{content:"";position:fixed;inset:0;z-index:-1;opacity:.4;background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);background-size:46px 46px;-webkit-mask-image:radial-gradient(ellipse at 50% 0%,#000 30%,transparent 80%);mask-image:radial-gradient(ellipse at 50% 0%,#000 30%,transparent 80%);pointer-events:none}
+  #bar{position:fixed;top:0;left:0;height:3px;width:0;z-index:50;background:linear-gradient(90deg,var(--pivot),var(--gold));box-shadow:0 0 12px var(--pivot)}
+  .wrap{max-width:var(--max);margin:0 auto;padding:0 24px}
+  header.hero{padding:120px 0 70px;text-align:center;position:relative}
+  .kicker{font-family:var(--mono);font-size:13px;letter-spacing:.32em;color:var(--pivot);text-transform:uppercase;margin-bottom:26px}
+  .kicker span{color:var(--ink-faint)}
+  h1.title{font-family:var(--serif);font-weight:900;line-height:1.05;font-size:clamp(44px,10vw,100px);letter-spacing:.04em;background:linear-gradient(180deg,#fff 30%,#8aa0ad 130%);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .sub{margin:22px auto 0;max-width:580px;color:var(--ink-dim);font-size:18px}
+  .meta{margin-top:34px;display:flex;gap:14px;justify-content:center;flex-wrap:wrap;font-family:var(--mono);font-size:12px;color:var(--ink-faint)}
+  .meta b{color:var(--ink-dim);font-weight:500}
+  .pill{border:1px solid var(--line);padding:6px 14px;border-radius:999px;background:rgba(255,255,255,.02)}
+  .scroll-hint{margin-top:60px;color:var(--ink-faint);font-family:var(--mono);font-size:12px;animation:bob 2.4s ease-in-out infinite}
+  @keyframes bob{0%,100%{transform:translateY(0);opacity:.5}50%{transform:translateY(8px);opacity:1}}
+  section{padding:64px 0;border-top:1px solid var(--line)}
+  .sec-no{font-family:var(--mono);font-size:13px;color:var(--gold);letter-spacing:.2em;margin-bottom:10px}
+  h2{font-family:var(--serif);font-weight:700;font-size:clamp(28px,5vw,42px);line-height:1.25;margin-bottom:8px;letter-spacing:.02em}
+  .lead{color:var(--ink-dim);font-size:16px;margin-bottom:28px;max-width:660px}
+  p{margin:0 0 18px;color:#cfd5dc}
+  p b,strong{color:#fff;font-weight:700}
+  .hl-pivot{color:var(--pivot);font-weight:700}.hl-up{color:var(--up);font-weight:700}
+  .hl-down{color:var(--down);font-weight:700}.hl-gold{color:var(--gold);font-weight:700}
+  blockquote{margin:26px 0;padding:20px 24px;border-left:3px solid var(--pivot);background:linear-gradient(90deg,rgba(55,192,230,.07),transparent);border-radius:0 10px 10px 0;font-family:var(--serif);font-size:19px;color:#eaf6fb}
+  blockquote .who{display:block;margin-top:8px;font-family:var(--mono);font-size:12px;color:var(--ink-faint);font-style:normal}
+  figure{margin:34px 0}
+  figure img{width:100%;border-radius:12px;border:1px solid var(--line);background:#fff;box-shadow:0 18px 50px rgba(0,0,0,.5)}
+  figcaption{margin-top:12px;font-size:13px;color:var(--ink-faint);text-align:center;font-family:var(--mono)}
+  .grid{display:grid;gap:16px;grid-template-columns:1fr 1fr;margin:28px 0}
+  @media(max-width:640px){.grid{grid-template-columns:1fr}}
+  .card{background:var(--bg-card);border:1px solid var(--line);border-radius:14px;padding:24px;position:relative;overflow:hidden;transition:transform .35s ease,border-color .35s ease}
+  .card:hover{transform:translateY(-4px);border-color:rgba(55,192,230,.4)}
+  .card .tag{font-family:var(--mono);font-size:11px;letter-spacing:.18em;color:var(--gold);text-transform:uppercase}
+  .card h3{font-family:var(--serif);font-size:21px;margin:10px 0 8px;color:#fff}
+  .card p{font-size:15px;color:var(--ink-dim);margin:0}
+  .table{margin:28px 0;border:1px solid var(--line);border-radius:14px;overflow:hidden}
+  .table .row{display:grid;grid-template-columns:1.1fr 1.5fr 1.6fr;align-items:stretch}
+  .table .row+.row{border-top:1px solid var(--line)}
+  .table .row>div{padding:16px 18px}
+  .table .row.head{background:var(--bg-elev);font-family:var(--mono);font-size:12px;letter-spacing:.14em;color:var(--ink-faint);text-transform:uppercase}
+  .table .row>div+div{border-left:1px solid var(--line)}
+  .table .name{font-family:var(--serif);font-weight:700;font-size:18px}
+  .table .name.qushi{color:var(--gold)}
+  .cnt{font-family:var(--mono);font-size:14px;color:var(--pivot)}
+  @media(max-width:560px){.table .row{grid-template-columns:1fr}.table .row>div+div{border-left:0;border-top:1px solid var(--line)}.table .row.head{display:none}}
+  .points{margin:26px 0;display:flex;flex-direction:column;gap:14px}
+  .pt{display:flex;gap:16px;align-items:flex-start;background:var(--bg-card);border:1px solid var(--line);border-radius:12px;padding:18px 20px}
+  .pt .dot{flex:none;width:42px;height:42px;border-radius:10px;display:grid;place-items:center;font-family:var(--serif);font-weight:900;font-size:20px;color:#0b0e12}
+  .pt.b .dot{background:var(--up)}.pt.s .dot{background:var(--down)}
+  .pt h4{font-size:17px;margin-bottom:4px;color:#fff}.pt p{font-size:15px;color:var(--ink-dim);margin:0}
+  .proof{margin:30px 0;background:linear-gradient(120deg,rgba(55,192,230,.06),transparent 70%),var(--bg-elev);border:1px solid rgba(55,192,230,.25);border-radius:16px;padding:26px}
+  .proof .badge{display:inline-block;font-family:var(--mono);font-weight:700;font-size:12px;letter-spacing:.12em;padding:6px 14px;border-radius:999px;background:rgba(55,192,230,.14);color:var(--pivot);border:1px solid rgba(55,192,230,.4);margin-bottom:14px}
+  .chartbox{background:var(--bg-card);border:1px solid var(--line);border-radius:14px;padding:18px 14px 8px;margin:18px 0}
+  .legend{display:flex;gap:16px;font-family:var(--mono);font-size:12px;color:var(--ink-dim);padding:0 8px 12px;flex-wrap:wrap}
+  .legend i{display:inline-block;width:16px;height:3px;vertical-align:middle;margin-right:6px;border-radius:2px}
+  canvas{width:100%;display:block}
+  .verdict{display:flex;gap:14px;align-items:flex-start;margin-top:8px;padding:16px 18px;background:var(--bg-card);border:1px solid var(--line);border-radius:12px}
+  .verdict .mk{flex:none;font-family:var(--mono);font-weight:700;color:var(--up)}
+  .verdict p{margin:0;font-size:15px;color:#d6dbe1}
+  ol.think{counter-reset:q;list-style:none;margin:24px 0;display:flex;flex-direction:column;gap:14px}
+  ol.think li{counter-increment:q;position:relative;padding:18px 20px 18px 60px;background:var(--bg-elev);border:1px solid var(--line);border-radius:12px;color:var(--ink-dim);font-size:15px}
+  ol.think li::before{content:counter(q,decimal-leading-zero);position:absolute;left:20px;top:18px;font-family:var(--mono);color:var(--gold);font-weight:700}
+  .quiz{margin:22px 0;background:var(--bg-card);border:1px solid var(--line);border-radius:14px;padding:22px 24px}
+  .quiz h4{font-size:16px;color:#fff;margin-bottom:6px}
+  .quiz .ans{margin-top:12px;color:var(--ink-faint);font-size:14px;cursor:pointer}
+  .quiz .ans[open] summary{color:var(--pivot)}
+  .quiz summary{color:var(--gold);font-family:var(--mono);font-size:13px}
+  .tldr{margin:60px 0 0;padding:36px 30px;border:1px solid rgba(55,192,230,.3);border-radius:18px;background:radial-gradient(120% 120% at 100% 0%,rgba(55,192,230,.1),transparent 60%),var(--bg-elev);text-align:center}
+  .tldr .lab{font-family:var(--mono);font-size:12px;letter-spacing:.3em;color:var(--pivot);text-transform:uppercase}
+  .tldr p{font-family:var(--serif);font-size:clamp(20px,3.4vw,28px);line-height:1.7;color:#fff;margin:16px 0 0}
+  footer{padding:60px 0 90px;text-align:center;color:var(--ink-faint);font-family:var(--mono);font-size:12px;border-top:1px solid var(--line)}
+  .reveal{opacity:0;transform:translateY(26px);transition:opacity .8s ease,transform .8s ease}
+  .reveal.in{opacity:1;transform:none}
+  @media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}.scroll-hint{animation:none}}
+  /* 节奏专用:贪婪恐惧对比 */
+  .gf{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:28px 0}
+  @media(max-width:640px){.gf{grid-template-columns:1fr}}
+  .gf .col{background:var(--bg-card);border:1px solid var(--line);border-radius:14px;padding:22px}
+  .gf .col.bad{border-color:rgba(255,77,79,.35)}
+  .gf .col.good{border-color:rgba(22,199,132,.35)}
+  .gf .tag{font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase}
+  .gf .col.bad .tag{color:var(--up)} .gf .col.good .tag{color:var(--down)}
+  .gf .col h3{font-family:var(--serif);font-size:19px;margin:8px 0 10px;color:#fff}
+  .gf .col p{font-size:14.5px;color:var(--ink-dim);margin:0}
+  /* 三次机会示意 */
+  .chances{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:24px 0}
+  @media(max-width:640px){.chances{grid-template-columns:1fr}}
+  .ch{background:var(--bg-card);border:1px solid var(--line);border-radius:12px;padding:18px;text-align:center;position:relative}
+  .ch .n{font-family:var(--mono);font-size:11px;letter-spacing:.18em;color:var(--gold)}
+  .ch h4{font-family:var(--serif);font-size:18px;margin:6px 0 4px;color:#fff}
+  .ch p{font-size:14px;color:var(--ink-dim);margin:0}
+  .ch.last{border-color:rgba(255,77,79,.4)}
+  .ch.last p{color:var(--up)}
+</style>
+<meta name="view-transition" content="same-origin"><style>@view-transition{navigation:auto}</style></head>
+<body>
+<div id="bar"></div>
+<header class="hero">
+  <div class="wrap">
+    <div class="kicker">缠中说禅 · 教你炒股票108课 <span>/ 第 41 课</span></div>
+    <h1 class="title">没有节奏<br>只有死</h1>
+    <p class="sub">把买卖点的"程序"刻进骨头里——精度可以慢慢练，但节奏永远不能乱。这一课是缠师写给所有"追涨杀跌、频繁买卖、心态失控者"的死亡判决书。</p>
+    <div class="meta">
+      <span class="pill"><b>原文</b> 2007-03-30 解盘</span>
+      <span class="pill"><b>类型</b> 心法 · 操作纪律</span>
+      <span class="pill"><b>关键词</b> 节奏 · 贪婪恐惧 · 三类买卖点 · 不追涨杀跌</span>
+    </div>
+    <div class="scroll-hint">↓ 向下滚动,听市场的节奏</div>
+  </div>
+</header>
+<main>
+
+<section class="wrap reveal">
+  <div class="sec-no">01 — 全课定位</div>
+  <h2>这一课在讲什么</h2>
+  <p class="lead">前 40 课讲了一堆技术(分型、笔、线段、中枢、背驰、三类买卖点)。从第 41 课开始,缠师突然转向心法——因为他发现:<b>技术再好,节奏一乱,照样死</b>。</p>
+  <p>这是一篇没有任何公式的课。全课围绕一个字:<span class="hl-pivot">节奏</span>。市场的节奏只有一个——<b>买点买、卖点卖</b>。看似最简单的事,几乎没人能做到。为什么?因为<span class="hl-up">贪婪</span>让你在卖点不敢卖、<span class="hl-down">恐惧</span>让你在买点不敢买。</p>
+  <blockquote>一个被贪婪与恐惧所支配的人,在市场中唯一的命运就是:死!<span class="who">— 缠中说禅 · 2007-03-30</span></blockquote>
+  <p>课文用了 12 段、读后感 10 条来反复强调同一件事。配图是 2007 年 3 月的上证指数 1 分钟图,缠师亲手标注了那一周震荡盘整的全部"节奏点"——5 分背驰、30 分中枢、30 分 3 买、5 分盘背、1 分盘背——告诉你:<b>市场每时每刻都在给你节奏,只看你听不听得见。</b></p>
+</section>
+
+<section class="wrap reveal">
+  <div class="sec-no">02 — 核心命题</div>
+  <h2>市场的节奏,只有一个</h2>
+  <p class="lead">这一节先把命题立住,后面所有讨论都围绕它展开。</p>
+  <blockquote>市场中,买点上的股票就是好股票,卖点上的股票就是坏股票,除此之外的好坏分类,都是瞎掰。<span class="who">— 缠中说禅</span></blockquote>
+  <p>这是缠论对"好股票"最颠覆性的定义。请注意:<b>不是基本面好就是好股票,不是业绩牛就是好股票,不是题材热就是好股票</b>。缠师只认一条——<span class="hl-pivot">当下处于买点的股票是好股票,当下处于卖点的股票是坏股票</span>。同一只股票,在买点上是好,在卖点上就是坏。</p>
+  <div class="grid">
+    <div class="card">
+      <div class="tag">A · 当下性</div>
+      <h3>市场的声音,永远是当下的</h3>
+      <p>哪怕你前 100 次判断都对,只要当下被贪婪恐惧蒙住耳朵,这一次就会死。市场不记前账。</p>
+    </div>
+    <div class="card">
+      <div class="tag">B · 等量性</div>
+      <h3>1 万亿和 1 万,归零速度一样</h3>
+      <p>仓位大小不能换来豁免权,反而越大越快出局。这是缠师对所有"重仓硬扛"者的判决。</p>
+    </div>
+  </div>
+  <p>把命题翻成大白话:<b>你不需要预测明天涨跌,你只需要在每一个当下,识别出"这是买点吗?这是卖点吗?",然后机械执行</b>。如果不是,不动。仅此而已。</p>
+</section>
+
+<section class="wrap reveal">
+  <div class="sec-no">03 — 第一禁忌</div>
+  <h2>不追涨,不杀跌</h2>
+  <p class="lead">如果你只能记住这一课的一句话,记住这句。</p>
+  <blockquote>买点买,买点只在下跌中;卖点卖,卖点只在上涨中。即使你搞不懂什么是买点卖点,但有一点是必须懂的,就是不能追涨杀跌。<span class="who">— 缠中说禅</span></blockquote>
+  <p>这条规则的逻辑链非常硬:</p>
+  <div class="points">
+    <div class="pt b"><div class="dot">买</div><div>
+      <h4>买点为什么必定在下跌里?</h4>
+      <p>第一类买点 = 下跌段背驰底;第二类买点 = 第一买点反弹后的回踩;第三类买点 = 中枢突破后的<b>回抽</b>。三类买点全部诞生于"<span class="hl-down">回调/下跌</span>"的当口,没有一个是在拉升中产生的。</p>
+    </div></div>
+    <div class="pt s"><div class="dot">卖</div><div>
+      <h4>卖点为什么必定在上涨里?</h4>
+      <p>对称地,三类卖点都诞生于"<span class="hl-up">上涨/反弹</span>"的尾端。所以"追高被套"和"恐慌割肉"的人,本质上是在卖点位置买、在买点位置卖——把所有规则都做反了。</p>
+    </div></div>
+  </div>
+  <p style="color:var(--ink-dim);font-size:15px">推论:<b>在 K 线长红时下单,大概率是错的;在 K 线长绿、所有人骂街时下单,大概率是对的</b>。这是反人性的,所以才值钱。</p>
+</section>
+
+<section class="wrap reveal">
+  <div class="sec-no">04 — 节奏的级别</div>
+  <h2>大级别没死,小级别就别瞎玩</h2>
+  <p class="lead">节奏不是只有一个,而是有<b>级别</b>。初学者最常死在这一步。</p>
+  <blockquote>大级别能量没耗尽时,一个小级别的买卖点引发大级别走势的延续,那是最正常不过的。但如果一个小级别的买卖点和大级别的走势方向相反,而该大级别走势没有任何衰竭,这时候参与小级别买卖点,就意味着要冒着大级别走势延续的风险,这是典型的刀口舔血。<span class="who">— 缠中说禅</span></blockquote>
+  <div class="table">
+    <div class="row head"><div>场景</div><div>大小级别关系</div><div>缠师判决</div></div>
+    <div class="row">
+      <div class="name">顺势小买点</div>
+      <div>大级别上涨 + 小级别第一买点</div>
+      <div><span class="hl-up">最正常</span>·小买点是大级别上涨的延续,可买</div>
+    </div>
+    <div class="row">
+      <div class="name qushi">逆势小买点</div>
+      <div>大级别下跌未衰竭 + 小级别第一买点</div>
+      <div><span class="hl-down">刀口舔血</span>·大势没走完,小买点随时被吞</div>
+    </div>
+    <div class="row">
+      <div class="name">逆势小卖点</div>
+      <div>大级别上涨未衰竭 + 小级别卖点</div>
+      <div><span class="hl-gold">仅做减仓</span>·别清仓,大势要继续</div>
+    </div>
+  </div>
+  <p style="margin-top:18px"><b>给初学者的硬指标</b>:</p>
+  <div class="grid">
+    <div class="card">
+      <div class="tag">推荐操作级别</div>
+      <h3>30 分钟</h3>
+      <p>缠师建议初学者按 30 分钟级别进出。这个级别一根 K 线是半小时,一天 8 根,一周 40 根,能给你足够时间思考、不被瞬时波动忽悠。</p>
+    </div>
+    <div class="card">
+      <div class="tag">绝对底线</div>
+      <h3>不低于 5 分钟</h3>
+      <p>5 分钟以下(1 分、秒级)是高手专属。"5 分钟都没有进入背驰段,就不能操作"——级别越小,精度要求越高,失误率指数级上升。</p>
+    </div>
+  </div>
+  <blockquote>先学会站稳,才考虑行走,否则一开始就要跑,可能吗?<span class="who">— 缠中说禅</span></blockquote>
+</section>
+
+<section class="wrap reveal">
+  <div class="sec-no">05 — 原图解读</div>
+  <h2>缠师亲手标注的"一周节奏图"</h2>
+  <p class="lead">课文配的两张图是 2007-03-05 至 2007-04-03 的上证指数 1 分钟图,缠师在图上用红框、箭头标注了那一周震荡盘整里所有的"节奏点"。这是全课最重要的实战示范——<b>市场不是只在大转折给你节奏,每一个交易日里都密布节奏</b>。</p>
+  <figure>
+    <img src="/_assets/ch41_p01.png" alt="2007-03 上证1分钟节奏图">
+    <figcaption>2007-03-05 ~ 2007-03-30 · 上证 1 分钟 · 缠师手绘节奏标注</figcaption>
+  </figure>
+  <p>图上从左到右一路标了:</p>
+  <ol class="think">
+    <li><b>03-05 ~ 03-06,30 分 3 买</b>(2723.54 附近):前期一波下跌后形成中枢,中枢突破后的回抽不破中枢上沿——这是教科书式的 30 分钟第三类买点。</li>
+    <li><b>03-08 ~ 03-09,5 分标准背驰 → 背驰后 30 分中枢</b>:上涨一段后 5 分钟级别 MACD 红柱衰减、出现背驰,随后转入一个标准 30 分钟中枢震荡——也就是说,5 分背驰之后,大概率不是立刻反转,而是先做一个高一级别的中枢。</li>
+    <li><b>03-14 ~ 03-19,30 分震荡</b>:中枢继续延伸,在 2950-3000 区间反复盘整。这段对应原文"现在的走势肯定是进二退一甚至是进三退二"。</li>
+    <li><b>03-20 ~ 03-23,30 分 3 买</b>(3000 附近回踩):中枢上破后回抽不破——又是一个标准 3 买。</li>
+    <li><b>03-28,5 分盘背 + 1 分盘背</b>:接近 3273.16 高点时,先出现 5 分钟盘整背驰、再出现 1 分钟盘整背驰——级别由小到大、层层警告"上涨在衰竭"。</li>
+  </ol>
+  <p>这套标注同时也证明了第 04 节的"级别"逻辑:在大级别(月、季)还在向上的前提下,每一个小级别背驰之后,都不是立刻反转,而是先做<b>同级别或高一级别的盘整中枢</b>——这就是"进二退一、进三退二"的微观本质。</p>
+  <figure>
+    <img src="/_assets/ch41_p02.png" alt="2007-04-03 上证1分钟+MACD">
+    <figcaption>2007-04-03 · 上证 1 分钟 + MACD · 当日最高 3270.81</figcaption>
+  </figure>
+  <p>第二张图是 03-29 至 04-03 的特写,附带 MACD 副图。注意 04-03 的最高点 3270.81——相比 03-28 的 3273.16 几乎没创新高,而 MACD 红柱明显萎缩,这是典型的"价量背离"。缠师在解盘中说"震荡依然",正是基于这种背驰信号的判断。</p>
+</section>
+
+<section class="wrap reveal">
+  <div class="sec-no">06 — 真金白银的实证</div>
+  <h2>缠师当年喊的"震荡盘整",指数走势打分多少?</h2>
+  <p class="lead">缠师在 2007-03-30 解盘时下了三个判断:<b>①后面震荡依然 ②看 5 日线,没破过 5 日线,看着不用闹心 ③在 3000 点上再玩一次 3000 点下的震荡盘整,是最有利的</b>。我们拉真实日 K 验证。</p>
+  <div class="proof">
+    <span class="badge">数据实证 · 上证指数 000001</span>
+    <div class="chartbox">
+      <div class="legend">
+        <span><i style="background:#cfd5dc"></i>收盘</span>
+        <span><i style="background:#ff8a8c"></i>MA5</span>
+        <span><i style="background:#c0a3ff"></i>MA10</span>
+        <span><i style="background:#e8b339"></i>MA20</span>
+        <span><i style="background:#37c0e6"></i>3 月 30 日</span>
+      </div>
+      <canvas id="cv_szzs" height="440"></canvas>
+    </div>
+    <div class="verdict">
+      <span class="mk">✓ 印证</span>
+      <p>2007-03-30 收盘 <b>3183.98</b>(完全对得上课文最后一根 K 线)。此后 2007-03 至 2007-04 共 <b>43 个交易日</b>,收盘跌破 MA5 仅 <b>3 天</b>——缠师"<b class="hl-pivot">看 5 日线,没破过 5 日线</b>"的判断被市场精准印证。整段走势是典型的"<b>进二退一</b>"震荡上行,直到 5 月底 4334 才出现明显回调。在这种结构下,任何"追涨杀跌"的操作都是亏损源,而严格按 30 分中枢 + 5 分背驰 + 3 类买卖点节奏操作的人,可以一路被均线托着走。</p>
+    </div>
+  </div>
+  <p style="font-family:var(--mono);font-size:12px;color:var(--ink-faint)">数据来源:新浪财经日 K(不复权) · akshare 取数 · 截至 2007-05-31 · 不构成投资建议</p>
+</section>
+
+<section class="wrap reveal">
+  <div class="sec-no">07 — 贪婪 vs 恐惧</div>
+  <h2>把两个"敌人"摊在桌上</h2>
+  <p class="lead">缠师反复说,人在市场中的死因只有两条——贪婪、恐惧。理解这两条,就能理解为什么"节奏"这么难守。</p>
+  <div class="gf">
+    <div class="col bad">
+      <div class="tag">敌人 1 · 贪婪</div>
+      <h3>本该卖,你舍不得</h3>
+      <p>K 线长红、消息利好、所有人吹票——这时候出现卖点,你的内心戏是"再涨一点点就卖"。结果错过最高点,接着扛回原点,最后亏损出局。<br><b>典型死法:</b>追涨买入、不肯止盈、利润回吐。</p>
+    </div>
+    <div class="col good">
+      <div class="tag">敌人 2 · 恐惧</div>
+      <h3>本该买,你不敢买</h3>
+      <p>K 线长绿、消息利空、专家喊大顶——这时候出现买点,你的内心戏是"再跌一点点再买"。结果错过最低点,股价反弹后追高,继续被套。<br><b>典型死法:</b>底部割肉、踏空反弹、追高接盘。</p>
+    </div>
+  </div>
+  <blockquote>所谓的心态好不是如被虐狂般忍受市场节奏错误后的折磨——这一定要注意。<span class="who">— 缠中说禅</span></blockquote>
+  <p>这一句话杀伤力极大。很多人把"心态好"理解成"硬扛"——亏 50%、套 3 年、面不改色,觉得自己境界很高。<b>缠师骂得很狠:这不是心态好,这是被虐狂</b>。心态好的真正含义是——<span class="hl-pivot">发现节奏错了,立刻改</span>,而不是"百忍成钢"。</p>
+</section>
+
+<section class="wrap reveal">
+  <div class="sec-no">08 — 三次改错机会</div>
+  <h2>为什么有三类买卖点?市场太仁慈</h2>
+  <p class="lead">缠师在文末给出一个非常优雅的解释——三类买卖点的存在本身就是市场给你的三次改错机会。</p>
+  <div class="chances">
+    <div class="ch">
+      <div class="n">机会 01</div>
+      <h4>第一类</h4>
+      <p>趋势背驰底/顶。<b>最难,但最完美。</b>抓住了 = 抄到大底。</p>
+    </div>
+    <div class="ch">
+      <div class="n">机会 02</div>
+      <h4>第二类</h4>
+      <p>第一买点反弹后的回踩。<b>稳一点。</b>错过第一买点不要紧,这里再给一次。</p>
+    </div>
+    <div class="ch last">
+      <div class="n">机会 03 · 最后一次</div>
+      <h4>第三类</h4>
+      <p>中枢突破后的回抽不破。<b>最直白。</b>连这都错过——<span class="hl-up">死了活该</span>。</p>
+    </div>
+  </div>
+  <blockquote>那些一个股票上涨 N 倍后还问能不能买,甚至还追高买,这种人,还能说什么?难道上涨 N 倍还看不到买点吗?<span class="who">— 缠中说禅</span></blockquote>
+  <p style="color:var(--ink-dim);font-size:15px">注意缠师的逻辑链:不是"市场残酷",而是"<b>市场仁慈</b>"——它给你三次。一次没抓住,还有第二次;第二次没抓住,还有第三次。如果三次都视而不见,问题就不在市场,而在你自己。这是缠论里最具人文关怀的一段。</p>
+</section>
+
+<section class="wrap reveal">
+  <div class="sec-no">09 — 操作清单</div>
+  <h2>买入前必须问自己的 6 个问题</h2>
+  <p class="lead">缠师把"是否买入"拆成一份 checklist——<b>市场不是赌场,操作是可以精心安排的</b>。</p>
+  <ol class="think">
+    <li><b>这是买点吗?</b>——先确认"是不是买点",不是"我想不想买"。</li>
+    <li><b>这是什么级别的什么买点?</b>——分清第一/第二/第三类,分清 5 分/30 分/日线级别。</li>
+    <li><b>大级别的走势如何?</b>——回到第 04 节的"级别"逻辑,判断顺势还是逆势。</li>
+    <li><b>当下各级别的中枢分布如何?</b>——画出 1 分/5 分/30 分各级别中枢的位置。</li>
+    <li><b>大盘的走势如何?</b>——大盘下跌途中,个股买点容错率会大幅降低。</li>
+    <li><b>该股所在板块如何?</b>——板块强势会放大买点的胜率(2007 年那段就是二线股板块走强)。</li>
+  </ol>
+  <p>卖点的清单完全对称——把上面 6 条里的"买"全部换成"卖"。这就是缠师所谓的"<span class="hl-gold">精心安排</span>",不是凭感觉、不是看心情、不是听消息。</p>
+  <blockquote>市场中不需要频繁买卖,战胜市场,需要的是准确率,而不是买卖频率,只有券商与税务部门才喜欢买卖高频率。<span class="who">— 缠中说禅</span></blockquote>
+</section>
+
+<section class="wrap reveal">
+  <div class="sec-no">10 — 思考题</div>
+  <h2>把这一课啃进骨头里的 5 个问题</h2>
+  <ol class="think">
+    <li>缠师说"买点上的股票是好股票,卖点上的股票是坏股票"。请用这个定义,重新评价你目前持仓的每一只股票——它们现在<b>正处在</b>什么类型的什么级别买卖点?如果说不出,意味着什么?</li>
+    <li>"精度可以提高,但节奏不可能乱,节奏比精度更重要。"——为什么精度可以慢慢练,但节奏一旦坏就是死亡判决?试用"概率/复利"角度解释这句话。</li>
+    <li>请回顾你过去 12 个月所有亏损交易,把它们分类:①追涨买入 ②恐慌杀跌 ③逆势小级别操作 ④三次机会都没抓住。哪一类占比最大?</li>
+    <li>缠师建议初学者按 30 分钟级别操作,不低于 5 分钟。请算一笔账:如果你按 1 分钟级别操作,每天产生 N 次买卖信号,而你判断准确率只有 60%,那么 10 个交易日后你的资金期望值是多少?(提示:0.6^N 衰减)</li>
+    <li>"市场太仁慈了,给你三次改错的机会。"——这句话反过来读是什么?(提示:连续犯三次同样的错,意味着你的认知系统出了问题,不是单次操作的问题。)</li>
+  </ol>
+</section>
+
+<section class="wrap reveal">
+  <div class="sec-no">11 — 判图练习</div>
+  <h2>给走势判节奏</h2>
+  <div class="quiz">
+    <h4>练习 1:某股连续 5 个交易日长红拉升,你看到论坛里"明天涨停"的呼声。此时是买点吗?</h4>
+    <details class="ans"><summary>查看答案</summary><p><b>不是。</b>连续 5 日长红已经走到"上涨段"的末端,大概率正在形成 5 分钟或 30 分钟级别的盘整背驰。这时候追入 = 追涨 = 缠师所说"死了活该"。正确做法:<b>等一根回调,看是否出现盘整背驰后的卖点,或者下一波下跌中的第一类买点</b>。</p></details>
+  </div>
+  <div class="quiz">
+    <h4>练习 2:某股从 30 元跌到 18 元,你之前 25 元割肉,现在所有人都说"再跌到 15 元就买"。这是什么级别的节奏问题?</h4>
+    <details class="ans"><summary>查看答案</summary><p>这是典型的"<b>三次机会全部错过</b>"。25 元割肉错过的可能是第一买点附近;现在 18 元有可能正好是第三买点(中枢突破回抽不破),但你又被"再跌到 15"的恐惧蒙住眼。<b>下次再跌到 16 你也不会买,因为你想"等到 14"</b>——缠师所说"连错三次,死了活该"。</p></details>
+  </div>
+  <div class="quiz">
+    <h4>练习 3:你按 1 分钟级别操作,某天交易了 12 次,赚了 0.3%。这种状态可持续吗?</h4>
+    <details class="ans"><summary>查看答案</summary><p><b>不可持续。</b>缠师明言"5 分钟都没有进入背驰段,就不能操作"。1 分钟操作意味着每个信号留给你判断的时间极短,准确率必然下降。即便单日赚 0.3%,长期看你赚的是手续费,亏的是本金。<b>正确做法是把级别拉到 30 分钟,降低交易频率,提高单次胜率</b>。</p></details>
+  </div>
+</section>
+
+<section class="wrap reveal">
+  <div class="sec-no">12 — 与前后课呼应</div>
+  <h2>把第 41 课嵌进 108 课的脉络</h2>
+  <div class="grid">
+    <div class="card">
+      <div class="tag">向前 · 技术</div>
+      <h3>第 20 ~ 29 课</h3>
+      <p>前面讲完了三类买卖点(20 课)、中枢三定理(18 课)、MACD 辅助判背驰(24-25 课)。技术体系搭好,但缠师发现:技术再好,人执行不出来,等于零。</p>
+    </div>
+    <div class="card">
+      <div class="tag">本课 · 心法</div>
+      <h3>第 41 课</h3>
+      <p>把"技术→执行"之间的最后一公里——节奏与心态——讲透。这是 108 课里少有的纯心法课,不讲一个新概念,只讲一个字:守。</p>
+    </div>
+    <div class="card">
+      <div class="tag">向后 · 实战</div>
+      <h3>第 42 课以后</h3>
+      <p>缠师继续在解盘中反复演示"节奏"的应用——比如第 42、43 课关于"小转大""走势力度"的实战,以及后期的牛市顶部预警,都建立在这一课的纪律前提下。</p>
+    </div>
+    <div class="card">
+      <div class="tag">隐性呼应</div>
+      <h3>第 23 课 · 市场与人生</h3>
+      <p>第 23 课讲"市场是人生的镜子",第 41 课讲"节奏是市场的本质"。两课合起来读,你会看到缠论的真正底色——<span class="hl-pivot">技术只是工具,纪律才是道</span>。</p>
+    </div>
+  </div>
+</section>
+
+<section class="wrap reveal">
+  <div class="tldr">
+    <div class="lab">ONE-LINER · 一句话总结</div>
+    <p>精度可以慢慢练,但节奏一旦乱了就是死。<br>市场只给三次改错机会——连第三次都错过,死了活该。</p>
+  </div>
+</section>
+
+</main>
+<footer class="wrap">
+  原文出处:raw/缠中说禅/教你炒股票108课/教你炒股票41:没有节奏,只有死.md<br>
+  本页为个人学习复习用 · 非投资建议
+</footer>
+<script>
+const bar=document.getElementById('bar');
+const onScroll=()=>{const h=document.documentElement;bar.style.width=(h.scrollTop/(h.scrollHeight-h.clientHeight)*100)+'%'};
+document.addEventListener('scroll',onScroll,{passive:true});onScroll();
+const io=new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{threshold:.12});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+function drawChanChart(canvasId, CHART){
+  const cv=document.getElementById(canvasId); if(!cv) return;
+  const mode=CHART.mode||'line', hasVol=!!CHART.v && CHART.showVol!==false;
+  const idxOf={}; CHART.dates.forEach((d,i)=>idxOf[d]=i);
+  const ri=d=>{ if(d in idxOf)return idxOf[d]; let b=0,bd=1/0;
+    CHART.dates.forEach((x,i)=>{const t=Math.abs(new Date(x)-new Date(d)); if(t<bd){bd=t;b=i}}); return b; };
+  function draw(){
+    const dpr=window.devicePixelRatio||1, W=cv.clientWidth, H=CHART.height||440;
+    cv.width=W*dpr; cv.height=H*dpr; const x=cv.getContext('2d'); x.scale(dpr,dpr); x.clearRect(0,0,W,H);
+    const padL=48,padR=14,padT=16, volH=hasVol?70:0, gap=hasVol?16:0, priceH=H-padT-volH-gap-22, n=CHART.c.length;
+    let mn=Math.min(...CHART.l), mx=Math.max(...CHART.h);
+    if(CHART.ma)Object.values(CHART.ma).forEach(a=>a.forEach(v=>{if(v!=null){mn=Math.min(mn,v);mx=Math.max(mx,v)}}));
+    if(CHART.pivots)CHART.pivots.forEach(p=>{mn=Math.min(mn,p.lo);mx=Math.max(mx,p.hi)});
+    if(CHART.marks)CHART.marks.forEach(m=>{mn=Math.min(mn,m.price);mx=Math.max(mx,m.price)});
+    const pd=(mx-mn)*0.08; mn-=pd; mx+=pd;
+    const PW=W-padL-padR, px=i=> n===1?padL+PW/2:padL+PW*i/(n-1), py=p=>padT+priceH*(1-(p-mn)/(mx-mn));
+    x.font="11px JetBrains Mono"; x.textAlign="right";
+    for(let g=0;g<=4;g++){const p=mn+(mx-mn)*g/4,yy=py(p);
+      x.strokeStyle="rgba(255,255,255,.06)";x.beginPath();x.moveTo(padL,yy);x.lineTo(W-padR,yy);x.stroke();
+      x.fillStyle="#5b6470";x.fillText(p.toFixed(2),padL-6,yy+3)}
+    if(CHART.pivots)CHART.pivots.forEach(p=>{const x1=px(ri(p.from)),x2=px(ri(p.to)),y1=py(p.hi),y2=py(p.lo);
+      x.fillStyle="rgba(55,192,230,.10)";x.strokeStyle="rgba(55,192,230,.55)";x.lineWidth=1;
+      x.fillRect(x1,y1,x2-x1,y2-y1);x.strokeRect(x1,y1,x2-x1,y2-y1);
+      if(p.label){x.fillStyle="#37c0e6";x.textAlign="center";x.fillText(p.label,(x1+x2)/2,y1-5)}});
+    if(hasVol){const vmax=Math.max(...CHART.v),vt=padT+priceH+gap;
+      for(let i=0;i<n;i++){const up=CHART.c[i]>=CHART.o[i];x.fillStyle=up?"rgba(255,77,79,.5)":"rgba(22,199,132,.5)";
+        const bw=Math.max(1,PW/n*0.6),bh=volH*CHART.v[i]/vmax;x.fillRect(px(i)-bw/2,vt+volH-bh,bw,bh)}}
+    if(mode==='candle'){const bw=Math.max(1.5,PW/n*0.62);
+      for(let i=0;i<n;i++){const up=CHART.c[i]>=CHART.o[i],col=up?"#ff4d4f":"#16c784";x.strokeStyle=col;x.fillStyle=col;
+        x.beginPath();x.moveTo(px(i),py(CHART.h[i]));x.lineTo(px(i),py(CHART.l[i]));x.stroke();
+        const yo=py(CHART.o[i]),yc=py(CHART.c[i]);x.fillRect(px(i)-bw/2,Math.min(yo,yc),bw,Math.max(1,Math.abs(yc-yo)))}}
+    else{const cs=CHART.c;x.beginPath();for(let i=0;i<n;i++){const xx=px(i),yy=py(cs[i]);i?x.lineTo(xx,yy):x.moveTo(xx,yy)}
+      const gr=x.createLinearGradient(0,padT,0,padT+priceH);gr.addColorStop(0,"rgba(207,213,220,.16)");gr.addColorStop(1,"rgba(207,213,220,0)");
+      x.lineTo(px(n-1),padT+priceH);x.lineTo(px(0),padT+priceH);x.closePath();x.fillStyle=gr;x.fill();
+      x.beginPath();for(let i=0;i<n;i++){const xx=px(i),yy=py(cs[i]);i?x.lineTo(xx,yy):x.moveTo(xx,yy)}
+      x.strokeStyle="#cfd5dc";x.lineWidth=1.6;x.stroke()}
+    const MC={MA5:"#ff8a8c",MA10:"#c0a3ff",MA20:"#e8b339",MA60:"#37c0e6",MA120:"#9aa3ad",MA250:"#ff4d4f"};
+    if(CHART.ma)Object.entries(CHART.ma).forEach(([k,a])=>{x.beginPath();let st=false;
+      for(let i=0;i<n;i++){if(a[i]==null)continue;const xx=px(i),yy=py(a[i]);st?x.lineTo(xx,yy):(x.moveTo(xx,yy),st=true)}
+      x.strokeStyle=MC[k]||"#888";x.lineWidth=1.4;x.stroke()});
+    if(CHART.marks)CHART.marks.forEach(m=>{const xx=px(ri(m.date)),yy=py(m.price),buy=(m.type||'').startsWith('b'),col=buy?"#ff4d4f":"#16c784";
+      x.fillStyle=col;x.beginPath();x.arc(xx,yy,4,0,7);x.fill();
+      x.fillStyle="#fff";x.font="bold 11px -apple-system";x.textAlign="center";x.fillText(m.text||'',xx,buy?yy+18:yy-10)});
+    x.fillStyle="#5b6470";x.textAlign="center";x.font="11px JetBrains Mono";
+    const L=Math.min(6,n);for(let g=0;g<L;g++){const i=Math.round((n-1)*g/(L-1||1));x.fillText(CHART.dates[i],px(i),H-5)}
+  }
+  draw(); window.addEventListener('resize',draw);
+}
+
+const CHART_SZZS = {"dates": ["2007-02-01", "2007-02-02", "2007-02-05", "2007-02-06", "2007-02-07", "2007-02-08", "2007-02-09", "2007-02-12", "2007-02-13", "2007-02-14", "2007-02-15", "2007-02-16", "2007-02-26", "2007-02-27", "2007-02-28", "2007-03-01", "2007-03-02", "2007-03-05", "2007-03-06", "2007-03-07", "2007-03-08", "2007-03-09", "2007-03-12", "2007-03-13", "2007-03-14", "2007-03-15", "2007-03-16", "2007-03-19", "2007-03-20", "2007-03-21", "2007-03-22", "2007-03-23", "2007-03-26", "2007-03-27", "2007-03-28", "2007-03-29", "2007-03-30", "2007-04-02", "2007-04-03", "2007-04-04", "2007-04-05", "2007-04-06", "2007-04-09", "2007-04-10", "2007-04-11", "2007-04-12", "2007-04-13", "2007-04-16", "2007-04-17", "2007-04-18", "2007-04-19", "2007-04-20", "2007-04-23", "2007-04-24", "2007-04-25", "2007-04-26", "2007-04-27", "2007-04-30", "2007-05-08", "2007-05-09", "2007-05-10", "2007-05-11", "2007-05-14", "2007-05-15", "2007-05-16", "2007-05-17", "2007-05-18", "2007-05-21", "2007-05-22", "2007-05-23", "2007-05-24", "2007-05-25", "2007-05-28", "2007-05-29", "2007-05-30", "2007-05-31"], "o": [2744.81, 2791.49, 2658.07, 2612.84, 2688.96, 2725.14, 2741.48, 2729.84, 2819.14, 2836.82, 2923.67, 3018.18, 2999.09, 3048.83, 2734.59, 2877.2, 2792.94, 2827.68, 2776.17, 2851.75, 2904.18, 2934.49, 2945.92, 2958.1, 2933.68, 2905.98, 2964.09, 2864.26, 3024.78, 3042.1, 3080.6, 3071.81, 3083.94, 3126.03, 3140.68, 3179.8, 3178.5, 3196.59, 3265.68, 3295.98, 3286.16, 3287.68, 3333.42, 3405.23, 3454.42, 3503.23, 3537.22, 3523.22, 3611.63, 3614.68, 3610.02, 3460.9, 3615.79, 3736.15, 3708.57, 3766.48, 3788.75, 3784.27, 3937.94, 3961.1, 4021.42, 4024.42, 3970.66, 4055.83, 3890.81, 4002.49, 4041.39, 3902.35, 4091.14, 4125.43, 4188.68, 4133.19, 4221.58, 4288.98, 4087.41, 4006.28], "h": [2801.69, 2796.44, 2672.35, 2677.04, 2745.39, 2751.16, 2747.94, 2807.51, 2835.09, 2915.06, 2994.62, 3036.35, 3041.34, 3049.77, 2888.9, 2878.36, 2846.16, 2858.44, 2866.33, 2911.42, 2928.8, 2962.42, 2958.63, 2966.19, 2934.45, 2955.46, 2979.71, 3038.0, 3033.02, 3057.71, 3099.82, 3085.32, 3123.18, 3145.04, 3180.33, 3273.73, 3212.39, 3253.43, 3292.58, 3308.15, 3326.92, 3334.22, 3399.51, 3444.37, 3497.52, 3532.86, 3563.86, 3597.22, 3622.89, 3623.87, 3617.44, 3591.46, 3710.89, 3762.39, 3769.25, 3784.68, 3802.92, 3851.35, 3964.71, 4015.22, 4072.14, 4039.67, 4081.43, 4069.85, 3987.41, 4064.28, 4052.1, 4083.42, 4136.63, 4175.44, 4208.39, 4190.47, 4283.93, 4335.96, 4275.24, 4178.11], "l": [2706.29, 2666.86, 2610.33, 2541.53, 2681.33, 2691.27, 2704.36, 2728.78, 2801.31, 2823.38, 2923.67, 2975.83, 2960.74, 2763.39, 2732.88, 2760.91, 2777.8, 2723.07, 2756.96, 2849.65, 2871.46, 2891.81, 2904.74, 2932.23, 2868.81, 2905.98, 2899.03, 2852.86, 2998.8, 3020.95, 3059.38, 3008.15, 3069.47, 3103.78, 3052.08, 3176.53, 3157.03, 3196.59, 3251.52, 3266.56, 3259.63, 3273.86, 3333.26, 3351.11, 3428.78, 3488.08, 3504.16, 3523.22, 3510.5, 3564.23, 3358.93, 3460.9, 3615.79, 3689.13, 3653.99, 3732.6, 3720.6, 3759.48, 3901.33, 3875.38, 3991.48, 3949.37, 3940.36, 3891.36, 3845.23, 3982.99, 3999.16, 3892.97, 4086.82, 4093.91, 4089.39, 4111.26, 4215.24, 4262.02, 4015.51, 3858.04], "c": [2785.43, 2673.21, 2612.54, 2675.7, 2716.18, 2737.73, 2730.39, 2807.17, 2831.87, 2905.09, 2993.01, 2998.47, 3040.6, 2771.79, 2881.07, 2797.19, 2831.53, 2785.31, 2840.18, 2896.59, 2928.01, 2937.91, 2954.91, 2964.79, 2906.33, 2951.7, 2930.48, 3014.44, 3032.2, 3057.38, 3071.22, 3074.29, 3122.81, 3138.83, 3173.02, 3197.54, 3183.98, 3252.59, 3291.3, 3291.54, 3319.14, 3323.59, 3398.95, 3444.29, 3495.22, 3531.03, 3518.27, 3596.44, 3611.87, 3612.4, 3449.02, 3584.2, 3710.89, 3720.53, 3743.96, 3783.06, 3759.87, 3841.27, 3950.01, 4013.09, 4049.7, 4021.68, 4046.39, 3899.18, 3986.04, 4048.29, 4030.26, 4072.22, 4110.38, 4173.71, 4151.13, 4179.78, 4272.11, 4334.92, 4053.09, 4109.65], "v": [9344353100, 8544623600, 6922451200, 8662995000, 9488376400, 8843429500, 8087443800, 7900940300, 7900167100, 9404455500, 10883117700, 11792172200, 11205699200, 16137566300, 12147916800, 12736486000, 9394396500, 10691058400, 7704048600, 8791393000, 8895512300, 10713910500, 10154244400, 10718931600, 11373073900, 10174575400, 12268130800, 10997175200, 9276189000, 9919012700, 12606554500, 11868641700, 12266053700, 12457893100, 16726793900, 14953966100, 8942400600, 9735044600, 10860139100, 11261610700, 11452805100, 11964488100, 13731410400, 14780728400, 14757211400, 13538987900, 15069587600, 13103910100, 16066064600, 15048542400, 17272554100, 13888929200, 16349811600, 17438934100, 15176306100, 11725696800, 13217545600, 14652571300, 16056820000, 20839744900, 17111394000, 14063821000, 13932622100, 15667755300, 13171977400, 13927798800, 13075627400, 15617106200, 17356209000, 16139947800, 18098438800, 15419286000, 17861517400, 17209764200, 18559672900, 17311531200], "ma": {"MA5": [null, null, null, null, 2692.61, 2683.07, 2694.51, 2733.43, 2764.67, 2802.45, 2853.51, 2907.12, 2953.81, 2941.79, 2936.99, 2897.83, 2864.44, 2813.38, 2827.05, 2830.16, 2856.32, 2877.6, 2911.52, 2936.45, 2938.39, 2943.13, 2941.64, 2953.55, 2967.03, 2997.24, 3021.14, 3049.91, 3071.58, 3092.91, 3116.03, 3141.3, 3163.24, 3189.19, 3219.69, 3243.39, 3267.71, 3295.63, 3324.9, 3355.5, 3396.24, 3438.62, 3477.55, 3517.05, 3550.57, 3574.0, 3557.6, 3570.79, 3593.67, 3615.41, 3641.72, 3708.53, 3743.66, 3769.74, 3815.63, 3869.46, 3922.79, 3975.15, 4016.17, 4006.01, 4000.6, 4000.32, 4002.03, 4007.2, 4049.44, 4086.97, 4107.54, 4137.44, 4177.42, 4222.33, 4198.21, 4189.91], "MA10": [null, null, null, null, null, null, null, null, null, 2747.53, 2768.29, 2800.81, 2843.62, 2853.23, 2869.72, 2875.67, 2885.78, 2883.59, 2884.42, 2883.57, 2877.07, 2871.02, 2862.45, 2881.75, 2884.28, 2899.73, 2909.62, 2932.54, 2951.74, 2967.82, 2982.14, 2995.77, 3012.56, 3029.97, 3056.64, 3081.22, 3106.57, 3130.39, 3156.3, 3179.71, 3204.5, 3229.43, 3257.05, 3287.59, 3319.81, 3353.16, 3386.59, 3420.98, 3453.03, 3485.12, 3498.11, 3524.17, 3555.36, 3582.99, 3607.86, 3633.06, 3657.22, 3681.71, 3715.52, 3755.59, 3815.66, 3859.41, 3892.96, 3910.82, 3935.03, 3961.55, 3988.59, 4011.69, 4027.72, 4043.79, 4053.93, 4069.74, 4092.31, 4135.89, 4142.59, 4148.73], "MA20": [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, 2815.55, 2822.68, 2835.92, 2853.04, 2867.49, 2877.0, 2887.7, 2897.7, 2908.06, 2918.08, 2925.69, 2929.61, 2933.4, 2937.51, 2955.86, 2970.46, 2990.47, 3008.1, 3031.46, 3054.02, 3073.76, 3093.32, 3112.6, 3134.81, 3158.78, 3188.23, 3217.19, 3246.58, 3275.68, 3304.66, 3332.42, 3351.31, 3376.8, 3406.2, 3435.29, 3463.84, 3493.11, 3521.91, 3551.34, 3584.28, 3620.35, 3656.88, 3691.79, 3724.16, 3746.9, 3771.44, 3797.31, 3822.91, 3846.7, 3871.62, 3899.69, 3934.79, 3964.57, 3992.63, 4023.35, 4038.81, 4055.14]}};
+CHART_SZZS.mode = "candle";
+CHART_SZZS.marks = [
+  {"date":"2007-03-30","price":3183.98,"type":"b1","text":"3-30 解盘 3183.98"}
+];
+drawChanChart("cv_szzs", CHART_SZZS);
+</script>
+<script src="/assets/_nav.js"></script><script src="/assets/_shell.js"></script></body>
+</html>

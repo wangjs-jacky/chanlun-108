@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>缠论 · 教你炒股票94：当机立断</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@500;700;900&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0b0e12;
+    --bg-elev:#12161c;
+    --bg-card:#161b22;
+    --ink:#e8eaed;
+    --ink-dim:#9aa3ad;
+    --ink-faint:#5b6470;
+    --line:rgba(255,255,255,.07);
+    --up:#ff4d4f;
+    --down:#16c784;
+    --pivot:#37c0e6;
+    --gold:#e8b339;
+    --max:880px;
+    --serif:"Noto Serif SC",serif;
+    --mono:"JetBrains Mono",ui-monospace,monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;
+    line-height:1.85;
+    font-size:17px;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  body::before{
+    content:"";position:fixed;inset:0;z-index:-2;
+    background:
+      radial-gradient(1200px 600px at 70% -10%, rgba(232,179,57,.08), transparent 60%),
+      radial-gradient(900px 500px at 0% 100%, rgba(55,192,230,.05), transparent 55%);
+    pointer-events:none;
+  }
+  body::after{
+    content:"";position:fixed;inset:0;z-index:-1;opacity:.4;
+    background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);
+    background-size:46px 46px;
+    -webkit-mask-image:radial-gradient(ellipse at 50% 0%, #000 30%, transparent 80%);
+            mask-image:radial-gradient(ellipse at 50% 0%, #000 30%, transparent 80%);
+    pointer-events:none;
+  }
+
+  #bar{position:fixed;top:0;left:0;height:3px;width:0;z-index:50;
+    background:linear-gradient(90deg,var(--gold),var(--up));box-shadow:0 0 12px var(--gold);}
+
+  .wrap{max-width:var(--max);margin:0 auto;padding:0 24px}
+
+  header.hero{padding:120px 0 70px;text-align:center;position:relative}
+  .kicker{font-family:var(--mono);font-size:13px;letter-spacing:.32em;color:var(--gold);
+    text-transform:uppercase;margin-bottom:26px}
+  .kicker span{color:var(--ink-faint)}
+  h1.title{font-family:var(--serif);font-weight:900;line-height:1.05;
+    font-size:clamp(48px,11vw,108px);letter-spacing:.04em;
+    background:linear-gradient(180deg,#fff 30%,#c69a35 130%);
+    -webkit-background-clip:text;background-clip:text;color:transparent;}
+  .sub{margin:22px auto 0;max-width:560px;color:var(--ink-dim);font-size:18px}
+  .meta{margin-top:34px;display:flex;gap:14px;justify-content:center;flex-wrap:wrap;
+    font-family:var(--mono);font-size:12px;color:var(--ink-faint)}
+  .meta b{color:var(--ink-dim);font-weight:500}
+  .pill{border:1px solid var(--line);padding:6px 14px;border-radius:999px;background:rgba(255,255,255,.02)}
+
+  .scroll-hint{margin-top:60px;color:var(--ink-faint);font-family:var(--mono);font-size:12px;
+    animation:bob 2.4s ease-in-out infinite}
+  @keyframes bob{0%,100%{transform:translateY(0);opacity:.5}50%{transform:translateY(8px);opacity:1}}
+
+  section{padding:64px 0;border-top:1px solid var(--line)}
+  .sec-no{font-family:var(--mono);font-size:13px;color:var(--gold);letter-spacing:.2em;margin-bottom:10px}
+  h2{font-family:var(--serif);font-weight:700;font-size:clamp(28px,5vw,42px);
+    line-height:1.25;margin-bottom:8px;letter-spacing:.02em}
+  .lead{color:var(--ink-dim);font-size:16px;margin-bottom:28px;max-width:640px}
+  p{margin:0 0 18px;color:#cfd5dc}
+  p b,strong{color:#fff;font-weight:700}
+  .hl-pivot{color:var(--pivot);font-weight:700}
+  .hl-up{color:var(--up);font-weight:700}
+  .hl-down{color:var(--down);font-weight:700}
+  .hl-gold{color:var(--gold);font-weight:700}
+
+  blockquote{margin:26px 0;padding:20px 24px;border-left:3px solid var(--gold);
+    background:linear-gradient(90deg,rgba(232,179,57,.07),transparent);
+    border-radius:0 10px 10px 0;font-family:var(--serif);font-size:19px;color:#f8f1da}
+  blockquote .who{display:block;margin-top:8px;font-family:var(--mono);font-size:12px;
+    color:var(--ink-faint);font-style:normal}
+
+  figure{margin:34px 0}
+  figure img{width:100%;border-radius:12px;border:1px solid var(--line);
+    background:#fff;box-shadow:0 18px 50px rgba(0,0,0,.5)}
+  figcaption{margin-top:12px;font-size:13px;color:var(--ink-faint);text-align:center;font-family:var(--mono)}
+
+  .grid{display:grid;gap:16px;grid-template-columns:1fr 1fr;margin:28px 0}
+  @media(max-width:640px){.grid{grid-template-columns:1fr}}
+  .card{background:var(--bg-card);border:1px solid var(--line);border-radius:14px;padding:24px;
+    position:relative;overflow:hidden;transition:transform .35s ease,border-color .35s ease}
+  .card:hover{transform:translateY(-4px);border-color:rgba(232,179,57,.4)}
+  .card .tag{font-family:var(--mono);font-size:11px;letter-spacing:.18em;color:var(--gold);text-transform:uppercase}
+  .card h3{font-family:var(--serif);font-size:21px;margin:10px 0 8px;color:#fff}
+  .card p{font-size:15px;color:var(--ink-dim);margin:0}
+
+  /* 三步流程 */
+  .steps{margin:30px 0;display:flex;flex-direction:column;gap:14px}
+  .step{display:flex;gap:18px;align-items:flex-start;background:var(--bg-card);
+    border:1px solid var(--line);border-radius:12px;padding:20px 22px}
+  .step .n{flex:none;width:44px;height:44px;border-radius:12px;display:grid;place-items:center;
+    font-family:var(--mono);font-weight:700;font-size:18px;
+    background:linear-gradient(135deg,var(--gold),#a47b1f);color:#0b0e12;
+    box-shadow:0 6px 22px rgba(232,179,57,.25)}
+  .step h4{font-family:var(--serif);font-size:18px;margin-bottom:4px;color:#fff}
+  .step p{font-size:15px;color:var(--ink-dim);margin:0}
+
+  /* 机会清单（实例） */
+  .ops{margin:26px 0;display:flex;flex-direction:column;gap:14px}
+  .op{display:flex;gap:14px;background:var(--bg-card);border:1px solid var(--line);
+    border-radius:12px;padding:18px 20px;border-left:3px solid var(--pivot)}
+  .op .id{font-family:var(--mono);color:var(--pivot);font-weight:700;flex:none}
+  .op .body{flex:1}
+  .op h4{font-size:16px;color:#fff;margin-bottom:4px}
+  .op p{font-size:14.5px;color:var(--ink-dim);margin:0}
+
+  /* 反面提醒（贪嗔痴） */
+  .warn{margin:28px 0;padding:22px 26px;border:1px solid rgba(255,77,79,.25);
+    background:linear-gradient(90deg,rgba(255,77,79,.07),transparent);border-radius:14px}
+  .warn .hd{font-family:var(--mono);font-size:12px;letter-spacing:.2em;color:var(--up);text-transform:uppercase;margin-bottom:10px}
+  .warn p{color:#f1d4d5;margin:0}
+
+  .tldr{margin:60px 0 0;padding:36px 30px;border:1px solid rgba(232,179,57,.3);border-radius:18px;
+    background:radial-gradient(120% 120% at 100% 0%,rgba(232,179,57,.1),transparent 60%),var(--bg-elev);text-align:center}
+  .tldr .lab{font-family:var(--mono);font-size:12px;letter-spacing:.3em;color:var(--gold);text-transform:uppercase}
+  .tldr p{font-family:var(--serif);font-size:clamp(20px,3.4vw,28px);line-height:1.7;color:#fff;margin:16px 0 0}
+
+  footer{padding:60px 0 90px;text-align:center;color:var(--ink-faint);font-family:var(--mono);font-size:12px;border-top:1px solid var(--line)}
+
+  .reveal{opacity:0;transform:translateY(26px);transition:opacity .8s ease,transform .8s ease}
+  .reveal.in{opacity:1;transform:none}
+  @media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}.scroll-hint{animation:none}}
+</style>
+<meta name="view-transition" content="same-origin"><style>@view-transition{navigation:auto}</style></head>
+<body>
+<div id="bar"></div>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="kicker">缠中说禅 · 教你炒股票108课 <span>/ 第 94 课</span></div>
+    <h1 class="title">当机立断</h1>
+    <p class="sub">机会可以预先列出，但不是预测——是分类输出。剩下的，只是你想不想搞、敢不敢撤。</p>
+    <div class="meta">
+      <span class="pill"><b>原文</b> 2008-01-21</span>
+      <span class="pill"><b>类型</b> 操作心法</span>
+      <span class="pill"><b>关键词</b> 机会枚举 · 级别 · 边界条件 · 节奏</span>
+    </div>
+    <div class="scroll-hint">↓ 向下滚动，逐层拆解</div>
+  </div>
+</header>
+
+<main>
+  <!-- 1 -->
+  <section class="wrap reveal">
+    <div class="sec-no">01 — 学习的第一层次</div>
+    <h2>洗心革面：不预测，只分类</h2>
+    <p class="lead">这一课的题眼，是把"看盘的脑回路"彻底换掉。</p>
+    <p>缠师开门见山：来这里学习，<b>第一层次</b>就是要达到——<span class="hl-gold">当机立断</span>。机会可以<b>预先分析</b>，但这不是预测；是基于<b>完全分类</b>之后的<span class="hl-pivot">边界分划</span>，由理论的<b>纯数学构造</b>保证唯一性与精确性，所以可以在当下被确认。</p>
+    <blockquote>
+      你前面一切关于股票的知识，可能都是后面学习的毒药。在本ID这里，只有严格分类后的不同操作类型，没有其他那么多无聊的不切边际的所谓预测。
+      <span class="who">— 缠中说禅</span>
+    </blockquote>
+    <p>翻成大白话：<b>不要再猜"明天会涨吗"</b>；而是问"按理论，从这里出发，<b>必然</b>会演化出哪几种类型的机会？"——这是完全不同的思维方式。</p>
+  </section>
+
+  <!-- 2 -->
+  <section class="wrap reveal">
+    <div class="sec-no">02 — 实例</div>
+    <h2>从一个当下，枚举所有"必然出现"的机会</h2>
+    <p class="lead">缠师就当时大盘做了一次现场演示——这是本课最关键的"操作示范"。</p>
+    <p>站在当时那个下跌过程中的当下，按理论可以马上把<b>下一步会出现什么机会</b>一条条列出来：</p>
+    <div class="ops">
+      <div class="op">
+        <div class="id">机会 1</div>
+        <div class="body">
+          <h4>线段下移后的「线段类背驰」</h4>
+          <p>这是<b>最小</b>的一个机会。走完后对应两种目标：(a) 最好情况，<b>回拉上面的 1 分钟中枢</b>，从而形成一个 <span class="hl-pivot">5 分钟中枢</span>；(b) 否则就形成<b>第二个 1 分钟下跌中枢</b>。</p>
+        </div>
+      </div>
+      <div class="op">
+        <div class="id">机会 2</div>
+        <div class="body">
+          <h4>由机会 1 的"演化分叉"继续派生</h4>
+          <p>(a) 如果走出 5 分钟中枢 → 接着是 <span class="hl-gold">中枢震荡</span> 的机会；(b) 如果是 1 分钟的第二中枢 → 等后面的 <span class="hl-down">底背驰</span>，或这中枢扩展为 5 分钟后的 <span class="hl-gold">震荡</span> 机会。</p>
+        </div>
+      </div>
+    </div>
+    <figure>
+      <img src="/_assets/ch94_p01.png" alt="大盘走势中按理论枚举的机会示意">
+      <figcaption>从当下枚举出"必然出现"的几条机会路径（缠师手绘示意）</figcaption>
+    </figure>
+    <blockquote>
+      任何一个当下，你都可以根据本ID的理论马上给出后面必然要出现的机会。市场就是这么贱⋯⋯但从来没有任何失误地按照本ID的理论去走。
+      <span class="who">— 缠中说禅</span>
+    </blockquote>
+  </section>
+
+  <!-- 3 -->
+  <section class="wrap reveal">
+    <div class="sec-no">03 — 操作流程</div>
+    <h2>三步走：列机会 → 挑机会 → 等机显现</h2>
+    <p class="lead">机会被理论"输出"出来之后，操作其实只剩下三步。</p>
+    <div class="steps">
+      <div class="step">
+        <div class="n">1</div>
+        <div>
+          <h4>列出所有必然出现的机会</h4>
+          <p>站在当下，把理论能够<b>分类输出</b>的所有买卖机会全部罗列。<b>不是预测哪一个会发生</b>，而是确认"只可能在这几条路径中走"。</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="n">2</div>
+        <div>
+          <h4>根据自己的心情、资金、级别偏好——挑</h4>
+          <p>觉得机会 1 级别太小、不想搞，那就<b>放过</b>。"就像见了不想搞，难道还需要什么理由？"——选择权完全在你。</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="n">3</div>
+        <div>
+          <h4>等机的显现，当机立断</h4>
+          <p>挑中的机会，按理论设定<b>触发点</b>与<b>退出边界</b>；机一显现，毫不犹豫地动手。这一步，"足够你修炼 N 年了"。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4 -->
+  <section class="wrap reveal">
+    <div class="sec-no">04 — 进出之前</div>
+    <h2>退出边界必须先于买入想好</h2>
+    <p class="lead">"想搞"之前，先把"怎么撤"安排好——这是当机立断的前置条件。</p>
+    <div class="grid">
+      <div class="card">
+        <div class="tag">退出条件示例</div>
+        <h3>边界要"理论级"的</h3>
+        <p>例如对机会 1：退出条件可以是<b>原来的最后一个类中枢</b>，或<b>线段向上走势类型中的类背驰 / 类盘整背驰</b>。不是拍脑袋的"跌 3% 我就跑"。</p>
+      </div>
+      <div class="card">
+        <div class="tag">T+1 的限制</div>
+        <h3>买卖时点要看时段</h3>
+        <p>买卖点可能<b>当天就走完</b>，T+1 让你来不及。<b>早上出现</b>的机会要谨慎；<b>下午出现</b>的可以胆子大一点。</p>
+      </div>
+      <div class="card">
+        <div class="tag">仓位与级别</div>
+        <h3>级别放大 = 更省心</h3>
+        <p>"周线操作的人，从 2005 年下半年买入到现在，<b>一次都不需要操作</b>。"—— 谁告诉你缠论只做短线？级别选错才是真累。</p>
+      </div>
+      <div class="card">
+        <div class="tag">资金分配</div>
+        <h3>力度决定金额</h3>
+        <p>对每种机会类型，把可能演化情况都想清楚 → 判断<b>力度</b> → 决定<b>投入资金量</b>。"见了就撤"到"奋不顾身"之间有无数可能，当机立断<b>唯一</b>。</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5 -->
+  <section class="wrap reveal">
+    <div class="sec-no">05 — 节奏与束缚</div>
+    <h2>不会卖出，等于失去下一次买入</h2>
+    <p class="lead">节奏之难，难在贪嗔痴疑慢。给自己先套一个"机械的圈圈"。</p>
+    <p>缠师的提醒非常具体：</p>
+    <div class="ops">
+      <div class="op">
+        <div class="id">级别</div>
+        <div class="body">
+          <h4>脑子里必须时刻有两个字：级别</h4>
+          <p>"如果连级别都搞不清楚，你还 419？被 419 还差不多。"——所有操作的前提，是先框定当下走的是哪个级别。</p>
+        </div>
+      </div>
+      <div class="op">
+        <div class="id">节奏</div>
+        <div class="body">
+          <h4>419 不是天长地久</h4>
+          <p>有了级别就是节奏问题：<b>419 是见好要收</b>，不是死守。这点不明白，就等着灾难连连。</p>
+        </div>
+      </div>
+      <div class="op">
+        <div class="id">束缚</div>
+        <div class="body">
+          <h4>初学者：用 5 周 / 5 日线机械约束</h4>
+          <p>"分型后有效破了，一定走。"——熟练之后不需要，严格的走势分类自动会给出一切。</p>
+        </div>
+      </div>
+    </div>
+    <div class="warn">
+      <div class="hd">⚠ 当机立断的反面</div>
+      <p>节奏之所以难，<b>说白了就是贪嗔痴疑慢作怪</b>。机已经显，你还在算"会不会再涨一点"——这就不是当机立断，是当机不立。</p>
+    </div>
+  </section>
+
+  <!-- 6 -->
+  <section class="wrap reveal">
+    <div class="sec-no">06 — 次日盘后印证</div>
+    <h2>第二天：第一个小机会，如期而至</h2>
+    <p class="lead">缠师在 2008-01-22 盘后回头印证：上一天罗列的机会 1，已经在即。</p>
+    <p>反弹符合前一晚课程的预演——等待<b>线段下跌的类背驰</b>。早上反弹后，<span class="hl-pivot">第二个类中枢</span>已经形成，所以"第一个小机会"已经在即，构成短线一次反弹。除非线段式一下重回 5100 点，否则就是构成 <b>1 分钟下跌的第二中枢</b>。</p>
+    <figure>
+      <img src="/_assets/ch94_p02.png" alt="2008-01-22 反弹结构示意 1">
+      <figcaption>反弹结构：类中枢与线段类背驰位置</figcaption>
+    </figure>
+    <figure>
+      <img src="/_assets/ch94_p03.png" alt="2008-01-22 反弹结构示意 2">
+      <figcaption>1 分钟中枢之后：扩展为 5 分钟 / 出现 1 分钟下跌背驰 两种分叉</figcaption>
+    </figure>
+    <blockquote>
+      没这技术，继续等到日的底分型确认才介入，这样风险比较小。
+      <span class="who">— 缠中说禅</span>
+    </blockquote>
+    <p>这一段是绝佳的<b>"昨日推演 → 次日印证"</b>样本：理论列出的几条路径，市场只会从中选一条走，<span class="hl-gold">不会跳出</span>。这正是当机立断的底气来源。</p>
+
+    <div class="tldr">
+      <div class="lab">一句话总结</div>
+      <p>看盘不要预测，要按理论把"必然出现的机会"<b>枚举</b>出来；挑你想搞的，预先想好退出边界，然后<b>机一显现就动手</b>——这就是当机立断。</p>
+    </div>
+  </section>
+</main>
+
+<footer class="wrap">
+  原文出处：raw/缠中说禅/教你炒股票108课/教你炒股票94：当机立断.md<br>
+  本页为个人学习复习用 · 非投资建议
+</footer>
+
+<script>
+  const bar=document.getElementById('bar');
+  const onScroll=()=>{
+    const h=document.documentElement;
+    const p=h.scrollTop/(h.scrollHeight-h.clientHeight);
+    bar.style.width=(p*100)+'%';
+  };
+  document.addEventListener('scroll',onScroll,{passive:true});onScroll();
+
+  const io=new IntersectionObserver((es)=>{
+    es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});
+  },{threshold:.12});
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+</script>
+<script src="/assets/_nav.js"></script><script src="/assets/_shell.js"></script></body>
+</html>

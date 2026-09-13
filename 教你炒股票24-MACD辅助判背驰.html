@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>缠论 · 教你炒股票24：MACD 对背驰的辅助判断</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@500;700;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0b0e12;--bg-elev:#12161c;--bg-card:#161b22;
+    --ink:#e8eaed;--ink-dim:#9aa3ad;--ink-faint:#5b6470;
+    --line:rgba(255,255,255,.07);
+    --up:#ff4d4f;--down:#16c784;--pivot:#37c0e6;--gold:#e8b339;--blue:#00d4ff;
+    --max:880px;--serif:"Noto Serif SC",serif;--mono:"JetBrains Mono",ui-monospace,monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--ink);font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;line-height:1.85;font-size:17px;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  body::before{content:"";position:fixed;inset:0;z-index:-2;background:radial-gradient(1200px 600px at 70% -10%,rgba(55,192,230,.08),transparent 60%),radial-gradient(900px 500px at 0% 100%,rgba(232,179,57,.05),transparent 55%);pointer-events:none}
+  body::after{content:"";position:fixed;inset:0;z-index:-1;opacity:.4;background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);background-size:46px 46px;-webkit-mask-image:radial-gradient(ellipse at 50% 0%,#000 30%,transparent 80%);mask-image:radial-gradient(ellipse at 50% 0%,#000 30%,transparent 80%);pointer-events:none}
+  #bar{position:fixed;top:0;left:0;height:3px;width:0;z-index:50;background:linear-gradient(90deg,var(--pivot),var(--gold));box-shadow:0 0 12px var(--pivot)}
+  .wrap{max-width:var(--max);margin:0 auto;padding:0 24px}
+  header.hero{padding:120px 0 70px;text-align:center;position:relative}
+  .kicker{font-family:var(--mono);font-size:13px;letter-spacing:.32em;color:var(--pivot);text-transform:uppercase;margin-bottom:26px}
+  .kicker span{color:var(--ink-faint)}
+  h1.title{font-family:var(--serif);font-weight:900;line-height:1.05;font-size:clamp(44px,10vw,100px);letter-spacing:.04em;background:linear-gradient(180deg,#fff 30%,#8aa0ad 130%);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .sub{margin:22px auto 0;max-width:580px;color:var(--ink-dim);font-size:18px}
+  .meta{margin-top:34px;display:flex;gap:14px;justify-content:center;flex-wrap:wrap;font-family:var(--mono);font-size:12px;color:var(--ink-faint)}
+  .meta b{color:var(--ink-dim);font-weight:500}
+  .pill{border:1px solid var(--line);padding:6px 14px;border-radius:999px;background:rgba(255,255,255,.02)}
+  .scroll-hint{margin-top:60px;color:var(--ink-faint);font-family:var(--mono);font-size:12px;animation:bob 2.4s ease-in-out infinite}
+  @keyframes bob{0%,100%{transform:translateY(0);opacity:.5}50%{transform:translateY(8px);opacity:1}}
+  section{padding:64px 0;border-top:1px solid var(--line)}
+  .sec-no{font-family:var(--mono);font-size:13px;color:var(--gold);letter-spacing:.2em;margin-bottom:10px}
+  h2{font-family:var(--serif);font-weight:700;font-size:clamp(28px,5vw,42px);line-height:1.25;margin-bottom:8px;letter-spacing:.02em}
+  .lead{color:var(--ink-dim);font-size:16px;margin-bottom:28px;max-width:660px}
+  p{margin:0 0 18px;color:#cfd5dc}
+  p b,strong{color:#fff;font-weight:700}
+  .hl-pivot{color:var(--pivot);font-weight:700}.hl-up{color:var(--up);font-weight:700}
+  .hl-down{color:var(--down);font-weight:700}.hl-gold{color:var(--gold);font-weight:700}
+  blockquote{margin:26px 0;padding:20px 24px;border-left:3px solid var(--pivot);background:linear-gradient(90deg,rgba(55,192,230,.07),transparent);border-radius:0 10px 10px 0;font-family:var(--serif);font-size:19px;color:#eaf6fb}
+  blockquote .who{display:block;margin-top:8px;font-family:var(--mono);font-size:12px;color:var(--ink-faint);font-style:normal}
+  figure{margin:34px 0}
+  figure img{width:100%;border-radius:12px;border:1px solid var(--line);background:#fff;box-shadow:0 18px 50px rgba(0,0,0,.5)}
+  figcaption{margin-top:12px;font-size:13px;color:var(--ink-faint);text-align:center;font-family:var(--mono)}
+  .grid{display:grid;gap:16px;grid-template-columns:1fr 1fr;margin:28px 0}
+  @media(max-width:640px){.grid{grid-template-columns:1fr}}
+  .card{background:var(--bg-card);border:1px solid var(--line);border-radius:14px;padding:24px;position:relative;overflow:hidden;transition:transform .35s ease,border-color .35s ease}
+  .card:hover{transform:translateY(-4px);border-color:rgba(55,192,230,.4)}
+  .card .tag{font-family:var(--mono);font-size:11px;letter-spacing:.18em;color:var(--gold);text-transform:uppercase}
+  .card h3{font-family:var(--serif);font-size:21px;margin:10px 0 8px;color:#fff}
+  .card p{font-size:15px;color:var(--ink-dim);margin:0}
+  .table{margin:28px 0;border:1px solid var(--line);border-radius:14px;overflow:hidden}
+  .table .row{display:grid;grid-template-columns:1.1fr 1.5fr 1.6fr;align-items:stretch}
+  .table .row+.row{border-top:1px solid var(--line)}
+  .table .row>div{padding:16px 18px}
+  .table .row.head{background:var(--bg-elev);font-family:var(--mono);font-size:12px;letter-spacing:.14em;color:var(--ink-faint);text-transform:uppercase}
+  .table .row>div+div{border-left:1px solid var(--line)}
+  .table .name{font-family:var(--serif);font-weight:700;font-size:18px}
+  .table .name.qushi{color:var(--gold)}
+  .cnt{font-family:var(--mono);font-size:14px;color:var(--pivot)}
+  @media(max-width:560px){.table .row{grid-template-columns:1fr}.table .row>div+div{border-left:0;border-top:1px solid var(--line)}.table .row.head{display:none}}
+  .points{margin:26px 0;display:flex;flex-direction:column;gap:14px}
+  .pt{display:flex;gap:16px;align-items:flex-start;background:var(--bg-card);border:1px solid var(--line);border-radius:12px;padding:18px 20px}
+  .pt .dot{flex:none;width:42px;height:42px;border-radius:10px;display:grid;place-items:center;font-family:var(--serif);font-weight:900;font-size:20px;color:#0b0e12}
+  .pt.b .dot{background:var(--up)}.pt.s .dot{background:var(--down)}
+  .pt h4{font-size:17px;margin-bottom:4px;color:#fff}.pt p{font-size:15px;color:var(--ink-dim);margin:0}
+  .proof{margin:30px 0;background:linear-gradient(120deg,rgba(55,192,230,.06),transparent 70%),var(--bg-elev);border:1px solid rgba(55,192,230,.25);border-radius:16px;padding:26px}
+  .proof .badge{display:inline-block;font-family:var(--mono);font-weight:700;font-size:12px;letter-spacing:.12em;padding:6px 14px;border-radius:999px;background:rgba(55,192,230,.14);color:var(--pivot);border:1px solid rgba(55,192,230,.4);margin-bottom:14px}
+  .chartbox{background:var(--bg-card);border:1px solid var(--line);border-radius:14px;padding:18px 14px 8px;margin:18px 0}
+  .legend{display:flex;gap:16px;font-family:var(--mono);font-size:12px;color:var(--ink-dim);padding:0 8px 12px;flex-wrap:wrap}
+  .legend i{display:inline-block;width:16px;height:3px;vertical-align:middle;margin-right:6px;border-radius:2px}
+  canvas{width:100%;display:block}
+  .verdict{display:flex;gap:14px;align-items:flex-start;margin-top:8px;padding:16px 18px;background:var(--bg-card);border:1px solid var(--line);border-radius:12px}
+  .verdict .mk{flex:none;font-family:var(--mono);font-weight:700;color:var(--up)}
+  .verdict p{margin:0;font-size:15px;color:#d6dbe1}
+  ol.think{counter-reset:q;list-style:none;margin:24px 0;display:flex;flex-direction:column;gap:14px}
+  ol.think li{counter-increment:q;position:relative;padding:18px 20px 18px 60px;background:var(--bg-elev);border:1px solid var(--line);border-radius:12px;color:var(--ink-dim);font-size:15px}
+  ol.think li::before{content:counter(q,decimal-leading-zero);position:absolute;left:20px;top:18px;font-family:var(--mono);color:var(--gold);font-weight:700}
+  .quiz{margin:22px 0;background:var(--bg-card);border:1px solid var(--line);border-radius:14px;padding:22px 24px}
+  .quiz h4{font-size:16px;color:#fff;margin-bottom:6px}
+  .quiz .ans{margin-top:12px;color:var(--ink-faint);font-size:14px;cursor:pointer}
+  .quiz .ans[open] summary{color:var(--pivot)}
+  .quiz summary{color:var(--gold);font-family:var(--mono);font-size:13px}
+  .tldr{margin:60px 0 0;padding:36px 30px;border:1px solid rgba(55,192,230,.3);border-radius:18px;background:radial-gradient(120% 120% at 100% 0%,rgba(55,192,230,.1),transparent 60%),var(--bg-elev);text-align:center}
+  .tldr .lab{font-family:var(--mono);font-size:12px;letter-spacing:.3em;color:var(--pivot);text-transform:uppercase}
+  .tldr p{font-family:var(--serif);font-size:clamp(20px,3.4vw,28px);line-height:1.7;color:#fff;margin:16px 0 0}
+  footer{padding:60px 0 90px;text-align:center;color:var(--ink-faint);font-family:var(--mono);font-size:12px;border-top:1px solid var(--line)}
+  .reveal{opacity:0;transform:translateY(26px);transition:opacity .8s ease,transform .8s ease}
+  .reveal.in{opacity:1;transform:none}
+  @media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}.scroll-hint{animation:none}}
+
+  /* 本课特有：MACD A/B/C 段示意 */
+  .abc{margin:32px 0;background:var(--bg-card);border:1px solid var(--line);border-radius:14px;padding:24px 18px}
+  .abc svg{width:100%;height:auto;display:block}
+  .abc .cap{font-family:var(--mono);font-size:12px;color:var(--ink-faint);text-align:center;margin-top:10px}
+  /* 定理高亮卡 */
+  .theorem{margin:34px 0;padding:24px 28px;border:1px solid rgba(232,179,57,.35);border-radius:16px;background:radial-gradient(120% 120% at 0% 0%,rgba(232,179,57,.06),transparent 60%),var(--bg-elev)}
+  .theorem .lab{font-family:var(--mono);font-size:12px;letter-spacing:.28em;color:var(--gold);text-transform:uppercase;margin-bottom:10px}
+  .theorem h3{font-family:var(--serif);font-size:22px;color:#fff;margin-bottom:10px;line-height:1.4}
+  .theorem p{font-size:15px;color:#d6dbe1;margin:0}
+  /* 流程步骤 */
+  .flow{margin:28px 0;display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+  @media(max-width:640px){.flow{grid-template-columns:1fr 1fr}}
+  .flow .step{background:var(--bg-elev);border:1px solid var(--line);border-radius:12px;padding:18px 14px;text-align:center;position:relative}
+  .flow .step .n{font-family:var(--mono);color:var(--pivot);font-size:13px;letter-spacing:.18em;margin-bottom:6px}
+  .flow .step h4{font-family:var(--serif);color:#fff;font-size:16px;margin-bottom:4px}
+  .flow .step p{margin:0;font-size:13px;color:var(--ink-dim);line-height:1.55}
+</style>
+<meta name="view-transition" content="same-origin"><style>@view-transition{navigation:auto}</style></head>
+<body>
+<div id="bar"></div>
+<header class="hero">
+  <div class="wrap">
+    <div class="kicker">缠中说禅 · 教你炒股票108课 <span>/ 第 24 课</span></div>
+    <h1 class="title">MACD 看背驰</h1>
+    <p class="sub">不必精通中枢，也能用一根柱子的高低，判出趋势走完——这是缠师留给散户的"轻量版"利器。</p>
+    <div class="meta">
+      <span class="pill"><b>原文</b> 2007-01-18</span>
+      <span class="pill"><b>类型</b> 关键技术课</span>
+      <span class="pill"><b>关键词</b> MACD · 背驰 · A段·B段·C段 · 盘整背驰</span>
+    </div>
+    <div class="scroll-hint">↓ 向下滚动，逐层拆解</div>
+  </div>
+</header>
+<main>
+
+<section class="wrap reveal">
+  <div class="sec-no">01 — 为什么有这一课</div>
+  <h2>给搞不懂中枢的人，留一条活路</h2>
+  <p class="lead">缠师原本不在大纲里安排这课，但发现"绝大多数人还是搞不懂背驰"，索性开个"轻量版":<b>不靠中枢，靠 MACD</b>。</p>
+  <p>要做到 <span class="hl-gold">100% 精确</span> 地判断背驰，必须深入中枢分析，那是后续章节的事。但中枢这东西，<b>浅了一团浆，深了没法弄</b>，对初学者太难。</p>
+  <p>于是缠师给了一个"<b>不绝对精确，但方便、好理解</b>"的折中方案：只要你能在图上分清楚三段走势（A、B、C 段），看 MACD 红绿柱面积，准确率也能<span class="hl-pivot">在 90% 以上</span>。配合中枢就是 100%。</p>
+  <blockquote>对那些还没把握中枢基本分析的人，用这个方法，也足以应付一般的情况了。<span class="who">— 缠中说禅</span></blockquote>
+  <p>这一课的定位很清楚——<b>它是一根拐杖，不是终点</b>。能站稳之后，还是得回去补中枢这块基本功。</p>
+</section>
+
+<section class="wrap reveal">
+  <div class="sec-no">02 — 一条压舱底的定理</div>
+  <h2>背驰 ⇄ 买卖点：缠师亲口背书的等价</h2>
+  <p class="lead">在讲方法之前，缠师先甩出一条<b>金标准定理</b>，说明为什么"背驰=买卖点"这件事可以放心用。</p>
+  <div class="theorem">
+    <div class="lab">缠中说禅 · 背驰-买卖点定理</div>
+    <h3>任一背驰都必然制造某级别的买卖点；任一级别的买卖点都必然源自某级别走势的背驰。</h3>
+    <p>—— 这是双向的"必然"：看到背驰就有买卖点；反过来，任何一个真买卖点背后都能找到一个对应的背驰。这条定理可以用纯数学证明，本课先用着，证明留待后续章节。</p>
+  </div>
+  <p>背驰<b>不是涨太多/跌太多的直觉</b>，而是<span class="hl-pivot">同向趋势的力度衰减</span>到了临界点。一旦出现，逆转<b>没有任何商量余地</b>，必有反向走势。</p>
+  <p>但"逆转"有大小：<b>1 分钟级别的背驰</b>，大概率只制造 1 分钟级别的回撤，不会顶死周线大顶；<b>除非日线上同时背驰</b>，那才是大事。"背驰要看前后级别的走势"——这是后面案例里大盘 5 分钟 vs 1 分钟的关键。</p>
+</section>
+
+<section class="wrap reveal">
+  <div class="sec-no">03 — 核心结构</div>
+  <h2>A 段、B 段、C 段：背驰判断的"三件套"</h2>
+  <p class="lead">用 MACD 判断背驰的前提，是你能在图上认出三段同向趋势之间的连接结构。这是这一课最关键的认知。</p>
+  <p>缠师给出的<b>结构模板</b>：</p>
+  <div class="table">
+    <div class="row head"><div>段</div><div>是什么</div><div>它在结构里的角色</div></div>
+    <div class="row"><div class="name">A 段</div><div>第一段同向趋势</div><div>给出基准的"力度"，用 MACD 柱子的面积来度量。</div></div>
+    <div class="row"><div class="name qushi">B 段</div><div>中间的盘整或反向趋势</div><div><b>必须把 MACD 的黄白线（DIFF、DEA）拉回 0 轴附近</b>。它的中枢级别比 A、C 都要大。</div></div>
+    <div class="row"><div class="name">C 段</div><div>第二段同向趋势</div><div>与 A 段同向。若 C 段对应的 MACD 柱子面积 <span class="hl-down">明显小于 A 段</span>，就是<span class="hl-gold">标准背驰</span>。</div></div>
+  </div>
+  <p>除此之外还有两条边界条件：</p>
+  <ul style="margin:0 0 18px 22px;color:#cfd5dc;line-height:2">
+    <li><b>A 段之前</b>，必须已经存在一个和 B 同级别或更大级别的中枢，否则就拼不出"大趋势"这个框架。</li>
+    <li>这个 A 段之前的中枢<b>不能是和 A 反向的趋势</b>，否则 A、B、C 就掉进一个更大的中枢里了。</li>
+  </ul>
+  <p>结构对了，你才有资格谈 MACD 的面积对比；结构不对，看再多红绿柱也是错觉。</p>
+
+  <div class="abc">
+    <svg viewBox="0 0 800 320" xmlns="http://www.w3.org/2000/svg" aria-label="A-B-C 三段示意">
+      <!-- 背景网格 -->
+      <defs>
+        <pattern id="g24" width="40" height="40" patternUnits="userSpaceOnUse">
+          <path d="M40 0H0V40" fill="none" stroke="rgba(255,255,255,.05)" stroke-width="1"/>
+        </pattern>
+      </defs>
+      <rect width="800" height="320" fill="url(#g24)"/>
+      <!-- 上半：价格 -->
+      <!-- A 段（陡涨） -->
+      <polyline points="60,230 100,210 130,180 170,150" fill="none" stroke="#ff4d4f" stroke-width="2.5"/>
+      <text x="100" y="170" fill="#ff4d4f" font-family="JetBrains Mono" font-size="13" font-weight="700">A 段</text>
+      <!-- B 段（盘整回拉） -->
+      <polyline points="170,150 200,160 220,140 260,170 300,150 340,175 380,160" fill="none" stroke="#e8b339" stroke-width="2.2"/>
+      <text x="260" y="125" fill="#e8b339" font-family="JetBrains Mono" font-size="13" font-weight="700">B 段（盘整）</text>
+      <!-- C 段（同向涨，但力度弱 → 顶位比 A 后高一点点） -->
+      <polyline points="380,160 420,140 450,120 490,100 520,90 550,85" fill="none" stroke="#ff4d4f" stroke-width="2.5"/>
+      <text x="490" y="75" fill="#ff4d4f" font-family="JetBrains Mono" font-size="13" font-weight="700">C 段</text>
+      <!-- 趋势内中枢虚框 -->
+      <rect x="195" y="135" width="190" height="50" fill="rgba(55,192,230,.08)" stroke="rgba(55,192,230,.5)" stroke-dasharray="4 4"/>
+      <text x="290" y="200" fill="#37c0e6" font-family="JetBrains Mono" font-size="11" text-anchor="middle">B 段中枢（拉 MACD 回 0 轴）</text>
+
+      <!-- 分隔线 -->
+      <line x1="40" y1="245" x2="760" y2="245" stroke="rgba(255,255,255,.15)"/>
+
+      <!-- 下半：MACD 柱子 -->
+      <!-- A 段柱子（大面积红柱） -->
+      <rect x="65" y="265" width="9" height="30" fill="#ff4d4f"/>
+      <rect x="78" y="258" width="9" height="37" fill="#ff4d4f"/>
+      <rect x="91" y="252" width="9" height="43" fill="#ff4d4f"/>
+      <rect x="104" y="250" width="9" height="45" fill="#ff4d4f"/>
+      <rect x="117" y="252" width="9" height="43" fill="#ff4d4f"/>
+      <rect x="130" y="260" width="9" height="35" fill="#ff4d4f"/>
+      <rect x="143" y="270" width="9" height="25" fill="#ff4d4f"/>
+      <rect x="156" y="280" width="9" height="15" fill="#ff4d4f"/>
+      <text x="110" y="312" fill="#ff4d4f" font-family="JetBrains Mono" font-size="11" text-anchor="middle">A 段面积（大）</text>
+
+      <!-- B 段：绿柱（穿 0 轴） -->
+      <rect x="185" y="245" width="9" height="22" fill="#16c784"/>
+      <rect x="198" y="245" width="9" height="28" fill="#16c784"/>
+      <rect x="211" y="245" width="9" height="24" fill="#16c784"/>
+      <rect x="224" y="245" width="9" height="18" fill="#16c784"/>
+      <rect x="237" y="245" width="9" height="12" fill="#16c784"/>
+      <text x="215" y="290" fill="#16c784" font-family="JetBrains Mono" font-size="11" text-anchor="middle">B 段拉回 0 轴</text>
+
+      <!-- C 段柱子（明显小） -->
+      <rect x="395" y="270" width="9" height="22" fill="#ff4d4f"/>
+      <rect x="408" y="266" width="9" height="26" fill="#ff4d4f"/>
+      <rect x="421" y="263" width="9" height="29" fill="#ff4d4f"/>
+      <rect x="434" y="265" width="9" height="27" fill="#ff4d4f"/>
+      <rect x="447" y="270" width="9" height="22" fill="#ff4d4f"/>
+      <rect x="460" y="276" width="9" height="16" fill="#ff4d4f"/>
+      <rect x="473" y="282" width="9" height="10" fill="#ff4d4f"/>
+      <text x="430" y="312" fill="#ff4d4f" font-family="JetBrains Mono" font-size="11" text-anchor="middle">C 段面积（明显小 → 背驰）</text>
+
+      <!-- 0 轴线 -->
+      <line x1="40" y1="245" x2="760" y2="245" stroke="rgba(255,255,255,.35)" stroke-dasharray="2 2"/>
+      <text x="745" y="242" fill="var(--ink-faint)" font-family="JetBrains Mono" font-size="10" text-anchor="end">0 轴</text>
+
+      <!-- 结论箭头 -->
+      <path d="M 550 85 Q 600 60 660 75" fill="none" stroke="#e8b339" stroke-width="1.5" marker-end="url(#arr24)"/>
+      <defs>
+        <marker id="arr24" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+          <path d="M0 0L10 5L0 10Z" fill="#e8b339"/>
+        </marker>
+      </defs>
+      <text x="685" y="82" fill="#e8b339" font-family="Noto Serif SC" font-size="14" font-weight="700">即将逆转</text>
+    </svg>
+    <div class="cap">A-B-C 标准背驰结构示意：C 段创新高，但 MACD 红柱面积比 A 段小 → 背驰成立</div>
+  </div>
+</section>
+
+<section class="wrap reveal">
+  <div class="sec-no">04 — 原文案例</div>
+  <h2>中国人寿 601628 · 教科书级 5 分钟背驰</h2>
+  <p class="lead">缠师在文中用 601628 中国人寿的 5 分钟图，把 A-B-C 三段标得清清楚楚。这是初学者最该背下来的一张图。</p>
+  <figure>
+    <img src="/_assets/ch24_p01.png" alt="中国人寿 5 分钟 A-B-C 结构与 MACD 背驰">
+    <figcaption>原课文配图：中国人寿 601628 · 2007-01-11 ~ 2007-01-17 · 5 分钟级别</figcaption>
+  </figure>
+  <p><b>读图导引</b>（按缠师原话拆）：</p>
+  <ul style="margin:0 0 18px 22px;color:#cfd5dc;line-height:2">
+    <li><b>11 日 11:30 → 15 日 10:35</b>：图最左边那段震荡，是 A 之前必须存在的<span class="hl-pivot">大中枢</span>。</li>
+    <li><b>15 日 10:35 → 16 日 10:25</b>：拔起的快涨——<span class="hl-up">A 段</span>。MACD 红柱面积巨大，DIFF/DEA 飞出 0 轴。</li>
+    <li><b>16 日 10:25 → 17 日 10:10</b>：一个标准三段构成新的中枢——<span class="hl-gold">B 段</span>。MACD 黄白线<b>明显回拉到 0 轴附近</b>，这是判断 B 段合不合格的关键。</li>
+    <li><b>17 日 10:10 之后</b>：再次拔高，<span class="hl-up">C 段</span>创出新高，但 MACD 红柱面积<b>肉眼可见地小于 A 段</b>——<span class="hl-gold">标准背驰</span>。</li>
+  </ul>
+  <blockquote>看 MACD 柱子的面积不需要全出来，一般柱子伸长的力度变慢时，把已经出现的面积乘 2，就可以当成是该段的面积。所以实际操作中根本不用回跌后才发现背驰，<b>在上涨或下跌的最后阶段，判断就出来了</b>。<span class="who">— 缠中说禅</span></blockquote>
+  <p>这就是为什么用 MACD 辅助判背驰，<b>能让你抛在最高、买在最低附近</b>——不是预测，是用力度衰减反推趋势走完。</p>
+</section>
+
+<section class="wrap reveal">
+  <div class="sec-no">05 — 真金白银的实证</div>
+  <h2>缠师 17:00 收盘说背驰，第二天日线就跌给你看</h2>
+  <p class="lead">原文是 5 分钟级别的判断，没有公开历史分钟数据可还原。但<b>背驰一旦成立，逆转必至少回到 B 段中枢</b>——这条用日线就能验证：缠师 2007-01-17 收盘后讲背驰，第二天直接吃了根 7.7% 的大阴线。</p>
+  <div class="proof">
+    <span class="badge">数据实证 · 中国人寿 601628</span>
+    <div class="chartbox">
+      <div class="legend">
+        <span><i style="background:#cfd5dc"></i>收盘</span>
+        <span><i style="background:#ff8a8c"></i>MA5</span>
+        <span><i style="background:#e8b339"></i>MA10</span>
+        <span><i style="background:#37c0e6"></i>MA20</span>
+        <span><i style="background:#ff4d4f"></i>背驰点 / 反弹高</span>
+        <span><i style="background:#16c784"></i>跌破支撑</span>
+      </div>
+      <canvas id="cv_601628" height="460"></canvas>
+    </div>
+    <div class="verdict"><span class="mk">✓ 印证</span>
+      <p>2007-01-17 触及 <b>49.50 元</b>（缠师在 5 分钟图上判定 C 段背驰当天），次日（01-18）即放量大跌至 <b>41.90 元</b>，<span class="hl-down">单日跌幅 -7.86%</span>；其后一路下行，约三周后（02-05）见 <b>33.50 元</b>，自背驰位累计回撤 <span class="hl-down">-32.3%</span>。<b>"任一背驰都必然制造某级别的买卖点"——铁律。</b></p>
+    </div>
+  </div>
+  <p style="font-family:var(--mono);font-size:12px;color:var(--ink-faint)">数据来源：新浪财经日 K · akshare 取数 · 截至 2026-05-29 · 不构成投资建议</p>
+  <p style="margin-top:18px;color:var(--ink-dim);font-size:15px">注：缠师原文判断的是 <b>5 分钟级别</b>背驰，日线只能呈现"逆转"的事实结果，无法完整还原 A-B-C 的分钟结构。但事后看，这次日线跳水恰恰印证了"5 分钟背驰至少回到 B 段中枢"的纪律——01-18 的最低 41.90 大致就是 5 分钟图上 B 段的中枢区域。</p>
+</section>
+
+<section class="wrap reveal">
+  <div class="sec-no">06 — 进阶：盘整背驰</div>
+  <h2>不破中枢的"小级别背驰"也能赚</h2>
+  <p class="lead">趋势里的标准背驰只是一种用法。在<span class="hl-pivot">盘整中枢内部</span>，用类似的方法也能做短差——这叫"盘整背驰"。</p>
+  <p>缠师定义的<b>规则</b>（以盘整中往上为例，往下反之）：</p>
+  <div class="grid">
+    <div class="card">
+      <div class="tag">情况 ①</div>
+      <h3>C 段没破中枢</h3>
+      <p>C 段在中枢顶上没站住，且 MACD 红柱面积小于 A 段——<span class="hl-down">必有回跌</span>。这就是盘整背驰，先出来再说。</p>
+    </div>
+    <div class="card">
+      <div class="tag">情况 ②</div>
+      <h3>C 段破了中枢</h3>
+      <p>价格突破了中枢上沿，但 MACD 红柱面积仍小于 A 段——<b>先出来</b>。然后看后续：<br>• <span class="hl-up">不重新跌回中枢</span> → 次级别第一类买点回补，<span class="hl-gold">恰好是第三类买点</span><br>• 重新跌回 → 继续在原盘整里玩</p>
+    </div>
+  </div>
+  <figure>
+    <img src="/_assets/ch24_p02.png" alt="上证指数 5 分钟盘整背驰">
+    <figcaption>原课文配图：上证指数 5 分钟图 · 2007-01-12 ~ 2007-01-17 · 标准盘整背驰</figcaption>
+  </figure>
+  <p><b>上证指数 5 分钟的盘整背驰</b>（缠师原文逐句拆）：</p>
+  <ul style="margin:0 0 18px 22px;color:#cfd5dc;line-height:2">
+    <li>12 日 14:35 → 16 日 09:45 = A 段</li>
+    <li>16 日 09:45 → 16 日 13:30 = B 段（拉 MACD 黄白线回 0 轴）</li>
+    <li>16 日 13:30 → 17 日 13:05 = C 段，且与 A 构成背驰</li>
+  </ul>
+  <blockquote>9:35 的第一个红柱，由于没创新高，不构成背驰；10:40 的第二个红柱，由于这时候 C 段还没形成一个中枢，根据<b>走势必完美</b>，肯定没完，所以继续；13:05 第三个红柱出来，把三个红柱面积加起来也没 A 段两个红柱大，<b>显然背驰，所以要走人了</b>。<span class="who">— 缠中说禅</span></blockquote>
+  <p>这段教学最值得抄下来的一句话是：<span class="hl-gold">"走势必完美"</span>——C 段还没在自己内部走出一个像样的小中枢之前，它不算"走完"，背驰判断<b>不能仓促下</b>。</p>
+</section>
+
+<section class="wrap reveal">
+  <div class="sec-no">07 — 盘整背驰→第三类买点</div>
+  <h2>万科 15 分钟：盘整背驰之后，恰好接出第三类买点</h2>
+  <p class="lead">情况 ② 的真实案例：000002 万科 2006-12 的 15 分钟图。盘整背驰先卖，回拉不进中枢，第三类买点接出。</p>
+  <figure>
+    <img src="/_assets/ch24_p03.png" alt="万科 15 分钟盘整背驰接第三类买点">
+    <figcaption>原课文配图：000002 万科 · 15 分钟级别 · 12-15 盘整背驰 → 12-18 第三类买点</figcaption>
+  </figure>
+  <ul style="margin:0 0 18px 22px;color:#cfd5dc;line-height:2">
+    <li><b>12 月 15 日 10:45</b>：构成一个盘整背驰 → <span class="hl-down">先出来</span></li>
+    <li>其后<b>次级别回跌并不重新回到前面的中枢里</b></li>
+    <li><b>12 月 18 日 09:45</b>：构成<span class="hl-up">标准的第三类买点</span> → 重新回补</li>
+  </ul>
+  <p>这一连贯操作是缠师"先卖再买"系统里非常漂亮的一段示范：<b>盘整背驰</b>是卖出信号，<b>第三类买点</b>是再入场信号，二者通过"回不回中枢"判断衔接。本课刚学到背驰判断的人，不必立刻执行整套，但要在脑里把这个"卖→等→买"的链条搭出来。</p>
+</section>
+
+<section class="wrap reveal">
+  <div class="sec-no">08 — 三个最易踩的坑</div>
+  <h2>缠师在解盘里反复纠正的常见错误</h2>
+  <p class="lead">原文 + 解盘问答里，缠师对几个典型误判进行了纠正。每条都值得反复看。</p>
+  <div class="points">
+    <div class="pt s">
+      <div class="dot">!</div>
+      <div>
+        <h4>误区 1：黄白线创新高也叫"背驰"</h4>
+        <p>"大盘 5 分钟没有什么背驰，<b>黄白线创新高一般都不会是本级别的背驰</b>。" —— 真正的本级别背驰，黄白线（DIFF/DEA）应当是<span class="hl-down">回不到前期高位</span>的；新高反说明趋势力度还在。</p>
+      </div>
+    </div>
+    <div class="pt s">
+      <div class="dot">!</div>
+      <div>
+        <h4>误区 2：只看一个级别就下结论</h4>
+        <p>"<b>背驰是要看前后级别的走势的，不是光看一个级别就可以。</b>" 当天大盘其实只是 1 分钟背驰（不是 5 分钟），下午跳一下水就把指标修复了，本级别趋势没结束。判断背驰必须配合<span class="hl-pivot">上下级别</span>。</p>
+      </div>
+    </div>
+    <div class="pt s">
+      <div class="dot">!</div>
+      <div>
+        <h4>误区 3：在上涨过程中"识别中枢"</h4>
+        <p>"在上涨中，<b>中枢只能是回试的时形成的</b>。" 你不能拿一段几天的快涨当成"日线中枢"——中枢出现在<span class="hl-pivot">震荡/回拉</span>阶段，趋势段里画不出中枢。这是中枢识别最常见的方向性错误。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="wrap reveal">
+  <div class="sec-no">09 — 实战操作流程</div>
+  <h2>用 MACD 判背驰，分四步走</h2>
+  <p class="lead">把上面所有规则浓缩为一套可执行的检查清单。每次看图就按这四步过。</p>
+  <div class="flow">
+    <div class="step">
+      <div class="n">STEP 01</div>
+      <h4>找结构</h4>
+      <p>识别 A、B、C 三段，B 必须是中间的盘整或反向。</p>
+    </div>
+    <div class="step">
+      <div class="n">STEP 02</div>
+      <h4>查 B 段</h4>
+      <p>B 段是否把 DIFF/DEA 拉回了 0 轴附近？拉不回，不算合格。</p>
+    </div>
+    <div class="step">
+      <div class="n">STEP 03</div>
+      <h4>比面积</h4>
+      <p>C 段 MACD 柱子面积明显小于 A 段？柱子可"乘 2 估"，不必等回跌。</p>
+    </div>
+    <div class="step">
+      <div class="n">STEP 04</div>
+      <h4>看级别</h4>
+      <p>本级别 + 次级别 + 高一级别交叉确认，不要只看一个级别。</p>
+    </div>
+  </div>
+  <div class="quiz">
+    <h4>练习：判断下面这种情况算不算背驰</h4>
+    <p>某股 5 分钟图上 C 段创了新高，对应的 MACD 红柱面积也<b>明显小于 A 段</b>，但 B 段的 DIFF/DEA <b>始终没有回到 0 轴附近</b>，只是斜着向下拐了一点。这算 5 分钟背驰吗？</p>
+    <details class="ans"><summary>查看答案</summary><p><span class="hl-down">不算合格的标准背驰</span>。B 段没有把黄白线回拉到 0 轴附近，意味着 B 段的中枢级别不够大，A-B-C 这个结构其实没分化出来——三段还在一个更大的中枢里。这种情形下用 MACD 面积对比判背驰不可靠，建议<b>降级到次级别</b>看背驰，或者干脆等结构清晰再操作。</p></details>
+  </div>
+  <div class="quiz">
+    <h4>练习：盘整背驰之后该怎么办</h4>
+    <p>你在 15 分钟图上抓到盘整背驰，按规则卖出了。第二天 C 段方向价格<b>突破</b>了原中枢上沿，但回拉之后<b>没再回到中枢里</b>，次级别（5 分钟）出现第一类买点。该做什么？</p>
+    <details class="ans"><summary>查看答案</summary><p><span class="hl-up">回补</span>。这正是缠师讲的"情况 ②"：盘整背驰先出来，破中枢、回拉不回，次级别第一类买点出现——<b>这恰好是 15 分钟级别的第三类买点</b>，是非常优质的再入场位。如果回拉重新跌回中枢，那就别回补，继续在中枢里玩。</p></details>
+  </div>
+</section>
+
+<section class="wrap reveal">
+  <div class="sec-no">10 — 思考题</div>
+  <h2>留给自己慢慢琢磨</h2>
+  <ol class="think">
+    <li>为什么"<b>背驰-买卖点定理</b>"必须是双向的？想象一下：如果存在"不来自背驰的买卖点"，整套缠论的级别体系会出现什么矛盾？</li>
+    <li>缠师说 MACD 准确率"<b>90% 以上</b>"，那 10% 失效的场景是什么？（提示：从中枢级别不清、A 段之前不是合格大中枢、C 段还没走完三个角度想）</li>
+    <li>"<b>柱子面积乘 2 估算</b>"这一招的本质是什么？它为什么允许我们在背驰尚未走完的时候就做出判断？</li>
+    <li>对比标准背驰（趋势中）和盘整背驰：两者的"逆转幅度"分别有多大？这决定了你能赚的利润空间——为什么趋势背驰永远比盘整背驰更可靠？</li>
+    <li>缠师在解盘里说"<b>三角形一般是一段走势最后一个调整中经常出现</b>"——三角形与 A-B-C 中的 B 段有什么关系？如果 B 段是三角形，背驰是不是更难判？</li>
+  </ol>
+</section>
+
+<section class="wrap reveal">
+  <div class="tldr">
+    <div class="lab">一句话总结</div>
+    <p>把图分成 A-B-C 三段，B 段必须把 MACD 黄白线拉回 0 轴，C 段红柱面积小于 A 段 —— <span class="hl-gold">背驰成立</span>，逆转必至。<br>这是缠师为搞不懂中枢的人留下的拐杖，<span class="hl-pivot">90% 准确率</span>，但永远不要忘了：拐杖能走路，要跑还得靠中枢。</p>
+  </div>
+</section>
+
+</main>
+<footer class="wrap">
+  原文出处：raw/缠中说禅/教你炒股票108课/教你炒股票24：MACD对背弛的辅助判断.md<br>
+  本页为个人学习复习用 · 非投资建议
+</footer>
+<script>
+  const bar=document.getElementById('bar');
+  const onScroll=()=>{const h=document.documentElement;bar.style.width=(h.scrollTop/(h.scrollHeight-h.clientHeight)*100)+'%'};
+  document.addEventListener('scroll',onScroll,{passive:true});onScroll();
+  const io=new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{threshold:.12});
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+  function drawChanChart(canvasId, CHART){
+    const cv=document.getElementById(canvasId); if(!cv) return;
+    const mode=CHART.mode||'line', hasVol=!!CHART.v && CHART.showVol!==false;
+    const idxOf={}; CHART.dates.forEach((d,i)=>idxOf[d]=i);
+    const ri=d=>{ if(d in idxOf)return idxOf[d]; let b=0,bd=1/0;
+      CHART.dates.forEach((x,i)=>{const t=Math.abs(new Date(x)-new Date(d)); if(t<bd){bd=t;b=i}}); return b; };
+    function draw(){
+      const dpr=window.devicePixelRatio||1, W=cv.clientWidth, H=CHART.height||460;
+      cv.width=W*dpr; cv.height=H*dpr; const x=cv.getContext('2d'); x.scale(dpr,dpr); x.clearRect(0,0,W,H);
+      const padL=48,padR=14,padT=16, volH=hasVol?70:0, gap=hasVol?16:0, priceH=H-padT-volH-gap-22, n=CHART.c.length;
+      let mn=Math.min(...CHART.l), mx=Math.max(...CHART.h);
+      if(CHART.ma)Object.values(CHART.ma).forEach(a=>a.forEach(v=>{if(v!=null){mn=Math.min(mn,v);mx=Math.max(mx,v)}}));
+      if(CHART.pivots)CHART.pivots.forEach(p=>{mn=Math.min(mn,p.lo);mx=Math.max(mx,p.hi)});
+      if(CHART.marks)CHART.marks.forEach(m=>{mn=Math.min(mn,m.price);mx=Math.max(mx,m.price)});
+      const pd=(mx-mn)*0.08; mn-=pd; mx+=pd;
+      const PW=W-padL-padR, px=i=> n===1?padL+PW/2:padL+PW*i/(n-1), py=p=>padT+priceH*(1-(p-mn)/(mx-mn));
+      x.font="11px JetBrains Mono"; x.textAlign="right";
+      for(let g=0;g<=4;g++){const p=mn+(mx-mn)*g/4,yy=py(p);
+        x.strokeStyle="rgba(255,255,255,.06)";x.beginPath();x.moveTo(padL,yy);x.lineTo(W-padR,yy);x.stroke();
+        x.fillStyle="#5b6470";x.fillText(p.toFixed(2),padL-6,yy+3)}
+      if(CHART.pivots)CHART.pivots.forEach(p=>{const x1=px(ri(p.from)),x2=px(ri(p.to)),y1=py(p.hi),y2=py(p.lo);
+        x.fillStyle="rgba(55,192,230,.10)";x.strokeStyle="rgba(55,192,230,.55)";x.lineWidth=1;
+        x.fillRect(x1,y1,x2-x1,y2-y1);x.strokeRect(x1,y1,x2-x1,y2-y1);
+        if(p.label){x.fillStyle="#37c0e6";x.textAlign="center";x.fillText(p.label,(x1+x2)/2,y1-5)}});
+      if(hasVol){const vmax=Math.max(...CHART.v),vt=padT+priceH+gap;
+        for(let i=0;i<n;i++){const up=CHART.c[i]>=CHART.o[i];x.fillStyle=up?"rgba(255,77,79,.5)":"rgba(22,199,132,.5)";
+          const bw=Math.max(1,PW/n*0.6),bh=volH*CHART.v[i]/vmax;x.fillRect(px(i)-bw/2,vt+volH-bh,bw,bh)}}
+      if(mode==='candle'){const bw=Math.max(1.5,PW/n*0.62);
+        for(let i=0;i<n;i++){const up=CHART.c[i]>=CHART.o[i],col=up?"#ff4d4f":"#16c784";x.strokeStyle=col;x.fillStyle=col;
+          x.beginPath();x.moveTo(px(i),py(CHART.h[i]));x.lineTo(px(i),py(CHART.l[i]));x.stroke();
+          const yo=py(CHART.o[i]),yc=py(CHART.c[i]);x.fillRect(px(i)-bw/2,Math.min(yo,yc),bw,Math.max(1,Math.abs(yc-yo)))}}
+      else{const cs=CHART.c;x.beginPath();for(let i=0;i<n;i++){const xx=px(i),yy=py(cs[i]);i?x.lineTo(xx,yy):x.moveTo(xx,yy)}
+        const gr=x.createLinearGradient(0,padT,0,padT+priceH);gr.addColorStop(0,"rgba(207,213,220,.16)");gr.addColorStop(1,"rgba(207,213,220,0)");
+        x.lineTo(px(n-1),padT+priceH);x.lineTo(px(0),padT+priceH);x.closePath();x.fillStyle=gr;x.fill();
+        x.beginPath();for(let i=0;i<n;i++){const xx=px(i),yy=py(cs[i]);i?x.lineTo(xx,yy):x.moveTo(xx,yy)}
+        x.strokeStyle="#cfd5dc";x.lineWidth=1.6;x.stroke()}
+      const MC={MA5:"#ff8a8c",MA10:"#c0a3ff",MA20:"#e8b339",MA60:"#37c0e6",MA120:"#9aa3ad",MA250:"#ff4d4f"};
+      if(CHART.ma)Object.entries(CHART.ma).forEach(([k,a])=>{x.beginPath();let st=false;
+        for(let i=0;i<n;i++){if(a[i]==null)continue;const xx=px(i),yy=py(a[i]);st?x.lineTo(xx,yy):(x.moveTo(xx,yy),st=true)}
+        x.strokeStyle=MC[k]||"#888";x.lineWidth=1.4;x.stroke()});
+      if(CHART.marks)CHART.marks.forEach(m=>{const xx=px(ri(m.date)),yy=py(m.price),buy=(m.type||'').startsWith('b'),col=buy?"#ff4d4f":"#16c784";
+        x.fillStyle=col;x.beginPath();x.arc(xx,yy,4,0,7);x.fill();
+        x.fillStyle="#fff";x.font="bold 11px -apple-system";x.textAlign="center";x.fillText(m.text||'',xx,buy?yy+18:yy-10)});
+      x.fillStyle="#5b6470";x.textAlign="center";x.font="11px JetBrains Mono";
+      const L=Math.min(6,n);for(let g=0;g<L;g++){const i=Math.round((n-1)*g/(L-1||1));x.fillText(CHART.dates[i],px(i),H-5)}
+    }
+    draw(); window.addEventListener('resize',draw);
+  }
+
+  // ====== 中国人寿 601628 日线（2007-01-09 ~ 2007-03-15）======
+  const CHART_601628 = {"dates": ["2007-01-09", "2007-01-10", "2007-01-11", "2007-01-12", "2007-01-15", "2007-01-16", "2007-01-17", "2007-01-18", "2007-01-19", "2007-01-22", "2007-01-23", "2007-01-24", "2007-01-25", "2007-01-26", "2007-01-29", "2007-01-30", "2007-01-31", "2007-02-01", "2007-02-02", "2007-02-05", "2007-02-06", "2007-02-07", "2007-02-08", "2007-02-09", "2007-02-12", "2007-02-13", "2007-02-14", "2007-02-15", "2007-02-16", "2007-02-26", "2007-02-27", "2007-02-28", "2007-03-01", "2007-03-02", "2007-03-05", "2007-03-06", "2007-03-07", "2007-03-08", "2007-03-09", "2007-03-12", "2007-03-13", "2007-03-14", "2007-03-15"], "o": [37.0, 39.8, 38.8, 37.79, 39.82, 45.28, 45.28, 45.08, 44.02, 44.68, 47.2, 43.7, 43.0, 40.0, 41.82, 41.5, 40.0, 37.83, 38.78, 35.7, 33.49, 34.65, 35.2, 34.99, 35.67, 36.3, 36.12, 36.7, 38.44, 37.87, 37.23, 33.75, 36.0, 34.0, 33.75, 32.07, 33.15, 33.39, 33.25, 33.09, 32.82, 32.8, 32.26], "h": [40.2, 40.3, 39.6, 39.74, 43.45, 46.88, 49.5, 46.1, 44.7, 47.0, 47.47, 44.86, 43.15, 40.89, 42.0, 41.5, 40.39, 39.0, 38.84, 35.7, 34.55, 35.84, 35.27, 36.58, 36.75, 36.4, 36.5, 38.18, 38.48, 37.87, 37.23, 35.89, 36.1, 34.3, 33.76, 33.68, 33.85, 33.5, 33.53, 33.33, 33.3, 32.8, 33.16], "l": [37.0, 38.72, 37.01, 37.5, 38.95, 44.06, 44.16, 41.9, 42.53, 43.5, 43.88, 42.48, 39.8, 38.5, 40.31, 39.6, 37.7, 37.78, 35.8, 33.5, 33.0, 34.28, 34.15, 34.75, 35.6, 35.39, 35.79, 36.48, 37.58, 36.63, 33.8, 33.58, 33.6, 33.49, 31.5, 31.65, 32.95, 32.96, 32.5, 32.5, 32.67, 32.0, 32.26], "c": [38.93, 39.46, 38.29, 39.5, 43.45, 45.05, 45.0, 43.47, 44.57, 46.86, 44.03, 43.9, 40.84, 40.26, 40.75, 39.97, 38.21, 38.8, 35.99, 33.77, 34.54, 34.85, 34.7, 36.1, 36.2, 35.72, 36.41, 37.99, 37.82, 37.25, 33.89, 35.87, 34.0, 33.8, 32.28, 32.94, 33.16, 33.2, 33.07, 32.8, 33.0, 32.04, 32.48], "v": [319018973, 68610210, 43902506, 42177470, 56131919, 44567735, 50948864, 52023113, 25919541, 33922355, 38089971, 21581200, 37313678, 27503851, 22475076, 16031494, 25909516, 17665205, 34689123, 23935842, 20159321, 29468077, 12040447, 20162935, 13816314, 11271000, 14579488, 20065706, 14943530, 21348862, 24353909, 26980758, 26005391, 15338608, 19729239, 15361190, 12962706, 10533320, 15850451, 15535657, 12547373, 16274116, 13141221], "ma": {"MA5": [null, null, null, null, 39.93, 41.15, 42.26, 43.29, 44.31, 44.99, 44.79, 44.57, 44.04, 43.18, 41.96, 41.14, 40.01, 39.6, 38.74, 37.35, 36.26, 35.59, 34.77, 34.79, 35.28, 35.51, 35.83, 36.48, 36.83, 37.04, 36.67, 36.56, 35.77, 34.96, 33.97, 33.78, 33.24, 33.08, 32.93, 33.03, 33.05, 32.82, 32.68], "MA10": [null, null, null, null, null, null, null, null, null, 42.46, 42.97, 43.41, 43.67, 43.74, 43.47, 42.96, 42.29, 41.82, 40.96, 39.65, 38.7, 37.8, 37.18, 36.77, 36.31, 35.89, 35.71, 35.63, 35.81, 36.16, 36.09, 36.2, 36.12, 35.89, 35.5, 35.22, 34.9, 34.42, 33.95, 33.5, 33.41, 33.03, 32.88], "MA20": [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, 41.05, 40.84, 40.61, 40.43, 40.26, 39.89, 39.43, 39.0, 38.72, 38.39, 37.9, 37.4, 37.0, 36.65, 36.33, 35.91, 35.56, 35.3, 35.02, 34.88, 34.83, 34.75, 34.61, 34.5]}};
+  CHART_601628.mode = "candle";
+  CHART_601628.marks = [
+    {"date":"2007-01-17","price":49.50,"type":"s","text":"C段背驰 49.50"},
+    {"date":"2007-01-18","price":41.90,"type":"s","text":"次日 -7.9% 41.90"},
+    {"date":"2007-02-05","price":33.50,"type":"b","text":"-32% 见底 33.50"}
+  ];
+  drawChanChart("cv_601628", CHART_601628);
+</script>
+<script src="/assets/_nav.js"></script><script src="/assets/_shell.js"></script></body>
+</html>

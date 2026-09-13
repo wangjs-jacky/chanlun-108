@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>缠论 · 盘整的高低点：那个一闪而过的尖</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@500;700;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0b0e12;--bg-elev:#12161c;--bg-card:#161b22;
+    --ink:#e8eaed;--ink-dim:#9aa3ad;--ink-faint:#5b6470;
+    --line:rgba(255,255,255,.07);
+    --up:#ff4d4f;--down:#16c784;--pivot:#37c0e6;--gold:#e8b339;--blue:#00d4ff;
+    --max:880px;--serif:"Noto Serif SC",serif;--mono:"JetBrains Mono",ui-monospace,monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--ink);font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;line-height:1.85;font-size:17px;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  body::before{content:"";position:fixed;inset:0;z-index:-2;background:radial-gradient(1200px 600px at 70% -10%,rgba(55,192,230,.08),transparent 60%),radial-gradient(900px 500px at 0% 100%,rgba(232,179,57,.05),transparent 55%);pointer-events:none}
+  body::after{content:"";position:fixed;inset:0;z-index:-1;opacity:.4;background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);background-size:46px 46px;-webkit-mask-image:radial-gradient(ellipse at 50% 0%,#000 30%,transparent 80%);mask-image:radial-gradient(ellipse at 50% 0%,#000 30%,transparent 80%);pointer-events:none}
+  #bar{position:fixed;top:0;left:0;height:3px;width:0;z-index:50;background:linear-gradient(90deg,var(--pivot),var(--gold));box-shadow:0 0 12px var(--pivot)}
+  .wrap{max-width:var(--max);margin:0 auto;padding:0 24px}
+  header.hero{padding:120px 0 70px;text-align:center;position:relative}
+  .kicker{font-family:var(--mono);font-size:13px;letter-spacing:.32em;color:var(--pivot);text-transform:uppercase;margin-bottom:26px}
+  .kicker span{color:var(--ink-faint)}
+  h1.title{font-family:var(--serif);font-weight:900;line-height:1.05;font-size:clamp(40px,9vw,92px);letter-spacing:.04em;background:linear-gradient(180deg,#fff 30%,#8aa0ad 130%);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .sub{margin:22px auto 0;max-width:600px;color:var(--ink-dim);font-size:18px}
+  .meta{margin-top:34px;display:flex;gap:14px;justify-content:center;flex-wrap:wrap;font-family:var(--mono);font-size:12px;color:var(--ink-faint)}
+  .meta b{color:var(--ink-dim);font-weight:500}
+  .pill{border:1px solid var(--line);padding:6px 14px;border-radius:999px;background:rgba(255,255,255,.02)}
+  .scroll-hint{margin-top:60px;color:var(--ink-faint);font-family:var(--mono);font-size:12px;animation:bob 2.4s ease-in-out infinite}
+  @keyframes bob{0%,100%{transform:translateY(0);opacity:.5}50%{transform:translateY(8px);opacity:1}}
+  section{padding:64px 0;border-top:1px solid var(--line)}
+  .sec-no{font-family:var(--mono);font-size:13px;color:var(--gold);letter-spacing:.2em;margin-bottom:10px}
+  h2{font-family:var(--serif);font-weight:700;font-size:clamp(28px,5vw,42px);line-height:1.25;margin-bottom:8px;letter-spacing:.02em}
+  .lead{color:var(--ink-dim);font-size:16px;margin-bottom:28px;max-width:680px}
+  p{margin:0 0 18px;color:#cfd5dc}
+  p b,strong{color:#fff;font-weight:700}
+  .hl-pivot{color:var(--pivot);font-weight:700}.hl-up{color:var(--up);font-weight:700}
+  .hl-down{color:var(--down);font-weight:700}.hl-gold{color:var(--gold);font-weight:700}
+  blockquote{margin:26px 0;padding:20px 24px;border-left:3px solid var(--pivot);background:linear-gradient(90deg,rgba(55,192,230,.07),transparent);border-radius:0 10px 10px 0;font-family:var(--serif);font-size:19px;color:#eaf6fb}
+  blockquote .who{display:block;margin-top:8px;font-family:var(--mono);font-size:12px;color:var(--ink-faint);font-style:normal}
+  figure{margin:30px 0}
+  figcaption{margin-top:12px;font-size:13px;color:var(--ink-faint);text-align:center;font-family:var(--mono);line-height:1.7}
+  .grid{display:grid;gap:16px;grid-template-columns:1fr 1fr;margin:28px 0}
+  @media(max-width:640px){.grid{grid-template-columns:1fr}}
+  .card{background:var(--bg-card);border:1px solid var(--line);border-radius:14px;padding:24px;position:relative;overflow:hidden;transition:transform .35s ease,border-color .35s ease}
+  .card:hover{transform:translateY(-4px);border-color:rgba(55,192,230,.4)}
+  .card .tag{font-family:var(--mono);font-size:11px;letter-spacing:.18em;color:var(--gold);text-transform:uppercase}
+  .card h3{font-family:var(--serif);font-size:21px;margin:10px 0 8px;color:#fff}
+  .card p{font-size:15px;color:var(--ink-dim);margin:0}
+  .table{margin:28px 0;border:1px solid var(--line);border-radius:14px;overflow:hidden}
+  .table .row{display:grid;grid-template-columns:1fr 1.5fr 1.5fr;align-items:stretch}
+  .table .row+.row{border-top:1px solid var(--line)}
+  .table .row>div{padding:16px 18px}
+  .table .row.head{background:var(--bg-elev);font-family:var(--mono);font-size:12px;letter-spacing:.14em;color:var(--ink-faint);text-transform:uppercase}
+  .table .row>div+div{border-left:1px solid var(--line)}
+  .table .name{font-family:var(--serif);font-weight:700;font-size:17px}
+  @media(max-width:560px){.table .row{grid-template-columns:1fr}.table .row>div+div{border-left:0;border-top:1px solid var(--line)}.table .row.head{display:none}}
+  .chartbox{background:var(--bg-card);border:1px solid var(--line);border-radius:14px;padding:18px 14px 8px;margin:18px 0}
+  .legend{display:flex;gap:16px;font-family:var(--mono);font-size:12px;color:var(--ink-dim);padding:0 8px 12px;flex-wrap:wrap}
+  .legend i{display:inline-block;width:16px;height:3px;vertical-align:middle;margin-right:6px;border-radius:2px}
+  .legend .box{width:14px;height:10px;border-radius:2px;border:1px solid var(--pivot);background:rgba(55,192,230,.18)}
+  canvas{width:100%;display:block}
+  .note{font-family:var(--mono);font-size:12px;color:var(--ink-faint);margin-top:4px}
+  .quiz{margin:22px 0;background:var(--bg-card);border:1px solid var(--line);border-radius:14px;padding:22px 24px}
+  .quiz h4{font-size:16px;color:#fff;margin-bottom:6px}
+  .quiz .ans{margin-top:12px;font-size:14px}
+  .quiz summary{color:var(--gold);font-family:var(--mono);font-size:13px;cursor:pointer}
+  .quiz .ans p{color:var(--ink-dim);margin-top:10px}
+  .tldr{margin:60px 0 0;padding:36px 30px;border:1px solid rgba(55,192,230,.3);border-radius:18px;background:radial-gradient(120% 120% at 100% 0%,rgba(55,192,230,.1),transparent 60%),var(--bg-elev);text-align:center}
+  .tldr .lab{font-family:var(--mono);font-size:12px;letter-spacing:.3em;color:var(--pivot);text-transform:uppercase}
+  .tldr p{font-family:var(--serif);font-size:clamp(19px,3.2vw,26px);line-height:1.7;color:#fff;margin:16px 0 0}
+  footer{padding:60px 0 90px;text-align:center;color:var(--ink-faint);font-family:var(--mono);font-size:12px;border-top:1px solid var(--line)}
+  .reveal{opacity:0;transform:translateY(26px);transition:opacity .8s ease,transform .8s ease}
+  .reveal.in{opacity:1;transform:none}
+  @media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}.scroll-hint{animation:none}}
+</style>
+<meta name="view-transition" content="same-origin"><style>@view-transition{navigation:auto}</style></head>
+<body>
+<div id="bar"></div>
+<header class="hero">
+  <div class="wrap">
+    <div class="kicker">缠中说禅 · 第 18 课补图 <span>/ 中枢定理二</span></div>
+    <h1 class="title">那个一闪而过的尖</h1>
+    <p class="sub">盘整的最高点 / 最低点，到底长什么样？为什么你总也抓不住？——把第18课那张"1分钟图"画出来看个明白。</p>
+    <div class="meta">
+      <span class="pill"><b>对应</b> 教你炒股票18 · 定理二</span>
+      <span class="pill"><b>类型</b> 形态示意图解</span>
+      <span class="pill"><b>关键词</b> 中枢 · 离开返回 · 盘整高低点</span>
+    </div>
+    <div class="scroll-hint">↓ 向下滚动，逐图看懂</div>
+  </div>
+</header>
+<main>
+
+  <section class="wrap reveal">
+    <div class="sec-no">01 — 先回顾定理二说了什么</div>
+    <h2>"离开"和"返回"，都只能是小动作</h2>
+    <p class="lead">这是理解那张图的前提，先把一句话焊进脑子里。</p>
+    <blockquote>在盘整中，无论是离开还是返回「缠中说禅走势中枢」的走势类型，必然是<b>次级别以下</b>的。<span class="who">— 缠中说禅走势中枢定理二</span></blockquote>
+    <p><b>盘整</b>，就是价格被困在一个<span class="hl-pivot">中枢</span>（一段多空反复争夺、谁也没赢的价格区间）里来回晃。定理二说：晃的时候，价格每一次<b>冲出中枢</b>（离开）、又<b>绕回中枢</b>（返回），用的都只能是<b>比次级别还小的级别</b>——也就是<span class="hl-gold">小级别的小动作</span>，绝不会是同级别的大走势。</p>
+    <p>关键推论来了：既然进出都是"小动作"，那么<b>价格冲到最高、再掉头那一下</b>（也就是盘整的高点），放到<b>最低级别的图</b>（比如把 1 分钟当最小级别）上看，就<b>只可能有两种长相</b>。下面两张图，就是这两种长相。</p>
+    <p class="note">⚠️ 以下均为<b>示意 1 分钟 K 线</b>（手工构造，非真实行情），只为讲清楚形态。A 股惯例：<span class="hl-up">红 = 涨</span>，<span class="hl-down">绿 = 跌</span>。</p>
+  </section>
+
+  <section class="wrap reveal">
+    <div class="sec-no">02 — 先建立全局感</div>
+    <h2>盘整全景：价格被中枢"吸"住</h2>
+    <p class="lead">先看一整段盘整长什么样，再去放大它的顶和底。</p>
+    <p>蓝框就是<span class="hl-pivot">中枢（100~110）</span>。注意看：价格一次次<b>向上冲出蓝框</b>（到 113~114）、又被<b>拉回框内</b>；一次次<b>向下跌破蓝框</b>（到 96~98）、再<b>涨回框内</b>。每次冲出去都只是<b>小幅试探</b>，很快回头——这就是"离开 / 返回都是小级别动作"的样子。中枢像一块磁铁，价格在它周围反复横跳，谁也跑不远。</p>
+    <div class="chartbox">
+      <div class="legend"><span><span class="box"></span>中枢区间</span><span><i style="background:#ff4d4f"></i>阳线(涨)</span><span><i style="background:#16c784"></i>阴线(跌)</span><span>● 圆点=离开/返回位置</span></div>
+      <canvas id="cv_overview" height="380"></canvas>
+    </div>
+    <figcaption>圆点只标注"价格离开 / 返回中枢"的位置，<b>不是买卖点</b>。价格始终被收在中枢上下不远处来回拉锯 = 盘整。</figcaption>
+  </section>
+
+  <section class="wrap reveal">
+    <div class="sec-no">03 — 第一种长相（最常见）</div>
+    <h2>V 型尖顶：一根 K 线戳上去就回头</h2>
+    <p class="lead">价格冲出中枢、到达最高点、立刻掉头——顶部只有"一个尖"。</p>
+    <p>看顶部：价格一根接一根往上冲（连续阳线），到<span class="hl-gold">最高那一根</span>戳出一个尖（带长上影），<b>紧接着下一根就掉头向下</b>。最高价<b>只存在那一根 K 线的一瞬间</b>，前后的 K 线都明显比它矮。这就是 <span class="hl-gold">V 型尖顶</span>，现实中<b>绝大多数顶</b>都长这样。</p>
+    <div class="chartbox">
+      <div class="legend"><span><span class="box"></span>中枢区间</span><span><i style="background:#ff4d4f"></i>阳线</span><span><i style="background:#16c784"></i>阴线</span><span>● 高点</span></div>
+      <canvas id="cv_vtop" height="380"></canvas>
+    </div>
+    <figcaption>顶部仅 1 根 K 线触及最高，下一根立刻反向 → 高点"一闪而过"。</figcaption>
+    <div class="grid">
+      <div class="card"><div class="tag">直觉类比</div><h3>跳起来摸天花板</h3><p>你纵身一跃，指尖碰到天花板的<b>那一刹那</b>就开始下落。最高点根本停不住——你想在那一瞬间卖出？几乎不可能。</p></div>
+      <div class="card"><div class="tag">为什么常见</div><h3>没人愿意接力</h3><p>价格冲到极端位置，<b>多空一致掉头</b>，没有更多 K 线在高位逗留，所以直接尖顶反转。这就是顶/底总是"盘中一闪而过"的根源。</p></div>
+    </div>
+  </section>
+
+  <section class="wrap reveal">
+    <div class="sec-no">04 — 第二种长相（较少见）</div>
+    <h2>磨顶：好几根 K 线挤在一起"磨"</h2>
+    <p class="lead">这就是原文那句"三根以上 K 线来回重叠震荡后回头"——看不懂的就是它。</p>
+    <p>先解释<b>"重叠"</b>：相邻两根 K 线的价格区间<b>有公共部分</b>（后一根还压在前一根的范围里）= 价格在<b>原地拉锯</b>。当顶部连着<span class="hl-pivot">三根以上 K 线互相重叠</span>（蓝框圈出来那一片），它们高高低低、犬牙交错地咬在一起，形成一小块"平台"，磨蹭好一会儿才掉头。这一片里<b>最高那根的最高价</b>，才是盘整真正的高点。</p>
+    <div class="chartbox">
+      <div class="legend"><span><span class="box"></span>中枢 / 重叠区</span><span><i style="background:#ff4d4f"></i>阳线</span><span><i style="background:#16c784"></i>阴线</span><span>● 高点</span></div>
+      <canvas id="cv_grind" height="380"></canvas>
+    </div>
+    <figcaption>顶部小蓝框 = ≥3 根 K 线高低交错、互相重叠的"磨顶"平台；价格在此横跳后才下跌。</figcaption>
+    <div class="grid">
+      <div class="card"><div class="tag">直觉类比</div><h3>踮脚在天花板下蹭</h3><p>你踮着脚尖，在天花板下面<b>蹭来蹭去</b>好一会儿，最后才放下脚。顶部是"磨"出来的，不是一下子戳出来的。</p></div>
+      <div class="card"><div class="tag">怎么认</div><h3>看是否"咬在一起"</h3><p>顶部 K 线<b>区间互相覆盖、没人甩得开谁</b>=磨顶；若一根比一根高、错开往上爬到一个尖=V 型。区别全在<b>有没有重叠</b>。</p></div>
+    </div>
+  </section>
+
+  <section class="wrap reveal">
+    <div class="sec-no">05 — 两种形态对照</div>
+    <h2>V 型尖顶 vs 磨顶</h2>
+    <div class="table">
+      <div class="row head"><div>对比项</div><div>V 型尖顶（常见）</div><div>磨顶（少见）</div></div>
+      <div class="row"><div class="name">顶部 K 线数</div><div>仅 1 根触及最高</div><div>≥3 根互相重叠</div></div>
+      <div class="row"><div class="name">K 线关系</div><div><span class="hl-down">不重叠</span>，一路错开往上爬</div><div><span class="hl-pivot">重叠</span>，高低交错咬在一起</div></div>
+      <div class="row"><div class="name">高点持续</div><div>一瞬间（一根 K 线）</div><div>持续一小段"平台"</div></div>
+      <div class="row"><div class="name">直觉</div><div>跳起摸天花板，碰到即落</div><div>踮脚在天花板下蹭半天</div></div>
+      <div class="row"><div class="name">能不能抓到</div><div>几乎抓不到，<b>一闪而过</b></div><div>稍有机会（在平台里）</div></div>
+    </div>
+    <p>两者的共同点：<b>真正的极值点都很短暂</b>。这正是缠师那句结论的依据——<span class="hl-gold">真正的低点和高点总是盘中一闪而过</span>。所以与其盯着"卖在最高点"，不如理解结构、在中枢被<b>破坏</b>时（定理三）顺势离场。</p>
+  </section>
+
+  <section class="wrap reveal">
+    <div class="sec-no">06 — 自测一下</div>
+    <h2>判图练习</h2>
+    <div class="quiz">
+      <h4>问：现实中你为什么总是卖不到最高点、买不到最低点？</h4>
+      <details class="ans"><summary>点击查看答案</summary>
+        <p>因为绝大多数顶 / 底是 <b>V 型尖（单根 K 线）</b>，最高 / 最低价只存在一瞬间，等你确认"到顶了"，价格已经掉头了。只有少数"磨顶 / 磨底"会给你一小段平台时间。这就是定理二（离开 / 返回都是小级别）在最低级别图上的必然结果。</p>
+      </details>
+    </div>
+    <div class="quiz">
+      <h4>问：顶部连着 4 根 K 线，区间互相覆盖、高低交错——这是 V 型还是磨顶？</h4>
+      <details class="ans"><summary>点击查看答案</summary>
+        <p><b>磨顶</b>。判断关键是"有没有重叠"：区间互相覆盖 = 重叠 = 磨；一根比一根高、错开往上 = V 型。</p>
+      </details>
+    </div>
+  </section>
+
+  <div class="wrap">
+    <div class="tldr reveal">
+      <div class="lab">一句话总结</div>
+      <p>盘整的顶和底，是价格冲出中枢、又被拉回那一瞬间画出来的"尖"。最低级别图上它要么是<b>一根 V 型尖</b>（最常见，一闪而过），要么是<b>几根挤在一起的磨顶</b>（少见）——这就是你总也卖不到最高、买不到最低的根本原因。</p>
+    </div>
+  </div>
+
+</main>
+<footer class="wrap">
+  配套原文：raw/缠中说禅/教你炒股票108课/教你炒股票18：不被面首的雏男是不完美的.md<br>
+  本页 K 线为讲解形态用的<b>示意图（非真实行情）</b> · 个人学习复习用 · 非投资建议
+</footer>
+<script>
+  const bar=document.getElementById('bar');
+  const onScroll=()=>{const h=document.documentElement;bar.style.width=(h.scrollTop/(h.scrollHeight-h.clientHeight)*100)+'%'};
+  document.addEventListener('scroll',onScroll,{passive:true});onScroll();
+  const io=new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{threshold:.12});
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+  function drawChanChart(canvasId, CHART){
+    const cv=document.getElementById(canvasId); if(!cv) return;
+    const mode=CHART.mode||'line', hasVol=!!CHART.v && CHART.showVol!==false;
+    const idxOf={}; CHART.dates.forEach((d,i)=>idxOf[d]=i);
+    const ri=d=>{ if(d in idxOf)return idxOf[d]; let b=0,bd=1/0;
+      CHART.dates.forEach((x,i)=>{const t=Math.abs(new Date(x)-new Date(d)); if(t<bd){bd=t;b=i}}); return b; };
+    function draw(){
+      const dpr=window.devicePixelRatio||1, W=cv.clientWidth, H=CHART.height||440;
+      cv.width=W*dpr; cv.height=H*dpr; const x=cv.getContext('2d'); x.scale(dpr,dpr); x.clearRect(0,0,W,H);
+      const padL=48,padR=14,padT=16, volH=hasVol?70:0, gap=hasVol?16:0, priceH=H-padT-volH-gap-22, n=CHART.c.length;
+      let mn=Math.min(...CHART.l), mx=Math.max(...CHART.h);
+      if(CHART.ma)Object.values(CHART.ma).forEach(a=>a.forEach(v=>{if(v!=null){mn=Math.min(mn,v);mx=Math.max(mx,v)}}));
+      if(CHART.pivots)CHART.pivots.forEach(p=>{mn=Math.min(mn,p.lo);mx=Math.max(mx,p.hi)});
+      if(CHART.marks)CHART.marks.forEach(m=>{mn=Math.min(mn,m.price);mx=Math.max(mx,m.price)});
+      const pd=(mx-mn)*0.08; mn-=pd; mx+=pd;
+      const PW=W-padL-padR, px=i=> n===1?padL+PW/2:padL+PW*i/(n-1), py=p=>padT+priceH*(1-(p-mn)/(mx-mn));
+      x.font="11px JetBrains Mono"; x.textAlign="right";
+      for(let g=0;g<=4;g++){const p=mn+(mx-mn)*g/4,yy=py(p);
+        x.strokeStyle="rgba(255,255,255,.06)";x.beginPath();x.moveTo(padL,yy);x.lineTo(W-padR,yy);x.stroke();
+        x.fillStyle="#5b6470";x.fillText(p.toFixed(2),padL-6,yy+3)}
+      if(CHART.pivots)CHART.pivots.forEach(p=>{const x1=px(ri(p.from)),x2=px(ri(p.to)),y1=py(p.hi),y2=py(p.lo);
+        x.fillStyle="rgba(55,192,230,.10)";x.strokeStyle="rgba(55,192,230,.55)";x.lineWidth=1;
+        x.fillRect(x1,y1,x2-x1,y2-y1);x.strokeRect(x1,y1,x2-x1,y2-y1);
+        if(p.label){x.fillStyle="#37c0e6";x.textAlign="center";x.fillText(p.label,(x1+x2)/2,y1-5)}});
+      if(hasVol){const vmax=Math.max(...CHART.v),vt=padT+priceH+gap;
+        for(let i=0;i<n;i++){const up=CHART.c[i]>=CHART.o[i];x.fillStyle=up?"rgba(255,77,79,.5)":"rgba(22,199,132,.5)";
+          const bw=Math.max(1,PW/n*0.6),bh=volH*CHART.v[i]/vmax;x.fillRect(px(i)-bw/2,vt+volH-bh,bw,bh)}}
+      if(mode==='candle'){const bw=Math.max(1.5,PW/n*0.62);
+        for(let i=0;i<n;i++){const up=CHART.c[i]>=CHART.o[i],col=up?"#ff4d4f":"#16c784";x.strokeStyle=col;x.fillStyle=col;
+          x.beginPath();x.moveTo(px(i),py(CHART.h[i]));x.lineTo(px(i),py(CHART.l[i]));x.stroke();
+          const yo=py(CHART.o[i]),yc=py(CHART.c[i]);x.fillRect(px(i)-bw/2,Math.min(yo,yc),bw,Math.max(1,Math.abs(yc-yo)))}}
+      else{const cs=CHART.c;x.beginPath();for(let i=0;i<n;i++){const xx=px(i),yy=py(cs[i]);i?x.lineTo(xx,yy):x.moveTo(xx,yy)}
+        const gr=x.createLinearGradient(0,padT,0,padT+priceH);gr.addColorStop(0,"rgba(207,213,220,.16)");gr.addColorStop(1,"rgba(207,213,220,0)");
+        x.lineTo(px(n-1),padT+priceH);x.lineTo(px(0),padT+priceH);x.closePath();x.fillStyle=gr;x.fill();
+        x.beginPath();for(let i=0;i<n;i++){const xx=px(i),yy=py(cs[i]);i?x.lineTo(xx,yy):x.moveTo(xx,yy)}
+        x.strokeStyle="#cfd5dc";x.lineWidth=1.6;x.stroke()}
+      const MC={MA5:"#ff8a8c",MA10:"#c0a3ff",MA20:"#e8b339",MA60:"#37c0e6",MA120:"#9aa3ad",MA250:"#ff4d4f"};
+      if(CHART.ma)Object.entries(CHART.ma).forEach(([k,a])=>{x.beginPath();let st=false;
+        for(let i=0;i<n;i++){if(a[i]==null)continue;const xx=px(i),yy=py(a[i]);st?x.lineTo(xx,yy):(x.moveTo(xx,yy),st=true)}
+        x.strokeStyle=MC[k]||"#888";x.lineWidth=1.4;x.stroke()});
+      if(CHART.marks)CHART.marks.forEach(m=>{const xx=px(ri(m.date)),yy=py(m.price),buy=(m.type||'').startsWith('b'),col=buy?"#ff4d4f":"#16c784";
+        x.fillStyle=col;x.beginPath();x.arc(xx,yy,4,0,7);x.fill();
+        x.fillStyle="#fff";x.font="bold 11px -apple-system";x.textAlign="center";x.fillText(m.text||'',xx,buy?yy+18:yy-10)});
+      x.fillStyle="#5b6470";x.textAlign="center";x.font="11px JetBrains Mono";
+      const L=Math.min(6,n);for(let g=0;g<L;g++){const i=Math.round((n-1)*g/(L-1||1));x.fillText(CHART.dates[i],px(i),H-5)}
+    }
+    draw(); window.addEventListener('resize',draw);
+  }
+
+  // —— 图① 盘整全景：价格反复离开/返回中枢 ——
+  const CHART_OVERVIEW = {
+    mode:"candle", height:380,
+    dates:["09:31","09:32","09:33","09:34","09:35","09:36","09:37","09:38","09:39","09:40","09:41","09:42","09:43","09:44","09:45","09:46","09:47","09:48","09:49","09:50","09:51","09:52","09:53","09:54"],
+    o:[105,105.5,107.5,110.5,113.5,112.3,108.5,104.5,101.5,97.5,96.2,98.8,101.5,104.5,107.5,110.8,112.5,110.5,106.5,102.8,99.5,98,100.8,103.5],
+    h:[106,108,111,114,114.2,112.5,109,105,102,98,99,102,105,108,111,113,113.2,111,107,103,100,101,104,106],
+    l:[104,105,107,110,112,108,104,101,97,95.8,96,98.5,101,104,107,110,110,106,102,99,97.5,97.8,100.5,103],
+    c:[105.5,107.5,110.5,113.5,112.3,108.5,104.5,101.5,97.5,96.2,98.8,101.5,104.5,107.5,110.8,112.5,110.5,106.5,102.8,99.5,98,100.8,103.5,105.5],
+    pivots:[{from:"09:31",to:"09:54",lo:100,hi:110,label:"中枢 100~110"}],
+    marks:[
+      {date:"09:34",price:114,type:"s",text:"离开↑ 后返回"},
+      {date:"09:40",price:95.8,type:"b",text:"离开↓ 后返回"},
+      {date:"09:46",price:113,type:"s",text:"再离开↑"}
+    ]
+  };
+
+  // —— 图② V型尖顶：顶部仅1根K线 ——
+  const CHART_VTOP = {
+    mode:"candle", height:380,
+    dates:["09:31","09:32","09:33","09:34","09:35","09:36","09:37","09:38","09:39","09:40","09:41","09:42","09:43"],
+    o:[104,104.8,106.5,109.5,112.5,115,115.2,112.5,109.5,106.5,103.5,101,99.5],
+    h:[105,107,110,113,115.5,117,115.3,113,110,107,104,101.5,100],
+    l:[103,104,106,109,112,114.5,112,109,106,103,100.5,99,97],
+    c:[104.8,106.5,109.5,112.5,115,115.2,112.5,109.5,106.5,103.5,101,99.5,98],
+    pivots:[{from:"09:31",to:"09:43",lo:100,hi:110,label:"中枢 100~110"}],
+    marks:[{date:"09:36",price:117,type:"s",text:"高点·一闪而过"}]
+  };
+
+  // —— 图③ 磨顶：顶部≥3根K线重叠 ——
+  const CHART_GRIND = {
+    mode:"candle", height:380,
+    dates:["09:31","09:32","09:33","09:34","09:35","09:36","09:37","09:38","09:39","09:40","09:41","09:42","09:43","09:44","09:45","09:46","09:47"],
+    o:[104,104.8,106.5,109.5,112.5,114.5,115.8,114.9,115.7,114.6,115.3,112.3,109.5,106.5,103.5,101,99.5],
+    h:[105,107,110,113,115,116.3,116.5,116,116.2,115.9,115.4,113,110,107,104,101.5,100],
+    l:[103,104,106,109,112,114,114.5,114.2,114.3,114,112,109,106,103,100.5,99,97],
+    c:[104.8,106.5,109.5,112.5,114.5,115.8,114.9,115.7,114.6,115.3,112.3,109.5,106.5,103.5,101,99.5,98],
+    pivots:[
+      {from:"09:31",to:"09:47",lo:100,hi:110,label:"中枢 100~110"},
+      {from:"09:36",to:"09:40",lo:114,hi:116.5,label:"≥3根重叠·磨顶"}
+    ],
+    marks:[{date:"09:37",price:116.5,type:"s",text:"高点(磨出来的)"}]
+  };
+
+  drawChanChart("cv_overview", CHART_OVERVIEW);
+  drawChanChart("cv_vtop", CHART_VTOP);
+  drawChanChart("cv_grind", CHART_GRIND);
+</script>
+<script src="/assets/_nav.js"></script><script src="/assets/_shell.js"></script></body>
+</html>

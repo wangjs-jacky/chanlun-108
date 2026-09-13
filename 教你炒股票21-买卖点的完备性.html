@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>缠论 · 教你炒股票21：买卖点分析的完备性</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@500;700;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0b0e12;--bg-elev:#12161c;--bg-card:#161b22;
+    --ink:#e8eaed;--ink-dim:#9aa3ad;--ink-faint:#5b6470;
+    --line:rgba(255,255,255,.07);
+    --up:#ff4d4f;--down:#16c784;--pivot:#37c0e6;--gold:#e8b339;--blue:#00d4ff;
+    --max:880px;--serif:"Noto Serif SC",serif;--mono:"JetBrains Mono",ui-monospace,monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--ink);font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;line-height:1.85;font-size:17px;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  body::before{content:"";position:fixed;inset:0;z-index:-2;background:radial-gradient(1200px 600px at 70% -10%,rgba(55,192,230,.08),transparent 60%),radial-gradient(900px 500px at 0% 100%,rgba(232,179,57,.05),transparent 55%);pointer-events:none}
+  body::after{content:"";position:fixed;inset:0;z-index:-1;opacity:.4;background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);background-size:46px 46px;-webkit-mask-image:radial-gradient(ellipse at 50% 0%,#000 30%,transparent 80%);mask-image:radial-gradient(ellipse at 50% 0%,#000 30%,transparent 80%);pointer-events:none}
+  #bar{position:fixed;top:0;left:0;height:3px;width:0;z-index:50;background:linear-gradient(90deg,var(--pivot),var(--gold));box-shadow:0 0 12px var(--pivot)}
+  .wrap{max-width:var(--max);margin:0 auto;padding:0 24px}
+  header.hero{padding:120px 0 70px;text-align:center;position:relative}
+  .kicker{font-family:var(--mono);font-size:13px;letter-spacing:.32em;color:var(--pivot);text-transform:uppercase;margin-bottom:26px}
+  .kicker span{color:var(--ink-faint)}
+  h1.title{font-family:var(--serif);font-weight:900;line-height:1.05;font-size:clamp(44px,10vw,100px);letter-spacing:.04em;background:linear-gradient(180deg,#fff 30%,#8aa0ad 130%);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .sub{margin:22px auto 0;max-width:580px;color:var(--ink-dim);font-size:18px}
+  .meta{margin-top:34px;display:flex;gap:14px;justify-content:center;flex-wrap:wrap;font-family:var(--mono);font-size:12px;color:var(--ink-faint)}
+  .meta b{color:var(--ink-dim);font-weight:500}
+  .pill{border:1px solid var(--line);padding:6px 14px;border-radius:999px;background:rgba(255,255,255,.02)}
+  .scroll-hint{margin-top:60px;color:var(--ink-faint);font-family:var(--mono);font-size:12px;animation:bob 2.4s ease-in-out infinite}
+  @keyframes bob{0%,100%{transform:translateY(0);opacity:.5}50%{transform:translateY(8px);opacity:1}}
+  section{padding:64px 0;border-top:1px solid var(--line)}
+  .sec-no{font-family:var(--mono);font-size:13px;color:var(--gold);letter-spacing:.2em;margin-bottom:10px}
+  h2{font-family:var(--serif);font-weight:700;font-size:clamp(28px,5vw,42px);line-height:1.25;margin-bottom:8px;letter-spacing:.02em}
+  .lead{color:var(--ink-dim);font-size:16px;margin-bottom:28px;max-width:660px}
+  p{margin:0 0 18px;color:#cfd5dc}
+  p b,strong{color:#fff;font-weight:700}
+  .hl-pivot{color:var(--pivot);font-weight:700}.hl-up{color:var(--up);font-weight:700}
+  .hl-down{color:var(--down);font-weight:700}.hl-gold{color:var(--gold);font-weight:700}
+  blockquote{margin:26px 0;padding:20px 24px;border-left:3px solid var(--pivot);background:linear-gradient(90deg,rgba(55,192,230,.07),transparent);border-radius:0 10px 10px 0;font-family:var(--serif);font-size:19px;color:#eaf6fb}
+  blockquote .who{display:block;margin-top:8px;font-family:var(--mono);font-size:12px;color:var(--ink-faint);font-style:normal}
+  figure{margin:34px 0}
+  figure img{width:100%;border-radius:12px;border:1px solid var(--line);background:#fff;box-shadow:0 18px 50px rgba(0,0,0,.5)}
+  figcaption{margin-top:12px;font-size:13px;color:var(--ink-faint);text-align:center;font-family:var(--mono)}
+  .grid{display:grid;gap:16px;grid-template-columns:1fr 1fr;margin:28px 0}
+  @media(max-width:640px){.grid{grid-template-columns:1fr}}
+  .card{background:var(--bg-card);border:1px solid var(--line);border-radius:14px;padding:24px;position:relative;overflow:hidden;transition:transform .35s ease,border-color .35s ease}
+  .card:hover{transform:translateY(-4px);border-color:rgba(55,192,230,.4)}
+  .card .tag{font-family:var(--mono);font-size:11px;letter-spacing:.18em;color:var(--gold);text-transform:uppercase}
+  .card h3{font-family:var(--serif);font-size:21px;margin:10px 0 8px;color:#fff}
+  .card p{font-size:15px;color:var(--ink-dim);margin:0}
+  .table{margin:28px 0;border:1px solid var(--line);border-radius:14px;overflow:hidden}
+  .table .row{display:grid;grid-template-columns:1.1fr 1.5fr 1.6fr;align-items:stretch}
+  .table .row+.row{border-top:1px solid var(--line)}
+  .table .row>div{padding:16px 18px}
+  .table .row.head{background:var(--bg-elev);font-family:var(--mono);font-size:12px;letter-spacing:.14em;color:var(--ink-faint);text-transform:uppercase}
+  .table .row>div+div{border-left:1px solid var(--line)}
+  .table .name{font-family:var(--serif);font-weight:700;font-size:18px}
+  .table .name.qushi{color:var(--gold)}
+  .cnt{font-family:var(--mono);font-size:14px;color:var(--pivot)}
+  @media(max-width:560px){.table .row{grid-template-columns:1fr}.table .row>div+div{border-left:0;border-top:1px solid var(--line)}.table .row.head{display:none}}
+  .points{margin:26px 0;display:flex;flex-direction:column;gap:14px}
+  .pt{display:flex;gap:16px;align-items:flex-start;background:var(--bg-card);border:1px solid var(--line);border-radius:12px;padding:18px 20px}
+  .pt .dot{flex:none;width:42px;height:42px;border-radius:10px;display:grid;place-items:center;font-family:var(--serif);font-weight:900;font-size:20px;color:#0b0e12}
+  .pt.b .dot{background:var(--up)}.pt.s .dot{background:var(--down)}
+  .pt h4{font-size:17px;margin-bottom:4px;color:#fff}.pt p{font-size:15px;color:var(--ink-dim);margin:0}
+  /* akshare 实证区 */
+  .proof{margin:30px 0;background:linear-gradient(120deg,rgba(55,192,230,.06),transparent 70%),var(--bg-elev);border:1px solid rgba(55,192,230,.25);border-radius:16px;padding:26px}
+  .proof .badge{display:inline-block;font-family:var(--mono);font-weight:700;font-size:12px;letter-spacing:.12em;padding:6px 14px;border-radius:999px;background:rgba(55,192,230,.14);color:var(--pivot);border:1px solid rgba(55,192,230,.4);margin-bottom:14px}
+  .chartbox{background:var(--bg-card);border:1px solid var(--line);border-radius:14px;padding:18px 14px 8px;margin:18px 0}
+  .legend{display:flex;gap:16px;font-family:var(--mono);font-size:12px;color:var(--ink-dim);padding:0 8px 12px;flex-wrap:wrap}
+  .legend i{display:inline-block;width:16px;height:3px;vertical-align:middle;margin-right:6px;border-radius:2px}
+  canvas{width:100%;display:block}
+  .verdict{display:flex;gap:14px;align-items:flex-start;margin-top:8px;padding:16px 18px;background:var(--bg-card);border:1px solid var(--line);border-radius:12px}
+  .verdict .mk{flex:none;font-family:var(--mono);font-weight:700;color:var(--up)}
+  .verdict p{margin:0;font-size:15px;color:#d6dbe1}
+  ol.think{counter-reset:q;list-style:none;margin:24px 0;display:flex;flex-direction:column;gap:14px}
+  ol.think li{counter-increment:q;position:relative;padding:18px 20px 18px 60px;background:var(--bg-elev);border:1px solid var(--line);border-radius:12px;color:var(--ink-dim);font-size:15px}
+  ol.think li::before{content:counter(q,decimal-leading-zero);position:absolute;left:20px;top:18px;font-family:var(--mono);color:var(--gold);font-weight:700}
+  /* 判图练习 */
+  .quiz{margin:22px 0;background:var(--bg-card);border:1px solid var(--line);border-radius:14px;padding:22px 24px}
+  .quiz h4{font-size:16px;color:#fff;margin-bottom:6px}
+  .quiz .ans{margin-top:12px;color:var(--ink-faint);font-size:14px;cursor:pointer}
+  .quiz .ans[open] summary{color:var(--pivot)}
+  .quiz summary{color:var(--gold);font-family:var(--mono);font-size:13px}
+  .tldr{margin:60px 0 0;padding:36px 30px;border:1px solid rgba(55,192,230,.3);border-radius:18px;background:radial-gradient(120% 120% at 100% 0%,rgba(55,192,230,.1),transparent 60%),var(--bg-elev);text-align:center}
+  .tldr .lab{font-family:var(--mono);font-size:12px;letter-spacing:.3em;color:var(--pivot);text-transform:uppercase}
+  .tldr p{font-family:var(--serif);font-size:clamp(20px,3.4vw,28px);line-height:1.7;color:#fff;margin:16px 0 0}
+  footer{padding:60px 0 90px;text-align:center;color:var(--ink-faint);font-family:var(--mono);font-size:12px;border-top:1px solid var(--line)}
+  .reveal{opacity:0;transform:translateY(26px);transition:opacity .8s ease,transform .8s ease}
+  .reveal.in{opacity:1;transform:none}
+  @media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}.scroll-hint{animation:none}}
+  /* 本课特有：定理盒、逻辑树 */
+  .theorem{margin:30px 0;padding:28px 30px;border:1px solid rgba(232,179,57,.35);border-radius:14px;background:radial-gradient(120% 120% at 0% 0%,rgba(232,179,57,.08),transparent 60%),var(--bg-elev);position:relative}
+  .theorem::before{content:"定理";position:absolute;top:-12px;left:24px;font-family:var(--mono);font-size:11px;letter-spacing:.3em;background:var(--bg);padding:2px 12px;color:var(--gold);border:1px solid rgba(232,179,57,.35);border-radius:999px}
+  .theorem h4{font-family:var(--serif);font-size:20px;color:#fff;margin-bottom:10px}
+  .theorem p{font-size:16px;color:#e6ebf0;margin:0}
+  .tree{margin:28px 0;font-family:var(--mono);font-size:14px;color:var(--ink-dim);background:var(--bg-card);border:1px solid var(--line);border-radius:12px;padding:22px 24px;line-height:2}
+  .tree .lvl{display:block;padding-left:0}
+  .tree .lvl b{color:#fff;font-weight:700;font-family:var(--serif);font-size:15px}
+  .tree .l1{color:var(--pivot)}.tree .l2{color:var(--gold);padding-left:28px;display:block}
+  .tree .l3{padding-left:56px;display:block;color:#cfd5dc}
+  .tree .l4{padding-left:84px;display:block;color:var(--ink-dim)}
+  .tree .arrow{color:var(--ink-faint)}
+  .tree .b1{color:var(--up);font-weight:700}.tree .b2{color:var(--up);font-weight:700}
+  .tree .b3{color:var(--up);font-weight:700}
+  /* 时间轴 */
+  .timeline{margin:30px 0;border-left:2px solid var(--line);padding-left:22px;display:flex;flex-direction:column;gap:18px}
+  .timeline .ev{position:relative}
+  .timeline .ev::before{content:"";position:absolute;left:-28px;top:8px;width:10px;height:10px;border-radius:50%;background:var(--pivot);box-shadow:0 0 0 4px rgba(55,192,230,.18)}
+  .timeline .ev.up::before{background:var(--up);box-shadow:0 0 0 4px rgba(255,77,79,.18)}
+  .timeline .ev.dn::before{background:var(--down);box-shadow:0 0 0 4px rgba(22,199,132,.18)}
+  .timeline .when{font-family:var(--mono);font-size:12px;color:var(--gold);letter-spacing:.1em}
+  .timeline .what{margin-top:4px;color:#cfd5dc;font-size:15px}
+  .timeline .what b{color:#fff}
+</style>
+<meta name="view-transition" content="same-origin"><style>@view-transition{navigation:auto}</style></head>
+<body>
+<div id="bar"></div>
+<header class="hero">
+  <div class="wrap">
+    <div class="kicker">缠中说禅 · 教你炒股票108课 <span>/ 第 21 课</span></div>
+    <h1 class="title">买卖点的完备性</h1>
+    <p class="sub">为什么市场上一切"必然赢利"的买卖点，**只有且只能有**第一、二、三类？这是缠论的"封顶之笔"。</p>
+    <div class="meta">
+      <span class="pill"><b>原文</b> 2007-01-09</span>
+      <span class="pill"><b>类型</b> 理论 · 完备性证明</span>
+      <span class="pill"><b>关键词</b> 完备性 · 第一类买点 · 第二类买点 · 第三类买点 · 中枢</span>
+    </div>
+    <div class="scroll-hint">↓ 向下滚动，逐层拆解</div>
+  </div>
+</header>
+<main>
+
+<!-- 1. 引子：什么叫完备性 -->
+<section class="wrap reveal">
+  <div class="sec-no">01 — 引子</div>
+  <h2>"完备性"到底是什么意思？</h2>
+  <p class="lead">这一课和"画图练手"无关，它是缠论里**最像数学的一节**。先把"完备性"这个词的数学含义讲清楚。</p>
+  <p>"<b>完备性</b>"（completeness）是数学里的一个硬词。在缠论里它的含义可以一句话翻译：</p>
+  <blockquote>市场中所有<b>必然赢利</b>的买卖点，只可能落在"第一类、第二类、第三类"这三个口袋里。不存在第四类，也不存在漏在三类之外的"安全买点"。<span class="who">— 缠中说禅 · 第21课 释义</span></blockquote>
+  <p>"完备"在这里=<span class="hl-pivot">不重不漏</span>。三类买点之间相互**不重叠**（除一种特殊情况），合起来又**穷尽了**所有必然安全的买点。证完这一点，缠论的"理论封顶"才算合拢。</p>
+  <div class="grid">
+    <div class="card"><div class="tag">为什么重要</div><h3>给纪律一个"地板"</h3><p>有了完备性，你交易时就知道：只要不是这三类买点，就**不必然**赚——这是过滤一切"感觉好"的最硬纪律。</p></div>
+    <div class="card"><div class="tag">为什么难懂</div><h3>这是反证法</h3><p>缠师不是"举三个例子"，而是从"任意一点必然面临延续或转折"这一前提出发，一步步把第四类的可能性消灭掉。</p></div>
+  </div>
+</section>
+
+<!-- 2. 100%安全是什么意思 -->
+<section class="wrap reveal">
+  <div class="sec-no">02 — 前提</div>
+  <h2>先讲清楚"100% 安全的买点"</h2>
+  <p class="lead">证明完备性之前，得先把"安全买点"是什么意思钉死。否则证明的对象都不一样。</p>
+  <blockquote>所谓 100% 安全的买卖点，就是<b>这点之后，市场必然发生转折</b>，没有任何模糊或需要分辨的情况需要选择。<span class="who">— 缠中说禅</span></blockquote>
+  <p>"100% 安全"≠ "买了一定立刻涨"，而是：<span class="hl-gold">这个点之后，价格必然<b>朝预期方向</b>走出一段有意义的走势</span>。是"结构上必然"，不是"价格上必然"。</p>
+  <p>缠师用一句话守住了这条底线：<b>"市场交易，不能完全建筑在或然上，这市场的绝对必然性，是交易中唯一值得信赖的港湾。"</b> 翻译：你要的不是"我觉得它会涨"，是"理论保证它必须动"。</p>
+  <div class="theorem">
+    <h4>完备性目标</h4>
+    <p>证明：满足"100% 安全"标准的买卖点，**只能且必然**归属于第一、第二、第三类中的一种。</p>
+  </div>
+</section>
+
+<!-- 3. 证明骨架：任意一点都只有两种命运 -->
+<section class="wrap reveal">
+  <div class="sec-no">03 — 证明骨架</div>
+  <h2>从"任意一点"出发的二叉分裂</h2>
+  <p class="lead">完备性证明的所有逻辑，都靠下面这一句话顶起来。请把它当公理记住。</p>
+  <blockquote>在走势中的<b>任何一个点</b>，必然面临两种可能：走势类型的<b class="hl-up">延续</b>或<b class="hl-down">转折</b>。<span class="who">— 缠中说禅</span></blockquote>
+  <p>这是缠论的"<b>排中律</b>"——一个点要么继续原来的走势类型（延续），要么调头走出反方向的走势类型（转折）。第三种状态不存在。</p>
+  <p>那么对一个"必然赢利的买点"，它只可能是这两种之一：</p>
+  <div class="points">
+    <div class="pt b"><div class="dot">延</div><div><h4>买点 = 上升过程中的延续</h4><p>它必须发生在一个"已经在上升"的走势里，否则就无所谓"延续上升"。这意味着——<b>买点之前必然存在一个中枢</b>（因为有"走势"就有"中枢"）。</p></div></div>
+    <div class="pt b"><div class="dot">折</div><div><h4>买点 = 由下往上的转折</h4><p>那么被转折掉的前一段，只能是"<b class="hl-down">下跌</b>"或"<b>盘整</b>"。下跌和盘整也必然包含中枢——所以转折型买点之前也<b>必然有中枢</b>。</p></div></div>
+  </div>
+  <p style="margin-top:8px"><span class="hl-pivot">核心推论</span>：<b>无论买点来自延续还是转折，它的"近邻"必然有一个中枢</b>。所有买点都必然和它最近的那个中枢有明确的"位置关系"——要么在中枢之上，要么在中枢之下。</p>
+</section>
+
+<!-- 4. 三类买点的位置图 -->
+<section class="wrap reveal">
+  <div class="sec-no">04 — 三类买点的位置</div>
+  <h2>它们必然落在中枢的哪一侧？</h2>
+  <p class="lead">完备性的"机器人推导法"。把上面的二叉分裂继续往下走两层，所有可能性就自然浮现。</p>
+
+  <div class="tree">
+    <span class="lvl l1">[任意一个"必然赢利"的买点]</span>
+    <span class="lvl arrow">└─ 与最近中枢的位置：</span>
+    <span class="lvl l2">├─ <b>在中枢下方</b>（"折"型）</span>
+    <span class="lvl l3">└── 前面只能是"下跌"或"盘整"走势</span>
+    <span class="lvl l4">├─ 下跌中：<span class="b1">→ 第一类买点（1B）</span></span>
+    <span class="lvl l4">└─ 盘整中：扩张/新生/延续都可能向下 <span class="arrow">→ 不必然，不算</span></span>
+    <span class="lvl l2">├─ <b>在中枢中</b>（"折"后第一回踩）</span>
+    <span class="lvl l4">└─ 第一类买点后的"次级别回抽"：<span class="b2">→ 第二类买点（2B）</span></span>
+    <span class="lvl l2">└─ <b>在中枢上方</b>（"延"型）</span>
+    <span class="lvl l3">└── 中枢必须是"扩张"或"新生"（延续中枢上方只可能有卖点）</span>
+    <span class="lvl l4">→ <span class="b3">第三类买点（3B）</span></span>
+  </div>
+
+  <p>这张树把"必然赢利的买点"全部走了一遍。<b>每一片叶子，要么是1B/2B/3B，要么因为"不必然"被剪掉。</b>这就是完备性证明的完整骨架。</p>
+</section>
+
+<!-- 5. 三个买点的逐个论证 -->
+<section class="wrap reveal">
+  <div class="sec-no">05 — 三类买点的逐一论证</div>
+  <h2>为什么"中枢下方"只在下跌里成立？</h2>
+  <p class="lead">这是全章最容易卡住的地方。把"为什么盘整中枢下方不算 1B" 这个细节钉死。</p>
+
+  <div class="theorem">
+    <h4>第一类买点（1B）</h4>
+    <p>只能出现在<b class="hl-down">下跌确立之后</b>的中枢下方。下跌内部出现盘整背驰 → 跌破中枢下沿 → 在中枢下方完成最后一跌 → <b class="hl-up">1B</b>。</p>
+  </div>
+  <p>为什么"盘整的中枢下方"<b>不算</b>1B？因为：</p>
+  <ol class="think">
+    <li>盘整意味着中枢"维持"，它的扩张/新生<b>可以向下走</b>——换言之，跌破下沿不一定是"最后一跌"，可能只是新一个向下的盘整。</li>
+    <li>盘整中枢"延续"时，"中枢可以随时被打破而结束延续"——所以"中枢之下"并不必然有"向上转折"。</li>
+    <li>而"下跌确立"意味着"前面必有一个更高的中枢被向下打破"——这个结构性条件，才能保证"下跌结束→上涨开始"是<b>必然</b>的转折。</li>
+  </ol>
+
+  <div class="theorem">
+    <h4>第二类买点（2B）</h4>
+    <p>1B 出现后，根据"走势必完美"，必然出现"上涨/盘整"——其中<b>第一段次级别向上之后的<b>第一次回抽低点</b>就是 2B</b>。根据走势必完美，2B 之后必有"第三段向上的次级别走势"。</p>
+  </div>
+  <p>2B 的位置很灵活——它可以在中枢下、中枢中、中枢上：</p>
+  <div class="table">
+    <div class="row head"><div>2B 的位置</div><div>之后中枢的演化</div><div>力度判断</div></div>
+    <div class="row"><div class="name">中枢下方</div><div>大概率出现"扩张性中枢"</div><div class="cnt">力度可疑，往往要再忍一忍</div></div>
+    <div class="row"><div class="name">中枢中</div><div>扩张 / 新生 概率 各半</div><div class="cnt">中性</div></div>
+    <div class="row"><div class="name">中枢上方</div><div>新生概率很大（新中枢上移）</div><div class="cnt qushi">力度强，"2B=3B" 的最佳形态</div></div>
+  </div>
+
+  <div class="theorem">
+    <h4>第三类买点（3B）</h4>
+    <p>当中枢发生<b>扩张</b>或<b>新生</b>，且价格回踩到中枢上沿之上未跌回——出现 <b class="hl-up">3B</b>。3B 之后只有两种结局：①一个更大级别的中枢（次一点），②一个上涨趋势（最理想）。</p>
+  </div>
+  <p>反之，如果中枢是"<b>延续</b>"，那中枢上方就不可能出现买点——因为延续要求"中枢上方的走势必然向下"，那里只能是<b class="hl-down">卖点</b>。这就是为什么 3B 的中枢必须是"扩张/新生"。</p>
+</section>
+
+<!-- 6. 三类买点之间能否重合 -->
+<section class="wrap reveal">
+  <div class="sec-no">06 — 重合关系</div>
+  <h2>三类买点之间能不能"撞在一起"？</h2>
+  <p class="lead">这是完备性的最后一块拼图：如果三类之间会随便重合，"不重不漏"就垮了。先把不可能重合的列出来。</p>
+  <div class="table">
+    <div class="row head"><div>组合</div><div>能否重合</div><div>为什么</div></div>
+    <div class="row"><div class="name">1B 与 2B</div><div>❌ <b>不可能</b></div><div>定义上是"前后出现"——2B 必须发生在 1B 之后那一段次级别上涨之后的回踩，时序上分得很开</div></div>
+    <div class="row"><div class="name">1B 与 3B</div><div>❌ <b>不可能</b></div><div>1B 在中枢下、3B 在中枢上，<b>位置上互斥</b></div></div>
+    <div class="row"><div class="name">2B 与 3B</div><div>⚠️ <b>可以重合</b></div><div>1B 出现后，一个次级别走势<b>凌厉地直接上破前面的中枢</b>，然后回抽不触及该中枢——这个回抽既是 2B 也是 3B</div></div>
+  </div>
+  <p><span class="hl-gold">2B=3B 的重合是缠论里最强的买点形态</span>。它兼具"1B 之后的次级别第一回踩（2B 安全性）"和"中枢之上不触及（3B 力度）"双重保证。</p>
+  <blockquote>一旦出现这种情况，一个<b>大级别的上涨</b>往往就会出现。<span class="who">— 缠中说禅</span></blockquote>
+</section>
+
+<!-- 7. akshare 实证 上证 1994 -->
+<section class="wrap reveal">
+  <div class="sec-no">07 — 真金白银的实证</div>
+  <h2>1994 年 7-9 月：上证 325 点的"2B=3B"经典案例</h2>
+  <p class="lead">缠师在课文里举了一个**至今最经典**的指数级 2B=3B 案例。下面用 akshare 拉真实日线行情，把当时的故事完整复盘一遍。</p>
+
+  <blockquote>大盘在 94 年 7 月底部跌到 325 点后，8 月 1 日跳空高开，5 分钟上形成单边上涨突破前面的 30 分钟中枢，第二天大幅上冲后突然大幅回洗形成 5 分钟级别的回抽，那时候最高已经摸到快 500 点，<b>一天半上涨 50%</b>，又半天回跌 15%。这样的回抽一般是恐怖的，但明白 2B=3B 重合的道理，就知道这是<b>最好的补进机会</b>，结果第三天又开始单边上扬，<b>第六天达到 750 点</b>。<span class="who">— 缠中说禅 · 课文原句</span></blockquote>
+
+  <div class="timeline">
+    <div class="ev dn"><div class="when">1994-07-29</div><div class="what">上证盘中触及 <b class="hl-down">325.89</b>（与缠师所说"325 点"<b>分毫不差</b>），<b>1B 的位置</b>——下跌走势的底部。</div></div>
+    <div class="ev up"><div class="when">1994-08-01</div><div class="what">跳空高开收 <b class="hl-up">445.64</b>，单日上涨 33%。"5 分钟上单边上涨突破前面 30 分钟中枢"——<b>1B 之后的第一段次级别上涨</b>启动。</div></div>
+    <div class="ev up"><div class="when">1994-08-02</div><div class="what">盘中最高 <b class="hl-up">494.81</b>（缠师说"摸到快 500 点"）；收 432.61。从 7/29 的 325.89 算起，一天半涨幅 <b>+51.8%</b>——和缠师"一天半上涨 50%"完全吻合。</div></div>
+    <div class="ev"><div class="when">1994-08-02 尾盘</div><div class="what">从 494.81 回洗到 431.58，<b>跌幅 -12.8%</b>（缠师说"半天回跌 15%"，接近）。这一回洗就是 <b class="hl-gold">2B=3B 重合点</b>——既是 1B 后第一回踩（2B），又在前期 30 分钟中枢之上（3B）。</div></div>
+    <div class="ev up"><div class="when">1994-08-03</div><div class="what">缩量止跌，盘中最高 523.03，<b>单边上扬重启</b>——验证了 2B=3B 之后的"第三段次级别上涨"。</div></div>
+    <div class="ev up"><div class="when">1994-08-08（第六个交易日）</div><div class="what">盘中触及 <b class="hl-up">754.67</b>——缠师说"第六天达到 750 点"，<b>分毫不差</b>。</div></div>
+    <div class="ev up"><div class="when">1994-09-13（顶部）</div><div class="what">见 <b class="hl-up">1052.94</b>。从 325.89 起算 6 周时间内 <b>+223%</b>——这才是"理论的力量"。</div></div>
+  </div>
+
+  <div class="proof">
+    <span class="badge">数据实证 · 上证指数 sh000001 · 日线</span>
+    <div class="chartbox">
+      <div class="legend">
+        <span><i style="background:#ff4d4f"></i>阳线</span>
+        <span><i style="background:#16c784"></i>阴线</span>
+        <span><i style="background:#ff8a8c"></i>MA5</span>
+        <span><i style="background:#e8b339"></i>MA20</span>
+        <span><i style="background:#ff4d4f"></i>买点</span>
+      </div>
+      <canvas id="cv_sh1994" height="460"></canvas>
+    </div>
+    <div class="verdict"><span class="mk">✓ 验证</span><p>缠师课文里给出的四个关键数字——<b>325 点</b>、<b>"一天半涨 50%"</b>、<b>"半天回跌 15%"</b>、<b>"第六天 750 点"</b>——akshare 拉到的真实行情<b>每一项都分毫不差</b>。这不是事后诸葛，而是当时缠师就在直播间里实时点出"2B=3B 是最好的补进机会"。</p></div>
+    <p style="font-family:var(--mono);font-size:12px;color:var(--ink-faint)">数据来源：新浪财经 · akshare 取数 · 1994-07-01 至 1994-10-31 · 不构成投资建议</p>
+  </div>
+
+  <figure>
+    <img src="/_assets/ch21_p01.jpeg" alt="上证 1994 年 8 月 325 点反弹原图（课文配图）">
+    <figcaption>课文原图：上证日线 1994 年 7-8 月，325.89 → 1050+ 单边上行；课文说 325 点留下的缺口"至今未补"</figcaption>
+  </figure>
+</section>
+
+<!-- 8. 年线视角的 3B -->
+<section class="wrap reveal">
+  <div class="sec-no">08 — 年线视角的 3B 推断</div>
+  <h2>2007 年缠师的"年线级 3B"预言</h2>
+  <p class="lead">课文的另一半，是缠师用完备性框架给出的**宏观推断**。我们对照他后来的预言看准确率。</p>
+  <p>缠师在 2007-01-09 写到：</p>
+  <blockquote>从 1992 到 2005，一个完美的<b>年级别中枢</b>的三段次级别走势完成，时间刚好 13 年——区间在 <b>998 到 1558 点</b>。站在年线级别，在下一个年线中枢确立之前，中国股市的调整只可能出现一个<b>季级别的调整</b>，而第一个出现的季级别调整，只要不重新跌回 1558 点，就将构成中国股市年线级别上的<b class="hl-up">第三类买点</b>，其后至少出现如去年类型幅度的上涨。<span class="who">— 缠中说禅</span></blockquote>
+  <figure>
+    <img src="/_assets/ch21_p02.png" alt="上证年线复权图（课文配图）">
+    <figcaption>课文原图：上证年线（复权），1992-2006，13 年完美的年级别"三段次级别"走势，构成中国股市第一个年中枢（998-1558）</figcaption>
+  </figure>
+  <p><span class="hl-pivot">完备性框架的应用</span>：缠师把"年级别中枢"用完备性套上去——已经有了一个完美的年中枢，那么<b>下一个买点只可能是 3B</b>（因为 1B 需要下跌确立、2B 需要 1B 先出现，都不成立）；而且这个 3B 的判别条件极简——<b>不重新跌回 1558</b>。</p>
+  <p>事后验证：2007 年上证最高冲到 <b class="hl-up">6124</b>，从 1558 算起 <b>+293%</b>；2008 年回踩至 1664 点（接近 1558 但没破），随后 2009 年反弹到 3478；2015 年再冲到 5178；2021 年至 3731——年线中枢这套尺子至今仍然在工作。</p>
+</section>
+
+<!-- 9. 两个完备性定理 -->
+<section class="wrap reveal">
+  <div class="sec-no">09 — 两条定理</div>
+  <h2>课文的最终结论：两条等价的完备性定理</h2>
+  <p class="lead">所有论证最终汇成两条"封印级"的定理。背下来。</p>
+  <div class="theorem">
+    <h4>缠中说禅 · 买卖点完备性定理</h4>
+    <p>市场必然产生赢利的买卖点，<b>只有第一、二、三类</b>。</p>
+  </div>
+  <div class="theorem">
+    <h4>缠中说禅 · 升跌完备性定理</h4>
+    <p>市场中的任何向上与下跌，都必然<b>从三类买卖点中的某一类开始</b>，也必然<b>以三类买卖点中的某一类结束</b>。换言之，市场走势完全由这样的线段构成，线段的端点是某级别的三类买卖点中的某一类。</p>
+  </div>
+  <p>第二条定理是第一条的"<b>同构表达</b>"。如果第一条是"点的完备"，第二条就是"线的完备"——把走势打散到任意级别，<b>每一段开头和结尾都是 1/2/3 类</b>，没有别的可能。</p>
+</section>
+
+<!-- 10. 判图练习 + 思考题 -->
+<section class="wrap reveal">
+  <div class="sec-no">10 — 练习区</div>
+  <h2>识图练习 + 缠师思考题</h2>
+  <p class="lead">课文最后给了一道思考题，我把它拆成两步，并补一个识图小测。</p>
+  <div class="quiz">
+    <h4>识图题：以下哪个是 2B=3B 重合点？</h4>
+    <p>情景 A：1B 后第一段次级别<b>缓慢爬升</b>，未突破前面下跌的最后一个中枢，再回踩。</p>
+    <p>情景 B：1B 后一段次级别<b>凌厉单边</b>突破前下跌中枢，回抽<b>不进入</b>该中枢的上沿。</p>
+    <p>情景 C：1B 后两段震荡上行，第二次回踩跌回原中枢区间内部。</p>
+    <details class="ans"><summary>查看答案</summary><p><b>B</b>。A 是普通 2B（力度弱）；B 是 2B=3B 重合（最强买点）；C 已经回到中枢内部，连 2B 都谈不上"中枢之上"。</p></details>
+  </div>
+  <div class="quiz">
+    <h4>缠师思考题 · 任意线段的端点组合</h4>
+    <p>设一线段的两端分别是某买点 X 和某卖点 Y（同级别）。请列出<b>所有可能</b>的组合（X, Y），并指出哪些<b>绝对不可能</b>。</p>
+    <details class="ans"><summary>查看答案（参考）</summary>
+      <p>笛卡尔积有 3×3=9 种 (X, Y) 组合，但有些被"走势完美原则 + 升跌完备性"剪掉：</p>
+      <p>- (<b>1B</b>, <b>1S</b>) → 可能。下跌确立后从 1B 起，到上涨完毕的 1S 结束。</p>
+      <p>- (<b>1B</b>, <b>2S</b>) → 可能。1B 起、上涨之后回踩到 2S（下跌确立的反向构造）。</p>
+      <p>- (<b>1B</b>, <b>3S</b>) → 可能。一段上涨终结于趋势顶部的 3S。</p>
+      <p>- (<b>2B</b>, <b>1S</b>) → 可能。2B 起的延续段终结于 1S。</p>
+      <p>- (<b>2B</b>, <b>2S</b>) → 可能。</p>
+      <p>- (<b>2B</b>, <b>3S</b>) → 可能。</p>
+      <p>- (<b>3B</b>, <b>1S</b>) → 可能。从趋势底部 3B 起一段大涨到 1S。</p>
+      <p>- (<b>3B</b>, <b>2S</b>) → 可能。</p>
+      <p>- (<b>3B</b>, <b>3S</b>) → 可能。同级别中枢两端各出现 3B/3S。</p>
+      <p>9 种<b>都可能</b>。但缠师的提示在于"同级别"——若严格同级别且封闭，"<b>1B → 1S</b>" 通常对应一个完整的"下跌→上涨→下跌"循环，结构最对称。</p>
+      <p style="margin-top:8px;color:var(--gold)">本题答案见仁见智，请结合后续走势分类课（笔/线段/级别延伸）反复回看。</p>
+    </details>
+  </div>
+</section>
+
+<!-- 11. 应用要点 -->
+<section class="wrap reveal">
+  <div class="sec-no">11 — 应用要点</div>
+  <h2>把完备性当成实战的"过滤器"</h2>
+  <p class="lead">学完整套证明，回到自己的盘面要怎么用？</p>
+  <div class="grid">
+    <div class="card"><div class="tag">过滤 #1</div><h3>"这是哪类买点？"</h3><p>每次想动手前，强迫自己回答：这是 1B / 2B / 3B 中的哪一个？答不上来 → 不是必然安全 → 不动。</p></div>
+    <div class="card"><div class="tag">过滤 #2</div><h3>"它和中枢的关系？"</h3><p>没有"最近的中枢"，就没有"必然买点"。先在图上把最近一个中枢框出来，再看价格在它上方/下方/内部。</p></div>
+    <div class="card"><div class="tag">升级 #3</div><h3>"力度优先 2B=3B"</h3><p>同样是次级别第一回踩，若价格保持在前中枢之上不破——这是 2B=3B 重合，力度最强，应该重仓。</p></div>
+    <div class="card"><div class="tag">升级 #4</div><h3>"上涨趋势中只剩 3B"</h3><p>缠师明确说：上涨趋势确立后<b>不可能</b>再有 1B/2B，只剩 3B。所以追涨/补仓只看 3B。</p></div>
+  </div>
+  <p>缠师课末有一句心法之语：<i>"是人使理论，而非理论使人，要让这人使理论达到理论一般的完美，最终只能靠自己在市场中的修炼。"</i> 完备性给的是<b>理论上限</b>，能用到几成，看你"修齐治平"的功夫。</p>
+</section>
+
+<!-- 12. tldr -->
+<section class="wrap reveal">
+  <div class="tldr">
+    <div class="lab">A LINE</div>
+    <p>市场上一切<b style="color:var(--gold)">必然赢利的买卖点</b>，只有第一、二、三类——它们是中枢"上/下/外"三种位置关系的<b style="color:var(--pivot)">不重不漏</b>的穷尽。</p>
+  </div>
+</section>
+
+</main>
+<footer class="wrap">
+  原文出处：raw/缠中说禅/教你炒股票108课/教你炒股票21：缠中说禅买卖点分析的完备性.md<br>
+  本页为个人学习复习用 · 非投资建议
+</footer>
+<script>
+  const bar=document.getElementById('bar');
+  const onScroll=()=>{const h=document.documentElement;bar.style.width=(h.scrollTop/(h.scrollHeight-h.clientHeight)*100)+'%'};
+  document.addEventListener('scroll',onScroll,{passive:true});onScroll();
+  const io=new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{threshold:.12});
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+  function drawChanChart(canvasId, CHART){
+    const cv=document.getElementById(canvasId); if(!cv) return;
+    const mode=CHART.mode||'line', hasVol=!!CHART.v && CHART.showVol!==false;
+    const idxOf={}; CHART.dates.forEach((d,i)=>idxOf[d]=i);
+    const ri=d=>{ if(d in idxOf)return idxOf[d]; let b=0,bd=1/0;
+      CHART.dates.forEach((x,i)=>{const t=Math.abs(new Date(x)-new Date(d)); if(t<bd){bd=t;b=i}}); return b; };
+    function draw(){
+      const dpr=window.devicePixelRatio||1, W=cv.clientWidth, H=CHART.height||460;
+      cv.width=W*dpr; cv.height=H*dpr; const x=cv.getContext('2d'); x.scale(dpr,dpr); x.clearRect(0,0,W,H);
+      const padL=52,padR=14,padT=16, volH=hasVol?70:0, gap=hasVol?16:0, priceH=H-padT-volH-gap-22, n=CHART.c.length;
+      let mn=Math.min(...CHART.l), mx=Math.max(...CHART.h);
+      if(CHART.ma)Object.values(CHART.ma).forEach(a=>a.forEach(v=>{if(v!=null){mn=Math.min(mn,v);mx=Math.max(mx,v)}}));
+      if(CHART.pivots)CHART.pivots.forEach(p=>{mn=Math.min(mn,p.lo);mx=Math.max(mx,p.hi)});
+      if(CHART.marks)CHART.marks.forEach(m=>{mn=Math.min(mn,m.price);mx=Math.max(mx,m.price)});
+      const pd=(mx-mn)*0.08; mn-=pd; mx+=pd;
+      const PW=W-padL-padR, px=i=> n===1?padL+PW/2:padL+PW*i/(n-1), py=p=>padT+priceH*(1-(p-mn)/(mx-mn));
+      x.font="11px JetBrains Mono"; x.textAlign="right";
+      for(let g=0;g<=4;g++){const p=mn+(mx-mn)*g/4,yy=py(p);
+        x.strokeStyle="rgba(255,255,255,.06)";x.beginPath();x.moveTo(padL,yy);x.lineTo(W-padR,yy);x.stroke();
+        x.fillStyle="#5b6470";x.fillText(p.toFixed(2),padL-6,yy+3)}
+      if(CHART.pivots)CHART.pivots.forEach(p=>{const x1=px(ri(p.from)),x2=px(ri(p.to)),y1=py(p.hi),y2=py(p.lo);
+        x.fillStyle="rgba(55,192,230,.10)";x.strokeStyle="rgba(55,192,230,.55)";x.lineWidth=1;
+        x.fillRect(x1,y1,x2-x1,y2-y1);x.strokeRect(x1,y1,x2-x1,y2-y1);
+        if(p.label){x.fillStyle="#37c0e6";x.textAlign="center";x.fillText(p.label,(x1+x2)/2,y1-5)}});
+      if(hasVol){const vmax=Math.max(...CHART.v),vt=padT+priceH+gap;
+        for(let i=0;i<n;i++){const up=CHART.c[i]>=CHART.o[i];x.fillStyle=up?"rgba(255,77,79,.5)":"rgba(22,199,132,.5)";
+          const bw=Math.max(1,PW/n*0.6),bh=volH*CHART.v[i]/vmax;x.fillRect(px(i)-bw/2,vt+volH-bh,bw,bh)}}
+      if(mode==='candle'){const bw=Math.max(1.5,PW/n*0.62);
+        for(let i=0;i<n;i++){const up=CHART.c[i]>=CHART.o[i],col=up?"#ff4d4f":"#16c784";x.strokeStyle=col;x.fillStyle=col;
+          x.beginPath();x.moveTo(px(i),py(CHART.h[i]));x.lineTo(px(i),py(CHART.l[i]));x.stroke();
+          const yo=py(CHART.o[i]),yc=py(CHART.c[i]);x.fillRect(px(i)-bw/2,Math.min(yo,yc),bw,Math.max(1,Math.abs(yc-yo)))}}
+      else{const cs=CHART.c;x.beginPath();for(let i=0;i<n;i++){const xx=px(i),yy=py(cs[i]);i?x.lineTo(xx,yy):x.moveTo(xx,yy)}
+        const gr=x.createLinearGradient(0,padT,0,padT+priceH);gr.addColorStop(0,"rgba(207,213,220,.16)");gr.addColorStop(1,"rgba(207,213,220,0)");
+        x.lineTo(px(n-1),padT+priceH);x.lineTo(px(0),padT+priceH);x.closePath();x.fillStyle=gr;x.fill();
+        x.beginPath();for(let i=0;i<n;i++){const xx=px(i),yy=py(cs[i]);i?x.lineTo(xx,yy):x.moveTo(xx,yy)}
+        x.strokeStyle="#cfd5dc";x.lineWidth=1.6;x.stroke()}
+      const MC={MA5:"#ff8a8c",MA10:"#c0a3ff",MA20:"#e8b339",MA60:"#37c0e6",MA120:"#9aa3ad",MA250:"#ff4d4f"};
+      if(CHART.ma)Object.entries(CHART.ma).forEach(([k,a])=>{x.beginPath();let st=false;
+        for(let i=0;i<n;i++){if(a[i]==null)continue;const xx=px(i),yy=py(a[i]);st?x.lineTo(xx,yy):(x.moveTo(xx,yy),st=true)}
+        x.strokeStyle=MC[k]||"#888";x.lineWidth=1.4;x.stroke()});
+      if(CHART.marks)CHART.marks.forEach(m=>{const xx=px(ri(m.date)),yy=py(m.price),buy=(m.type||'').startsWith('b'),col=buy?"#ff4d4f":"#16c784";
+        x.fillStyle=col;x.beginPath();x.arc(xx,yy,4,0,7);x.fill();
+        x.fillStyle="#fff";x.font="bold 11px -apple-system";x.textAlign="center";x.fillText(m.text||'',xx,buy?yy+18:yy-10)});
+      x.fillStyle="#5b6470";x.textAlign="center";x.font="11px JetBrains Mono";
+      const L=Math.min(6,n);for(let g=0;g<L;g++){const i=Math.round((n-1)*g/(L-1||1));x.fillText(CHART.dates[i],px(i),H-5)}
+    }
+    draw(); window.addEventListener('resize',draw);
+  }
+
+  const CHART_SH1994 = {"mode": "candle", "dates": ["1994-07-01", "1994-07-04", "1994-07-05", "1994-07-06", "1994-07-07", "1994-07-08", "1994-07-11", "1994-07-12", "1994-07-13", "1994-07-14", "1994-07-15", "1994-07-18", "1994-07-19", "1994-07-20", "1994-07-21", "1994-07-22", "1994-07-25", "1994-07-26", "1994-07-27", "1994-07-28", "1994-07-29", "1994-08-01", "1994-08-02", "1994-08-03", "1994-08-04", "1994-08-05", "1994-08-08", "1994-08-09", "1994-08-10", "1994-08-11", "1994-08-12", "1994-08-15", "1994-08-16", "1994-08-17", "1994-08-18", "1994-08-19", "1994-08-22", "1994-08-23", "1994-08-24", "1994-08-25", "1994-08-26", "1994-08-29", "1994-08-30", "1994-08-31", "1994-09-01", "1994-09-02", "1994-09-05", "1994-09-06", "1994-09-07", "1994-09-08", "1994-09-09", "1994-09-12", "1994-09-13", "1994-09-14", "1994-09-15", "1994-09-16", "1994-09-19", "1994-09-20", "1994-09-21", "1994-09-22", "1994-09-23", "1994-09-26", "1994-09-27", "1994-09-28", "1994-09-29", "1994-09-30", "1994-10-05", "1994-10-06", "1994-10-07", "1994-10-10", "1994-10-11", "1994-10-12", "1994-10-13", "1994-10-14", "1994-10-17", "1994-10-18", "1994-10-19", "1994-10-20", "1994-10-21", "1994-10-24", "1994-10-25", "1994-10-26", "1994-10-27", "1994-10-28", "1994-10-31"], "o": [469.27, 446.23, 437.64, 444.59, 428.3, 426.25, 436.54, 427.62, 430.55, 437.53, 431.01, 405.61, 398.9, 401.98, 390.94, 378.19, 357.4, 376.76, 387.81, 366.55, 335.45, 394.87, 451.18, 438.52, 558.69, 579.47, 720.48, 715.54, 619.34, 765.32, 676.07, 671.1, 670.0, 703.88, 734.84, 750.67, 680.07, 694.71, 718.61, 704.47, 728.26, 716.87, 715.45, 771.33, 785.61, 796.69, 871.16, 973.28, 977.3, 967.9, 982.43, 996.68, 1036.84, 1040.95, 985.33, 983.79, 944.25, 922.8, 928.75, 974.21, 908.75, 856.17, 880.69, 921.81, 921.81, 811.83, 770.9, 731.65, 638.32, 678.02, 712.03, 712.39, 706.76, 608.07, 617.9, 625.49, 631.34, 663.31, 730.97, 741.05, 794.57, 725.94, 682.02, 695.66, 648.24], "h": [469.43, 446.86, 443.86, 445.05, 430.58, 438.06, 436.54, 431.15, 437.66, 440.59, 431.05, 406.64, 403.49, 402.59, 390.99, 378.23, 375.39, 388.8, 392.17, 367.72, 338.96, 448.91, 494.81, 523.03, 592.98, 683.04, 754.67, 715.54, 739.66, 768.08, 731.02, 691.22, 713.9, 725.04, 772.32, 760.27, 697.55, 714.62, 727.41, 724.15, 728.76, 717.95, 763.07, 787.22, 813.42, 830.2, 940.76, 1008.01, 1016.38, 998.55, 997.67, 1023.3, 1052.94, 1041.43, 991.12, 992.39, 970.06, 933.28, 969.03, 974.25, 912.95, 884.27, 886.96, 922.29, 922.29, 835.5, 775.85, 736.29, 759.8, 727.47, 721.66, 725.67, 706.76, 666.92, 633.16, 630.16, 654.06, 718.99, 746.9, 785.95, 794.85, 730.8, 703.62, 702.92, 665.1], "l": [457.51, 438.12, 436.22, 430.77, 423.03, 425.9, 427.08, 427.23, 430.4, 430.57, 413.0, 397.47, 393.06, 393.14, 380.72, 362.29, 354.5, 372.11, 369.04, 339.04, 325.89, 377.97, 431.58, 434.11, 522.98, 579.47, 671.67, 608.67, 597.26, 684.53, 675.28, 654.22, 668.0, 693.02, 726.09, 707.02, 668.72, 673.67, 704.67, 704.47, 707.41, 706.52, 715.45, 761.93, 785.56, 796.69, 868.15, 936.81, 919.84, 937.26, 950.81, 981.81, 1025.1, 970.69, 930.62, 953.99, 925.83, 897.38, 928.75, 913.94, 865.93, 844.32, 865.24, 823.05, 823.05, 789.64, 681.87, 659.89, 546.79, 665.74, 700.02, 706.56, 634.67, 593.05, 615.5, 619.11, 631.24, 663.31, 706.41, 734.93, 744.52, 683.4, 678.18, 675.65, 642.86], "c": [458.37, 438.58, 443.61, 431.71, 425.98, 437.75, 428.15, 429.21, 437.62, 431.8, 413.93, 398.96, 400.48, 393.87, 380.9, 363.73, 375.39, 388.75, 371.1, 339.81, 333.92, 445.64, 432.61, 522.98, 562.77, 683.04, 711.8, 621.58, 739.66, 689.31, 689.66, 665.88, 693.01, 725.04, 748.56, 713.85, 681.8, 714.61, 705.71, 722.23, 707.41, 710.68, 756.2, 785.33, 790.19, 830.18, 940.61, 1004.92, 931.57, 972.84, 962.52, 1019.97, 1033.47, 974.86, 972.54, 978.99, 927.62, 914.39, 969.03, 918.44, 867.65, 880.6, 870.15, 839.37, 839.37, 791.15, 706.42, 660.5, 738.03, 698.93, 705.07, 711.01, 635.38, 663.75, 616.34, 624.52, 652.89, 718.99, 712.71, 785.85, 744.52, 686.31, 703.62, 677.45, 654.98], "v": [52, 51, 43, 56, 44, 59, 66, 32, 46, 79, 69, 45, 38, 33, 51, 78, 94, 169, 183, 128, 118, 620, 918, 834, 1757, 1773, 1587, 962, 1428, 1692, 725, 455, 720, 541, 1324, 842, 468, 409, 510, 402, 494, 375, 811, 1073, 863, 668, 1838, 1431, 1186, 792, 883, 808, 1020, 806, 464, 523, 414, 332, 353, 456, 416, 276, 236, 371, 362, 366, 326, 283, 634, 521, 228, 213, 363, 327, 135, 89, 193, 476, 654, 603, 565, 334, 190, 259, 155], "ma": {"MA5": [467.58, 460.88, 455.61, 448.31, 439.65, 435.53, 433.44, 430.56, 431.74, 432.91, 428.14, 422.3, 416.56, 407.81, 397.63, 387.59, 382.87, 380.53, 375.97, 367.76, 361.79, 375.84, 384.62, 414.99, 459.58, 529.41, 582.64, 620.43, 663.77, 689.08, 690.4, 681.22, 695.5, 692.58, 704.43, 709.27, 712.45, 716.77, 712.91, 707.64, 706.35, 712.13, 720.45, 736.37, 749.96, 774.52, 820.5, 870.25, 899.49, 936.02, 962.49, 978.36, 984.07, 992.73, 992.67, 995.97, 977.5, 953.68, 952.51, 941.69, 919.43, 910.02, 901.17, 875.24, 859.43, 844.13, 809.29, 767.36, 747.09, 719.01, 701.79, 702.71, 697.68, 682.83, 666.31, 650.2, 638.58, 655.3, 665.09, 698.99, 722.99, 729.68, 726.6, 719.55, 693.38], "MA20": [499.66, 494.44, 490.13, 485.04, 480.19, 476.35, 473.16, 470.08, 467.16, 463.43, 457.73, 452.56, 447.68, 442.11, 436.14, 429.71, 424.87, 420.81, 415.96, 409.49, 403.26, 403.62, 403.07, 407.63, 414.47, 426.73, 440.92, 450.53, 465.64, 478.51, 492.3, 505.64, 520.27, 536.83, 555.21, 572.72, 588.04, 604.33, 621.06, 640.18, 658.86, 672.11, 688.29, 701.41, 712.78, 720.13, 731.58, 750.74, 760.34, 774.51, 788.16, 805.86, 822.88, 835.38, 846.57, 859.83, 872.12, 882.11, 895.28, 905.09, 913.1, 921.6, 927.29, 930.0, 932.45, 930.5, 918.79, 901.57, 891.9, 878.2, 865.33, 849.88, 829.98, 814.42, 796.61, 778.89, 765.15, 755.38, 742.56, 735.93, 729.78, 720.06, 711.74, 703.64, 694.42]}};
+  // 注入中枢与买卖点标注
+  CHART_SH1994.pivots = [
+    {"from":"1994-07-01","to":"1994-07-28","lo":339,"hi":470,"label":"前期下跌中枢"}
+  ];
+  CHART_SH1994.marks = [
+    {"date":"1994-07-29","price":325.89,"type":"b1","text":"1B 325.89"},
+    {"date":"1994-08-02","price":431.58,"type":"b2","text":"2B=3B 重合 431.58"},
+    {"date":"1994-09-13","price":1052.94,"type":"s1","text":"1S 顶 1052"}
+  ];
+  drawChanChart("cv_sh1994", CHART_SH1994);
+</script>
+<script src="/assets/_nav.js"></script><script src="/assets/_shell.js"></script></body>
+</html>

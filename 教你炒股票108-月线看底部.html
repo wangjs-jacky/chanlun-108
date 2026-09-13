@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>缠论 · 教你炒股票108：何谓底部？从月线看中期走势演化</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@500;700;900&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0b0e12;
+    --bg-elev:#12161c;
+    --bg-card:#161b22;
+    --ink:#e8eaed;
+    --ink-dim:#9aa3ad;
+    --ink-faint:#5b6470;
+    --line:rgba(255,255,255,.07);
+    --up:#ff4d4f;
+    --down:#16c784;
+    --pivot:#37c0e6;
+    --gold:#e8b339;
+    --max:880px;
+    --serif:"Noto Serif SC",serif;
+    --mono:"JetBrains Mono",ui-monospace,monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;
+    line-height:1.85;
+    font-size:17px;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  body::before{
+    content:"";position:fixed;inset:0;z-index:-2;
+    background:
+      radial-gradient(1200px 600px at 70% -10%, rgba(232,179,57,.10), transparent 60%),
+      radial-gradient(900px 500px at 0% 100%, rgba(55,192,230,.06), transparent 55%);
+    pointer-events:none;
+  }
+  body::after{
+    content:"";position:fixed;inset:0;z-index:-1;opacity:.4;
+    background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);
+    background-size:46px 46px;
+    -webkit-mask-image:radial-gradient(ellipse at 50% 0%, #000 30%, transparent 80%);
+            mask-image:radial-gradient(ellipse at 50% 0%, #000 30%, transparent 80%);
+    pointer-events:none;
+  }
+  #bar{position:fixed;top:0;left:0;height:3px;width:0;z-index:50;
+    background:linear-gradient(90deg,var(--gold),var(--pivot));box-shadow:0 0 12px var(--gold);}
+
+  .wrap{max-width:var(--max);margin:0 auto;padding:0 24px}
+
+  /* HERO */
+  header.hero{padding:120px 0 70px;text-align:center;position:relative}
+  .kicker{font-family:var(--mono);font-size:13px;letter-spacing:.32em;color:var(--gold);
+    text-transform:uppercase;margin-bottom:26px}
+  .kicker span{color:var(--ink-faint)}
+  h1.title{font-family:var(--serif);font-weight:900;line-height:1.05;
+    font-size:clamp(46px,10vw,100px);letter-spacing:.04em;
+    background:linear-gradient(180deg,#fff 30%,#8aa0ad 130%);
+    -webkit-background-clip:text;background-clip:text;color:transparent;}
+  .sub{margin:22px auto 0;max-width:600px;color:var(--ink-dim);font-size:18px}
+  .meta{margin-top:34px;display:flex;gap:14px;justify-content:center;flex-wrap:wrap;
+    font-family:var(--mono);font-size:12px;color:var(--ink-faint)}
+  .meta b{color:var(--ink-dim);font-weight:500}
+  .pill{border:1px solid var(--line);padding:6px 14px;border-radius:999px;background:rgba(255,255,255,.02)}
+  .pill.finale{border-color:rgba(232,179,57,.45);background:rgba(232,179,57,.08);color:var(--gold)}
+
+  .scroll-hint{margin-top:60px;color:var(--ink-faint);font-family:var(--mono);font-size:12px;
+    animation:bob 2.4s ease-in-out infinite}
+  @keyframes bob{0%,100%{transform:translateY(0);opacity:.5}50%{transform:translateY(8px);opacity:1}}
+
+  section{padding:64px 0;border-top:1px solid var(--line)}
+  .sec-no{font-family:var(--mono);font-size:13px;color:var(--gold);letter-spacing:.2em;margin-bottom:10px}
+  h2{font-family:var(--serif);font-weight:700;font-size:clamp(28px,5vw,42px);
+    line-height:1.25;margin-bottom:8px;letter-spacing:.02em}
+  .lead{color:var(--ink-dim);font-size:16px;margin-bottom:28px;max-width:640px}
+  p{margin:0 0 18px;color:#cfd5dc}
+  p b,strong{color:#fff;font-weight:700}
+  .hl-pivot{color:var(--pivot);font-weight:700}
+  .hl-up{color:var(--up);font-weight:700}
+  .hl-down{color:var(--down);font-weight:700}
+  .hl-gold{color:var(--gold);font-weight:700}
+
+  blockquote{margin:26px 0;padding:20px 24px;border-left:3px solid var(--gold);
+    background:linear-gradient(90deg,rgba(232,179,57,.08),transparent);
+    border-radius:0 10px 10px 0;font-family:var(--serif);font-size:19px;color:#f6f0dc}
+  blockquote .who{display:block;margin-top:8px;font-family:var(--mono);font-size:12px;
+    color:var(--ink-faint);font-style:normal}
+
+  figure{margin:34px 0}
+  figure img{width:100%;border-radius:12px;border:1px solid var(--line);
+    background:#fff;box-shadow:0 18px 50px rgba(0,0,0,.5)}
+  figcaption{margin-top:12px;font-size:13px;color:var(--ink-faint);text-align:center;font-family:var(--mono)}
+
+  /* 双列对照 */
+  .grid{display:grid;gap:16px;grid-template-columns:1fr 1fr;margin:28px 0}
+  @media(max-width:640px){.grid{grid-template-columns:1fr}}
+  .card{background:var(--bg-card);border:1px solid var(--line);border-radius:14px;padding:24px;
+    position:relative;overflow:hidden;transition:transform .35s ease,border-color .35s ease}
+  .card:hover{transform:translateY(-4px);border-color:rgba(232,179,57,.4)}
+  .card .tag{font-family:var(--mono);font-size:11px;letter-spacing:.18em;color:var(--gold);text-transform:uppercase}
+  .card h3{font-family:var(--serif);font-size:21px;margin:10px 0 8px;color:#fff}
+  .card p{font-size:15px;color:var(--ink-dim);margin:0}
+
+  /* 三栏对照（精确/分型） */
+  .table{margin:28px 0;border:1px solid var(--line);border-radius:14px;overflow:hidden}
+  .table .row{display:grid;grid-template-columns:1.1fr 1.7fr 1.4fr;align-items:stretch}
+  .table .row+.row{border-top:1px solid var(--line)}
+  .table .row > div{padding:16px 18px}
+  .table .row.head{background:var(--bg-elev);font-family:var(--mono);font-size:12px;
+    letter-spacing:.14em;color:var(--ink-faint);text-transform:uppercase}
+  .table .row > div+div{border-left:1px solid var(--line)}
+  .table .name{font-family:var(--serif);font-weight:700;font-size:18px}
+  .table .name.precise{color:var(--pivot)}
+  .table .name.rough{color:var(--gold)}
+  @media(max-width:560px){
+    .table .row{grid-template-columns:1fr}
+    .table .row > div+div{border-left:0;border-top:1px solid var(--line)}
+    .table .row.head{display:none}
+  }
+
+  /* 关键点列表 */
+  .points{margin:26px 0;display:flex;flex-direction:column;gap:14px}
+  .pt{display:flex;gap:16px;align-items:flex-start;background:var(--bg-card);
+    border:1px solid var(--line);border-radius:12px;padding:18px 20px}
+  .pt .dot{flex:none;width:42px;height:42px;border-radius:10px;display:grid;place-items:center;
+    font-family:var(--serif);font-weight:900;font-size:20px;color:#0b0e12;background:var(--gold)}
+  .pt h4{font-size:17px;margin-bottom:4px;color:#fff}
+  .pt p{font-size:15px;color:var(--ink-dim);margin:0}
+
+  /* 段落级时间线 */
+  .timeline{margin:30px 0;border-left:2px dashed var(--line);padding-left:22px;display:flex;flex-direction:column;gap:22px}
+  .tl-item{position:relative}
+  .tl-item::before{content:"";position:absolute;left:-29px;top:6px;width:12px;height:12px;border-radius:50%;
+    background:var(--pivot);box-shadow:0 0 0 4px rgba(55,192,230,.15)}
+  .tl-date{font-family:var(--mono);font-size:12px;color:var(--gold);letter-spacing:.14em;margin-bottom:4px}
+  .tl-item h4{font-family:var(--serif);font-size:18px;color:#fff;margin-bottom:6px}
+  .tl-item p{font-size:15px;color:var(--ink-dim);margin:0}
+
+  /* 一句话总结 */
+  .tldr{margin:60px 0 0;padding:36px 30px;border:1px solid rgba(232,179,57,.32);border-radius:18px;
+    background:radial-gradient(120% 120% at 100% 0%,rgba(232,179,57,.10),transparent 60%),var(--bg-elev);text-align:center}
+  .tldr .lab{font-family:var(--mono);font-size:12px;letter-spacing:.3em;color:var(--gold);text-transform:uppercase}
+  .tldr p{font-family:var(--serif);font-size:clamp(20px,3.4vw,28px);line-height:1.7;color:#fff;margin:16px 0 0}
+
+  /* 收官章节 */
+  .finale{margin:48px 0 0;padding:48px 30px;border:1px solid rgba(232,179,57,.45);border-radius:20px;
+    background:
+      radial-gradient(100% 100% at 0% 0%,rgba(232,179,57,.14),transparent 55%),
+      radial-gradient(100% 100% at 100% 100%,rgba(55,192,230,.10),transparent 55%),
+      var(--bg-elev);
+    position:relative;overflow:hidden}
+  .finale::before{content:"108";position:absolute;right:-10px;bottom:-50px;font-family:var(--serif);
+    font-weight:900;font-size:240px;color:rgba(232,179,57,.06);letter-spacing:-.04em;line-height:1;pointer-events:none}
+  .finale .stamp{display:inline-block;font-family:var(--mono);font-size:12px;letter-spacing:.3em;
+    color:var(--gold);text-transform:uppercase;border:1px solid rgba(232,179,57,.45);padding:6px 14px;border-radius:999px;background:rgba(232,179,57,.06)}
+  .finale h3{font-family:var(--serif);font-weight:900;font-size:clamp(28px,5vw,42px);color:#fff;margin:18px 0 14px;line-height:1.25}
+  .finale p{color:#dfe4ea;font-size:16px;margin:0 0 12px}
+  .finale .sig{margin-top:22px;font-family:var(--mono);font-size:12px;color:var(--ink-faint)}
+  .finale .sig b{color:var(--gold);font-weight:700}
+
+  footer{padding:60px 0 90px;text-align:center;color:var(--ink-faint);font-family:var(--mono);font-size:12px;border-top:1px solid var(--line)}
+  footer a{color:var(--ink-dim);text-decoration:none}
+
+  .reveal{opacity:0;transform:translateY(26px);transition:opacity .8s ease,transform .8s ease}
+  .reveal.in{opacity:1;transform:none}
+  @media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}.scroll-hint{animation:none}}
+</style>
+<meta name="view-transition" content="same-origin"><style>@view-transition{navigation:auto}</style></head>
+<body>
+<div id="bar"></div>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="kicker">缠中说禅 · 教你炒股票108课 <span>/ 第 108 课 · 收官</span></div>
+    <h1 class="title">月线看底部</h1>
+    <p class="sub">何谓底部？精确定义之后，用 2008 年那个真实的月线案例，把"底"看清楚。</p>
+    <div class="meta">
+      <span class="pill"><b>原文</b> 2008-08-29</span>
+      <span class="pill"><b>类型</b> 实战 + 收官</span>
+      <span class="pill"><b>关键词</b> 底部 · 月线 · 分型 · 中枢震荡</span>
+      <span class="pill finale">★ 全 108 课终章</span>
+    </div>
+    <div class="scroll-hint">↓ 进入最后一课</div>
+  </div>
+</header>
+
+<main>
+  <!-- 1 -->
+  <section class="wrap reveal">
+    <div class="sec-no">01 — 立题</div>
+    <h2>"底部"到底是什么？</h2>
+    <p class="lead">这是一个被滥用最严重的词。缠师在最后一课，给它一个精确定义。</p>
+    <p>讲到这里，108 课已经走到最后。前面学完了<b>分型、笔、线段、走势中枢、背驰、买卖点、中枢震荡、级别</b>……这一课要做的，是把这些工具集中起来，回答一个所有人都关心的问题——<span class="hl-gold">什么叫做"底部"？</span></p>
+    <blockquote>
+      底部都是<b>分级别</b>的。底部不是一个点，而是一段构造的<b>过程</b>。
+      <span class="who">— 缠中说禅</span>
+    </blockquote>
+    <p>这句话先记住：<b>底部 = 一段过程</b>，不是一根 K 线，更不是一个所谓的"最低点"。</p>
+  </section>
+
+  <!-- 2 -->
+  <section class="wrap reveal">
+    <div class="sec-no">02 — 两套定义</div>
+    <h2>精确定义 vs 粗糙定义</h2>
+    <p class="lead">缠师给了两套——一精一粗，对应不同的功力。</p>
+    <div class="table">
+      <div class="row head"><div>视角</div><div>底部的定义</div><div>失败 / 完成的判定</div></div>
+      <div class="row">
+        <div class="name precise">精确·走势类型</div>
+        <div>从<b>第一类买点</b>出现起，到该买点所引发的中枢<b>第一次走出第三类买卖点</b>之前，整段都算底部构造过程。</div>
+        <div><b>第三类买点 →</b> 底部完成，展开新行情<br><b>第三类卖点 →</b> 底部构造失败</div>
+      </div>
+      <div class="row">
+        <div class="name rough">粗糙·分型</div>
+        <div>底部 = 构成<b>底分型</b>的那个区间。</div>
+        <div><b>有效站住分型上沿 →</b> 至少展开一笔上行<br><b>跌破分型最低点 →</b> 构造失败</div>
+      </div>
+    </div>
+    <p>能看清精确级别走势类型的，用第一套；一时分不清的，<b>退而求其次用分型</b>——足够把握大方向。<span class="hl-gold">顶部把上面反过来即可，不再赘述。</span></p>
+    <figure>
+      <img src="/_assets/ch108_p01.png" alt="底部精确定义示意图">
+      <figcaption>底部 = 一段过程（不是一个点）—— 从第一类买点起，到第三类买/卖点出现为止</figcaption>
+    </figure>
+  </section>
+
+  <!-- 3 -->
+  <section class="wrap reveal">
+    <div class="sec-no">03 — 最关键的一步</div>
+    <h2>在底部，怎么买？</h2>
+    <p class="lead">定义之后，操作上有一个反直觉的关键——这才是这一课最容易翻车的地方。</p>
+    <blockquote>
+      不是在底部的区间上买，而是相反，应该和<b>中枢震荡的操作一样</b>，在区间<b>下探失败时</b>买，这才是最好的买点。
+      <span class="who">— 缠中说禅</span>
+    </blockquote>
+    <div class="points">
+      <div class="pt">
+        <div class="dot">!</div>
+        <div>
+          <h4>错误做法：底部"区间上沿"追买</h4>
+          <p>看见价格回到底分型上沿，激动地追进去——结果一旦失败回探，立刻深套。</p>
+        </div>
+      </div>
+      <div class="pt">
+        <div class="dot">★</div>
+        <div>
+          <h4>正确做法：底部"下探失败"才买</h4>
+          <p>价格回探底部区间下沿，<b>未能跌破并失败上行</b>的那一刻，才是最安全的买点。<br>这套节奏和 <b>中枢震荡</b> 一模一样——<b>底要先买后卖，顶要先卖后买</b>。</p>
+        </div>
+      </div>
+      <div class="pt">
+        <div class="dot">L</div>
+        <div>
+          <h4>区间套找最精确的买入位</h4>
+          <p>在确认下探失败的过程里，用<b>更小级别</b>的走势套出最精确的进场点——这是前面已经反复讲过的方法。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4 -->
+  <section class="wrap reveal">
+    <div class="sec-no">04 — 实战</div>
+    <h2>2008 年 · 月线看底</h2>
+    <p class="lead">课文写于 2008 年 8 月 29 日，恰逢全球金融危机最深处——这是一个真实可考的月线案例。</p>
+    <p>用上面的定义对照当时的上证指数：<b>2008 年 8 月的月 K 基本走出来了</b>。能否构造月线底分型，关键看 <span class="hl-pivot">(2284, 2952)</span> 这个区间：</p>
+    <div class="grid">
+      <div class="card">
+        <div class="tag">月线底分型 · 防守</div>
+        <h3>2284 不能破</h3>
+        <p>这是月线底分型的"生死位"。一旦跌破，月线底分型至少要推迟到 <b>10 月之后</b>才有戏。</p>
+      </div>
+      <div class="card">
+        <div class="tag">月线底分型 · 进攻</div>
+        <h3>2952 要确认站上</h3>
+        <p>在有效确认站上 2952 之前，<b>月线意义上的行情没有</b>——眼下最多只是分型意义下的月线底部构造过程。</p>
+      </div>
+    </div>
+    <figure>
+      <img src="/_assets/ch108_p02.png" alt="上证月线底分型关键位 2284-2952">
+      <figcaption>月线视角：(2284, 2952) 是底分型构造的关键区间</figcaption>
+    </figure>
+    <p>对于一般投资者，<b>月线图太大</b>，可以看周线：本周与上周构成包含关系——下周是能否构成周底分型的关键日子；而要真正走出周线底部，必须对 <span class="hl-pivot">(2284, 2601)</span> 突破有效确认。</p>
+    <figure>
+      <img src="/_assets/ch108_p03.png" alt="周线底分型关键位">
+      <figcaption>周线视角：包含关系尚未化解；(2284, 2601) 是周底分型的关键</figcaption>
+    </figure>
+    <p>再下沉到日线：当下不过就是 8 月 18 日开始的底分型所引发的底部构造——<b>是否最终有效，看 (2284, 2455) 区间走势的演化</b>。</p>
+    <figure>
+      <img src="/_assets/ch108_p04.png" alt="日线底部构造区间">
+      <figcaption>日线视角：(2284, 2455) 区间的演化决定日线底分型是否有效</figcaption>
+    </figure>
+    <p>三张图、三个级别叠在一起——这就是缠师反复强调的<span class="hl-gold">同一段走势的多级别分类</span>：月线、周线、日线讲的是同一件事，但级别越大，操作的力度和耐心要求越高。</p>
+  </section>
+
+  <!-- 5 -->
+  <section class="wrap reveal">
+    <div class="sec-no">05 — 三阶段节奏</div>
+    <h2>所有走势都逃不出三段节奏</h2>
+    <p class="lead">这是这一课最重要的"操作总纲"，也是 108 课的浓缩。</p>
+    <blockquote>
+      任何走势，无论怎么折腾，都逃不出这个节奏——<b>底、顶以及连接两者的中间过程</b>。
+      <span class="who">— 缠中说禅</span>
+    </blockquote>
+    <div class="grid">
+      <div class="card">
+        <div class="tag">阶段一</div>
+        <h3>底部 · 中枢震荡</h3>
+        <p>节奏 = <b>先买后卖</b>。在区间下沿下探失败时买，区间上沿涨不动时减——更安全。</p>
+      </div>
+      <div class="card">
+        <div class="tag">阶段二</div>
+        <h3>连接 · 持有</h3>
+        <p>上涨连接持股；下跌连接<b>持币持空</b>——缠师戏称"小板凳就是最好的持有"，一直坐到底部构造完成。</p>
+      </div>
+      <div class="card">
+        <div class="tag">阶段三</div>
+        <h3>顶部 · 中枢震荡</h3>
+        <p>节奏 = <b>先卖后买</b>。在区间上沿冲高失败时卖，区间下沿企稳时减空。</p>
+      </div>
+      <div class="card">
+        <div class="tag">心法</div>
+        <h3>按操作级别分清三阶段</h3>
+        <p>能分清当下处于哪一段，<b>日日是好日，时时是花时</b>。亏钱都是错误操作引起的——不断反省，才会有进步。</p>
+      </div>
+    </div>
+    <figure>
+      <img src="/_assets/ch108_p05.png" alt="底-中段-顶三阶段示意">
+      <figcaption>三阶段节奏：底（先买后卖） → 连接（持有） → 顶（先卖后买）</figcaption>
+    </figure>
+  </section>
+
+  <!-- 6 -->
+  <section class="wrap reveal">
+    <div class="sec-no">06 — 后续验证</div>
+    <h2>真实演化 · 月线底分型最终落在了哪里</h2>
+    <p class="lead">课文之后，缠师在 9 月、10 月持续跟踪——这段真实日记，比任何回测都更值得读。</p>
+    <div class="timeline">
+      <div class="tl-item">
+        <div class="tl-date">2008-09-03</div>
+        <h4>大盘破底 → 月底分型推迟</h4>
+        <p>"大盘终于破底，这使得月线底分型最快也要到 10 月才能构成。"——课文里早已埋好的判断兑现。</p>
+      </div>
+      <div class="tl-item">
+        <div class="tl-date">2008-09-04</div>
+        <h4>警告：调整严酷性不能掉以轻心</h4>
+        <p>"资产价格的下跌总是抛向远离合理水平的疯狂状态……一次较大经济调整过后，总是有一段漫长的恢复期。"</p>
+      </div>
+      <div class="tl-item">
+        <div class="tl-date">2008-09-18</div>
+        <h4>1987 年 10 月 19 日的提醒</h4>
+        <p>"今年恰好 21 年的神奇数字……10 月见底依然有可能，只是需要更猛烈的暴跌。"</p>
+      </div>
+      <div class="tl-item">
+        <div class="tl-date">2008-10-05</div>
+        <h4>美国救市 = 闹剧一场</h4>
+        <p>"8500 亿不是天上掉下来的馅饼，归根结底来源于美元泡沫的继续加大。"——把宏观博弈拆给读者看。</p>
+      </div>
+      <div class="tl-item">
+        <div class="tl-date">2008-10-10</div>
+        <h4>结语：1019 前后还有什么，等着</h4>
+        <p>这是 108 课正文留下的最后一句——既是当时的实战预判，也是缠师与读者告别前的余韵。</p>
+      </div>
+    </div>
+    <figure>
+      <img src="/_assets/ch108_p06.png" alt="9月跟踪图1">
+      <figcaption>2008 年 9 月跟踪图（一）：反弹技术条件与中枢分析</figcaption>
+    </figure>
+    <figure>
+      <img src="/_assets/ch108_p08.png" alt="10月美国救市背景下的图">
+      <figcaption>2008 年 10 月初：美国救市背景下的世界金融市场走势</figcaption>
+    </figure>
+  </section>
+
+  <!-- 7 -->
+  <section class="wrap reveal">
+    <div class="sec-no">07 — 心法落地</div>
+    <h2>消灭一种致命的思维</h2>
+    <p class="lead">这一段抄给所有想要"等下次大底"的人——必看。</p>
+    <blockquote>
+      千万别有<b>等下一大级别再如何如何</b>的想法。10000 跌到 6000 反弹到 8000，再跌到 2000 反弹到 4000——你说 2000→4000 是不是大涨？但这有什么用？<br>
+      <b>不会分段操作，一味死扛的根本不该到股票中来。</b>
+      <span class="who">— 缠中说禅</span>
+    </blockquote>
+    <p>缠师把这句话讲得很重，是因为他知道大多数人是怎么死的——总在等一个"更便宜的、更确定的、更大的"机会，把当下能吃的苹果放过去。但<span class="hl-gold">股票就是分段操作</span>：下一段就算有天大的宝贝，都和当下这一段无关。</p>
+    <div class="points">
+      <div class="pt">
+        <div class="dot">A</div>
+        <div>
+          <h4>吃到当下的苹果就是英雄</h4>
+          <p>把当下这一段操作干净——这是缠论 108 课所有方法论的目的。</p>
+        </div>
+      </div>
+      <div class="pt">
+        <div class="dot">B</div>
+        <div>
+          <h4>所有预测都是闲谈</h4>
+          <p>"任何所谓的预测，都只是活动一下唾液的分泌功能。"看图、看完全分类、按级别操作——其余皆为戏言。</p>
+        </div>
+      </div>
+      <div class="pt">
+        <div class="dot">C</div>
+        <div>
+          <h4>本ID每天写的就是一份操作完全分类</h4>
+          <p>"任何操作必须以完全分类为基础，否则只有死路一条。"108 课的全部内容，就是这份完全分类的展开。</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="tldr">
+      <div class="lab">一句话总结</div>
+      <p>底部是一段过程不是一个点——精确定义看走势类型（一买到三买/卖之间），粗糙定义看分型；操作上要像中枢震荡一样<b>在区间下探失败时买</b>，而所有走势都逃不出"底-连接-顶"三阶段，<b>能分清当下处于哪一段，日日是好日</b>。</p>
+    </div>
+  </section>
+
+  <!-- 8 收官 -->
+  <section class="wrap reveal">
+    <div class="sec-no">08 — 收官</div>
+    <h2>教你炒股票 108 课 · 至此完结</h2>
+    <p class="lead">从第 1 课"经济人与赢家心法"，走到第 108 课"月线看底部"——一整套理论与心法，在此画上句号。</p>
+
+    <div class="finale">
+      <span class="stamp">★ 全 108 课 · 收官 ★</span>
+      <h3>走势终完美，108 课终亦完美</h3>
+      <p>从<b>分型、笔、线段</b>到<b>走势中枢、级别、背驰</b>；从<b>第一/二/三类买卖点</b>到<b>中枢震荡、走势必完美</b>；从<b>几何能量结构</b>到<b>中医兵法诗歌操作</b>；再到这最后一课的<b>底部精确定义</b>——108 课讲的是同一件事：<b>看清当下处于走势的哪一段，按级别分段操作</b>。</p>
+      <p>缠师把走势分析做成了"几何"，把操作做成了"完全分类"。把这两件事真正做到，<b>赚钱是结果，不是目的</b>；亏钱都是错误操作引起的——这就是缠论留下的全部。</p>
+      <p>苹果在当下。今天能吃到的，才是真的。<br><span class="hl-gold">教你炒股票 108 课，至此完结。</span></p>
+      <div class="sig">第 1 课 → 第 108 课 · <b>历时两年余 · 共 108 篇</b> · 个人学习整理</div>
+    </div>
+  </section>
+</main>
+
+<footer class="wrap">
+  原文出处：raw/缠中说禅/教你炒股票108课/教你炒股票108：何谓底部？从月线看中期走势演化.md<br>
+  本页为个人学习复习用 · 非投资建议 · 全 108 课系列终章
+</footer>
+
+<script>
+  const bar=document.getElementById('bar');
+  const onScroll=()=>{
+    const h=document.documentElement;
+    const p=h.scrollTop/(h.scrollHeight-h.clientHeight);
+    bar.style.width=(p*100)+'%';
+  };
+  document.addEventListener('scroll',onScroll,{passive:true});onScroll();
+
+  const io=new IntersectionObserver((es)=>{
+    es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});
+  },{threshold:.12});
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+</script>
+<script src="/assets/_nav.js"></script><script src="/assets/_shell.js"></script></body>
+</html>

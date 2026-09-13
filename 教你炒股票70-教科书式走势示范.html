@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>缠论 · 教你炒股票70：教科书式走势示范</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@500;700;900&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0b0e12;
+    --bg-elev:#12161c;
+    --bg-card:#161b22;
+    --ink:#e8eaed;
+    --ink-dim:#9aa3ad;
+    --ink-faint:#5b6470;
+    --line:rgba(255,255,255,.07);
+    --up:#ff4d4f;
+    --down:#16c784;
+    --pivot:#37c0e6;
+    --gold:#e8b339;
+    --max:880px;
+    --serif:"Noto Serif SC",serif;
+    --mono:"JetBrains Mono",ui-monospace,monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--bg);color:var(--ink);
+    font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;
+    line-height:1.85;font-size:17px;-webkit-font-smoothing:antialiased;overflow-x:hidden;
+  }
+  body::before{content:"";position:fixed;inset:0;z-index:-2;
+    background:
+      radial-gradient(1200px 600px at 70% -10%, rgba(55,192,230,.08), transparent 60%),
+      radial-gradient(900px 500px at 0% 100%, rgba(232,179,57,.05), transparent 55%);
+    pointer-events:none;}
+  body::after{content:"";position:fixed;inset:0;z-index:-1;opacity:.4;
+    background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);
+    background-size:46px 46px;
+    -webkit-mask-image:radial-gradient(ellipse at 50% 0%, #000 30%, transparent 80%);
+            mask-image:radial-gradient(ellipse at 50% 0%, #000 30%, transparent 80%);
+    pointer-events:none;}
+  #bar{position:fixed;top:0;left:0;height:3px;width:0;z-index:50;
+    background:linear-gradient(90deg,var(--pivot),var(--gold));box-shadow:0 0 12px var(--pivot);}
+  .wrap{max-width:var(--max);margin:0 auto;padding:0 24px}
+  header.hero{padding:120px 0 70px;text-align:center;position:relative}
+  .kicker{font-family:var(--mono);font-size:13px;letter-spacing:.32em;color:var(--pivot);
+    text-transform:uppercase;margin-bottom:26px}
+  .kicker span{color:var(--ink-faint)}
+  h1.title{font-family:var(--serif);font-weight:900;line-height:1.05;
+    font-size:clamp(44px,9.5vw,92px);letter-spacing:.04em;
+    background:linear-gradient(180deg,#fff 30%,#8aa0ad 130%);
+    -webkit-background-clip:text;background-clip:text;color:transparent;}
+  .sub{margin:22px auto 0;max-width:580px;color:var(--ink-dim);font-size:18px}
+  .meta{margin-top:34px;display:flex;gap:14px;justify-content:center;flex-wrap:wrap;
+    font-family:var(--mono);font-size:12px;color:var(--ink-faint)}
+  .meta b{color:var(--ink-dim);font-weight:500}
+  .pill{border:1px solid var(--line);padding:6px 14px;border-radius:999px;background:rgba(255,255,255,.02)}
+  .scroll-hint{margin-top:60px;color:var(--ink-faint);font-family:var(--mono);font-size:12px;
+    animation:bob 2.4s ease-in-out infinite}
+  @keyframes bob{0%,100%{transform:translateY(0);opacity:.5}50%{transform:translateY(8px);opacity:1}}
+  section{padding:64px 0;border-top:1px solid var(--line)}
+  .sec-no{font-family:var(--mono);font-size:13px;color:var(--gold);letter-spacing:.2em;margin-bottom:10px}
+  h2{font-family:var(--serif);font-weight:700;font-size:clamp(28px,5vw,42px);
+    line-height:1.25;margin-bottom:8px;letter-spacing:.02em}
+  .lead{color:var(--ink-dim);font-size:16px;margin-bottom:28px;max-width:640px}
+  p{margin:0 0 18px;color:#cfd5dc}
+  p b,strong{color:#fff;font-weight:700}
+  .hl-pivot{color:var(--pivot);font-weight:700}
+  .hl-up{color:var(--up);font-weight:700}
+  .hl-down{color:var(--down);font-weight:700}
+  .hl-gold{color:var(--gold);font-weight:700}
+  blockquote{margin:26px 0;padding:20px 24px;border-left:3px solid var(--pivot);
+    background:linear-gradient(90deg,rgba(55,192,230,.07),transparent);
+    border-radius:0 10px 10px 0;font-family:var(--serif);font-size:19px;color:#eaf6fb}
+  blockquote .who{display:block;margin-top:8px;font-family:var(--mono);font-size:12px;
+    color:var(--ink-faint);font-style:normal}
+  figure{margin:34px 0}
+  figure img{width:100%;border-radius:12px;border:1px solid var(--line);
+    background:#fff;box-shadow:0 18px 50px rgba(0,0,0,.5)}
+  figcaption{margin-top:12px;font-size:13px;color:var(--ink-faint);text-align:center;font-family:var(--mono)}
+  .grid{display:grid;gap:16px;grid-template-columns:1fr 1fr;margin:28px 0}
+  @media(max-width:640px){.grid{grid-template-columns:1fr}}
+  .card{background:var(--bg-card);border:1px solid var(--line);border-radius:14px;padding:24px;
+    position:relative;overflow:hidden;transition:transform .35s ease,border-color .35s ease}
+  .card:hover{transform:translateY(-4px);border-color:rgba(55,192,230,.4)}
+  .card .tag{font-family:var(--mono);font-size:11px;letter-spacing:.18em;color:var(--gold);text-transform:uppercase}
+  .card h3{font-family:var(--serif);font-size:21px;margin:10px 0 8px;color:#fff}
+  .card p{font-size:15px;color:var(--ink-dim);margin:0}
+  .table{margin:28px 0;border:1px solid var(--line);border-radius:14px;overflow:hidden}
+  .table .row{display:grid;grid-template-columns:.6fr 1.4fr 1.6fr;align-items:stretch}
+  .table .row+.row{border-top:1px solid var(--line)}
+  .table .row > div{padding:16px 18px}
+  .table .row.head{background:var(--bg-elev);font-family:var(--mono);font-size:12px;
+    letter-spacing:.14em;color:var(--ink-faint);text-transform:uppercase}
+  .table .row > div+div{border-left:1px solid var(--line)}
+  .table .name{font-family:var(--serif);font-weight:700;font-size:18px;display:grid;place-items:center;text-align:center}
+  .table .n1{color:var(--up)}
+  .table .n2{color:var(--down)}
+  .table .n3{color:var(--pivot)}
+  @media(max-width:560px){
+    .table .row{grid-template-columns:1fr}
+    .table .row > div+div{border-left:0;border-top:1px solid var(--line)}
+    .table .row.head{display:none}
+  }
+  ol.think{counter-reset:q;list-style:none;margin:24px 0;display:flex;flex-direction:column;gap:14px}
+  ol.think li{counter-increment:q;position:relative;padding:18px 20px 18px 60px;
+    background:var(--bg-elev);border:1px solid var(--line);border-radius:12px;color:var(--ink-dim);font-size:15px}
+  ol.think li::before{content:counter(q,decimal-leading-zero);position:absolute;left:20px;top:18px;
+    font-family:var(--mono);color:var(--gold);font-weight:700}
+  .ladder{margin:30px 0;display:flex;flex-direction:column;gap:14px}
+  .step{display:flex;gap:18px;align-items:flex-start;background:var(--bg-card);
+    border:1px solid var(--line);border-radius:12px;padding:20px 22px}
+  .step .lv{flex:none;width:80px;font-family:var(--mono);font-size:11px;letter-spacing:.18em;
+    color:var(--gold);text-transform:uppercase;padding-top:4px}
+  .step h4{font-size:17px;margin-bottom:6px;color:#fff}
+  .step p{font-size:15px;color:var(--ink-dim);margin:0}
+  .tldr{margin:60px 0 0;padding:36px 30px;border:1px solid rgba(55,192,230,.3);border-radius:18px;
+    background:radial-gradient(120% 120% at 100% 0%,rgba(55,192,230,.1),transparent 60%),var(--bg-elev);text-align:center}
+  .tldr .lab{font-family:var(--mono);font-size:12px;letter-spacing:.3em;color:var(--pivot);text-transform:uppercase}
+  .tldr p{font-family:var(--serif);font-size:clamp(20px,3.4vw,28px);line-height:1.7;color:#fff;margin:16px 0 0}
+  footer{padding:60px 0 90px;text-align:center;color:var(--ink-faint);font-family:var(--mono);font-size:12px;border-top:1px solid var(--line)}
+  .reveal{opacity:0;transform:translateY(26px);transition:opacity .8s ease,transform .8s ease}
+  .reveal.in{opacity:1;transform:none}
+  @media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}.scroll-hint{animation:none}}
+</style>
+<meta name="view-transition" content="same-origin"><style>@view-transition{navigation:auto}</style></head>
+<body>
+<div id="bar"></div>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="kicker">缠中说禅 · 教你炒股票108课 <span>/ 第 70 课</span></div>
+    <h1 class="title">教科书式走势示范</h1>
+    <p class="sub">一节"当下分析课"——用 5 分钟中枢、结合律和背驰，把多级别操作的纪律演示得一清二楚。</p>
+    <div class="meta">
+      <span class="pill"><b>原文</b> 2007-08-15</span>
+      <span class="pill"><b>类型</b> 实战示范</span>
+      <span class="pill"><b>关键词</b> 结合律 · 5 分钟中枢 · 三种演化 · 多级别操作</span>
+    </div>
+    <div class="scroll-hint">↓ 向下滚动，逐层拆解</div>
+  </div>
+</header>
+
+<main>
+  <!-- 1 -->
+  <section class="wrap reveal">
+    <div class="sec-no">01 — 核心抓手</div>
+    <h2>结合律：连接走势的根本规则</h2>
+    <p class="lead">为什么缠师看盘时会反复"换中枢"？答案藏在抽象代数里。</p>
+    <p>课的开头有一句很硬的话：<b>结合律是走势分析中至关重要的</b>。结合律本来是数学概念——「(a·b)·c = a·(b·c)」无论怎么拼，结果不变。放到走势里就是说：把同一段走势按不同方式分段、组合，<span class="hl-pivot">底层结构不会被破坏</span>。</p>
+    <blockquote>
+      本ID的理论，就是走势保持结合律下具有变换不变性的一套理论，而且可以严格地证明，是唯一能保持分解变换不变且保持结合律的一套理论。
+      <span class="who">— 缠中说禅</span>
+    </blockquote>
+    <p>正因为有结合律保底，缠师可以<b>当下</b>用最方便的方式去拆分走势——哪个中枢看着舒服就用哪个，分析结论<b>不会因为划分方式而改变</b>。换中枢，不是"反悔"，而是"换一个观察角度去看同一个走势"。</p>
+  </section>
+
+  <!-- 2 -->
+  <section class="wrap reveal">
+    <div class="sec-no">02 — 当下结构</div>
+    <h2>8-17 那个 5 分钟中枢长啥样</h2>
+    <p class="lead">先把"看图"这件事讲清楚：当下能"自动走出"什么样的结构。</p>
+    <p>到这天为止，走势已经把自己<b>自动</b>切成一个明显划分：<span class="hl-pivot">8-17 这一段构成一个 5 分钟中枢</span>。它是更早 4300 点那个 5 分钟中枢上来之后，<b>新形成的</b>另一个 5 分钟中枢。</p>
+    <p>这种判断不需要预测——它是"当下"被走势写好的。任何学过缠论的人，<b>在中枢刚形成的时候，都能指出来</b>。重点不是猜，而是看明白：5 分钟中枢 = 至少 3 段 1 分钟级别走势相互重叠出来的箱体。</p>
+    <figure>
+      <img src="/_assets/ch70_p01.png" alt="1 分钟图——走势细节标注">
+      <figcaption>1 分钟图：标号 8-17 段构成 5 分钟中枢；17-38 是其后一段 1 分钟级别上涨</figcaption>
+    </figure>
+  </section>
+
+  <!-- 3 -->
+  <section class="wrap reveal">
+    <div class="sec-no">03 — 三种演化</div>
+    <h2>5 分钟中枢形成后，理论上只有 3 条路</h2>
+    <p class="lead">一旦中枢确立，后续演化的"完备空间"只有三种可能。</p>
+    <div class="table">
+      <div class="row head"><div>编号</div><div>演化方向</div><div>含义</div></div>
+      <div class="row">
+        <div class="name n1">①</div>
+        <div>向上出现<b>第三类买点</b></div>
+        <div>走出 1 分钟向上走势类型 → 在上方<b>构成新的 5 分钟中枢</b>，台阶式抬升</div>
+      </div>
+      <div class="row">
+        <div class="name n2">②</div>
+        <div>向下出现<b>第三类卖点</b></div>
+        <div>走出 1 分钟向下走势类型 → 在下方<b>构成新的 5 分钟中枢</b>，台阶式下降</div>
+      </div>
+      <div class="row">
+        <div class="name n3">③</div>
+        <div><b>中枢延伸</b> / 扩展</div>
+        <div>原地震荡继续，或者出现第三买卖点后<b>扩展成更大的 30 分钟中枢</b></div>
+      </div>
+    </div>
+    <blockquote>
+      在行情发展中，没必要去预测走势选择什么，走势自然选择，只需要观察着就可以。
+      <span class="who">— 关键操作哲学</span>
+    </blockquote>
+    <p>这次走势<b>自然选择了第一种</b>——17-38 走出完美的 1 分钟向上走势类型；其中最后一个 1 分钟中枢 32-35，<span class="hl-gold">正扩展出新 5 分钟中枢的雏形</span>。后面会不会再向上扩出 30 分钟中枢，或者再起一波第三买点继续抬升，<b>无须预测、只要跟上节奏</b>。</p>
+  </section>
+
+  <!-- 4 -->
+  <section class="wrap reveal">
+    <div class="sec-no">04 — 操作纪律</div>
+    <h2>同一段行情，三种级别三种走法</h2>
+    <p class="lead">这才是这堂"教科书"课最值钱的地方：不同级别，纪律完全不同。</p>
+    <div class="ladder">
+      <div class="step">
+        <div class="lv">30 分钟</div>
+        <div>
+          <h4>持仓不动，做大震荡</h4>
+          <p>5 分钟级别的中枢移动、震荡<b>根本无须理睬</b>。只要看明白即可，<b>不必有任何操作</b>——级别没到，节奏不属于你。</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="lv">5 分钟</div>
+        <div>
+          <h4>不参与大震荡，等本级别背驰</h4>
+          <p>不参与大于 5 分钟级别的震荡。等<b>本级别 5 分钟上涨出现背驰</b>再走人。中枢内的来回不操作，因为那是更小级别的活动。</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="lv">1 分钟</div>
+        <div>
+          <h4>背驰即走，回抽再补</h4>
+          <p>今天早上 1 分钟上涨已现背驰——<b>按理论必然回抽到最后一个 1 分钟中枢之内</b>，从而至少形成新的 5 分钟中枢。所以先走、等回抽走出 5 分钟震荡再回补。</p>
+        </div>
+      </div>
+    </div>
+    <p>三句话总结：<span class="hl-pivot">级别越大、动作越少</span>。这就是多级别操作纪律的本质——你的级别决定你的视野，也决定你的节奏。<b>不属于你级别的波动，看一眼就好，不要插手</b>。</p>
+  </section>
+
+  <!-- 5 -->
+  <section class="wrap reveal">
+    <div class="sec-no">05 — 背驰判断</div>
+    <h2>该比哪两段？为什么用 5 分钟图看？</h2>
+    <p class="lead">背驰判断不玄学，关键是"找对要比的两段"。</p>
+    <p>这次背驰判断的关键，是把<span class="hl-gold">27-32 与 35-38</span>两段拿来比。理论上要在 1 分钟图上加两段的 MACD——但<b>太麻烦</b>。所以缠师用了一个"等价偷懒法"：</p>
+    <blockquote>
+      可以看 5 分钟图。下面 MACD 的红箭头，对应是回抽那一下，对应走势，就是最后一个 1 分钟中枢形成的时候，前面两段的对比，<b>极为教科书</b>。
+      <span class="who">— 操作技巧</span>
+    </blockquote>
+    <p>这是缠论里一个常被忽略的细节：<b>较低级别上要做的比较，常常可以在较高级别的图上一眼看出来</b>。原理还是结合律——同一段走势，不同分解方式都不改变其内在结构，MACD 红绿柱在更高级别图上的呈现往往<b>更干净</b>。</p>
+    <figure>
+      <img src="/_assets/ch70_p02.png" alt="5 分钟图——背驰对比">
+      <figcaption>5 分钟图：两段对比已标记，MACD 红箭头对应回抽，是教科书式背驰</figcaption>
+    </figure>
+  </section>
+
+  <!-- 6 -->
+  <section class="wrap reveal">
+    <div class="sec-no">06 — 线段细节</div>
+    <h2>为什么 38 标记的不是最高点？</h2>
+    <p class="lead">一个看似细枝末节、实则关键的规范化原则。</p>
+    <p>1 分钟图上 38 标记的位置用红箭头给出，<b>那不是最高的位置</b>。为什么？</p>
+    <div class="grid">
+      <div class="card">
+        <div class="tag">规则</div>
+        <h3>分段不必结束在极值</h3>
+        <p>没有人规定分段的结束位置一定是最高、最低的。<b>关键要有至少三笔</b>。</p>
+      </div>
+      <div class="card">
+        <div class="tag">本例</div>
+        <h3>37 之后不足三笔</h3>
+        <p>从 37 开始到最高位置<b>没有三笔</b>，所以那段<b>线段不能算完成</b>，只能依然标在 38。</p>
+      </div>
+      <div class="card">
+        <div class="tag">类比</div>
+        <h3>用波动区域代替波动点</h3>
+        <p>在 1 分钟级别上看，37-38 这一段就结束在最高位置——<b>线段把图形规范化</b>，就像中枢用次级别走势的<b>区域</b>而非点来定义重叠。</p>
+      </div>
+      <div class="card">
+        <div class="tag">本质</div>
+        <h3>规范化 > 精准点</h3>
+        <p>缠论的"分段"是为了让走势<b>结构清晰</b>，不是追求像素级精度。少看一个针尖，多看一个区域。</p>
+      </div>
+    </div>
+    <p>这一条把"结合律"再次落到操作上：分段的选择有<b>一定自由度</b>，重要的是<span class="hl-pivot">保持结构变换不变</span>，不是抠某一根 K 线的具体位置。</p>
+  </section>
+
+  <!-- 7 -->
+  <section class="wrap reveal">
+    <div class="sec-no">07 — 大势框架</div>
+    <h2>4700 点：短线调整级别的胜负手</h2>
+    <p class="lead">第二天补的盘后分析，给出一个"清晰条件判断"。</p>
+    <p>第二天（8月16日）缠师在盘后给了一个干净的条件判断模板：</p>
+    <blockquote>
+      16 这点如果跌破，那么，<b>形成 30 分钟中枢震荡就是唯一选择</b>了；换言之，<b>4700 点如果不破</b>，还有在目前位置形成新的 5 分钟震荡可能，也就是原来的 5 分钟上涨走势依然能维持。
+      <span class="who">— 大势条件判断</span>
+    </blockquote>
+    <p>这种<span class="hl-gold">"如果 A 则 B，否则 C"</span>的表述，是缠论实战的标准范式：<b>不预测、列条件、看走势自选</b>。短线调整级别的大小，就看 4700 这条线。你只要带着这个 if-else 看盘，<b>走势自己会告诉你身在何处</b>。</p>
+    <p>这堂课的另一句旁白也值得抄下来：「<b>全球化社会里，没有哪个股市是可以与世隔绝的</b>」——但热点蔓延的二、三线股，是穿越外部风雨的现实办法。判断牛熊也用同一套方法：看中枢结构、看级别，不用看新闻情绪。</p>
+    <figure>
+      <img src="/_assets/ch70_p06.png" alt="盘后大势分析图">
+      <figcaption>盘后图：46 点标记暂为大致位置，若明日大幅高开需重新划分</figcaption>
+    </figure>
+
+    <ol class="think">
+      <li>为什么 5 分钟中枢形成后只有这 3 种演化？换一个角度——能否用"走势终完美"+"必含中枢"两条原理直接推导出来？</li>
+      <li>为什么"换中枢"不影响操作纪律？请用结合律解释一遍。</li>
+      <li>5 分钟图上看 1 分钟背驰，本质上利用了什么？这种"借高级别看低级别"的技巧可以推广到哪些场景？</li>
+      <li>30 分钟级别操作者完全不理 5 分钟震荡，他在期待什么样的卖出信号？</li>
+    </ol>
+
+    <div class="tldr">
+      <div class="lab">一句话总结</div>
+      <p>这是一堂"当下分析示范课"——用结合律保证分解自由，用"5 分钟中枢的 3 种演化"穷尽未来可能，用"级别决定纪律"区分操作节奏；不预测、列条件、看走势自选，这才是缠论实战的本来面目。</p>
+    </div>
+  </section>
+</main>
+
+<footer class="wrap">
+  原文出处：raw/缠中说禅/教你炒股票108课/教你炒股票70：一个教科书式走势的示范分析.md<br>
+  本页为个人学习复习用·非投资建议
+</footer>
+
+<script>
+  const bar=document.getElementById('bar');
+  const onScroll=()=>{
+    const h=document.documentElement;
+    const p=h.scrollTop/(h.scrollHeight-h.clientHeight);
+    bar.style.width=(p*100)+'%';
+  };
+  document.addEventListener('scroll',onScroll,{passive:true});onScroll();
+  const io=new IntersectionObserver((es)=>{
+    es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});
+  },{threshold:.12});
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+</script>
+<script src="/assets/_nav.js"></script><script src="/assets/_shell.js"></script></body>
+</html>

@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>缠论 · 教你炒股票3：你的喜好，你的死亡陷阱！</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@500;700;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0b0e12;--bg-elev:#12161c;--bg-card:#161b22;
+    --ink:#e8eaed;--ink-dim:#9aa3ad;--ink-faint:#5b6470;
+    --line:rgba(255,255,255,.07);
+    --up:#ff4d4f;--down:#16c784;--pivot:#37c0e6;--gold:#e8b339;--blue:#00d4ff;
+    --max:880px;--serif:"Noto Serif SC",serif;--mono:"JetBrains Mono",ui-monospace,monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--ink);font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;line-height:1.85;font-size:17px;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  body::before{content:"";position:fixed;inset:0;z-index:-2;background:radial-gradient(1200px 600px at 70% -10%,rgba(55,192,230,.08),transparent 60%),radial-gradient(900px 500px at 0% 100%,rgba(232,179,57,.05),transparent 55%);pointer-events:none}
+  body::after{content:"";position:fixed;inset:0;z-index:-1;opacity:.4;background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);background-size:46px 46px;-webkit-mask-image:radial-gradient(ellipse at 50% 0%,#000 30%,transparent 80%);mask-image:radial-gradient(ellipse at 50% 0%,#000 30%,transparent 80%);pointer-events:none}
+  #bar{position:fixed;top:0;left:0;height:3px;width:0;z-index:50;background:linear-gradient(90deg,var(--pivot),var(--gold));box-shadow:0 0 12px var(--pivot)}
+  .wrap{max-width:var(--max);margin:0 auto;padding:0 24px}
+  header.hero{padding:120px 0 70px;text-align:center;position:relative}
+  .kicker{font-family:var(--mono);font-size:13px;letter-spacing:.32em;color:var(--pivot);text-transform:uppercase;margin-bottom:26px}
+  .kicker span{color:var(--ink-faint)}
+  h1.title{font-family:var(--serif);font-weight:900;line-height:1.05;font-size:clamp(44px,10vw,100px);letter-spacing:.04em;background:linear-gradient(180deg,#fff 30%,#8aa0ad 130%);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .sub{margin:22px auto 0;max-width:580px;color:var(--ink-dim);font-size:18px}
+  .meta{margin-top:34px;display:flex;gap:14px;justify-content:center;flex-wrap:wrap;font-family:var(--mono);font-size:12px;color:var(--ink-faint)}
+  .meta b{color:var(--ink-dim);font-weight:500}
+  .pill{border:1px solid var(--line);padding:6px 14px;border-radius:999px;background:rgba(255,255,255,.02)}
+  .scroll-hint{margin-top:60px;color:var(--ink-faint);font-family:var(--mono);font-size:12px;animation:bob 2.4s ease-in-out infinite}
+  @keyframes bob{0%,100%{transform:translateY(0);opacity:.5}50%{transform:translateY(8px);opacity:1}}
+  section{padding:64px 0;border-top:1px solid var(--line)}
+  .sec-no{font-family:var(--mono);font-size:13px;color:var(--gold);letter-spacing:.2em;margin-bottom:10px}
+  h2{font-family:var(--serif);font-weight:700;font-size:clamp(28px,5vw,42px);line-height:1.25;margin-bottom:8px;letter-spacing:.02em}
+  .lead{color:var(--ink-dim);font-size:16px;margin-bottom:28px;max-width:660px}
+  p{margin:0 0 18px;color:#cfd5dc}
+  p b,strong{color:#fff;font-weight:700}
+  .hl-pivot{color:var(--pivot);font-weight:700}.hl-up{color:var(--up);font-weight:700}
+  .hl-down{color:var(--down);font-weight:700}.hl-gold{color:var(--gold);font-weight:700}
+  blockquote{margin:26px 0;padding:20px 24px;border-left:3px solid var(--pivot);background:linear-gradient(90deg,rgba(55,192,230,.07),transparent);border-radius:0 10px 10px 0;font-family:var(--serif);font-size:19px;color:#eaf6fb}
+  blockquote .who{display:block;margin-top:8px;font-family:var(--mono);font-size:12px;color:var(--ink-faint);font-style:normal}
+  figure{margin:34px 0}
+  figure img{width:100%;border-radius:12px;border:1px solid var(--line);background:#fff;box-shadow:0 18px 50px rgba(0,0,0,.5)}
+  figcaption{margin-top:12px;font-size:13px;color:var(--ink-faint);text-align:center;font-family:var(--mono)}
+  .grid{display:grid;gap:16px;grid-template-columns:1fr 1fr;margin:28px 0}
+  @media(max-width:640px){.grid{grid-template-columns:1fr}}
+  .card{background:var(--bg-card);border:1px solid var(--line);border-radius:14px;padding:24px;position:relative;overflow:hidden;transition:transform .35s ease,border-color .35s ease}
+  .card:hover{transform:translateY(-4px);border-color:rgba(55,192,230,.4)}
+  .card .tag{font-family:var(--mono);font-size:11px;letter-spacing:.18em;color:var(--gold);text-transform:uppercase}
+  .card h3{font-family:var(--serif);font-size:21px;margin:10px 0 8px;color:#fff}
+  .card p{font-size:15px;color:var(--ink-dim);margin:0}
+  .table{margin:28px 0;border:1px solid var(--line);border-radius:14px;overflow:hidden}
+  .table .row{display:grid;grid-template-columns:1.1fr 1.5fr 1.6fr;align-items:stretch}
+  .table .row+.row{border-top:1px solid var(--line)}
+  .table .row>div{padding:16px 18px}
+  .table .row.head{background:var(--bg-elev);font-family:var(--mono);font-size:12px;letter-spacing:.14em;color:var(--ink-faint);text-transform:uppercase}
+  .table .row>div+div{border-left:1px solid var(--line)}
+  .table .name{font-family:var(--serif);font-weight:700;font-size:18px}
+  .table .name.left{color:var(--down)}
+  .table .name.right{color:var(--up)}
+  .cnt{font-family:var(--mono);font-size:14px;color:var(--pivot)}
+  @media(max-width:560px){.table .row{grid-template-columns:1fr}.table .row>div+div{border-left:0;border-top:1px solid var(--line)}.table .row.head{display:none}}
+  .points{margin:26px 0;display:flex;flex-direction:column;gap:14px}
+  .pt{display:flex;gap:16px;align-items:flex-start;background:var(--bg-card);border:1px solid var(--line);border-radius:12px;padding:18px 20px}
+  .pt .dot{flex:none;width:42px;height:42px;border-radius:10px;display:grid;place-items:center;font-family:var(--serif);font-weight:900;font-size:20px;color:#0b0e12}
+  .pt.b .dot{background:var(--up)}.pt.s .dot{background:var(--down)}
+  .pt h4{font-size:17px;margin-bottom:4px;color:#fff}.pt p{font-size:15px;color:var(--ink-dim);margin:0}
+  ol.think{counter-reset:q;list-style:none;margin:24px 0;display:flex;flex-direction:column;gap:14px}
+  ol.think li{counter-increment:q;position:relative;padding:18px 20px 18px 60px;background:var(--bg-elev);border:1px solid var(--line);border-radius:12px;color:var(--ink-dim);font-size:15px}
+  ol.think li::before{content:counter(q,decimal-leading-zero);position:absolute;left:20px;top:18px;font-family:var(--mono);color:var(--gold);font-weight:700}
+  /* 判图练习 */
+  .quiz{margin:22px 0;background:var(--bg-card);border:1px solid var(--line);border-radius:14px;padding:22px 24px}
+  .quiz h4{font-size:16px;color:#fff;margin-bottom:6px}
+  .quiz .ans{margin-top:12px;color:var(--ink-faint);font-size:14px;cursor:pointer}
+  .quiz .ans[open] summary{color:var(--pivot)}
+  .quiz summary{color:var(--gold);font-family:var(--mono);font-size:13px}
+  .quiz p{font-size:15px;color:var(--ink-dim)}
+  /* 心法专属：陷阱清单 */
+  .trap{margin:28px 0;display:flex;flex-direction:column;gap:12px}
+  .trap-item{display:grid;grid-template-columns:auto 1fr;gap:18px;align-items:start;padding:18px 22px;background:var(--bg-card);border:1px solid var(--line);border-left:3px solid var(--up);border-radius:0 12px 12px 0}
+  .trap-item .num{font-family:var(--mono);font-weight:700;color:var(--up);font-size:15px;letter-spacing:.1em}
+  .trap-item h4{font-family:var(--serif);font-size:18px;color:#fff;margin-bottom:6px;font-weight:700}
+  .trap-item p{margin:0;font-size:15px;color:var(--ink-dim)}
+  /* 心法专属：对峙双联卡 */
+  .duel{margin:30px 0;display:grid;grid-template-columns:1fr auto 1fr;gap:18px;align-items:stretch}
+  @media(max-width:640px){.duel{grid-template-columns:1fr;gap:14px}.duel .vs{display:none}}
+  .duel-side{padding:24px;background:var(--bg-card);border:1px solid var(--line);border-radius:14px;text-align:center}
+  .duel-side.bad{border-color:rgba(255,77,79,.3)}
+  .duel-side.good{border-color:rgba(55,192,230,.3)}
+  .duel-side .lab{font-family:var(--mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;margin-bottom:8px}
+  .duel-side.bad .lab{color:var(--up)}
+  .duel-side.good .lab{color:var(--pivot)}
+  .duel-side h3{font-family:var(--serif);font-size:20px;color:#fff;margin-bottom:8px}
+  .duel-side p{font-size:14px;color:var(--ink-dim);margin:0}
+  .duel .vs{font-family:var(--mono);font-weight:700;color:var(--gold);font-size:14px;align-self:center;letter-spacing:.1em}
+  /* 总结 */
+  .tldr{margin:60px 0 0;padding:36px 30px;border:1px solid rgba(55,192,230,.3);border-radius:18px;background:radial-gradient(120% 120% at 100% 0%,rgba(55,192,230,.1),transparent 60%),var(--bg-elev);text-align:center}
+  .tldr .lab{font-family:var(--mono);font-size:12px;letter-spacing:.3em;color:var(--pivot);text-transform:uppercase}
+  .tldr p{font-family:var(--serif);font-size:clamp(20px,3.4vw,28px);line-height:1.7;color:#fff;margin:16px 0 0}
+  footer{padding:60px 0 90px;text-align:center;color:var(--ink-faint);font-family:var(--mono);font-size:12px;border-top:1px solid var(--line)}
+  .reveal{opacity:0;transform:translateY(26px);transition:opacity .8s ease,transform .8s ease}
+  .reveal.in{opacity:1;transform:none}
+  @media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}.scroll-hint{animation:none}}
+</style>
+<meta name="view-transition" content="same-origin"><style>@view-transition{navigation:auto}</style></head>
+<body>
+<div id="bar"></div>
+<header class="hero">
+  <div class="wrap">
+    <div class="kicker">缠中说禅 · 教你炒股票108课 <span>/ 第 3 课</span></div>
+    <h1 class="title">喜好即陷阱</h1>
+    <p class="sub">缠论纪律第一课——把"我喜欢这只票"从你的脑子里彻底清除，否则市场总有一万种办法让你赔光。</p>
+    <div class="meta">
+      <span class="pill"><b>原文</b> 2006-06-09</span>
+      <span class="pill"><b>类型</b> 心法 / 纪律</span>
+      <span class="pill"><b>关键词</b> 喜好 · 陷阱 · 露水之缘 · 利用陷阱</span>
+    </div>
+    <div class="scroll-hint">↓ 向下滚动，逐层拆解</div>
+  </div>
+</header>
+<main>
+
+  <!-- 01 -->
+  <section class="wrap reveal">
+    <div class="sec-no">01 — 全课题眼</div>
+    <h2>"喜好"两个字，就是死亡陷阱</h2>
+    <p class="lead">这一课全文不到 2000 字，看似闲谈世界杯，实则全在讲一件事：<b>把你拉进亏损深渊的，往往不是市场，而是你心里的"我喜欢"。</b></p>
+    <blockquote>
+      但你的喜好，就是你的死亡陷阱！在市场中要生存，第一条就是在市场中要杜绝一切喜好。
+      <span class="who">— 缠中说禅</span>
+    </blockquote>
+    <p>所谓"喜好"，不是说你不能爱足球、不能爱帅哥美女——是说<b>一旦把"我喜欢"带进交易决策</b>，就完蛋了。喜欢一只票的名字、喜欢一个行业的故事、喜欢某个分析师的口才、喜欢"被低估"的悲情……每一种喜好，都是市场为你<span class="hl-up">量身定做的陷阱</span>。</p>
+    <p>缠师的逻辑很硬：<span class="hl-pivot">市场不会主动伤害你，它只是诱惑你；而能被诱惑的，永远是你自己的"喜好"</span>。市场摆下饵，鱼咬不咬，看的不是饵有多香，而是鱼有没有"我爱吃这口"的执念。</p>
+  </section>
+
+  <!-- 02 -->
+  <section class="wrap reveal">
+    <div class="sec-no">02 — 关系定位</div>
+    <h2>市场是"露水之缘"，不是"比翼之情"</h2>
+    <p class="lead">这是全课最妙的一个比喻——把交易和恋爱讲透了。</p>
+    <blockquote>
+      市场中需要的是露水之缘而不是比翼之情，天长地久之类的东西和市场无关。市场中唯一值得天长地久的就是赢钱。
+      <span class="who">— 缠中说禅</span>
+    </blockquote>
+    <p>翻译成人话：你跟一只股票的关系，应该是<b>"今夜过后两不相欠"</b>，而不是<b>"非你不嫁"</b>。它给你赚钱，你拿走利润；它不给你赚钱，你立刻走人。<span class="hl-gold">"长期持有"这四个字本身不是错，错在你把它当作一种感情承诺，而不是一笔生意。</span></p>
+
+    <div class="duel">
+      <div class="duel-side bad">
+        <div class="lab">✗ 比翼之情</div>
+        <h3>"我陪它穿越牛熊"</h3>
+        <p>把股票当对象、当信仰；套了三年也要"陪它一起走出来"；它跌一块你心疼，它涨一块你舍不得卖。</p>
+      </div>
+      <div class="vs">VS</div>
+      <div class="duel-side good">
+        <div class="lab">✓ 露水之缘</div>
+        <h3>"它今夜给我赚就够了"</h3>
+        <p>买入只为一次明确的盈利目标；走势走完该卖就卖；下一次它再回来满足条件，还可以再合作一次。</p>
+      </div>
+    </div>
+
+    <p>很多散户的悲剧不是<b>选错股</b>，而是<b>用错关系</b>——本来只该是一夜情，硬要谈结婚。结果一段下跌走势把"婚姻"砸成了"死亡笼罩"，越亏越加，越加越亏。</p>
+  </section>
+
+  <!-- 03 -->
+  <section class="wrap reveal">
+    <div class="sec-no">03 — 唯一标准</div>
+    <h2>买入的唯一理由：能赢钱</h2>
+    <p class="lead">把所有"我喜欢这家公司"的伪逻辑剥光，只剩一句话。</p>
+    <blockquote>
+      任何让你买入一只股票的理由，并不是因为这股票如何好或被忽悠得如何好，只是你企图通过买入而赢钱，能赢钱的股票就是好的，否则都是废话。
+      <span class="who">— 缠中说禅</span>
+    </blockquote>
+    <p>这句话非常激进，但<b>它把投资和"评好坏"彻底分开了</b>：</p>
+
+    <div class="table">
+      <div class="row head"><div>常见心态</div><div>真相</div><div>是否进决策</div></div>
+      <div class="row">
+        <div class="name left">"这是只好公司"</div>
+        <div>好公司不等于现在能赚钱；好公司在高位也能让你亏 70%</div>
+        <div><span class="hl-down">否</span></div>
+      </div>
+      <div class="row">
+        <div class="name left">"分析师都看好"</div>
+        <div>分析师卖的是研究报告，不是结果；忽悠你不需要负责</div>
+        <div><span class="hl-down">否</span></div>
+      </div>
+      <div class="row">
+        <div class="name left">"我熟悉这个行业"</div>
+        <div>熟悉是基础，不是理由；最懂行业的人在 2008、2015 也照样亏钱</div>
+        <div><span class="hl-down">否</span></div>
+      </div>
+      <div class="row">
+        <div class="name right">"现在买，大概率能赢钱"</div>
+        <div>这是<b>唯一</b>合法的理由——基于走势、级别、买卖点的判断</div>
+        <div><span class="hl-up">是</span></div>
+      </div>
+    </div>
+
+    <p>注意：缠师不是反"基本面"，他是反"<b>把基本面好等同于买入信号</b>"。基本面好只是必要条件之一，能不能赢钱要看<span class="hl-pivot">走势所处的位置</span>——同样一家好公司，在第一类买点附近买和在历史顶部买，结果天差地别。</p>
+  </section>
+
+  <!-- 04 -->
+  <section class="wrap reveal">
+    <div class="sec-no">04 — 进阶心法</div>
+    <h2>不仅看破陷阱，还要利用陷阱</h2>
+    <p class="lead">第一层：识破陷阱；第二层：把别人的陷阱变成你的台阶。</p>
+    <blockquote>
+      当你要买的时候，空头的陷阱就是你的最佳机会；当你要卖的时候，多头的陷阱当然就是你的天堂。
+      <span class="who">— 缠中说禅</span>
+    </blockquote>
+    <p>什么叫"陷阱"？在交易语境里有专门含义：</p>
+
+    <div class="grid">
+      <div class="card">
+        <div class="tag">空头陷阱 · BEAR TRAP</div>
+        <h3>骗你割肉的"假跌破"</h3>
+        <p>价格跌破关键支撑、技术指标全部转空、坏消息满天飞，<b>把空头骗进来、把多头吓出去</b>——然后价格一根大阳线拉回，原来的"破位"变成"假摔"。<span class="hl-up">这是最佳买点之一。</span></p>
+      </div>
+      <div class="card">
+        <div class="tag">多头陷阱 · BULL TRAP</div>
+        <h3>骗你追高的"假突破"</h3>
+        <p>价格放量突破前期高点、人人喊"牛市来了"、媒体集体唱多——<b>把多头骗进来、把空头吓回补</b>——然后价格快速回落，"突破"变成"假冲"。<span class="hl-down">这是最佳卖点之一。</span></p>
+      </div>
+    </div>
+
+    <p>缠师告诉你：散户视角下"陷阱"是灾难；高手视角下"陷阱"是<b>礼物</b>——因为它把方向上反向的人集中清洗出去，留下来的就是干净的趋势。<span class="hl-gold">你要做的是站在陷阱的对面，而不是栽进去。</span></p>
+
+    <p>怎么辨别？这就回到缠论本体——靠<b>走势中枢、级别、背驰</b>这些工具，不靠"我觉得"。后续课程会一步步教。</p>
+  </section>
+
+  <!-- 05 -->
+  <section class="wrap reveal">
+    <div class="sec-no">05 — 散户常见喜好陷阱</div>
+    <h2>对号入座：你有几个？</h2>
+    <p class="lead">缠师没列清单，我们替他列。每一条都是真实账户上死过人的。</p>
+
+    <div class="trap">
+      <div class="trap-item">
+        <div class="num">01</div>
+        <div>
+          <h4>喜欢"低价股"</h4>
+          <p>"它才 3 块钱，跌不到哪儿去了。"——3 块可以跌到 1 块，1 块可以变 ST，ST 可以退市。<b>绝对价格高低，和该不该买毫无关系。</b></p>
+        </div>
+      </div>
+      <div class="trap-item">
+        <div class="num">02</div>
+        <div>
+          <h4>喜欢"我熟悉的行业"</h4>
+          <p>"我是搞 IT 的，所以专买科技股。"——熟悉给你的是认知，不是仓位。科技股 2000 年和 2022 年的腰斩，专家死得最惨。</p>
+        </div>
+      </div>
+      <div class="trap-item">
+        <div class="num">03</div>
+        <div>
+          <h4>喜欢"大白马 / 龙头"</h4>
+          <p>"龙头总有它的逻辑。"——逻辑会变。当年茅台被骂成"夕阳消费"，当年中石油被吹成"亚洲最赚钱"。<b>龙头身份不保证现在能赚钱。</b></p>
+        </div>
+      </div>
+      <div class="trap-item">
+        <div class="num">04</div>
+        <div>
+          <h4>喜欢"摊低成本"</h4>
+          <p>"再跌点我就加仓摊薄成本。"——下跌走势没走完时摊薄，本质是<b>在赔率最差的位置反复下注</b>。摊到爆仓只在一念之间。</p>
+        </div>
+      </div>
+      <div class="trap-item">
+        <div class="num">05</div>
+        <div>
+          <h4>喜欢"持仓即真理"</h4>
+          <p>买之前还能客观分析，买之后看到的都是利好。<b>仓位扭曲认知</b>——这是所有散户共有的内置 bug，缠师让你警惕的就是这个。</p>
+        </div>
+      </div>
+      <div class="trap-item">
+        <div class="num">06</div>
+        <div>
+          <h4>喜欢"赚回成本"</h4>
+          <p>"等它涨回我成本价就卖。"——成本价是你的私事，市场不知道也不关心。<b>正确的卖点是走势级别决定的，不是你成本决定的。</b></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 06 -->
+  <section class="wrap reveal">
+    <div class="sec-no">06 — 落地纪律</div>
+    <h2>修炼上乘武功：智慧 · 秉性 · 天赋 · 勤奋</h2>
+    <p class="lead">课文最后一段被很多人忽略，其实分量最重。</p>
+    <blockquote>
+      这市场，永远不缺卖在最低点、买在最高点的人……市场中的行为，就如同一个修炼上乘武功的过程，最终能否成功，还是要落实到每个人的智慧、秉性、天赋、勤奋上来！
+      <span class="who">— 缠中说禅</span>
+    </blockquote>
+
+    <div class="grid">
+      <div class="card">
+        <div class="tag">智慧 · WISDOM</div>
+        <h3>看清局势的能力</h3>
+        <p>不仅是聪明——更是<b>分辨什么是噪音、什么是信号</b>。缠论提供工具，但用工具的是你。</p>
+      </div>
+      <div class="card">
+        <div class="tag">秉性 · TEMPERAMENT</div>
+        <h3>纪律执行力</h3>
+        <p>看懂≠做到。<b>知道该止损，能不能下得了手</b>，靠的是秉性。这是最难培养、也最值钱的一项。</p>
+      </div>
+      <div class="card">
+        <div class="tag">天赋 · TALENT</div>
+        <h3>对市场节奏的直觉</h3>
+        <p>有的人天生对节奏敏感，有的人需要训练。<b>承认天赋的差异</b>，但不要拿"我没天赋"当借口偷懒。</p>
+      </div>
+      <div class="card">
+        <div class="tag">勤奋 · DILIGENCE</div>
+        <h3>逐根 K 线的功夫</h3>
+        <p>缠师后面会反复讲：分笔分段、级别判断都是<b>体力活</b>。任何聪明都替代不了把课文读 5 遍、把图看 100 张的工夫。</p>
+      </div>
+    </div>
+
+    <p>这四样东西，<b>缺一不可</b>，且都需要时间。这一课的意义就是——告诉你"成功不是偶然"，<span class="hl-gold">想在市场长期生存，必须自己变成有内功的人，不是靠捡牛股</span>。</p>
+  </section>
+
+  <!-- 07 -->
+  <section class="wrap reveal">
+    <div class="sec-no">07 — 自检 & 思考</div>
+    <h2>把课文翻成自检题</h2>
+    <p class="lead">第一遍读完只是看懂；下面这套题答得出来，才算把心法收进自己脑子里。</p>
+
+    <ol class="think">
+      <li>翻一下你最近一笔买入：当时让你点"买"的真正理由，是"走势到位"，还是"我喜欢"？如果是后者，是哪一种喜好？</li>
+      <li>你目前持仓中，哪些是"露水之缘"（明确的盈利预期 + 退出条件），哪些已经被你不自觉地谈成了"比翼之情"？</li>
+      <li>回顾过去一年，你被多头陷阱（追高被套）、空头陷阱（割在最低）骗过几次？分别是什么场景下发生的？</li>
+      <li>"智慧、秉性、天赋、勤奋"——客观评估自己每一项 1-10 分，最弱的那项，你打算怎么补？</li>
+    </ol>
+
+    <div class="quiz">
+      <h4>情境判图：哪个是"喜好"在作祟？</h4>
+      <p>场景 A：你买入 X 股是因为最近三个月走势走出明确的下跌-盘整-上涨结构，第二类买点出现，且该公司基本面无重大变化。</p>
+      <p>场景 B：你买入 Y 股是因为你在那家公司工作过 5 年，"我了解他们做什么"。</p>
+      <p>场景 C：你拒绝卖出 Z 股，因为"它对我有特殊意义，是我第一只翻倍的票"。</p>
+      <details class="ans">
+        <summary>查看分析</summary>
+        <p>A 是缠师认可的——理由建立在<b>走势 + 客观判断</b>上。<br>B 是典型"熟悉感喜好"，把行业认知当买入信号。<br>C 是"情感锚定"——把过往收益和当下决策捆绑，完全违背"露水之缘"。<br><b>B 和 C 都是死亡陷阱的雏形。</b></p>
+      </details>
+    </div>
+  </section>
+
+  <!-- 总结 -->
+  <section class="wrap reveal">
+    <div class="tldr">
+      <div class="lab">一句话总结</div>
+      <p>市场里唯一值得"长情"的是赢钱本身——把"喜好"从买卖决策里彻底拔掉，再学会站在多空陷阱的对面，剩下的就交给智慧、秉性、天赋与勤奋。</p>
+    </div>
+  </section>
+
+</main>
+<footer class="wrap">
+  原文出处：raw/缠中说禅/教你炒股票108课/教你炒股票3：你的喜好，你的死亡陷阱！.md<br>
+  本页为个人学习复习用 · 非投资建议
+</footer>
+<script>
+  const bar=document.getElementById('bar');
+  const onScroll=()=>{const h=document.documentElement;bar.style.width=(h.scrollTop/(h.scrollHeight-h.clientHeight)*100)+'%'};
+  document.addEventListener('scroll',onScroll,{passive:true});onScroll();
+  const io=new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{threshold:.12});
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+</script>
+<script src="/assets/_nav.js"></script><script src="/assets/_shell.js"></script></body>
+</html>

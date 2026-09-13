@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>缠论 · 教你炒股票93：走势结构的两重表里关系2</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@500;700;900&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0b0e12;
+    --bg-elev:#12161c;
+    --bg-card:#161b22;
+    --ink:#e8eaed;
+    --ink-dim:#9aa3ad;
+    --ink-faint:#5b6470;
+    --line:rgba(255,255,255,.07);
+    --up:#ff4d4f;
+    --down:#16c784;
+    --pivot:#37c0e6;
+    --gold:#e8b339;
+    --max:880px;
+    --serif:"Noto Serif SC",serif;
+    --mono:"JetBrains Mono",ui-monospace,monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;
+    line-height:1.85;
+    font-size:17px;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  body::before{
+    content:"";position:fixed;inset:0;z-index:-2;
+    background:
+      radial-gradient(1200px 600px at 70% -10%, rgba(55,192,230,.08), transparent 60%),
+      radial-gradient(900px 500px at 0% 100%, rgba(232,179,57,.05), transparent 55%);
+    pointer-events:none;
+  }
+  body::after{
+    content:"";position:fixed;inset:0;z-index:-1;opacity:.4;
+    background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);
+    background-size:46px 46px;
+    -webkit-mask-image:radial-gradient(ellipse at 50% 0%, #000 30%, transparent 80%);
+            mask-image:radial-gradient(ellipse at 50% 0%, #000 30%, transparent 80%);
+    pointer-events:none;
+  }
+
+  #bar{position:fixed;top:0;left:0;height:3px;width:0;z-index:50;
+    background:linear-gradient(90deg,var(--pivot),var(--gold));box-shadow:0 0 12px var(--pivot);}
+
+  .wrap{max-width:var(--max);margin:0 auto;padding:0 24px}
+
+  header.hero{padding:120px 0 70px;text-align:center;position:relative}
+  .kicker{font-family:var(--mono);font-size:13px;letter-spacing:.32em;color:var(--pivot);
+    text-transform:uppercase;margin-bottom:26px}
+  .kicker span{color:var(--ink-faint)}
+  h1.title{font-family:var(--serif);font-weight:900;line-height:1.05;
+    font-size:clamp(40px,9vw,84px);letter-spacing:.04em;
+    background:linear-gradient(180deg,#fff 30%,#8aa0ad 130%);
+    -webkit-background-clip:text;background-clip:text;color:transparent;}
+  .sub{margin:22px auto 0;max-width:600px;color:var(--ink-dim);font-size:18px}
+  .meta{margin-top:34px;display:flex;gap:14px;justify-content:center;flex-wrap:wrap;
+    font-family:var(--mono);font-size:12px;color:var(--ink-faint)}
+  .meta b{color:var(--ink-dim);font-weight:500}
+  .pill{border:1px solid var(--line);padding:6px 14px;border-radius:999px;background:rgba(255,255,255,.02)}
+
+  .scroll-hint{margin-top:60px;color:var(--ink-faint);font-family:var(--mono);font-size:12px;
+    animation:bob 2.4s ease-in-out infinite}
+  @keyframes bob{0%,100%{transform:translateY(0);opacity:.5}50%{transform:translateY(8px);opacity:1}}
+
+  section{padding:64px 0;border-top:1px solid var(--line)}
+  .sec-no{font-family:var(--mono);font-size:13px;color:var(--gold);letter-spacing:.2em;margin-bottom:10px}
+  h2{font-family:var(--serif);font-weight:700;font-size:clamp(28px,5vw,40px);
+    line-height:1.25;margin-bottom:8px;letter-spacing:.02em}
+  .lead{color:var(--ink-dim);font-size:16px;margin-bottom:28px;max-width:640px}
+  p{margin:0 0 18px;color:#cfd5dc}
+  p b,strong{color:#fff;font-weight:700}
+  .hl-pivot{color:var(--pivot);font-weight:700}
+  .hl-up{color:var(--up);font-weight:700}
+  .hl-down{color:var(--down);font-weight:700}
+  .hl-gold{color:var(--gold);font-weight:700}
+
+  blockquote{margin:26px 0;padding:20px 24px;border-left:3px solid var(--pivot);
+    background:linear-gradient(90deg,rgba(55,192,230,.07),transparent);
+    border-radius:0 10px 10px 0;font-family:var(--serif);font-size:19px;color:#eaf6fb}
+  blockquote .who{display:block;margin-top:8px;font-family:var(--mono);font-size:12px;
+    color:var(--ink-faint);font-style:normal}
+
+  /* 信号四态图 */
+  .signal-matrix{margin:32px 0;display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  @media(max-width:560px){.signal-matrix{grid-template-columns:1fr}}
+  .sig{background:var(--bg-card);border:1px solid var(--line);border-radius:14px;padding:22px;
+    position:relative;overflow:hidden}
+  .sig .code{font-family:var(--mono);font-size:24px;font-weight:700;letter-spacing:.04em;margin-bottom:8px}
+  .sig.up-1 .code{color:var(--up)}
+  .sig.up-0 .code{color:#ff8a8c}
+  .sig.dn-1 .code{color:var(--down)}
+  .sig.dn-0 .code{color:#7be0b8}
+  .sig h4{font-family:var(--serif);font-size:18px;color:#fff;margin-bottom:6px}
+  .sig p{font-size:14px;color:var(--ink-dim);margin:0;line-height:1.7}
+
+  /* 三类操作 */
+  .ops{margin:26px 0;display:flex;flex-direction:column;gap:16px}
+  .op{display:flex;gap:18px;align-items:flex-start;background:var(--bg-card);
+    border:1px solid var(--line);border-radius:14px;padding:20px 22px;position:relative}
+  .op .num{flex:none;width:44px;height:44px;border-radius:12px;display:grid;place-items:center;
+    font-family:var(--serif);font-weight:900;font-size:22px;color:#0b0e12}
+  .op.o1 .num{background:var(--pivot)}
+  .op.o2 .num{background:var(--gold)}
+  .op.o3 .num{background:var(--up)}
+  .op .body{flex:1}
+  .op h4{font-size:18px;margin-bottom:6px;color:#fff;font-family:var(--serif)}
+  .op .tag{display:inline-block;font-family:var(--mono);font-size:11px;letter-spacing:.14em;
+    color:var(--ink-faint);text-transform:uppercase;margin-bottom:8px;padding:2px 8px;
+    border:1px solid var(--line);border-radius:6px}
+  .op p{font-size:15px;color:var(--ink-dim);margin:0 0 8px}
+  .op p:last-child{margin-bottom:0}
+
+  /* 流程图：1,0 后的两种岔路 */
+  .branch{margin:32px 0;padding:24px;background:var(--bg-elev);border:1px solid var(--line);
+    border-radius:16px;font-family:var(--mono);font-size:14px}
+  .branch-row{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+  .branch-node{padding:10px 16px;border-radius:8px;background:var(--bg-card);border:1px solid var(--line);color:var(--ink)}
+  .branch-node.start{background:rgba(232,179,57,.12);border-color:rgba(232,179,57,.4);color:var(--gold)}
+  .branch-node.good{background:rgba(255,77,79,.12);border-color:rgba(255,77,79,.4);color:var(--up)}
+  .branch-node.bad{background:rgba(22,199,132,.12);border-color:rgba(22,199,132,.4);color:var(--down)}
+  .branch-arrow{color:var(--ink-faint);font-size:18px}
+  .branch-cols{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px}
+  @media(max-width:600px){.branch-cols{grid-template-columns:1fr}}
+  .branch-col{padding:14px;background:var(--bg-card);border:1px solid var(--line);border-radius:10px}
+  .branch-col h5{font-family:var(--serif);font-size:15px;color:#fff;margin-bottom:6px}
+  .branch-col p{font-size:13px;color:var(--ink-dim);margin:0;line-height:1.7;font-family:-apple-system,"PingFang SC",sans-serif}
+
+  /* 强弱震荡对比 */
+  .table{margin:28px 0;border:1px solid var(--line);border-radius:14px;overflow:hidden}
+  .table .row{display:grid;grid-template-columns:1fr 1.4fr 1.4fr;align-items:stretch}
+  .table .row+.row{border-top:1px solid var(--line)}
+  .table .row > div{padding:16px 18px}
+  .table .row.head{background:var(--bg-elev);font-family:var(--mono);font-size:12px;
+    letter-spacing:.14em;color:var(--ink-faint);text-transform:uppercase}
+  .table .row > div+div{border-left:1px solid var(--line)}
+  .table .name{font-family:var(--serif);font-weight:700;font-size:17px}
+  .table .name.qiang{color:var(--up)}
+  .table .name.ruo{color:var(--down)}
+  @media(max-width:560px){
+    .table .row{grid-template-columns:1fr}
+    .table .row > div+div{border-left:0;border-top:1px solid var(--line)}
+    .table .row.head{display:none}
+  }
+
+  /* 四种命运卡片 */
+  .fates{margin:30px 0;display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  @media(max-width:640px){.fates{grid-template-columns:1fr}}
+  .fate{background:var(--bg-card);border:1px solid var(--line);border-radius:14px;padding:20px;
+    transition:transform .35s ease,border-color .35s ease}
+  .fate:hover{transform:translateY(-3px)}
+  .fate .row1{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+  .fate .badge{font-family:var(--mono);font-size:11px;letter-spacing:.14em;
+    padding:3px 8px;border-radius:6px;border:1px solid var(--line)}
+  .fate h4{font-family:var(--serif);font-size:17px;color:#fff;margin-bottom:6px}
+  .fate p{font-size:14px;color:var(--ink-dim);margin:0;line-height:1.7}
+  .fate.f1{border-color:rgba(255,77,79,.3)}
+  .fate.f1 .badge{color:var(--up);border-color:rgba(255,77,79,.4)}
+  .fate.f2{border-color:rgba(232,179,57,.25)}
+  .fate.f2 .badge{color:var(--gold);border-color:rgba(232,179,57,.4)}
+  .fate.f3{border-color:rgba(55,192,230,.25)}
+  .fate.f3 .badge{color:var(--pivot);border-color:rgba(55,192,230,.4)}
+  .fate.f4{border-color:rgba(22,199,132,.25)}
+  .fate.f4 .badge{color:var(--down);border-color:rgba(22,199,132,.4)}
+
+  /* 图 */
+  figure{margin:34px 0}
+  figure img{width:100%;border-radius:12px;border:1px solid var(--line);
+    background:#fff;box-shadow:0 18px 50px rgba(0,0,0,.5)}
+  figcaption{margin-top:12px;font-size:13px;color:var(--ink-faint);text-align:center;font-family:var(--mono)}
+
+  /* 一句话总结 */
+  .tldr{margin:60px 0 0;padding:36px 30px;border:1px solid rgba(55,192,230,.3);border-radius:18px;
+    background:radial-gradient(120% 120% at 100% 0%,rgba(55,192,230,.1),transparent 60%),var(--bg-elev);text-align:center}
+  .tldr .lab{font-family:var(--mono);font-size:12px;letter-spacing:.3em;color:var(--pivot);text-transform:uppercase}
+  .tldr p{font-family:var(--serif);font-size:clamp(20px,3.4vw,26px);line-height:1.7;color:#fff;margin:16px 0 0}
+
+  footer{padding:60px 0 90px;text-align:center;color:var(--ink-faint);font-family:var(--mono);font-size:12px;border-top:1px solid var(--line)}
+
+  .reveal{opacity:0;transform:translateY(26px);transition:opacity .8s ease,transform .8s ease}
+  .reveal.in{opacity:1;transform:none}
+  @media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}.scroll-hint{animation:none}}
+</style>
+<meta name="view-transition" content="same-origin"><style>@view-transition{navigation:auto}</style></head>
+<body>
+<div id="bar"></div>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="kicker">缠中说禅 · 教你炒股票108课 <span>/ 第 93 课</span></div>
+    <h1 class="title">两重表里关系 · 下</h1>
+    <p class="sub">把信号四态翻译成可执行的操作——按你的水平、胆量、时间，对号入座。</p>
+    <div class="meta">
+      <span class="pill"><b>原文</b> 2008-01-15</span>
+      <span class="pill"><b>类型</b> 操作分类</span>
+      <span class="pill"><b>关键词</b> 信号四态 · 落袋为安 · 短差 · 力度比较</span>
+    </div>
+    <div class="scroll-hint">↓ 向下滚动，按图索骥</div>
+  </div>
+</header>
+
+<main>
+  <!-- 1 -->
+  <section class="wrap reveal">
+    <div class="sec-no">01 — 复习</div>
+    <h2>信号四态：先看懂这四个代号</h2>
+    <p class="lead">第 92 课已经定义过，这里先把符号"翻译"清楚——后面所有操作都建立在这上面。</p>
+    <p>缠师用两个数字给市场状态贴标签：<b>第一位</b> 表示当前走势方向（1 = 向上，-1 = 向下），<b>第二位</b> 表示"是否仍在进行中"（1 = 还在走，0 = 走完了，等转折）。</p>
+    <div class="signal-matrix">
+      <div class="sig up-1">
+        <div class="code">(1, 1)</div>
+        <h4>上涨进行中</h4>
+        <p>方向向上、还在走。<b>持仓欣赏</b>，没什么操作可做。</p>
+      </div>
+      <div class="sig up-0">
+        <div class="code">(1, 0)</div>
+        <h4>上涨刚走完</h4>
+        <p>方向曾向上、现在走完，开始震荡。<b>本课的主战场</b>——后面进入岔路。</p>
+      </div>
+      <div class="sig dn-1">
+        <div class="code">(-1, 1)</div>
+        <h4>下跌进行中</h4>
+        <p>方向向下、还在走。空仓观望或反向操作。</p>
+      </div>
+      <div class="sig dn-0">
+        <div class="code">(-1, 0)</div>
+        <h4>下跌刚走完</h4>
+        <p>方向曾向下、现在走完。买点候选区，等转折确认。</p>
+      </div>
+    </div>
+    <blockquote>
+      (-1, 0) 这个信号是绝对明确，毫不含糊的，任何人都可以唯一地去确定。
+      <span class="who">— 缠中说禅</span>
+    </blockquote>
+  </section>
+
+  <!-- 2 -->
+  <section class="wrap reveal">
+    <div class="sec-no">02 — 核心岔路</div>
+    <h2>(1, 0) 之后只有两条路</h2>
+    <p class="lead">这是本课全部内容的"分叉点"——拿来对照后面所有操作，就清楚为什么要那么做。</p>
+    <p>当一段上涨走完、出现 (1, 0) 信号后，市场只可能往两个方向走：要么 <span class="hl-up">(1, 1)</span> 重新上涨、要么 <span class="hl-down">(-1, 1)</span> 转头向下。<b>当下永远无法确定走哪一条</b>——但你可以提前准备好"两种情形分别怎么处理"。</p>
+    <div class="branch">
+      <div class="branch-row" style="justify-content:center">
+        <div class="branch-node start">(1, 0) 上涨走完</div>
+        <span class="branch-arrow">→</span>
+        <div class="branch-node">震荡区间</div>
+        <span class="branch-arrow">→</span>
+        <span style="color:var(--ink-faint)">两种可能</span>
+      </div>
+      <div class="branch-cols">
+        <div class="branch-col">
+          <h5 class="hl-up">情形 A：(1, 1)</h5>
+          <p>市场选择继续上涨——震荡区间成为新中枢，可用<b>上下两段力度比较</b>判断高点。</p>
+        </div>
+        <div class="branch-col">
+          <h5 class="hl-down">情形 B：(-1, 1)</h5>
+          <p>市场选择反向下跌——震荡变成"弱震荡"，原仓位要走，等下一个 (-1, 0)。</p>
+        </div>
+      </div>
+    </div>
+    <p>所以本课的全部内容，就是回答一个问题：<b>(1, 0) 出现后，按你的水平你该怎么做？</b>缠师给了三种典型方案。</p>
+  </section>
+
+  <!-- 3 -->
+  <section class="wrap reveal">
+    <div class="sec-no">03 — 三种操作方案</div>
+    <h2>按你的水平对号入座</h2>
+    <p class="lead">水平不同，处理方式不同——这才是"针对性"。</p>
+    <div class="ops">
+      <div class="op o1">
+        <div class="num">1</div>
+        <div class="body">
+          <span class="tag">震荡水平一般 · 胆小 · 没时间</span>
+          <h4>落袋为安：先把成本拿出来</h4>
+          <p>一个足够周期的 (1, 1) 后出现 (1, 0)——比如周线或日线级别——意味着<b>已有足够获利空间</b>。最简单做法：<span class="hl-gold">把成本兑现出来</span>，只留利润让市场自己选择。</p>
+          <p>剩下的筹码这样处理：如果出现 (-1, 1)，那低周期图上肯定也是 (-1, 1)，<b>这个向下笔结束后回来的向上笔只要不创新高，就把剩余筹码扔掉</b>。或者更简单——周线 5 周均线有效跌破就走。</p>
+        </div>
+      </div>
+      <div class="op o2">
+        <div class="num">2</div>
+        <div class="body">
+          <span class="tag">震荡水平较好</span>
+          <h4>短差操作：吃震荡的肉</h4>
+          <p>利用 (1, 0) 后必然出现的震荡做<b>先卖后买</b>的短差。一旦市场显示为 (-1, 1)——最后一次就<b>不回补</b>，完全退出战斗。</p>
+          <p>关键提醒：短差前要先分析好 (1, 1) → (1, 0) 对应的<b>走势类型与级别</b>。周线的 (1, 1) → (1, 0) 必然对应一个小级别上涨，具体是 1 分钟、5 分钟还是 30 分钟，看图一目了然。</p>
+        </div>
+      </div>
+      <div class="op o3">
+        <div class="num">3</div>
+        <div class="body">
+          <span class="tag">高手 · 终极武器</span>
+          <h4>力度比较：抓真正的顶</h4>
+          <p>如果市场最终选择 (1, 1)——那么这个 (1, 0) 区间就有<b>极为重要的意义</b>。区间上下两段的 (1, 1) 可以直接做<b>力度比较</b>。</p>
+          <p>一旦发现 <span class="hl-up">后一段力度 &lt; 前一段</span>——这就是一个明确的<b>见顶信号</b>。然后根据对应走势类型进行<b>区间套</b>定位，<b>真正的高点就逃不掉了</b>。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4 -->
+  <section class="wrap reveal">
+    <div class="sec-no">04 — 强弱震荡</div>
+    <h2>(1, 0) 区间的两种性质</h2>
+    <p class="lead">同样是 (1, 0)，"强震荡"和"弱震荡"的处理完全不同——这是判断要不要参与的关键。</p>
+    <p>缠师指出：(1, 0) 出现时有两种可能情形——决定了后续是<b>强震荡</b>还是<b>弱震荡</b>：</p>
+    <div class="table">
+      <div class="row head"><div>类型</div><div>触发条件</div><div>操作策略</div></div>
+      <div class="row">
+        <div class="name qiang">强震荡</div>
+        <div>对应上涨出现<b>明确背驰</b>完全确认结束，震荡区间<b>围绕上涨最后一个中枢</b></div>
+        <div>可以参与短差，区间相对可控</div>
+      </div>
+      <div class="row">
+        <div class="name ruo">弱震荡</div>
+        <div>区间<b>跌破上涨最后一个中枢</b>——后面肯定要变成 (-1, 1)</div>
+        <div><b>一旦确认，最好不参与</b>——等出现 (-1, 0) 再说</div>
+      </div>
+    </div>
+    <blockquote>
+      弱的震荡，一般一旦确认，最好还是不参与。等出现 (-1, 0) 再说了。
+      <span class="who">— 操作纪律</span>
+    </blockquote>
+  </section>
+
+  <!-- 5 -->
+  <section class="wrap reveal">
+    <div class="sec-no">05 — 实战课文</div>
+    <h2>2008 年 1 月：5522 点的真实剧本</h2>
+    <p class="lead">本课不光讲理论，缠师同步用 2008 年初大盘做了完整的实盘演示——把理论照进现实。</p>
+    <p>2008 年 1 月 15 日大盘从 5522 点下来，缠师当晚发了本课，对应日线顶分型出现。后面几天，每一步都按"信号四态"在走：</p>
+    <figure>
+      <img src="/_assets/ch93_p01.png" alt="信号系统示意图一">
+      <figcaption>缠师原图：(1,0)/(-1,0) 信号后的处理路径</figcaption>
+    </figure>
+    <figure>
+      <img src="/_assets/ch93_p02.png" alt="信号系统示意图二">
+      <figcaption>缠师原图：上下两段 (1,1) 力度比较示意</figcaption>
+    </figure>
+    <p><b>1 月 16 日「大盘又见亮晶晶」</b>：5522 点下来的<b>线段类下跌</b>过程很技术化，两个类中枢明显。下一步等<b>类背驰</b>出现——能否突破第二个类中枢的牵制就是关键。</p>
+    <figure>
+      <img src="/_assets/ch93_p03.png" alt="大盘5522点下来类下跌走势">
+      <figcaption>5522 点下来的类下跌：两个类中枢清晰可见</figcaption>
+    </figure>
+    <p><b>1 月 17 日「不会享受大震荡的人股票就没入门」</b>：5522 点下来近 500 点就是一个<b>线段类下跌</b>。"<span class="hl-gold">最猛烈的中枢移动中，往往就是一个线段的类趋势</span>"——明白这点，下午那明显的类背驰就绝对不会错过。</p>
+    <figure>
+      <img src="/_assets/ch93_p05.png" alt="线段类下跌的类背驰">
+      <figcaption>线段类下跌中的类背驰位置</figcaption>
+    </figure>
+    <figure>
+      <img src="/_assets/ch93_p06.png" alt="类背驰回拉走势">
+      <figcaption>类背驰后的回拉——能否站住 5209 点是关键</figcaption>
+    </figure>
+  </section>
+
+  <!-- 6 -->
+  <section class="wrap reveal">
+    <div class="sec-no">06 — 大盘演化</div>
+    <h2>30 分钟大震荡：缓升通道的尝试</h2>
+    <p class="lead">1 月 19 日缠师定性了后续走势——一个<b>30 分钟大震荡</b>。</p>
+    <p>"现在就是一个 30 分钟的大震荡，按照本ID的理论，30 分钟的震荡，<b>最坏的情况，破 4778 点也是可以的</b>。"</p>
+    <figure>
+      <img src="/_assets/ch93_p07.png" alt="周五箱型震荡走势">
+      <figcaption>1 月 18 日的标准箱型震荡，最后高收</figcaption>
+    </figure>
+    <p>对多头来说，化解 30 分钟震荡的<b>唯一方法</b>就是制造一条<span class="hl-pivot">缓升通道</span>——4 个原始支点已出现 3 个，亮晶晶若能控制就完成第 4 个。</p>
+    <figure>
+      <img src="/_assets/ch93_p08.png" alt="缓升通道的4个原始支点">
+      <figcaption>多头希望构建的缓升通道——4 个原始支点</figcaption>
+    </figure>
+    <p><b>1 月 21 日「又被暗算的多头尚能饭否？」</b>：周末平安保险再被暗算，多头无力站上 5209 点，30 分钟震荡走入"坏的选择"。技术分类如下：</p>
+    <p>"5522 点下来的线段下跌结束后，中阴形成 <b>1 分钟中枢</b>——最坏情况这是 1 分钟下跌的第一个中枢；或者先扩展成 <b>5 分钟中枢</b>（30 分钟震荡最大级别只能是 5 分钟）。<span class="hl-gold">无论后面中枢是 1 分钟还是 5 分钟，都要走出第三类买点才算真正摆脱下跌压力。</span>"</p>
+    <figure>
+      <img src="/_assets/ch93_p09.png" alt="1分钟中枢的第三类卖点位置">
+      <figcaption>1 月 21 日下午的 1 分钟中枢第三类卖点</figcaption>
+    </figure>
+  </section>
+
+  <!-- 7 -->
+  <section class="wrap reveal">
+    <div class="sec-no">07 — 命运分类</div>
+    <h2>四种投资者命运</h2>
+    <p class="lead">1 月 18 日的著名段落——这一年所有人将面临的四种命运。</p>
+    <div class="fates">
+      <div class="fate f1">
+        <div class="row1"><span class="badge">技术好 · 心态好</span></div>
+        <h4>比去年还赚钱</h4>
+        <p>把<b>线段、1、5、30 级别</b>搞清楚，对散户足够了。"别小看震荡的功夫。"</p>
+      </div>
+      <div class="fate f2">
+        <div class="row1"><span class="badge">技术好 · 心态不好</span></div>
+        <h4>几乎不存在</h4>
+        <p>真技术好了一切都看明白，自然心态好。如果真有，今年也就赚点小钱。</p>
+      </div>
+      <div class="fate f3">
+        <div class="row1"><span class="badge">技术不好 · 心态好</span></div>
+        <h4>做电梯广告</h4>
+        <p>电梯广告做多了老化，<b>有出大事故的风险</b>——突然从 20 楼掉到负 18 楼。</p>
+      </div>
+      <div class="fate f4">
+        <div class="row1"><span class="badge">技术不好 · 心态不好</span></div>
+        <h4>灾难年</h4>
+        <p>"是最好的<b>绞杀对象</b>了。"——给所有技术不好的人一个忠告：一旦有足够利润又出现不好信号，<b>一定要先把本拿出来</b>。</p>
+      </div>
+    </div>
+    <blockquote>
+      任何持有的股票，都以能吃能睡为最基本的持仓标准。如果你持有一只股票，已经影响到你的睡眠与吃饭，请马上退出。
+      <span class="who">— 仓位管理铁律</span>
+    </blockquote>
+  </section>
+
+  <!-- 8 -->
+  <section class="wrap reveal">
+    <div class="sec-no">08 — 全课收尾</div>
+    <h2>级别与节奏：股票的全部</h2>
+    <p class="lead">缠师用八个字结束这一课。</p>
+    <blockquote>
+      股票，说白了只有四个字：<b>级别、节奏</b>。参透了这一点，就大块吃肉，大碗喝酒，日日好时光。
+      <span class="who">— 缠中说禅</span>
+    </blockquote>
+    <p>课末的最简一招：<span class="hl-gold">见日顶分型走，见日底分型回</span>——这一招练熟了，今年能少坐很多电梯。</p>
+
+    <div class="tldr">
+      <div class="lab">一句话总结</div>
+      <p>(1, 0) 出现后只有 (1, 1) 和 (-1, 1) 两条岔路——按你的水平选择落袋为安、做短差、还是用上下两段力度比较抓真正的顶；区间强弱决定要不要参与，弱震荡确认就别玩。</p>
+    </div>
+  </section>
+</main>
+
+<footer class="wrap">
+  原文出处：raw/缠中说禅/教你炒股票108课/教你炒股票93：走势结构的两重表里关系2.md<br>
+  本页为个人学习复习用 · 非投资建议
+</footer>
+
+<script>
+  const bar=document.getElementById('bar');
+  const onScroll=()=>{
+    const h=document.documentElement;
+    const p=h.scrollTop/(h.scrollHeight-h.clientHeight);
+    bar.style.width=(p*100)+'%';
+  };
+  document.addEventListener('scroll',onScroll,{passive:true});onScroll();
+
+  const io=new IntersectionObserver((es)=>{
+    es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});
+  },{threshold:.12});
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+</script>
+<script src="/assets/_nav.js"></script><script src="/assets/_shell.js"></script></body>
+</html>

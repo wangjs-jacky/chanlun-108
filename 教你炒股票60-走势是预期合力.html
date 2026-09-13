@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>缠论 · 教你炒股票60：图解分析示范五 — 走势即预期合力</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@500;700;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0b0e12;--bg-elev:#12161c;--bg-card:#161b22;
+    --ink:#e8eaed;--ink-dim:#9aa3ad;--ink-faint:#5b6470;
+    --line:rgba(255,255,255,.07);
+    --up:#ff4d4f;--down:#16c784;--pivot:#37c0e6;--gold:#e8b339;--blue:#00d4ff;
+    --max:880px;--serif:"Noto Serif SC",serif;--mono:"JetBrains Mono",ui-monospace,monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--ink);font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;line-height:1.85;font-size:17px;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  body::before{content:"";position:fixed;inset:0;z-index:-2;background:radial-gradient(1200px 600px at 70% -10%,rgba(55,192,230,.08),transparent 60%),radial-gradient(900px 500px at 0% 100%,rgba(232,179,57,.05),transparent 55%);pointer-events:none}
+  body::after{content:"";position:fixed;inset:0;z-index:-1;opacity:.4;background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);background-size:46px 46px;-webkit-mask-image:radial-gradient(ellipse at 50% 0%,#000 30%,transparent 80%);mask-image:radial-gradient(ellipse at 50% 0%,#000 30%,transparent 80%);pointer-events:none}
+  #bar{position:fixed;top:0;left:0;height:3px;width:0;z-index:50;background:linear-gradient(90deg,var(--pivot),var(--gold));box-shadow:0 0 12px var(--pivot)}
+  .wrap{max-width:var(--max);margin:0 auto;padding:0 24px}
+  header.hero{padding:120px 0 70px;text-align:center;position:relative}
+  .kicker{font-family:var(--mono);font-size:13px;letter-spacing:.32em;color:var(--pivot);text-transform:uppercase;margin-bottom:26px}
+  .kicker span{color:var(--ink-faint)}
+  h1.title{font-family:var(--serif);font-weight:900;line-height:1.05;font-size:clamp(44px,10vw,100px);letter-spacing:.04em;background:linear-gradient(180deg,#fff 30%,#8aa0ad 130%);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .sub{margin:22px auto 0;max-width:580px;color:var(--ink-dim);font-size:18px}
+  .meta{margin-top:34px;display:flex;gap:14px;justify-content:center;flex-wrap:wrap;font-family:var(--mono);font-size:12px;color:var(--ink-faint)}
+  .meta b{color:var(--ink-dim);font-weight:500}
+  .pill{border:1px solid var(--line);padding:6px 14px;border-radius:999px;background:rgba(255,255,255,.02)}
+  .scroll-hint{margin-top:60px;color:var(--ink-faint);font-family:var(--mono);font-size:12px;animation:bob 2.4s ease-in-out infinite}
+  @keyframes bob{0%,100%{transform:translateY(0);opacity:.5}50%{transform:translateY(8px);opacity:1}}
+  section{padding:64px 0;border-top:1px solid var(--line)}
+  .sec-no{font-family:var(--mono);font-size:13px;color:var(--gold);letter-spacing:.2em;margin-bottom:10px}
+  h2{font-family:var(--serif);font-weight:700;font-size:clamp(28px,5vw,42px);line-height:1.25;margin-bottom:8px;letter-spacing:.02em}
+  .lead{color:var(--ink-dim);font-size:16px;margin-bottom:28px;max-width:660px}
+  p{margin:0 0 18px;color:#cfd5dc}
+  p b,strong{color:#fff;font-weight:700}
+  .hl-pivot{color:var(--pivot);font-weight:700}.hl-up{color:var(--up);font-weight:700}
+  .hl-down{color:var(--down);font-weight:700}.hl-gold{color:var(--gold);font-weight:700}
+  blockquote{margin:26px 0;padding:20px 24px;border-left:3px solid var(--pivot);background:linear-gradient(90deg,rgba(55,192,230,.07),transparent);border-radius:0 10px 10px 0;font-family:var(--serif);font-size:19px;color:#eaf6fb}
+  blockquote .who{display:block;margin-top:8px;font-family:var(--mono);font-size:12px;color:var(--ink-faint);font-style:normal}
+  figure{margin:34px 0}
+  figure img{width:100%;border-radius:12px;border:1px solid var(--line);background:#fff;box-shadow:0 18px 50px rgba(0,0,0,.5)}
+  figcaption{margin-top:12px;font-size:13px;color:var(--ink-faint);text-align:center;font-family:var(--mono)}
+  .grid{display:grid;gap:16px;grid-template-columns:1fr 1fr;margin:28px 0}
+  @media(max-width:640px){.grid{grid-template-columns:1fr}}
+  .card{background:var(--bg-card);border:1px solid var(--line);border-radius:14px;padding:24px;position:relative;overflow:hidden;transition:transform .35s ease,border-color .35s ease}
+  .card:hover{transform:translateY(-4px);border-color:rgba(55,192,230,.4)}
+  .card .tag{font-family:var(--mono);font-size:11px;letter-spacing:.18em;color:var(--gold);text-transform:uppercase}
+  .card h3{font-family:var(--serif);font-size:21px;margin:10px 0 8px;color:#fff}
+  .card p{font-size:15px;color:var(--ink-dim);margin:0}
+  .table{margin:28px 0;border:1px solid var(--line);border-radius:14px;overflow:hidden}
+  .table .row{display:grid;grid-template-columns:1.1fr 1.5fr 1.6fr;align-items:stretch}
+  .table .row+.row{border-top:1px solid var(--line)}
+  .table .row>div{padding:16px 18px}
+  .table .row.head{background:var(--bg-elev);font-family:var(--mono);font-size:12px;letter-spacing:.14em;color:var(--ink-faint);text-transform:uppercase}
+  .table .row>div+div{border-left:1px solid var(--line)}
+  .table .name{font-family:var(--serif);font-weight:700;font-size:18px}
+  .table .name.qushi{color:var(--gold)}
+  .cnt{font-family:var(--mono);font-size:14px;color:var(--pivot)}
+  @media(max-width:560px){.table .row{grid-template-columns:1fr}.table .row>div+div{border-left:0;border-top:1px solid var(--line)}.table .row.head{display:none}}
+  .points{margin:26px 0;display:flex;flex-direction:column;gap:14px}
+  .pt{display:flex;gap:16px;align-items:flex-start;background:var(--bg-card);border:1px solid var(--line);border-radius:12px;padding:18px 20px}
+  .pt .dot{flex:none;width:42px;height:42px;border-radius:10px;display:grid;place-items:center;font-family:var(--serif);font-weight:900;font-size:20px;color:#0b0e12}
+  .pt.b .dot{background:var(--up)}.pt.s .dot{background:var(--down)}
+  .pt h4{font-size:17px;margin-bottom:4px;color:#fff}.pt p{font-size:15px;color:var(--ink-dim);margin:0}
+  .proof{margin:30px 0;background:linear-gradient(120deg,rgba(55,192,230,.06),transparent 70%),var(--bg-elev);border:1px solid rgba(55,192,230,.25);border-radius:16px;padding:26px}
+  .proof .badge{display:inline-block;font-family:var(--mono);font-weight:700;font-size:12px;letter-spacing:.12em;padding:6px 14px;border-radius:999px;background:rgba(55,192,230,.14);color:var(--pivot);border:1px solid rgba(55,192,230,.4);margin-bottom:14px}
+  .chartbox{background:var(--bg-card);border:1px solid var(--line);border-radius:14px;padding:18px 14px 8px;margin:18px 0}
+  .legend{display:flex;gap:16px;font-family:var(--mono);font-size:12px;color:var(--ink-dim);padding:0 8px 12px;flex-wrap:wrap}
+  .legend i{display:inline-block;width:16px;height:3px;vertical-align:middle;margin-right:6px;border-radius:2px}
+  canvas{width:100%;display:block}
+  .verdict{display:flex;gap:14px;align-items:flex-start;margin-top:8px;padding:16px 18px;background:var(--bg-card);border:1px solid var(--line);border-radius:12px}
+  .verdict .mk{flex:none;font-family:var(--mono);font-weight:700;color:var(--up)}
+  .verdict p{margin:0;font-size:15px;color:#d6dbe1}
+  ol.think{counter-reset:q;list-style:none;margin:24px 0;display:flex;flex-direction:column;gap:14px}
+  ol.think li{counter-increment:q;position:relative;padding:18px 20px 18px 60px;background:var(--bg-elev);border:1px solid var(--line);border-radius:12px;color:var(--ink-dim);font-size:15px}
+  ol.think li::before{content:counter(q,decimal-leading-zero);position:absolute;left:20px;top:18px;font-family:var(--mono);color:var(--gold);font-weight:700}
+  .quiz{margin:22px 0;background:var(--bg-card);border:1px solid var(--line);border-radius:14px;padding:22px 24px}
+  .quiz h4{font-size:16px;color:#fff;margin-bottom:6px}
+  .quiz .ans{margin-top:12px;color:var(--ink-faint);font-size:14px;cursor:pointer}
+  .quiz .ans[open] summary{color:var(--pivot)}
+  .quiz summary{color:var(--gold);font-family:var(--mono);font-size:13px}
+  .tldr{margin:60px 0 0;padding:36px 30px;border:1px solid rgba(55,192,230,.3);border-radius:18px;background:radial-gradient(120% 120% at 100% 0%,rgba(55,192,230,.1),transparent 60%),var(--bg-elev);text-align:center}
+  .tldr .lab{font-family:var(--mono);font-size:12px;letter-spacing:.3em;color:var(--pivot);text-transform:uppercase}
+  .tldr p{font-family:var(--serif);font-size:clamp(20px,3.4vw,28px);line-height:1.7;color:#fff;margin:16px 0 0}
+  footer{padding:60px 0 90px;text-align:center;color:var(--ink-faint);font-family:var(--mono);font-size:12px;border-top:1px solid var(--line)}
+  .reveal{opacity:0;transform:translateY(26px);transition:opacity .8s ease,transform .8s ease}
+  .reveal.in{opacity:1;transform:none}
+  @media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}.scroll-hint{animation:none}}
+</style>
+<meta name="view-transition" content="same-origin"><style>@view-transition{navigation:auto}</style></head>
+<body>
+<div id="bar"></div>
+<header class="hero">
+  <div class="wrap">
+    <div class="kicker">缠中说禅 · 教你炒股票108课 <span>/ 第 60 课</span></div>
+    <h1 class="title">走势即预期合力</h1>
+    <p class="sub">图解分析示范五 · 用 5·30 印花税大跌的真实战场，演示如何把"心理预期"翻译成线段、中枢、买卖点</p>
+    <div class="meta">
+      <span class="pill"><b>原文</b> 2007-06-19</span>
+      <span class="pill"><b>类型</b> 实战示范 + 心法</span>
+      <span class="pill"><b>关键词</b> 预期合力 · 突发消息 · 中枢扩展 · 第二类卖点</span>
+    </div>
+    <div class="scroll-hint">↓ 向下滚动，逐层拆解</div>
+  </div>
+</header>
+<main>
+
+<!-- 01 心法基底 -->
+<section class="wrap reveal">
+  <div class="sec-no">01 — 心法基底</div>
+  <h2>走势的本质是预期，预期的本质是心理</h2>
+  <p class="lead">第60课开篇就把"K线图"还原回它真正的样子：每根线背后都是一群人下注的心理状态。</p>
+  <p>缠师的逻辑链条是这样的：<b>消息面 → 引发心理预期 → 转化为交易行为 → 多空合力 → 画出走势</b>。光在那里恐惧或贪婪而不下单，对市场来说都不存在。所有"市场行为"都已经被心理过滤了一遍。</p>
+  <blockquote>消息面、政策面、资金面，这面那面，最终作用的都是<b>人心</b>。人心因预期而交易，这里关系的就是人的<b>贪婪与恐惧、贪嗔痴疑慢</b>。<span class="who">— 缠中说禅 · 第60课</span></blockquote>
+  <p>这一点是后面所有操作纪律的根基。<span class="hl-pivot">本ID理论从不预测，只跟随合力。</span>不是"不可预测"，而是"不为贪婪恐惧而预测"——这是技术派和心理派的根本分野。</p>
+</section>
+
+<!-- 02 关键例子: A1 是怎样的心理位 -->
+<section class="wrap reveal">
+  <div class="sec-no">02 — 一个最简单的例子</div>
+  <h2>反弹高点 A1，为什么成了"心理位"</h2>
+  <p class="lead">缠师用一段三笔下跌讲清楚：为什么前次反弹高点会变成下一波的"必争之地"。</p>
+  <p>设想一个走势：<span class="hl-down">B0 ↓ A1</span>（下跌）→ <span class="hl-up">A1 ↑ B1</span>（反弹）→ <span class="hl-down">B1 ↓ A2</span>（再跌破）→ <span class="hl-up">A2 ↑ B2</span>（再反弹）。问题是：<b>B2 能不能超过 A1？</b></p>
+  <div class="table">
+    <div class="row head"><div>情形</div><div>结构含义</div><div>背后的心理</div></div>
+    <div class="row"><div class="name">B2 <span class="hl-down">不超过</span> A1</div><div>没有形成更大级别中枢，下跌延续</div><div>"过不去 A1"的预期 &gt; "能站回去"的预期</div></div>
+    <div class="row"><div class="name qushi">B2 <span class="hl-up">超过</span> A1</div><div>形成更大级别中枢，进入震荡</div><div>"能站回去"的预期占了上风</div></div>
+  </div>
+  <p>注意：缠师强调你<b>不需要"测量"心理预期</b>。市场已经替你测量好了——B2 跌了下来还是站了上去，本身就是答案。<span class="hl-gold">交易者不预测心理，只读走势。</span></p>
+</section>
+
+<!-- 03 大盘第一图: 1分钟走势的线段与买点 -->
+<section class="wrap reveal">
+  <div class="sec-no">03 — 解图（一）</div>
+  <h2>3404 反弹：从最严格的线段，到可操作的级别</h2>
+  <p class="lead">这是 5·30 大跌后第一次反弹的 1 分钟走势图。缠师在这里同时讲了"严格分析"和"操作取舍"。</p>
+  <figure>
+    <img src="/_assets/ch60_p01.png" alt="上证指数 06-13 至 06-18 1分钟K线，标号 42-61，含 3404 大底">
+    <figcaption>上证 1 分钟 · 06-13 ~ 06-18 · 标号 42-61 · 底部 4067.85（53/55）与高点 4267.60（60）</figcaption>
+  </figure>
+  <p>图里有两条关键证据：</p>
+  <div class="points">
+    <div class="pt b"><div class="dot">A</div><div><h4>45-46 是小级别转大级别</h4><p>站在最严格意义上，45-46 线段构成 43-44 的<span class="hl-pivot">盘整背驰</span>（比较的是下面所有红柱子的面积之和）。但细看就发现：45-46 其实是<b>小级别转大级别</b>。</p></div></div>
+    <div class="pt s"><div class="dot">B</div><div><h4>红箭头后第一次拉起不创新高 → 离场</h4><p>因为后面必然形成<b>下上下的重叠结构</b>（一个小中枢）。线段以下级别的"同级别操作"不参与这类中枢。</p></div></div>
+  </div>
+  <p>但是——<span class="hl-gold">这是按"最严格"分析的，并没有太大操作意义。</span>缠师立刻把视角拉回现实：</p>
+  <blockquote>实际的操作中，大概真在有意义的操作，都至少是<b>1 分钟以下线段级别</b>的。如果你是按 30 分钟级别操作的，46-47 的波动就可以不管的。<span class="who">— 缠中说禅</span></blockquote>
+  <p>这句话是这一课最实用的"操作纪律"：<b>不同资金规模看不同显微镜倍数</b>。可操作级别一旦确定，更小级别的"漂亮分析"就要被抹平，否则你只会被每个小波动撩拨着空仓踏空。</p>
+</section>
+
+<!-- 04 5分钟中枢与背驰 -->
+<section class="wrap reveal">
+  <div class="sec-no">04 — 解图（二）</div>
+  <h2>46-55 是 5 分钟中枢，55-60 是标准线段上涨</h2>
+  <p class="lead">从 30 分钟操作者的视角，整段反弹是这样读的：</p>
+  <figure>
+    <img src="/_assets/ch60_p02.png" alt="46-55 中枢区域与 MACD 黄白线对比">
+    <figcaption>同图局部放大 · 46-55 构成 5 分钟中枢 · 55-60 标准 5 分钟上涨 · MACD 显示 59-60 背驰</figcaption>
+  </figure>
+  <ol class="think">
+    <li><b>46-55 是 5 分钟中枢</b>：来回震荡的箱体，55 跌破 53 后明显<span class="hl-pivot">盘整背驰</span>。</li>
+    <li><b>55 类比第一类买点，57 是第二类买点</b>：严格说盘整背驰无所谓"一买"，但用这个类比记忆很顺。</li>
+    <li><b>55-60 是标准 5 分钟上涨</b>：59-60 的背驰足够标准——MACD 黄白线已经回拉到 0 轴然后 60 创新高，但<span class="hl-down">柱子面积和黄白线高度都不如前面</span>。</li>
+    <li><b>60 后必有调整回拉 58 下方</b>：实际 61 比 58 低，<span class="hl-gold">58-61 形成新的 1 分钟中枢</span>。</li>
+  </ol>
+  <p>判断未来走势就看两件事：① 58-61 这个 1 分钟中枢会不会<b>扩展成 5 分钟中枢</b>；② 上一个 5 分钟中枢的最高点 46 会不会<b>被重新跌破</b>。<span class="hl-up">如果 46 不再被触及 → 超强走势</span>，意味着 3404 开始的 5 分钟上涨依然延续。</p>
+</section>
+
+<!-- 05 突发消息与第二类卖点 -->
+<section class="wrap reveal">
+  <div class="sec-no">05 — 心法实战</div>
+  <h2>突发消息怎么应对？看它破坏了多大级别</h2>
+  <p class="lead">5·30 印花税夜袭这种"黑天鹅"，缠论怎么处理？答案出乎意料的简单。</p>
+  <p>突发消息本质上只是<b>一个市场预期的当下分力</b>。任何消息都要回到"对合力的影响"。一般情况下：</p>
+  <div class="grid">
+    <div class="card"><div class="tag">小概率 · 不幸</div><h3>消息正好砸在背驰精确定位期间</h3><p>用一个<span class="hl-down">第二类卖点</span>应付即可。这次 5·30 就是这种情况。</p></div>
+    <div class="card"><div class="tag">大概率 · 幸运</div><h3>消息出在背驰精确定位之后</h3><p>对操作的影响就是 0——你已经按背驰跑了，消息只是"补刀"。</p></div>
+  </div>
+  <p>但要注意操作级别匹配：</p>
+  <div class="table">
+    <div class="row head"><div>你的操作级别</div><div>消息破坏的级别</div><div>怎么处理</div></div>
+    <div class="row"><div class="name">月线</div><div>日线小跌</div><div><span class="hl-up">爱跌不跌，随他去</span></div></div>
+    <div class="row"><div class="name">5 分钟</div><div>1 分钟以下震荡</div><div>第二类卖点也不用管</div></div>
+    <div class="row"><div class="name qushi">30 分钟</div><div>5 分钟级别都跌 50%</div><div>5 分钟底背驰反弹空间已超过 30 分钟，<span class="hl-gold">直接按 5 分钟级别进入</span>，不必坐等 30 分钟买点</div></div>
+  </div>
+  <blockquote>突发消息<b>破坏的级别越大</b>，越不一定等相应级别的第二类卖点。例如向下缺口把日线给破坏了，盘中 1 分钟甚至线段的二卖都是好的走人机会。<span class="who">— 缠中说禅 · 第60课</span></blockquote>
+</section>
+
+<!-- 06 akshare 实证 -->
+<section class="wrap reveal">
+  <div class="sec-no">06 — 真金白银的实证</div>
+  <h2>2007 年 5-6 月上证日 K：缠师当年讲的画面，长这样</h2>
+  <p class="lead">把课文里反复出现的关键点位——3404、4192、4224、4254、4312——放回真实日 K，对照看一眼。</p>
+  <div class="proof">
+    <span class="badge">数据实证 · 上证指数 000001</span>
+    <div class="chartbox">
+      <div class="legend">
+        <span><i style="background:#cfd5dc"></i>收盘</span>
+        <span><i style="background:#ff8a8c"></i>MA5</span>
+        <span><i style="background:#e8b339"></i>MA20</span>
+        <span><i style="background:#37c0e6"></i>MA60</span>
+        <span><i style="background:#ff4d4f"></i>关键位</span>
+      </div>
+      <canvas id="cv_sh000001" height="460"></canvas>
+    </div>
+    <div class="verdict"><span class="mk">✓ 印证</span><p>2007-05-30 印花税夜袭，沪指当日最低 <b>4015.51</b>，连续三天暴跌至 6-04 见 <b class="hl-down">3659.09</b>，6-05 进一步探至 <b class="hl-down">3404.15</b>——这正是缠师文中"<b>从 3404 开始的反弹</b>"。其后反弹至 6-19 高 <b>4280.85</b>、6-20 高 <b class="hl-up">4312.00</b>（图 p04 顶部标注完全吻合），随后果然在 4192 附近震荡触发中枢扩展。缠师文末说"4144 的 1/2 线十分关键"——后续行情看 7-05 见 <b>3615.87</b> 后才真正企稳，<span class="hl-gold">1/2 线确实是震荡的分水岭</span>。</p></div>
+  </div>
+  <p style="font-family:var(--mono);font-size:12px;color:var(--ink-faint)">数据来源：新浪财经日K（不复权）· akshare 取数 · 截至 2026-05-29 · 不构成投资建议</p>
+</section>
+
+<!-- 07 第二天解盘 -->
+<section class="wrap reveal">
+  <div class="sec-no">07 — 6-19 与 6-20 的盘后解盘</div>
+  <h2>4224 是命门：中枢震荡的第三类买卖点剧本</h2>
+  <p class="lead">课文末尾两段解盘是教学示范的精华——同一套语言，同一套纪律，连续两天落地。</p>
+  <figure>
+    <img src="/_assets/ch60_p03.png" alt="6-19 解盘截图，4224 与 4254 区间">
+    <figcaption>6-19 解盘 · 60-61 构成 1 分钟中枢 [4224, 4254] · 关键观察点：4224 下不出三卖 = 强势</figcaption>
+  </figure>
+  <blockquote>4224 点下不出现第三类卖点，就是强势震荡。从 60 开始的 1 分钟中枢 [4224, 4254]，今后两天就看这中枢的<b>第三类买卖点</b>。<span class="who">— 缠中说禅 · 2007-06-19 解盘</span></blockquote>
+  <p>这是缠论最经典的"<b>中枢震荡剧本</b>"：</p>
+  <div class="points">
+    <div class="pt b"><div class="dot">3+</div><div><h4>4254 上方出现 1 分钟三买 → 大盘新一轮上攻</h4><p>突破中枢上轨后回踩不破，即三买。</p></div></div>
+    <div class="pt s"><div class="dot">3-</div><div><h4>4224 下方出现 1 分钟三卖 → 区间往下扩展</h4><p>跌破中枢下轨后反弹不破，即三卖。</p></div></div>
+    <div class="pt"><div class="dot" style="background:var(--gold)">=</div><div><h4>4224-4254 区间内反复 → 中枢震荡延伸</h4><p>什么都不做，等剧本走完。</p></div></div>
+  </div>
+  <figure>
+    <img src="/_assets/ch60_p04.png" alt="6-20 走势 1分钟K线，标号 56-74">
+    <figcaption>6-20 1 分钟走势 · 标号 56-74 · 高 4312 低 4164 · 13:30 附近的背驰是"老师没说的考题"</figcaption>
+  </figure>
+  <p>6-20 的走势把课文里的预演完美兑现：当日触及 <b>4192 附近的 46 位</b>，触发中枢扩展。缠师留了一道现场作业——<span class="hl-pivot">下午 13:30 附近的背驰如果还不能当下看出，那么就要抓紧学习了</span>。这种"看图作业"的训练方式，是这一课最珍贵的部分。</p>
+</section>
+
+<!-- 08 判图练习 -->
+<section class="wrap reveal">
+  <div class="sec-no">08 — 思考与判图</div>
+  <h2>动脑子得到的东西才是你自己的</h2>
+  <p class="lead">缠师两次在文中说："来这里，如果希望一点脑子都不动，那是不行的。"</p>
+  <ol class="think">
+    <li>第二段例子里，如果 B2 不仅没超过 A1，反而<b>跌破了 A2</b>，下一步走势的可能性是什么？提示：注意"破坏"和"延续"的级别归属。</li>
+    <li>6-19 课文说"58-61 形成新的 1 分钟中枢"。如果次日 1 分钟走势重新站上 4224 但站不上 4254，你会怎么操作？为什么？</li>
+    <li>突发消息把 5 分钟级别砸了 50%（如 5·30），按 30 分钟级别操作的你，应该用<b>5 分钟买点</b>还是等<b>30 分钟买点</b>？理由是什么？</li>
+    <li>缠师说"红箭头处比绿箭头高，所以不能确定该线段已经完成"。请你用自己的话解释：为什么"红高于绿"意味着线段未完成？</li>
+  </ol>
+  <div class="quiz">
+    <h4>判图练习一：下面哪种情况算"心理位失守"？</h4>
+    <p>A. B2 = 4250，A1 = 4254（差 4 个点） &nbsp;&nbsp; B. B2 = 4253，A1 = 4254（差 1 个点） &nbsp;&nbsp; C. B2 = 4255，A1 = 4254（高 1 个点）</p>
+    <details class="ans"><summary>查看答案</summary><p>A、B 都是"心理位失守"（B2 &lt; A1），区别只是失守的程度。C 是站上 A1，可能形成更大级别中枢。<span class="hl-pivot">差 1 个点和差 4 个点本质相同——市场用走势告诉你答案，不是用幅度。</span></p></details>
+  </div>
+  <div class="quiz">
+    <h4>判图练习二：5·30 大跌时，你按 5 分钟级别操作，下面哪些位置是合规的"卖出"动作？</h4>
+    <p>A. 5-29 收盘 4334（高位）&nbsp;&nbsp; B. 5-30 开盘 4087（跳空缺口）&nbsp;&nbsp; C. 5-30 收盘 4053（连续阴线）&nbsp;&nbsp; D. 5-31 开盘 4006（缺口次日）</p>
+    <details class="ans"><summary>查看答案</summary><p>B、D 都是"第二类卖点"性质的卖出动作（背驰/缺口反抽不破前高）。A 没有任何信号支撑，C 是机械止损不是缠论纪律。<span class="hl-gold">缠论的卖点都有结构定义，没有"我觉得高了就卖"。</span></p></details>
+  </div>
+</section>
+
+<!-- 09 多样性即纪律 -->
+<section class="wrap reveal">
+  <div class="sec-no">09 — 收束</div>
+  <h2>多样性 ≠ 模糊性</h2>
+  <blockquote>多样性不是模糊性，而是<b>多角度去让市场本身自己去画地为牢</b>，由此使得市场的走势万变不离本ID理论的控制之中。<span class="who">— 缠中说禅 · 第60课</span></blockquote>
+  <p>这是这一课最容易被误读的一句。"当下分解的多样性"不是说"什么都可以"，而是：</p>
+  <div class="grid">
+    <div class="card"><div class="tag">多角度</div><h3>同一段走势可以有 N 种分解</h3><p>30 分钟看是上涨，5 分钟看是中枢扩展，1 分钟看是震荡——都对，看你站在哪个级别。</p></div>
+    <div class="card"><div class="tag">画地为牢</div><h3>每种分解都有自己的纪律</h3><p>选了 30 分钟级别，就用 30 分钟买卖点。不能用 30 分钟入场、1 分钟止损。</p></div>
+  </div>
+  <p>这与现代量化里"多策略组合"的思想暗合：<span class="hl-pivot">不同尺度的策略各自闭环</span>，但每个策略内部纪律必须严格——这才是"多样性即纪律"的真意。</p>
+</section>
+
+<div class="wrap">
+  <div class="tldr">
+    <div class="lab">— 一句话总结 —</div>
+    <p>走势是预期的合力，预期是心理的外化；<br>不预测、不预期，只看图作业；<br>突发消息是分力，看它破坏的级别<br>——这就是缠论应对黑天鹅的全部纪律。</p>
+  </div>
+</div>
+
+</main>
+<footer class="wrap">
+  原文出处：raw/缠中说禅/教你炒股票108课/教你炒股票60：图解分析示范五.md<br>
+  本页为个人学习复习用 · 非投资建议
+</footer>
+<script>
+  const bar=document.getElementById('bar');
+  const onScroll=()=>{const h=document.documentElement;bar.style.width=(h.scrollTop/(h.scrollHeight-h.clientHeight)*100)+'%'};
+  document.addEventListener('scroll',onScroll,{passive:true});onScroll();
+  const io=new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{threshold:.12});
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+  function drawChanChart(canvasId, CHART){
+    const cv=document.getElementById(canvasId); if(!cv) return;
+    const mode=CHART.mode||'line', hasVol=!!CHART.v && CHART.showVol!==false;
+    const idxOf={}; CHART.dates.forEach((d,i)=>idxOf[d]=i);
+    const ri=d=>{ if(d in idxOf)return idxOf[d]; let b=0,bd=1/0;
+      CHART.dates.forEach((x,i)=>{const t=Math.abs(new Date(x)-new Date(d)); if(t<bd){bd=t;b=i}}); return b; };
+    function draw(){
+      const dpr=window.devicePixelRatio||1, W=cv.clientWidth, H=CHART.height||460;
+      cv.width=W*dpr; cv.height=H*dpr; const x=cv.getContext('2d'); x.scale(dpr,dpr); x.clearRect(0,0,W,H);
+      const padL=52,padR=14,padT=16, volH=hasVol?70:0, gap=hasVol?16:0, priceH=H-padT-volH-gap-22, n=CHART.c.length;
+      let mn=Math.min(...CHART.l), mx=Math.max(...CHART.h);
+      if(CHART.ma)Object.values(CHART.ma).forEach(a=>a.forEach(v=>{if(v!=null){mn=Math.min(mn,v);mx=Math.max(mx,v)}}));
+      if(CHART.pivots)CHART.pivots.forEach(p=>{mn=Math.min(mn,p.lo);mx=Math.max(mx,p.hi)});
+      if(CHART.marks)CHART.marks.forEach(m=>{mn=Math.min(mn,m.price);mx=Math.max(mx,m.price)});
+      const pd=(mx-mn)*0.08; mn-=pd; mx+=pd;
+      const PW=W-padL-padR, px=i=> n===1?padL+PW/2:padL+PW*i/(n-1), py=p=>padT+priceH*(1-(p-mn)/(mx-mn));
+      x.font="11px JetBrains Mono"; x.textAlign="right";
+      for(let g=0;g<=4;g++){const p=mn+(mx-mn)*g/4,yy=py(p);
+        x.strokeStyle="rgba(255,255,255,.06)";x.beginPath();x.moveTo(padL,yy);x.lineTo(W-padR,yy);x.stroke();
+        x.fillStyle="#5b6470";x.fillText(p.toFixed(0),padL-6,yy+3)}
+      if(CHART.pivots)CHART.pivots.forEach(p=>{const x1=px(ri(p.from)),x2=px(ri(p.to)),y1=py(p.hi),y2=py(p.lo);
+        x.fillStyle="rgba(55,192,230,.10)";x.strokeStyle="rgba(55,192,230,.55)";x.lineWidth=1;
+        x.fillRect(x1,y1,x2-x1,y2-y1);x.strokeRect(x1,y1,x2-x1,y2-y1);
+        if(p.label){x.fillStyle="#37c0e6";x.textAlign="center";x.fillText(p.label,(x1+x2)/2,y1-5)}});
+      if(hasVol){const vmax=Math.max(...CHART.v),vt=padT+priceH+gap;
+        for(let i=0;i<n;i++){const up=CHART.c[i]>=CHART.o[i];x.fillStyle=up?"rgba(255,77,79,.5)":"rgba(22,199,132,.5)";
+          const bw=Math.max(1,PW/n*0.6),bh=volH*CHART.v[i]/vmax;x.fillRect(px(i)-bw/2,vt+volH-bh,bw,bh)}}
+      if(mode==='candle'){const bw=Math.max(1.5,PW/n*0.62);
+        for(let i=0;i<n;i++){const up=CHART.c[i]>=CHART.o[i],col=up?"#ff4d4f":"#16c784";x.strokeStyle=col;x.fillStyle=col;
+          x.beginPath();x.moveTo(px(i),py(CHART.h[i]));x.lineTo(px(i),py(CHART.l[i]));x.stroke();
+          const yo=py(CHART.o[i]),yc=py(CHART.c[i]);x.fillRect(px(i)-bw/2,Math.min(yo,yc),bw,Math.max(1,Math.abs(yc-yo)))}}
+      else{const cs=CHART.c;x.beginPath();for(let i=0;i<n;i++){const xx=px(i),yy=py(cs[i]);i?x.lineTo(xx,yy):x.moveTo(xx,yy)}
+        const gr=x.createLinearGradient(0,padT,0,padT+priceH);gr.addColorStop(0,"rgba(207,213,220,.16)");gr.addColorStop(1,"rgba(207,213,220,0)");
+        x.lineTo(px(n-1),padT+priceH);x.lineTo(px(0),padT+priceH);x.closePath();x.fillStyle=gr;x.fill();
+        x.beginPath();for(let i=0;i<n;i++){const xx=px(i),yy=py(cs[i]);i?x.lineTo(xx,yy):x.moveTo(xx,yy)}
+        x.strokeStyle="#cfd5dc";x.lineWidth=1.6;x.stroke()}
+      const MC={MA5:"#ff8a8c",MA10:"#c0a3ff",MA20:"#e8b339",MA60:"#37c0e6",MA120:"#9aa3ad",MA250:"#ff4d4f"};
+      if(CHART.ma)Object.entries(CHART.ma).forEach(([k,a])=>{x.beginPath();let st=false;
+        for(let i=0;i<n;i++){if(a[i]==null)continue;const xx=px(i),yy=py(a[i]);st?x.lineTo(xx,yy):(x.moveTo(xx,yy),st=true)}
+        x.strokeStyle=MC[k]||"#888";x.lineWidth=1.4;x.stroke()});
+      if(CHART.marks)CHART.marks.forEach(m=>{const xx=px(ri(m.date)),yy=py(m.price),buy=(m.type||'').startsWith('b'),col=buy?"#ff4d4f":"#16c784";
+        x.fillStyle=col;x.beginPath();x.arc(xx,yy,4,0,7);x.fill();
+        x.fillStyle="#fff";x.font="bold 11px -apple-system";x.textAlign="center";x.fillText(m.text||'',xx,buy?yy+18:yy-10)});
+      x.fillStyle="#5b6470";x.textAlign="center";x.font="11px JetBrains Mono";
+      const L=Math.min(6,n);for(let g=0;g<L;g++){const i=Math.round((n-1)*g/(L-1||1));x.fillText(CHART.dates[i],px(i),H-5)}
+    }
+    draw(); window.addEventListener('resize',draw);
+  }
+
+  const CHART_SH = __CHART_DATA__;
+  CHART_SH.mode = "line";
+  CHART_SH.pivots = [
+    {"from":"2007-06-19","to":"2007-07-06","lo":4164,"hi":4312,"label":"4224-4254 中枢扩展区"}
+  ];
+  CHART_SH.marks = [
+    {"date":"2007-05-30","price":4015.51,"type":"s","text":"5·30 印花税"},
+    {"date":"2007-06-05","price":3404.15,"type":"b1","text":"3404 大底"},
+    {"date":"2007-06-20","price":4312.00,"type":"s","text":"4312 高点"},
+    {"date":"2007-07-05","price":3615.87,"type":"b1","text":"3615 二次底"}
+  ];
+  drawChanChart("cv_sh000001", CHART_SH);
+</script>
+<script src="/assets/_nav.js"></script><script src="/assets/_shell.js"></script></body>
+</html>

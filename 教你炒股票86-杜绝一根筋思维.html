@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>缠论 · 教你炒股票86：杜绝一根筋思维</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@500;700;900&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0b0e12;
+    --bg-elev:#12161c;
+    --bg-card:#161b22;
+    --ink:#e8eaed;
+    --ink-dim:#9aa3ad;
+    --ink-faint:#5b6470;
+    --line:rgba(255,255,255,.07);
+    --up:#ff4d4f;
+    --down:#16c784;
+    --pivot:#37c0e6;
+    --gold:#e8b339;
+    --max:880px;
+    --serif:"Noto Serif SC",serif;
+    --mono:"JetBrains Mono",ui-monospace,monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--ink);
+    font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;
+    line-height:1.85;font-size:17px;-webkit-font-smoothing:antialiased;overflow-x:hidden;}
+  body::before{content:"";position:fixed;inset:0;z-index:-2;
+    background:radial-gradient(1200px 600px at 70% -10%, rgba(232,179,57,.08), transparent 60%),
+      radial-gradient(900px 500px at 0% 100%, rgba(55,192,230,.05), transparent 55%);
+    pointer-events:none;}
+  body::after{content:"";position:fixed;inset:0;z-index:-1;opacity:.4;
+    background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);
+    background-size:46px 46px;
+    -webkit-mask-image:radial-gradient(ellipse at 50% 0%, #000 30%, transparent 80%);
+            mask-image:radial-gradient(ellipse at 50% 0%, #000 30%, transparent 80%);
+    pointer-events:none;}
+  #bar{position:fixed;top:0;left:0;height:3px;width:0;z-index:50;
+    background:linear-gradient(90deg,var(--gold),var(--pivot));box-shadow:0 0 12px var(--gold);}
+  .wrap{max-width:var(--max);margin:0 auto;padding:0 24px}
+  header.hero{padding:120px 0 70px;text-align:center;position:relative}
+  .kicker{font-family:var(--mono);font-size:13px;letter-spacing:.32em;color:var(--gold);
+    text-transform:uppercase;margin-bottom:26px}
+  .kicker span{color:var(--ink-faint)}
+  h1.title{font-family:var(--serif);font-weight:900;line-height:1.05;
+    font-size:clamp(44px,10vw,96px);letter-spacing:.04em;
+    background:linear-gradient(180deg,#fff 30%,#8aa0ad 130%);
+    -webkit-background-clip:text;background-clip:text;color:transparent;}
+  .sub{margin:22px auto 0;max-width:580px;color:var(--ink-dim);font-size:18px}
+  .meta{margin-top:34px;display:flex;gap:14px;justify-content:center;flex-wrap:wrap;
+    font-family:var(--mono);font-size:12px;color:var(--ink-faint)}
+  .meta b{color:var(--ink-dim);font-weight:500}
+  .pill{border:1px solid var(--line);padding:6px 14px;border-radius:999px;background:rgba(255,255,255,.02)}
+  .scroll-hint{margin-top:60px;color:var(--ink-faint);font-family:var(--mono);font-size:12px;
+    animation:bob 2.4s ease-in-out infinite}
+  @keyframes bob{0%,100%{transform:translateY(0);opacity:.5}50%{transform:translateY(8px);opacity:1}}
+  section{padding:64px 0;border-top:1px solid var(--line)}
+  .sec-no{font-family:var(--mono);font-size:13px;color:var(--gold);letter-spacing:.2em;margin-bottom:10px}
+  h2{font-family:var(--serif);font-weight:700;font-size:clamp(28px,5vw,42px);
+    line-height:1.25;margin-bottom:8px;letter-spacing:.02em}
+  .lead{color:var(--ink-dim);font-size:16px;margin-bottom:28px;max-width:640px}
+  p{margin:0 0 18px;color:#cfd5dc}
+  p b,strong{color:#fff;font-weight:700}
+  .hl-pivot{color:var(--pivot);font-weight:700}
+  .hl-up{color:var(--up);font-weight:700}
+  .hl-down{color:var(--down);font-weight:700}
+  .hl-gold{color:var(--gold);font-weight:700}
+  blockquote{margin:26px 0;padding:20px 24px;border-left:3px solid var(--gold);
+    background:linear-gradient(90deg,rgba(232,179,57,.07),transparent);
+    border-radius:0 10px 10px 0;font-family:var(--serif);font-size:19px;color:#f8efd8}
+  blockquote .who{display:block;margin-top:8px;font-family:var(--mono);font-size:12px;
+    color:var(--ink-faint);font-style:normal}
+  figure{margin:34px 0}
+  figure img{width:100%;border-radius:12px;border:1px solid var(--line);
+    background:#fff;box-shadow:0 18px 50px rgba(0,0,0,.5)}
+  figcaption{margin-top:12px;font-size:13px;color:var(--ink-faint);text-align:center;font-family:var(--mono)}
+
+  /* SVG 自绘图容器 */
+  .svg-box{margin:34px 0;background:#0f1318;border:1px solid var(--line);border-radius:12px;
+    padding:24px;box-shadow:0 18px 50px rgba(0,0,0,.4)}
+  .svg-box svg{width:100%;height:auto;display:block}
+  .svg-cap{margin-top:14px;font-size:13px;color:var(--ink-faint);text-align:center;font-family:var(--mono)}
+
+  .grid{display:grid;gap:16px;grid-template-columns:1fr 1fr;margin:28px 0}
+  @media(max-width:640px){.grid{grid-template-columns:1fr}}
+  .card{background:var(--bg-card);border:1px solid var(--line);border-radius:14px;padding:24px;
+    position:relative;overflow:hidden;transition:transform .35s ease,border-color .35s ease}
+  .card:hover{transform:translateY(-4px);border-color:rgba(232,179,57,.4)}
+  .card .tag{font-family:var(--mono);font-size:11px;letter-spacing:.18em;color:var(--gold);text-transform:uppercase}
+  .card h3{font-family:var(--serif);font-size:21px;margin:10px 0 8px;color:#fff}
+  .card p{font-size:15px;color:var(--ink-dim);margin:0}
+
+  .table{margin:28px 0;border:1px solid var(--line);border-radius:14px;overflow:hidden}
+  .table .row{display:grid;grid-template-columns:1.1fr 1.5fr 1.6fr;align-items:stretch}
+  .table .row+.row{border-top:1px solid var(--line)}
+  .table .row > div{padding:16px 18px}
+  .table .row.head{background:var(--bg-elev);font-family:var(--mono);font-size:12px;
+    letter-spacing:.14em;color:var(--ink-faint);text-transform:uppercase}
+  .table .row > div+div{border-left:1px solid var(--line)}
+  .table .name{font-family:var(--serif);font-weight:700;font-size:17px;color:var(--gold)}
+  .table .case{font-family:var(--mono);font-size:13px;color:var(--pivot)}
+  @media(max-width:560px){
+    .table .row{grid-template-columns:1fr}
+    .table .row > div+div{border-left:0;border-top:1px solid var(--line)}
+    .table .row.head{display:none}
+  }
+
+  /* 步骤条 */
+  .steps{margin:26px 0;display:flex;flex-direction:column;gap:14px}
+  .step{display:flex;gap:16px;align-items:flex-start;background:var(--bg-card);
+    border:1px solid var(--line);border-radius:12px;padding:18px 20px}
+  .step .num{flex:none;width:42px;height:42px;border-radius:10px;display:grid;place-items:center;
+    font-family:var(--serif);font-weight:900;font-size:18px;color:#0b0e12;background:var(--pivot)}
+  .step h4{font-size:17px;margin-bottom:4px;color:#fff}
+  .step p{font-size:15px;color:var(--ink-dim);margin:0}
+
+  ol.think{counter-reset:q;list-style:none;margin:24px 0;display:flex;flex-direction:column;gap:14px}
+  ol.think li{counter-increment:q;position:relative;padding:18px 20px 18px 60px;
+    background:var(--bg-elev);border:1px solid var(--line);border-radius:12px;color:var(--ink-dim);font-size:15px}
+  ol.think li::before{content:counter(q,decimal-leading-zero);position:absolute;left:20px;top:18px;
+    font-family:var(--mono);color:var(--gold);font-weight:700}
+
+  .tldr{margin:60px 0 0;padding:36px 30px;border:1px solid rgba(232,179,57,.3);border-radius:18px;
+    background:radial-gradient(120% 120% at 100% 0%,rgba(232,179,57,.1),transparent 60%),var(--bg-elev);text-align:center}
+  .tldr .lab{font-family:var(--mono);font-size:12px;letter-spacing:.3em;color:var(--gold);text-transform:uppercase}
+  .tldr p{font-family:var(--serif);font-size:clamp(20px,3.4vw,28px);line-height:1.7;color:#fff;margin:16px 0 0}
+
+  footer{padding:60px 0 90px;text-align:center;color:var(--ink-faint);font-family:var(--mono);font-size:12px;border-top:1px solid var(--line)}
+
+  .reveal{opacity:0;transform:translateY(26px);transition:opacity .8s ease,transform .8s ease}
+  .reveal.in{opacity:1;transform:none}
+  @media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}.scroll-hint{animation:none}}
+</style>
+<meta name="view-transition" content="same-origin"><style>@view-transition{navigation:auto}</style></head>
+<body>
+<div id="bar"></div>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="kicker">缠中说禅 · 教你炒股票108课 <span>/ 第 86 课</span></div>
+    <h1 class="title">杜绝一根筋思维</h1>
+    <p class="sub">同一个第三类卖点，在不同级别、不同背景下，意义可以完全相反——会看「环境」比会背公式重要得多。</p>
+    <div class="meta">
+      <span class="pill"><b>原文</b> 2007-10-24</span>
+      <span class="pill"><b>类型</b> 操作心法 / 进阶</span>
+      <span class="pill"><b>关键词</b> 一根筋 · 第三类买卖点 · 大小级别嵌套 · 区间套</span>
+    </div>
+    <div class="scroll-hint">↓ 向下滚动，逐层拆解</div>
+  </div>
+</header>
+
+<main>
+  <!-- 1 -->
+  <section class="wrap reveal">
+    <div class="sec-no">01 — 核心病根</div>
+    <h2>什么是「一根筋思维」</h2>
+    <p class="lead">不是术语错，而是心态错。</p>
+    <blockquote>
+      一根筋思维的心理基础，就是企图找到一个永恒固定的公式，然后不管任何情况，只要套进去，就有一个现成答案。
+      <span class="who">— 缠中说禅</span>
+    </blockquote>
+    <p>很多人学缠论，本质上是在<b>找万能公式</b>：第三类卖点 = 卖、底背驰 = 买。一旦遇到不灵的，就觉得理论坏掉了。缠师一句话戳破——<span class="hl-gold">法成则人成，人不成，法何成？</span></p>
+    <p>股市是<b>几千万人心理合力的痕迹</b>，每天都是新世界。同一个形态，背景换了，结论就要换。把抽象的"信号"和具体的"场景"分开看，是这一课要训练的第一件事。</p>
+  </section>
+
+  <!-- 2 -->
+  <section class="wrap reveal">
+    <div class="sec-no">02 — 大眼界先行</div>
+    <h2>看 1 分钟之前，先抬头看大级别</h2>
+    <p class="lead">本课最反复强调的一句话——必须动态地把握各种概念。</p>
+    <p>同样一个<b>小级别的第三类卖点</b>，放进不同的<span class="hl-pivot">大级别背景</span>里，操作意义完全不同。下表是缠师亲自给的三种情况：</p>
+    <div class="table">
+      <div class="row head"><div>大级别背景</div><div>小级别第三类卖点的真实含义</div><div>该怎么操作</div></div>
+      <div class="row">
+        <div class="name">中枢上移</div>
+        <div>只要不破坏中枢上移，就只是<span class="hl-up">警戒信号</span>，不是大转折</div>
+        <div class="case">不卖。短差党可以做中枢内小震荡</div>
+      </div>
+      <div class="row">
+        <div class="name">中枢下移</div>
+        <div>下移已经持续这么久，<b>真该卖的位置早过去了</b></div>
+        <div class="case">基本没操作意义。再想"卖"是反应慢了 N 次方</div>
+      </div>
+      <div class="row">
+        <div class="name">中枢震荡</div>
+        <div>大概率只是<span class="hl-pivot">短线震荡</span>；甚至常常反过来成为大级别的<span class="hl-up">买点</span></div>
+        <div class="case">最容易被通杀。要看是否延伸出大级别第三卖</div>
+      </div>
+    </div>
+    <p><b>同一个公式，三种背景，三种结论。</b>所以缠师才说："如果看 1 分钟就被锁在 1 分钟层面里，搞 100 年都进步不了。"</p>
+  </section>
+
+  <!-- 3 -->
+  <section class="wrap reveal">
+    <div class="sec-no">03 — 通杀的本质</div>
+    <h2>主力为什么要「让买卖点轮番转折」</h2>
+    <p class="lead">理解了通杀，就理解了一根筋思维为什么必死。</p>
+    <blockquote>
+      通杀，就是要把所有人的舞步搞乱。怎么搞乱？就是买点卖点轮番转折，而且模式不断变化，让不同的操作模式都被破裂一次。
+      <span class="who">— 缠中说禅</span>
+    </blockquote>
+    <p>本质就是<b>触及不同人群的止损/突破位</b>：刚止损出来的，行情立刻回头；刚追突破进去的，立刻一巴掌。每个一根筋的固定动作，都有一刀对着切。</p>
+    <p>缠论的反制是<span class="hl-gold">不止损</span>——三大买点，给你三次机会，加上不同级别叠加，机会 N 多。如果非要等到"破位"才动，那就是被通杀的标准猎物。</p>
+    <div class="svg-box">
+      <svg viewBox="0 0 760 280" xmlns="http://www.w3.org/2000/svg">
+        <!-- 网格 -->
+        <defs>
+          <pattern id="g" width="38" height="28" patternUnits="userSpaceOnUse">
+            <path d="M 38 0 L 0 0 0 28" fill="none" stroke="rgba(255,255,255,.05)" stroke-width="1"/>
+          </pattern>
+        </defs>
+        <rect width="760" height="280" fill="url(#g)"/>
+        <!-- 中枢震荡区 (大级别中枢) -->
+        <rect x="60" y="100" width="640" height="100" fill="rgba(55,192,230,.08)" stroke="#37c0e6" stroke-dasharray="4 4" stroke-width="1.2"/>
+        <text x="70" y="118" fill="#37c0e6" font-family="JetBrains Mono" font-size="12">大级别中枢震荡区</text>
+        <!-- 锯齿走势 -->
+        <polyline fill="none" stroke="#e8eaed" stroke-width="2"
+          points="60,160 100,120 140,180 180,110 220,190 260,115 300,185 340,108 380,192 420,118 460,182 500,112 540,188 580,120 620,178 660,115 700,165"/>
+        <!-- 一根筋陷阱标注 -->
+        <g font-family="JetBrains Mono" font-size="11">
+          <!-- 假突破1 -->
+          <circle cx="180" cy="110" r="6" fill="none" stroke="#ff4d4f" stroke-width="2"/>
+          <text x="160" y="92" fill="#ff4d4f">追突破→挨打</text>
+          <!-- 假破位1 -->
+          <circle cx="220" cy="190" r="6" fill="none" stroke="#16c784" stroke-width="2"/>
+          <text x="200" y="218" fill="#16c784">止损→踏空</text>
+          <!-- 假突破2 -->
+          <circle cx="340" cy="108" r="6" fill="none" stroke="#ff4d4f" stroke-width="2"/>
+          <text x="320" y="92" fill="#ff4d4f">又追→又被打</text>
+          <!-- 假破位2 -->
+          <circle cx="420" cy="118" r="6" fill="none" stroke="#16c784" stroke-width="2"/>
+          <text x="400" y="218" fill="#16c784">又止损→又踏空</text>
+        </g>
+        <!-- 说明 -->
+        <text x="380" y="262" text-anchor="middle" fill="#9aa3ad" font-family="PingFang SC" font-size="13">中枢震荡里，买点卖点轮番打脸——一根筋永远是被收割的那个</text>
+      </svg>
+      <div class="svg-cap">图：中枢震荡中的"通杀"图解</div>
+    </div>
+  </section>
+
+  <!-- 4 -->
+  <section class="wrap reveal">
+    <div class="sec-no">04 — 五种嵌套组合</div>
+    <h2>大小买卖点的 5 种排列组合</h2>
+    <p class="lead">把"先后两个买卖点"按级别+方向排列，恰好 5 种基本情况。</p>
+    <div class="grid">
+      <div class="card">
+        <div class="tag">情况 1</div>
+        <h3>大买点后小买点</h3>
+        <p>小买点常常是<b>大买点的二次介入机会</b>，但不一定最精确（精确机会需要符合<span class="hl-pivot">区间套</span>）。被小波动跌破很正常，只要大结构没破就还会回来。</p>
+      </div>
+      <div class="card">
+        <div class="tag">情况 2</div>
+        <h3>大卖点后小卖点</h3>
+        <p>与情况 1 完全对称。小卖点是大卖点的二次卖出机会。</p>
+      </div>
+      <div class="card">
+        <div class="tag">情况 3</div>
+        <h3>大买点后小卖点</h3>
+        <p>若两点间无大卖点，小卖点后会有一段小级别走势<b>再次确认大结构</b>；只要大结构不破，下一个小买点能量极大——<span class="hl-gold">结构延伸力</span>是隐藏的大力量。</p>
+      </div>
+      <div class="card">
+        <div class="tag">情况 4</div>
+        <h3>大卖点后小买点</h3>
+        <p>情况 3 的镜像。小买点不破前提下，下一个小卖点能量很大。</p>
+      </div>
+      <div class="card" style="grid-column:1/-1">
+        <div class="tag">情况 5（最坑）</div>
+        <h3>大中枢里的小买卖点</h3>
+        <p>大中枢里<b>不可能有大买卖点</b>（一旦出现就意味着中枢已被破坏）。这里的小买卖点只制造中枢震荡，<span class="hl-gold">操作意义最弱</span>——但也是最容易把多空都搞乱的地方。</p>
+        <p style="margin-top:10px"><b>例外：</b>大级别中枢震荡中的<span class="hl-pivot">次级别</span>买卖点，反而可能升格为大级别操作机会（类第一类/类第二类买卖点）。</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5 -->
+  <section class="wrap reveal">
+    <div class="sec-no">05 — 抄底实战</div>
+    <h2>「不用懂背驰」也能干净抄底的安全方案</h2>
+    <p class="lead">这是本课最具操作价值的一段——给那些对背驰判断没把握的人的标准动作。</p>
+    <p>缠师给了一个<b>傻瓜流程</b>，连背驰都可以暂时不管，只要分清楚<b>走势类型</b>就能完美操作：</p>
+    <div class="steps">
+      <div class="step"><div class="num">1</div><div>
+        <h4>等第一类买点的次级别上涨</h4>
+        <p>下跌走完，第一类买点出现，等次级别走势向上启动。</p>
+      </div></div>
+      <div class="step"><div class="num">2</div><div>
+        <h4>等次级别回跌——这就是第二类买点</h4>
+        <p><b>不破第一类买点位置就介入</b>，可以完全不管背驰问题。</p>
+      </div></div>
+      <div class="step"><div class="num">3</div><div>
+        <h4>看下一个次级别能否守住前次级别的高点</h4>
+        <p>若<span class="hl-down">不破</span>前次级别上去的高点 → <span class="hl-up">坚决卖掉</span>。</p>
+      </div></div>
+      <div class="step"><div class="num">4</div><div>
+        <h4>破了高点 → 继续持有等第三类买点</h4>
+        <p>出现第三类买点 → 接着拿；不出现 → 卖掉了事。</p>
+      </div></div>
+    </div>
+    <blockquote>
+      分清楚走势类型，其实就可以完美地操作了，其他概念，只是如虎添翼而已。
+      <span class="who">— 缠中说禅</span>
+    </blockquote>
+    <p>很多抄底的人为什么总在第一次冲起后被震出来再追高？因为他们既不懂<b>大小级别嵌套</b>，又对"刚抄完的底"<b>没耐心给至少 3 个线段</b>。一根筋抄底，必然一根筋被震。</p>
+  </section>
+
+  <!-- 6 -->
+  <section class="wrap reveal">
+    <div class="sec-no">06 — 反陷阱与思考</div>
+    <h2>这些第三类卖点，根本就别去操作</h2>
+    <p class="lead">本课最后给出一个反向的陷阱清单——会识别这些，比会下单更值钱。</p>
+    <p><b>陷阱一：下跌趋势中第二个中枢之后的第三类卖点</b>。前面第一个中枢的第三类卖点才是合适的操作点，第二个中枢之后再卖<b>反应慢得离谱</b>。这时候反而要去找<span class="hl-up">底背驰</span>和买点。</p>
+    <p><b>陷阱二：下跌趋势转折后第一个上去线段的卖点</b>。它可能正好构成最后一个中枢的第三类卖点——<span class="hl-gold">几乎没有任何操作意义</span>，真正该想的是下来那个第二类买点。这就是为什么"抄底的人经常在第一次冲起后被震掉再追高"的原因。</p>
+    <ol class="think">
+      <li>你现在看的这个第三类卖点，放在更大一级的中枢里，是处于上移、下移还是震荡？</li>
+      <li>如果是大中枢震荡里的次级别买卖点，它能否升格为大级别的类第一/二类买卖点？</li>
+      <li>你最近一次"被震出来再追高"的操作，是不是因为没分清楚走势类型？是哪一类大小嵌套？</li>
+    </ol>
+
+    <div class="tldr">
+      <div class="lab">一句话总结</div>
+      <p>缠论里没有任何"公式 = 答案"——同一个第三类卖点，处在大级别的中枢上移、下移、震荡里，操作意义完全不同；先抬头看大背景，再决定小动作，就是杜绝一根筋的全部要领。</p>
+    </div>
+  </section>
+</main>
+
+<footer class="wrap">
+  原文出处：raw/缠中说禅/教你炒股票108课/教你炒股票86：走势分析中必须杜绝一根筋思维.md<br>
+  本页为个人学习复习用·非投资建议
+</footer>
+
+<script>
+  const bar=document.getElementById('bar');
+  const onScroll=()=>{
+    const h=document.documentElement;
+    const p=h.scrollTop/(h.scrollHeight-h.clientHeight);
+    bar.style.width=(p*100)+'%';
+  };
+  document.addEventListener('scroll',onScroll,{passive:true});onScroll();
+  const io=new IntersectionObserver((es)=>{
+    es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});
+  },{threshold:.12});
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+</script>
+<script src="/assets/_nav.js"></script><script src="/assets/_shell.js"></script></body>
+</html>

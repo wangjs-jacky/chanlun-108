@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>缠论 · 教你炒股票52：炒股票就是真正的学佛</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@500;700;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0b0e12;--bg-elev:#12161c;--bg-card:#161b22;
+    --ink:#e8eaed;--ink-dim:#9aa3ad;--ink-faint:#5b6470;
+    --line:rgba(255,255,255,.07);
+    --up:#ff4d4f;--down:#16c784;--pivot:#37c0e6;--gold:#e8b339;--blue:#00d4ff;
+    --max:880px;--serif:"Noto Serif SC",serif;--mono:"JetBrains Mono",ui-monospace,monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--ink);font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;line-height:1.85;font-size:17px;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  body::before{content:"";position:fixed;inset:0;z-index:-2;background:radial-gradient(1200px 600px at 70% -10%,rgba(55,192,230,.08),transparent 60%),radial-gradient(900px 500px at 0% 100%,rgba(232,179,57,.05),transparent 55%);pointer-events:none}
+  body::after{content:"";position:fixed;inset:0;z-index:-1;opacity:.4;background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);background-size:46px 46px;-webkit-mask-image:radial-gradient(ellipse at 50% 0%,#000 30%,transparent 80%);mask-image:radial-gradient(ellipse at 50% 0%,#000 30%,transparent 80%);pointer-events:none}
+  #bar{position:fixed;top:0;left:0;height:3px;width:0;z-index:50;background:linear-gradient(90deg,var(--pivot),var(--gold));box-shadow:0 0 12px var(--pivot)}
+  .wrap{max-width:var(--max);margin:0 auto;padding:0 24px}
+  header.hero{padding:120px 0 70px;text-align:center;position:relative}
+  .kicker{font-family:var(--mono);font-size:13px;letter-spacing:.32em;color:var(--pivot);text-transform:uppercase;margin-bottom:26px}
+  .kicker span{color:var(--ink-faint)}
+  h1.title{font-family:var(--serif);font-weight:900;line-height:1.05;font-size:clamp(44px,10vw,100px);letter-spacing:.04em;background:linear-gradient(180deg,#fff 30%,#8aa0ad 130%);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .sub{margin:22px auto 0;max-width:580px;color:var(--ink-dim);font-size:18px}
+  .meta{margin-top:34px;display:flex;gap:14px;justify-content:center;flex-wrap:wrap;font-family:var(--mono);font-size:12px;color:var(--ink-faint)}
+  .meta b{color:var(--ink-dim);font-weight:500}
+  .pill{border:1px solid var(--line);padding:6px 14px;border-radius:999px;background:rgba(255,255,255,.02)}
+  .scroll-hint{margin-top:60px;color:var(--ink-faint);font-family:var(--mono);font-size:12px;animation:bob 2.4s ease-in-out infinite}
+  @keyframes bob{0%,100%{transform:translateY(0);opacity:.5}50%{transform:translateY(8px);opacity:1}}
+  section{padding:64px 0;border-top:1px solid var(--line)}
+  .sec-no{font-family:var(--mono);font-size:13px;color:var(--gold);letter-spacing:.2em;margin-bottom:10px}
+  h2{font-family:var(--serif);font-weight:700;font-size:clamp(28px,5vw,42px);line-height:1.25;margin-bottom:8px;letter-spacing:.02em}
+  .lead{color:var(--ink-dim);font-size:16px;margin-bottom:28px;max-width:660px}
+  p{margin:0 0 18px;color:#cfd5dc}
+  p b,strong{color:#fff;font-weight:700}
+  .hl-pivot{color:var(--pivot);font-weight:700}.hl-up{color:var(--up);font-weight:700}
+  .hl-down{color:var(--down);font-weight:700}.hl-gold{color:var(--gold);font-weight:700}
+  blockquote{margin:26px 0;padding:20px 24px;border-left:3px solid var(--pivot);background:linear-gradient(90deg,rgba(55,192,230,.07),transparent);border-radius:0 10px 10px 0;font-family:var(--serif);font-size:19px;color:#eaf6fb}
+  blockquote .who{display:block;margin-top:8px;font-family:var(--mono);font-size:12px;color:var(--ink-faint);font-style:normal}
+  figure{margin:34px 0}
+  figure img{width:100%;border-radius:12px;border:1px solid var(--line);background:#fff;box-shadow:0 18px 50px rgba(0,0,0,.5)}
+  figcaption{margin-top:12px;font-size:13px;color:var(--ink-faint);text-align:center;font-family:var(--mono)}
+  .grid{display:grid;gap:16px;grid-template-columns:1fr 1fr;margin:28px 0}
+  @media(max-width:640px){.grid{grid-template-columns:1fr}}
+  .card{background:var(--bg-card);border:1px solid var(--line);border-radius:14px;padding:24px;position:relative;overflow:hidden;transition:transform .35s ease,border-color .35s ease}
+  .card:hover{transform:translateY(-4px);border-color:rgba(55,192,230,.4)}
+  .card .tag{font-family:var(--mono);font-size:11px;letter-spacing:.18em;color:var(--gold);text-transform:uppercase}
+  .card h3{font-family:var(--serif);font-size:21px;margin:10px 0 8px;color:#fff}
+  .card p{font-size:15px;color:var(--ink-dim);margin:0}
+  .table{margin:28px 0;border:1px solid var(--line);border-radius:14px;overflow:hidden}
+  .table .row{display:grid;grid-template-columns:1.1fr 1.5fr 1.6fr;align-items:stretch}
+  .table .row+.row{border-top:1px solid var(--line)}
+  .table .row>div{padding:16px 18px}
+  .table .row.head{background:var(--bg-elev);font-family:var(--mono);font-size:12px;letter-spacing:.14em;color:var(--ink-faint);text-transform:uppercase}
+  .table .row>div+div{border-left:1px solid var(--line)}
+  .table .name{font-family:var(--serif);font-weight:700;font-size:18px}
+  .table .name.qushi{color:var(--gold)}
+  .cnt{font-family:var(--mono);font-size:14px;color:var(--pivot)}
+  @media(max-width:560px){.table .row{grid-template-columns:1fr}.table .row>div+div{border-left:0;border-top:1px solid var(--line)}.table .row.head{display:none}}
+  .points{margin:26px 0;display:flex;flex-direction:column;gap:14px}
+  .pt{display:flex;gap:16px;align-items:flex-start;background:var(--bg-card);border:1px solid var(--line);border-radius:12px;padding:18px 20px}
+  .pt .dot{flex:none;width:42px;height:42px;border-radius:10px;display:grid;place-items:center;font-family:var(--serif);font-weight:900;font-size:20px;color:#0b0e12}
+  .pt.b .dot{background:var(--up)}.pt.s .dot{background:var(--down)}
+  .pt h4{font-size:17px;margin-bottom:4px;color:#fff}.pt p{font-size:15px;color:var(--ink-dim);margin:0}
+  .proof{margin:30px 0;background:linear-gradient(120deg,rgba(55,192,230,.06),transparent 70%),var(--bg-elev);border:1px solid rgba(55,192,230,.25);border-radius:16px;padding:26px}
+  .proof .badge{display:inline-block;font-family:var(--mono);font-weight:700;font-size:12px;letter-spacing:.12em;padding:6px 14px;border-radius:999px;background:rgba(55,192,230,.14);color:var(--pivot);border:1px solid rgba(55,192,230,.4);margin-bottom:14px}
+  ol.think{counter-reset:q;list-style:none;margin:24px 0;display:flex;flex-direction:column;gap:14px}
+  ol.think li{counter-increment:q;position:relative;padding:18px 20px 18px 60px;background:var(--bg-elev);border:1px solid var(--line);border-radius:12px;color:var(--ink-dim);font-size:15px}
+  ol.think li::before{content:counter(q,decimal-leading-zero);position:absolute;left:20px;top:18px;font-family:var(--mono);color:var(--gold);font-weight:700}
+  .quiz{margin:22px 0;background:var(--bg-card);border:1px solid var(--line);border-radius:14px;padding:22px 24px}
+  .quiz h4{font-size:16px;color:#fff;margin-bottom:6px}
+  .quiz .ans{margin-top:12px;color:var(--ink-faint);font-size:14px;cursor:pointer}
+  .quiz .ans[open] summary{color:var(--pivot)}
+  .quiz summary{color:var(--gold);font-family:var(--mono);font-size:13px}
+  .tldr{margin:60px 0 0;padding:36px 30px;border:1px solid rgba(55,192,230,.3);border-radius:18px;background:radial-gradient(120% 120% at 100% 0%,rgba(55,192,230,.1),transparent 60%),var(--bg-elev);text-align:center}
+  .tldr .lab{font-family:var(--mono);font-size:12px;letter-spacing:.3em;color:var(--pivot);text-transform:uppercase}
+  .tldr p{font-family:var(--serif);font-size:clamp(20px,3.4vw,28px);line-height:1.7;color:#fff;margin:16px 0 0}
+  footer{padding:60px 0 90px;text-align:center;color:var(--ink-faint);font-family:var(--mono);font-size:12px;border-top:1px solid var(--line)}
+  .reveal{opacity:0;transform:translateY(26px);transition:opacity .8s ease,transform .8s ease}
+  .reveal.in{opacity:1;transform:none}
+  @media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}.scroll-hint{animation:none}}
+  /* 本课专用：五毒环 + 修行对照 */
+  .poison{display:grid;gap:14px;grid-template-columns:repeat(5,1fr);margin:30px 0}
+  @media(max-width:720px){.poison{grid-template-columns:repeat(2,1fr)}}
+  .poison .pi{background:var(--bg-card);border:1px solid var(--line);border-radius:14px;padding:20px 16px;text-align:center;transition:all .35s ease}
+  .poison .pi:hover{transform:translateY(-4px);border-color:var(--gold)}
+  .poison .pi .ch{font-family:var(--serif);font-weight:900;font-size:38px;color:var(--gold);display:block;margin-bottom:6px;letter-spacing:.05em}
+  .poison .pi .ph{font-family:var(--mono);font-size:11px;color:var(--ink-faint);letter-spacing:.18em;text-transform:uppercase;margin-bottom:10px}
+  .poison .pi .desc{font-size:13px;color:var(--ink-dim);line-height:1.6}
+  .dharma{display:grid;gap:16px;grid-template-columns:1fr 1fr;margin:28px 0}
+  @media(max-width:640px){.dharma{grid-template-columns:1fr}}
+  .dharma .lane{background:var(--bg-card);border:1px solid var(--line);border-radius:14px;padding:24px;position:relative}
+  .dharma .lane.zen{border-color:rgba(55,192,230,.35)}
+  .dharma .lane.market{border-color:rgba(232,179,57,.35)}
+  .dharma .lane .badge{display:inline-block;font-family:var(--mono);font-size:11px;letter-spacing:.18em;padding:4px 10px;border-radius:999px;background:rgba(255,255,255,.04);border:1px solid var(--line);margin-bottom:14px}
+  .dharma .lane.zen .badge{color:var(--pivot);border-color:rgba(55,192,230,.4)}
+  .dharma .lane.market .badge{color:var(--gold);border-color:rgba(232,179,57,.4)}
+  .dharma .lane h3{font-family:var(--serif);font-size:20px;color:#fff;margin-bottom:10px}
+  .dharma .lane p{font-size:15px;color:var(--ink-dim);margin:0}
+  .equation{margin:34px auto;padding:30px 24px;background:var(--bg-elev);border:1px solid var(--line);border-radius:14px;text-align:center;font-family:var(--serif);font-size:clamp(18px,3vw,24px);line-height:1.9;color:#fff;max-width:680px}
+  .equation .op{color:var(--gold);font-family:var(--mono);padding:0 10px}
+  .equation .term{display:inline-block;padding:3px 10px;border-radius:8px;background:rgba(55,192,230,.08);border:1px solid rgba(55,192,230,.2)}
+  .equation .term.gold{background:rgba(232,179,57,.08);border-color:rgba(232,179,57,.3)}
+</style>
+<meta name="view-transition" content="same-origin"><style>@view-transition{navigation:auto}</style></head>
+<body>
+<div id="bar"></div>
+<header class="hero">
+  <div class="wrap">
+    <div class="kicker">缠中说禅 · 教你炒股票108课 <span>/ 第 52 课</span></div>
+    <h1 class="title">炒股就是真学佛</h1>
+    <p class="sub">市场的根本不是 K 线，而是参与者的「贪嗔痴疑慢」——理论研究的，正是这五毒同构的运行模式。</p>
+    <div class="meta">
+      <span class="pill"><b>原文</b> 2007-05-18</span>
+      <span class="pill"><b>类型</b> 心法 · 哲学</span>
+      <span class="pill"><b>关键词</b> 五毒 · 不患 · 操作级别 · 当下</span>
+    </div>
+    <div class="scroll-hint">↓ 向下滚动，逐层拆解</div>
+  </div>
+</header>
+<main>
+
+<!-- 01 这一课在讲什么 -->
+<section class="wrap reveal">
+  <div class="sec-no">01 — 这一课在讲什么</div>
+  <h2>把"修行"当成最硬核的操作哲学</h2>
+  <p class="lead">第52课不讲走势中枢，不讲第三类买卖点，它讲的是<b>缠论的"根"</b>——为什么这套理论能够成立、为什么可以公开、为什么能穿越牛熊。</p>
+  <p>缠师把整套理论的形而上学讲穿了：<b>市场不是一个独立于你之外、等你去预测的客观系统</b>。它是<span class="hl-pivot">所有参与者的观察、判断、操作合在一起的结果</span>。所以企图在自己之外找一个"上帝视角"去预测点位，从一开始就走错了路——这条路通往的不是答案，而是<span class="hl-down">脑子进水</span>。</p>
+  <p>那能预测什么？只能预测<b>基本形态</b>。点位是基本形态在当下演化中"生出来"的副产品。把握"形态"这个"不患"（注：缠师借用《论语》"不患寡而患不均"之意，指<b>不必变动的根基</b>），点位之"患"自然就在你的当下里。</p>
+  <p>而所有参与者底层的结构，又惊人地一致——<span class="hl-gold">贪、嗔、痴、疑、慢</span>，佛教讲的五毒。缠论本质上就是<b>五毒的运行说明书</b>。所以缠师说："炒股票就是真正的学佛。"——不是装个清高，是把市场操作的底层架构讲到了头。</p>
+
+  <blockquote>本ID的理论，归根结底，就是研究这<b>贪嗔痴疑慢</b>的。⋯⋯有人整天痴谈学佛，其实，炒股票就是真正的学佛，不在这贪嗔痴疑慢的大烦恼中如鱼得水、得大自在，你那佛，顶屁用！<span class="who">— 缠中说禅 · 2007-05-18</span></blockquote>
+</section>
+
+<!-- 02 预测之辨 -->
+<section class="wrap reveal">
+  <div class="sec-no">02 — 预测之辨</div>
+  <h2>什么"可以预测"，什么"绝对不能预测"</h2>
+  <p class="lead">缠师把"预测"这个词重新立了一遍——他不反对预测，他反对的是<b>错误的那种预测</b>。</p>
+  <div class="table">
+    <div class="row head"><div>问题</div><div>错误的预测</div><div>正确的预测</div></div>
+    <div class="row">
+      <div class="name">对象</div>
+      <div>具体<b>点位</b>（明天涨到4150？跌到3900？）</div>
+      <div>基本<b>形态</b>（背驰后必下跌或扩盘整）</div>
+    </div>
+    <div class="row">
+      <div class="name">基础</div>
+      <div>把市场当成<span class="hl-down">独立于参与者</span>的机械系统</div>
+      <div>市场=参与者行为的<span class="hl-pivot">同构产物</span></div>
+    </div>
+    <div class="row">
+      <div class="name">类比</div>
+      <div>牛顿式"上帝视角"——已被量子力学证伪</div>
+      <div>观察者也是被观察系统的一部分</div>
+    </div>
+    <div class="row">
+      <div class="name">结果</div>
+      <div>越精确越容易被打脸；脑子进水</div>
+      <div>事先被理论<b>绝对保证</b>的判断</div>
+    </div>
+  </div>
+  <p>用缠师自己的话："那种追求对点位的非当下把握，绝对是脑子进水。"为什么？因为<b>点位是在基本形态演化中、在当下里生出来的</b>——你想跳过这个生成过程，直接拿到结果，等于<span class="hl-down">想拿到一只还没下出来的蛋</span>。</p>
+
+  <div class="equation">
+    <span class="term">基本形态</span>
+    <span class="op">→</span>
+    <span class="term">当下演化</span>
+    <span class="op">→</span>
+    <span class="term gold">点位</span>
+    <br>
+    <span style="font-size:14px;font-family:var(--mono);color:var(--ink-faint);letter-spacing:.1em">"不患" → "不患之患"</span>
+  </div>
+</section>
+
+<!-- 03 五毒同构 -->
+<section class="wrap reveal">
+  <div class="sec-no">03 — 五毒同构</div>
+  <h2>贪嗔痴疑慢：缠论真正的研究对象</h2>
+  <p class="lead">为什么缠论可以适用于任何级别、任何市场，甚至如缠师调侃的"六道轮回中的任何类市场形态"？因为<b>底层人性结构是同构的</b>。</p>
+
+  <div class="poison">
+    <div class="pi">
+      <span class="ch">贪</span>
+      <div class="ph">Greed</div>
+      <div class="desc">趋势末段的追涨、舍不得止盈，造就<span class="hl-up">顶背驰</span>那一根针</div>
+    </div>
+    <div class="pi">
+      <span class="ch">嗔</span>
+      <div class="ph">Anger</div>
+      <div class="desc">套牢后报复性交易，亏一次想三倍捞回来，造就<span class="hl-down">下跌中枢延伸</span></div>
+    </div>
+    <div class="pi">
+      <span class="ch">痴</span>
+      <div class="ph">Delusion</div>
+      <div class="desc">迷信消息、迷信大 V、迷信"我觉得"，是<span class="hl-down">底背驰位置</span>不敢买的底色</div>
+    </div>
+    <div class="pi">
+      <span class="ch">疑</span>
+      <div class="ph">Doubt</div>
+      <div class="desc">第二类买点出现还在问"会不会再跌"，错过<span class="hl-up">趋势起爆</span>的最佳介入</div>
+    </div>
+    <div class="pi">
+      <span class="ch">慢</span>
+      <div class="ph">Arrogance</div>
+      <div class="desc">赚了点钱就觉得"市场尽在掌握"，加杠杆 all-in，等着被<span class="hl-down">趋势翻转</span>教育</div>
+    </div>
+  </div>
+
+  <p>缠师讲："只要这世界依然有这贪嗔痴疑慢，本ID就如鱼得水。"——这是<b>底气</b>，也是<b>边界</b>。理论可以公开，因为公开了，只要你内心还有五毒就还是套不出来；理论可以穿越牛熊，因为五毒不会消失。</p>
+
+  <blockquote>这意味着，<b>唯一并绝对可以预测的，就是市场走势的基本形态</b>。⋯⋯这特征之所以存在，归根结底，就是市场参与者有着<b>基本相同的结构</b>，这结构，归根结底，就是贪嗔痴疑慢。<span class="who">— 缠中说禅 · 2007-05-18</span></blockquote>
+</section>
+
+<!-- 04 操作级别 -->
+<section class="wrap reveal">
+  <div class="sec-no">04 — 操作的"不患"</div>
+  <h2>操作级别：每个人的"看世界的眼睛"</h2>
+  <p class="lead">这一段是 52 课最容易被忽略、但实战价值极高的部分——<b>事先确立的操作级别，是你的"不患"</b>。</p>
+  <p>缠师打了个绝妙的比方：你的<b>操作级别</b>，就像一只眼睛——它决定了你<span class="hl-pivot">把花看成花，还是把花看成猴子</span>。在你的世界里，"花"和"猴子"虽然名字不同，但<b>底层的视觉模式是同构的</b>，关键是这个模式，不是花还是猴子的设定。</p>
+
+  <div class="grid">
+    <div class="card">
+      <div class="tag">FIX FIRST</div>
+      <h3>先定级别，再看市场</h3>
+      <p>30 分钟级别操作者，眼里只能有 30 分钟级别的走势——再小的波动是"花纹"，再大的级别是"背景"。级别没定，<b>所有信号都是噪音</b>。</p>
+    </div>
+    <div class="card">
+      <div class="tag">SKIP RULE</div>
+      <h3>本级别以下的下跌不参与</h3>
+      <p>"任何30分钟级别下跌及30分钟级别以上的盘整，你都没必要参与。"——这是把"亏损源头"从纪律上掐死的关键句。</p>
+    </div>
+    <div class="card">
+      <div class="tag">EXIT RULE</div>
+      <h3>本级别顶背驰=绝对退出</h3>
+      <p>"30分钟顶背驰出现后，必然是30分钟级别下跌或扩展成更大盘整"——这是被理论<span class="hl-gold">绝对保证</span>的预测，不是猜。</p>
+    </div>
+    <div class="card">
+      <div class="tag">SCALE UP</div>
+      <h3>同构性=可迁移性</h3>
+      <p>5分钟、30分钟、日线、周线——底层都是"中枢+背驰+买卖点"的同一套模式。学会一个级别，等于学会所有级别。</p>
+    </div>
+  </div>
+
+  <blockquote>市场，归根结底只是<b>你的市场</b>，就像，一个看花只能看到花的眼睛，那自然看花就是花，不会把花看成猴子⋯⋯所以本ID的理论里，可以适用于<b>任何操作级别的人</b>。<span class="who">— 缠中说禅 · 2007-05-18</span></blockquote>
+
+  <div class="quiz">
+    <h4>判别练习：你是哪只眼睛？</h4>
+    <p>同一根 1 分钟级别的下跌：A 觉得"完蛋了清仓"；B 觉得"不影响、继续拿"；C 觉得"漂亮、加仓"。三人有谁错了？</p>
+    <details class="ans"><summary>查看答案</summary><p>都没错——前提是<b>各自的操作级别都定清楚了</b>。A 是 1 分钟操作者所以怕；B 是日线操作者所以不动；C 是周线大资金、把 1 分钟回调当低吸。错的只有<b>没定级别</b>的人——他会一会儿当 A 一会儿当 C，最后两头挨打。</p></details>
+  </div>
+</section>
+
+<!-- 05 当下示范 -->
+<section class="wrap reveal">
+  <div class="sec-no">05 — 当下示范</div>
+  <h2>把哲学落到 K 线：2007-05-18 的 1 分钟实战</h2>
+  <p class="lead">缠师从来不只是讲哲学。当天盘后他用上证 1 分钟图，把"形态-级别-当下"完整演示了一遍——这就是"形而上"如何变成"形而下"。</p>
+
+  <figure>
+    <img src="/_assets/ch52_p01.png" alt="2007-05-17~05-18 上证1分钟中枢震荡">
+    <figcaption>上证 05-17 14:30 ~ 05-18 13:26 的 1 分钟图：两段下跌（蓝框标注），用 1 分钟 MACD 判力度</figcaption>
+  </figure>
+
+  <p>图里两个蓝框框出的就是两段下跌：<b>05-17 14:30 → 05-18 10:00</b> 和 <b>05-18 10:58 → 05-18 13:26</b>。怎么判它们的"力度"？</p>
+  <ol class="think">
+    <li>用 <b>1 分钟 MACD</b> 辅助：看两段下跌对应的 MACD 红绿柱面积、是否回到 0 轴、DIF 是否走平。</li>
+    <li>对后一段做<b>细部分析</b>：用类似<span class="hl-pivot">区间套</span>的方法——后一段里再切出更小级别，找小级别的背驰。</li>
+    <li>当下就能定位转折点，<span class="hl-gold">无须事后解释</span>。这就是"当下"的实战含义。</li>
+  </ol>
+
+  <figure>
+    <img src="/_assets/ch52_p02.png" alt="2007-05-21 第二类买点">
+    <figcaption>05-21 上午冲高 4040 后回调 → 05-21 10:40 第二类买点：1 分钟 MACD 上穿 0 轴后第一次回抽 0 轴</figcaption>
+  </figure>
+
+  <p>第二天 05-21 的走势，缠师直接给出了 1 分钟<span class="hl-up">第二类买点</span>的标准形态——MACD 突破 0 轴后<b>第一次回抽 0 轴不破</b>。这是哲学的兑现：你在 05-18 写"市场必然在 4040 上下选择"，05-21 市场就把这个"基本形态"演化成了"具体点位"。</p>
+
+  <figure>
+    <img src="/_assets/ch52_p03.png" alt="2007-04-20~05-22 上证日内走势全景">
+    <figcaption>从 04-20 的 3745 一路向上：多个红框次级别中枢依次抬高，05-22 抵达 4139 的 1/2 线压力</figcaption>
+  </figure>
+
+  <figure>
+    <img src="/_assets/ch52_p04.png" alt="2007-05-22 上证全天磨 1/2 压力线">
+    <figcaption>05-22 全天围绕 4139 这条 1/2 压力线运行，早盘小多头陷阱、回踩缺口、尾盘拉回——形态完美</figcaption>
+  </figure>
+
+  <p>这四张图串起来看，就是"<b>哲学 → 形态 → 当下 → 点位</b>"的完整链条：缠师 05-18 说"必然要选择方向"，05-21 给出第二类买点的形态判别，05-22 市场就在 1/2 压力线上演化出了"小中枢震荡 + 第三类买卖点"的精细结构。<span class="hl-gold">点位是结果，不是目标</span>。</p>
+</section>
+
+<!-- 06 修行对照 -->
+<section class="wrap reveal">
+  <div class="sec-no">06 — 修行对照</div>
+  <h2>禅 vs 市场：两条路径其实是一条路</h2>
+  <p class="lead">缠师的"炒股就是学佛"不是修辞，是结构对应。把禅修和缠论操作一一对照，你会发现两者用的是<b>同一套心智工具</b>。</p>
+
+  <div class="dharma">
+    <div class="lane zen">
+      <span class="badge">禅修</span>
+      <h3>不预设、不期待</h3>
+      <p>《金刚经》"应无所住而生其心"——不执着于过去念头，不预设未来结果，只在<b>当下</b>觉知每一念升起。</p>
+    </div>
+    <div class="lane market">
+      <span class="badge">缠论</span>
+      <h3>不预测点位、不事后解释</h3>
+      <p>不在脑子里画"明天会到 4150"的图，只在当下盯 1 分钟 MACD 是否回到 0 轴。<b>每一笔操作都是当下完成</b>。</p>
+    </div>
+    <div class="lane zen">
+      <span class="badge">禅修</span>
+      <h3>观心：贪嗔痴疑慢</h3>
+      <p>修行的核心是觉察自己的五毒升起：贪欲想抓取、嗔怒想推开、痴迷想沉溺——觉察即解脱。</p>
+    </div>
+    <div class="lane market">
+      <span class="badge">缠论</span>
+      <h3>观盘：所有人的五毒</h3>
+      <p>K 线就是<b>万千参与者五毒的合成图</b>。你能在背驰位置不贪、在套牢中不嗔、在消息面前不痴——你就赢了大多数。</p>
+    </div>
+    <div class="lane zen">
+      <span class="badge">禅修</span>
+      <h3>立"戒"为基</h3>
+      <p>戒律是修行的根基：不杀生、不偷盗、不妄语⋯⋯没有戒，所有的"定"和"慧"都是浮沙。</p>
+    </div>
+    <div class="lane market">
+      <span class="badge">缠论</span>
+      <h3>立"操作级别"为基</h3>
+      <p>操作级别就是你的"戒"：你定了 30 分钟，就不该被 1 分钟波动撩动。<b>没有级别，所有的技术分析都是浮沙</b>。</p>
+    </div>
+    <div class="lane zen">
+      <span class="badge">禅修</span>
+      <h3>得大自在</h3>
+      <p>修成的标志：在一切境界中不动摇、不染着、不退转，"在烦恼中如鱼得水"。</p>
+    </div>
+    <div class="lane market">
+      <span class="badge">缠论</span>
+      <h3>市场如鱼得水</h3>
+      <p>缠师原话："不在这贪嗔痴疑慢的大烦恼中<b>如鱼得水、得大自在</b>，你那佛，顶屁用！"——技术过关 + 心法过关，才是真的赢家。</p>
+    </div>
+  </div>
+
+  <p>所以"炒股票就是真正的学佛"不是给佛教捧场，恰恰相反——它是<span class="hl-gold">把"学佛"从口头禅里拉回真刀真枪的功夫场</span>。市场每天用真金白银考你的贪嗔痴疑慢，比寺院里盘腿打坐严酷十倍。能在市场里赢，才是真有修。</p>
+</section>
+
+<!-- 07 操作要点回收 -->
+<section class="wrap reveal">
+  <div class="sec-no">07 — 操作要点回收</div>
+  <h2>从哲学回到工具箱：本课能落地的 5 件事</h2>
+  <p class="lead">哲学课如果不能转化成具体动作，就只是漂亮话。把 52 课能立刻落到操作里的 5 条规则提炼出来。</p>
+
+  <div class="points">
+    <div class="pt b">
+      <div class="dot">1</div>
+      <div><h4>开盘前，先确认今天的操作级别</h4><p>5 分钟、30 分钟、日线？写在交易日记最上面。<b>没定级别不开仓</b>。这是你的"戒"。</p></div>
+    </div>
+    <div class="pt b">
+      <div class="dot">2</div>
+      <div><h4>禁止预测点位</h4><p>盯<b>形态</b>，不预设<b>点位</b>。把"明天上 4150"换成"明天若不破 4050 区间下沿则向上拓展"。</p></div>
+    </div>
+    <div class="pt s">
+      <div class="dot">3</div>
+      <div><h4>本级别以下的下跌一律不参与</h4><p>30 分钟操作者，遇到 30 分钟下跌或 30 分钟以上盘整 → <b>直接退出，不抄底</b>。这是缠师亲自给的硬规则。</p></div>
+    </div>
+    <div class="pt s">
+      <div class="dot">4</div>
+      <div><h4>本级别顶背驰=绝对退出</h4><p>不是"减仓"、不是"观察"，是<b>绝对退出</b>。后面必然是本级别下跌或扩展成更大盘整——理论给了你 100% 保证。</p></div>
+    </div>
+    <div class="pt b">
+      <div class="dot">5</div>
+      <div><h4>每次下单前过一遍五毒</h4><p>这一单是"贪"在动手吗？是"嗔"想回本吗？是"痴"信消息吗？是"疑"耽误的吗？是"慢"过头吗？<b>有一毒在动，就先停一停</b>。</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 08 思考题 -->
+<section class="wrap reveal">
+  <div class="sec-no">08 — 思考题</div>
+  <h2>带走深想的 5 个问题</h2>
+  <p class="lead">缠师常把思考题留给读者。这 5 个是 52 课的"未尽之意"，回答它们等于把这一课嚼透。</p>
+  <ol class="think">
+    <li>为什么缠师说"科学在股市上注定死无葬身之地"？这和量子力学的"观察者效应"有何呼应？</li>
+    <li>"基本形态可以预测，点位不能预测"——但缠师又给出了精确的 4040、4050。这是否矛盾？答案在"当下"两个字里。</li>
+    <li>你最近一次失败的交易，是被哪一毒打败的？贪、嗔、痴、疑、慢里挑一个写下来。</li>
+    <li>"理论种子种下后，轮回到其它道上也能如鱼得水"——这句话是玄学还是<b>结构同构性</b>的终极表达？</li>
+    <li>同样的 1 分钟下跌，对周线操作者是"花纹"，对 5 分钟操作者是"地震"。如果你<b>同时是两个级别的操作者</b>（多账户），你能保证不混淆吗？</li>
+  </ol>
+
+  <div class="quiz">
+    <h4>判图练习：缠师当下定位 05-18 13:26 的低点</h4>
+    <p>课文里写"05-17 14:30 → 05-18 10:00"和"05-18 10:58 → 05-18 13:26"两段下跌。<b>用 1 分钟 MACD 怎么判别第二段比第一段力度小</b>？</p>
+    <details class="ans"><summary>查看答案</summary><p>看两点：① 后一段 MACD <b>绿柱面积明显小于</b>前一段；② 后一段对应 DIF 值<b>没有创新低</b>（即没跌破前段 DIF 低点）→ 1 分钟<b>底背驰</b>成立 → 下跌大概率走完。再对后一段做"区间套"——切到 30 秒/15 秒级别，找最末小级别的底背驰，那就是<b>当下精确的买入点</b>。整个过程在 13:26 的当下就能完成，无须事后回看。</p></details>
+  </div>
+</section>
+
+<div class="wrap">
+  <div class="tldr">
+    <div class="lab">— TL;DR —</div>
+    <p>市场=参与者五毒的同构产物。<br>
+    形态可预测，点位不能预测；级别是"戒"，当下是"定"，无五毒是"慧"。<br>
+    <b>炒股不是学佛的对立面，是学佛最硬核的修行道场</b>。</p>
+  </div>
+</div>
+
+</main>
+<footer class="wrap">
+  原文出处：raw/缠中说禅/教你炒股票108课/教你炒股票52：炒股票就是真正的学佛.md<br>
+  本页为个人学习复习用 · 非投资建议
+</footer>
+<script>
+  const bar=document.getElementById('bar');
+  const onScroll=()=>{const h=document.documentElement;bar.style.width=(h.scrollTop/(h.scrollHeight-h.clientHeight)*100)+'%'};
+  document.addEventListener('scroll',onScroll,{passive:true});onScroll();
+  const io=new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{threshold:.12});
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+</script>
+<script src="/assets/_nav.js"></script><script src="/assets/_shell.js"></script></body>
+</html>

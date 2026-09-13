@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>缠论 · 教你炒股票100：中医、兵法、诗歌、操作3</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@500;700;900&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0b0e12;
+    --bg-elev:#12161c;
+    --bg-card:#161b22;
+    --ink:#e8eaed;
+    --ink-dim:#9aa3ad;
+    --ink-faint:#5b6470;
+    --line:rgba(255,255,255,.07);
+    --up:#ff4d4f;
+    --down:#16c784;
+    --pivot:#37c0e6;
+    --gold:#e8b339;
+    --max:880px;
+    --serif:"Noto Serif SC",serif;
+    --mono:"JetBrains Mono",ui-monospace,monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--bg);color:var(--ink);
+    font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;
+    line-height:1.85;font-size:17px;
+    -webkit-font-smoothing:antialiased;overflow-x:hidden;
+  }
+  body::before{
+    content:"";position:fixed;inset:0;z-index:-2;
+    background:
+      radial-gradient(1200px 600px at 70% -10%, rgba(55,192,230,.08), transparent 60%),
+      radial-gradient(900px 500px at 0% 100%, rgba(232,179,57,.05), transparent 55%);
+    pointer-events:none;
+  }
+  body::after{
+    content:"";position:fixed;inset:0;z-index:-1;opacity:.4;
+    background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);
+    background-size:46px 46px;
+    -webkit-mask-image:radial-gradient(ellipse at 50% 0%, #000 30%, transparent 80%);
+            mask-image:radial-gradient(ellipse at 50% 0%, #000 30%, transparent 80%);
+    pointer-events:none;
+  }
+  #bar{position:fixed;top:0;left:0;height:3px;width:0;z-index:50;
+    background:linear-gradient(90deg,var(--pivot),var(--gold));box-shadow:0 0 12px var(--pivot);}
+  .wrap{max-width:var(--max);margin:0 auto;padding:0 24px}
+
+  header.hero{padding:120px 0 70px;text-align:center;position:relative}
+  .kicker{font-family:var(--mono);font-size:13px;letter-spacing:.32em;color:var(--pivot);
+    text-transform:uppercase;margin-bottom:26px}
+  .kicker span{color:var(--ink-faint)}
+  h1.title{font-family:var(--serif);font-weight:900;line-height:1.05;
+    font-size:clamp(40px,9vw,88px);letter-spacing:.04em;
+    background:linear-gradient(180deg,#fff 30%,#8aa0ad 130%);
+    -webkit-background-clip:text;background-clip:text;color:transparent;}
+  .sub{margin:22px auto 0;max-width:620px;color:var(--ink-dim);font-size:18px}
+  .meta{margin-top:34px;display:flex;gap:14px;justify-content:center;flex-wrap:wrap;
+    font-family:var(--mono);font-size:12px;color:var(--ink-faint)}
+  .meta b{color:var(--ink-dim);font-weight:500}
+  .pill{border:1px solid var(--line);padding:6px 14px;border-radius:999px;background:rgba(255,255,255,.02)}
+
+  .scroll-hint{margin-top:60px;color:var(--ink-faint);font-family:var(--mono);font-size:12px;
+    animation:bob 2.4s ease-in-out infinite}
+  @keyframes bob{0%,100%{transform:translateY(0);opacity:.5}50%{transform:translateY(8px);opacity:1}}
+
+  section{padding:64px 0;border-top:1px solid var(--line)}
+  .sec-no{font-family:var(--mono);font-size:13px;color:var(--gold);letter-spacing:.2em;margin-bottom:10px}
+  h2{font-family:var(--serif);font-weight:700;font-size:clamp(28px,5vw,42px);
+    line-height:1.25;margin-bottom:8px;letter-spacing:.02em}
+  .lead{color:var(--ink-dim);font-size:16px;margin-bottom:28px;max-width:640px}
+  p{margin:0 0 18px;color:#cfd5dc}
+  p b,strong{color:#fff;font-weight:700}
+  .hl-pivot{color:var(--pivot);font-weight:700}
+  .hl-up{color:var(--up);font-weight:700}
+  .hl-down{color:var(--down);font-weight:700}
+  .hl-gold{color:var(--gold);font-weight:700}
+
+  blockquote{margin:26px 0;padding:20px 24px;border-left:3px solid var(--pivot);
+    background:linear-gradient(90deg,rgba(55,192,230,.07),transparent);
+    border-radius:0 10px 10px 0;font-family:var(--serif);font-size:19px;color:#eaf6fb}
+  blockquote .who{display:block;margin-top:8px;font-family:var(--mono);font-size:12px;
+    color:var(--ink-faint);font-style:normal}
+
+  figure{margin:34px 0}
+  figure img{width:100%;border-radius:12px;border:1px solid var(--line);
+    background:#fff;box-shadow:0 18px 50px rgba(0,0,0,.5)}
+  figcaption{margin-top:12px;font-size:13px;color:var(--ink-faint);text-align:center;font-family:var(--mono)}
+
+  .grid{display:grid;gap:16px;grid-template-columns:1fr 1fr;margin:28px 0}
+  @media(max-width:640px){.grid{grid-template-columns:1fr}}
+  .card{background:var(--bg-card);border:1px solid var(--line);border-radius:14px;padding:24px;
+    position:relative;overflow:hidden;transition:transform .35s ease,border-color .35s ease}
+  .card:hover{transform:translateY(-4px);border-color:rgba(55,192,230,.4)}
+  .card .tag{font-family:var(--mono);font-size:11px;letter-spacing:.18em;color:var(--gold);text-transform:uppercase}
+  .card h3{font-family:var(--serif);font-size:21px;margin:10px 0 8px;color:#fff}
+  .card p{font-size:15px;color:var(--ink-dim);margin:0}
+
+  .table{margin:28px 0;border:1px solid var(--line);border-radius:14px;overflow:hidden}
+  .table .row{display:grid;grid-template-columns:.9fr 1.4fr 1.7fr;align-items:stretch}
+  .table .row+.row{border-top:1px solid var(--line)}
+  .table .row > div{padding:16px 18px}
+  .table .row.head{background:var(--bg-elev);font-family:var(--mono);font-size:12px;
+    letter-spacing:.14em;color:var(--ink-faint);text-transform:uppercase}
+  .table .row > div+div{border-left:1px solid var(--line)}
+  .table .name{font-family:var(--serif);font-weight:700;font-size:17px;color:var(--pivot)}
+  .cnt{font-family:var(--mono);font-size:14px;color:var(--gold)}
+  @media(max-width:560px){
+    .table .row{grid-template-columns:1fr}
+    .table .row > div+div{border-left:0;border-top:1px solid var(--line)}
+    .table .row.head{display:none}
+  }
+
+  /* 层级图 */
+  .levels{margin:30px 0;display:flex;flex-direction:column;gap:14px}
+  .lv{display:grid;grid-template-columns:120px 1fr;gap:18px;align-items:stretch;
+    background:var(--bg-card);border:1px solid var(--line);border-radius:12px;padding:18px 22px}
+  .lv .nm{font-family:var(--mono);font-size:14px;color:var(--pivot);letter-spacing:.18em;
+    display:flex;align-items:center;border-right:1px dashed var(--line);padding-right:18px}
+  .lv .st{display:flex;flex-direction:column;gap:6px}
+  .lv .st h4{font-size:16px;color:#fff;font-family:var(--serif)}
+  .lv .st p{margin:0;color:var(--ink-dim);font-size:14.5px}
+  .lv.l30 .nm{color:var(--gold)}
+  .lv.l5  .nm{color:var(--pivot)}
+  .lv.l1  .nm{color:var(--up)}
+  @media(max-width:560px){
+    .lv{grid-template-columns:1fr}
+    .lv .nm{border-right:0;border-bottom:1px dashed var(--line);padding:0 0 10px 0}
+  }
+
+  /* 四象限通胀增长 */
+  .quad{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:28px 0}
+  .qbox{background:var(--bg-card);border:1px solid var(--line);border-radius:14px;padding:20px}
+  .qbox .qhead{font-family:var(--mono);font-size:12px;color:var(--ink-faint);letter-spacing:.18em;margin-bottom:6px}
+  .qbox h4{font-family:var(--serif);font-size:18px;color:#fff;margin-bottom:8px}
+  .qbox p{font-size:14px;color:var(--ink-dim);margin:0}
+  .qbox.good{border-color:rgba(22,199,132,.3)}
+  .qbox.good h4{color:var(--down)}
+  .qbox.ok{border-color:rgba(232,179,57,.3)}
+  .qbox.ok h4{color:var(--gold)}
+  .qbox.bad{border-color:rgba(255,77,79,.4);background:linear-gradient(180deg,rgba(255,77,79,.08),var(--bg-card))}
+  .qbox.bad h4{color:var(--up)}
+  .qbox.cold p{color:var(--ink-faint)}
+
+  footer{padding:60px 0 90px;text-align:center;color:var(--ink-faint);font-family:var(--mono);font-size:12px;border-top:1px solid var(--line)}
+
+  .reveal{opacity:0;transform:translateY(26px);transition:opacity .8s ease,transform .8s ease}
+  .reveal.in{opacity:1;transform:none}
+  @media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}.scroll-hint{animation:none}}
+</style>
+<meta name="view-transition" content="same-origin"><style>@view-transition{navigation:auto}</style></head>
+<body>
+<div id="bar"></div>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="kicker">缠中说禅 · 教你炒股票108课 <span>/ 第 100 课</span></div>
+    <h1 class="title">中医 · 兵法 · 诗歌<br>操作 3</h1>
+    <p class="sub">把多级别"完全分类"作为操作系统，再用 2008 年 2-3 月那段教科书走势把理论钉死在 K 线上。</p>
+    <div class="meta">
+      <span class="pill"><b>原文</b> 2008-02-25 ~ 03-04</span>
+      <span class="pill"><b>类型</b> 操作实战</span>
+      <span class="pill"><b>关键词</b> 多级别系统 · 完全分类 · 第三类买卖点</span>
+    </div>
+    <div class="scroll-hint">↓ 向下滚动</div>
+  </div>
+</header>
+
+<main>
+
+  <!-- 1 -->
+  <section class="wrap reveal">
+    <div class="sec-no">01 — 题眼</div>
+    <h2>诸葛亮一场雨没烧死司马懿——给"完全分类"的隐喻</h2>
+    <p class="lead">为什么诸葛亮算尽天气却算漏一场雨？为什么峡谷外不再多埋一支兵？这一课从兵法开场。</p>
+    <p>缠师借这个故事说：<b>真正可怕的不是"天命"，而是你的谋划是否真的完全</b>。打仗的"完全分类"会受能力上限制约，但<span class="hl-pivot">炒股不会</span>——所有情况你都能用"买多少 / 卖多少 / 不动"来回应，<b>没有"无法执行"</b>的分类。</p>
+    <blockquote>
+      所谓的天命，都是在人谋之中，只是你的谋划是否完全。
+      <span class="who">— 缠中说禅</span>
+    </blockquote>
+    <p>所以炒股的全部重心，只剩一件事：<span class="hl-gold">把当下行情做成「完全分类」</span>，然后照表执行。而完全分类<b>从来不是单层次的</b>——这就引出本课最核心的工具：<span class="hl-pivot">多级别系统</span>。</p>
+  </section>
+
+  <!-- 2 -->
+  <section class="wrap reveal">
+    <div class="sec-no">02 — 系统</div>
+    <h2>30 / 5 / 1 分钟：三层完全分类系统</h2>
+    <p class="lead">小资金可以只盯一个级别，但大资金必须用三级别立体观察。</p>
+    <p>缠论自带<b>级别</b>这个维度——这是它最重要的特点之一。任何一刻，<b>每个级别都处于自己那一层"完全分类"的某个状态</b>，三层叠起来就构成一个立体系统。下面这张图，就是 2008-02-25 上证指数在三个级别上的并发状态。</p>
+
+    <div class="levels">
+      <div class="lv l30">
+        <div class="nm">30 分钟</div>
+        <div class="st">
+          <h4>下跌 · 中枢震荡中</h4>
+          <p>6124 点下来已是 <b>30 分钟下跌</b>，目前在最近一个中枢里震荡，<b>只要第三类卖点不出，震荡仍有效</b>。</p>
+        </div>
+      </div>
+      <div class="lv l5">
+        <div class="nm">5 分钟</div>
+        <div class="st">
+          <h4>第一中枢之后离开 · 未定型</h4>
+          <p>正离开第一个 5 分钟中枢向下，<b>第三类卖点未形成</b>，因此"5 分钟下跌"是否成立，不能 100% 确定。</p>
+        </div>
+      </div>
+      <div class="lv l1">
+        <div class="nm">1 分钟</div>
+        <div class="st">
+          <h4>1 分钟下跌已经形成</h4>
+          <p>最低一层已经走完一段下跌，<b>下一步必先出现 1 分钟底背驰</b>。</p>
+        </div>
+      </div>
+    </div>
+
+    <figure>
+      <img src="/_assets/ch100_p01.png" alt="2008-02-25 上证指数三级别状态">
+      <figcaption>原文配图 1 · 三级别并发状态</figcaption>
+    </figure>
+    <figure>
+      <img src="/_assets/ch100_p02.png" alt="级别套嵌图示">
+      <figcaption>原文配图 2 · 级别套嵌</figcaption>
+    </figure>
+  </section>
+
+  <!-- 3 -->
+  <section class="wrap reveal">
+    <div class="sec-no">03 — 推演</div>
+    <h2>从 1 分钟底背驰开始，逐级推演下一步</h2>
+    <p class="lead">这是本课最像"算法"的一段——所有后续动作，都从最低级别的那个底背驰生发。</p>
+    <p>第一个、也必然最先出现的变化，是<span class="hl-pivot">1 分钟底背驰</span>。<b>它不出，上面两个级别绝不动。</b>背驰之后必然有回拉，回拉立刻面临 5 分钟级别的二选一：</p>
+
+    <div class="table">
+      <div class="row head">
+        <div>5 分钟回拉的两种走法</div>
+        <div>能否构成原 5 分钟中枢第三类卖点</div>
+        <div>5 分钟级别后续状态</div>
+      </div>
+      <div class="row">
+        <div class="name">A · 构成第三类卖点</div>
+        <div><b>构成</b>，回拉不破中枢上沿即转下</div>
+        <div>第二个 5 分钟中枢确认 → <span class="hl-down">5 分钟下跌成立</span></div>
+      </div>
+      <div class="row">
+        <div class="name">B · 不构成第三类卖点</div>
+        <div><b>不构成</b>，回拉穿越中枢上沿</div>
+        <div>原 5 分钟中枢<span class="hl-gold">继续震荡</span>得到确认</div>
+      </div>
+    </div>
+
+    <p>这两种 5 分钟变化，<b>都不会让 30 分钟立刻变状态</b>——但其中一种<span class="hl-gold">埋伏</span>着 30 分钟即将变化：一旦"5 分钟下跌"走完，再回拉去构成 30 分钟的<b>第三类卖点</b>，<b>30 分钟下跌就会延续</b>。</p>
+
+    <figure>
+      <img src="/_assets/ch100_p03.png" alt="底背驰后两种走法推演 A">
+      <figcaption>原文配图 3 · 回拉构成第三类卖点的走法</figcaption>
+    </figure>
+    <figure>
+      <img src="/_assets/ch100_p04.png" alt="底背驰后两种走法推演 B">
+      <figcaption>原文配图 4 · 回拉不构成第三类卖点、转回中枢震荡</figcaption>
+    </figure>
+    <figure>
+      <img src="/_assets/ch100_p05.png" alt="级别状态联动推演">
+      <figcaption>原文配图 5 · 5 分钟变化传导回 30 分钟的路径</figcaption>
+    </figure>
+
+    <blockquote>
+      在当下，可以严密推算后面的状态变化。你需要做的，是把<b>自己能承受的能力</b>和这些可能性匹配起来——能力配仓位，仓位定动作。
+      <span class="who">— 缠师操作心法</span>
+    </blockquote>
+
+    <div class="grid">
+      <div class="card">
+        <div class="tag">没能力 / 怕第三卖</div>
+        <h3>那就别参与</h3>
+        <p>第三类卖点是合法选项之一，你处理不了，就让这一波过去。</p>
+      </div>
+      <div class="card">
+        <div class="tag">有能力</div>
+        <h3>就在 1 分钟底背驰上</h3>
+        <p>所有可能结局都在分类里，按规则照表执行即可。</p>
+      </div>
+      <div class="card">
+        <div class="tag">想练手</div>
+        <h3>用极小仓位训练</h3>
+        <p>能力是干出来的，光说不练永远没能力——前提是"明白自己在干什么"。</p>
+      </div>
+      <div class="card">
+        <div class="tag">不该做的</div>
+        <h3>糊涂蛋瞎蒙</h3>
+        <p>这是缠师反复点名的反面：仓位再小也救不了"不知道自己在做什么"。</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4 -->
+  <section class="wrap reveal">
+    <div class="sec-no">04 — 实战</div>
+    <h2>2008-02-26 ~ 03-04：教科书般的兑现</h2>
+    <p class="lead">推演不是嘴上的——隔天大盘就给出了"教科书走势"。</p>
+
+    <h3 style="font-family:var(--serif);font-size:20px;color:#fff;margin:24px 0 10px">02-26 · 1 分钟底背驰兑现</h3>
+    <p>下午一开盘 <span class="hl-down">第三类卖点</span> 出现 → 再破底 → 14:30 <span class="hl-pivot">最后的底背驰</span>。1 分钟背驰后最低回升要回到最后一个中枢里，所以下一步看升幅能否扩大。日线已出<b>底分型雏形</b>。</p>
+    <figure>
+      <img src="/_assets/ch100_p06.png" alt="02-26 教科书走势">
+      <figcaption>原文配图 6 · 02-26 第三类卖点 → 二次探底 → 1 分钟底背驰</figcaption>
+    </figure>
+
+    <h3 style="font-family:var(--serif);font-size:20px;color:#fff;margin:24px 0 10px">02-27 · 4391 点：底分型能否延伸为笔</h3>
+    <p>底分型的<b>上沿在 4391 点</b>（前天高点）——<span class="hl-gold">站住 4391 才算延伸为笔</span>。前面 4818、4672 都因为没站住上沿而失败。MACD 给出两种走法：</p>
+    <div class="grid">
+      <div class="card">
+        <div class="tag">最好</div>
+        <h3>绿柱缩 → 再放大红柱</h3>
+        <p>黄白线回到 0 轴附近。<b>真行情必伴随黄白线回 0 轴</b>。</p>
+      </div>
+      <div class="card">
+        <div class="tag">次优</div>
+        <h3>绿柱再放长 / 放点红再放绿</h3>
+        <p>对应继续底部震荡。颈线位约 4700。</p>
+      </div>
+    </div>
+    <figure>
+      <img src="/_assets/ch100_p07.png" alt="02-27 底分型与 4391 关键位">
+      <figcaption>原文配图 7 · 02-27 收盘形态、4391 关键位</figcaption>
+    </figure>
+    <figure>
+      <img src="/_assets/ch100_p08.png" alt="MACD 黄白线回 0 轴推演">
+      <figcaption>原文配图 8 · MACD 路径示意</figcaption>
+    </figure>
+    <figure>
+      <img src="/_assets/ch100_p09.png" alt="02-27 走势完整图">
+      <figcaption>原文配图 9 · 02-27 全天走势</figcaption>
+    </figure>
+    <figure>
+      <img src="/_assets/ch100_p10.png" alt="02-27 第一个 1 分钟中枢">
+      <figcaption>原文配图 10 · 4331 上下形成第一个 1 分钟中枢</figcaption>
+    </figure>
+
+    <h3 style="font-family:var(--serif);font-size:20px;color:#fff;margin:24px 0 10px">02-28 · 增发传闻杀手 → 大盘再陷彷徨</h3>
+    <p>深发展增发传闻 → 大盘转折向下 → <b>但顽强未出第三类卖点</b>，中枢震荡依然有效。</p>
+    <figure>
+      <img src="/_assets/ch100_p11.png" alt="02-28 中枢震荡仍然有效">
+      <figcaption>原文配图 11 · 02-28 走势</figcaption>
+    </figure>
+
+    <h3 style="font-family:var(--serif);font-size:20px;color:#fff;margin:24px 0 10px">02-29 · MACD 红柱再现 → 具备上攻所有技术条件</h3>
+    <p>黄白线两次缠绕后红柱再出，<b>大概率使黄白线回到 0 轴</b>，对应一轮上攻。骗线不常出现，10 次不到 1 次——可能的不稳定因素：外围突跌 / 平安浦发升级版 / 利好证伪。</p>
+    <figure>
+      <img src="/_assets/ch100_p12.png" alt="02-29 MACD 红柱再现">
+      <figcaption>原文配图 12 · 02-29 MACD 路径兑现</figcaption>
+    </figure>
+
+    <h3 style="font-family:var(--serif);font-size:20px;color:#fff;margin:24px 0 10px">03-03 · 站稳 4391，剑指 4695</h3>
+    <p>早上回跌刚好形成 5 分钟中枢最后一段 → <span class="hl-pivot">a+A 走势</span>的 a 完成盘整分解 → A 是 9 段最基本形式。<b>真正第三类买点未出</b>，仍可能回中枢震荡。周线底分型出现，要延伸为笔须有效突破 <span class="hl-gold">4695</span>——这是中线行情的最终关键。</p>
+    <figure>
+      <img src="/_assets/ch100_p13.png" alt="03-03 突破 4391 / a+A 结构">
+      <figcaption>原文配图 13 · 03-03 a+A 结构、5 分钟中枢分解</figcaption>
+    </figure>
+    <figure>
+      <img src="/_assets/ch100_p14.png" alt="03-03 周线底分型">
+      <figcaption>原文配图 14 · 周线底分型与 4695 关键位</figcaption>
+    </figure>
+    <figure>
+      <img src="/_assets/ch100_p15.png" alt="03-03 个股新高">
+      <figcaption>原文配图 15 · 同期题材股反复新高</figcaption>
+    </figure>
+
+    <h3 style="font-family:var(--serif);font-size:20px;color:#fff;margin:24px 0 10px">03-04 · 增发再成行情杀手 → 回到原 4331 中枢</h3>
+    <p>没出真正第三类买点，<b>所以技术上可以跌回原 4331 中枢</b>——基本面"配合"演出（平安会议前夜深发展抢戏）。原推演的所有分支都<span class="hl-gold">没超出完全分类</span>，操作上一切都"早已说过"。</p>
+    <figure>
+      <img src="/_assets/ch100_p16.png" alt="03-04 回到 4331 中枢">
+      <figcaption>原文配图 16 · 03-04 回到原 5 分钟中枢</figcaption>
+    </figure>
+  </section>
+
+  <!-- 5 -->
+  <section class="wrap reveal">
+    <div class="sec-no">05 — 宏观插话</div>
+    <h2>要通胀还是要经济增长——四种完全分类</h2>
+    <p class="lead">缠师把"完全分类"思路套到宏观决策上，给出四象限。</p>
+    <div class="quad">
+      <div class="qbox good">
+        <div class="qhead">象限 · 黄金区</div>
+        <h4>低通胀 · 高增长</h4>
+        <p>前几年中国处于这里，但<b>不可能永远存在</b>。</p>
+      </div>
+      <div class="qbox ok">
+        <div class="qhead">象限 · 次优</div>
+        <h4>高通胀 · 高增长</h4>
+        <p>万一阳光不能延续，<b>宁可选这里</b>——在保增长的基础上再调通胀。</p>
+      </div>
+      <div class="qbox bad">
+        <div class="qhead">象限 · 死局</div>
+        <h4>高通胀 · 低增长</h4>
+        <p>最可怕的格局，<span class="hl-up">整个社会结构都会承压</span>。试图牺牲增长压通胀，极易把经济推入此象限。</p>
+      </div>
+      <div class="qbox cold">
+        <div class="qhead">象限 · 罕见</div>
+        <h4>低通胀 · 低增长</h4>
+        <p>发展中国家一般走不到这里。</p>
+      </div>
+    </div>
+    <p>缠师强调通胀本质是<b>经济结构问题</b>——结构不完善才被海外资金抓到农产品、资源类等软肋大肆炒作。<span class="hl-pivot">大战流动性过剩 / 大战通胀</span>，本质都是<b>风车闹剧</b>；解决之道在治本——结构理顺、增长保住，通胀压力自会缓解。</p>
+    <blockquote>
+      只有经济结构理顺了，经济增长保持了，才可能真正解决通胀压力，这才是治本之路。
+      <span class="who">— 缠中说禅</span>
+    </blockquote>
+  </section>
+
+  <!-- 6 -->
+  <section class="wrap reveal">
+    <div class="sec-no">06 — 操作纪律沉淀</div>
+    <h2>把整段实战凝练成几条规则</h2>
+    <p class="lead">这一课沉淀下来的"可执行清单"。</p>
+    <div class="grid">
+      <div class="card">
+        <div class="tag">规则 01</div>
+        <h3>多级别立体观察</h3>
+        <p>30 / 5 / 1 分钟三层并发观察，每一层都在自己完全分类的一个状态里。</p>
+      </div>
+      <div class="card">
+        <div class="tag">规则 02</div>
+        <h3>从最低级别开始</h3>
+        <p>变化必先发生在最低级别——<b>1 分钟底背驰是一切的起点</b>，它不出现，上面不动。</p>
+      </div>
+      <div class="card">
+        <div class="tag">规则 03</div>
+        <h3>第三类买卖点是分水岭</h3>
+        <p>第三类卖点不出 → 上一级中枢震荡仍有效；第三类买点出 → 上涨成立、可重回原震荡。</p>
+      </div>
+      <div class="card">
+        <div class="tag">规则 04</div>
+        <h3>底分型必须站住上沿</h3>
+        <p>4391 这种<b>底分型的上边沿</b>，是判断"能否延伸为笔"的关键阀门。</p>
+      </div>
+      <div class="card">
+        <div class="tag">规则 05</div>
+        <h3>能力定仓位</h3>
+        <p>分类后问自己：所有可能的结局，我都接得住吗？接不住 → 别玩；接得住 → 上；想练 → 极小仓位。</p>
+      </div>
+      <div class="card">
+        <div class="tag">规则 06</div>
+        <h3>MACD 只是辅助</h3>
+        <p>黄白线回 0 轴是<b>真行情的必要条件</b>，但 MACD 不是缠论本体——把握理论后可以不看。</p>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="wrap">
+  原文出处：raw/缠中说禅/教你炒股票108课/教你炒股票100：中医、兵法、诗歌、操作3.md<br>
+  本页为个人学习复习用 · 非投资建议
+</footer>
+
+<script>
+  const bar=document.getElementById('bar');
+  const onScroll=()=>{
+    const h=document.documentElement;
+    const p=h.scrollTop/(h.scrollHeight-h.clientHeight);
+    bar.style.width=(p*100)+'%';
+  };
+  document.addEventListener('scroll',onScroll,{passive:true});onScroll();
+
+  const io=new IntersectionObserver((es)=>{
+    es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});
+  },{threshold:.12});
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+</script>
+<script src="/assets/_nav.js"></script><script src="/assets/_shell.js"></script></body>
+</html>

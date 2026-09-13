@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>缠论 · 教你炒股票92：中枢震荡的监视器</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@500;700;900&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0b0e12;
+    --bg-elev:#12161c;
+    --bg-card:#161b22;
+    --ink:#e8eaed;
+    --ink-dim:#9aa3ad;
+    --ink-faint:#5b6470;
+    --line:rgba(255,255,255,.07);
+    --up:#ff4d4f;
+    --down:#16c784;
+    --pivot:#37c0e6;
+    --gold:#e8b339;
+    --max:880px;
+    --serif:"Noto Serif SC",serif;
+    --mono:"JetBrains Mono",ui-monospace,monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;
+    line-height:1.85;
+    font-size:17px;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  body::before{
+    content:"";position:fixed;inset:0;z-index:-2;
+    background:
+      radial-gradient(1200px 600px at 70% -10%, rgba(55,192,230,.08), transparent 60%),
+      radial-gradient(900px 500px at 0% 100%, rgba(232,179,57,.05), transparent 55%);
+    pointer-events:none;
+  }
+  body::after{
+    content:"";position:fixed;inset:0;z-index:-1;opacity:.4;
+    background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);
+    background-size:46px 46px;
+    -webkit-mask-image:radial-gradient(ellipse at 50% 0%, #000 30%, transparent 80%);
+            mask-image:radial-gradient(ellipse at 50% 0%, #000 30%, transparent 80%);
+    pointer-events:none;
+  }
+
+  #bar{position:fixed;top:0;left:0;height:3px;width:0;z-index:50;
+    background:linear-gradient(90deg,var(--pivot),var(--gold));box-shadow:0 0 12px var(--pivot);}
+
+  .wrap{max-width:var(--max);margin:0 auto;padding:0 24px}
+
+  header.hero{padding:120px 0 70px;text-align:center;position:relative}
+  .kicker{font-family:var(--mono);font-size:13px;letter-spacing:.32em;color:var(--pivot);
+    text-transform:uppercase;margin-bottom:26px}
+  .kicker span{color:var(--ink-faint)}
+  h1.title{font-family:var(--serif);font-weight:900;line-height:1.05;
+    font-size:clamp(44px,9vw,92px);letter-spacing:.04em;
+    background:linear-gradient(180deg,#fff 30%,#8aa0ad 130%);
+    -webkit-background-clip:text;background-clip:text;color:transparent;}
+  .sub{margin:22px auto 0;max-width:620px;color:var(--ink-dim);font-size:18px}
+  .meta{margin-top:34px;display:flex;gap:14px;justify-content:center;flex-wrap:wrap;
+    font-family:var(--mono);font-size:12px;color:var(--ink-faint)}
+  .meta b{color:var(--ink-dim);font-weight:500}
+  .pill{border:1px solid var(--line);padding:6px 14px;border-radius:999px;background:rgba(255,255,255,.02)}
+
+  .scroll-hint{margin-top:60px;color:var(--ink-faint);font-family:var(--mono);font-size:12px;
+    animation:bob 2.4s ease-in-out infinite}
+  @keyframes bob{0%,100%{transform:translateY(0);opacity:.5}50%{transform:translateY(8px);opacity:1}}
+
+  section{padding:64px 0;border-top:1px solid var(--line)}
+  .sec-no{font-family:var(--mono);font-size:13px;color:var(--gold);letter-spacing:.2em;margin-bottom:10px}
+  h2{font-family:var(--serif);font-weight:700;font-size:clamp(28px,5vw,42px);
+    line-height:1.25;margin-bottom:8px;letter-spacing:.02em}
+  .lead{color:var(--ink-dim);font-size:16px;margin-bottom:28px;max-width:640px}
+  p{margin:0 0 18px;color:#cfd5dc}
+  p b,strong{color:#fff;font-weight:700}
+  .hl-pivot{color:var(--pivot);font-weight:700}
+  .hl-up{color:var(--up);font-weight:700}
+  .hl-down{color:var(--down);font-weight:700}
+  .hl-gold{color:var(--gold);font-weight:700}
+
+  blockquote{margin:26px 0;padding:20px 24px;border-left:3px solid var(--pivot);
+    background:linear-gradient(90deg,rgba(55,192,230,.07),transparent);
+    border-radius:0 10px 10px 0;font-family:var(--serif);font-size:18px;color:#eaf6fb}
+  blockquote .who{display:block;margin-top:8px;font-family:var(--mono);font-size:12px;
+    color:var(--ink-faint);font-style:normal}
+
+  figure{margin:34px 0}
+  figure img{width:100%;border-radius:12px;border:1px solid var(--line);
+    background:#fff;box-shadow:0 18px 50px rgba(0,0,0,.5)}
+  figcaption{margin-top:12px;font-size:13px;color:var(--ink-faint);text-align:center;font-family:var(--mono)}
+
+  .grid{display:grid;gap:16px;grid-template-columns:1fr 1fr;margin:28px 0}
+  @media(max-width:640px){.grid{grid-template-columns:1fr}}
+  .card{background:var(--bg-card);border:1px solid var(--line);border-radius:14px;padding:24px;
+    position:relative;overflow:hidden;transition:transform .35s ease,border-color .35s ease}
+  .card:hover{transform:translateY(-4px);border-color:rgba(55,192,230,.4)}
+  .card .tag{font-family:var(--mono);font-size:11px;letter-spacing:.18em;color:var(--gold);text-transform:uppercase}
+  .card h3{font-family:var(--serif);font-size:20px;margin:10px 0 8px;color:#fff}
+  .card p{font-size:15px;color:var(--ink-dim);margin:0}
+
+  /* Zn 监视器示意 - SVG 容器 */
+  .zn-diagram{margin:32px 0;background:var(--bg-elev);border:1px solid var(--line);border-radius:14px;padding:24px;overflow:hidden}
+  .zn-diagram svg{width:100%;height:auto;display:block}
+
+  /* 状态分类 */
+  .states{margin:28px 0;display:flex;flex-direction:column;gap:14px}
+  .st{display:flex;gap:16px;align-items:flex-start;background:var(--bg-card);
+    border:1px solid var(--line);border-radius:12px;padding:18px 20px}
+  .st .dot{flex:none;width:42px;height:42px;border-radius:10px;display:grid;place-items:center;
+    font-family:var(--serif);font-weight:900;font-size:18px;color:#0b0e12}
+  .st.strong .dot{background:var(--up)}
+  .st.weak .dot{background:var(--down)}
+  .st.neutral .dot{background:var(--pivot)}
+  .st h4{font-size:17px;margin-bottom:4px;color:#fff}
+  .st p{font-size:15px;color:var(--ink-dim);margin:0}
+
+  /* 实战时序 */
+  .timeline{margin:28px 0;border-left:2px solid var(--line);padding-left:24px;position:relative}
+  .tl-item{margin-bottom:22px;position:relative}
+  .tl-item::before{content:"";position:absolute;left:-31px;top:8px;width:10px;height:10px;border-radius:50%;
+    background:var(--pivot);box-shadow:0 0 0 4px rgba(55,192,230,.15)}
+  .tl-date{font-family:var(--mono);font-size:12px;color:var(--gold);letter-spacing:.1em;margin-bottom:4px}
+  .tl-text{color:var(--ink-dim);font-size:15px;line-height:1.7}
+  .tl-text b{color:#fff}
+
+  /* 思考题 */
+  ol.think{counter-reset:q;list-style:none;margin:24px 0;display:flex;flex-direction:column;gap:14px}
+  ol.think li{counter-increment:q;position:relative;padding:18px 20px 18px 60px;
+    background:var(--bg-elev);border:1px solid var(--line);border-radius:12px;color:var(--ink-dim);font-size:15px}
+  ol.think li::before{content:counter(q,decimal-leading-zero);position:absolute;left:20px;top:18px;
+    font-family:var(--mono);color:var(--gold);font-weight:700}
+
+  .tldr{margin:60px 0 0;padding:36px 30px;border:1px solid rgba(55,192,230,.3);border-radius:18px;
+    background:radial-gradient(120% 120% at 100% 0%,rgba(55,192,230,.1),transparent 60%),var(--bg-elev);text-align:center}
+  .tldr .lab{font-family:var(--mono);font-size:12px;letter-spacing:.3em;color:var(--pivot);text-transform:uppercase}
+  .tldr p{font-family:var(--serif);font-size:clamp(19px,3vw,26px);line-height:1.7;color:#fff;margin:16px 0 0}
+
+  footer{padding:60px 0 90px;text-align:center;color:var(--ink-faint);font-family:var(--mono);font-size:12px;border-top:1px solid var(--line)}
+
+  .reveal{opacity:0;transform:translateY(26px);transition:opacity .8s ease,transform .8s ease}
+  .reveal.in{opacity:1;transform:none}
+  @media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}.scroll-hint{animation:none}}
+</style>
+<meta name="view-transition" content="same-origin"><style>@view-transition{navigation:auto}</style></head>
+<body>
+<div id="bar"></div>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="kicker">缠中说禅 · 教你炒股票108课 <span>/ 第 92 课</span></div>
+    <h1 class="title">中枢震荡的监视器</h1>
+    <p class="sub">把"中枢里的来回拉锯"装上一根仪表针——用 Zn 曲线监视震荡的强弱、预警变盘、给出下一段震荡的高低点。</p>
+    <div class="meta">
+      <span class="pill"><b>原文</b> 2007-12-27</span>
+      <span class="pill"><b>类型</b> 中枢震荡操作 · 监视器</span>
+      <span class="pill"><b>关键词</b> 震荡中轴 Z · 子区间 Zn · 第三类买卖点 · 楔型诱多</span>
+    </div>
+    <div class="scroll-hint">↓ 向下滚动，看 Zn 怎么用</div>
+  </div>
+</header>
+
+<main>
+  <!-- 1 -->
+  <section class="wrap reveal">
+    <div class="sec-no">01 — 问题</div>
+    <h2>中枢震荡，能不能装上"仪表针"？</h2>
+    <p class="lead">中枢里来回拉锯，眼睛是看不出强弱的——必须把强弱<b>量化</b>出来。</p>
+    <p>一个中枢一旦确立，价格就在里面横着走，直到某一天用<span class="hl-gold">第三类买卖点</span>跑出去。问题是：在第三类买卖点出现<b>之前</b>，你怎么知道这个震荡是<span class="hl-up">越荡越强</span>，还是<span class="hl-down">越荡越弱</span>？怎么提前给出一个<b>有操作价值</b>的提示？</p>
+    <blockquote>
+      中枢震荡，最终一定以某级别的第三类买卖点结束。但问题是，如何预先给出有参考价值的提示，也就是如何去监控这震荡是在逐步走强，还是逐步走弱，这是一个有操作价值的问题。
+      <span class="who">— 缠中说禅</span>
+    </blockquote>
+    <p>缠师在这一课给出的答案，是把震荡的<b>"重心位置"</b>画成一根曲线，让它随时间漂移——这就是中枢震荡的<span class="hl-pivot">监视器</span>。</p>
+  </section>
+
+  <!-- 2 -->
+  <section class="wrap reveal">
+    <div class="sec-no">02 — 定义</div>
+    <h2>三条直线一条曲线：Z、A、B、Zn</h2>
+    <p class="lead">监视器的所有零件，就这四个。</p>
+    <div class="grid">
+      <div class="card">
+        <div class="tag">中枢区间</div>
+        <h3>[A, B]</h3>
+        <p>中枢确立后那个箱体的<b>下沿 A</b> 与 <b>上沿 B</b>——所有震荡都在这条带子里来回。</p>
+      </div>
+      <div class="card">
+        <div class="tag">震荡中轴</div>
+        <h3>Z = (A+B)/2</h3>
+        <p>中枢区间的<b>正中线</b>。它是判断强弱的<span class="hl-pivot">分水岭</span>。</p>
+      </div>
+      <div class="card">
+        <div class="tag">次级震荡区间</div>
+        <h3>Zn</h3>
+        <p>每一次次级别波动（一上一下）所形成的<b>子区间的一半位置</b>——即每段震荡的"重心点"。</p>
+      </div>
+      <div class="card">
+        <div class="tag">监视曲线</div>
+        <h3>Zn 连线</h3>
+        <p>把 Z1、Z2、Z3 … 用线连起来，得到一条曲线——这就是<span class="hl-gold">监视器的指针</span>。</p>
+      </div>
+    </div>
+    <p>A、Z、B 这三条水平线<b>等距</b>分布，把屏幕切成上下两块；Zn 曲线就在这两块里上下漂移。<span class="hl-up">Zn 在 Z 之上</span>，震荡偏强；<span class="hl-down">Zn 在 Z 之下</span>，震荡偏弱。简单粗暴，但极其有效。</p>
+    <figure>
+      <img src="/_assets/ch92_p01.png" alt="中枢震荡监视器原理图 A Z B 与 Zn 曲线">
+      <figcaption>原理图：A / Z / B 三线等距，Zn 曲线在其间漂移——上方偏强，下方偏弱</figcaption>
+    </figure>
+
+    <div class="zn-diagram">
+      <svg viewBox="0 0 760 280" xmlns="http://www.w3.org/2000/svg" aria-label="Zn 监视器示意">
+        <defs>
+          <linearGradient id="strongFill" x1="0" x2="0" y1="0" y2="1">
+            <stop offset="0%" stop-color="#ff4d4f" stop-opacity=".18"/>
+            <stop offset="100%" stop-color="#ff4d4f" stop-opacity="0"/>
+          </linearGradient>
+          <linearGradient id="weakFill" x1="0" x2="0" y1="1" y2="0">
+            <stop offset="0%" stop-color="#16c784" stop-opacity=".18"/>
+            <stop offset="100%" stop-color="#16c784" stop-opacity="0"/>
+          </linearGradient>
+        </defs>
+        <!-- 背景填色：Z 上方红、下方绿 -->
+        <rect x="60" y="60" width="660" height="80" fill="url(#strongFill)"/>
+        <rect x="60" y="140" width="660" height="80" fill="url(#weakFill)"/>
+        <!-- A / Z / B 三条线 -->
+        <line x1="60" y1="60" x2="720" y2="60" stroke="#ff4d4f" stroke-width="1.5" stroke-dasharray="6 4"/>
+        <line x1="60" y1="140" x2="720" y2="140" stroke="#e8b339" stroke-width="2"/>
+        <line x1="60" y1="220" x2="720" y2="220" stroke="#16c784" stroke-width="1.5" stroke-dasharray="6 4"/>
+        <text x="40" y="64" fill="#ff4d4f" font-family="JetBrains Mono" font-size="13" text-anchor="end">B</text>
+        <text x="40" y="144" fill="#e8b339" font-family="JetBrains Mono" font-size="13" text-anchor="end">Z</text>
+        <text x="40" y="224" fill="#16c784" font-family="JetBrains Mono" font-size="13" text-anchor="end">A</text>
+        <!-- Zn 曲线：先弱后强、最终突破 B -->
+        <polyline points="100,180 180,200 260,160 340,170 420,130 500,140 580,100 660,80 700,40"
+                  fill="none" stroke="#37c0e6" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+        <!-- Zn 节点 -->
+        <g fill="#37c0e6">
+          <circle cx="100" cy="180" r="4"/><circle cx="180" cy="200" r="4"/>
+          <circle cx="260" cy="160" r="4"/><circle cx="340" cy="170" r="4"/>
+          <circle cx="420" cy="130" r="4"/><circle cx="500" cy="140" r="4"/>
+          <circle cx="580" cy="100" r="4"/><circle cx="660" cy="80" r="4"/>
+          <circle cx="700" cy="40" r="5" fill="#e8b339"/>
+        </g>
+        <text x="100" y="172" fill="#9aa3ad" font-family="JetBrains Mono" font-size="10" text-anchor="middle">Z1</text>
+        <text x="180" y="216" fill="#9aa3ad" font-family="JetBrains Mono" font-size="10" text-anchor="middle">Z2</text>
+        <text x="500" y="132" fill="#9aa3ad" font-family="JetBrains Mono" font-size="10" text-anchor="middle">Z5</text>
+        <text x="700" y="32" fill="#e8b339" font-family="JetBrains Mono" font-size="10" text-anchor="middle">突破 B</text>
+        <!-- 时间轴 -->
+        <text x="60" y="260" fill="#5b6470" font-family="JetBrains Mono" font-size="11">时间 →</text>
+      </svg>
+    </div>
+  </section>
+
+  <!-- 3 -->
+  <section class="wrap reveal">
+    <div class="sec-no">03 — 必然关系</div>
+    <h2>Zn 最终必然超越 A 或 B</h2>
+    <p class="lead">这不是经验，是被定理逼出来的。</p>
+    <p>中枢震荡的存在性，意味着<b>第三类买卖点终会出现</b>——而第三类买卖点正是次级别走势<b>跑出原中枢区间</b>的那一笔。所以 Zn 这根重心曲线<span class="hl-gold">迟早会越过 A 或 B 中的某一条</span>。<b>如果不这样，就永远不会出现第三类买卖点，这是不可能的。</b></p>
+    <blockquote>
+      最终，Zn 肯定要超越 A 或 B。但反过来，Zn 超越 A 或 B 并不意味着一定要出现第三类买卖点——这种超越可以是多次的，只有最后一次才构成第三类买卖点。
+      <span class="who">— 监视器的"双向不对称"</span>
+    </blockquote>
+    <p>实战意义：Zn 一旦穿越 A 或 B，<b>就是震荡面临变盘的重大提醒</b>——但不一定是真的变盘。如果穿越没构成第三类买卖点，<span class="hl-pivot">绝大概率会构成中枢的级别扩展</span>（震荡级别从 5 分钟升级为 30 分钟之类）。</p>
+    <figure>
+      <img src="/_assets/ch92_p02.png" alt="Zn 超越中枢上沿 B 但未形成第三类买卖点 转为级别扩展">
+      <figcaption>Zn 多次冲击中枢上沿——前几次都是假突破，最后一次才完成真三买</figcaption>
+    </figure>
+  </section>
+
+  <!-- 4 -->
+  <section class="wrap reveal">
+    <div class="sec-no">04 — 状态分类</div>
+    <h2>三种 Zn 状态，三种应对</h2>
+    <p class="lead">把仪表针的位置翻译成可执行的操作语言。</p>
+    <div class="states">
+      <div class="st strong">
+        <div class="dot">强</div>
+        <div>
+          <h4>Zn 在 Z 之上，逐级抬升</h4>
+          <p>震荡偏强，有上攻冲动。<b>主动方向：偏多操作</b>。但要警惕"Zn 缓慢提高、却始终突不破 B"——这是经典的<span class="hl-up">上升楔型诱多</span>，反向爆发的风险很大。</p>
+        </div>
+      </div>
+      <div class="st neutral">
+        <div class="dot">中</div>
+        <div>
+          <h4>Zn 围绕 Z 上下，幅度小</h4>
+          <p>标准的横盘震荡。<b>主动方向：高抛低吸、做差价</b>。空间有限，但节奏稳定，是技术派最舒服的状态。</p>
+        </div>
+      </div>
+      <div class="st weak">
+        <div class="dot">弱</div>
+        <div>
+          <h4>Zn 在 Z 之下，甚至跌破 A</h4>
+          <p>震荡偏弱，<b>买入风险大</b>。一旦动作不够麻利，"就可能被堵死在交易通道中，不能顺利完成震荡操作"。同理，反向也存在<span class="hl-down">下降楔型诱空</span>。</p>
+        </div>
+      </div>
+    </div>
+    <figure>
+      <img src="/_assets/ch92_p03.png" alt="Zn 配合次级别趋势 中枢之外的最后一段引发变盘">
+      <figcaption>注意"最后一个次级别中枢落在原中枢之外"的形态——下一段次级别走势完成后，震荡马上变盘</figcaption>
+    </figure>
+    <p><b>进阶配合</b>：观察震荡内部<b>次级别走势的类型</b>。如果是<span class="hl-gold">趋势类型</span>且 Zn 相应配合，<b>务必小心变盘</b>——特别是"最后一个次级别中枢出现在原中枢区间<b>之外</b>"这种形态，下一段次级别走势一旦在该次级别中枢里完成，<b>震荡就会变盘</b>。再叠加<span class="hl-pivot">布林通道时间窗口</span>，预见性会显著抬升。</p>
+  </section>
+
+  <!-- 5 -->
+  <section class="wrap reveal">
+    <div class="sec-no">05 — 实战时序</div>
+    <h2>2008 年初大盘：监视器是怎么"看"出剧本的</h2>
+    <p class="lead">原课文紧接着用 2007 年末到 2008 年 1 月的上证指数实战，把监视器的用法走了一遍。</p>
+    <p>从 4800 点上来的这段 1 分钟走势在 5462 点附近被 M 头颈线"卡住"，演化成 5 分钟级别中枢震荡。缠师当下就把所有可能的剧本<b>预先分类</b>——这就是监视器+完全分类的标准用法：</p>
+    <figure>
+      <img src="/_assets/ch92_p15.png" alt="2008-01-08 上证指数 5462 点震荡分类">
+      <figcaption>2008-01-08 上证指数走势——围绕 5462 颈线展开的标准中枢震荡</figcaption>
+    </figure>
+    <div class="timeline">
+      <div class="tl-item">
+        <div class="tl-date">2007-12-28 · 4800 点上来 1 分钟扩展</div>
+        <div class="tl-text">三买后顶背驰，走势从 1 分钟向 5 分钟<b>扩展</b>，新的 5 分钟中枢正在形成——监视器正式启动，准备观测 Zn。</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-date">2008-01-03 · 站住 5209 颈线，看向 5500–5600</div>
+        <div class="tl-text">Zn 抬升、震荡偏强，喊出"向 <b>5600 高地攻击前进</b>"——但缠师反复提示：第三类买点未出，<b>突破不是 100% 有效</b>。</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-date">2008-01-08 · 5462 颈线如期震荡</div>
+        <div class="tl-text">把后续走势<b>完全分类</b>成三种结局：① 1 分钟中枢上移（最强）；② 形成新的 5 分钟中枢；③ 扩展为 30 分钟中枢（最弱）——监视器对应着三组不同 Zn 轨迹。当天行情<b>立即排除第一种</b>，剩余两种里挑实战对应即可。</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-date">2008-01-14 · 进入第二种情况</div>
+        <div class="tl-text">"在 5462 点附近震荡出一个 5 分钟中枢，大不了向 30 分钟延伸"——Zn 始终冲不上 B，<b>"楔型诱多"风险开始累积</b>。</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-date">2008-01-15 · 压力期 + 政策敏感期</div>
+        <div class="tl-text">总结成两条路径：① 跳水把不坚定的赶走（空间换时间）；② 上下磨直到成交量萎缩（时间换空间）——两者本质都是<b>扩展到 30 分钟中枢再求突破</b>。</div>
+      </div>
+    </div>
+    <p>这段实战的价值不在于"预测对了 5462 点"，而在于演示了<b>"先用监视器把所有可能结果穷举出来，再让市场告诉你走哪一种"</b>——这就是缠师反复强调的<span class="hl-gold">完全分类思维</span>的实际操作。</p>
+    <figure>
+      <img src="/_assets/ch92_p19.png" alt="2008-01-14 大盘犹疑震荡">
+      <figcaption>2008-01-14 大盘——5462 颈线下震荡延展，监视器进入"楔型预警"区间</figcaption>
+    </figure>
+  </section>
+
+  <!-- 6 -->
+  <section class="wrap reveal">
+    <div class="sec-no">06 — 思考题</div>
+    <h2>把监视器装到自己的盘面上</h2>
+    <p class="lead">课文最末三句金言：Zn 变动相对平滑，因此可以大致预计其下一个区间——下一段震荡的高低点是"<b>小学数学问题</b>"。</p>
+    <ol class="think">
+      <li>找出最近自己跟踪的一只票里某个明确的中枢，把 A、B、Z 三条线画出来，再标出已走出的 Z1、Z2、Z3——这条 Zn 曲线现在在 Z 之上还是之下？</li>
+      <li>如果 Zn 已经反复冲击 B 但都未构成第三类买卖点，下一步更可能是真三买，还是中枢级别扩展？需要哪些额外信号来确认？</li>
+      <li>当 Zn 平滑抬升却始终顶不破 B 时，"上升楔型诱多"的危险信号有哪些？如何与正常的"逐步走强"区分？</li>
+      <li>把震荡中<b>次级别走势类型</b>叠到 Zn 图上：当次级别是趋势类型且最后一个次级别中枢落在原中枢之外时，怎么预先准备<b>变盘后的第一笔操作</b>？</li>
+    </ol>
+
+    <div class="tldr">
+      <div class="lab">一句话总结</div>
+      <p>把中枢的箱体一切两半（A / Z / B），把每段次级震荡的重心连成 Zn 曲线——这根曲线在 Z 上偏强、在 Z 下偏弱、迟早会越过 A 或 B；它既是震荡强弱的<b>仪表针</b>，也是第三类买卖点和级别扩展的<b>预警雷达</b>。</p>
+    </div>
+  </section>
+</main>
+
+<footer class="wrap">
+  原文出处：raw/缠中说禅/教你炒股票108课/教你炒股票92：中枢震荡的监视器.md<br>
+  本页为个人学习复习用·非投资建议
+</footer>
+
+<script>
+  const bar=document.getElementById('bar');
+  const onScroll=()=>{
+    const h=document.documentElement;
+    const p=h.scrollTop/(h.scrollHeight-h.clientHeight);
+    bar.style.width=(p*100)+'%';
+  };
+  document.addEventListener('scroll',onScroll,{passive:true});onScroll();
+
+  const io=new IntersectionObserver((es)=>{
+    es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});
+  },{threshold:.12});
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+</script>
+<script src="/assets/_nav.js"></script><script src="/assets/_shell.js"></script></body>
+</html>

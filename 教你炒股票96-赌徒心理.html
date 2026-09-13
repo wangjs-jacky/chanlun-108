@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>缠论 · 教你炒股票96：无处不在的赌徒心理</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@500;700;900&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0b0e12;
+    --bg-elev:#12161c;
+    --bg-card:#161b22;
+    --ink:#e8eaed;
+    --ink-dim:#9aa3ad;
+    --ink-faint:#5b6470;
+    --line:rgba(255,255,255,.07);
+    --up:#ff4d4f;
+    --down:#16c784;
+    --pivot:#37c0e6;
+    --gold:#e8b339;
+    --max:880px;
+    --serif:"Noto Serif SC",serif;
+    --mono:"JetBrains Mono",ui-monospace,monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;
+    line-height:1.85;
+    font-size:17px;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  body::before{
+    content:"";position:fixed;inset:0;z-index:-2;
+    background:
+      radial-gradient(1200px 600px at 70% -10%, rgba(255,77,79,.08), transparent 60%),
+      radial-gradient(900px 500px at 0% 100%, rgba(232,179,57,.05), transparent 55%);
+    pointer-events:none;
+  }
+  body::after{
+    content:"";position:fixed;inset:0;z-index:-1;opacity:.4;
+    background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);
+    background-size:46px 46px;
+    -webkit-mask-image:radial-gradient(ellipse at 50% 0%, #000 30%, transparent 80%);
+            mask-image:radial-gradient(ellipse at 50% 0%, #000 30%, transparent 80%);
+    pointer-events:none;
+  }
+
+  #bar{position:fixed;top:0;left:0;height:3px;width:0;z-index:50;
+    background:linear-gradient(90deg,var(--up),var(--gold));box-shadow:0 0 12px var(--up);}
+
+  .wrap{max-width:var(--max);margin:0 auto;padding:0 24px}
+
+  header.hero{padding:120px 0 70px;text-align:center;position:relative}
+  .kicker{font-family:var(--mono);font-size:13px;letter-spacing:.32em;color:var(--up);
+    text-transform:uppercase;margin-bottom:26px}
+  .kicker span{color:var(--ink-faint)}
+  h1.title{font-family:var(--serif);font-weight:900;line-height:1.05;
+    font-size:clamp(44px,9vw,92px);letter-spacing:.04em;
+    background:linear-gradient(180deg,#fff 30%,#8aa0ad 130%);
+    -webkit-background-clip:text;background-clip:text;color:transparent;}
+  .sub{margin:22px auto 0;max-width:620px;color:var(--ink-dim);font-size:18px}
+  .meta{margin-top:34px;display:flex;gap:14px;justify-content:center;flex-wrap:wrap;
+    font-family:var(--mono);font-size:12px;color:var(--ink-faint)}
+  .meta b{color:var(--ink-dim);font-weight:500}
+  .pill{border:1px solid var(--line);padding:6px 14px;border-radius:999px;background:rgba(255,255,255,.02)}
+
+  .scroll-hint{margin-top:60px;color:var(--ink-faint);font-family:var(--mono);font-size:12px;
+    animation:bob 2.4s ease-in-out infinite}
+  @keyframes bob{0%,100%{transform:translateY(0);opacity:.5}50%{transform:translateY(8px);opacity:1}}
+
+  section{padding:64px 0;border-top:1px solid var(--line)}
+  .sec-no{font-family:var(--mono);font-size:13px;color:var(--gold);letter-spacing:.2em;margin-bottom:10px}
+  h2{font-family:var(--serif);font-weight:700;font-size:clamp(28px,5vw,42px);
+    line-height:1.25;margin-bottom:8px;letter-spacing:.02em}
+  .lead{color:var(--ink-dim);font-size:16px;margin-bottom:28px;max-width:640px}
+  p{margin:0 0 18px;color:#cfd5dc}
+  p b,strong{color:#fff;font-weight:700}
+  .hl-pivot{color:var(--pivot);font-weight:700}
+  .hl-up{color:var(--up);font-weight:700}
+  .hl-down{color:var(--down);font-weight:700}
+  .hl-gold{color:var(--gold);font-weight:700}
+
+  blockquote{margin:26px 0;padding:20px 24px;border-left:3px solid var(--up);
+    background:linear-gradient(90deg,rgba(255,77,79,.07),transparent);
+    border-radius:0 10px 10px 0;font-family:var(--serif);font-size:18px;color:#fbeaea}
+  blockquote .who{display:block;margin-top:8px;font-family:var(--mono);font-size:12px;
+    color:var(--ink-faint);font-style:normal}
+
+  figure{margin:34px 0}
+  figure img{width:100%;border-radius:12px;border:1px solid var(--line);
+    background:#fff;box-shadow:0 18px 50px rgba(0,0,0,.5)}
+  figcaption{margin-top:12px;font-size:13px;color:var(--ink-faint);text-align:center;font-family:var(--mono)}
+
+  .grid{display:grid;gap:16px;grid-template-columns:1fr 1fr;margin:28px 0}
+  @media(max-width:640px){.grid{grid-template-columns:1fr}}
+  .card{background:var(--bg-card);border:1px solid var(--line);border-radius:14px;padding:24px;
+    position:relative;overflow:hidden;transition:transform .35s ease,border-color .35s ease}
+  .card:hover{transform:translateY(-4px);border-color:rgba(255,77,79,.4)}
+  .card .tag{font-family:var(--mono);font-size:11px;letter-spacing:.18em;color:var(--gold);text-transform:uppercase}
+  .card h3{font-family:var(--serif);font-size:20px;margin:10px 0 8px;color:#fff}
+  .card p{font-size:15px;color:var(--ink-dim);margin:0}
+
+  /* 五型赌徒：横向卡片列 */
+  .types{margin:28px 0;display:flex;flex-direction:column;gap:14px}
+  .ty{display:flex;gap:18px;align-items:flex-start;background:var(--bg-card);
+    border:1px solid var(--line);border-radius:12px;padding:20px 22px}
+  .ty .num{flex:none;width:46px;height:46px;border-radius:12px;display:grid;place-items:center;
+    font-family:var(--mono);font-weight:700;font-size:18px;color:#0b0e12;background:var(--up)}
+  .ty:nth-child(2) .num{background:#ff7a45}
+  .ty:nth-child(3) .num{background:var(--gold)}
+  .ty:nth-child(4) .num{background:#c084fc}
+  .ty:nth-child(5) .num{background:#a3a3a3;color:#0b0e12}
+  .ty h4{font-size:17px;margin-bottom:4px;color:#fff}
+  .ty p{font-size:15px;color:var(--ink-dim);margin:0}
+
+  /* 操作三步框 */
+  .steps{margin:28px 0;display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+  @media(max-width:640px){.steps{grid-template-columns:1fr}}
+  .step{background:var(--bg-elev);border:1px solid var(--line);border-radius:12px;padding:20px;position:relative}
+  .step .si{font-family:var(--mono);font-size:11px;color:var(--gold);letter-spacing:.18em}
+  .step h4{font-family:var(--serif);font-size:18px;margin:8px 0 6px;color:#fff}
+  .step p{font-size:14px;color:var(--ink-dim);margin:0;line-height:1.7}
+
+  /* 实战时序 */
+  .timeline{margin:28px 0;border-left:2px solid var(--line);padding-left:24px;position:relative}
+  .tl-item{margin-bottom:22px;position:relative}
+  .tl-item::before{content:"";position:absolute;left:-31px;top:8px;width:10px;height:10px;border-radius:50%;
+    background:var(--up);box-shadow:0 0 0 4px rgba(255,77,79,.15)}
+  .tl-date{font-family:var(--mono);font-size:12px;color:var(--gold);letter-spacing:.1em;margin-bottom:4px}
+  .tl-text{color:var(--ink-dim);font-size:15px;line-height:1.7}
+  .tl-text b{color:#fff}
+
+  .tldr{margin:60px 0 0;padding:36px 30px;border:1px solid rgba(255,77,79,.3);border-radius:18px;
+    background:radial-gradient(120% 120% at 100% 0%,rgba(255,77,79,.1),transparent 60%),var(--bg-elev);text-align:center}
+  .tldr .lab{font-family:var(--mono);font-size:12px;letter-spacing:.3em;color:var(--up);text-transform:uppercase}
+  .tldr p{font-family:var(--serif);font-size:clamp(19px,3vw,26px);line-height:1.7;color:#fff;margin:16px 0 0}
+
+  footer{padding:60px 0 90px;text-align:center;color:var(--ink-faint);font-family:var(--mono);font-size:12px;border-top:1px solid var(--line)}
+
+  .reveal{opacity:0;transform:translateY(26px);transition:opacity .8s ease,transform .8s ease}
+  .reveal.in{opacity:1;transform:none}
+  @media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}.scroll-hint{animation:none}}
+</style>
+<meta name="view-transition" content="same-origin"><style>@view-transition{navigation:auto}</style></head>
+<body>
+<div id="bar"></div>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="kicker">缠中说禅 · 教你炒股票108课 <span>/ 第 96 课</span></div>
+    <h1 class="title">无处不在的赌徒心理</h1>
+    <p class="sub">最大的敌人不是大盘，是自己脑子里那个赌徒——预设虚拟目标、害怕失去机会、砍了又追、听消息找捷径。要赢，先把这个赌徒杀掉。</p>
+    <div class="meta">
+      <span class="pill"><b>原文</b> 2008-01-23</span>
+      <span class="pill"><b>类型</b> 心法 · 操作纪律</span>
+      <span class="pill"><b>关键词</b> 赌徒心理 · 韵律 · 纪律 · 0成本 · 完全分类</span>
+    </div>
+    <div class="scroll-hint">↓ 向下看 5 种赌徒和 3 步操作</div>
+  </div>
+</header>
+
+<main>
+  <!-- 1 -->
+  <section class="wrap reveal">
+    <div class="sec-no">01 — 命题</div>
+    <h2>赌，最终的结局只有一个</h2>
+    <p class="lead">市场不是慈善场所，是杀人的地方。带着赌徒心理来，结局已经注定——就算还没在锅里，也只是养肥了再煮。</p>
+    <p>缠师在这一课直接撕开市场最隐蔽的陷阱：<b>赌徒心理无处不在</b>，甚至披着"理性"的外衣藏在你想"等反弹到 XX 出来就不玩了"的念头里。</p>
+    <blockquote>
+      市场中，最大的敌人之一，就是赌徒心理、赌徒思维。赌，最终的结局就只有一个，如果你以赌徒心理参与市场，那么你的结局就已经注定，你就算还没在锅里，那也只是养肥了再煮而已。
+      <span class="who">— 缠中说禅</span>
+    </blockquote>
+    <p>赌徒心理一个最大的特点，就是<span class="hl-up">预设一个虚拟的目标、一个想象中的目标，完全无视市场本身</span>。另一个特点，就是<span class="hl-up">怕失去机会、怕失去赚大钱的机会</span>——"万一走错了怎么办？万一还涨，不就亏了？"诸如此类，全是赌徒在自我对话。</p>
+  </section>
+
+  <!-- 2 -->
+  <section class="wrap reveal">
+    <div class="sec-no">02 — 五型赌徒</div>
+    <h2>五种最常见的赌徒人格</h2>
+    <p class="lead">对号入座，看看你脑子里住了哪一只。</p>
+    <div class="types">
+      <div class="ty">
+        <div class="num">1</div>
+        <div>
+          <h4>设回血价的"伪冷静派"</h4>
+          <p>"等反弹到多少多少一定出来，以后不玩了。"——表面看起来很不赌徒，本质却<b>用想象中的价位锚定行动</b>，无视市场实际走势，是最隐蔽的一种赌。</p>
+        </div>
+      </div>
+      <div class="ty">
+        <div class="num">2</div>
+        <div>
+          <h4>砍了又追的"杀红眼派"</h4>
+          <p>砍了又追、追了又砍，<b>完全被一股无明的业力牵引</b>，往那鬼窟里去。这就是所谓的杀红了眼，所以就被杀了。</p>
+        </div>
+      </div>
+      <div class="ty">
+        <div class="num">3</div>
+        <div>
+          <h4>不敢做又怕错过的"反向追高派"</h4>
+          <p>看到机会到来就怕、不敢操作；机会真起来了又后悔。<b>5 元不敢买，过段时间 50 元都敢买</b>——结果又被杀了。</p>
+        </div>
+      </div>
+      <div class="ty">
+        <div class="num">4</div>
+        <div>
+          <h4>听消息找捷径的"馅饼派"</h4>
+          <p>以为这世界上就有一个馅饼一定能拍着自己。<b>就算能吃到点馅饼，那玩意能当长期饭票吗？</b></p>
+        </div>
+      </div>
+      <div class="ty">
+        <div class="num">5</div>
+        <div>
+          <h4>赚装修款的"生活刚需派"</h4>
+          <p>"我要赚钱买房子、车子，把装修的钱赚回来。"——可悲呀，<b>你以为市场是慈善场所？那是杀人的地方！</b>把刚性生活成本压在市场上，是必败的开场白。</p>
+        </div>
+      </div>
+    </div>
+    <figure>
+      <img src="/_assets/ch96_p01.png" alt="2008-01-23 大盘多空抉择线日线图">
+      <figcaption>2008-01-23 大盘——4778 点多空抉择线、日线底分型出现，是赌徒情绪最浓的时刻</figcaption>
+    </figure>
+  </section>
+
+  <!-- 3 -->
+  <section class="wrap reveal">
+    <div class="sec-no">03 — 解药</div>
+    <h2>市场很简单，就是按韵律生长出利润</h2>
+    <p class="lead">生活很简单——三餐五谷为养。市场也很简单——找到自己的韵律，平凡但能长久。</p>
+    <blockquote>
+      你不需要如赌徒一样整天烦躁不安，又期盼又恐惧，折腾不休。你只要平静地按照自己的韵律、按照市场的显现去与日俱增地强大自己。错过了，就错过了，后面有无数的机会等着。
+      <span class="who">— 缠中说禅</span>
+    </blockquote>
+    <p>缠师对治赌徒心理的处方只有两味药：<b>韵律</b> 与 <b>纪律</b>。</p>
+    <div class="grid">
+      <div class="card">
+        <div class="tag">第一味药</div>
+        <h3>韵律</h3>
+        <p>"市场，就如同生活，在一定的韵律中生长出利润。<b>只有那韵律、那平凡但又能长久的赢利模式</b>，才能使你战胜市场。"</p>
+      </div>
+      <div class="card">
+        <div class="tag">第二味药</div>
+        <h3>纪律</h3>
+        <p>"市场真正的成功，都是严格的操作下完成的。<b>一个严格的操作程序，足以保证你长期的成功。</b>操作失误了有什么大不了的，市场的机会不断涌现。"</p>
+      </div>
+    </div>
+    <p>超人不是设计出来的，是干出来的。<span class="hl-gold">你能长期地战胜市场，你就是市场的超人</span>——因为市场的原则就是：只有最少数的人才能长期地战胜市场。</p>
+  </section>
+
+  <!-- 4 -->
+  <section class="wrap reveal">
+    <div class="sec-no">04 — 0 成本与"最后机会"</div>
+    <h2>0 成本投入 + 给自己一次机会</h2>
+    <p class="lead">前面课程说要"0 成本投入"，但实操不必那么严格——只要确保是<b>完全不影响生活的钱</b>，告诉自己这就是唯一的资本，没有后援。</p>
+    <p>缠师给出的<b>"最后一次机会"</b>程序极其冷峻：</p>
+    <div class="steps">
+      <div class="step">
+        <div class="si">STEP 01</div>
+        <h4>拿不影响生活的钱</h4>
+        <p>把<b>完全不影响生活的钱</b>拿出来——不是借的、不是省吃俭用的、不是装修款。用它创造你自己的神话。</p>
+      </div>
+      <div class="step">
+        <div class="si">STEP 02</div>
+        <h4>输光了，先彻底解剖</h4>
+        <p>给自己再一次机会前，<b>必须把所有失败的根源都挖出来</b>。然后告诉自己：这是最后一次尝试。</p>
+      </div>
+      <div class="step">
+        <div class="si">STEP 03</div>
+        <h4>再输光，就永别市场</h4>
+        <p>"不是每一个人都适合市场。"<b>买基金、买国债、什么都可以</b>，但别再亲自到市场来。给自己 N 年学习历练，等真的有信心再回来。</p>
+      </div>
+    </div>
+    <blockquote>
+      市场，只是生活的一部分，如此而已。
+      <span class="who">— 缠中说禅</span>
+    </blockquote>
+    <figure>
+      <img src="/_assets/ch96_p02.png" alt="2008-01-25 大盘补缺日线走势">
+      <figcaption>2008-01-25 深成指领先补缺——上证下周补缺、多头别无选择</figcaption>
+    </figure>
+  </section>
+
+  <!-- 5 -->
+  <section class="wrap reveal">
+    <div class="sec-no">05 — 实盘对照</div>
+    <h2>4778 多空抉择线：把"赌徒解药"放进真实盘面</h2>
+    <p class="lead">课后续四篇盘评，把这一课的心法直接落到 2008 年 1 月那次惊心动魄的下跌——4778 点的多空抉择、580989 认沽权证的教科书式操作、年线第一次触碰。</p>
+    <div class="timeline">
+      <div class="tl-item">
+        <div class="tl-date">2008-01-24 · 4778 多空抉择线</div>
+        <div class="tl-text">4778 是前期低点，<b>能否站住决定本次下跌的性质与最终完成形式</b>。早盘下跌反而完成日线底分型——但分型的操作，是"昨天探低不创新高时就买"，不是<b>确认形成才操作</b>，那时已是"已病"状态。</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-date">2008-01-25 · 下周补缺，多头别无选择</div>
+        <div class="tl-text">日线形态不好，所以即便这笔延伸出来，向上结束位置有<b>三种分类</b>：① 4818 上下结束最弱；② 4918 上下结束有双底机会；③ 5000 点后结束形态好转。<b>市场最终走出来再辨别，不预测</b>。</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-date">2008-01-28 · 580989 教科书启动</div>
+        <div class="tl-text">大盘开盘直接选了"最弱"那一档——一个线段下来 400 点。认沽权证 580989 完美演绎中枢震荡：60 分钟底背驰 + 回拉到原中枢 + 围绕中枢震荡。<b>"几个月后连纸都不如"，绝对不是给一般人参与的</b>。</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-date">2008-01-28 · 三步操作论</div>
+        <div class="tl-text">缠师把"赌徒解药"翻译成三步：① <b>无遗漏给出所有机会的输出</b>（理论级别完全分类）；② <b>把每个机会的成立确认准确识别出来</b>（底背驰、第三类买点）；③ <b>把下一步最坏情况想清楚</b>，每种界限触及后如何处理。<b>能做到这三步才算"初级有自我意识的操作者"</b>。</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-date">2008-01-29 · 年线支撑初显</div>
+        <div class="tl-text">大盘首碰年线，今年至少两次、第一次应是喜剧。<b>"你不当多头也不当空头，但一定要知道多头空头想干什么"</b>——走势是合力的结果，他们想干的是否干出来，这才是关键。</div>
+      </div>
+    </div>
+    <figure>
+      <img src="/_assets/ch96_p03.png" alt="2008-01-28 大盘 5 分钟级别走势">
+      <figcaption>2008-01-28 大盘——选"最弱"分类，一个线段下来 400 点</figcaption>
+    </figure>
+    <figure>
+      <img src="/_assets/ch96_p04.png" alt="2008-01-28 大盘日线走势分类">
+      <figcaption>三种走势完全分类：最坏 4778 下 5 分钟中枢 / 次坏盘整中枢扩展 / 最好震回去再三买</figcaption>
+    </figure>
+    <figure>
+      <img src="/_assets/ch96_p05.png" alt="2008-01-28 年线支撑日线长周期">
+      <figcaption>年线就在下方——"今年至少见两次年线，第一次应该是喜剧"</figcaption>
+    </figure>
+    <figure>
+      <img src="/_assets/ch96_p06.jpeg" alt="580989 认沽权证 60 分钟走势">
+      <figcaption>580989：60 分钟底背驰 + 回拉到中枢——纯数学的教科书走势，但<b>"几个月后连纸都不如"</b></figcaption>
+    </figure>
+  </section>
+
+  <!-- 6 -->
+  <section class="wrap reveal">
+    <div class="sec-no">06 — 反省题</div>
+    <h2>把赌徒钉在墙上</h2>
+    <p class="lead">真正的操作者，只倾听市场与自己的声音。在动手之前，先把这几个问题写下来——</p>
+    <ol style="list-style:none;counter-reset:q;margin:24px 0;display:flex;flex-direction:column;gap:14px;padding:0">
+      <li style="counter-increment:q;position:relative;padding:18px 20px 18px 60px;background:var(--bg-elev);border:1px solid var(--line);border-radius:12px;color:var(--ink-dim);font-size:15px">
+        <span style="position:absolute;left:20px;top:18px;font-family:var(--mono);color:var(--gold);font-weight:700">01</span>
+        最近的买卖里，有多少次是"预设了一个虚拟目标"（回血价、心理价、整数关口）——这些目标和市场结构有关系吗？还是只是你自己的想象？
+      </li>
+      <li style="counter-increment:q;position:relative;padding:18px 20px 18px 60px;background:var(--bg-elev);border:1px solid var(--line);border-radius:12px;color:var(--ink-dim);font-size:15px">
+        <span style="position:absolute;left:20px;top:18px;font-family:var(--mono);color:var(--gold);font-weight:700">02</span>
+        请回答缠师的考题：列出最近三个<b>必然发生不会遗漏</b>的机会，并说明其必然的级别。如果列不出来，就还没到能用缠论操作的水平。
+      </li>
+      <li style="counter-increment:q;position:relative;padding:18px 20px 18px 60px;background:var(--bg-elev);border:1px solid var(--line);border-radius:12px;color:var(--ink-dim);font-size:15px">
+        <span style="position:absolute;left:20px;top:18px;font-family:var(--mono);color:var(--gold);font-weight:700">03</span>
+        下一次想出手前，把"最坏情况"写下来——一旦最坏情况出现，<b>我现在的资金能否承担？我的操作能否应付？</b>不行就闪开。
+      </li>
+      <li style="counter-increment:q;position:relative;padding:18px 20px 18px 60px;background:var(--bg-elev);border:1px solid var(--line);border-radius:12px;color:var(--ink-dim);font-size:15px">
+        <span style="position:absolute;left:20px;top:18px;font-family:var(--mono);color:var(--gold);font-weight:700">04</span>
+        投入市场的钱，是否真的是"完全不影响生活"的钱？里面有没有装修款、首付款、孩子学费？如果有，先撤出来——刚需上桌就是赌徒。
+      </li>
+    </ol>
+
+    <div class="tldr">
+      <div class="lab">一句话总结</div>
+      <p>赌徒心理的核心是<b>用虚拟目标取代市场显现</b>；解药是<b>韵律 + 纪律</b>——拿不影响生活的钱、按理论给出的完全分类执行、最坏情况想清楚再动手、错过就错过、机会永远在。市场，只是生活的一部分。</p>
+    </div>
+  </section>
+</main>
+
+<footer class="wrap">
+  原文出处：raw/缠中说禅/教你炒股票108课/教你炒股票96：无处不在的赌徒心理.md<br>
+  本页为个人学习复习用·非投资建议
+</footer>
+
+<script>
+  const bar=document.getElementById('bar');
+  const onScroll=()=>{
+    const h=document.documentElement;
+    const p=h.scrollTop/(h.scrollHeight-h.clientHeight);
+    bar.style.width=(p*100)+'%';
+  };
+  document.addEventListener('scroll',onScroll,{passive:true});onScroll();
+
+  const io=new IntersectionObserver((es)=>{
+    es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});
+  },{threshold:.12});
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+</script>
+<script src="/assets/_nav.js"></script><script src="/assets/_shell.js"></script></body>
+</html>

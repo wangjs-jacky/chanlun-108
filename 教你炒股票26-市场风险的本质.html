@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>缠论 · 教你炒股票26：市场风险如何回避</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@500;700;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0b0e12;--bg-elev:#12161c;--bg-card:#161b22;
+    --ink:#e8eaed;--ink-dim:#9aa3ad;--ink-faint:#5b6470;
+    --line:rgba(255,255,255,.07);
+    --up:#ff4d4f;--down:#16c784;--pivot:#37c0e6;--gold:#e8b339;--blue:#00d4ff;
+    --max:880px;--serif:"Noto Serif SC",serif;--mono:"JetBrains Mono",ui-monospace,monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--ink);font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;line-height:1.85;font-size:17px;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  body::before{content:"";position:fixed;inset:0;z-index:-2;background:radial-gradient(1200px 600px at 70% -10%,rgba(55,192,230,.08),transparent 60%),radial-gradient(900px 500px at 0% 100%,rgba(232,179,57,.05),transparent 55%);pointer-events:none}
+  body::after{content:"";position:fixed;inset:0;z-index:-1;opacity:.4;background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);background-size:46px 46px;-webkit-mask-image:radial-gradient(ellipse at 50% 0%,#000 30%,transparent 80%);mask-image:radial-gradient(ellipse at 50% 0%,#000 30%,transparent 80%);pointer-events:none}
+  #bar{position:fixed;top:0;left:0;height:3px;width:0;z-index:50;background:linear-gradient(90deg,var(--pivot),var(--gold));box-shadow:0 0 12px var(--pivot)}
+  .wrap{max-width:var(--max);margin:0 auto;padding:0 24px}
+  header.hero{padding:120px 0 70px;text-align:center;position:relative}
+  .kicker{font-family:var(--mono);font-size:13px;letter-spacing:.32em;color:var(--pivot);text-transform:uppercase;margin-bottom:26px}
+  .kicker span{color:var(--ink-faint)}
+  h1.title{font-family:var(--serif);font-weight:900;line-height:1.05;font-size:clamp(44px,10vw,100px);letter-spacing:.04em;background:linear-gradient(180deg,#fff 30%,#8aa0ad 130%);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .sub{margin:22px auto 0;max-width:580px;color:var(--ink-dim);font-size:18px}
+  .meta{margin-top:34px;display:flex;gap:14px;justify-content:center;flex-wrap:wrap;font-family:var(--mono);font-size:12px;color:var(--ink-faint)}
+  .meta b{color:var(--ink-dim);font-weight:500}
+  .pill{border:1px solid var(--line);padding:6px 14px;border-radius:999px;background:rgba(255,255,255,.02)}
+  .scroll-hint{margin-top:60px;color:var(--ink-faint);font-family:var(--mono);font-size:12px;animation:bob 2.4s ease-in-out infinite}
+  @keyframes bob{0%,100%{transform:translateY(0);opacity:.5}50%{transform:translateY(8px);opacity:1}}
+  section{padding:64px 0;border-top:1px solid var(--line)}
+  .sec-no{font-family:var(--mono);font-size:13px;color:var(--gold);letter-spacing:.2em;margin-bottom:10px}
+  h2{font-family:var(--serif);font-weight:700;font-size:clamp(28px,5vw,42px);line-height:1.25;margin-bottom:8px;letter-spacing:.02em}
+  .lead{color:var(--ink-dim);font-size:16px;margin-bottom:28px;max-width:660px}
+  p{margin:0 0 18px;color:#cfd5dc}
+  p b,strong{color:#fff;font-weight:700}
+  .hl-pivot{color:var(--pivot);font-weight:700}.hl-up{color:var(--up);font-weight:700}
+  .hl-down{color:var(--down);font-weight:700}.hl-gold{color:var(--gold);font-weight:700}
+  blockquote{margin:26px 0;padding:20px 24px;border-left:3px solid var(--pivot);background:linear-gradient(90deg,rgba(55,192,230,.07),transparent);border-radius:0 10px 10px 0;font-family:var(--serif);font-size:19px;color:#eaf6fb}
+  blockquote .who{display:block;margin-top:8px;font-family:var(--mono);font-size:12px;color:var(--ink-faint);font-style:normal}
+  figure{margin:34px 0}
+  figure img{width:100%;border-radius:12px;border:1px solid var(--line);background:#fff;box-shadow:0 18px 50px rgba(0,0,0,.5)}
+  figcaption{margin-top:12px;font-size:13px;color:var(--ink-faint);text-align:center;font-family:var(--mono)}
+  .grid{display:grid;gap:16px;grid-template-columns:1fr 1fr;margin:28px 0}
+  @media(max-width:640px){.grid{grid-template-columns:1fr}}
+  .card{background:var(--bg-card);border:1px solid var(--line);border-radius:14px;padding:24px;position:relative;overflow:hidden;transition:transform .35s ease,border-color .35s ease}
+  .card:hover{transform:translateY(-4px);border-color:rgba(55,192,230,.4)}
+  .card .tag{font-family:var(--mono);font-size:11px;letter-spacing:.18em;color:var(--gold);text-transform:uppercase}
+  .card h3{font-family:var(--serif);font-size:21px;margin:10px 0 8px;color:#fff}
+  .card p{font-size:15px;color:var(--ink-dim);margin:0}
+  .table{margin:28px 0;border:1px solid var(--line);border-radius:14px;overflow:hidden}
+  .table .row{display:grid;grid-template-columns:1.1fr 1.5fr 1.6fr;align-items:stretch}
+  .table .row+.row{border-top:1px solid var(--line)}
+  .table .row>div{padding:16px 18px}
+  .table .row.head{background:var(--bg-elev);font-family:var(--mono);font-size:12px;letter-spacing:.14em;color:var(--ink-faint);text-transform:uppercase}
+  .table .row>div+div{border-left:1px solid var(--line)}
+  .table .name{font-family:var(--serif);font-weight:700;font-size:18px}
+  .table .name.qushi{color:var(--gold)}
+  .cnt{font-family:var(--mono);font-size:14px;color:var(--pivot)}
+  @media(max-width:560px){.table .row{grid-template-columns:1fr}.table .row>div+div{border-left:0;border-top:1px solid var(--line)}.table .row.head{display:none}}
+  .points{margin:26px 0;display:flex;flex-direction:column;gap:14px}
+  .pt{display:flex;gap:16px;align-items:flex-start;background:var(--bg-card);border:1px solid var(--line);border-radius:12px;padding:18px 20px}
+  .pt .dot{flex:none;width:42px;height:42px;border-radius:10px;display:grid;place-items:center;font-family:var(--serif);font-weight:900;font-size:20px;color:#0b0e12}
+  .pt.b .dot{background:var(--up)}.pt.s .dot{background:var(--down)}
+  .pt h4{font-size:17px;margin-bottom:4px;color:#fff}.pt p{font-size:15px;color:var(--ink-dim);margin:0}
+  /* akshare 实证区 */
+  .proof{margin:30px 0;background:linear-gradient(120deg,rgba(55,192,230,.06),transparent 70%),var(--bg-elev);border:1px solid rgba(55,192,230,.25);border-radius:16px;padding:26px}
+  .proof .badge{display:inline-block;font-family:var(--mono);font-weight:700;font-size:12px;letter-spacing:.12em;padding:6px 14px;border-radius:999px;background:rgba(55,192,230,.14);color:var(--pivot);border:1px solid rgba(55,192,230,.4);margin-bottom:14px}
+  .chartbox{background:var(--bg-card);border:1px solid var(--line);border-radius:14px;padding:18px 14px 8px;margin:18px 0}
+  .legend{display:flex;gap:16px;font-family:var(--mono);font-size:12px;color:var(--ink-dim);padding:0 8px 12px;flex-wrap:wrap}
+  .legend i{display:inline-block;width:16px;height:3px;vertical-align:middle;margin-right:6px;border-radius:2px}
+  canvas{width:100%;display:block}
+  .verdict{display:flex;gap:14px;align-items:flex-start;margin-top:8px;padding:16px 18px;background:var(--bg-card);border:1px solid var(--line);border-radius:12px}
+  .verdict .mk{flex:none;font-family:var(--mono);font-weight:700;color:var(--up)}
+  .verdict p{margin:0;font-size:15px;color:#d6dbe1}
+  ol.think{counter-reset:q;list-style:none;margin:24px 0;display:flex;flex-direction:column;gap:14px}
+  ol.think li{counter-increment:q;position:relative;padding:18px 20px 18px 60px;background:var(--bg-elev);border:1px solid var(--line);border-radius:12px;color:var(--ink-dim);font-size:15px}
+  ol.think li::before{content:counter(q,decimal-leading-zero);position:absolute;left:20px;top:18px;font-family:var(--mono);color:var(--gold);font-weight:700}
+  /* 判图练习 */
+  .quiz{margin:22px 0;background:var(--bg-card);border:1px solid var(--line);border-radius:14px;padding:22px 24px}
+  .quiz h4{font-size:16px;color:#fff;margin-bottom:6px}
+  .quiz .ans{margin-top:12px;color:var(--ink-faint);font-size:14px;cursor:pointer}
+  .quiz .ans[open] summary{color:var(--pivot)}
+  .quiz summary{color:var(--gold);font-family:var(--mono);font-size:13px}
+  .tldr{margin:60px 0 0;padding:36px 30px;border:1px solid rgba(55,192,230,.3);border-radius:18px;background:radial-gradient(120% 120% at 100% 0%,rgba(55,192,230,.1),transparent 60%),var(--bg-elev);text-align:center}
+  .tldr .lab{font-family:var(--mono);font-size:12px;letter-spacing:.3em;color:var(--pivot);text-transform:uppercase}
+  .tldr p{font-family:var(--serif);font-size:clamp(20px,3.4vw,28px);line-height:1.7;color:#fff;margin:16px 0 0}
+  footer{padding:60px 0 90px;text-align:center;color:var(--ink-faint);font-family:var(--mono);font-size:12px;border-top:1px solid var(--line)}
+  .reveal{opacity:0;transform:translateY(26px);transition:opacity .8s ease,transform .8s ease}
+  .reveal.in{opacity:1;transform:none}
+  @media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}.scroll-hint{animation:none}}
+  /* 本课专用：风险解构图 */
+  .risk-stack{display:grid;gap:12px;margin:28px 0}
+  .risk-layer{background:var(--bg-card);border:1px solid var(--line);border-radius:12px;padding:18px 22px;position:relative;display:grid;grid-template-columns:auto 1fr auto;gap:18px;align-items:center}
+  .risk-layer .lvl{font-family:var(--mono);font-size:11px;color:var(--ink-faint);letter-spacing:.16em}
+  .risk-layer .ttl{font-family:var(--serif);font-weight:700;font-size:18px;color:#fff}
+  .risk-layer .ttl small{display:block;font-family:-apple-system,sans-serif;font-weight:400;font-size:13px;color:var(--ink-dim);margin-top:4px}
+  .risk-layer .verdict-tag{font-family:var(--mono);font-size:12px;padding:5px 10px;border-radius:6px}
+  .risk-layer.solvable .verdict-tag{background:rgba(22,199,132,.16);color:var(--down);border:1px solid rgba(22,199,132,.4)}
+  .risk-layer.fatal .verdict-tag{background:rgba(255,77,79,.16);color:var(--up);border:1px solid rgba(255,77,79,.4)}
+  /* 327 时间线 */
+  .timeline{margin:24px 0;position:relative;padding-left:30px;border-left:2px solid rgba(232,179,57,.4)}
+  .tl-item{position:relative;margin-bottom:22px;padding:14px 18px;background:var(--bg-elev);border:1px solid var(--line);border-radius:10px}
+  .tl-item::before{content:"";position:absolute;left:-37px;top:18px;width:12px;height:12px;border-radius:50%;background:var(--gold);box-shadow:0 0 0 4px var(--bg)}
+  .tl-item .when{font-family:var(--mono);font-size:12px;color:var(--gold);margin-bottom:4px;letter-spacing:.08em}
+  .tl-item .what{color:#d6dbe1;font-size:15px}
+  .tl-item .what b{color:#fff}
+</style>
+<meta name="view-transition" content="same-origin"><style>@view-transition{navigation:auto}</style></head>
+<body>
+<div id="bar"></div>
+<header class="hero">
+  <div class="wrap">
+    <div class="kicker">缠中说禅 · 教你炒股票108课 <span>/ 第 26 课</span></div>
+    <h1 class="title">市场风险的本质</h1>
+    <p class="sub">本ID理论唯一无法控制的风险是「交易突然不算」，其余风险都在走势里——而走势可以被技术解读。</p>
+    <div class="meta">
+      <span class="pill"><b>原文</b> 2007-01-30</span>
+      <span class="pill"><b>类型</b> 哲学 · 心法 · 风控原理</span>
+      <span class="pill"><b>关键词</b> 风险归一 · 一笔长钱 · 成本负数化</span>
+    </div>
+    <div class="scroll-hint">↓ 向下滚动，逐层拆解</div>
+  </div>
+</header>
+<main>
+
+<section class="wrap reveal">
+  <div class="sec-no">01 — 这一课在解决什么</div>
+  <h2>风险到底是什么？为什么本ID说"市场没有风险"</h2>
+  <p class="lead">在讲中枢更深的细节之前，缠师插入这一课谈风险——因为如果你的"钱"不对、"心"不对，再精妙的技术都等于零。</p>
+  <p>第26课不是泛泛地谈风险，而是<b>从根本上拆解风险</b>。结论很反直觉：</p>
+  <blockquote>一笔足够长的钱 + 本ID理论的熟练运用 = 战无不胜。市场，哪里有什么风险？<span class="who">— 缠中说禅</span></blockquote>
+  <p>看似狂言，其实是把一句结论压在两个**前提**上：① 你的钱是<span class="hl-gold">长期的</span>；② 你能把任何成本最终<span class="hl-up">摊成负数</span>。如果这两点你做不到，那风险不是市场给你的，是你自己挖坑给自己的。</p>
+</section>
+
+<section class="wrap reveal">
+  <div class="sec-no">02 — 风险归一</div>
+  <h2>所有风险，最终都长在"走势"这棵树上</h2>
+  <p class="lead">政策、系统、流通、经营、消息……名词一大堆。但站在纯技术的角度，它们最后只有一个出口。</p>
+  <p>缠师的第一个绝招是<b>"风险归一"</b>——把所有看起来千差万别的风险，全部归到一个落点上：</p>
+  <blockquote>站在纯技术的角度，<b>一切风险都必然体现在价格的走势上</b>。所有的风险，归根结底，最终都反映为价格波动的风险。<span class="who">— 缠中说禅</span></blockquote>
+  <p>这逻辑非常关键：消息再灵通，最后要变成<span class="hl-pivot">买卖单</span>；基本面再优秀，最后要靠<span class="hl-pivot">钱去推</span>。而<b>钱在市场上运动的轨迹，就是走势</b>。</p>
+  <p>所以你不必去预测下一份财报、不必去猜美联储——只要走势没出卖点，就拿着；只要走势已出卖点，就走。"先知道消息"在这个体系里没有特别优势，因为<b>"你不知道不等于别人不知道"</b>，知道的人正在用真金白银把信息写进K线里。</p>
+  <div class="grid">
+    <div class="card"><div class="tag">基本面</div><h3>把你引入场的诱饵</h3><p>所谓股票的价值，"不过是引诱你把钱投进来的诱饵"。它能帮你估值，但不能替你决定买卖时点。</p></div>
+    <div class="card"><div class="tag">消息面</div><h3>滞后于价格的喧哗</h3><p>等消息明朗，一切都晚了。真正聪明的钱在消息前已动手——这一切都印在走势上。</p></div>
+    <div class="card"><div class="tag">技术面</div><h3>唯一可观察的事实</h3><p>"走势是用钱堆出来的"——这是市场里最可信、也是唯一可信的东西。</p></div>
+    <div class="card"><div class="tag">情绪面</div><h3>恐惧贪婪的来源</h3><p>"恐惧和贪婪，都源自对市场的无知。"读懂走势的人，恐贪自然退场。</p></div>
+  </div>
+</section>
+
+<section class="wrap reveal">
+  <div class="sec-no">03 — 唯一死穴</div>
+  <h2>本ID理论唯一控制不了的风险：交易不算</h2>
+  <p class="lead">所有理论都有前提。本ID理论的前提只有一个：<b>这个交易品种在你的操作级别上能继续交易</b>。</p>
+  <p>缠师非常坦白地承认：理论不是万能的。它的死穴叫——</p>
+  <div class="risk-stack">
+    <div class="risk-layer solvable"><div class="lvl">L1 · 市场内生</div><div class="ttl">价格波动风险<small>包括趋势变盘、中枢震荡、个股下跌</small></div><span class="verdict-tag">可控</span></div>
+    <div class="risk-layer solvable"><div class="lvl">L2 · 暂时停牌</div><div class="ttl">停牌（不是停止）<small>资产重组、风险警示、临停等</small></div><span class="verdict-tag">可控</span></div>
+    <div class="risk-layer fatal"><div class="lvl">L3 · 永久退出</div><div class="ttl">突然停止交易<small>退市、转板、品种关闭</small></div><span class="verdict-tag">死穴</span></div>
+    <div class="risk-layer fatal"><div class="lvl">L4 · 规则失信</div><div class="ttl">交易突然不算<small>即"取消交易"——历史上罕见但发生过</small></div><span class="verdict-tag">死穴</span></div>
+  </div>
+  <p>L1、L2 是市场内生的、有迹可循的，理论可控；<span class="hl-up">L3、L4 是规则层面的"釜底抽薪"</span>——交易消失了，根本谈不上技术。</p>
+  <p>对此缠师给出的应对很务实：</p>
+  <ul style="list-style:none;padding-left:0;display:grid;gap:10px;margin-bottom:20px">
+    <li style="background:var(--bg-elev);border:1px solid var(--line);border-radius:10px;padding:14px 18px"><b class="hl-pivot">①</b> 要退市/将停止交易的品种，<b>"最好别用什么理论，直接去赌场算了"</b>。</li>
+    <li style="background:var(--bg-elev);border:1px solid var(--line);border-radius:10px;padding:14px 18px"><b class="hl-pivot">②</b> 实在要做，<b>把操作级别降到足够低</b>——把暴露时间压缩到最小。</li>
+    <li style="background:var(--bg-elev);border:1px solid var(--line);border-radius:10px;padding:14px 18px"><b class="hl-pivot">③</b> 一旦感觉规则层面有异，<b>第一时间出来</b>，别贪小利。</li>
+  </ul>
+</section>
+
+<section class="wrap reveal">
+  <div class="sec-no">04 — 1995 年的 327 国债期货</div>
+  <h2>缠师亲历："不算了"是怎么发生的</h2>
+  <p class="lead">第26课里有一段珍贵的个人史——327国债期货事件，缠师当时正在场内。这是他领悟"规则风险不可控"的代价惨重的一课。</p>
+  <p>"327"是当年最活跃的国债期货品种。1995-02-23 那天发生了什么？我们按缠师的口述还原时间线：</p>
+  <div class="timeline">
+    <div class="tl-item"><div class="when">收盘前 · 持仓多日的多单</div><div class="what">本ID按技术判断<b>"肯定要回调"</b>，<b class="hl-down">在高位把多单平了</b>。这是个完美的、按纪律的离场。</div></div>
+    <div class="tl-item"><div class="when">尾盘 · 万国证券砸盘</div><div class="what">万国发疯式打跌停，价格瞬间崩塌。本ID看到价格已经远离价值中枢，<b class="hl-up">147.5 元全仓杀进去开多仓</b>——按当时的技术判断，这是绝佳买点。</div></div>
+    <div class="tl-item"><div class="when">第二天 · 规则砸下来</div><div class="what">"<b>结果第二天竟然不算了</b>"——交易所宣布尾盘暴跌的那段交易作废。技术再对，也对不过一句行政话。</div></div>
+    <div class="tl-item"><div class="when">紧急转移 · 别的品种</div><div class="what">本ID反应快，"<b>在别的品种封停前抢进去了，后来都集中到319上</b>"——把仓位平移到没被作废的合约。</div></div>
+    <div class="tl-item"><div class="when">守纪律的回报</div><div class="what"><b class="hl-gold">319 一路持有到 190 附近平仓</b>，吃下完整的反弹。</div></div>
+    <div class="tl-item"><div class="when">嗅觉敏锐 · 提前离场</div><div class="what">最后一天主动走掉，免去了"<b>停国债期货</b>"公告带来的混乱——第二天股市三天从500多点蹿到900多点，本ID顺势接到一个股票的底。</div></div>
+  </div>
+  <blockquote>这次经历使本ID对当时那些管理层的<b>严重弱智以及毫无信用</b>采取坚决不信任的态度——<b>先出来免得又来一次"不算"</b>而已。<span class="who">— 缠中说禅 · 关于327的复盘</span></blockquote>
+  <p>这段亲历不是讲故事，是讲一种<span class="hl-gold">"嗅觉"</span>：当你判断规则层面有不可控风险时，理论可以保你逃，但前提是<b>你愿意放弃此时此地的利润</b>。技术只能解决"为什么走"，而你的"愿意走"靠的是过去被烫过手的记忆。</p>
+</section>
+
+<section class="wrap reveal">
+  <div class="sec-no">05 — 钱的纪律</div>
+  <h2>"一笔足够长的钱"——比技术更早的前提</h2>
+  <p class="lead">很多人技术学了很多，却照样亏，问题往往不在技术，在<b>"钱"的属性</b>上。</p>
+  <p>缠师把钱本身当作一种"风险源"，列出了一个核心要求：</p>
+  <blockquote>任何交易的钱，<b>最好是无限期的</b>；如果真有什么限期，也是足够长的。这是投资中极为关键的一点。<span class="who">— 缠中说禅</span></blockquote>
+  <p>为什么？因为<b>钱有期限 = 等于你自己主动给账户装了"突然停止交易"的引信</b>。一旦时限逼近，你就得在不该平的位置平、不该买的位置买，<span class="hl-up">主动把自己塞进死穴</span>。</p>
+  <div class="grid">
+    <div class="card"><div class="tag">高危：透支资金</div><h3>"以前很多人死在透支上"</h3><p>融资有强平线，强平线由价格决定，价格由波动决定——你被市场波动绑架，根本谈不上"等买点"。</p></div>
+    <div class="card"><div class="tag">高危：短期借钱</div><h3>"半年要还给亲戚"</h3><p>到期日就是你的强平日。买在月线第二买点也救不了你——周期没走完。</p></div>
+    <div class="card"><div class="tag">高危：生活急用钱</div><h3>"装修款、学费、首付"</h3><p>这些钱一旦进股市，操作级别被锁死在"必须在期限前赚到"，本质上是赌博。</p></div>
+    <div class="card"><div class="tag">合格：闲置自有金</div><h3>无期限或3年+</h3><p>你能等月线、季线、甚至年线走完。这才是缠师理论的"操作前提"。</p></div>
+  </div>
+  <p>缠师的兜底建议是：如果不得不用有期限的钱，就<b>"把操作的级别降到足够低"</b>——这只是个没办法的办法，<b>最好别出现</b>。</p>
+</section>
+
+<section class="wrap reveal">
+  <div class="sec-no">06 — 终极武器</div>
+  <h2>把成本"摊成负数"——真正的高手怎么消灭风险</h2>
+  <p class="lead">既然交易的风险永远存在，那有没有可能让风险归零？缠师的答案极其极端：把<b>成本变成负数</b>。</p>
+  <blockquote>什么是真正的高手、永远不败的高手？就是有本事在相应的时期内<b>把任何的凭证变成负价格</b>的人。<span class="who">— 缠中说禅</span></blockquote>
+  <p>这话的逻辑是这样的：</p>
+  <ol style="list-style:none;counter-reset:n;display:grid;gap:10px;margin:18px 0 24px">
+    <li style="counter-increment:n;background:var(--bg-elev);border:1px solid var(--line);border-radius:10px;padding:14px 18px 14px 50px;position:relative"><span style="position:absolute;left:18px;top:14px;font-family:var(--mono);color:var(--gold);font-weight:700">①</span>任何 <b>成本 &gt; 0</b> 的股票都有风险，因为价格可能跌回更低。</li>
+    <li style="counter-increment:n;background:var(--bg-elev);border:1px solid var(--line);border-radius:10px;padding:14px 18px 14px 50px;position:relative"><span style="position:absolute;left:18px;top:14px;font-family:var(--mono);color:var(--gold);font-weight:700">②</span>但如果你的 <b>成本 &lt; 0</b>——即"通过波动反复买卖，已经把累计现金流变成正"——价格跌到 0 你都还赚。</li>
+    <li style="counter-increment:n;background:var(--bg-elev);border:1px solid var(--line);border-radius:10px;padding:14px 18px 14px 50px;position:relative"><span style="position:absolute;left:18px;top:14px;font-family:var(--mono);color:var(--gold);font-weight:700">③</span>所以本ID理论的全部目的：<span class="hl-gold">把任何价格的凭证，最终都变成负成本</span>。</li>
+  </ol>
+  <p>实操心法是缠师亲自给的"<b>仓位不变 + 高抛低吸</b>"四件套——</p>
+  <div class="points">
+    <div class="pt b"><div class="dot">A</div><div><h4>初次建仓：一次买够</h4><p>"一开始多少就是多少"——不分批、不加仓。绝大多数散户的"金字塔加仓"在缠师体系里是错的。</p></div></div>
+    <div class="pt s"><div class="dot">B</div><div><h4>卖点：减仓（不空仓）</h4><p>"卖点的时候变少"——按级别卖点出一部分。例如100万股出20万，剩80万。</p></div></div>
+    <div class="pt b"><div class="dot">C</div><div><h4>买点：恢复原仓</h4><p>"买点的时候又回复原来的数量"——下来用更低的价把那20万买回来。<b>仓位回到100万，但你白赚了一段差价</b>。</p></div></div>
+    <div class="pt s"><div class="dot">D</div><div><h4>反复：直到成本归零再归负</h4><p>每来一次震荡，成本就被压低一点。时间足够长 + 波动足够大，<b class="hl-gold">成本最终一定能跌到 0 以下</b>。</p></div></div>
+  </div>
+  <p>这套方法对<b>资金量</b>有要求——大资金不能随时全仓进出，所以缠师"<b>只在月线、最低周线的买点位置进，一般取二类/三类买点</b>"，原因是：</p>
+  <ul style="list-style:none;padding-left:0;display:grid;gap:8px;margin-bottom:20px">
+    <li style="background:var(--bg-elev);border:1px solid var(--line);border-radius:10px;padding:12px 16px"><b class="hl-pivot">月线一买</b>：风险最低但<b>容易"自己变庄家"</b>——筹码在自己手里没人对手盘了。</li>
+    <li style="background:var(--bg-elev);border:1px solid var(--line);border-radius:10px;padding:12px 16px"><b class="hl-pivot">月线二/三买</b>：庄家吸完打压，本ID<b>"骗庄家给点货"</b>——这是大资金最优进场方式。</li>
+  </ul>
+  <p>对小资金来说，缠师说<b>"可以全仓游走在不同凭证之间"</b>——效率更高、自由度更大。</p>
+</section>
+
+<section class="wrap reveal">
+  <div class="sec-no">07 — 解盘示范</div>
+  <h2>当天的实战：5分钟背驰，追高没救</h2>
+  <p class="lead">这一课原文不只是讲哲学，缠师当天还现场点评了大盘。我们看一张图。</p>
+  <figure>
+    <img src="/_assets/ch26_p01.png" alt="上证指数5分钟早晨之星 + 5分钟背驰">
+    <figcaption>上证指数 · 5分钟图 · 2007-01-24~30 — 大盘早盘明显的5分钟背驰，引发午后调整</figcaption>
+  </figure>
+  <p>图上缠师标注得清清楚楚：<b class="hl-pivot">早盘价格创了 ~2993 的新高</b>，但下方 MACD <b class="hl-down">第二个红柱面积明显小于上一个</b>——这就是5分钟背驰。背驰一出，按理论应该<b>卖出</b>而不是<b>追高买</b>。</p>
+  <p>缠师当天的原话很狠：</p>
+  <blockquote>各位注意了，<b>如果到今天才继续追高买股票，那神仙都没法救你</b>。<span class="who">— 缠中说禅 · 2007-01-30 15:25</span></blockquote>
+  <p>同一张图右侧他写下一句更通用的纪律——</p>
+  <blockquote>看技术买点，一定要<b>综合地看</b>。如果30分钟很强，1分钟买点也该回补；但如果30分钟很弱，<b>至少要等30分钟买点出现</b>。<span class="who">— 缠中说禅</span></blockquote>
+  <p>这就是<span class="hl-gold">级别配套</span>的原则——小级别买点必须以大级别为背景。</p>
+
+  <figure>
+    <img src="/_assets/ch26_p03.png" alt="上证指数1分钟图，缠师手绘1-7点结构">
+    <figcaption>上证指数 · 1分钟图 · 2007-01-26~30 — 缠师手绘的"1→7"结构，演示一次清晰的趋势-中枢-反弹</figcaption>
+  </figure>
+  <p>这是缠师手绘的<b>1分钟图结构示范</b>：从 2720.83 一路推到 2 号高点，然后 3-4-5 构成一个 1分钟中枢，6 号是结构高点，7 号是结构低点。背驰判断必须先有<b>两段同向趋势</b>，<span class="hl-up">中枢里看背驰必须降一个级别用 MACD</span>——这正好对应缠师当天对 600550 提问的回答。</p>
+
+  <figure>
+    <img src="/_assets/ch26_p06.png" alt="上证指数日线，标注0104、0124两次震荡">
+    <figcaption>上证指数 · 日线 · 2006-11~2007-03 — 从1756上到3049，两次明显的日线震荡（0104、0124）正在扩张为周线中枢</figcaption>
+  </figure>
+  <p>缠师特别指出：从 8 月份到 06 年底，趋势中最多是 30 分钟中枢；从 07 年初开始就<b>形成了日线中枢，并在扩张为周线中枢</b>。这是市场<span class="hl-gold">"震荡级别在升高"</span>的明显信号——对应到操作上：上下波幅变大，短差机会变多，但也<b>更危险，必须严守级别纪律</b>。</p>
+  <p style="font-family:var(--mono);font-size:12px;color:var(--ink-faint);background:var(--bg-elev);border:1px solid var(--line);border-radius:8px;padding:12px 16px">原文备注：07年6月前文里的"30分钟中枢"，相当于后期的"5分中枢"；"日线中枢"相当于"30分中枢"；"5分中枢"相当于"1分中枢"。早年缠师的级别命名口径与后期不一致，读老文需要换算。</p>
+
+  <figure>
+    <img src="/_assets/ch26_p10.png" alt="界龙实业600836分时图，14:30二类买点">
+    <figcaption>界龙实业 600836 · 2007-02-01 分时图 — 14:30 第一中枢上行后回抽 0 轴，构成 1 分钟二类买点</figcaption>
+  </figure>
+  <p>这是缠师对网友提问"超强股怎么把握"的回答配图。他指出：14:30 这个位置——<b>第一中枢上来 → 回抽 0 轴</b>——就是<span class="hl-up">典型的 1 分钟二类买点</span>。"如果在那时候买了，你算又学了点东西。<b>根本不存在追高的问题</b>。"</p>
+  <p>这告诉我们一个非常重要的事：<span class="hl-gold">所谓"超强股"，不是"它涨得快所以你追"，而是"你本来就在它的一买/二买位置上等着它"</span>。</p>
+</section>
+
+<section class="wrap reveal">
+  <div class="sec-no">08 — 操作铁律</div>
+  <h2>缠师课末补充的 10 条原则</h2>
+  <p class="lead">原文末尾缠师专门补了一段——把"看技术之前必须解决的事"列成 10 条，逐条对照自检。</p>
+  <div class="table">
+    <div class="row head"><div>编号</div><div>原则</div><div>白话解读</div></div>
+    <div class="row"><div class="name">①</div><div class="cnt">钱必须长期稳定，不能借</div><div>"太关键了，本ID见过太多人就是死在钱的非长期性上"</div></div>
+    <div class="row"><div class="name">②</div><div class="cnt">级别配套</div><div>不要单纯短线；进入至少日线买点，远离底部不进</div></div>
+    <div class="row"><div class="name">③</div><div class="cnt">短线降成本</div><div>除单边上扬，否则坚持短线；仓位用1/3，先养习惯</div></div>
+    <div class="row"><div class="name">④</div><div class="cnt">宁愿卖错，不可买错</div><div>"宁愿筹码少了，也不能追高买回来"</div></div>
+    <div class="row"><div class="name">⑤</div><div class="cnt">中长线参考基本面</div><div>不能搞太烂的；短线则只看技术</div></div>
+    <div class="row"><div class="name">⑥</div><div class="cnt">不能有依赖心理</div><div>"只有自己实践成为一部分的，才是真实的"</div></div>
+    <div class="row"><div class="name">⑦</div><div class="cnt">每次操作必复盘</div><div>"一个坏习惯足以毁掉一切"</div></div>
+    <div class="row"><div class="name">⑧</div><div class="cnt">反对斩仓止损</div><div>中长线看好时，亏出去是真亏；短线足以摊低成本</div></div>
+    <div class="row"><div class="name">⑨</div><div class="cnt">先卖后买也挣钱</div><div>不要只会单边动作；震荡市里"先卖后买"是常态</div></div>
+    <div class="row"><div class="name">⑩</div><div class="cnt">恐惧贪婪源于无知</div><div>读懂走势之后，情绪自然退场</div></div>
+  </div>
+  <p style="background:linear-gradient(90deg,rgba(232,179,57,.08),transparent);border-left:3px solid var(--gold);border-radius:0 10px 10px 0;padding:16px 20px"><b class="hl-gold">特别注意第 ⑧ 条</b>——"反对斩仓"是缠师体系里非常反主流的一条。<b>前提条件</b>是：你的钱是长期的、你买的是中长线看好的票、你能用短差摊低成本。<u>不满足这三条就照搬"不止损"，会死得很惨。</u></p>
+</section>
+
+<section class="wrap reveal">
+  <div class="sec-no">09 — 思考题</div>
+  <h2>读完原文，请自问</h2>
+  <ol class="think">
+    <li>你现在账户里的钱，<b>来源是什么？期限是多久？</b>如果半年内必须用，请关掉这个页面，先把钱拿回去。</li>
+    <li>你买入一只股票时，<b>是基于一买/二买/三买的明确信号</b>，还是因为"它最近很强、不上车要错过"？</li>
+    <li>你过去 3 个月里有过<b>"卖点卖错"</b>的经验吗？如果有，是按纪律卖、被市场打脸，还是没按纪律乱卖？两种性质完全不同。</li>
+    <li>"成本摊成负数"——你过去持有的票里，有哪几只<b>已经做到了或接近了</b>？没做到的，是因为你不会短差，还是因为你舍不得卖？</li>
+    <li>如果遇到 327 那种"交易不算"的事件，<b>你会怎么撤退？</b>你的操作系统里有没有"规则失信"这一级的应急预案？</li>
+  </ol>
+
+  <div class="quiz">
+    <h4>练习一：判断"风险等级"</h4>
+    <p>下面三种情形，哪种是本ID理论的<b>死穴</b>？</p>
+    <p>A. 持有的股票连续 5 天跌停 &nbsp;｜&nbsp; B. 持仓票宣布因重组停牌 6 个月 &nbsp;｜&nbsp; C. 监管层突然宣布昨日尾盘的成交全部作废</p>
+    <details class="ans"><summary>查看答案</summary><p>C 是死穴。A 是价格风险（理论可控，按级别处理）；B 是停牌（"不影响理论对风险的控制"，恢复后继续按级别走）；C 是规则失信，理论无法应对——只能事后撤退。</p></details>
+  </div>
+
+  <div class="quiz">
+    <h4>练习二：识别"追高"</h4>
+    <p>同一只股票，下列哪种买入算"追高"，哪种不算？</p>
+    <p>A. 在 1 分钟一买位置介入 &nbsp;｜&nbsp; B. 看到涨停打开后追入 &nbsp;｜&nbsp; C. 第一中枢回抽 0 轴构成 1 分钟二买</p>
+    <details class="ans"><summary>查看答案</summary><p>A、C 不算追高（结构上有买点支撑）。B 是典型追高，没有任何级别的买点支撑——本ID"最厌恶的事情"。</p></details>
+  </div>
+</section>
+
+<section class="wrap reveal">
+  <div class="sec-no">10 — 一句话总结</div>
+  <div class="tldr">
+    <div class="lab">TLDR</div>
+    <p>风险不在市场，<br>而在<span class="hl-gold">你的钱是不是长钱</span>、<br>以及<span class="hl-up">你能不能把成本摊成负数</span>。<br>除此之外，<span class="hl-pivot">市场没有风险</span>。</p>
+  </div>
+</section>
+
+</main>
+<footer class="wrap">
+  原文出处：raw/缠中说禅/教你炒股票108课/教你炒股票26：市场风险如何回避.md<br>
+  本页为个人学习复习用 · 非投资建议
+</footer>
+<script>
+  const bar=document.getElementById('bar');
+  const onScroll=()=>{const h=document.documentElement;bar.style.width=(h.scrollTop/(h.scrollHeight-h.clientHeight)*100)+'%'};
+  document.addEventListener('scroll',onScroll,{passive:true});onScroll();
+  const io=new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{threshold:.12});
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+</script>
+<script src="/assets/_nav.js"></script><script src="/assets/_shell.js"></script></body>
+</html>

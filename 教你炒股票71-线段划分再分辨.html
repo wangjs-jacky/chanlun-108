@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>缠论 · 教你炒股票71：线段划分标准的再分辨</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@500;700;900&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0b0e12;--bg-elev:#12161c;--bg-card:#161b22;
+    --ink:#e8eaed;--ink-dim:#9aa3ad;--ink-faint:#5b6470;
+    --line:rgba(255,255,255,.07);
+    --up:#ff4d4f;--down:#16c784;--pivot:#37c0e6;--gold:#e8b339;
+    --max:880px;
+    --serif:"Noto Serif SC",serif;--mono:"JetBrains Mono",ui-monospace,monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--ink);
+    font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;
+    line-height:1.85;font-size:17px;-webkit-font-smoothing:antialiased;overflow-x:hidden;}
+  body::before{content:"";position:fixed;inset:0;z-index:-2;
+    background:radial-gradient(1200px 600px at 70% -10%, rgba(55,192,230,.08), transparent 60%),
+               radial-gradient(900px 500px at 0% 100%, rgba(232,179,57,.05), transparent 55%);
+    pointer-events:none;}
+  body::after{content:"";position:fixed;inset:0;z-index:-1;opacity:.4;
+    background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);
+    background-size:46px 46px;
+    -webkit-mask-image:radial-gradient(ellipse at 50% 0%, #000 30%, transparent 80%);
+            mask-image:radial-gradient(ellipse at 50% 0%, #000 30%, transparent 80%);
+    pointer-events:none;}
+  #bar{position:fixed;top:0;left:0;height:3px;width:0;z-index:50;
+    background:linear-gradient(90deg,var(--pivot),var(--gold));box-shadow:0 0 12px var(--pivot);}
+  .wrap{max-width:var(--max);margin:0 auto;padding:0 24px}
+  header.hero{padding:120px 0 70px;text-align:center;position:relative}
+  .kicker{font-family:var(--mono);font-size:13px;letter-spacing:.32em;color:var(--pivot);
+    text-transform:uppercase;margin-bottom:26px}
+  .kicker span{color:var(--ink-faint)}
+  h1.title{font-family:var(--serif);font-weight:900;line-height:1.05;
+    font-size:clamp(40px,9vw,88px);letter-spacing:.04em;
+    background:linear-gradient(180deg,#fff 30%,#8aa0ad 130%);
+    -webkit-background-clip:text;background-clip:text;color:transparent;}
+  .sub{margin:22px auto 0;max-width:600px;color:var(--ink-dim);font-size:18px}
+  .meta{margin-top:34px;display:flex;gap:14px;justify-content:center;flex-wrap:wrap;
+    font-family:var(--mono);font-size:12px;color:var(--ink-faint)}
+  .meta b{color:var(--ink-dim);font-weight:500}
+  .pill{border:1px solid var(--line);padding:6px 14px;border-radius:999px;background:rgba(255,255,255,.02)}
+  .scroll-hint{margin-top:60px;color:var(--ink-faint);font-family:var(--mono);font-size:12px;
+    animation:bob 2.4s ease-in-out infinite}
+  @keyframes bob{0%,100%{transform:translateY(0);opacity:.5}50%{transform:translateY(8px);opacity:1}}
+
+  section{padding:64px 0;border-top:1px solid var(--line)}
+  .sec-no{font-family:var(--mono);font-size:13px;color:var(--gold);letter-spacing:.2em;margin-bottom:10px}
+  h2{font-family:var(--serif);font-weight:700;font-size:clamp(26px,4.6vw,38px);
+    line-height:1.25;margin-bottom:8px;letter-spacing:.02em}
+  .lead{color:var(--ink-dim);font-size:16px;margin-bottom:28px;max-width:680px}
+  p{margin:0 0 18px;color:#cfd5dc}
+  p b,strong{color:#fff;font-weight:700}
+  .hl-pivot{color:var(--pivot);font-weight:700}
+  .hl-up{color:var(--up);font-weight:700}
+  .hl-down{color:var(--down);font-weight:700}
+  .hl-gold{color:var(--gold);font-weight:700}
+
+  blockquote{margin:26px 0;padding:20px 24px;border-left:3px solid var(--pivot);
+    background:linear-gradient(90deg,rgba(55,192,230,.07),transparent);
+    border-radius:0 10px 10px 0;font-family:var(--serif);font-size:18px;color:#eaf6fb}
+  blockquote .who{display:block;margin-top:8px;font-family:var(--mono);font-size:12px;
+    color:var(--ink-faint);font-style:normal}
+
+  figure{margin:34px 0}
+  figure img{width:100%;border-radius:12px;border:1px solid var(--line);
+    background:#fff;box-shadow:0 18px 50px rgba(0,0,0,.5)}
+  figcaption{margin-top:12px;font-size:13px;color:var(--ink-faint);text-align:center;font-family:var(--mono)}
+
+  .grid{display:grid;gap:16px;grid-template-columns:1fr 1fr;margin:28px 0}
+  @media(max-width:640px){.grid{grid-template-columns:1fr}}
+  .card{background:var(--bg-card);border:1px solid var(--line);border-radius:14px;padding:24px;
+    position:relative;overflow:hidden;transition:transform .35s ease,border-color .35s ease}
+  .card:hover{transform:translateY(-4px);border-color:rgba(55,192,230,.4)}
+  .card .tag{font-family:var(--mono);font-size:11px;letter-spacing:.18em;color:var(--gold);text-transform:uppercase}
+  .card h3{font-family:var(--serif);font-size:20px;margin:10px 0 8px;color:#fff}
+  .card p{font-size:14.5px;color:var(--ink-dim);margin:0;line-height:1.7}
+
+  .table{margin:28px 0;border:1px solid var(--line);border-radius:14px;overflow:hidden}
+  .table .row{display:grid;grid-template-columns:1fr 1.4fr 1.6fr;align-items:stretch}
+  .table .row+.row{border-top:1px solid var(--line)}
+  .table .row > div{padding:16px 18px}
+  .table .row.head{background:var(--bg-elev);font-family:var(--mono);font-size:12px;
+    letter-spacing:.14em;color:var(--ink-faint);text-transform:uppercase}
+  .table .row > div+div{border-left:1px solid var(--line)}
+  .table .name{font-family:var(--serif);font-weight:700;font-size:17px;color:var(--gold)}
+  .cnt{font-family:var(--mono);font-size:13px;color:var(--pivot)}
+  @media(max-width:560px){
+    .table .row{grid-template-columns:1fr}
+    .table .row > div+div{border-left:0;border-top:1px solid var(--line)}
+    .table .row.head{display:none}
+  }
+
+  .steps{margin:26px 0;display:flex;flex-direction:column;gap:14px}
+  .step{display:flex;gap:16px;align-items:flex-start;background:var(--bg-card);
+    border:1px solid var(--line);border-radius:12px;padding:18px 20px}
+  .step .num{flex:none;width:42px;height:42px;border-radius:10px;display:grid;place-items:center;
+    font-family:var(--serif);font-weight:900;font-size:18px;color:#0b0e12;background:var(--pivot)}
+  .step.alt .num{background:var(--gold)}
+  .step h4{font-size:17px;margin-bottom:4px;color:#fff}
+  .step p{font-size:14.5px;color:var(--ink-dim);margin:0;line-height:1.7}
+
+  ol.think{counter-reset:q;list-style:none;margin:24px 0;display:flex;flex-direction:column;gap:14px}
+  ol.think li{counter-increment:q;position:relative;padding:18px 20px 18px 60px;
+    background:var(--bg-elev);border:1px solid var(--line);border-radius:12px;color:var(--ink-dim);font-size:15px}
+  ol.think li::before{content:counter(q,decimal-leading-zero);position:absolute;left:20px;top:18px;
+    font-family:var(--mono);color:var(--gold);font-weight:700}
+
+  .tldr{margin:60px 0 0;padding:36px 30px;border:1px solid rgba(55,192,230,.3);border-radius:18px;
+    background:radial-gradient(120% 120% at 100% 0%,rgba(55,192,230,.1),transparent 60%),var(--bg-elev);text-align:center}
+  .tldr .lab{font-family:var(--mono);font-size:12px;letter-spacing:.3em;color:var(--pivot);text-transform:uppercase}
+  .tldr p{font-family:var(--serif);font-size:clamp(19px,3vw,26px);line-height:1.7;color:#fff;margin:16px 0 0}
+
+  /* SVG 示意图 */
+  .diagram{margin:34px 0;background:var(--bg-card);border:1px solid var(--line);border-radius:14px;padding:24px}
+  .diagram svg{width:100%;height:auto;display:block}
+  .diagram .cap{margin-top:14px;font-size:13px;color:var(--ink-faint);text-align:center;font-family:var(--mono)}
+
+  footer{padding:60px 0 90px;text-align:center;color:var(--ink-faint);font-family:var(--mono);font-size:12px;border-top:1px solid var(--line)}
+
+  .reveal{opacity:0;transform:translateY(26px);transition:opacity .8s ease,transform .8s ease}
+  .reveal.in{opacity:1;transform:none}
+  @media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}.scroll-hint{animation:none}}
+</style>
+<meta name="view-transition" content="same-origin"><style>@view-transition{navigation:auto}</style></head>
+<body>
+<div id="bar"></div>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="kicker">缠中说禅 · 教你炒股票108课 <span>/ 第 71 课</span></div>
+    <h1 class="title">线段划分再分辨</h1>
+    <p class="sub">把 67 课"类数学语言"的线段划分标准，拆成可操作的两步判断——先看缺口，再看分型。</p>
+    <div class="meta">
+      <span class="pill"><b>原文</b> 2007-08-16</span>
+      <span class="pill"><b>类型</b> 技术细化</span>
+      <span class="pill"><b>关键词</b> 特征序列 · 包含关系 · 分型 · 缺口</span>
+    </div>
+    <div class="scroll-hint">↓ 向下滚动，逐层拆解</div>
+  </div>
+</header>
+
+<main>
+  <!-- 1 -->
+  <section class="wrap reveal">
+    <div class="sec-no">01 — 写作动机</div>
+    <h2>67 课讲过，为什么还要再讲一次？</h2>
+    <p class="lead">67 课的语言太抽象，本课用"再分辨"逐一捋顺操作细节。</p>
+    <blockquote>
+      虽然 67 课已经给出了线段划分的标准，但由于那里用的是比较抽象的类数学语言，所以理解上可能还有困难，因此，逐一进行再分辨。
+      <span class="who">— 缠中说禅</span>
+    </blockquote>
+    <p>核心需要回答四个问题：① <b>谁能跟谁比包含</b>？② 为什么<b>可以定义</b>特征序列的分型？③ 转折点下来第一笔，<b>算谁的</b>？④ 划分标准两种情况，怎么<span class="hl-gold">当下判断</span>？</p>
+  </section>
+
+  <!-- 2 -->
+  <section class="wrap reveal">
+    <div class="sec-no">02 — 第一规矩</div>
+    <h2>特征序列：方向相反，且要"同属一段"才能谈包含</h2>
+    <p class="lead">所有混乱都来自一句话没说清——包含关系只在同一特征序列内部才存在。</p>
+    <p>特征序列的方向，<b>永远和它所属那一段相反</b>：向上段 → 特征序列向下；向下段 → 特征序列向上。所以，一个向上段后接一个向下段，<span class="hl-pivot">两段的特征序列方向相反，根本不可能讨论包含</span>。</p>
+
+    <div class="diagram">
+      <svg viewBox="0 0 800 280" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+            <path d="M0,0 L10,5 L0,10 z" fill="#e8eaed"/>
+          </marker>
+        </defs>
+        <!-- 向上段 -->
+        <text x="160" y="36" fill="#ff4d4f" font-family="JetBrains Mono" font-size="13" text-anchor="middle">向上段（其特征序列向下）</text>
+        <polyline points="40,220 100,160 140,180 200,120 240,140 290,80" stroke="#ff4d4f" stroke-width="2.5" fill="none" marker-end="url(#ar)"/>
+        <!-- 标注向下笔 = 特征元素 -->
+        <line x1="100" y1="160" x2="140" y2="180" stroke="#37c0e6" stroke-width="1.5" stroke-dasharray="3,3"/>
+        <line x1="200" y1="120" x2="240" y2="140" stroke="#37c0e6" stroke-width="1.5" stroke-dasharray="3,3"/>
+        <text x="120" y="200" fill="#37c0e6" font-size="11" text-anchor="middle">特征元素1↓</text>
+        <text x="220" y="160" fill="#37c0e6" font-size="11" text-anchor="middle">特征元素2↓</text>
+
+        <!-- 分隔 -->
+        <line x1="400" y1="40" x2="400" y2="240" stroke="#5b6470" stroke-width="1" stroke-dasharray="6,4"/>
+
+        <!-- 向下段 -->
+        <text x="620" y="36" fill="#16c784" font-family="JetBrains Mono" font-size="13" text-anchor="middle">向下段（其特征序列向上）</text>
+        <polyline points="450,80 510,140 550,120 610,180 650,160 710,220" stroke="#16c784" stroke-width="2.5" fill="none" marker-end="url(#ar)"/>
+        <line x1="510" y1="140" x2="550" y2="120" stroke="#e8b339" stroke-width="1.5" stroke-dasharray="3,3"/>
+        <line x1="610" y1="180" x2="650" y2="160" stroke="#e8b339" stroke-width="1.5" stroke-dasharray="3,3"/>
+        <text x="530" y="100" fill="#e8b339" font-size="11" text-anchor="middle">特征元素1↑</text>
+        <text x="630" y="140" fill="#e8b339" font-size="11" text-anchor="middle">特征元素2↑</text>
+
+        <text x="400" y="270" fill="#9aa3ad" font-size="12" text-anchor="middle">两边方向相反 · 不存在跨段的"包含关系"</text>
+      </svg>
+      <div class="cap">特征序列方向与段方向反向 · 跨段元素不可比包含</div>
+    </div>
+  </section>
+
+  <!-- 3 -->
+  <section class="wrap reveal">
+    <div class="sec-no">03 — 第二规矩</div>
+    <h2>为什么仍能"定义"前段的分型？两种成立场景</h2>
+    <p class="lead">假设旧线段没被破坏，分型就能成立——这是判断的辅助预设。</p>
+
+    <div class="grid">
+      <div class="card">
+        <div class="tag">场景 A</div>
+        <h3>前段尚未被笔破坏</h3>
+        <p>转折点之后的几笔还没穿越前段最后一个特征元素的端点。这时所有元素<b>仍属同一特征序列</b>，分型与包含关系自然成立。</p>
+      </div>
+      <div class="card">
+        <div class="tag">场景 B</div>
+        <h3>已被破坏，但首破之笔不是第一笔</h3>
+        <p>转折点之后过了若干笔才出现破坏笔。最后一个特征元素与破坏笔之间<b>必有缺口</b>，分型结构合法——否则缺口封不上，破坏也无从谈起。</p>
+      </div>
+    </div>
+
+    <blockquote>
+      线段要被笔破坏，那么必须其最后一个特征序列的<b>缺口被封闭</b>，否则就不存在被笔破坏的情况。
+      <span class="who">— 关键逻辑链</span>
+    </blockquote>
+  </section>
+
+  <!-- 4 -->
+  <section class="wrap reveal">
+    <div class="sec-no">04 — 麻烦情形</div>
+    <h2>转折后第一笔就破坏：那一笔到底算谁的？</h2>
+    <p class="lead">这是最常被纠结的情形——它属于"中间地带"，既不归前段，也不归后段。</p>
+    <p>转折点下来的<b>第一笔</b>如果就破坏了前线段，又延伸出三笔以上构成新线段，那么这一笔就是<span class="hl-gold">待定的中间地带</span>。这时即便看起来有"包含"，也不能算——因为它不严格属于任何一段的特征序列。</p>
+
+    <div class="diagram">
+      <svg viewBox="0 0 800 280" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <marker id="ar2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+            <path d="M0,0 L10,5 L0,10 z" fill="#e8eaed"/>
+          </marker>
+        </defs>
+        <!-- 旧线段（向上）-->
+        <polyline points="40,220 110,150 150,180 220,90" stroke="#ff4d4f" stroke-width="2.5" fill="none"/>
+        <text x="80" y="40" fill="#ff4d4f" font-size="12" font-family="JetBrains Mono">旧线段 ↑</text>
+        <!-- 转折点 -->
+        <circle cx="220" cy="90" r="6" fill="#e8b339"/>
+        <text x="240" y="80" fill="#e8b339" font-size="12" font-family="JetBrains Mono">假设转折点</text>
+
+        <!-- 第一笔（破坏笔）-->
+        <line x1="220" y1="90" x2="320" y2="200" stroke="#e8b339" stroke-width="3" stroke-dasharray="4,3"/>
+        <text x="290" y="170" fill="#e8b339" font-size="11" font-family="JetBrains Mono">中间地带 · 待定</text>
+
+        <!-- 后续两笔形成新线段 -->
+        <polyline points="320,200 370,130 420,240 480,150 540,260" stroke="#16c784" stroke-width="2.5" fill="none" marker-end="url(#ar2)"/>
+        <text x="460" y="100" fill="#16c784" font-size="12" font-family="JetBrains Mono">新线段 ↓</text>
+
+        <!-- 标注前段最后一个特征元素 -->
+        <line x1="150" y1="180" x2="220" y2="90" stroke="#37c0e6" stroke-width="1.5" stroke-dasharray="3,3"/>
+        <text x="120" y="160" fill="#37c0e6" font-size="11">前段最后特征元素</text>
+
+        <text x="400" y="30" fill="#9aa3ad" font-size="12" text-anchor="middle">第一笔自身既不归前段、也不归后段 → 出现"似乎是包含"也不能算</text>
+      </svg>
+      <div class="cap">"中间地带"图示 · 待定一笔不参与任何包含判断</div>
+    </div>
+
+    <p>更复杂的子情形：第三笔<b>完全落在第一笔范围内</b>，三笔分不出方向。结局只有两种：</p>
+    <div class="steps">
+      <div class="step">
+        <div class="num">1</div>
+        <div>
+          <h4>先破第一笔的结束位置</h4>
+          <p>新线段成立，<span class="hl-down">旧线段被破坏</span>。</p>
+        </div>
+      </div>
+      <div class="step alt">
+        <div class="num">2</div>
+        <div>
+          <h4>先破第一笔的开始位置</h4>
+          <p>旧线段只被一笔破坏，随后<span class="hl-up">延续原方向</span>，新线段没出现。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5 -->
+  <section class="wrap reveal">
+    <div class="sec-no">05 — 实操程序</div>
+    <h2>当下划分线段的标准动作</h2>
+    <p class="lead">把抽象规则压缩成一个两步流程——所有人都能机械执行。</p>
+
+    <div class="table">
+      <div class="row head"><div>判定项</div><div>第一种情况</div><div>第二种情况</div></div>
+      <div class="row">
+        <div class="name">是否有缺口</div>
+        <div>前段最后特征元素 与 转折后第一笔 <span class="hl-down">无缺口</span></div>
+        <div>前段最后特征元素 与 转折后第一笔 <span class="hl-up">有缺口</span></div>
+      </div>
+      <div class="row">
+        <div class="name">破坏条件</div>
+        <div>只要这一笔本身穿越前段端点，<b>当下即成立</b></div>
+        <div>必须等到出现<b>反向特征序列的分型</b>且<b>缺口被封闭</b>，才算被破坏</div>
+      </div>
+      <div class="row">
+        <div class="name">通俗记忆</div>
+        <div>"<span class="hl-gold">硬破</span>"——一笔顶过去就算</div>
+        <div>"<span class="hl-pivot">软破</span>"——还需要分型 + 回封缺口的二次确认</div>
+      </div>
+    </div>
+
+    <blockquote>
+      假设某转折点是两线段的分界点，然后对此用线段划分的两种情况去考察是否满足。如果满足其中一种，那么这点就是真正的线段的分界点；如果不满足，那就不是，原来的线段依然延续——就这么简单。
+      <span class="who">— 当下判断程序</span>
+    </blockquote>
+
+    <p>关于<b>包含关系</b>的总结：转折点<b>前后</b>两元素 → 不存在包含；转折点<b>之后</b>顶/底分型的元素之间 → 可以用包含——因为它们或同属原线段延续、或同属新线段未来的非特征序列，反正<span class="hl-pivot">同性质就可比</span>。</p>
+  </section>
+
+  <!-- 6 -->
+  <section class="wrap reveal">
+    <div class="sec-no">06 — 答疑 & 思考</div>
+    <h2>缠师当场答疑与课后练习</h2>
+    <p class="lead">课文末尾，缠师就大盘 8/16 的两个具体问题作答，思路高度可复用。</p>
+
+    <div class="grid">
+      <div class="card">
+        <div class="tag">问 1 · 36-37 不到三笔？</div>
+        <h3>9:25 集合竞价必须算</h3>
+        <p>读者怀疑下-上-下后那个下不能成笔。缠师回应：<b>9:25 的竞价是最重要的时刻之一</b>，必须算进去——而且这里刚好形成下方中枢的第三类买点，意义重大。</p>
+      </div>
+      <div class="card">
+        <div class="tag">问 2 · 顶分型被大幅吞没</div>
+        <h3>那是第一种情况</h3>
+        <p>读者问"随后一笔大幅下跌形成包含"是否破坏顶分型。答：<b>这是第一种情况</b>——缺口被第一笔就封闭，没必要再讨论第二段分型，按硬破规则即可。</p>
+      </div>
+    </div>
+
+    <ol class="think">
+      <li>哪些情况下"转折后第一笔"既不归前段特征序列、也不归后段特征序列？请用图说明。</li>
+      <li>第一种情况和第二种情况，分别对应缺口的有无；想想为什么"缺口被封闭"是第二种情况成立的必要条件。</li>
+      <li>顶分型右侧元素是"辅助线"而非真特征元素——这与几何里添加辅助线的类比，对你判断当下走势有什么启发？</li>
+    </ol>
+
+    <div class="tldr">
+      <div class="lab">一句话总结</div>
+      <p>线段划分的当下判断 = 先看转折点前后两笔之间<b>有没有缺口</b>，再决定走"硬破"（第一种）还是"软破 + 分型 + 回封"（第二种）；而<b>包含关系只能在同一特征序列里讨论</b>。</p>
+    </div>
+  </section>
+</main>
+
+<footer class="wrap">
+  原文出处：raw/缠中说禅/教你炒股票108课/教你炒股票71：线段划分标准的再分辨.md<br>
+  本页为个人学习复习用 · 非投资建议
+</footer>
+
+<script>
+  const bar=document.getElementById('bar');
+  const onScroll=()=>{const h=document.documentElement;
+    const p=h.scrollTop/(h.scrollHeight-h.clientHeight);
+    bar.style.width=(p*100)+'%';};
+  document.addEventListener('scroll',onScroll,{passive:true});onScroll();
+  const io=new IntersectionObserver((es)=>{
+    es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});
+  },{threshold:.12});
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+</script>
+<script src="/assets/_nav.js"></script><script src="/assets/_shell.js"></script></body>
+</html>

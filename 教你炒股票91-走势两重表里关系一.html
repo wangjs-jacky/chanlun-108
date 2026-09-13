@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>缠论 · 教你炒股票91：走势结构的两重表里关系1</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@500;700;900&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0b0e12;
+    --bg-elev:#12161c;
+    --bg-card:#161b22;
+    --ink:#e8eaed;
+    --ink-dim:#9aa3ad;
+    --ink-faint:#5b6470;
+    --line:rgba(255,255,255,.07);
+    --up:#ff4d4f;
+    --down:#16c784;
+    --pivot:#37c0e6;
+    --gold:#e8b339;
+    --purple:#b388ff;
+    --max:880px;
+    --serif:"Noto Serif SC",serif;
+    --mono:"JetBrains Mono",ui-monospace,monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;
+    line-height:1.85;
+    font-size:17px;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  body::before{
+    content:"";position:fixed;inset:0;z-index:-2;
+    background:
+      radial-gradient(1200px 600px at 70% -10%, rgba(55,192,230,.08), transparent 60%),
+      radial-gradient(900px 500px at 0% 100%, rgba(179,136,255,.06), transparent 55%);
+    pointer-events:none;
+  }
+  body::after{
+    content:"";position:fixed;inset:0;z-index:-1;opacity:.4;
+    background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);
+    background-size:46px 46px;
+    -webkit-mask-image:radial-gradient(ellipse at 50% 0%, #000 30%, transparent 80%);
+            mask-image:radial-gradient(ellipse at 50% 0%, #000 30%, transparent 80%);
+    pointer-events:none;
+  }
+
+  #bar{position:fixed;top:0;left:0;height:3px;width:0;z-index:50;
+    background:linear-gradient(90deg,var(--pivot),var(--purple));box-shadow:0 0 12px var(--pivot);}
+
+  .wrap{max-width:var(--max);margin:0 auto;padding:0 24px}
+
+  header.hero{padding:120px 0 70px;text-align:center;position:relative}
+  .kicker{font-family:var(--mono);font-size:13px;letter-spacing:.32em;color:var(--pivot);
+    text-transform:uppercase;margin-bottom:26px}
+  .kicker span{color:var(--ink-faint)}
+  h1.title{font-family:var(--serif);font-weight:900;line-height:1.05;
+    font-size:clamp(44px,9vw,90px);letter-spacing:.04em;
+    background:linear-gradient(180deg,#fff 30%,#8aa0ad 130%);
+    -webkit-background-clip:text;background-clip:text;color:transparent;}
+  .sub{margin:22px auto 0;max-width:620px;color:var(--ink-dim);font-size:18px}
+  .meta{margin-top:34px;display:flex;gap:14px;justify-content:center;flex-wrap:wrap;
+    font-family:var(--mono);font-size:12px;color:var(--ink-faint)}
+  .meta b{color:var(--ink-dim);font-weight:500}
+  .pill{border:1px solid var(--line);padding:6px 14px;border-radius:999px;background:rgba(255,255,255,.02)}
+
+  .scroll-hint{margin-top:60px;color:var(--ink-faint);font-family:var(--mono);font-size:12px;
+    animation:bob 2.4s ease-in-out infinite}
+  @keyframes bob{0%,100%{transform:translateY(0);opacity:.5}50%{transform:translateY(8px);opacity:1}}
+
+  section{padding:64px 0;border-top:1px solid var(--line)}
+  .sec-no{font-family:var(--mono);font-size:13px;color:var(--gold);letter-spacing:.2em;margin-bottom:10px}
+  h2{font-family:var(--serif);font-weight:700;font-size:clamp(28px,5vw,42px);
+    line-height:1.25;margin-bottom:8px;letter-spacing:.02em}
+  .lead{color:var(--ink-dim);font-size:16px;margin-bottom:28px;max-width:640px}
+  p{margin:0 0 18px;color:#cfd5dc}
+  p b,strong{color:#fff;font-weight:700}
+  .hl-pivot{color:var(--pivot);font-weight:700}
+  .hl-up{color:var(--up);font-weight:700}
+  .hl-down{color:var(--down);font-weight:700}
+  .hl-gold{color:var(--gold);font-weight:700}
+  .hl-purple{color:var(--purple);font-weight:700}
+
+  blockquote{margin:26px 0;padding:20px 24px;border-left:3px solid var(--pivot);
+    background:linear-gradient(90deg,rgba(55,192,230,.07),transparent);
+    border-radius:0 10px 10px 0;font-family:var(--serif);font-size:18px;color:#eaf6fb}
+  blockquote .who{display:block;margin-top:8px;font-family:var(--mono);font-size:12px;
+    color:var(--ink-faint);font-style:normal}
+
+  /* 四状态图（SVG 风格） */
+  .states{display:grid;gap:14px;grid-template-columns:repeat(4,1fr);margin:30px 0}
+  @media(max-width:640px){.states{grid-template-columns:repeat(2,1fr)}}
+  .state{background:var(--bg-card);border:1px solid var(--line);border-radius:14px;
+    padding:18px;text-align:center;transition:transform .3s ease,border-color .3s ease;position:relative}
+  .state:hover{transform:translateY(-3px);border-color:rgba(55,192,230,.4)}
+  .state .code{font-family:var(--mono);font-size:18px;font-weight:700;letter-spacing:.05em;margin-bottom:10px}
+  .state.up .code{color:var(--up)}
+  .state.dn .code{color:var(--down)}
+  .state svg{width:100%;height:60px;display:block;margin:8px 0}
+  .state .lbl{font-size:13px;color:var(--ink-dim);margin-top:8px}
+
+  /* 状态转换图 */
+  .trans{margin:30px 0;padding:24px;background:var(--bg-elev);border:1px solid var(--line);border-radius:14px}
+  .trans h4{font-family:var(--serif);font-size:18px;color:#fff;margin-bottom:14px}
+  .trans .row{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin:10px 0;
+    font-family:var(--mono);font-size:14px;color:var(--ink-dim)}
+  .trans code{background:rgba(255,255,255,.04);padding:4px 10px;border-radius:6px;color:#fff;
+    border:1px solid var(--line);font-size:13px}
+  .trans .arrow{color:var(--gold)}
+
+  /* 三阶段表 */
+  .table{margin:28px 0;border:1px solid var(--line);border-radius:14px;overflow:hidden}
+  .table .row{display:grid;grid-template-columns:1fr 1.4fr 1.6fr;align-items:stretch}
+  .table .row+.row{border-top:1px solid var(--line)}
+  .table .row > div{padding:16px 18px}
+  .table .row.head{background:var(--bg-elev);font-family:var(--mono);font-size:12px;
+    letter-spacing:.14em;color:var(--ink-faint);text-transform:uppercase}
+  .table .row > div+div{border-left:1px solid var(--line)}
+  .table .stage{font-family:var(--serif);font-weight:700;font-size:18px}
+  .stage.wei{color:var(--down)}
+  .stage.yu{color:var(--gold)}
+  .stage.yi{color:var(--up)}
+  @media(max-width:560px){
+    .table .row{grid-template-columns:1fr}
+    .table .row > div+div{border-left:0;border-top:1px solid var(--line)}
+    .table .row.head{display:none}
+  }
+
+  /* 病情矩阵 */
+  .matrix{margin:30px 0;padding:24px;background:var(--bg-elev);border:1px solid var(--line);
+    border-radius:14px;font-family:var(--mono)}
+  .matrix h4{font-family:var(--serif);font-size:18px;color:#fff;margin-bottom:14px}
+  .matrix table{width:100%;border-collapse:collapse;font-size:13px}
+  .matrix th,.matrix td{padding:10px 8px;text-align:center;border:1px solid var(--line)}
+  .matrix th{background:rgba(55,192,230,.08);color:var(--pivot);font-weight:700;letter-spacing:.1em}
+  .matrix td{color:var(--ink-dim)}
+  .matrix .lvl{color:var(--gold);font-weight:700}
+
+  .grid{display:grid;gap:16px;grid-template-columns:1fr 1fr;margin:28px 0}
+  @media(max-width:640px){.grid{grid-template-columns:1fr}}
+  .card{background:var(--bg-card);border:1px solid var(--line);border-radius:14px;padding:24px;
+    position:relative;overflow:hidden;transition:transform .35s ease,border-color .35s ease}
+  .card:hover{transform:translateY(-4px);border-color:rgba(55,192,230,.4)}
+  .card .tag{font-family:var(--mono);font-size:11px;letter-spacing:.18em;color:var(--gold);text-transform:uppercase}
+  .card h3{font-family:var(--serif);font-size:20px;margin:10px 0 8px;color:#fff}
+  .card p{font-size:15px;color:var(--ink-dim);margin:0}
+
+  /* 思考题 */
+  ol.think{counter-reset:q;list-style:none;margin:24px 0;display:flex;flex-direction:column;gap:14px}
+  ol.think li{counter-increment:q;position:relative;padding:18px 20px 18px 60px;
+    background:var(--bg-elev);border:1px solid var(--line);border-radius:12px;color:var(--ink-dim);font-size:15px}
+  ol.think li::before{content:counter(q,decimal-leading-zero);position:absolute;left:20px;top:18px;
+    font-family:var(--mono);color:var(--gold);font-weight:700}
+
+  .tldr{margin:60px 0 0;padding:36px 30px;border:1px solid rgba(55,192,230,.3);border-radius:18px;
+    background:radial-gradient(120% 120% at 100% 0%,rgba(55,192,230,.1),transparent 60%),var(--bg-elev);text-align:center}
+  .tldr .lab{font-family:var(--mono);font-size:12px;letter-spacing:.3em;color:var(--pivot);text-transform:uppercase}
+  .tldr p{font-family:var(--serif);font-size:clamp(20px,3.2vw,26px);line-height:1.7;color:#fff;margin:16px 0 0}
+
+  footer{padding:60px 0 90px;text-align:center;color:var(--ink-faint);font-family:var(--mono);font-size:12px;border-top:1px solid var(--line)}
+  footer a{color:var(--ink-dim);text-decoration:none}
+
+  .reveal{opacity:0;transform:translateY(26px);transition:opacity .8s ease,transform .8s ease}
+  .reveal.in{opacity:1;transform:none}
+  @media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}.scroll-hint{animation:none}}
+</style>
+<meta name="view-transition" content="same-origin"><style>@view-transition{navigation:auto}</style></head>
+<body>
+<div id="bar"></div>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="kicker">缠中说禅 · 教你炒股票108课 <span>/ 第 91 课</span></div>
+    <h1 class="title">走势的两重表里关系（一）</h1>
+    <p class="sub">把"看盘"翻译成中医辨证——用"笔"的四状态 + 两级别联动，给当下走势做精准诊断。</p>
+    <div class="meta">
+      <span class="pill"><b>原文</b> 2007-12-17</span>
+      <span class="pill"><b>类型</b> 诊断框架</span>
+      <span class="pill"><b>关键词</b> 笔定理 · 四状态 · 表里 · 病情矩阵</span>
+    </div>
+    <div class="scroll-hint">↓ 向下滚动，逐层拆解</div>
+  </div>
+</header>
+
+<main>
+  <!-- 1 中医比喻 -->
+  <section class="wrap reveal">
+    <div class="sec-no">01 — 引子</div>
+    <h2>判断走势，如同中医看病</h2>
+    <p class="lead">这一课换了一个新视角——把"诊断走势"和"中医辨证"对照起来讲。</p>
+    <blockquote>
+      未病而治的是第一等的，次之的是对治欲病，到已病阶段，那只能算是亡羊补牢了。
+      <span class="who">— 缠中说禅</span>
+    </blockquote>
+    <p>缠师做了个对照：<b>级别越大，病越重</b>。1 分钟下跌像小感冒；30 分钟、日线对应肺结核级的中级调整；周线、月线下来就是要命的；季线、年线级别一旦走下跌，"不是死人也至少是植物人"。</p>
+    <p>而<b>未病 / 欲病 / 已病</b> 三阶段，正好对应该级别的 <span class="hl-up">第一类</span>、<span class="hl-gold">第二类</span>、<span class="hl-down">第三类</span> 买卖点。提醒一句：<b>对上涨而言，踏空也是一种病</b>，涨跌之病是相对的。</p>
+  </section>
+
+  <!-- 2 表里关系 / 笔与中枢 -->
+  <section class="wrap reveal">
+    <div class="sec-no">02 — 核心对照</div>
+    <h2>走势里的"表里关系"从哪儿找？</h2>
+    <p class="lead">中医里"肺与大肠相表里"。走势里也有类似的两重关系，第一重就从最基础的"笔"开始。</p>
+    <p>缠师把走势配件分成两类：</p>
+    <div class="grid">
+      <div class="card">
+        <div class="tag">第一类</div>
+        <h3>能构成中枢</h3>
+        <p><b>线段</b>，以及各级别走势类型。这些都能在更高维度上重叠出"中枢"。</p>
+      </div>
+      <div class="card">
+        <div class="tag">第二类</div>
+        <h3>不能构成中枢</h3>
+        <p>只有<b>笔</b>。这正是笔与线段及以上结构最大的区别。</p>
+      </div>
+    </div>
+    <p>正因为笔不能构成中枢，<b>它就成了表里关系最朴素的载体</b>——同一个"笔"放在不同周期的 K 线图上，自然就产生了两个层次之间的相关判断。</p>
+    <blockquote>
+      越平凡的事情往往包含最大的真理。
+      <span class="who">— 引出笔定理</span>
+    </blockquote>
+  </section>
+
+  <!-- 3 笔定理 + 四状态 -->
+  <section class="wrap reveal">
+    <div class="sec-no">03 — 定理与状态</div>
+    <h2>缠中说禅笔定理：四状态描述所有当下</h2>
+    <p class="lead">这是本课最硬核的工具——把"当下走势"压缩成两个变量。</p>
+    <blockquote>
+      任何的当下，在任何时间周期的 K 线图中，走势必然落在一确定的具有明确方向的笔当中（向上笔或向下笔），而在笔当中的位置，必然只有两种情况：一、在分型构造中。二、分型构造确认后延伸为笔的过程中。
+      <span class="who">— 缠中说禅笔定理</span>
+    </blockquote>
+    <p>用两个变量编码：<b>方向</b>（<span class="hl-up">+1 向上</span> / <span class="hl-down">−1 向下</span>）+ <b>阶段</b>（<span class="hl-gold">1 笔在延伸</span> / <span class="hl-purple">0 顶/底分型构造中</span>）。任何当下，<b>只有四种状态</b>：</p>
+
+    <div class="states">
+      <div class="state up">
+        <div class="code">(1, 1)</div>
+        <svg viewBox="0 0 100 60"><polyline points="10,50 35,35 60,22 90,10" fill="none" stroke="#ff4d4f" stroke-width="2.5"/><circle cx="90" cy="10" r="3" fill="#ff4d4f"/></svg>
+        <div class="lbl">向上笔 · 延伸中</div>
+      </div>
+      <div class="state dn">
+        <div class="code">(-1, 1)</div>
+        <svg viewBox="0 0 100 60"><polyline points="10,10 35,25 60,38 90,50" fill="none" stroke="#16c784" stroke-width="2.5"/><circle cx="90" cy="50" r="3" fill="#16c784"/></svg>
+        <div class="lbl">向下笔 · 延伸中</div>
+      </div>
+      <div class="state up">
+        <div class="code">(1, 0)</div>
+        <svg viewBox="0 0 100 60"><polyline points="10,45 30,30 50,15 65,22 80,18 90,28" fill="none" stroke="#ff4d4f" stroke-width="2.5"/><circle cx="50" cy="15" r="4" fill="#e8b339"/></svg>
+        <div class="lbl">向上笔 · 顶分型构造中</div>
+      </div>
+      <div class="state dn">
+        <div class="code">(-1, 0)</div>
+        <svg viewBox="0 0 100 60"><polyline points="10,15 30,30 50,45 65,38 80,42 90,32" fill="none" stroke="#16c784" stroke-width="2.5"/><circle cx="50" cy="45" r="4" fill="#e8b339"/></svg>
+        <div class="lbl">向下笔 · 底分型构造中</div>
+      </div>
+    </div>
+
+    <p>关键在于<b>四种状态不能任意连接</b>，转移规则极其有限：</p>
+    <div class="trans">
+      <h4>状态转移规则</h4>
+      <div class="row"><code>(1,1)</code><span class="arrow">→</span><code>(1,0)</code><span>（向上延伸 → 必然先构造顶分型）</span></div>
+      <div class="row"><code>(-1,1)</code><span class="arrow">→</span><code>(-1,0)</code><span>（向下延伸 → 必然先构造底分型）</span></div>
+      <div class="row"><code>(1,0)</code><span class="arrow">→</span><code>(1,1)</code> 或 <code>(-1,1)</code><span>（顶分型不成 / 成 → 续涨 / 转跌）</span></div>
+      <div class="row"><code>(-1,0)</code><span class="arrow">→</span><code>(-1,1)</code> 或 <code>(1,1)</code><span>（底分型不成 / 成 → 续跌 / 转涨）</span></div>
+    </div>
+    <p><b>意义：</b>整个市场无论多复杂，每一根 K 线当下的状态都只能落在这四格里、并且只能按上面这张图迁移——这就是"确定性"的来源。</p>
+  </section>
+
+  <!-- 4 两级别联动：未病-欲病-已病 -->
+  <section class="wrap reveal">
+    <div class="sec-no">04 — 表里联动</div>
+    <h2>两个相邻周期：未病 / 欲病 / 已病</h2>
+    <p class="lead">单看一个周期的状态没意义；把两个相邻级别的状态<b>叠起来看</b>，才是真正的"辨证"。</p>
+    <p>举例：以 <b>5 分钟</b>（"病所在的级别"）和 <b>1 分钟</b>（更小级别的预警信号）为例，假设 5 分钟当下是 <span class="hl-up">(1, 1)</span>。这时去看 1 分钟，就能判断 5 分钟<b>多快、以多大概率</b>会改变状态：</p>
+
+    <div class="table">
+      <div class="row head"><div>阶段</div><div>1 分钟的信号</div><div>对 5 分钟 (1,1) 的影响</div></div>
+      <div class="row">
+        <div class="stage wei">未病</div>
+        <div>1 分钟出现 <code>(1,0)</code>，但仅在<b>一根</b> 5 分钟 K 线内</div>
+        <div>只是小警告，不足以破坏 5 分钟结构</div>
+      </div>
+      <div class="row">
+        <div class="stage yu">欲病</div>
+        <div>1 分钟的 <code>(1,0)</code> 被确认（或出现 <code>(-1,1)</code>）</div>
+        <div>5 分钟向 <code>(1,0)</code> 演化的过程<b>正在形成</b></div>
+      </div>
+      <div class="row">
+        <div class="stage yi">已病</div>
+        <div>1 分钟 <code>(-1,1)</code> 完整确认</div>
+        <div>5 分钟的 <code>(1,0)</code> 也被确认，向 <code>(-1,1)</code> 转化</div>
+      </div>
+    </div>
+
+    <blockquote>
+      站在病的三阶段判断角度——1 分钟的笔状态<b>可能导致</b> 5 分钟笔状态改变，就是一种"未病"的状态。
+      <span class="who">— 表里联动的核心机制</span>
+    </blockquote>
+    <p><b>过滤价值：</b>反过来看，如果 5 分钟稳稳处在 <code>(1,1)</code> 或 <code>(-1,1)</code>，那 1 分钟里面再怎么折腾，<b>都不足以改变 5 分钟的结构</b>——这就给操作者一个明确的"无效波动过滤器"。只关心 5 分钟以上的人，根本无须理会这些噪声。</p>
+  </section>
+
+  <!-- 5 病情矩阵 / 大盘实战分级 -->
+  <section class="wrap reveal">
+    <div class="sec-no">05 — 病情矩阵</div>
+    <h2>给大盘开一张"病情记录"</h2>
+    <p class="lead">把所有级别的状态铺成矩阵，整个市场的"病情"就被一张表说清。</p>
+    <p>按 <b>1 / 5 / 30 / 日 / 周 / 月 / 季 / 年</b> 八个级别分类，每行一个状态数组——理论上一共有 <span class="hl-pivot">4<sup>8</sup> = 65,536</span> 种可能组合。每种组合都不是孤立的，能转移到的下一状态<b>极其有限</b>，所以可以挑出"转折效率最高"的状态来下单。</p>
+
+    <div class="matrix">
+      <h4>大盘病情记录矩阵（示意）</h4>
+      <table>
+        <thead><tr><th>级别</th><th>方向</th><th>阶段</th><th>状态</th></tr></thead>
+        <tbody>
+          <tr><td class="lvl">年</td><td>—</td><td>—</td><td>(?, ?)</td></tr>
+          <tr><td class="lvl">季</td><td>—</td><td>—</td><td>(?, ?)</td></tr>
+          <tr><td class="lvl">月</td><td>—</td><td>—</td><td>(?, ?)</td></tr>
+          <tr><td class="lvl">周</td><td style="color:#16c784">−1</td><td>0</td><td>(-1, 0)</td></tr>
+          <tr><td class="lvl">日</td><td style="color:#16c784">−1</td><td>1</td><td>(-1, 1)</td></tr>
+          <tr><td class="lvl">30 分</td><td>—</td><td>—</td><td>(?, ?)</td></tr>
+          <tr><td class="lvl">5 分</td><td>—</td><td>—</td><td>(?, ?)</td></tr>
+          <tr><td class="lvl">1 分</td><td>—</td><td>—</td><td>(?, ?)</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>缠师用这套矩阵分析了当时的大盘——周线 <code>(-1, 0)</code> + 日线 <code>(-1, 1)</code>，他直接打分：<b>这是下跌中第三恶劣的情况</b>。下面是他给出的下跌等级表：</p>
+
+    <div class="table">
+      <div class="row head"><div>等级</div><div>周线状态</div><div>日线状态</div></div>
+      <div class="row">
+        <div class="stage yi">第 1 恶劣</div>
+        <div><code>(-1, 1)</code> 向下延伸</div>
+        <div><code>(-1, 1)</code> 向下延伸</div>
+      </div>
+      <div class="row">
+        <div class="stage yu">第 2 恶劣</div>
+        <div><code>(-1, 1)</code></div>
+        <div><code>(-1, 0)</code> 底分型构造</div>
+      </div>
+      <div class="row">
+        <div class="stage yu">第 3 恶劣</div>
+        <div><code>(-1, 0)</code></div>
+        <div><code>(-1, 1)</code></div>
+      </div>
+      <div class="row">
+        <div class="stage wei">第 4 恶劣</div>
+        <div><code>(-1, 0)</code></div>
+        <div><code>(-1, 0)</code> ← <b>潜在转机</b></div>
+      </div>
+    </div>
+    <p>当下"日线的 <code>(-1, 1)</code> 是否打破周线 <code>(-1, 0)</code>"成了关键分叉：要么变成<b>最恶劣</b>，要么走出<b>最有救</b>的第 4 恶劣——市场只在这两种情况里二选一。</p>
+  </section>
+
+  <!-- 6 简化版与思考 -->
+  <section class="wrap reveal">
+    <div class="sec-no">06 — 落地与延伸</div>
+    <h2>普通人只看三个相邻级别就够</h2>
+    <p class="lead">不必真去搭 4<sup>8</sup> 的监控系统，盯准三个相邻级别即可。</p>
+    <p>缠师建议普通人只关心<b>三个连续级别</b>（例如 1 / 5 / 30 分钟），状态空间会立刻收缩到 <span class="hl-pivot">4<sup>3</sup> = 64</span> 种——他还顺手说了一句，这数字"就和易经联系上了，真要用易经研究股票，就从这里下手"。</p>
+    <blockquote>
+      光是笔这重表里关系，不足以精确地诊断市场走势，这就像光搞清楚肺和大肠的关系，是治不好人的。
+      <span class="who">— 留给下一课的悬念</span>
+    </blockquote>
+    <p>本课最后留了一个明确的延伸方向：<b>笔只是第一重表里关系</b>，还需要研究其他表里关系，并且不同关系之间还有"生克"——这是后面"两重表里关系（二）"要回答的内容。</p>
+
+    <ol class="think">
+      <li>为什么 (1,1) 之后绝对不会连接 (-1,1) 或 (-1,0)？请用分型的定义说明。</li>
+      <li>如果 30 分钟是 (1,1)，5 分钟是 (1,0)，1 分钟是 (-1,1)，请判断当前处在哪一级别的"未病/欲病/已病"。</li>
+      <li>"笔不能构成中枢，但线段可以"——这背后的本质区别是什么？为什么这决定了表里关系只能由"笔"承担？</li>
+    </ol>
+
+    <div class="tldr">
+      <div class="lab">一句话总结</div>
+      <p>用"笔的四状态 + 相邻级别联动 + 未病/欲病/已病"三件套，把"看盘"从经验式直觉，升级成有限状态机式的精准诊断——这就是缠论第一重表里关系。</p>
+    </div>
+  </section>
+</main>
+
+<footer class="wrap">
+  原文出处：raw/缠中说禅/教你炒股票108课/教你炒股票91：走势结构的两重表里关系1.md<br>
+  本页为个人学习复习用 · 非投资建议
+</footer>
+
+<script>
+  const bar=document.getElementById('bar');
+  const onScroll=()=>{
+    const h=document.documentElement;
+    const p=h.scrollTop/(h.scrollHeight-h.clientHeight);
+    bar.style.width=(p*100)+'%';
+  };
+  document.addEventListener('scroll',onScroll,{passive:true});onScroll();
+
+  const io=new IntersectionObserver((es)=>{
+    es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});
+  },{threshold:.12});
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+</script>
+<script src="/assets/_nav.js"></script><script src="/assets/_shell.js"></script></body>
+</html>

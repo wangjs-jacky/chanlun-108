@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>缠论 · 教你炒股票81：分型、走势类型的哲学本质</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@500;700;900&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0b0e12;
+    --bg-elev:#12161c;
+    --bg-card:#161b22;
+    --ink:#e8eaed;
+    --ink-dim:#9aa3ad;
+    --ink-faint:#5b6470;
+    --line:rgba(255,255,255,.07);
+    --up:#ff4d4f;
+    --down:#16c784;
+    --pivot:#37c0e6;
+    --gold:#e8b339;
+    --purple:#b388ff;
+    --max:880px;
+    --serif:"Noto Serif SC",serif;
+    --mono:"JetBrains Mono",ui-monospace,monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--bg);color:var(--ink);
+    font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;
+    line-height:1.85;font-size:17px;
+    -webkit-font-smoothing:antialiased;overflow-x:hidden;
+  }
+  body::before{
+    content:"";position:fixed;inset:0;z-index:-2;
+    background:
+      radial-gradient(1200px 600px at 70% -10%, rgba(179,136,255,.1), transparent 60%),
+      radial-gradient(900px 500px at 0% 100%, rgba(232,179,57,.05), transparent 55%);
+    pointer-events:none;
+  }
+  body::after{
+    content:"";position:fixed;inset:0;z-index:-1;opacity:.4;
+    background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);
+    background-size:46px 46px;
+    -webkit-mask-image:radial-gradient(ellipse at 50% 0%, #000 30%, transparent 80%);
+            mask-image:radial-gradient(ellipse at 50% 0%, #000 30%, transparent 80%);
+    pointer-events:none;
+  }
+
+  #bar{position:fixed;top:0;left:0;height:3px;width:0;z-index:50;
+    background:linear-gradient(90deg,var(--purple),var(--gold));box-shadow:0 0 12px var(--purple);}
+
+  .wrap{max-width:var(--max);margin:0 auto;padding:0 24px}
+
+  header.hero{padding:120px 0 70px;text-align:center;position:relative}
+  .kicker{font-family:var(--mono);font-size:13px;letter-spacing:.32em;color:var(--purple);
+    text-transform:uppercase;margin-bottom:26px}
+  .kicker span{color:var(--ink-faint)}
+  h1.title{font-family:var(--serif);font-weight:900;line-height:1.05;
+    font-size:clamp(40px,9.5vw,92px);letter-spacing:.04em;
+    background:linear-gradient(180deg,#fff 30%,#8aa0ad 130%);
+    -webkit-background-clip:text;background-clip:text;color:transparent;}
+  .sub{margin:22px auto 0;max-width:580px;color:var(--ink-dim);font-size:18px}
+  .meta{margin-top:34px;display:flex;gap:14px;justify-content:center;flex-wrap:wrap;
+    font-family:var(--mono);font-size:12px;color:var(--ink-faint)}
+  .meta b{color:var(--ink-dim);font-weight:500}
+  .pill{border:1px solid var(--line);padding:6px 14px;border-radius:999px;background:rgba(255,255,255,.02)}
+
+  .scroll-hint{margin-top:60px;color:var(--ink-faint);font-family:var(--mono);font-size:12px;
+    animation:bob 2.4s ease-in-out infinite}
+  @keyframes bob{0%,100%{transform:translateY(0);opacity:.5}50%{transform:translateY(8px);opacity:1}}
+
+  section{padding:64px 0;border-top:1px solid var(--line)}
+  .sec-no{font-family:var(--mono);font-size:13px;color:var(--gold);letter-spacing:.2em;margin-bottom:10px}
+  h2{font-family:var(--serif);font-weight:700;font-size:clamp(28px,5vw,42px);
+    line-height:1.25;margin-bottom:8px;letter-spacing:.02em}
+  .lead{color:var(--ink-dim);font-size:16px;margin-bottom:28px;max-width:660px}
+  p{margin:0 0 18px;color:#cfd5dc}
+  p b,strong{color:#fff;font-weight:700}
+  .hl-pivot{color:var(--pivot);font-weight:700}
+  .hl-purple{color:var(--purple);font-weight:700}
+  .hl-up{color:var(--up);font-weight:700}
+  .hl-down{color:var(--down);font-weight:700}
+  .hl-gold{color:var(--gold);font-weight:700}
+
+  blockquote{margin:26px 0;padding:20px 24px;border-left:3px solid var(--purple);
+    background:linear-gradient(90deg,rgba(179,136,255,.07),transparent);
+    border-radius:0 10px 10px 0;font-family:var(--serif);font-size:19px;color:#eee7ff}
+  blockquote .who{display:block;margin-top:8px;font-family:var(--mono);font-size:12px;
+    color:var(--ink-faint);font-style:normal}
+
+  figure{margin:34px 0}
+  figure img{width:100%;border-radius:12px;border:1px solid var(--line);
+    background:#fff;box-shadow:0 18px 50px rgba(0,0,0,.5)}
+  figcaption{margin-top:12px;font-size:13px;color:var(--ink-faint);text-align:center;font-family:var(--mono)}
+
+  .grid{display:grid;gap:16px;grid-template-columns:1fr 1fr;margin:28px 0}
+  @media(max-width:640px){.grid{grid-template-columns:1fr}}
+  .card{background:var(--bg-card);border:1px solid var(--line);border-radius:14px;padding:24px;
+    position:relative;overflow:hidden;transition:transform .35s ease,border-color .35s ease}
+  .card:hover{transform:translateY(-4px);border-color:rgba(179,136,255,.4)}
+  .card .tag{font-family:var(--mono);font-size:11px;letter-spacing:.18em;color:var(--gold);text-transform:uppercase}
+  .card h3{font-family:var(--serif);font-size:21px;margin:10px 0 8px;color:#fff}
+  .card p{font-size:15px;color:var(--ink-dim);margin:0}
+
+  /* 笔的新条件对比表 */
+  .rules{margin:28px 0;border:1px solid var(--line);border-radius:14px;overflow:hidden}
+  .rules .row{display:grid;grid-template-columns:.6fr 1.5fr 1.5fr;align-items:stretch}
+  .rules .row+.row{border-top:1px solid var(--line)}
+  .rules .row > div{padding:16px 18px}
+  .rules .row.head{background:var(--bg-elev);font-family:var(--mono);font-size:12px;
+    letter-spacing:.14em;color:var(--ink-faint);text-transform:uppercase}
+  .rules .row > div+div{border-left:1px solid var(--line)}
+  .rules .col-old{color:var(--ink-dim)}
+  .rules .col-new{color:#fff}
+  .rules .col-new b{color:var(--purple)}
+  @media(max-width:560px){
+    .rules .row{grid-template-columns:1fr}
+    .rules .row > div+div{border-left:0;border-top:1px solid var(--line)}
+    .rules .row.head{display:none}
+  }
+
+  /* 自相似性可视化 */
+  .fractal{margin:28px 0;padding:30px;background:var(--bg-elev);border:1px solid var(--line);
+    border-radius:14px;text-align:center;font-family:var(--mono)}
+  .fractal-row{display:flex;align-items:center;justify-content:center;gap:18px;flex-wrap:wrap;margin-bottom:18px}
+  .fractal-box{display:inline-flex;flex-direction:column;align-items:center;gap:6px}
+  .fractal-svg{width:80px;height:50px}
+  .fractal-svg.lg{width:160px;height:100px}
+  .fractal-svg.md{width:120px;height:75px}
+  .fractal-label{font-size:11px;color:var(--ink-faint);letter-spacing:.1em}
+  .fractal-arrow{color:var(--gold);font-size:18px}
+  .fractal-cap{margin-top:14px;font-size:13px;color:var(--ink-dim);font-family:var(--serif)}
+
+  /* 推论清单 */
+  .conclusions{margin:26px 0;display:flex;flex-direction:column;gap:14px}
+  .cn{display:flex;gap:16px;align-items:flex-start;background:var(--bg-card);
+    border:1px solid var(--line);border-radius:12px;padding:18px 20px}
+  .cn .num{flex:none;width:42px;height:42px;border-radius:10px;display:grid;place-items:center;
+    font-family:var(--serif);font-weight:900;font-size:20px;color:#0b0e12;background:var(--purple)}
+  .cn h4{font-size:17px;margin-bottom:4px;color:#fff}
+  .cn p{font-size:15px;color:var(--ink-dim);margin:0}
+
+  /* 读后感清单 */
+  ol.takeaways{counter-reset:tw;list-style:none;margin:24px 0;display:flex;flex-direction:column;gap:12px}
+  ol.takeaways li{counter-increment:tw;position:relative;padding:16px 20px 16px 56px;
+    background:var(--bg-elev);border:1px solid var(--line);border-radius:12px;color:var(--ink-dim);font-size:15px}
+  ol.takeaways li::before{content:counter(tw,decimal-leading-zero);position:absolute;left:20px;top:16px;
+    font-family:var(--mono);color:var(--gold);font-weight:700}
+  ol.takeaways li b{color:#fff}
+
+  .tldr{margin:60px 0 0;padding:36px 30px;border:1px solid rgba(179,136,255,.3);border-radius:18px;
+    background:radial-gradient(120% 120% at 100% 0%,rgba(179,136,255,.1),transparent 60%),var(--bg-elev);text-align:center}
+  .tldr .lab{font-family:var(--mono);font-size:12px;letter-spacing:.3em;color:var(--purple);text-transform:uppercase}
+  .tldr p{font-family:var(--serif);font-size:clamp(20px,3.4vw,28px);line-height:1.7;color:#fff;margin:16px 0 0}
+
+  footer{padding:60px 0 90px;text-align:center;color:var(--ink-faint);font-family:var(--mono);font-size:12px;border-top:1px solid var(--line)}
+
+  .reveal{opacity:0;transform:translateY(26px);transition:opacity .8s ease,transform .8s ease}
+  .reveal.in{opacity:1;transform:none}
+  @media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}.scroll-hint{animation:none}}
+</style>
+<meta name="view-transition" content="same-origin"><style>@view-transition{navigation:auto}</style></head>
+<body>
+<div id="bar"></div>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="kicker">缠中说禅 · 教你炒股票108课 <span>/ 第 81 课</span></div>
+    <h1 class="title">分型与走势的<br>哲学本质</h1>
+    <p class="sub">人的贪嗔痴疑慢 → 走势的自相似性 → 级别的自组性。这一课把缠论从「技术分析」抬升为「生命学科」。</p>
+    <div class="meta">
+      <span class="pill"><b>原文</b> 2007-09-17</span>
+      <span class="pill"><b>类型</b> 哲学奠基</span>
+      <span class="pill"><b>关键词</b> 自相似性 · 分型 · 笔的新标准</span>
+    </div>
+    <div class="scroll-hint">↓ 向下滚动，看缠师为何说走势是"活的"</div>
+  </div>
+</header>
+
+<main>
+  <!-- 1 -->
+  <section class="wrap reveal">
+    <div class="sec-no">01 — 开场更正</div>
+    <h2>0.08 点的差别，足以撼动整个划分</h2>
+    <p class="lead">本课从一个网友的提问出发，缠师顺手更正了 71 课和当日下午的两处划分失误。</p>
+    <p>网友"快乐 vs 菜虫"问：图中 <b>5 = 7 或 5 低于 7</b> 算几段？缠师的判定：<span class="hl-purple">是一段</span>；<b>5 高于 7</b> 时才是 <span class="hl-purple">3 段</span>。原因是这属于"线段破坏的第二种情况"，必须考虑高点下来走势的<b>特征序列</b>与<b>包含关系</b>。</p>
+    <figure>
+      <img src="/_assets/ch81_p03.png" alt="特征序列与包含关系的图示">
+      <figcaption>5 与 7 的相对高度决定段数 —— 一切根据定义来</figcaption>
+    </figure>
+    <blockquote>
+      一切根据定义来，把定义搞清楚了，一切都好办，就是本 ID 画错了，你也能一眼看出来。
+      <span class="who">— 缠中说禅</span>
+    </blockquote>
+    <p>更让人警醒的是当天下午的划分失误：1017 分钟低点 5386.47 比前一分钟的 5386.39 <b>只高了 0.08 点</b>，但就是这 0.08 点让顶分型时间错位，整个走势划分都要重画。缠师说：<span class="hl-pivot">"在某些物理学理论看来，世界之所以是这样，就是因为一些极其微小的差别造成的。"</span></p>
+    <figure>
+      <img src="/_assets/ch81_p04.png" alt="0.08 点差别导致划分改变">
+      <figcaption>5、6 根 K 线的小段最容易出毛病 —— 必须看清包含关系</figcaption>
+    </figure>
+  </section>
+
+  <!-- 2 -->
+  <section class="wrap reveal">
+    <div class="sec-no">02 — 哲学奠基</div>
+    <h2>为什么要研究分型？因为贪嗔痴疑慢</h2>
+    <p class="lead">这一段是整个缠论最哲学化的内核 —— 缠师第一次把理论根基亮出来。</p>
+    <blockquote>
+      分型、走势类型的本质就是<b>自相似性</b>，同样，走势必完美的本质也就是自相似性。
+      <span class="who">— 缠中说禅</span>
+    </blockquote>
+    <p>缠师的推理链条非常清晰：</p>
+    <p><span class="hl-purple">人的贪嗔痴疑慢</span> 是一样的（只是大小不一）→ 所以表现出 <span class="hl-purple">自相似性</span> → 走势是所有人贪嗔痴疑的合力 → 所以走势具有 <span class="hl-purple">自相似性</span> → 所以走势可理解、可把握。</p>
+    <p>把握走势的<b>本质</b>，就是把握其<span class="hl-gold">自相似性</span>。分型在 1 分钟级别是这样的结构，在年线上也是这样的结构 —— 级别不同，结构一样。</p>
+
+    <div class="fractal">
+      <div class="fractal-row">
+        <div class="fractal-box">
+          <svg class="fractal-svg" viewBox="0 0 80 50">
+            <polyline points="5,40 20,15 35,40 50,15 65,40 75,25" fill="none" stroke="#37c0e6" stroke-width="2"/>
+            <circle cx="20" cy="15" r="2.5" fill="#ff4d4f"/>
+            <circle cx="50" cy="15" r="2.5" fill="#ff4d4f"/>
+            <circle cx="35" cy="40" r="2.5" fill="#16c784"/>
+          </svg>
+          <div class="fractal-label">1 分钟</div>
+        </div>
+        <div class="fractal-arrow">≡</div>
+        <div class="fractal-box">
+          <svg class="fractal-svg md" viewBox="0 0 120 75">
+            <polyline points="8,60 30,22 52,60 75,22 98,60 112,38" fill="none" stroke="#37c0e6" stroke-width="2.4"/>
+            <circle cx="30" cy="22" r="3.5" fill="#ff4d4f"/>
+            <circle cx="75" cy="22" r="3.5" fill="#ff4d4f"/>
+            <circle cx="52" cy="60" r="3.5" fill="#16c784"/>
+          </svg>
+          <div class="fractal-label">日线</div>
+        </div>
+        <div class="fractal-arrow">≡</div>
+        <div class="fractal-box">
+          <svg class="fractal-svg lg" viewBox="0 0 160 100">
+            <polyline points="10,80 40,30 70,80 100,30 130,80 150,50" fill="none" stroke="#37c0e6" stroke-width="3"/>
+            <circle cx="40" cy="30" r="4.5" fill="#ff4d4f"/>
+            <circle cx="100" cy="30" r="4.5" fill="#ff4d4f"/>
+            <circle cx="70" cy="80" r="4.5" fill="#16c784"/>
+          </svg>
+          <div class="fractal-label">年线</div>
+        </div>
+      </div>
+      <div class="fractal-cap">同一个顶分型结构，在三个级别上完全自相似 —— 这就是缠论的"基因"</div>
+    </div>
+
+    <blockquote>
+      自相似性还有一个最重要的特点，就是<b>自组出级别</b>来。<br>级别是自相似性自组出来的，或者说是<b>生长</b>出来的。
+      <span class="who">— 缠中说禅</span>
+    </blockquote>
+    <p>缠师把走势比作有生命的事物：<span class="hl-purple">"走势确实有着如花一般的生命特征，走势确实在自相似性、自组性中发芽、生长、绽放、凋败。"</span> 所以缠论<b>不是死的教条，而是一门生命学科</b>。</p>
+  </section>
+
+  <!-- 3 -->
+  <section class="wrap reveal">
+    <div class="sec-no">03 — 100% 正确的推论</div>
+    <h2>没有顶分型，就没有顶</h2>
+    <p class="lead">自相似性结构，能推出一组对任何股票都成立的硬结论。</p>
+    <div class="conclusions">
+      <div class="cn">
+        <div class="num">1</div>
+        <div>
+          <h4>所有的顶，必须是顶分型；所有的底，必须是底分型</h4>
+          <p>这是自相似性结构的直接推论。任何级别的顶部和底部，都必然以分型的形式出现。</p>
+        </div>
+      </div>
+      <div class="cn">
+        <div class="num">2</div>
+        <div>
+          <h4>没有顶分型，没有顶；没有底分型，没有底</h4>
+          <p>逆否命题。<b>操作含义</b>：在你的操作级别 K 线图上，<span class="hl-purple">没有顶分型出现，你就持有睡觉</span>，等顶分型出来再说。这是缠论对"该不该卖"的终极判据。</p>
+        </div>
+      </div>
+      <div class="cn">
+        <div class="num">3</div>
+        <div>
+          <h4>不同级别走势独立，构成"联立方程"</h4>
+          <p>例如：30 分钟中枢震荡 + 5 分钟上涨走势，两个级别<b>不会互相打架</b>，而是构成联立条件 —— 单方程解很多，联立后解大幅减少。所以<span class="hl-gold">看走势必须立体地看</span>，否则就浪费了自相似性给你的有利条件。</p>
+        </div>
+      </div>
+      <div class="cn">
+        <div class="num">4</div>
+        <div>
+          <h4>有多少不同构的自相似性结构，就有多少种正确的分析方法</h4>
+          <p>这是缠师"最重要的定理"。分型、走势类型只是<b>两种</b>不同构的自相似性结构；理论上还可以找到更多。但<span class="hl-purple">任何脱离自相似性的股市分析方法，本质上都是错误的</span>。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4 -->
+  <section class="wrap reveal">
+    <div class="sec-no">04 — 笔的新标准</div>
+    <h2>笔的成立条件：略微放松一点</h2>
+    <p class="lead">在 9 月 18 日的更新中，缠师调整了"笔"的成立标准 —— 这是一次小但重要的范式更新。</p>
+    <p>原来的标准要求：分型间必须有<b>独立 K 线</b>。新标准里，缠师在仔细计算了能量力度后，决定放松第二个条件：</p>
+
+    <div class="rules">
+      <div class="row head">
+        <div>条件</div>
+        <div>旧标准</div>
+        <div>新标准（本课更新）</div>
+      </div>
+      <div class="row">
+        <div><b>条件 1</b></div>
+        <div class="col-old">顶分型与底分型经过包含处理后，<b>不允许共享 K 线</b></div>
+        <div class="col-new">完全保留 <b>—— 这一点绝对不能放松</b>，否则保证不了能量力度</div>
+      </div>
+      <div class="row">
+        <div><b>条件 2</b></div>
+        <div class="col-old">分型间必须有<b>独立 K 线</b></div>
+        <div class="col-new">顶分型最高 K 与底分型最低 K 之间（不含两端），<b>不考虑包含关系</b>，至少有 <b>3 根（含 3 根）K 线</b></div>
+      </div>
+    </div>
+
+    <p>这条更新解决了"古怪分段"问题：当第一次笔破坏延伸不出线段时（如 9 月 18 日图里绿箭头处），原来不能算一笔；按新标准就能算一笔，相应那三笔下来就构成一段，整个划分不再古怪。</p>
+    <figure>
+      <img src="/_assets/ch81_p07.png" alt="9 月 18 日大盘 5 分钟级别划分示例">
+      <figcaption>新笔标准下 102-105 形成中枢震荡 —— 离开后的距离依然受 76-85 中枢牵引</figcaption>
+    </figure>
+    <blockquote>
+      请注意，下面第一个绿箭头处不是笔，为什么？<b>因为顶分型都在底分型下面了</b>，怎么可能？而第二箭头处就是标准是按最新标准的笔了。
+      <span class="who">— 9 月 24 日补充</span>
+    </blockquote>
+    <figure>
+      <img src="/_assets/ch81_p11.png" alt="新笔标准对比示例">
+      <figcaption>左：顶分型在底分型下方，逻辑上不成立 · 右：符合最新标准的笔</figcaption>
+    </figure>
+  </section>
+
+  <!-- 5 -->
+  <section class="wrap reveal">
+    <div class="sec-no">05 — 行情实战</div>
+    <h2>5 分钟中枢震荡：刀锋上的凌波微步</h2>
+    <p class="lead">9 月 17 日 ~ 24 日这一周，大盘正处在 5 分钟中枢的"真假突破"判定期。缠师如何用理论看待？</p>
+    <p>当时短线问题极简：<span class="hl-pivot">76-85 这个 5 分钟中枢的中枢震荡</span>是否会出第三类买点。如果出现 → 继续震荡上行；如果不出 → 中枢继续扩展为 30 分钟中枢，那就更好玩了。</p>
+    <p>但缠师反复强调：<span class="hl-purple">在中国，最后的胜利者一定是政策</span>。所以即便看好节奏，也要"对政策的动向 1000% 密切关注"。技术 + 警觉 = 刀锋上的凌波微步。</p>
+    <figure>
+      <img src="/_assets/ch81_p10.png" alt="9 月 24 日大盘走势图与新标准笔的应用">
+      <figcaption>106 开始的 5 分钟中枢，1 分钟离开已出现 —— 等回抽是否形成第三类买点</figcaption>
+    </figure>
+    <p>对个股的提醒同样犀利：<b>真正牛的主力，是多空齐杀，让所有人左右挨巴掌</b>。散户最大的效率是<span class="hl-gold">不断换股</span> —— 卖了一定要等买点，等的时候去找别的有买点的，10 几只股票池里此起彼伏，效率才能上来。</p>
+    <blockquote>
+      跌的时候，要想买点；涨的时候，要想卖点 —— 这才是搞股票的，否则是被股票搞的。
+      <span class="who">— 缠中说禅</span>
+    </blockquote>
+  </section>
+
+  <!-- 6 -->
+  <section class="wrap reveal">
+    <div class="sec-no">06 — 读后感清单</div>
+    <h2>本课 7 条硬核结论</h2>
+    <p class="lead">这是缠师自己在原文末尾列出的"读后感"—— 每一条都直接可用于操作。</p>
+    <ol class="takeaways">
+      <li><b>一切根据定义来</b>，把定义搞清楚了，一切都好办，就是本 ID 画错了，你也能一眼看出来。</li>
+      <li>本 ID 的理论是一种<b>可发展的理论</b>，研究方向是走势的自相似性、自组性，可以结合现代科学的各门学科。</li>
+      <li>本 ID 的理论<b>不是死的教条，而是一门生命学科</b>。</li>
+      <li>有多少<b>不同构的自相似性结构</b>，就有多少种分析股市的正确道路。</li>
+      <li><b>所有的顶必须是顶分型的</b>，反之，所有的底都是底分型的。</li>
+      <li><b>没有顶分型，没有顶</b>；反之，没有底分型，没有底。</li>
+      <li>看走势，不能光看一个级别，<b>必须立体地看</b>。</li>
+    </ol>
+
+    <div class="tldr">
+      <div class="lab">一句话总结</div>
+      <p>缠论之所以成立，是因为人的贪嗔痴疑慢 → 走势自相似性 → 自组级别 —— 把握走势，本质就是把握这个"生命基因"。所有的顶都是顶分型，没有顶分型就没有顶 —— 这一条就够你睡个好觉。</p>
+    </div>
+  </section>
+</main>
+
+<footer class="wrap">
+  原文出处：raw/缠中说禅/教你炒股票108课/教你炒股票81：图例、更正及分型、走势类型的哲学本质.md<br>
+  本页为个人学习复习用·非投资建议
+</footer>
+
+<script>
+  const bar=document.getElementById('bar');
+  const onScroll=()=>{
+    const h=document.documentElement;
+    const p=h.scrollTop/(h.scrollHeight-h.clientHeight);
+    bar.style.width=(p*100)+'%';
+  };
+  document.addEventListener('scroll',onScroll,{passive:true});onScroll();
+
+  const io=new IntersectionObserver((es)=>{
+    es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});
+  },{threshold:.12});
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+</script>
+<script src="/assets/_nav.js"></script><script src="/assets/_shell.js"></script></body>
+</html>

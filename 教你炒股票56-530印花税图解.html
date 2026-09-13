@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>缠论 · 教你炒股票56：530印花税当日行情图解</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@500;700;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0b0e12;--bg-elev:#12161c;--bg-card:#161b22;
+    --ink:#e8eaed;--ink-dim:#9aa3ad;--ink-faint:#5b6470;
+    --line:rgba(255,255,255,.07);
+    --up:#ff4d4f;--down:#16c784;--pivot:#37c0e6;--gold:#e8b339;--blue:#00d4ff;
+    --max:880px;--serif:"Noto Serif SC",serif;--mono:"JetBrains Mono",ui-monospace,monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--ink);font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;line-height:1.85;font-size:17px;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  body::before{content:"";position:fixed;inset:0;z-index:-2;background:radial-gradient(1200px 600px at 70% -10%,rgba(55,192,230,.08),transparent 60%),radial-gradient(900px 500px at 0% 100%,rgba(232,179,57,.05),transparent 55%);pointer-events:none}
+  body::after{content:"";position:fixed;inset:0;z-index:-1;opacity:.4;background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);background-size:46px 46px;-webkit-mask-image:radial-gradient(ellipse at 50% 0%,#000 30%,transparent 80%);mask-image:radial-gradient(ellipse at 50% 0%,#000 30%,transparent 80%);pointer-events:none}
+  #bar{position:fixed;top:0;left:0;height:3px;width:0;z-index:50;background:linear-gradient(90deg,var(--pivot),var(--gold));box-shadow:0 0 12px var(--pivot)}
+  .wrap{max-width:var(--max);margin:0 auto;padding:0 24px}
+  header.hero{padding:120px 0 70px;text-align:center;position:relative}
+  .kicker{font-family:var(--mono);font-size:13px;letter-spacing:.32em;color:var(--pivot);text-transform:uppercase;margin-bottom:26px}
+  .kicker span{color:var(--ink-faint)}
+  h1.title{font-family:var(--serif);font-weight:900;line-height:1.05;font-size:clamp(44px,10vw,100px);letter-spacing:.04em;background:linear-gradient(180deg,#fff 30%,#8aa0ad 130%);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .sub{margin:22px auto 0;max-width:580px;color:var(--ink-dim);font-size:18px}
+  .meta{margin-top:34px;display:flex;gap:14px;justify-content:center;flex-wrap:wrap;font-family:var(--mono);font-size:12px;color:var(--ink-faint)}
+  .meta b{color:var(--ink-dim);font-weight:500}
+  .pill{border:1px solid var(--line);padding:6px 14px;border-radius:999px;background:rgba(255,255,255,.02)}
+  .scroll-hint{margin-top:60px;color:var(--ink-faint);font-family:var(--mono);font-size:12px;animation:bob 2.4s ease-in-out infinite}
+  @keyframes bob{0%,100%{transform:translateY(0);opacity:.5}50%{transform:translateY(8px);opacity:1}}
+  section{padding:64px 0;border-top:1px solid var(--line)}
+  .sec-no{font-family:var(--mono);font-size:13px;color:var(--gold);letter-spacing:.2em;margin-bottom:10px}
+  h2{font-family:var(--serif);font-weight:700;font-size:clamp(28px,5vw,42px);line-height:1.25;margin-bottom:8px;letter-spacing:.02em}
+  .lead{color:var(--ink-dim);font-size:16px;margin-bottom:28px;max-width:660px}
+  p{margin:0 0 18px;color:#cfd5dc}
+  p b,strong{color:#fff;font-weight:700}
+  .hl-pivot{color:var(--pivot);font-weight:700}.hl-up{color:var(--up);font-weight:700}
+  .hl-down{color:var(--down);font-weight:700}.hl-gold{color:var(--gold);font-weight:700}
+  blockquote{margin:26px 0;padding:20px 24px;border-left:3px solid var(--pivot);background:linear-gradient(90deg,rgba(55,192,230,.07),transparent);border-radius:0 10px 10px 0;font-family:var(--serif);font-size:19px;color:#eaf6fb}
+  blockquote .who{display:block;margin-top:8px;font-family:var(--mono);font-size:12px;color:var(--ink-faint);font-style:normal}
+  figure{margin:34px 0}
+  figure img{width:100%;border-radius:12px;border:1px solid var(--line);background:#fff;box-shadow:0 18px 50px rgba(0,0,0,.5)}
+  figcaption{margin-top:12px;font-size:13px;color:var(--ink-faint);text-align:center;font-family:var(--mono)}
+  .grid{display:grid;gap:16px;grid-template-columns:1fr 1fr;margin:28px 0}
+  @media(max-width:640px){.grid{grid-template-columns:1fr}}
+  .card{background:var(--bg-card);border:1px solid var(--line);border-radius:14px;padding:24px;position:relative;overflow:hidden;transition:transform .35s ease,border-color .35s ease}
+  .card:hover{transform:translateY(-4px);border-color:rgba(55,192,230,.4)}
+  .card .tag{font-family:var(--mono);font-size:11px;letter-spacing:.18em;color:var(--gold);text-transform:uppercase}
+  .card h3{font-family:var(--serif);font-size:21px;margin:10px 0 8px;color:#fff}
+  .card p{font-size:15px;color:var(--ink-dim);margin:0}
+  .table{margin:28px 0;border:1px solid var(--line);border-radius:14px;overflow:hidden}
+  .table .row{display:grid;grid-template-columns:1.1fr 1.5fr 1.6fr;align-items:stretch}
+  .table .row+.row{border-top:1px solid var(--line)}
+  .table .row>div{padding:16px 18px}
+  .table .row.head{background:var(--bg-elev);font-family:var(--mono);font-size:12px;letter-spacing:.14em;color:var(--ink-faint);text-transform:uppercase}
+  .table .row>div+div{border-left:1px solid var(--line)}
+  .table .name{font-family:var(--serif);font-weight:700;font-size:18px}
+  .table .name.qushi{color:var(--gold)}
+  .cnt{font-family:var(--mono);font-size:14px;color:var(--pivot)}
+  @media(max-width:560px){.table .row{grid-template-columns:1fr}.table .row>div+div{border-left:0;border-top:1px solid var(--line)}.table .row.head{display:none}}
+  .points{margin:26px 0;display:flex;flex-direction:column;gap:14px}
+  .pt{display:flex;gap:16px;align-items:flex-start;background:var(--bg-card);border:1px solid var(--line);border-radius:12px;padding:18px 20px}
+  .pt .dot{flex:none;width:42px;height:42px;border-radius:10px;display:grid;place-items:center;font-family:var(--serif);font-weight:900;font-size:20px;color:#0b0e12}
+  .pt.b .dot{background:var(--up)}.pt.s .dot{background:var(--down)}
+  .pt h4{font-size:17px;margin-bottom:4px;color:#fff}.pt p{font-size:15px;color:var(--ink-dim);margin:0}
+  .proof{margin:30px 0;background:linear-gradient(120deg,rgba(55,192,230,.06),transparent 70%),var(--bg-elev);border:1px solid rgba(55,192,230,.25);border-radius:16px;padding:26px}
+  .proof .badge{display:inline-block;font-family:var(--mono);font-weight:700;font-size:12px;letter-spacing:.12em;padding:6px 14px;border-radius:999px;background:rgba(55,192,230,.14);color:var(--pivot);border:1px solid rgba(55,192,230,.4);margin-bottom:14px}
+  .chartbox{background:var(--bg-card);border:1px solid var(--line);border-radius:14px;padding:18px 14px 8px;margin:18px 0}
+  .legend{display:flex;gap:16px;font-family:var(--mono);font-size:12px;color:var(--ink-dim);padding:0 8px 12px;flex-wrap:wrap}
+  .legend i{display:inline-block;width:16px;height:3px;vertical-align:middle;margin-right:6px;border-radius:2px}
+  canvas{width:100%;display:block}
+  .verdict{display:flex;gap:14px;align-items:flex-start;margin-top:8px;padding:16px 18px;background:var(--bg-card);border:1px solid var(--line);border-radius:12px}
+  .verdict .mk{flex:none;font-family:var(--mono);font-weight:700;color:var(--up)}
+  .verdict p{margin:0;font-size:15px;color:#d6dbe1}
+  ol.think{counter-reset:q;list-style:none;margin:24px 0;display:flex;flex-direction:column;gap:14px}
+  ol.think li{counter-increment:q;position:relative;padding:18px 20px 18px 60px;background:var(--bg-elev);border:1px solid var(--line);border-radius:12px;color:var(--ink-dim);font-size:15px}
+  ol.think li::before{content:counter(q,decimal-leading-zero);position:absolute;left:20px;top:18px;font-family:var(--mono);color:var(--gold);font-weight:700}
+  .quiz{margin:22px 0;background:var(--bg-card);border:1px solid var(--line);border-radius:14px;padding:22px 24px}
+  .quiz h4{font-size:16px;color:#fff;margin-bottom:6px}
+  .quiz .ans{margin-top:12px;color:var(--ink-faint);font-size:14px;cursor:pointer}
+  .quiz .ans[open] summary{color:var(--pivot)}
+  .quiz summary{color:var(--gold);font-family:var(--mono);font-size:13px}
+  .tldr{margin:60px 0 0;padding:36px 30px;border:1px solid rgba(55,192,230,.3);border-radius:18px;background:radial-gradient(120% 120% at 100% 0%,rgba(55,192,230,.1),transparent 60%),var(--bg-elev);text-align:center}
+  .tldr .lab{font-family:var(--mono);font-size:12px;letter-spacing:.3em;color:var(--pivot);text-transform:uppercase}
+  .tldr p{font-family:var(--serif);font-size:clamp(20px,3.4vw,28px);line-height:1.7;color:#fff;margin:16px 0 0}
+  footer{padding:60px 0 90px;text-align:center;color:var(--ink-faint);font-family:var(--mono);font-size:12px;border-top:1px solid var(--line)}
+  .reveal{opacity:0;transform:translateY(26px);transition:opacity .8s ease,transform .8s ease}
+  .reveal.in{opacity:1;transform:none}
+  @media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}.scroll-hint{animation:none}}
+  .timeline{margin:24px 0;display:grid;gap:10px}
+  .tlrow{display:grid;grid-template-columns:90px 1fr;gap:14px;padding:14px 16px;background:var(--bg-card);border:1px solid var(--line);border-radius:10px;align-items:flex-start}
+  .tlrow .tm{font-family:var(--mono);font-size:13px;color:var(--gold);font-weight:700}
+  .tlrow .ct{font-size:15px;color:var(--ink-dim)}
+  .tlrow .ct b{color:#fff}
+  .ohlc{margin:18px 0;display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+  @media(max-width:560px){.ohlc{grid-template-columns:repeat(2,1fr)}}
+  .ohlc .cell{background:var(--bg-card);border:1px solid var(--line);border-radius:10px;padding:14px;text-align:center}
+  .ohlc .cell .lab{font-family:var(--mono);font-size:11px;color:var(--ink-faint);letter-spacing:.14em;text-transform:uppercase}
+  .ohlc .cell .val{font-family:var(--mono);font-weight:700;font-size:20px;color:#fff;margin-top:6px}
+  .ohlc .cell .val.up{color:var(--up)}.ohlc .cell .val.down{color:var(--down)}
+</style>
+<meta name="view-transition" content="same-origin"><style>@view-transition{navigation:auto}</style></head>
+<body>
+<div id="bar"></div>
+<header class="hero">
+  <div class="wrap">
+    <div class="kicker">缠中说禅 · 教你炒股票108课 <span>/ 第 56 课</span></div>
+    <h1 class="title">530印花税</h1>
+    <p class="sub">突发利空那一天，缠师如何在盘中当下、不含糊地告诉你该卖、能买在哪里。</p>
+    <div class="meta">
+      <span class="pill"><b>原文</b> 2007-05-30</span>
+      <span class="pill"><b>类型</b> 实战示范</span>
+      <span class="pill"><b>关键词</b> 第二类卖点 · 盘整背驰 · 1分钟中枢</span>
+    </div>
+    <div class="scroll-hint">↓ 向下滚动，逐层拆解</div>
+  </div>
+</header>
+<main>
+
+<!-- 01 历史现场 -->
+<section class="wrap reveal">
+  <div class="sec-no">01 — 历史现场</div>
+  <h2>那一夜，半夜上调印花税</h2>
+  <p class="lead">2007 年 5 月 29 日深夜，财政部突然宣布将股票交易印花税由 1‰ 上调至 3‰。30 日开盘前，所有人都知道：今天要崩。</p>
+  <p>2007 年初到 5 月，A 股从 2700 点一路狂奔到 4334 点，<b>5 月 29 日上证盘中最高 4335.96 点</b>，几乎全民炒股。30 日凌晨，"半夜鸡叫"印花税三倍上调的消息引爆市场，开盘价比前日收盘暴跌 247 点。这就是日后被反复提及的"<span class="hl-down">530 大跌</span>"。</p>
+  <p>这一课，缠师当晚 22:49 写就，对一个真正的<b>突发利空交易日</b>，做了从开盘到收盘的<b>当下、不事后诸葛的实时图解</b>。它解决的问题就一个——<span class="hl-pivot">突发消息把第一类卖点直接吃掉时，技术派还有没有可操作的卖点？</span></p>
+  <blockquote>本ID一大早 7 点不到就发帖子提醒要在第二、三卖点把仓位减掉。<span class="who">— 缠中说禅 2007-05-30 22:49</span></blockquote>
+
+  <div class="ohlc">
+    <div class="cell"><div class="lab">5/29 收盘</div><div class="val">4334.92</div></div>
+    <div class="cell"><div class="lab">5/30 开盘</div><div class="val down">4087.41</div></div>
+    <div class="cell"><div class="lab">5/30 最低</div><div class="val down">4015.51</div></div>
+    <div class="cell"><div class="lab">5/30 收盘</div><div class="val down">4053.09</div></div>
+  </div>
+  <p style="font-family:var(--mono);font-size:12px;color:var(--ink-faint);text-align:center">akshare 取数·新浪源·上证指数 sh000001·不复权</p>
+</section>
+
+<!-- 02 三类卖点为何而生 -->
+<section class="wrap reveal">
+  <div class="sec-no">02 — 为什么要有三类卖点</div>
+  <h2>第一类卖点不是万能的</h2>
+  <p class="lead">在标准走势里，第一类卖点是"背驰确认"。可一旦突发消息低开把价格一刀切下来，第一类卖点已经不在盘中——只剩第二、第三类可以操作。</p>
+  <p>缠师在文中点出一个常被忽略的细节：</p>
+  <blockquote>529 那天，虽然 30 分钟明显进入背驰段，但由于当天尾盘是高收的，所以用<b>区间套定理</b>并不能确认当时就是背驰了。<span class="who">— 缠中说禅</span></blockquote>
+  <p>翻成人话：<b>5 月 29 日尾盘强势高收</b>，技术上还没办法把"30 分钟背驰"严格定位到当下，按理论必须等 30 日开盘观察。但 30 日是大幅跳空低开——<span class="hl-down">第一类卖点早就被吞没在缺口里</span>，盘中根本来不及成交。</p>
+  <p>这时候第二、第三类卖点的价值就出现了。它们不像第一类那样依赖"创新高 + 背驰"的瞬间判定，而是依赖<b>事后的反抽是否过前高</b>。<span class="hl-pivot">突发利空场景下，反抽必然出现，于是反抽不过前高 = 第二类卖点必然成立</span>。</p>
+
+  <div class="grid">
+    <div class="card">
+      <div class="tag">第一类卖点</div>
+      <h3>背驰那一刻</h3>
+      <p>需要价格创新高 + MACD 背驰，当下成立。但被突发利空跳空吃掉时，盘中已不可操作。</p>
+    </div>
+    <div class="card">
+      <div class="tag">第二类卖点</div>
+      <h3>反抽不过前高</h3>
+      <p>第一类卖点后的<b>反抽顶</b>。突发利空场景下天然适用——只要开盘后冲不到 5/29 高点，立刻就是卖点。</p>
+    </div>
+    <div class="card">
+      <div class="tag">第三类卖点</div>
+      <h3>跌破中枢不回</h3>
+      <p>新中枢形成后，向上一波不能重回中枢区间，构成第三类卖点。对弱势个股、跌得更狠的票尤其有用。</p>
+    </div>
+    <div class="card">
+      <div class="tag">综合应用</div>
+      <h3>大盘 vs 个股</h3>
+      <p>大盘是<b>平均走势</b>，往往比个股强。<span class="hl-pivot">大盘第二类卖点 ≠ 个股第二类卖点</span>，弱势股可能直接奔第三类卖点。</p>
+    </div>
+  </div>
+</section>
+
+<!-- 03 五段拆解 -->
+<section class="wrap reveal">
+  <div class="sec-no">03 — 5月30日盘中拆解</div>
+  <h2>从开盘到收盘，5 段走势讲完</h2>
+  <p class="lead">缠师把这一天的 1 分钟图拆成 5 段 1 分钟以下级别走势类型。每两个绿箭头之间是一段。</p>
+
+  <figure>
+    <img src="/_assets/ch56_p01.png" alt="2007-05-30 上证1分钟图原版">
+    <figcaption>上证 5/30 全天 1 分钟图 · 缺口 + A段反抽 + B段二次探底 + C段反弹形成 4087-4122 中枢</figcaption>
+  </figure>
+
+  <p>看懂这张图，要先记住一条<b>级别约定</b>：</p>
+  <blockquote>缺口被看成最低级别的，而 1 分钟以下级别在 1 分钟图上被看成<b>没有内部结构的线段</b>，所以缺口和 1 分钟以下级别在 1 分钟图上是同级别的。<span class="who">— 缠中说禅</span></blockquote>
+  <p>就是说，开盘那个 247 点的大缺口、和后面 A/B/C 三段反弹反跌，在 1 分钟图上是<b>平起平坐的"线段"</b>，可以直接进行段与段之间的力度比较。</p>
+
+  <div class="timeline">
+    <div class="tlrow"><div class="tm">9:30</div><div class="ct"><b>跳空缺口段</b>·开盘 4087.41，瞬间跌穿前日收盘 4334.92，这是<span class="hl-down">第一段向下走势</span>。1 分钟图上呈"一根插针"。</div></div>
+    <div class="tlrow"><div class="tm">9:30 - 9:48</div><div class="ct"><b>A 段反抽</b>·开盘后向上反弹（"上下上"内部结构）。第二段向上 MACD <span class="hl-down">绿柱 vs 红柱面积比较</span>出现背驰，反弹高点不创新高——<span class="hl-pivot">第二类卖点当下成立</span>。</div></div>
+    <div class="tlrow"><div class="tm">9:48 后</div><div class="ct"><b>B 段二次探底</b>·从 A 段顶往下，与缺口段比较 MACD 绿柱面积。后者面积 ≤ 前者 → <span class="hl-pivot">盘整背驰</span>，预示反弹必回 A 段顶之上。</div></div>
+    <div class="tlrow"><div class="tm">日内</div><div class="ct"><b>C 段反弹</b>·盘整背驰后的修复，高点 4122 点附近。<b>C 段 vs B 段 MACD 高度</b>对比可判 C 段是否结束。</div></div>
+    <div class="tlrow"><div class="tm">尾盘</div><div class="ct"><b>4087-4122 中枢成型</b>·ABC 三段重叠区间 = 1 分钟中枢。<span class="hl-gold">这是从今天往后所有判断的基准刻度</span>。</div></div>
+  </div>
+
+  <p>缠师特别强调一个细节：B 段并非靠"该级别内部背驰"结束，而是<b>小级别转大级别</b>。这意味着 1 分钟以下的 B 段内部，每一波向下的绿柱<b>反而越来越大</b>，按背驰逻辑根本不该转折——它只是因为<b>更高级别上 B 段 vs 缺口段产生盘整背驰</b>而被动结束。<span class="hl-pivot">这是缠论里"小转大"的标准范例</span>。</p>
+</section>
+
+<!-- 04 akshare 实证 -->
+<section class="wrap reveal">
+  <div class="sec-no">04 — 真金白银的实证</div>
+  <h2>20 年后回看 530，缠师讲对了吗？</h2>
+  <p class="lead">缠师文中的关键价位都是 1 分钟级别的盘中位（4087 / 4122 / 4015）。我们用日 K 拉真实行情，看大方向有没有被印证。</p>
+  <div class="proof">
+    <span class="badge">数据实证 · 上证指数 000001</span>
+    <div class="chartbox">
+      <div class="legend">
+        <span><i style="background:#cfd5dc"></i>收盘</span>
+        <span><i style="background:#e8b339"></i>MA20</span>
+        <span><i style="background:#37c0e6"></i>MA60</span>
+        <span><i style="background:#ff4d4f"></i>关键节点</span>
+      </div>
+      <canvas id="cv_530" height="460"></canvas>
+    </div>
+    <div class="verdict">
+      <span class="mk">✓ 完全印证</span>
+      <p>
+        <b>5/29 高 4335.96 → 5/30 开 4087.41 → 5/30 低 4015.51</b>，与缠师文中的 4087、4015 完全对得上；<b>5/30 反弹高 4275.24 / 收盘 4053.09</b>，第二日 5/31 反弹至 <b>4178</b>。
+        随后市场<b class="hl-down">连跌 3 个交易日</b>到 6/4 收 3670.40（4 天累计 <b>−15%</b>），但仅 11 个交易日后 6/15 收盘 <b class="hl-up">4132.87 重回缺口区域</b>，到 7/31 已涨回 <b class="hl-up">4471.03 创新高</b>。缠师当晚断言"<b>这是震荡，不是单边</b>"——后市完美兑现。
+      </p>
+    </div>
+  </div>
+  <p style="font-family:var(--mono);font-size:12px;color:var(--ink-faint)">数据来源：新浪财经日K（不复权）· akshare 取数 · 截至 2026-05-29 · 不构成投资建议</p>
+</section>
+
+<!-- 05 5月31日 第三类卖点 -->
+<section class="wrap reveal">
+  <div class="sec-no">05 — 5月31日：中枢扩张</div>
+  <h2>4087-4122 中枢扩张到 4015-4122 大中枢</h2>
+  <p class="lead">第二天 5 月 31 日，缠师在 22:54 补了一段。逻辑很简单：上冲没碰到 4087，三类卖点确认；后面三波下跌 + 反弹 = 1 分钟中枢扩张成 5 分钟中枢。</p>
+
+  <figure>
+    <img src="/_assets/ch56_p02.png" alt="2007-05-31 上证5分钟图 中枢扩张">
+    <figcaption>5/31 走势 · 蓝框 4015-4122 即扩张后的 5 分钟大中枢，开盘上冲未触 4087 → 第三类卖点；右上小蓝框是后续的中枢震荡反弹</figcaption>
+  </figure>
+
+  <blockquote>昨天 4087-4122 的中枢，今天一大早的上冲<b>没有触及 4087 点</b>，所以就构成了该中枢的<span class="hl-down">第三类卖点</span>。后面三波的下跌，与昨天的 B 段比明显背驰，其内部最后一波在 1 分钟图上绿柱子明显缩短，所以内部也背驰，根据<b>区间套</b>就可以当下定位 <b>10 点 02 分低点</b>。<span class="who">— 缠中说禅 2007-05-31</span></blockquote>
+
+  <p>这里有个能直接抄走的<b>抄底方法论</b>——三类卖点之后的下跌，再次出现盘整背驰时，用区间套（不同级别的背驰嵌套定位同一点）就可以<b>分钟级精度</b>定位反弹起点。</p>
+
+  <p>而后续反弹按规律不可能直接拉升一根趋势，<span class="hl-pivot">第三类卖点后不趋势则原中枢扩张</span>——原 4087-4122 的 1 分钟中枢，扩张为 4015-4122 的 5 分钟大中枢。这就是"<b>大方框</b>"的诞生过程。</p>
+
+  <div class="points">
+    <div class="pt s"><div class="dot">3卖</div><div><h4>5/31 第三类卖点</h4><p>开盘上冲没碰 4087 → 中枢失守 → 第三类卖点当下成立。</p></div></div>
+    <div class="pt b"><div class="dot">3买</div><div><h4>10:02 抄底点</h4><p>三波下跌内部最后一波 1 分钟绿柱缩短，区间套定位 10:02 低点。</p></div></div>
+  </div>
+</section>
+
+<!-- 06 1/2线 大格局 -->
+<section class="wrap reveal">
+  <div class="sec-no">06 — 大格局视角</div>
+  <h2>1/2 线还在，至少管 3 个月</h2>
+  <p class="lead">分钟级中枢之上，缠师反复强调"1/2 线"——一个更大级别的关键位。这才是<b>判断大盘强弱的真锚点</b>。</p>
+
+  <figure>
+    <img src="/_assets/ch56_p03.png" alt="530当日中枢与大格局示意">
+    <figcaption>蓝框 = 530 当日的 4087-4122 中枢 · "2 卖"标注的是 A 段顶（第二类卖点）· C 段的高点没有重回 B 段内部最后反弹的起点（属于"小转大"，不违反理论）</figcaption>
+  </figure>
+
+  <blockquote>大方面看，本ID 反复强调的 <b>1/2 线</b>，依然是最重要的位置，大盘的强弱以此为标准。目前该线刚好在这次大震荡的中间位置上，由此就知道该线的意义有多大。<span class="who">— 缠中说禅 2007-05-30</span></blockquote>
+
+  <p>这段话的可贵之处不在于具体点位，而在于<b>多级别同时持有判断</b>的纪律：</p>
+
+  <ol class="think">
+    <li><b>1 分钟级</b>·盯 4087-4122 中枢震荡 → 操作差价</li>
+    <li><b>5 分钟级</b>·盯扩张后的 4015-4122 大中枢 → 决定仓位上下沿</li>
+    <li><b>日线 / 周线</b>·盯 1/2 线 → 判断牛市趋势是否被破坏，决定要不要清仓离场</li>
+  </ol>
+  <p>真正的高手不是只看一个级别。<span class="hl-pivot">同时持有 3 个级别的判断，每个级别用不同仓位执行</span>，才能在"震荡天堂"里活下来还能赚钱。</p>
+</section>
+
+<!-- 07 突发利空可复用 SOP -->
+<section class="wrap reveal">
+  <div class="sec-no">07 — 可复用 SOP</div>
+  <h2>下次再遇突发利空，照这流程走</h2>
+  <p class="lead">这一课最大的价值是：把"突发利空交易日"做成了一份<b>可复用的盘中操作手册</b>。</p>
+
+  <div class="table">
+    <div class="row head"><div>阶段</div><div>判断动作</div><div>操作动作</div></div>
+    <div class="row"><div class="name">开盘前</div><div>消息面对应的级别预估，是 30 分钟级 / 日级 / 周级利空？</div><div>预估第二、第三类卖点存在性，把卖出区间 <span class="hl-down">挂在前日高点下方</span>。</div></div>
+    <div class="row"><div class="name">开盘 + 反抽段</div><div>开盘后向上反弹是否创新高？反弹内部是否 MACD 背驰？</div><div>不创新高 + 内部背驰 = <span class="hl-down">第二类卖点</span>，<b>减仓 50% 起步</b>。</div></div>
+    <div class="row"><div class="name qushi">二次探底段</div><div>探底段 vs 缺口段力度对比（MACD 绿柱面积）。</div><div>力度 ≤ 缺口段 = <span class="hl-up">盘整背驰</span>，<b>可分批回补 30%-50%</b>（视交易成本）。</div></div>
+    <div class="row"><div class="name">反弹段成型</div><div>反弹与探底是否重叠？重叠 → 1 分钟中枢。</div><div>等中枢区间确认，记下 <b>中枢上下沿</b>作为日内基准。</div></div>
+    <div class="row"><div class="name">次日开盘</div><div>能否冲回中枢上沿？冲不回 → 第三类卖点。</div><div>第三类卖点确认 = <span class="hl-down">再次减仓</span>；后续区间套定位下一个买点。</div></div>
+  </div>
+
+  <p style="font-size:14px;color:var(--ink-faint);margin-top:18px">⚠️ 此 SOP 是缠论盘中操作的<b>骨架</b>，具体级别和仓位百分比要按你自己的操作级别和资金量调整。盲抄不思考会出事。</p>
+</section>
+
+<!-- 08 思考与判图 -->
+<section class="wrap reveal">
+  <div class="sec-no">08 — 思考与练习</div>
+  <h2>把今天讲的内化</h2>
+
+  <ol class="think">
+    <li>缠师为什么坚持 5/29 收盘前<b>不能确认</b>那是 30 分钟级别背驰？尾盘高收对"区间套"意味着什么？</li>
+    <li>突发利空开盘大跌时，第一类卖点为什么"不可能在实际操作中存在"？这背后是哪一条理论限制？</li>
+    <li>B 段内部最后一段向下<b>没有背驰</b>却结束了，缠师称之为"小级别转大级别"。这跟"第二段向下背驰"的常规终结方式有什么本质区别？</li>
+    <li>4087-4122 这个 1 分钟中枢，是哪三段重叠出来的？为什么不能算成 4027-4077？（提示：先把 ABC 中枢三段定清楚，C 段才是"新中枢的第一段"——参考缠师回答网友的截图）</li>
+    <li>"震荡是缠论的天堂"这句话的真正含义是什么？为什么说震荡反而比单边能赚更多？</li>
+  </ol>
+
+  <div class="quiz">
+    <h4>判图练习：下面三种走势，哪一种是"第二类卖点"？</h4>
+    <p>A. 价格创出新高 + MACD 红柱面积明显缩短 → ___<br>
+       B. 价格未创新高，反抽后 MACD 绿柱与下跌段对比背驰 → ___<br>
+       C. 中枢上沿被失守，反弹未能重回中枢区间 → ___</p>
+    <details class="ans"><summary>查看答案</summary>
+      <p>A = 第一类卖点（背驰确认）；B = <span class="hl-down">第二类卖点</span>（反抽不过前高 + 内部背驰）；C = 第三类卖点（中枢失守不归）。<b>突发利空场景下，B 是最有用的</b>——因为开盘缺口已经吃掉了 A 的成立条件。</p>
+    </details>
+  </div>
+
+  <div class="quiz">
+    <h4>判图练习：1 分钟中枢扩张为 5 分钟中枢，发生的条件是什么？</h4>
+    <p>缠师在 531 文中说"原来的 1 分钟中枢已经扩张到 5 分钟中枢"——它的成立条件是什么？</p>
+    <details class="ans"><summary>查看答案</summary>
+      <p>条件 = <b>第三类卖点之后没有形成趋势</b>。按缠论定理："三类卖点后<b>不趋势</b>就构成更大中枢"。530 当天的 4087-4122 中枢，加上 531 的下跌段 + 反弹段，正好满足"未趋势→扩张"的形态，扩张成 4015-4122 的 5 分钟大中枢。这是<span class="hl-pivot">中枢扩张定理</span>在实战中的标准范例。</p>
+    </details>
+  </div>
+</section>
+
+<div class="wrap">
+  <div class="tldr">
+    <div class="lab">一句话总结</div>
+    <p>突发利空把<span class="hl-down">第一类卖点</span>吃了，<span class="hl-down">第二、第三类卖点</span>反而成为开盘前就能预设的、被理论完全保证的操作位——震荡才是缠论的天堂。</p>
+  </div>
+</div>
+
+</main>
+<footer class="wrap">
+  原文出处：raw/缠中说禅/教你炒股票108课/教你炒股票56：530印花税当日行情图解.md<br>
+  本页为个人学习复习用 · 非投资建议
+</footer>
+<script>
+  const bar=document.getElementById('bar');
+  const onScroll=()=>{const h=document.documentElement;bar.style.width=(h.scrollTop/(h.scrollHeight-h.clientHeight)*100)+'%'};
+  document.addEventListener('scroll',onScroll,{passive:true});onScroll();
+  const io=new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{threshold:.12});
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+  function drawChanChart(canvasId, CHART){
+    const cv=document.getElementById(canvasId); if(!cv) return;
+    const mode=CHART.mode||'line', hasVol=!!CHART.v && CHART.showVol!==false;
+    const idxOf={}; CHART.dates.forEach((d,i)=>idxOf[d]=i);
+    const ri=d=>{ if(d in idxOf)return idxOf[d]; let b=0,bd=1/0;
+      CHART.dates.forEach((x,i)=>{const t=Math.abs(new Date(x)-new Date(d)); if(t<bd){bd=t;b=i}}); return b; };
+    function draw(){
+      const dpr=window.devicePixelRatio||1, W=cv.clientWidth, H=CHART.height||460;
+      cv.width=W*dpr; cv.height=H*dpr; const x=cv.getContext('2d'); x.scale(dpr,dpr); x.clearRect(0,0,W,H);
+      const padL=54,padR=14,padT=16, volH=hasVol?70:0, gap=hasVol?16:0, priceH=H-padT-volH-gap-22, n=CHART.c.length;
+      let mn=Math.min(...CHART.l), mx=Math.max(...CHART.h);
+      if(CHART.ma)Object.values(CHART.ma).forEach(a=>a.forEach(v=>{if(v!=null){mn=Math.min(mn,v);mx=Math.max(mx,v)}}));
+      if(CHART.pivots)CHART.pivots.forEach(p=>{mn=Math.min(mn,p.lo);mx=Math.max(mx,p.hi)});
+      if(CHART.marks)CHART.marks.forEach(m=>{mn=Math.min(mn,m.price);mx=Math.max(mx,m.price)});
+      const pd=(mx-mn)*0.08; mn-=pd; mx+=pd;
+      const PW=W-padL-padR, px=i=> n===1?padL+PW/2:padL+PW*i/(n-1), py=p=>padT+priceH*(1-(p-mn)/(mx-mn));
+      x.font="11px JetBrains Mono"; x.textAlign="right";
+      for(let g=0;g<=4;g++){const p=mn+(mx-mn)*g/4,yy=py(p);
+        x.strokeStyle="rgba(255,255,255,.06)";x.beginPath();x.moveTo(padL,yy);x.lineTo(W-padR,yy);x.stroke();
+        x.fillStyle="#5b6470";x.fillText(p.toFixed(0),padL-6,yy+3)}
+      if(CHART.pivots)CHART.pivots.forEach(p=>{const x1=px(ri(p.from)),x2=px(ri(p.to)),y1=py(p.hi),y2=py(p.lo);
+        x.fillStyle="rgba(55,192,230,.10)";x.strokeStyle="rgba(55,192,230,.55)";x.lineWidth=1;
+        x.fillRect(x1,y1,x2-x1,y2-y1);x.strokeRect(x1,y1,x2-x1,y2-y1);
+        if(p.label){x.fillStyle="#37c0e6";x.textAlign="center";x.fillText(p.label,(x1+x2)/2,y1-5)}});
+      if(hasVol){const vmax=Math.max(...CHART.v),vt=padT+priceH+gap;
+        for(let i=0;i<n;i++){const up=CHART.c[i]>=CHART.o[i];x.fillStyle=up?"rgba(255,77,79,.5)":"rgba(22,199,132,.5)";
+          const bw=Math.max(1,PW/n*0.6),bh=volH*CHART.v[i]/vmax;x.fillRect(px(i)-bw/2,vt+volH-bh,bw,bh)}}
+      if(mode==='candle'){const bw=Math.max(1.5,PW/n*0.62);
+        for(let i=0;i<n;i++){const up=CHART.c[i]>=CHART.o[i],col=up?"#ff4d4f":"#16c784";x.strokeStyle=col;x.fillStyle=col;
+          x.beginPath();x.moveTo(px(i),py(CHART.h[i]));x.lineTo(px(i),py(CHART.l[i]));x.stroke();
+          const yo=py(CHART.o[i]),yc=py(CHART.c[i]);x.fillRect(px(i)-bw/2,Math.min(yo,yc),bw,Math.max(1,Math.abs(yc-yo)))}}
+      else{const cs=CHART.c;x.beginPath();for(let i=0;i<n;i++){const xx=px(i),yy=py(cs[i]);i?x.lineTo(xx,yy):x.moveTo(xx,yy)}
+        const gr=x.createLinearGradient(0,padT,0,padT+priceH);gr.addColorStop(0,"rgba(207,213,220,.16)");gr.addColorStop(1,"rgba(207,213,220,0)");
+        x.lineTo(px(n-1),padT+priceH);x.lineTo(px(0),padT+priceH);x.closePath();x.fillStyle=gr;x.fill();
+        x.beginPath();for(let i=0;i<n;i++){const xx=px(i),yy=py(cs[i]);i?x.lineTo(xx,yy):x.moveTo(xx,yy)}
+        x.strokeStyle="#cfd5dc";x.lineWidth=1.6;x.stroke()}
+      const MC={MA5:"#ff8a8c",MA10:"#c0a3ff",MA20:"#e8b339",MA60:"#37c0e6",MA120:"#9aa3ad",MA250:"#ff4d4f"};
+      if(CHART.ma)Object.entries(CHART.ma).forEach(([k,a])=>{x.beginPath();let st=false;
+        for(let i=0;i<n;i++){if(a[i]==null)continue;const xx=px(i),yy=py(a[i]);st?x.lineTo(xx,yy):(x.moveTo(xx,yy),st=true)}
+        x.strokeStyle=MC[k]||"#888";x.lineWidth=1.4;x.stroke()});
+      if(CHART.marks)CHART.marks.forEach(m=>{const xx=px(ri(m.date)),yy=py(m.price),buy=(m.type||'').startsWith('b'),col=buy?"#ff4d4f":"#16c784";
+        x.fillStyle=col;x.beginPath();x.arc(xx,yy,4,0,7);x.fill();
+        x.fillStyle="#fff";x.font="bold 11px -apple-system";x.textAlign="center";x.fillText(m.text||'',xx,buy?yy+18:yy-10)});
+      x.fillStyle="#5b6470";x.textAlign="center";x.font="11px JetBrains Mono";
+      const L=Math.min(6,n);for(let g=0;g<L;g++){const i=Math.round((n-1)*g/(L-1||1));x.fillText(CHART.dates[i],px(i),H-5)}
+    }
+    draw(); window.addEventListener('resize',draw);
+  }
+
+  const CHART_530 = {"dates": ["2007-04-02", "2007-04-03", "2007-04-04", "2007-04-05", "2007-04-06", "2007-04-09", "2007-04-10", "2007-04-11", "2007-04-12", "2007-04-13", "2007-04-16", "2007-04-17", "2007-04-18", "2007-04-19", "2007-04-20", "2007-04-23", "2007-04-24", "2007-04-25", "2007-04-26", "2007-04-27", "2007-04-30", "2007-05-08", "2007-05-09", "2007-05-10", "2007-05-11", "2007-05-14", "2007-05-15", "2007-05-16", "2007-05-17", "2007-05-18", "2007-05-21", "2007-05-22", "2007-05-23", "2007-05-24", "2007-05-25", "2007-05-28", "2007-05-29", "2007-05-30", "2007-05-31", "2007-06-01", "2007-06-04", "2007-06-05", "2007-06-06", "2007-06-07", "2007-06-08", "2007-06-11", "2007-06-12", "2007-06-13", "2007-06-14", "2007-06-15", "2007-06-18", "2007-06-19", "2007-06-20", "2007-06-21", "2007-06-22", "2007-06-25", "2007-06-26", "2007-06-27", "2007-06-28", "2007-06-29", "2007-07-02", "2007-07-03", "2007-07-04", "2007-07-05", "2007-07-06", "2007-07-09", "2007-07-10", "2007-07-11", "2007-07-12", "2007-07-13", "2007-07-16", "2007-07-17", "2007-07-18", "2007-07-19", "2007-07-20", "2007-07-23", "2007-07-24", "2007-07-25", "2007-07-26", "2007-07-27", "2007-07-30", "2007-07-31"], "o": [3196.59, 3265.68, 3295.98, 3286.16, 3287.68, 3333.42, 3405.23, 3454.42, 3503.23, 3537.22, 3523.22, 3611.63, 3614.68, 3610.02, 3460.9, 3615.79, 3736.15, 3708.57, 3766.48, 3788.75, 3784.27, 3937.94, 3961.1, 4021.42, 4024.42, 3970.66, 4055.83, 3890.81, 4002.49, 4041.39, 3902.35, 4091.14, 4125.43, 4188.68, 4133.19, 4221.58, 4288.98, 4087.41, 4006.28, 4120.63, 3981.82, 3564.43, 3781.38, 3787.7, 3900.03, 3942.01, 4011.68, 4110.74, 4162.21, 4085.66, 4195.39, 4247.74, 4269.45, 4170.89, 4230.97, 4102.79, 3863.25, 3985.72, 4080.19, 3824.29, 3800.23, 3854.72, 3906.01, 3769.64, 3599.82, 3809.67, 3895.91, 3837.8, 3874.04, 3920.83, 3920.65, 3809.56, 3880.85, 3918.54, 3918.41, 4091.24, 4238.32, 4212.95, 4347.78, 4315.37, 4348.61, 4432.27], "h": [3253.43, 3292.58, 3308.15, 3326.92, 3334.22, 3399.51, 3444.37, 3497.52, 3532.86, 3563.86, 3597.22, 3622.89, 3623.87, 3617.44, 3591.46, 3710.89, 3762.39, 3769.25, 3784.68, 3802.92, 3851.35, 3964.71, 4015.22, 4072.14, 4039.67, 4081.43, 4069.85, 3987.41, 4064.28, 4052.1, 4083.42, 4136.63, 4175.44, 4208.39, 4190.47, 4283.93, 4335.96, 4275.24, 4178.11, 4181.28, 3987.27, 3768.56, 3821.7, 3891.4, 3935.79, 4000.42, 4073.18, 4193.45, 4179.73, 4152.54, 4267.74, 4280.85, 4312.0, 4256.54, 4249.43, 4131.13, 3976.19, 4090.72, 4113.28, 3919.34, 3859.86, 3906.76, 3916.47, 3778.4, 3785.35, 3900.9, 3929.42, 3879.29, 3925.6, 3935.51, 3931.87, 3919.78, 3971.61, 3947.33, 4062.12, 4220.32, 4284.83, 4325.38, 4371.51, 4357.34, 4450.19, 4476.63], "l": [3196.59, 3251.52, 3266.56, 3259.63, 3273.86, 3333.26, 3351.11, 3428.78, 3488.08, 3504.16, 3523.22, 3510.5, 3564.23, 3358.93, 3460.9, 3615.79, 3689.13, 3653.99, 3732.6, 3720.6, 3759.48, 3901.33, 3875.38, 3991.48, 3949.37, 3940.36, 3891.36, 3845.23, 3982.99, 3999.16, 3892.97, 4086.82, 4093.91, 4089.39, 4111.26, 4215.24, 4262.02, 4015.51, 3858.04, 3966.98, 3659.09, 3404.15, 3682.79, 3779.5, 3852.05, 3930.74, 3910.0, 4102.04, 4085.78, 4067.36, 4193.31, 4209.57, 4164.27, 4147.05, 4024.49, 3912.42, 3818.85, 3948.29, 3912.81, 3779.81, 3724.19, 3821.46, 3800.28, 3614.53, 3563.54, 3782.73, 3841.8, 3812.14, 3861.04, 3878.18, 3820.57, 3767.22, 3861.91, 3887.59, 3918.41, 4091.24, 4192.72, 4212.23, 4304.19, 4268.79, 4345.79, 4379.2], "c": [3252.59, 3291.3, 3291.54, 3319.14, 3323.59, 3398.95, 3444.29, 3495.22, 3531.03, 3518.27, 3596.44, 3611.87, 3612.4, 3449.02, 3584.2, 3710.89, 3720.53, 3743.96, 3783.06, 3759.87, 3841.27, 3950.01, 4013.09, 4049.7, 4021.68, 4046.39, 3899.18, 3986.04, 4048.29, 4030.26, 4072.22, 4110.38, 4173.71, 4151.13, 4179.78, 4272.11, 4334.92, 4053.09, 4109.65, 4000.74, 3670.4, 3767.1, 3776.32, 3890.8, 3913.14, 3995.68, 4072.14, 4176.48, 4115.21, 4132.87, 4253.35, 4269.52, 4181.32, 4230.82, 4091.45, 3941.08, 3973.37, 4078.6, 3914.2, 3820.7, 3836.29, 3899.72, 3816.16, 3615.87, 3781.35, 3883.22, 3853.02, 3865.72, 3915.99, 3914.39, 3821.92, 3896.19, 3930.06, 3912.94, 4058.85, 4213.36, 4210.33, 4323.97, 4346.46, 4345.36, 4440.77, 4471.03], "v": [9735044600, 10860139100, 11261610700, 11452805100, 11964488100, 13731410400, 14780728400, 14757211400, 13538987900, 15069587600, 13103910100, 16066064600, 15048542400, 17272554100, 13888929200, 16349811600, 17438934100, 15176306100, 11725696800, 13217545600, 14652571300, 16056820000, 20839744900, 17111394000, 14063821000, 13932622100, 15667755300, 13171977400, 13927798800, 13075627400, 15617106200, 17356209000, 16139947800, 18098438800, 15419286000, 17861517400, 17209764200, 18559672900, 17311531200, 16093498500, 11485935700, 15713795900, 14587385200, 14236647500, 13587719200, 13384273900, 14947239800, 16694849900, 13838560400, 10866553200, 12897774800, 12458181400, 13521277500, 11291985600, 11969203700, 10160665500, 9381746900, 9511348100, 9783161000, 8609998500, 7425406000, 6974921700, 5647477700, 6340593600, 8073724100, 8348053900, 7656333400, 5135388000, 5515836300, 4602447100, 4761528000, 4871222300, 6287183400, 4873759500, 8311064600, 12166896400, 11098925200, 9395004300, 9921066900, 10024581300, 11258976800, 10856141000], "ma": {"MA5": [null, null, null, null, 3295.63, 3324.9, 3355.5, 3396.24, 3438.62, 3477.55, 3517.05, 3550.57, 3574.0, 3557.6, 3570.79, 3593.67, 3615.41, 3641.72, 3708.53, 3743.66, 3769.74, 3815.63, 3869.46, 3922.79, 3975.15, 4016.17, 4006.01, 4000.6, 4000.32, 4002.03, 4007.2, 4049.44, 4086.97, 4107.54, 4137.44, 4177.42, 4222.33, 4198.21, 4189.91, 4154.1, 4033.76, 3920.2, 3864.84, 3821.07, 3803.55, 3868.61, 3929.61, 4009.65, 4054.53, 4098.48, 4150.01, 4189.49, 4190.45, 4213.58, 4205.29, 4142.84, 4083.61, 4063.06, 3999.74, 3945.59, 3924.63, 3909.9, 3857.42, 3797.75, 3789.88, 3799.27, 3789.92, 3799.84, 3859.86, 3886.47, 3874.21, 3882.84, 3895.71, 3895.1, 3923.99, 4002.28, 4065.11, 4143.89, 4230.59, 4287.89, 4333.38, 4385.52], "MA20": [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, 3521.91, 3551.34, 3584.28, 3620.35, 3656.88, 3691.79, 3724.16, 3746.9, 3771.44, 3797.31, 3822.91, 3846.7, 3871.62, 3899.69, 3934.79, 3964.57, 3992.63, 4023.35, 4038.81, 4055.14, 4067.18, 4058.64, 4049.49, 4037.66, 4029.71, 4024.28, 4021.75, 4030.4, 4039.92, 4043.26, 4048.39, 4057.45, 4065.41, 4065.79, 4069.77, 4065.36, 4048.8, 4030.73, 4032.0, 4022.23, 4013.23, 4021.52, 4028.15, 4030.15, 4016.4, 4009.81, 4004.19, 3993.23, 3977.69, 3967.73, 3956.81, 3935.24, 3916.57, 3904.01, 3888.11, 3886.48, 3900.1, 3911.95, 3924.21, 3945.83, 3972.06, 4002.28, 4030.85], "MA60": [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, 3867.44, 3877.17, 3887.31, 3896.05, 3901.0, 3908.63, 3916.7, 3923.51, 3929.68, 3936.1, 3942.7, 3946.46, 3951.2, 3956.49, 3964.23, 3972.14, 3980.51, 3988.67, 3998.34, 4007.73, 4017.49, 4027.48, 4036.17]}};
+  CHART_530.mode = "candle";
+  CHART_530.marks = [
+    {"date":"2007-05-29","price":4335.96,"type":"s","text":"前高 4336"},
+    {"date":"2007-05-30","price":4015.51,"type":"s","text":"530低 4015"},
+    {"date":"2007-06-04","price":3670.40,"type":"s","text":"短期最低 3670"},
+    {"date":"2007-07-31","price":4471.03,"type":"b","text":"反弹创新高 4471"}
+  ];
+  CHART_530.pivots = [
+    {"from":"2007-05-30","to":"2007-06-15","lo":4015,"hi":4178,"label":"震荡区"}
+  ];
+  drawChanChart("cv_530", CHART_530);
+</script>
+<script src="/assets/_nav.js"></script><script src="/assets/_shell.js"></script></body>
+</html>

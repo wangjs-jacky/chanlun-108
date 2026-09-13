@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>缠论 · 教你炒股票53：三类买卖点的再分辨</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@500;700;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0b0e12;--bg-elev:#12161c;--bg-card:#161b22;
+    --ink:#e8eaed;--ink-dim:#9aa3ad;--ink-faint:#5b6470;
+    --line:rgba(255,255,255,.07);
+    --up:#ff4d4f;--down:#16c784;--pivot:#37c0e6;--gold:#e8b339;--blue:#00d4ff;
+    --max:880px;--serif:"Noto Serif SC",serif;--mono:"JetBrains Mono",ui-monospace,monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--ink);font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;line-height:1.85;font-size:17px;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  body::before{content:"";position:fixed;inset:0;z-index:-2;background:radial-gradient(1200px 600px at 70% -10%,rgba(55,192,230,.08),transparent 60%),radial-gradient(900px 500px at 0% 100%,rgba(232,179,57,.05),transparent 55%);pointer-events:none}
+  body::after{content:"";position:fixed;inset:0;z-index:-1;opacity:.4;background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);background-size:46px 46px;-webkit-mask-image:radial-gradient(ellipse at 50% 0%,#000 30%,transparent 80%);mask-image:radial-gradient(ellipse at 50% 0%,#000 30%,transparent 80%);pointer-events:none}
+  #bar{position:fixed;top:0;left:0;height:3px;width:0;z-index:50;background:linear-gradient(90deg,var(--pivot),var(--gold));box-shadow:0 0 12px var(--pivot)}
+  .wrap{max-width:var(--max);margin:0 auto;padding:0 24px}
+  header.hero{padding:120px 0 70px;text-align:center;position:relative}
+  .kicker{font-family:var(--mono);font-size:13px;letter-spacing:.32em;color:var(--pivot);text-transform:uppercase;margin-bottom:26px}
+  .kicker span{color:var(--ink-faint)}
+  h1.title{font-family:var(--serif);font-weight:900;line-height:1.05;font-size:clamp(44px,10vw,100px);letter-spacing:.04em;background:linear-gradient(180deg,#fff 30%,#8aa0ad 130%);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .sub{margin:22px auto 0;max-width:580px;color:var(--ink-dim);font-size:18px}
+  .meta{margin-top:34px;display:flex;gap:14px;justify-content:center;flex-wrap:wrap;font-family:var(--mono);font-size:12px;color:var(--ink-faint)}
+  .meta b{color:var(--ink-dim);font-weight:500}
+  .pill{border:1px solid var(--line);padding:6px 14px;border-radius:999px;background:rgba(255,255,255,.02)}
+  .scroll-hint{margin-top:60px;color:var(--ink-faint);font-family:var(--mono);font-size:12px;animation:bob 2.4s ease-in-out infinite}
+  @keyframes bob{0%,100%{transform:translateY(0);opacity:.5}50%{transform:translateY(8px);opacity:1}}
+  section{padding:64px 0;border-top:1px solid var(--line)}
+  .sec-no{font-family:var(--mono);font-size:13px;color:var(--gold);letter-spacing:.2em;margin-bottom:10px}
+  h2{font-family:var(--serif);font-weight:700;font-size:clamp(28px,5vw,42px);line-height:1.25;margin-bottom:8px;letter-spacing:.02em}
+  .lead{color:var(--ink-dim);font-size:16px;margin-bottom:28px;max-width:660px}
+  p{margin:0 0 18px;color:#cfd5dc}
+  p b,strong{color:#fff;font-weight:700}
+  .hl-pivot{color:var(--pivot);font-weight:700}.hl-up{color:var(--up);font-weight:700}
+  .hl-down{color:var(--down);font-weight:700}.hl-gold{color:var(--gold);font-weight:700}
+  blockquote{margin:26px 0;padding:20px 24px;border-left:3px solid var(--pivot);background:linear-gradient(90deg,rgba(55,192,230,.07),transparent);border-radius:0 10px 10px 0;font-family:var(--serif);font-size:19px;color:#eaf6fb}
+  blockquote .who{display:block;margin-top:8px;font-family:var(--mono);font-size:12px;color:var(--ink-faint);font-style:normal}
+  figure{margin:34px 0}
+  figure img{width:100%;border-radius:12px;border:1px solid var(--line);background:#fff;box-shadow:0 18px 50px rgba(0,0,0,.5)}
+  figcaption{margin-top:12px;font-size:13px;color:var(--ink-faint);text-align:center;font-family:var(--mono)}
+  .grid{display:grid;gap:16px;grid-template-columns:1fr 1fr;margin:28px 0}
+  @media(max-width:640px){.grid{grid-template-columns:1fr}}
+  .card{background:var(--bg-card);border:1px solid var(--line);border-radius:14px;padding:24px;position:relative;overflow:hidden;transition:transform .35s ease,border-color .35s ease}
+  .card:hover{transform:translateY(-4px);border-color:rgba(55,192,230,.4)}
+  .card .tag{font-family:var(--mono);font-size:11px;letter-spacing:.18em;color:var(--gold);text-transform:uppercase}
+  .card h3{font-family:var(--serif);font-size:21px;margin:10px 0 8px;color:#fff}
+  .card p{font-size:15px;color:var(--ink-dim);margin:0}
+  .table{margin:28px 0;border:1px solid var(--line);border-radius:14px;overflow:hidden}
+  .table .row{display:grid;grid-template-columns:1.1fr 1.5fr 1.6fr;align-items:stretch}
+  .table .row+.row{border-top:1px solid var(--line)}
+  .table .row>div{padding:16px 18px}
+  .table .row.head{background:var(--bg-elev);font-family:var(--mono);font-size:12px;letter-spacing:.14em;color:var(--ink-faint);text-transform:uppercase}
+  .table .row>div+div{border-left:1px solid var(--line)}
+  .table .name{font-family:var(--serif);font-weight:700;font-size:18px}
+  .table .name.qushi{color:var(--gold)}
+  .cnt{font-family:var(--mono);font-size:14px;color:var(--pivot)}
+  @media(max-width:560px){.table .row{grid-template-columns:1fr}.table .row>div+div{border-left:0;border-top:1px solid var(--line)}.table .row.head{display:none}}
+  .points{margin:26px 0;display:flex;flex-direction:column;gap:14px}
+  .pt{display:flex;gap:16px;align-items:flex-start;background:var(--bg-card);border:1px solid var(--line);border-radius:12px;padding:18px 20px}
+  .pt .dot{flex:none;width:42px;height:42px;border-radius:10px;display:grid;place-items:center;font-family:var(--serif);font-weight:900;font-size:20px;color:#0b0e12}
+  .pt.b .dot{background:var(--up)}.pt.s .dot{background:var(--down)}
+  .pt h4{font-size:17px;margin-bottom:4px;color:#fff}.pt p{font-size:15px;color:var(--ink-dim);margin:0}
+  ol.think{counter-reset:q;list-style:none;margin:24px 0;display:flex;flex-direction:column;gap:14px}
+  ol.think li{counter-increment:q;position:relative;padding:18px 20px 18px 60px;background:var(--bg-elev);border:1px solid var(--line);border-radius:12px;color:var(--ink-dim);font-size:15px}
+  ol.think li::before{content:counter(q,decimal-leading-zero);position:absolute;left:20px;top:18px;font-family:var(--mono);color:var(--gold);font-weight:700}
+  .quiz{margin:22px 0;background:var(--bg-card);border:1px solid var(--line);border-radius:14px;padding:22px 24px}
+  .quiz h4{font-size:16px;color:#fff;margin-bottom:6px}
+  .quiz .ans{margin-top:12px;color:var(--ink-faint);font-size:14px;cursor:pointer}
+  .quiz .ans[open] summary{color:var(--pivot)}
+  .quiz summary{color:var(--gold);font-family:var(--mono);font-size:13px}
+  .tldr{margin:60px 0 0;padding:36px 30px;border:1px solid rgba(55,192,230,.3);border-radius:18px;background:radial-gradient(120% 120% at 100% 0%,rgba(55,192,230,.1),transparent 60%),var(--bg-elev);text-align:center}
+  .tldr .lab{font-family:var(--mono);font-size:12px;letter-spacing:.3em;color:var(--pivot);text-transform:uppercase}
+  .tldr p{font-family:var(--serif);font-size:clamp(20px,3.4vw,28px);line-height:1.7;color:#fff;margin:16px 0 0}
+  footer{padding:60px 0 90px;text-align:center;color:var(--ink-faint);font-family:var(--mono);font-size:12px;border-top:1px solid var(--line)}
+  .reveal{opacity:0;transform:translateY(26px);transition:opacity .8s ease,transform .8s ease}
+  .reveal.in{opacity:1;transform:none}
+  @media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}.scroll-hint{animation:none}}
+  /* 自绘示意图 */
+  .schema{margin:28px 0;background:var(--bg-card);border:1px solid var(--line);border-radius:14px;padding:24px;position:relative}
+  .schema h4{font-family:var(--serif);color:#fff;font-size:18px;margin-bottom:10px}
+  .schema svg{width:100%;height:auto;display:block;margin-top:8px}
+  .schema-cap{margin-top:14px;font-size:14px;color:var(--ink-dim)}
+  /* 显微镜对照 */
+  .scope{display:grid;gap:16px;grid-template-columns:repeat(3,1fr);margin:28px 0}
+  @media(max-width:760px){.scope{grid-template-columns:1fr}}
+  .scope .lens{background:var(--bg-card);border:1px solid var(--line);border-radius:14px;padding:22px 18px;text-align:center;position:relative}
+  .scope .lens .mag{font-family:var(--mono);font-weight:700;font-size:11px;letter-spacing:.18em;color:var(--gold);text-transform:uppercase;margin-bottom:8px}
+  .scope .lens .lvl{font-family:var(--serif);font-weight:900;font-size:26px;color:#fff;display:block;margin-bottom:6px}
+  .scope .lens .desc{font-size:13px;color:var(--ink-dim);line-height:1.6}
+  .scope .arrow{align-self:center;color:var(--ink-faint);font-family:var(--mono);font-size:18px;text-align:center;display:none}
+  /* 关键定理框 */
+  .law{padding:22px 24px;background:linear-gradient(120deg,rgba(255,77,79,.08),transparent 70%),var(--bg-elev);border:1px solid rgba(255,77,79,.35);border-radius:14px;margin:24px 0}
+  .law .ttl{font-family:var(--mono);font-size:12px;letter-spacing:.2em;color:var(--up);text-transform:uppercase;margin-bottom:8px}
+  .law h3{font-family:var(--serif);font-size:22px;color:#fff;margin-bottom:8px}
+  /* 角色定位 */
+  .role{display:grid;gap:16px;grid-template-columns:1fr 1fr 1fr;margin:30px 0}
+  @media(max-width:760px){.role{grid-template-columns:1fr}}
+  .role .r{background:var(--bg-card);border:1px solid var(--line);border-radius:16px;padding:24px 22px;position:relative;overflow:hidden}
+  .role .r .num{position:absolute;right:-8px;top:-14px;font-family:var(--serif);font-weight:900;font-size:120px;color:rgba(255,255,255,.04);line-height:1}
+  .role .r .lab{font-family:var(--mono);font-size:11px;letter-spacing:.2em;color:var(--gold);text-transform:uppercase;margin-bottom:8px;position:relative}
+  .role .r h3{font-family:var(--serif);font-size:20px;color:#fff;margin-bottom:8px;position:relative}
+  .role .r .role-tag{display:inline-block;font-family:var(--mono);font-size:11px;letter-spacing:.1em;padding:3px 10px;border-radius:999px;background:rgba(55,192,230,.12);color:var(--pivot);border:1px solid rgba(55,192,230,.3);margin-bottom:12px;position:relative}
+  .role .r p{font-size:14px;color:var(--ink-dim);margin:0;position:relative}
+  .role .r.one{border-color:rgba(255,77,79,.3)}
+  .role .r.one .role-tag{background:rgba(255,77,79,.1);color:var(--up);border-color:rgba(255,77,79,.3)}
+  .role .r.two{border-color:rgba(232,179,57,.3)}
+  .role .r.two .role-tag{background:rgba(232,179,57,.1);color:var(--gold);border-color:rgba(232,179,57,.3)}
+  .role .r.three{border-color:rgba(55,192,230,.3)}
+  /* a+B+c 等式 */
+  .equation{margin:34px auto;padding:30px 24px;background:var(--bg-elev);border:1px solid var(--line);border-radius:14px;text-align:center;font-family:var(--serif);font-size:clamp(18px,3vw,24px);line-height:1.9;color:#fff;max-width:680px}
+  .equation .op{color:var(--gold);font-family:var(--mono);padding:0 8px}
+  .equation .term{display:inline-block;padding:3px 10px;border-radius:8px;background:rgba(55,192,230,.08);border:1px solid rgba(55,192,230,.2)}
+  .equation .term.gold{background:rgba(232,179,57,.08);border-color:rgba(232,179,57,.3)}
+  .equation .term.up{background:rgba(255,77,79,.08);border-color:rgba(255,77,79,.3)}
+  /* 中枢周期时间轴 */
+  .timeline{margin:30px 0;background:var(--bg-card);border:1px solid var(--line);border-radius:14px;padding:22px 18px}
+  .timeline h4{font-family:var(--serif);color:#fff;font-size:18px;margin-bottom:14px}
+  .stage{display:grid;grid-template-columns:1fr;gap:12px;margin-top:14px}
+  .stage .s{display:grid;grid-template-columns:60px 1fr;gap:14px;align-items:start;padding:14px 16px;background:var(--bg-elev);border:1px solid var(--line);border-radius:10px}
+  .stage .s .badge{font-family:var(--mono);font-weight:700;font-size:12px;color:var(--gold);background:rgba(232,179,57,.08);border:1px solid rgba(232,179,57,.3);border-radius:999px;padding:6px 0;text-align:center;letter-spacing:.05em}
+  .stage .s h5{color:#fff;font-size:15px;margin-bottom:4px}
+  .stage .s p{font-size:14px;color:var(--ink-dim);margin:0}
+</style>
+<meta name="view-transition" content="same-origin"><style>@view-transition{navigation:auto}</style></head>
+<body>
+<div id="bar"></div>
+<header class="hero">
+  <div class="wrap">
+    <div class="kicker">缠中说禅 · 教你炒股票108课 <span>/ 第 53 课</span></div>
+    <h1 class="title">三类买卖点<br>再分辨</h1>
+    <p class="sub">三个买卖点根上都是第一类，为什么还要分三个？因为级别的"显微镜"必须先固定下来——这一课把级别选择、三类分工、操作边界一次讲死。</p>
+    <div class="meta">
+      <span class="pill"><b>原文</b> 2007-05-23</span>
+      <span class="pill"><b>类型</b> 关键技术 · 精细分辨</span>
+      <span class="pill"><b>关键词</b> 级别选择 · 显微镜 · 三类买卖点分工 · 中枢震荡</span>
+    </div>
+    <div class="scroll-hint">↓ 向下滚动，逐层拆解</div>
+  </div>
+</header>
+<main>
+
+<!-- 01 这一课在解决什么问题 -->
+<section class="wrap reveal">
+  <div class="sec-no">01 — 这一课在解决什么问题</div>
+  <h2>三类买卖点其实是同一件事，那为什么要分三个？</h2>
+  <p class="lead">第 20、21 课定义了三类买卖点，第 37 课把背驰精细化。看起来好像已经讲完了——为什么 2007 年 5 月又来一篇"再分辨"？</p>
+  <p>因为缠师发现真实学员还在犯一个根本错误：<b>同一时刻同时切换好几个级别去看走势</b>——一会儿 30 分钟、一会儿 1 分钟、一会儿又年线。结果整张图就成了"叠加态"，每个买卖点都失去明确含义。</p>
+  <p>所以本课的本质不是<span class="hl-down">添加新概念</span>，而是<span class="hl-gold">把三类买卖点放回一个统一的级别框架里再讲一遍</span>，让你明白：</p>
+  <ul style="margin:0 0 18px 22px;color:#cfd5dc;list-style:disc">
+    <li>所有买卖点<b>归根结底都是第一类</b>，只是<b>所在级别不同</b>；</li>
+    <li>但实际操作时<b>必须先固定一个级别</b>，否则乱套；</li>
+    <li>固定级别之后，三类买卖点<b>各管一段</b>、分工明确，<b>没有谁更重要</b>；</li>
+    <li>二、三类买卖点<b>之间</b>，是中枢延续——本级别没有买卖点，要参与只能下沉到低级别。</li>
+  </ul>
+  <blockquote>至于第一、二、三买卖点，归根结底都可以归到第一类买卖点上，只是级别不同。那么为什么不就说第一类买卖点？因为这样，就会涉及不同的级别，等于同时用不同级别的显微镜去看，太乱，实际用起来更乱。<span class="who">— 缠中说禅 · 2007-05-23</span></blockquote>
+  <p>这是一节<b>承上启下</b>的课——上承 17 课的级别概念、20 课的三类定义，下接 54 课起的具体操作流程。看不懂它，后面"两套买卖点系统"的构建就是空中楼阁。</p>
+</section>
+
+<!-- 02 显微镜比喻 -->
+<section class="wrap reveal">
+  <div class="sec-no">02 — 缠师的"显微镜"</div>
+  <h2>级别选择就是选哪个倍数的显微镜</h2>
+  <p class="lead">缠师在这课甩出了缠论里最直观的一个比喻——<b>显微镜</b>。理解了它，"级别"这个抽象词就有了画面感。</p>
+  <blockquote>关于级别的问题，如果想不明白，可以当成用<b>不同倍数的显微镜</b>去看一滴水，由此当然会看出不同的精细度，级别之与走势也一样。<span class="who">— 缠中说禅</span></blockquote>
+  <p>同一段走势，用不同级别去看，得到的"精细度"完全不同：</p>
+
+  <div class="scope">
+    <div class="lens">
+      <div class="mag">×1 倍 · 30 分钟</div>
+      <span class="lvl">30 分钟</span>
+      <div class="desc">每段 5 分钟走势 <b>=</b> 一条<span class="hl-pivot">线段</span>。内部结构看不见——也不必看。所有完成的次级别走势都被"压扁"成一条直线，方便处理。</div>
+    </div>
+    <div class="lens">
+      <div class="mag">×6 倍 · 5 分钟</div>
+      <span class="lvl">5 分钟</span>
+      <div class="desc">原来那条线段被打开，露出由 1 分钟走势组成的内部结构。每段 1 分钟变成了<span class="hl-pivot">新的线段</span>，更细微的高低点显形。</div>
+    </div>
+    <div class="lens">
+      <div class="mag">×30 倍 · 1 分钟</div>
+      <span class="lvl">1 分钟</span>
+      <div class="desc">连 1 分钟段都被剖开，看到内部的分笔。每一笔再细分下去——直到分笔级别，理论上才到尽头。</div>
+    </div>
+  </div>
+
+  <div class="schema">
+    <h4>显微镜原理 · 三个 5 分钟走势 → 30 分钟中枢</h4>
+    <svg viewBox="0 0 720 280" xmlns="http://www.w3.org/2000/svg">
+      <!-- 上：30分钟视角，三条线段 -->
+      <g transform="translate(0,0)">
+        <text x="20" y="22" fill="#37c0e6" font-family="JetBrains Mono" font-size="12" font-weight="700">30 分钟视角 · 三段被看成线段</text>
+        <!-- 三段线段 -->
+        <line x1="60" y1="80" x2="180" y2="40" stroke="#cfd5dc" stroke-width="2.2"/>
+        <line x1="180" y1="40" x2="320" y2="85" stroke="#cfd5dc" stroke-width="2.2"/>
+        <line x1="320" y1="85" x2="460" y2="35" stroke="#cfd5dc" stroke-width="2.2"/>
+        <!-- 高低点 -->
+        <circle cx="60" cy="80" r="3" fill="#ff4d4f"/>
+        <circle cx="180" cy="40" r="3" fill="#ff4d4f"/>
+        <circle cx="320" cy="85" r="3" fill="#ff4d4f"/>
+        <circle cx="460" cy="35" r="3" fill="#ff4d4f"/>
+        <!-- 中枢框 -->
+        <rect x="60" y="40" width="400" height="45" fill="rgba(232,179,57,.10)" stroke="rgba(232,179,57,.6)" stroke-width="1.2" stroke-dasharray="4 3"/>
+        <text x="470" y="60" fill="#e8b339" font-family="Noto Serif SC" font-size="13" font-weight="700">30min 中枢</text>
+        <text x="60" y="105" fill="#9aa3ad" font-family="JetBrains Mono" font-size="10">5min·1 段</text>
+        <text x="220" y="105" fill="#9aa3ad" font-family="JetBrains Mono" font-size="10">5min·2 段</text>
+        <text x="370" y="105" fill="#9aa3ad" font-family="JetBrains Mono" font-size="10">5min·3 段</text>
+      </g>
+      <!-- 分隔 -->
+      <line x1="0" y1="130" x2="720" y2="130" stroke="rgba(255,255,255,.08)"/>
+      <!-- 下：5分钟视角，每段打开 -->
+      <g transform="translate(0,140)">
+        <text x="20" y="22" fill="#e8b339" font-family="JetBrains Mono" font-size="12" font-weight="700">5 分钟视角 · 每段打开，1 分钟笔显形</text>
+        <!-- 第一段内部 -->
+        <polyline points="60,80 80,68 95,75 115,55 130,62 150,48 165,55 180,40" fill="none" stroke="#cfd5dc" stroke-width="1.4"/>
+        <!-- 第二段内部 -->
+        <polyline points="180,40 200,55 215,48 235,65 250,58 270,75 290,68 305,82 320,85" fill="none" stroke="#cfd5dc" stroke-width="1.4"/>
+        <!-- 第三段内部 -->
+        <polyline points="320,85 340,72 355,80 375,60 390,68 410,52 425,60 445,42 460,35" fill="none" stroke="#cfd5dc" stroke-width="1.4"/>
+        <!-- 标注 -->
+        <text x="60" y="105" fill="#9aa3ad" font-family="JetBrains Mono" font-size="10">内部=1min 各笔</text>
+        <text x="220" y="105" fill="#9aa3ad" font-family="JetBrains Mono" font-size="10">高低点偏移开始 / 结束</text>
+      </g>
+    </svg>
+    <p class="schema-cap">同一段走势，<b>30 分钟视角</b>下三段 5 分钟被压扁成三条线段，重叠出 30 分钟中枢（金色框）；切到 <b>5 分钟视角</b>，每条线段都打开了内部结构，1 分钟的笔显现，但<b>高低点未必正好在 5 分钟段的起点/终点</b>。这就是不同倍数显微镜看同一对象的精细度差异。</p>
+  </div>
+
+  <p>用显微镜的语言重述缠师那条核心原则：</p>
+  <div class="law" style="border-color:rgba(55,192,230,.4);background:linear-gradient(120deg,rgba(55,192,230,.07),transparent 70%),var(--bg-elev)">
+    <div class="ttl" style="color:var(--pivot)">显微镜原则 · 不可违背</div>
+    <h3>选定一个级别 = 自动把次级别"看成线段"</h3>
+    <p><b>当你用一个级别的显微镜时，就等于先把次级别的当成线段了，也就是说次级别不在该级别的观察中。</b></p>
+    <p style="margin-top:10px">这是<span class="hl-pivot">缠论实操的根本约定</span>。你决定用 30 分钟操作，就意味着所有完成的 5 分钟走势都被你<b>视为没有内部结构的线段</b>。如果非要在 30 分钟分析里同时考虑 5 分钟和 1 分钟的细枝末节，"那猴子就不是猴子了"——缠师原话。</p>
+  </div>
+
+  <blockquote>这是十分自然的，就像我们研究猴子的行为时，如果还考虑其中的<b>每个细胞里包含的分子里的原子里的电子的走势问题</b>，那猴子就不是猴子了。<span class="who">— 缠中说禅</span></blockquote>
+
+  <p>那么<b>区间套定理</b>（第 33 课）岂不是冲突？缠师明确回答：不冲突。区间套是说"30 分钟进入背驰段后，<span class="hl-gold">为更精细的定位</span>切到 5 分钟去看"——这是<b>当下需要</b>时才切，不是同时切。一个原则不变：<span class="hl-pivot">某一时刻只用一个显微镜</span>。</p>
+</section>
+
+<!-- 03 a+B+c 与盘整背驰 -->
+<section class="wrap reveal">
+  <div class="sec-no">03 — 顺手澄清</div>
+  <h2>背驰 vs 盘整背驰：哪个是"根"？</h2>
+  <p class="lead">在进入三类买卖点的本体讨论之前，缠师顺手把另一个常混淆的概念点透：<b>背驰</b>和<b>盘整背驰</b>到底什么关系。</p>
+  <div class="grid">
+    <div class="card">
+      <div class="tag">根 · 第一性</div>
+      <h3>背驰</h3>
+      <p>有<b>最基础意义</b>的概念——它定义在<span class="hl-pivot">趋势</span>结构里：a+A+b+B+c 的 c 段力度衰减于 b 段，就构成趋势背驰。这是缠师力度分析的<b>原典</b>。</p>
+    </div>
+    <div class="card">
+      <div class="tag">枝 · 推广用法</div>
+      <h3>盘整背驰</h3>
+      <p>把背驰的<b>力度分析方法</b>挪用到中枢震荡上——围绕同一个中枢的两段同方向走势，后段力度小于前段。这只是<span class="hl-gold">"推广"</span>，不是原典。</p>
+    </div>
+  </div>
+
+  <blockquote>对于背驰与盘整背驰，前者是有着最基础意义的；而后者，只是利用前者相应的力度分析方法进行的一个<b>推广用法</b>，主要用在与<b>中枢震荡相关的力度比较</b>中。<span class="who">— 缠中说禅</span></blockquote>
+
+  <p>缠师还给了一个非常重要的视角变换——他指出在 a+B+c 这个二中枢结构里，a 和 c 各自的盘整背驰，<b>都可以看成是 B 这个中枢的中枢震荡</b>：</p>
+
+  <div class="equation">
+    <span class="term">a</span>
+    <span class="op">+</span>
+    <span class="term gold">B</span>
+    <span class="op">+</span>
+    <span class="term">c</span>
+    <br>
+    <span style="font-size:14px;font-family:var(--mono);color:var(--ink-faint);letter-spacing:.1em">a 的盘整背驰 ≡ B 的左侧中枢震荡力度衰减</span>
+    <br>
+    <span style="font-size:14px;font-family:var(--mono);color:var(--ink-faint);letter-spacing:.1em">c 的盘整背驰 ≡ B 的右侧中枢震荡力度衰减</span>
+  </div>
+
+  <p>缠师解释："虽然 a 存在时，B 还没出现，但也不妨这样看。"——这是典型的<b>"事后回看"视角</b>：站在 B 形成之后回头看 a，就把它纳入到 B 的中枢震荡叙事里。<span class="hl-pivot">这个视角统一是为后面三类买卖点能够"归一到第一类"做铺垫</span>。</p>
+</section>
+
+<!-- 04 三类买卖点的统一性 -->
+<section class="wrap reveal">
+  <div class="sec-no">04 — 第一性原理</div>
+  <h2>三个买卖点根上是同一件事</h2>
+  <p class="lead">缠师在本课甩出全篇最颠覆的一句话——三类买卖点都可以归到第一类。这不是修辞，是<b>缠论结构的内在统一性</b>。</p>
+
+  <blockquote>至于第一、二、三买卖点，<b>归根结底都可以归到第一类买卖点上</b>，只是级别不同。<span class="who">— 缠中说禅</span></blockquote>
+
+  <p>怎么理解？把三类买卖点放回各自的<b>背后机制</b>就清楚了：</p>
+
+  <div class="table">
+    <div class="row head"><div>本级别看是…</div><div>低一级看其实是…</div><div>"归一到第一类"的解读</div></div>
+    <div class="row">
+      <div class="name"><span class="hl-up">第一类买点</span></div>
+      <div><b>本级别</b>背驰转折点</div>
+      <div>就是<b>本级别</b>的第一类买点</div>
+    </div>
+    <div class="row">
+      <div class="name"><span class="hl-up">第二类买点</span></div>
+      <div><b>次级别</b>的第一类买点（次级别下跌力度衰减处）</div>
+      <div>低一级的第一类买点，被升档来用</div>
+    </div>
+    <div class="row">
+      <div class="name qushi">第三类买点</div>
+      <div>新一段<b>低级别</b>走势的第一类买点（在回试中枢的小级别背驰里诞生）</div>
+      <div>更低级的第一类买点，被升档来用</div>
+    </div>
+  </div>
+
+  <p>你看，三类买卖点其实是<b>"在哪一级显微镜下看背驰"</b>的不同选择。那为什么还要分三个？缠师的解释是——<span class="hl-gold">如果统一叫"第一类"，就等于同时用三个倍数的显微镜，太乱、实操更乱</span>。所以必须先<b>把级别钉死</b>，在这个固定级别里再分一二三类。这样意义才清楚。</p>
+
+  <div class="law" style="border-color:rgba(232,179,57,.4);background:linear-gradient(120deg,rgba(232,179,57,.07),transparent 70%),var(--bg-elev)">
+    <div class="ttl" style="color:var(--gold)">本级别原则 · 操作前必先固定</div>
+    <h3>同一级别上，三类买卖点都重要，没有优劣</h3>
+    <p>缠师明确表态：<b>三类买卖点，都不能偏废，不能说哪一个更重要</b>——站在同一级别上，三者都重要。它们是<span class="hl-pivot">一波行情里依次出现的三个不同时点</span>，分管的"问题"不一样。下一节展开。</p>
+  </div>
+
+  <p>这条原则也直接堵死了"我只做第一类"或"我只看第三类"这类懒人思维。<b>缺哪一类都不行</b>——因为它们各自有不可替代的功能。</p>
+</section>
+
+<!-- 05 三类的角色分工 -->
+<section class="wrap reveal">
+  <div class="sec-no">05 — 三类的分工</div>
+  <h2>第一、第二、第三：到底谁管什么？</h2>
+  <p class="lead">这是本课的灵魂段落——缠师用三句话把三类买卖点的<b>独特功能</b>定死了。请逐句吃透。</p>
+
+  <div class="role">
+    <div class="r one">
+      <div class="num">01</div>
+      <div class="lab">主力 · 最佳点位</div>
+      <h3>第一类</h3>
+      <div class="role-tag">该级别背驰点</div>
+      <p>就是该级别趋势走完时的<b>背驰转折点</b>。这是最大多数情况的最佳介入点——位置最低、空间最大。<b>只要"该级别"自身的背驰判得对，第一类就是首选。</b></p>
+    </div>
+    <div class="r two">
+      <div class="num">02</div>
+      <div class="lab">专治 · 小转大</div>
+      <h3>第二类</h3>
+      <div class="role-tag">小级别背驰却未触本级别买点</div>
+      <p>专门补<b>"小级别转大级别"</b>的漏。小级别背驰只代表小级别走完，并未触发本级别第一类。这时高点一次级别向下、再一次级别向上若不创新高（或盘整背驰），就构成<b>本级别第二卖点</b>。买点反过来。</p>
+    </div>
+    <div class="r three">
+      <div class="num">03</div>
+      <div class="lab">专治 · 中枢结束</div>
+      <h3>第三类</h3>
+      <div class="role-tag">中枢结束的二选一判别</div>
+      <p>专门对付<b>一个中枢即将结束</b>时的"二选一"：要么扩张成更大级别中枢，要么走出趋势/形成新的同级别中枢。第三类买卖点出现时，<b>新中枢/趋势确认</b>——本级别行情翻篇。</p>
+    </div>
+  </div>
+
+  <p>缠师把第一类的<b>例外</b>讲得特别明确：</p>
+
+  <blockquote>第一类买卖点，就是该级别的背驰点，这足以应付最大多数的情况，但有一种情况是不可以的，就是前面反复强调的<b>小级别转大级别</b>的情况。为什么？因为当小级别背驰时，并触及该级别的第一类买卖点，所以就无须操作。对这种情况，就需要<b>第二类买卖点来补充</b>。<span class="who">— 缠中说禅</span></blockquote>
+
+  <p>翻译成白话：<b>第一类的精确判断依赖"该级别"自己背驰</b>。如果只是次级别小段背驰，但本级别并没有走完背驰段（即"小级别背驰，本级别未触发第一类"），那这次小背驰对本级别交易者来说<span class="hl-pivot">不该操作</span>——这时进就是抢小级别反弹，反弹完了本级别还得继续走。<b>第二类买卖点出来"接力"</b>，专门给这种"小转大"场景兜底。</p>
+
+  <div class="schema">
+    <h4>第二类的特征几何：高点 → 一次级别向下 → 一次级别向上 → 不创新高</h4>
+    <svg viewBox="0 0 720 240" xmlns="http://www.w3.org/2000/svg">
+      <!-- 主走势：上涨段 → 高点 → 回调 → 反弹但不创新高 -->
+      <polyline points="40,200 100,150 160,110 220,60 200,80 240,90 280,75 240,100 290,130 340,150 320,135 360,150 400,135 380,160 430,140 470,125 510,75 540,90 570,75"
+                fill="none" stroke="#cfd5dc" stroke-width="1.8"/>
+      <!-- 顶部前高线 -->
+      <line x1="220" y1="60" x2="700" y2="60" stroke="rgba(255,77,79,.4)" stroke-dasharray="4 3" stroke-width="1.2"/>
+      <text x="640" y="55" fill="#ff4d4f" font-family="JetBrains Mono" font-size="11" font-weight="700">前高 ✕ 未破</text>
+      <!-- 1：第一卖点（背驰高点） -->
+      <circle cx="220" cy="60" r="6" fill="none" stroke="#16c784" stroke-width="2"/>
+      <text x="220" y="44" fill="#16c784" font-family="JetBrains Mono" font-size="12" font-weight="700" text-anchor="middle">1 卖</text>
+      <!-- 一次级别向下 -->
+      <text x="305" y="175" fill="#9aa3ad" font-family="JetBrains Mono" font-size="11">① 一次级别向下</text>
+      <!-- 第二卖点 -->
+      <circle cx="510" cy="75" r="6" fill="#16c784"/>
+      <text x="510" y="60" fill="#16c784" font-family="JetBrains Mono" font-size="12" font-weight="700" text-anchor="middle">2 卖</text>
+      <!-- 一次级别向上 -->
+      <text x="470" y="110" fill="#9aa3ad" font-family="JetBrains Mono" font-size="11">② 一次级别向上</text>
+      <!-- 第三卖：后续延续下行（简化） -->
+      <text x="595" y="120" fill="#9aa3ad" font-family="JetBrains Mono" font-size="11">未创新高 → 卖出</text>
+    </svg>
+    <p class="schema-cap">缠师原文定义："<b>高点一次级别向下后一次级别向上，如果不创新高或盘整背驰，都构成第二类卖点</b>。"这里的"一次级别"指<b>比本级别低一档的级别</b>。买点反向即可。</p>
+  </div>
+
+  <p>第二类买卖点和第一类的相对优先级有两层：</p>
+  <ol class="think">
+    <li>正常情况下（本级别有第一类）<b>：第一类最佳，第二类是补充</b>——第二类位置已经偏高，是退而求其次的备份。</li>
+    <li>小转大场景下（本级别没有第一类，只有次级别背驰）<b>：第二类反而是最佳的</b>——因为这种情况本级别根本就没有第一类买卖点可言。</li>
+  </ol>
+</section>
+
+<!-- 06 第三类与中枢的关系 -->
+<section class="wrap reveal">
+  <div class="sec-no">06 — 第三类的本质</div>
+  <h2>第三类卡的是"中枢的结束时刻"</h2>
+  <p class="lead">第三类买卖点的本质，缠师讲得很狠——它就是中枢生命周期的<b>"二选一"信号灯</b>。</p>
+
+  <blockquote>对于第三类买卖点，其意义就是<b>对付中枢结束的</b>。一个级别的中枢结束，无非面对两种情况：<b>转成更大的中枢，或上涨下跌直到形成新的该级别中枢</b>。第三类买卖点就是告诉什么时候发生这种事情的。<span class="who">— 缠中说禅</span></blockquote>
+
+  <div class="timeline">
+    <h4>本级别中枢的生命周期（一类→二类→延续→三类）</h4>
+    <div class="stage">
+      <div class="s">
+        <div class="badge">起点</div>
+        <div>
+          <h5><span class="hl-up">第一类买点</span>：上一段下跌背驰转折</h5>
+          <p>本级别下跌走势走完，背驰转折——本级别第一类买点诞生。中枢即将形成。</p>
+        </div>
+      </div>
+      <div class="s">
+        <div class="badge">补点</div>
+        <div>
+          <h5><span class="hl-gold">第二类买点</span>：第一次回试低点的次低点</h5>
+          <p>由"走势至少三段"保证后面还有一上——第二类买点位置略高于第一类，但确定性已高度提升。</p>
+        </div>
+      </div>
+      <div class="s">
+        <div class="badge">中段</div>
+        <div>
+          <h5><span style="color:var(--ink-dim)">中枢震荡延续</span>：<b>本级别无买卖点</b></h5>
+          <p>从二类点起，价格围绕中枢上下震荡。<b>这一段，本级别没有任何买卖点</b>。若要参与中枢震荡，只能用低级别的买卖点（下沉显微镜倍数）。</p>
+        </div>
+      </div>
+      <div class="s">
+        <div class="badge">终点</div>
+        <div>
+          <h5><span class="hl-pivot">第三类买点</span>：中枢被向上突破、回试不入</h5>
+          <p>价格离开中枢向上，回头试探一次但<b>不再回到中枢区间</b>——确认中枢结束，新一段（趋势或新中枢）开启。本级别这段行情正式翻篇。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="law" style="border-color:rgba(0,212,255,.4);background:linear-gradient(120deg,rgba(0,212,255,.07),transparent 70%),var(--bg-elev)">
+    <div class="ttl" style="color:var(--blue)">关键洞察 · 二类与三类之间是空白</div>
+    <h3>本级别在中枢延续期内没有买卖点</h3>
+    <p><b>"在第二、三买卖点之间，都是中枢延续，这时候，是不会有该级别的买卖点的。"</b></p>
+    <p style="margin-top:10px">所以如果你打算用<b>本级别</b>操作并且<span class="hl-down">不参与中枢震荡</span>，那就静等第三类——这就是缠师推荐的"最干脆做法"。</p>
+    <p style="margin-top:8px">若你要在中枢震荡里赚钱，<b>必须切换到低级别的显微镜</b>，在低级别上找一二三类买卖点来回滚——这就是后面"利润最大化"章节的核心思路。</p>
+  </div>
+</section>
+
+<!-- 07 操作建议 -->
+<section class="wrap reveal">
+  <div class="sec-no">07 — 操作建议</div>
+  <h2>三类买卖点怎么选？大资金 vs 小资金</h2>
+  <p class="lead">缠师最后给了实操建议——这一段非常重要，是 49 课"利润最大操作模式"的前奏。</p>
+
+  <div class="grid">
+    <div class="card">
+      <div class="tag">推荐 · 最干脆</div>
+      <h3>只做预设的三类买卖点</h3>
+      <p><b>不参与中枢震荡</b>，只在第一、二、三类买卖点上买卖。这是<span class="hl-pivot">复杂度最低</span>、对个人能力要求最小的玩法，适合大多数散户。</p>
+    </div>
+    <div class="card">
+      <div class="tag">进阶 · 大资金 / 高手</div>
+      <h3>参与中枢震荡</h3>
+      <p>大资金或操作时间足、熟练度高的资金<b>可以参与中枢震荡</b>。如果中枢级别足够大，<span class="hl-gold">中枢震荡产生的利润往往更大且更稳定</span>。但这要切到低级别去找买卖点。</p>
+    </div>
+    <div class="card">
+      <div class="tag">趋势中 · 视情况</div>
+      <h3>趋势里要不要做小级别？</h3>
+      <p>趋势的情况下，<b>小级别买卖点未必都要参与</b>。但如果技术好或大资金，同样可以——目的是<span class="hl-up">提高资金利用率</span>、加快"成本变零"或增持筹码的过程。</p>
+    </div>
+    <div class="card">
+      <div class="tag">前提 · 仓位调配</div>
+      <h3>小级别参与受容量限制</h3>
+      <p>小级别能容纳的资金量有限——大资金强行做小级别买卖点会"打掉"行情。所以这种玩法绕不开<b>仓位调配控制</b>，缠师说这是后面专门要讲的话题（即 49、56 课）。</p>
+    </div>
+  </div>
+
+  <blockquote>实际操作中，最干脆的做法，就是<b>不参与中枢震荡，只在预先设定的买卖点上买卖</b>。但对于大资金来说，或者对于有足够操作时间和熟练度的资金来说，中枢震荡当然是可以参与的，而且如果中枢级别足够，其产生的利润往往更大而且稳定。<span class="who">— 缠中说禅</span></blockquote>
+
+  <p>缠师的潜台词非常清楚：<b>玩法的复杂度和你的能力/资金量必须匹配</b>。新手别贪做中枢震荡——你不是不能做，是<span class="hl-down">大概率做不好</span>。先把"只做三类买卖点"练熟，再考虑下沉级别。</p>
+</section>
+
+<!-- 08 自绘示意图：三类在结构里的位置 -->
+<section class="wrap reveal">
+  <div class="sec-no">08 — 一图汇总</div>
+  <h2>三类买卖点在一段完整行情里的位置</h2>
+  <p class="lead">把前面所有内容塞进一张图——这是本课最该记住的画面。</p>
+
+  <div class="schema">
+    <h4>本级别完整段：下跌背驰 → 中枢 → 突破确认</h4>
+    <svg viewBox="0 0 720 320" xmlns="http://www.w3.org/2000/svg">
+      <!-- 下跌段 -->
+      <polyline points="20,40 50,70 30,85 70,100 90,120 75,135 110,150 130,170 115,180 150,200 170,215 195,225"
+                fill="none" stroke="#16c784" stroke-width="1.6"/>
+      <!-- 1 买 -->
+      <circle cx="195" cy="225" r="8" fill="#ff4d4f"/>
+      <text x="195" y="248" fill="#ff4d4f" font-family="Noto Serif SC" font-size="13" font-weight="900" text-anchor="middle">1 买</text>
+      <text x="195" y="262" fill="#ff4d4f" font-family="JetBrains Mono" font-size="10" text-anchor="middle">背驰转折</text>
+
+      <!-- 上升到第二买点 -->
+      <polyline points="195,225 215,200 200,210 235,180 250,165 240,175 265,155" fill="none" stroke="#cfd5dc" stroke-width="1.6"/>
+      <!-- 第一次回调到 2 买 -->
+      <polyline points="265,155 280,170 295,175 285,180 305,195" fill="none" stroke="#cfd5dc" stroke-width="1.6"/>
+      <circle cx="305" cy="195" r="7" fill="#ff4d4f"/>
+      <text x="305" y="218" fill="#ff4d4f" font-family="Noto Serif SC" font-size="13" font-weight="900" text-anchor="middle">2 买</text>
+      <text x="305" y="232" fill="#ff4d4f" font-family="JetBrains Mono" font-size="10" text-anchor="middle">不创新低</text>
+
+      <!-- 中枢震荡：从2买开始震荡 -->
+      <polyline points="305,195 325,165 340,180 360,150 350,160 380,170 395,150 410,180 425,160 445,185 460,158 480,178"
+                fill="none" stroke="#9aa3ad" stroke-width="1.4" stroke-dasharray="3 2"/>
+      <!-- 中枢区间框 -->
+      <rect x="265" y="150" width="220" height="50" fill="rgba(232,179,57,.08)" stroke="rgba(232,179,57,.6)" stroke-width="1.4" stroke-dasharray="5 4"/>
+      <text x="375" y="142" fill="#e8b339" font-family="Noto Serif SC" font-size="13" font-weight="700" text-anchor="middle">本级别中枢</text>
+      <text x="498" y="178" fill="#e8b339" font-family="JetBrains Mono" font-size="10">ZG ZD</text>
+      <!-- 中枢震荡区注释 -->
+      <text x="375" y="285" fill="#9aa3ad" font-family="JetBrains Mono" font-size="11" text-anchor="middle">本级别此段无买卖点 · 想做要降级别</text>
+
+      <!-- 向上突破 -->
+      <polyline points="480,178 510,130 495,140 530,115 550,100 535,110 570,90" fill="none" stroke="#cfd5dc" stroke-width="1.8"/>
+      <!-- 回试 -->
+      <polyline points="570,90 585,115 600,140 590,145 615,148" fill="none" stroke="#cfd5dc" stroke-width="1.6"/>
+      <!-- 3 买 -->
+      <circle cx="615" cy="148" r="8" fill="#37c0e6"/>
+      <text x="615" y="172" fill="#37c0e6" font-family="Noto Serif SC" font-size="13" font-weight="900" text-anchor="middle">3 买</text>
+      <text x="615" y="186" fill="#37c0e6" font-family="JetBrains Mono" font-size="10" text-anchor="middle">回试不入中枢</text>
+
+      <!-- 续涨 -->
+      <polyline points="615,148 640,110 660,85 680,55 700,30" fill="none" stroke="#cfd5dc" stroke-width="1.6"/>
+      <!-- ZG 延长线 -->
+      <line x1="265" y1="150" x2="700" y2="150" stroke="rgba(232,179,57,.4)" stroke-dasharray="3 3" stroke-width="1"/>
+      <text x="265" y="146" fill="#e8b339" font-family="JetBrains Mono" font-size="9">ZG 线</text>
+    </svg>
+    <p class="schema-cap">
+      <b>1 买（红）</b>：下跌段背驰转折 → 本级别第一类买点。<br>
+      <b>2 买（红）</b>：1 买后第一次回调形成的次低点 → 第二类买点。<br>
+      <b>中枢震荡区（金色虚线框）</b>：从 2 买开始，价格围绕本级别中枢上下摆动——<b>本级别在此段没有买卖点</b>，参与只能切到低级别。<br>
+      <b>3 买（青）</b>：价格向上离开中枢后回试，但<b>不再回到中枢区间</b>（不破 ZG）→ 第三类买点。本级别此段翻篇。
+    </p>
+  </div>
+
+  <p>读这张图时，请把"本级别"这个限定词时刻贴在脑子里——<b>三类的诞生、消失，都是相对于这个固定级别说的</b>。换显微镜倍数，整张图都要重画。</p>
+</section>
+
+<!-- 09 判图练习 -->
+<section class="wrap reveal">
+  <div class="sec-no">09 — 判图练习</div>
+  <h2>用今天学的"再分辨"过过手</h2>
+  <p class="lead">下面三道题，用本课的"再分辨"框架去答。答案折叠在 details 里——先自己做，再展开核对。</p>
+
+  <div class="quiz">
+    <h4>题 1：5 分钟级别一波上涨段背驰确认了，但 30 分钟级别中枢明显还在延续，这是几类买点机会？</h4>
+    <details class="ans"><summary>查看答案</summary><p>这是<b>5 分钟级别的第一类卖点</b>（因为本课的反向：5 分钟段背驰转折→5 分钟一类卖）。但<b>对于 30 分钟级别交易者来说，这只是次级别小转大场景</b>——本级别（30 分钟）没有触发第一类，只能等<b>30 分钟级别的第二类卖点</b>来兜底（高点一次级别向下后一次级别向上不创新高）。注意：是 5 分钟一类，还是 30 分钟二类——取决于<span class="hl-pivot">你用哪个显微镜</span>。</p></details>
+  </div>
+
+  <div class="quiz">
+    <h4>题 2：一只股票在 30 分钟中枢里反复震荡了 2 个月，期间你能找到几类 30 分钟买卖点机会？</h4>
+    <details class="ans"><summary>查看答案</summary><p>从二类点（开始震荡）到三类点（突破确认）之间，<b>30 分钟级别没有任何买卖点</b>——这正是本课最关键的"中枢延续期空白"原则。如果你只看 30 分钟，2 个月里只能等三类买点（或反向若中枢向下破，等三类卖点）。要参与中枢震荡，必须切到 5 分钟或 1 分钟去找买卖点反复滚。</p></details>
+  </div>
+
+  <div class="quiz">
+    <h4>题 3：30 分钟向上突破后回试，价格略微跌进了原来的 30 分钟 ZG 之内才反弹，这还算第三类买点吗？</h4>
+    <details class="ans"><summary>查看答案</summary><p>不算。<b>第三类买点的硬条件是"回试不入中枢"</b>——也就是回试低点必须高于 ZG。一旦跌进 ZG 之内，说明中枢可能在延续或扩张，第三类买点的"突破确认"功能就失效了。这时正确的反应是：放弃三类买点判断，回到中枢震荡逻辑里继续观察，等下次真正干净的突破回试。</p></details>
+  </div>
+</section>
+
+<!-- 10 思考题 -->
+<section class="wrap reveal">
+  <div class="sec-no">10 — 思考题</div>
+  <h2>缠师留的小作业 + 我补充</h2>
+  <p class="lead">本课原文没有显式思考题，但缠师埋了几个关键问号——把它们捞出来自己练。</p>
+
+  <ol class="think">
+    <li>三类买卖点既然根上都是第一类，那为什么<b>第二类还能比第一类"更佳"</b>？这"更佳"指的是<span class="hl-pivot">概率</span>还是<span class="hl-gold">位置</span>？（提示：在小转大场景下，本级别根本没有第一类，所以第二类自然成为"最优可见信号"——这是"更佳"的真正含义。）</li>
+    <li>"在第二、三买卖点之间，本级别没有买卖点"——为什么是<b>"之间"</b>而不是"之后"？（提示：因为第三类一旦出现，本级别中枢就结束了，进入新的级别叙事；"之间"指的是中枢的延续期。）</li>
+    <li>缠师说"分笔的买卖点最充分"但<b>不可操作</b>——他给了哪几个客观理由？（提示：人需要反应时间、交易成本。所以"忽略某些波动、按更大级别同一操作"是客观必然，<span class="hl-gold">不是理论的妥协</span>。）</li>
+    <li>用本课的"显微镜原则"重新解读 33 课的<b>区间套定理</b>：为什么"切到低级别精确定位"和"同时用多个显微镜"不冲突？（提示：区间套是<span class="hl-pivot">时序切换</span>——某一时刻只用一个显微镜，只是用完会换。）</li>
+    <li>缠师反复强调"中枢震荡产生的利润<b>往往更大且更稳定</b>"——为什么是"更大"？（提示：因为震荡区间内可以反复做 T，单次小幅利润叠加；而趋势行情虽然单次幅度大，但只能做一次。结合资金量与时间投入想想。）</li>
+  </ol>
+</section>
+
+<!-- 11 一句话总结 -->
+<section class="wrap">
+  <div class="tldr">
+    <div class="lab">TL;DR · 一句话总结</div>
+    <p>三类买卖点根上都是第一类，<br>但只有把<b>显微镜倍数（级别）</b>钉死，<br>它们的"分工"才有意义——<br>第一类管<b>背驰</b>，第二类补<b>小转大</b>，第三类卡<b>中枢结束</b>。</p>
+  </div>
+</section>
+
+</main>
+<footer class="wrap">
+  原文出处：raw/缠中说禅/教你炒股票108课/教你炒股票53：三类买卖点的再分辨.md<br>
+  本页为个人学习复习用 · 非投资建议
+</footer>
+<script>
+  const bar=document.getElementById('bar');
+  const onScroll=()=>{const h=document.documentElement;bar.style.width=(h.scrollTop/(h.scrollHeight-h.clientHeight)*100)+'%'};
+  document.addEventListener('scroll',onScroll,{passive:true});onScroll();
+  const io=new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{threshold:.12});
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+</script>
+<script src="/assets/_nav.js"></script><script src="/assets/_shell.js"></script></body>
+</html>

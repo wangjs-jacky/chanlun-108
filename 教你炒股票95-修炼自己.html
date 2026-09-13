@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>缠论 · 教你炒股票95：修炼自己</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@500;700;900&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0b0e12;
+    --bg-elev:#12161c;
+    --bg-card:#161b22;
+    --ink:#e8eaed;
+    --ink-dim:#9aa3ad;
+    --ink-faint:#5b6470;
+    --line:rgba(255,255,255,.07);
+    --up:#ff4d4f;
+    --down:#16c784;
+    --pivot:#37c0e6;
+    --gold:#e8b339;
+    --max:880px;
+    --serif:"Noto Serif SC",serif;
+    --mono:"JetBrains Mono",ui-monospace,monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--bg);color:var(--ink);
+    font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;
+    line-height:1.85;font-size:17px;-webkit-font-smoothing:antialiased;overflow-x:hidden;
+  }
+  body::before{
+    content:"";position:fixed;inset:0;z-index:-2;
+    background:
+      radial-gradient(1200px 600px at 70% -10%, rgba(232,179,57,.08), transparent 60%),
+      radial-gradient(900px 500px at 0% 100%, rgba(55,192,230,.05), transparent 55%);
+    pointer-events:none;
+  }
+  body::after{
+    content:"";position:fixed;inset:0;z-index:-1;opacity:.4;
+    background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);
+    background-size:46px 46px;
+    -webkit-mask-image:radial-gradient(ellipse at 50% 0%, #000 30%, transparent 80%);
+            mask-image:radial-gradient(ellipse at 50% 0%, #000 30%, transparent 80%);
+    pointer-events:none;
+  }
+  #bar{position:fixed;top:0;left:0;height:3px;width:0;z-index:50;
+    background:linear-gradient(90deg,var(--gold),var(--pivot));box-shadow:0 0 12px var(--gold);}
+  .wrap{max-width:var(--max);margin:0 auto;padding:0 24px}
+
+  header.hero{padding:120px 0 70px;text-align:center;position:relative}
+  .kicker{font-family:var(--mono);font-size:13px;letter-spacing:.32em;color:var(--gold);
+    text-transform:uppercase;margin-bottom:26px}
+  .kicker span{color:var(--ink-faint)}
+  h1.title{font-family:var(--serif);font-weight:900;line-height:1.05;
+    font-size:clamp(48px,11vw,108px);letter-spacing:.04em;
+    background:linear-gradient(180deg,#fff 30%,#8aa0ad 130%);
+    -webkit-background-clip:text;background-clip:text;color:transparent;}
+  .sub{margin:22px auto 0;max-width:560px;color:var(--ink-dim);font-size:18px}
+  .meta{margin-top:34px;display:flex;gap:14px;justify-content:center;flex-wrap:wrap;
+    font-family:var(--mono);font-size:12px;color:var(--ink-faint)}
+  .meta b{color:var(--ink-dim);font-weight:500}
+  .pill{border:1px solid var(--line);padding:6px 14px;border-radius:999px;background:rgba(255,255,255,.02)}
+  .scroll-hint{margin-top:60px;color:var(--ink-faint);font-family:var(--mono);font-size:12px;
+    animation:bob 2.4s ease-in-out infinite}
+  @keyframes bob{0%,100%{transform:translateY(0);opacity:.5}50%{transform:translateY(8px);opacity:1}}
+
+  section{padding:64px 0;border-top:1px solid var(--line)}
+  .sec-no{font-family:var(--mono);font-size:13px;color:var(--gold);letter-spacing:.2em;margin-bottom:10px}
+  h2{font-family:var(--serif);font-weight:700;font-size:clamp(28px,5vw,42px);
+    line-height:1.25;margin-bottom:8px;letter-spacing:.02em}
+  .lead{color:var(--ink-dim);font-size:16px;margin-bottom:28px;max-width:640px}
+  p{margin:0 0 18px;color:#cfd5dc}
+  p b,strong{color:#fff;font-weight:700}
+  .hl-pivot{color:var(--pivot);font-weight:700}
+  .hl-up{color:var(--up);font-weight:700}
+  .hl-down{color:var(--down);font-weight:700}
+  .hl-gold{color:var(--gold);font-weight:700}
+
+  blockquote{margin:26px 0;padding:20px 24px;border-left:3px solid var(--gold);
+    background:linear-gradient(90deg,rgba(232,179,57,.08),transparent);
+    border-radius:0 10px 10px 0;font-family:var(--serif);font-size:19px;color:#f3ebd6}
+  blockquote .who{display:block;margin-top:8px;font-family:var(--mono);font-size:12px;
+    color:var(--ink-faint);font-style:normal}
+
+  figure{margin:34px 0}
+  figure img{width:100%;border-radius:12px;border:1px solid var(--line);
+    background:#fff;box-shadow:0 18px 50px rgba(0,0,0,.5)}
+  figcaption{margin-top:12px;font-size:13px;color:var(--ink-faint);text-align:center;font-family:var(--mono)}
+
+  .grid{display:grid;gap:16px;grid-template-columns:1fr 1fr;margin:28px 0}
+  @media(max-width:640px){.grid{grid-template-columns:1fr}}
+  .card{background:var(--bg-card);border:1px solid var(--line);border-radius:14px;padding:24px;
+    position:relative;overflow:hidden;transition:transform .35s ease,border-color .35s ease}
+  .card:hover{transform:translateY(-4px);border-color:rgba(232,179,57,.4)}
+  .card .tag{font-family:var(--mono);font-size:11px;letter-spacing:.18em;color:var(--gold);text-transform:uppercase}
+  .card h3{font-family:var(--serif);font-size:21px;margin:10px 0 8px;color:#fff}
+  .card p{font-size:15px;color:var(--ink-dim);margin:0}
+
+  /* 三态对比 */
+  .table{margin:28px 0;border:1px solid var(--line);border-radius:14px;overflow:hidden}
+  .table .row{display:grid;grid-template-columns:1.1fr 1.5fr 1.6fr;align-items:stretch}
+  .table .row+.row{border-top:1px solid var(--line)}
+  .table .row > div{padding:16px 18px}
+  .table .row.head{background:var(--bg-elev);font-family:var(--mono);font-size:12px;
+    letter-spacing:.14em;color:var(--ink-faint);text-transform:uppercase}
+  .table .row > div+div{border-left:1px solid var(--line)}
+  .table .name{font-family:var(--serif);font-weight:700;font-size:18px}
+  .table .name.bad{color:var(--down)}
+  .table .name.good{color:var(--up)}
+  @media(max-width:560px){
+    .table .row{grid-template-columns:1fr}
+    .table .row > div+div{border-left:0;border-top:1px solid var(--line)}
+    .table .row.head{display:none}
+  }
+
+  /* 演化路径条目 */
+  .points{margin:26px 0;display:flex;flex-direction:column;gap:14px}
+  .pt{display:flex;gap:16px;align-items:flex-start;background:var(--bg-card);
+    border:1px solid var(--line);border-radius:12px;padding:18px 20px}
+  .pt .dot{flex:none;width:52px;height:52px;border-radius:10px;display:grid;place-items:center;
+    font-family:var(--mono);font-weight:700;font-size:12px;color:#0b0e12;letter-spacing:.04em}
+  .pt.best .dot{background:var(--up)}
+  .pt.mid  .dot{background:var(--gold)}
+  .pt.bad  .dot{background:var(--down)}
+  .pt h4{font-size:17px;margin-bottom:4px;color:#fff}
+  .pt p{font-size:15px;color:var(--ink-dim);margin:0}
+
+  /* 警句条目 */
+  ol.think{counter-reset:q;list-style:none;margin:24px 0;display:flex;flex-direction:column;gap:14px}
+  ol.think li{counter-increment:q;position:relative;padding:18px 20px 18px 60px;
+    background:var(--bg-elev);border:1px solid var(--line);border-radius:12px;color:var(--ink-dim);font-size:15px}
+  ol.think li::before{content:counter(q,decimal-leading-zero);position:absolute;left:20px;top:18px;
+    font-family:var(--mono);color:var(--gold);font-weight:700}
+  ol.think li b{color:#fff}
+
+  .tldr{margin:60px 0 0;padding:36px 30px;border:1px solid rgba(232,179,57,.3);border-radius:18px;
+    background:radial-gradient(120% 120% at 100% 0%,rgba(232,179,57,.1),transparent 60%),var(--bg-elev);text-align:center}
+  .tldr .lab{font-family:var(--mono);font-size:12px;letter-spacing:.3em;color:var(--gold);text-transform:uppercase}
+  .tldr p{font-family:var(--serif);font-size:clamp(20px,3.4vw,28px);line-height:1.7;color:#fff;margin:16px 0 0}
+
+  footer{padding:60px 0 90px;text-align:center;color:var(--ink-faint);font-family:var(--mono);font-size:12px;border-top:1px solid var(--line)}
+
+  .reveal{opacity:0;transform:translateY(26px);transition:opacity .8s ease,transform .8s ease}
+  .reveal.in{opacity:1;transform:none}
+  @media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}.scroll-hint{animation:none}}
+</style>
+<meta name="view-transition" content="same-origin"><style>@view-transition{navigation:auto}</style></head>
+<body>
+<div id="bar"></div>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="kicker">缠中说禅 · 教你炒股票108课 <span>/ 第 95 课</span></div>
+    <h1 class="title">修炼自己</h1>
+    <p class="sub">市场不是选秀场，是刀和血。战胜市场，只有一条路——把自己修炼成最顶尖的那一小部分。</p>
+    <div class="meta">
+      <span class="pill"><b>原文</b> 2008-01-22</span>
+      <span class="pill"><b>类型</b> 心法 · 操作哲学</span>
+      <span class="pill"><b>关键词</b> 0 投入 · 第一笔钱 · 修炼 · 走势语言</span>
+    </div>
+    <div class="scroll-hint">↓ 向下滚动，逐层拆解</div>
+  </div>
+</header>
+
+<main>
+  <!-- 1 -->
+  <section class="wrap reveal">
+    <div class="sec-no">01 — 残酷真相</div>
+    <h2>市场众生：糊涂蛋、青蛙与赌徒</h2>
+    <p class="lead">这一课开门见山——大多数人根本不知道自己在面对什么。</p>
+    <p>市场里最多的是<b>糊涂蛋</b>：赚钱不知为什么、亏钱也不知为什么，最后变成<b>井底之蛙</b>，仰头惊呼"天空好大，怎么处理啊？"——他们从进场第一天起，就<b>没搞清楚市场是什么</b>，却一路加注，直到输红眼、砸锅卖铁。</p>
+    <blockquote>
+      所有把市场当赌场的，最终的命运都只能是悲惨的。
+      <span class="who">— 缠中说禅</span>
+    </blockquote>
+    <p>这不是道德批评，是冷冰冰的统计结果。你必须先认识到：你正面对的是<span class="hl-gold">一场刀与血的搏杀</span>，不是一场可以靠运气和心情参与的游戏。</p>
+  </section>
+
+  <!-- 2 -->
+  <section class="wrap reveal">
+    <div class="sec-no">02 — 第一忠告</div>
+    <h2>0 投入：用市场的钱赚市场的钱</h2>
+    <p class="lead">缠师给众生最直接的一条忠告。</p>
+    <blockquote>
+      市场，就是要 <b>0 投入</b> 去赚钱。
+      <span class="who">— 本课核心观点</span>
+    </blockquote>
+    <p>他自述：90 年代初打新股赚到第一笔钱后，<b>把本金抽回</b>，剩下利润留在市场。<b>此后无论操作多大资金，他没有再往市场投入过 1 分钱</b>。</p>
+    <p>对今天的我们，疯狂打新的红利早已过去，但底层逻辑没变：</p>
+    <div class="grid">
+      <div class="card">
+        <div class="tag">原则 A</div>
+        <h3>第一笔钱必须够小</h3>
+        <p>小到<b>绝对不影响生活</b>。这样你才有从容心态去练习、犯错、复盘。</p>
+      </div>
+      <div class="card">
+        <div class="tag">原则 B</div>
+        <h3>本金抽回，利润滚动</h3>
+        <p>赚到钱后把<b>本金拿走</b>，让剩下的利润成为"0 成本仓位"——市场里最轻松的钱。</p>
+      </div>
+      <div class="card">
+        <div class="tag">原则 C</div>
+        <h3>不要无限加码</h3>
+        <p>100 万搞不好的人，加到 1000 万只会亏得更多。问题<b>不是钱的多少</b>，是技术与操作。</p>
+      </div>
+      <div class="card">
+        <div class="tag">原则 D</div>
+        <h3>复利时间是 10 年</h3>
+        <p>1 万元，10 次翻倍 → 1024 万；1000 万，10 次腰斩 → 不到 10 万。<b>复利与亏损都是几何级数。</b></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3 -->
+  <section class="wrap reveal">
+    <div class="sec-no">03 — 关键分野</div>
+    <h2>同样的信号，不同的结果</h2>
+    <p class="lead">课中段，缠师抛出一个最扎心的问题。</p>
+    <p>"这个反弹点，前两天的课程里就预先说过——这是本 ID 理论输出与实际走势的<b>绝对一一对应性</b>所决定的。"<br>但是：<span class="hl-gold">每个人的操作成果肯定相差极大，为什么？</span></p>
+    <figure>
+      <img src="/_assets/ch95_p01.png" alt="如期反弹后的 4778 点压力示意">
+      <figcaption>原文配图 1 — 缠师在课中给出的当时大盘走势</figcaption>
+    </figure>
+    <div class="table">
+      <div class="row head"><div>同样面对一段走势</div><div>糊涂蛋</div><div>修炼者</div></div>
+      <div class="row">
+        <div class="name">看图态度</div>
+        <div class="name bad">从来不看走势</div>
+        <div class="name good">每一秒都在解读市场语言</div>
+      </div>
+      <div class="row">
+        <div class="name">机会出现</div>
+        <div class="name bad">列在面前也抓不住</div>
+        <div class="name good">理论先到、走势确认、果断操作</div>
+      </div>
+      <div class="row">
+        <div class="name">震荡阶段</div>
+        <div class="name bad">坐电梯、又哭又闹</div>
+        <div class="name good">在震荡中抽出比上涨还多的"血"</div>
+      </div>
+    </div>
+    <blockquote>
+      大盘 4 小时，你都干了些什么？每天的走势，是无数资金画出来的<b>世界上最昂贵的图画</b>——你不去好好欣赏，从中修炼，凭什么战胜市场？
+      <span class="who">— 缠师拷问</span>
+    </blockquote>
+  </section>
+
+  <!-- 4 -->
+  <section class="wrap reveal">
+    <div class="sec-no">04 — 修炼次第</div>
+    <h2>理论是语法，实践才是语言</h2>
+    <p class="lead">缠师给出修炼的具体路径，可直接照做。</p>
+    <ol class="think">
+      <li><b>彻底穷源理论</b>——从中枢、级别、买卖点到走势终完美，每一个概念都吃透，不留半懂状态。</li>
+      <li><b>每分每秒读图</b>——把每一段走势当成市场用钱写的句子。"走势中的每一秒钟，你都要尽可能学会解读市场的语言"。</li>
+      <li><b>盯震荡而非只盯上涨</b>——课中点名让读者去看 600737、600635、000938、000802、600779、600195、000822、600636 等震荡中每一分钟的图形，看震荡如何"抽血"。<b>注意是学习图形，不是推荐股票。</b></li>
+      <li><b>用第一笔钱滚动出故事</b>——用一笔不影响生活的小钱，在 10 年尺度里把自己滚成"市场操作者"。</li>
+      <li><b>不再评价别人</b>——市场里唯一的评价是你的操作。有那时间，去练操作。</li>
+    </ol>
+    <blockquote>
+      本 ID 的理论，就是市场语言的<b>语法</b>；但光会语法，你能真正学会语言吗？
+      <span class="who">— 理论 vs 实践</span>
+    </blockquote>
+  </section>
+
+  <!-- 5 -->
+  <section class="wrap reveal">
+    <div class="sec-no">05 — 当时盘面</div>
+    <h2>4778 点压力下的三种演化</h2>
+    <p class="lead">课末用当时大盘做演练——这也是"理论 → 实战"的完整示范。</p>
+    <p>缠师当时的判断框架：第二个 1 分钟中枢如期到来，但只要 1 分钟<b>不能出现第三类买点</b>、不能有效站上 4778 点，后面震荡少不了。基于此他给出三种可能演化：</p>
+    <div class="points">
+      <div class="pt best">
+        <div class="dot">最好</div>
+        <div>
+          <h4>直接 1 分钟第三类买点</h4>
+          <p>由此发展出线段或 1 分钟级别上涨，重新回到 <b>5100 点上</b>。前提是<span class="hl-up">第三类买点</span>必须先成立。</p>
+        </div>
+      </div>
+      <div class="pt mid">
+        <div class="dot">次好</div>
+        <div>
+          <h4>5 分钟中枢后第三类买点</h4>
+          <p>两条路径：① 次级别震荡扩展出 5 分钟中枢；② 先 1 分钟第三类卖点 → 底背驰 → 上拉出 5 分钟中枢。这里会有 <b>N 次必然的短线机会</b>。</p>
+        </div>
+      </div>
+      <div class="pt bad">
+        <div class="dot">最坏</div>
+        <div>
+          <h4>5 分钟第三类卖点</h4>
+          <p>甚至构成一个 5 分钟下跌的第一个中枢——后面走势比前面还要恶劣。<b>5 分钟不能重站 4778，就要警惕向最坏路径演化。</b></p>
+        </div>
+      </div>
+    </div>
+    <figure>
+      <img src="/_assets/ch95_p02.png" alt="4778 点演化路径示意">
+      <figcaption>原文配图 2 — 1 分钟/5 分钟中枢与三类买卖点的演化结构</figcaption>
+    </figure>
+    <blockquote>
+      多头有本事画出那样的图形，我们就跟着走；否则，就<b>煮开水等青蛙跳下来</b>。
+      <span class="who">— 操作纪律</span>
+    </blockquote>
+  </section>
+
+  <!-- 6 -->
+  <section class="wrap reveal">
+    <div class="sec-no">06 — 心法收束</div>
+    <h2>修炼自己，别无他法</h2>
+    <p class="lead">本课要落进骨子里的几句话。</p>
+    <ol class="think">
+      <li><b>市场不是选秀场</b>——别把自己当超男超女或粉丝，市场里只有刀和血。</li>
+      <li><b>偷心不死，永无出期</b>——想走捷径、想靠八卦运气取胜的，永远出不了局。</li>
+      <li><b>你不尊重图形，图形自然惩罚你</b>——每一根 K 线都是真金白银画出来的。</li>
+      <li><b>10 年为单位</b>——市场上的真正成功以十年计；急着一夜暴富的，最后大多被煮成青蛙。</li>
+      <li><b>市场进来一次，就很难再离开</b>——所以入场前先决定：要么修炼，要么远离，没有中间选项。</li>
+    </ol>
+    <div class="tldr">
+      <div class="lab">一句话总结</div>
+      <p>战胜市场的唯一方法是修炼自己——用一笔 0 影响的小钱把本拿回、利润滚 10 年；理论是语法，每一秒走势才是语言；不读图、不练操作的人，再多机会摆面前也只会被市场煮成青蛙。</p>
+    </div>
+  </section>
+</main>
+
+<footer class="wrap">
+  原文出处：raw/缠中说禅/教你炒股票108课/教你炒股票95：修炼自己.md<br>
+  本页为个人学习复习用·非投资建议
+</footer>
+
+<script>
+  const bar=document.getElementById('bar');
+  const onScroll=()=>{
+    const h=document.documentElement;
+    const p=h.scrollTop/(h.scrollHeight-h.clientHeight);
+    bar.style.width=(p*100)+'%';
+  };
+  document.addEventListener('scroll',onScroll,{passive:true});onScroll();
+  const io=new IntersectionObserver((es)=>{
+    es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});
+  },{threshold:.12});
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+</script>
+<script src="/assets/_nav.js"></script><script src="/assets/_shell.js"></script></body>
+</html>

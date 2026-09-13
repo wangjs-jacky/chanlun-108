@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>缠论 · 教你炒股票105：远离聪明、机械操作</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@500;700;900&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0b0e12;
+    --bg-elev:#12161c;
+    --bg-card:#161b22;
+    --ink:#e8eaed;
+    --ink-dim:#9aa3ad;
+    --ink-faint:#5b6470;
+    --line:rgba(255,255,255,.07);
+    --up:#ff4d4f;
+    --down:#16c784;
+    --pivot:#37c0e6;
+    --gold:#e8b339;
+    --max:880px;
+    --serif:"Noto Serif SC",serif;
+    --mono:"JetBrains Mono",ui-monospace,monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--ink);font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;line-height:1.85;font-size:17px;-webkit-font-smoothing:antialiased;overflow-x:hidden;}
+  body::before{content:"";position:fixed;inset:0;z-index:-2;background:radial-gradient(1200px 600px at 70% -10%, rgba(55,192,230,.08), transparent 60%),radial-gradient(900px 500px at 0% 100%, rgba(232,179,57,.05), transparent 55%);pointer-events:none;}
+  body::after{content:"";position:fixed;inset:0;z-index:-1;opacity:.4;background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);background-size:46px 46px;-webkit-mask-image:radial-gradient(ellipse at 50% 0%, #000 30%, transparent 80%);mask-image:radial-gradient(ellipse at 50% 0%, #000 30%, transparent 80%);pointer-events:none;}
+
+  #bar{position:fixed;top:0;left:0;height:3px;width:0;z-index:50;background:linear-gradient(90deg,var(--pivot),var(--gold));box-shadow:0 0 12px var(--pivot);}
+
+  .wrap{max-width:var(--max);margin:0 auto;padding:0 24px}
+
+  header.hero{padding:120px 0 70px;text-align:center;position:relative}
+  .kicker{font-family:var(--mono);font-size:13px;letter-spacing:.32em;color:var(--pivot);text-transform:uppercase;margin-bottom:26px}
+  .kicker span{color:var(--ink-faint)}
+  h1.title{font-family:var(--serif);font-weight:900;line-height:1.05;font-size:clamp(44px,9.5vw,96px);letter-spacing:.04em;background:linear-gradient(180deg,#fff 30%,#8aa0ad 130%);-webkit-background-clip:text;background-clip:text;color:transparent;}
+  .sub{margin:22px auto 0;max-width:600px;color:var(--ink-dim);font-size:18px}
+  .meta{margin-top:34px;display:flex;gap:14px;justify-content:center;flex-wrap:wrap;font-family:var(--mono);font-size:12px;color:var(--ink-faint)}
+  .meta b{color:var(--ink-dim);font-weight:500}
+  .pill{border:1px solid var(--line);padding:6px 14px;border-radius:999px;background:rgba(255,255,255,.02)}
+
+  .scroll-hint{margin-top:60px;color:var(--ink-faint);font-family:var(--mono);font-size:12px;animation:bob 2.4s ease-in-out infinite}
+  @keyframes bob{0%,100%{transform:translateY(0);opacity:.5}50%{transform:translateY(8px);opacity:1}}
+
+  section{padding:64px 0;border-top:1px solid var(--line)}
+  .sec-no{font-family:var(--mono);font-size:13px;color:var(--gold);letter-spacing:.2em;margin-bottom:10px}
+  h2{font-family:var(--serif);font-weight:700;font-size:clamp(28px,5vw,42px);line-height:1.25;margin-bottom:8px;letter-spacing:.02em}
+  .lead{color:var(--ink-dim);font-size:16px;margin-bottom:28px;max-width:680px}
+  p{margin:0 0 18px;color:#cfd5dc}
+  p b,strong{color:#fff;font-weight:700}
+  .hl-pivot{color:var(--pivot);font-weight:700}
+  .hl-up{color:var(--up);font-weight:700}
+  .hl-down{color:var(--down);font-weight:700}
+  .hl-gold{color:var(--gold);font-weight:700}
+
+  blockquote{margin:26px 0;padding:20px 24px;border-left:3px solid var(--pivot);background:linear-gradient(90deg,rgba(55,192,230,.07),transparent);border-radius:0 10px 10px 0;font-family:var(--serif);font-size:19px;color:#eaf6fb}
+  blockquote .who{display:block;margin-top:8px;font-family:var(--mono);font-size:12px;color:var(--ink-faint);font-style:normal}
+
+  figure{margin:34px 0}
+  figure img{width:100%;border-radius:12px;border:1px solid var(--line);background:#fff;box-shadow:0 18px 50px rgba(0,0,0,.5)}
+  figcaption{margin-top:12px;font-size:13px;color:var(--ink-faint);text-align:center;font-family:var(--mono)}
+
+  .grid{display:grid;gap:16px;grid-template-columns:1fr 1fr;margin:28px 0}
+  @media(max-width:640px){.grid{grid-template-columns:1fr}}
+  .card{background:var(--bg-card);border:1px solid var(--line);border-radius:14px;padding:24px;position:relative;overflow:hidden;transition:transform .35s ease,border-color .35s ease}
+  .card:hover{transform:translateY(-4px);border-color:rgba(55,192,230,.4)}
+  .card .tag{font-family:var(--mono);font-size:11px;letter-spacing:.18em;color:var(--gold);text-transform:uppercase}
+  .card h3{font-family:var(--serif);font-size:21px;margin:10px 0 8px;color:#fff}
+  .card p{font-size:15px;color:var(--ink-dim);margin:0}
+
+  .table{margin:28px 0;border:1px solid var(--line);border-radius:14px;overflow:hidden}
+  .table .row{display:grid;grid-template-columns:1.1fr 1.6fr 1.5fr;align-items:stretch}
+  .table .row+.row{border-top:1px solid var(--line)}
+  .table .row > div{padding:16px 18px}
+  .table .row.head{background:var(--bg-elev);font-family:var(--mono);font-size:12px;letter-spacing:.14em;color:var(--ink-faint);text-transform:uppercase}
+  .table .row > div+div{border-left:1px solid var(--line)}
+  .table .name{font-family:var(--serif);font-weight:700;font-size:18px}
+  .table .name.smart{color:var(--down)}
+  .table .name.mech{color:var(--up)}
+  .cnt{font-family:var(--mono);font-size:14px;color:var(--pivot)}
+  @media(max-width:560px){.table .row{grid-template-columns:1fr}.table .row > div+div{border-left:0;border-top:1px solid var(--line)}.table .row.head{display:none}}
+
+  /* 时间线：关键点位的机械操作 */
+  .timeline{margin:30px 0;display:flex;flex-direction:column;gap:0;position:relative;padding-left:30px}
+  .timeline::before{content:"";position:absolute;left:8px;top:8px;bottom:8px;width:2px;background:linear-gradient(180deg,var(--pivot),var(--gold),var(--up));border-radius:2px}
+  .tl-item{position:relative;padding:18px 22px;margin-bottom:14px;background:var(--bg-card);border:1px solid var(--line);border-radius:12px}
+  .tl-item::before{content:"";position:absolute;left:-29px;top:24px;width:14px;height:14px;border-radius:50%;background:var(--pivot);box-shadow:0 0 0 4px rgba(55,192,230,.18)}
+  .tl-item .when{font-family:var(--mono);font-size:11px;color:var(--gold);letter-spacing:.18em;text-transform:uppercase;margin-bottom:6px}
+  .tl-item .pt{font-family:var(--serif);font-size:18px;color:#fff;font-weight:700;margin-bottom:6px}
+  .tl-item .desc{font-size:14.5px;color:var(--ink-dim);line-height:1.7}
+
+  /* 思考题 */
+  ol.think{counter-reset:q;list-style:none;margin:24px 0;display:flex;flex-direction:column;gap:14px}
+  ol.think li{counter-increment:q;position:relative;padding:18px 20px 18px 60px;background:var(--bg-elev);border:1px solid var(--line);border-radius:12px;color:var(--ink-dim);font-size:15px}
+  ol.think li::before{content:counter(q,decimal-leading-zero);position:absolute;left:20px;top:18px;font-family:var(--mono);color:var(--gold);font-weight:700}
+
+  /* 庄子箱 - 目无全牛 */
+  .zhuangzi{margin:30px 0;padding:30px 30px;background:linear-gradient(135deg,rgba(232,179,57,.08),rgba(55,192,230,.05));border:1px solid rgba(232,179,57,.25);border-radius:18px}
+  .zhuangzi .lab{font-family:var(--mono);font-size:11px;letter-spacing:.28em;color:var(--gold);text-transform:uppercase;margin-bottom:14px}
+  .zhuangzi p{font-family:var(--serif);font-size:17px;color:#eaf6fb;line-height:1.95}
+  .zhuangzi p+p{margin-top:10px}
+
+  footer{padding:60px 0 90px;text-align:center;color:var(--ink-faint);font-family:var(--mono);font-size:12px;border-top:1px solid var(--line)}
+  footer a{color:var(--ink-dim);text-decoration:none}
+
+  .reveal{opacity:0;transform:translateY(26px);transition:opacity .8s ease,transform .8s ease}
+  .reveal.in{opacity:1;transform:none}
+  @media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}.scroll-hint{animation:none}}
+</style>
+<meta name="view-transition" content="same-origin"><style>@view-transition{navigation:auto}</style></head>
+<body>
+<div id="bar"></div>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="kicker">缠中说禅 · 教你炒股票108课 <span>/ 第 105 课</span></div>
+    <h1 class="title">远离聪明<br>机械操作</h1>
+    <p class="sub">市场如全牛，繁复纷扰，唯有把它分解成"关节"，按图操作——这是缠论真正的灵魂，也是这一课最锋利的一刀。</p>
+    <div class="meta">
+      <span class="pill"><b>原文</b> 2008-04-13</span>
+      <span class="pill"><b>类型</b> 心法 · 操作总则</span>
+      <span class="pill"><b>关键词</b> 机械化 · 目无全牛 · 当下应对</span>
+    </div>
+    <div class="scroll-hint">↓ 向下滚动，逐层拆解</div>
+  </div>
+</header>
+
+<main>
+  <!-- 1 缠师立题 -->
+  <section class="wrap reveal">
+    <div class="sec-no">01 — 立题</div>
+    <h2>聪明人死得最快</h2>
+    <p class="lead">这一课开篇就把全部花架子掀掉。</p>
+    <blockquote>
+      股市里死掉的，大半是聪明人，越聪明的，死得越快。要在市场上生存，就必须远离聪明，因为，你的聪明在市场面前一钱不值。
+      <span class="who">— 缠中说禅</span>
+    </blockquote>
+    <p>所谓"聪明"，是指对走势<b>下判断、做预测、讲道理</b>——但市场从不为道理负责。真正可靠的，是<span class="hl-gold">机械化操作</span>：把市场拆成可识别的结构件，遇到什么走什么，<b>不预测，只应对</b>。</p>
+  </section>
+
+  <!-- 2 庄子典故 -->
+  <section class="wrap reveal">
+    <div class="sec-no">02 — 心法</div>
+    <h2>目无全牛，方能合其关节</h2>
+    <p class="lead">缠师借《庄子·养生主》立喻——这是全课最关键的隐喻。</p>
+    <div class="zhuangzi">
+      <div class="lab">心法</div>
+      <p>市场就如同一头牛，只有<b>目无全牛</b>，才可能<b>随心解之而合其关节</b>。在本ID的理论中，机械化操作的本质就是目无全牛而合其关节。</p>
+      <p>因为——根据本ID的理论，市场的结构已经被彻底分解，站在本ID理论的角度，<b>哪里有什么市场，不过是一堆的关节</b>。机械化操作，就是逐步合于其关节的节奏，而不被全牛的繁复所影响。</p>
+    </div>
+    <p>这里把整个缠论的世界观说透了：缠师不是在"看 K 线"，他是在<span class="hl-pivot">看一组关节</span>——分型、笔、线段、中枢、买卖点。整张图被拆成了可数、可标的离散结构件。剩下的工作，就是<b>等关节、对关节、按关节出手</b>。</p>
+    <blockquote>
+      全牛纷繁，因此可以口水多多，各有道理；那么，就让聪明人去道理去、去争论去。咱不爱聪明，咱不爱全牛，咱只知道关节的节奏；咱不爱争论，咱更不爱预测，咱只负责挣钱。
+      <span class="who">— 缠中说禅</span>
+    </blockquote>
+  </section>
+
+  <!-- 3 简单 vs 复杂 -->
+  <section class="wrap reveal">
+    <div class="sec-no">03 — 两种心态</div>
+    <h2>聪明 vs 机械：本课最大的分野</h2>
+    <p class="lead">同一根 K 线，两种人看到完全不同的东西。</p>
+    <div class="table">
+      <div class="row head"><div>姿态</div><div>看市场的方式</div><div>结局</div></div>
+      <div class="row">
+        <div class="name smart">聪明人</div>
+        <div>用大脑预测、用情绪交易、追逐道理与解释</div>
+        <div>陷在"全牛"的繁复里——口水多、亏钱多</div>
+      </div>
+      <div class="row">
+        <div class="name mech">机械操作者</div>
+        <div>把市场拆成结构件（分型/笔/中枢/买卖点），等位置、按规则出手</div>
+        <div>"目无全牛"——只赚自己看得懂的那一段</div>
+      </div>
+    </div>
+    <blockquote>
+      挣钱，本来就是很简单的事情，不过就是一个良好习惯与操作策略的结果，一点劲都不用费。<b>那些费力才能挣到的钱，也不会待得住。</b>
+      <span class="who">— 缠中说禅</span>
+    </blockquote>
+    <p>缠师特别指出：很多人贪多嫌少，连<b>最基本的"分型 + 笔"</b>都没练熟就要学其他，注定是糊涂账。<span class="hl-gold">真功夫往往就是最简单的几条规则被反复打磨到本能</span>。</p>
+  </section>
+
+  <!-- 4 419实战示范 -->
+  <section class="wrap reveal">
+    <div class="sec-no">04 — 实战</div>
+    <h2>"419 约会"：机械操作的现场示范</h2>
+    <p class="lead">课后跟随的十几篇博客是这套心法的实弹演习。"419" 是缠师对反复出现的短线机会的戏称——预报准点位，按图操作。</p>
+    <p>课程发表那天起，缠师在 60 分钟图上反复演示同一个套路：<b>分型 → 笔 → 中枢 → 第三类买卖点</b>。市场每次到关键点位，操作意见都是<span class="hl-gold">绝对的、二选一的</span>——站住怎么走、站不住怎么走，<b>不预测，不含糊</b>。</p>
+    <figure>
+      <img src="/_assets/ch105_p03.png" alt="60分钟分型与3311点的短线突破">
+      <figcaption>4 根 60 分钟 K 线 · 前 3 根构造分型 · 第 4 根突破上沿 · 3311 点成短线关键</figcaption>
+    </figure>
+    <p>这是教科书式的<b>笔的成立</b>：底分型 + 突破确认。缠师的操作没有任何"我猜会涨"，只有一句——<span class="hl-pivot">"3311 点回试站住，反弹继续；否则结束"</span>。这就是机械化。</p>
+  </section>
+
+  <!-- 5 关键点位时间线 -->
+  <section class="wrap reveal">
+    <div class="sec-no">05 — 节奏</div>
+    <h2>关键点位的时间线：3311 → 3656 → 3786</h2>
+    <p class="lead">从 4 月到 7 月，缠师只盯几个关键点位，按节奏机械应对。你能从这串数字里读出他完全不押方向、只读位置的纪律。</p>
+    <div class="timeline">
+      <div class="tl-item">
+        <div class="when">04-15 · 短线突破</div>
+        <div class="pt">3311 点 · 首根成立的笔</div>
+        <div class="desc">60 分钟底分型确认，突破分型上沿。规则：3311 点回试站住，反弹继续；否则结束。<b>不预测谁赢，等市场自己选。</b></div>
+      </div>
+      <div class="tl-item">
+        <div class="when">04-22 · 反弹延伸</div>
+        <div class="pt">3085 点 → 3305 点</div>
+        <div class="desc">小底分型顶出大反弹，3085 突破后回试站住即向上笔成立；3305 决定行情是否升级。<b>两个点位、两条规则、双向应对。</b></div>
+      </div>
+      <div class="tl-item">
+        <div class="when">04-25 · 神奇阻击</div>
+        <div class="pt">3656 点 · 周分型上沿</div>
+        <div class="desc">"站住 3656，大鱼大肉；站不住，咸鱼青菜。" 大盘当天就在这里跳水——不是缠师"算"中了，而是这点位本身就是同级别压力。</div>
+      </div>
+      <div class="tl-item">
+        <div class="when">05-08 · 半仓震荡</div>
+        <div class="pt">3656 点上下短差</div>
+        <div class="desc">不预测方向：跌不动就买、涨不起就抛，半仓操作。真破位，半仓也扔。<b>这就是机械操作的"做"——把不确定性卖回给市场。</b></div>
+      </div>
+      <div class="tl-item">
+        <div class="when">06-10 · 中线判断</div>
+        <div class="pt">3786 点下来 · 最后一跌</div>
+        <div class="desc">3656 站不住 → 跌破 → 最后一跌至少要走两个中枢。规则：第二中枢出第三类卖点之后看背驰；不背驰就出第三中枢。<b>每一步都被理论锁死。</b></div>
+      </div>
+      <div class="tl-item">
+        <div class="when">07-01 · 100% 保证</div>
+        <div class="pt">2990 点 · 理论确保反弹幅度</div>
+        <div class="desc">最后一跌结束后，对 6124 点下来的反弹理论确保<b>必然回到 2990 点之上</b>。注意：理论保证 ≠ 经验幅度（3700 点是经验的 90%，2990 是理论的 100%）。</div>
+      </div>
+    </div>
+    <figure>
+      <img src="/_assets/ch105_p09.png" alt="3656点周分型上沿的神奇阻击">
+      <figcaption>日线 · 3656 点 = 上一向上笔完成的位置 · 神奇阻击的本质是同级别压力</figcaption>
+    </figure>
+  </section>
+
+  <!-- 6 主动买套 -->
+  <section class="wrap reveal">
+    <div class="sec-no">06 — 进阶</div>
+    <h2>主动买套：机械操作的另一面</h2>
+    <p class="lead">这一篇里还有一颗操作彩蛋——<b>主动买套</b>，缠师专为"理论用不熟、又想参与"的人设计的策略。</p>
+    <div class="grid">
+      <div class="card">
+        <div class="tag">前提</div>
+        <h3>位置 + 跌幅</h3>
+        <p>从高位回落 <b>80%</b> 左右、且基本面没有重大改变的标的（缠师举例：中国铝业 60→12 元区间、600737 等）。</p>
+      </div>
+      <div class="card">
+        <div class="tag">节奏</div>
+        <h3>分批进入</h3>
+        <p>每天波动都用来降低成本，<b>不一次梭哈</b>。哪怕方向继续往下，分批 + 波动差价构成天然的回退余地。</p>
+      </div>
+      <div class="card">
+        <div class="tag">风控</div>
+        <h3>两种真风险</h3>
+        <p>① 大盘出第三中枢继续往下；② 当下下跌段也出第三中枢。<b>但即便如此，仍有相应级别的反弹给退出空间。</b></p>
+      </div>
+      <div class="card">
+        <div class="tag">动作</div>
+        <h3>反复操作</h3>
+        <p>冲高小级别盘整背驰做空 → 回来差价 → 重新买回 → 筹码不断增加。<b>用震荡的肉，养自己的仓位。</b></p>
+      </div>
+    </div>
+    <p>这套主动买套，本质上和短跑同根——<span class="hl-pivot">不押方向、不赌一把</span>，只把"震荡"当作可以反复收割的结构件。机械化的精髓，是把所有走势都拆成"<b>这种情况怎么做、那种情况怎么做</b>"的二叉树。</p>
+  </section>
+
+  <!-- 7 预测 vs 操作 -->
+  <section class="wrap reveal">
+    <div class="sec-no">07 — 题眼</div>
+    <h2>预测是游戏，操作是真枪实弹</h2>
+    <p class="lead">如果整篇 64K 字的博客只能记一句话，是这一句。</p>
+    <blockquote>
+      预测是游戏，是茶余饭后的谈资；而操作是真刀真枪去干，是血与火的斗争。<br>
+      <b>绝对的预测归根结底都是笑话，而非绝对的操作归根结底是死路一条。</b>
+      <span class="who">— 缠中说禅 · 2008-06-10</span>
+    </blockquote>
+    <p>缠师在文里再三强调："3656 站不住走、3300 缺口不回补就走、回补了就再短差一把"——<b>这一整套操作的设计是没有任何不确定地方</b>，每一种走势的应对都被提前定义。</p>
+    <p>这才是"<span class="hl-gold">非绝对的操作归根结底是死路一条</span>"的真意：不是不允许预测，而是不能把<b>预测当成操作依据</b>。预测可以错，操作不能含糊。</p>
+  </section>
+
+  <!-- 8 总结+思考 -->
+  <section class="wrap reveal">
+    <div class="sec-no">08 — 总结</div>
+    <h2>把缠论从"理论"变成"反应"</h2>
+    <p class="lead">这一课的真正分量，不在于新增哪条定理，而在于<b>把所有定理都收回到一个动作里</b>。</p>
+    <div class="grid">
+      <div class="card">
+        <div class="tag">心法</div>
+        <h3>目无全牛</h3>
+        <p>不看全局繁复，只看结构件。市场 = 一堆关节。</p>
+      </div>
+      <div class="card">
+        <div class="tag">姿态</div>
+        <h3>不预测、不争论</h3>
+        <p>聪明的代价是亏钱，机械的奖赏是活着 + 复利。</p>
+      </div>
+      <div class="card">
+        <div class="tag">行动</div>
+        <h3>双向规则</h3>
+        <p>站住怎么做、站不住怎么做——所有情况提前定义。</p>
+      </div>
+      <div class="card">
+        <div class="tag">入门</div>
+        <h3>从最简单开始</h3>
+        <p>分型 + 笔，反复练熟，到本能反应。再谈别的。</p>
+      </div>
+    </div>
+    <ol class="think">
+      <li>把"3656 点站住继续大鱼大肉、站不住改吃咸鱼青菜"翻译成你自己当下手里票的话术，写得出几条规则？</li>
+      <li>缠师所说"非绝对的操作归根结底是死路一条"——你最近一次买入，是凭"觉得会涨"，还是凭"出现 X 信号、不出现就不动"？</li>
+      <li>主动买套要求"分批 + 用震荡养仓"，这和"不止损、死扛"的本质区别在哪？（提示：位置 + 基本面 + 资金管理）</li>
+    </ol>
+  </section>
+</main>
+
+<footer class="wrap">
+  原文出处：raw/缠中说禅/教你炒股票108课/教你炒股票105：远离聪明、机械操作.md<br>
+  本页为个人学习复习用 · 非投资建议
+</footer>
+
+<script>
+  const bar=document.getElementById('bar');
+  const onScroll=()=>{const h=document.documentElement;const p=h.scrollTop/(h.scrollHeight-h.clientHeight);bar.style.width=(p*100)+'%';};
+  document.addEventListener('scroll',onScroll,{passive:true});onScroll();
+  const io=new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});},{threshold:.12});
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+</script>
+<script src="/assets/_nav.js"></script><script src="/assets/_shell.js"></script></body>
+</html>

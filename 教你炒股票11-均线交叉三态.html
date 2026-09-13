@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>缠论 · 教你炒股票11：均线交叉三态</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@500;700;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0b0e12;--bg-elev:#12161c;--bg-card:#161b22;
+    --ink:#e8eaed;--ink-dim:#9aa3ad;--ink-faint:#5b6470;
+    --line:rgba(255,255,255,.07);
+    --up:#ff4d4f;--down:#16c784;--pivot:#37c0e6;--gold:#e8b339;--blue:#00d4ff;
+    --max:880px;--serif:"Noto Serif SC",serif;--mono:"JetBrains Mono",ui-monospace,monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--ink);font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;line-height:1.85;font-size:17px;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  body::before{content:"";position:fixed;inset:0;z-index:-2;background:radial-gradient(1200px 600px at 70% -10%,rgba(55,192,230,.08),transparent 60%),radial-gradient(900px 500px at 0% 100%,rgba(232,179,57,.05),transparent 55%);pointer-events:none}
+  body::after{content:"";position:fixed;inset:0;z-index:-1;opacity:.4;background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);background-size:46px 46px;-webkit-mask-image:radial-gradient(ellipse at 50% 0%,#000 30%,transparent 80%);mask-image:radial-gradient(ellipse at 50% 0%,#000 30%,transparent 80%);pointer-events:none}
+  #bar{position:fixed;top:0;left:0;height:3px;width:0;z-index:50;background:linear-gradient(90deg,var(--pivot),var(--gold));box-shadow:0 0 12px var(--pivot)}
+  .wrap{max-width:var(--max);margin:0 auto;padding:0 24px}
+  header.hero{padding:120px 0 70px;text-align:center;position:relative}
+  .kicker{font-family:var(--mono);font-size:13px;letter-spacing:.32em;color:var(--pivot);text-transform:uppercase;margin-bottom:26px}
+  .kicker span{color:var(--ink-faint)}
+  h1.title{font-family:var(--serif);font-weight:900;line-height:1.05;font-size:clamp(44px,10vw,100px);letter-spacing:.04em;background:linear-gradient(180deg,#fff 30%,#8aa0ad 130%);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .sub{margin:22px auto 0;max-width:580px;color:var(--ink-dim);font-size:18px}
+  .meta{margin-top:34px;display:flex;gap:14px;justify-content:center;flex-wrap:wrap;font-family:var(--mono);font-size:12px;color:var(--ink-faint)}
+  .meta b{color:var(--ink-dim);font-weight:500}
+  .pill{border:1px solid var(--line);padding:6px 14px;border-radius:999px;background:rgba(255,255,255,.02)}
+  .scroll-hint{margin-top:60px;color:var(--ink-faint);font-family:var(--mono);font-size:12px;animation:bob 2.4s ease-in-out infinite}
+  @keyframes bob{0%,100%{transform:translateY(0);opacity:.5}50%{transform:translateY(8px);opacity:1}}
+  section{padding:64px 0;border-top:1px solid var(--line)}
+  .sec-no{font-family:var(--mono);font-size:13px;color:var(--gold);letter-spacing:.2em;margin-bottom:10px}
+  h2{font-family:var(--serif);font-weight:700;font-size:clamp(28px,5vw,42px);line-height:1.25;margin-bottom:8px;letter-spacing:.02em}
+  .lead{color:var(--ink-dim);font-size:16px;margin-bottom:28px;max-width:660px}
+  p{margin:0 0 18px;color:#cfd5dc}
+  p b,strong{color:#fff;font-weight:700}
+  .hl-pivot{color:var(--pivot);font-weight:700}.hl-up{color:var(--up);font-weight:700}
+  .hl-down{color:var(--down);font-weight:700}.hl-gold{color:var(--gold);font-weight:700}
+  blockquote{margin:26px 0;padding:20px 24px;border-left:3px solid var(--pivot);background:linear-gradient(90deg,rgba(55,192,230,.07),transparent);border-radius:0 10px 10px 0;font-family:var(--serif);font-size:19px;color:#eaf6fb}
+  blockquote .who{display:block;margin-top:8px;font-family:var(--mono);font-size:12px;color:var(--ink-faint);font-style:normal}
+  figure{margin:34px 0}
+  figure img{width:100%;border-radius:12px;border:1px solid var(--line);background:#fff;box-shadow:0 18px 50px rgba(0,0,0,.5)}
+  figcaption{margin-top:12px;font-size:13px;color:var(--ink-faint);text-align:center;font-family:var(--mono)}
+  .grid{display:grid;gap:16px;grid-template-columns:1fr 1fr;margin:28px 0}
+  @media(max-width:640px){.grid{grid-template-columns:1fr}}
+  .grid.three{grid-template-columns:1fr 1fr 1fr}
+  @media(max-width:780px){.grid.three{grid-template-columns:1fr}}
+  .card{background:var(--bg-card);border:1px solid var(--line);border-radius:14px;padding:24px;position:relative;overflow:hidden;transition:transform .35s ease,border-color .35s ease}
+  .card:hover{transform:translateY(-4px);border-color:rgba(55,192,230,.4)}
+  .card .tag{font-family:var(--mono);font-size:11px;letter-spacing:.18em;color:var(--gold);text-transform:uppercase}
+  .card h3{font-family:var(--serif);font-size:21px;margin:10px 0 8px;color:#fff}
+  .card p{font-size:15px;color:var(--ink-dim);margin:0}
+  .table{margin:28px 0;border:1px solid var(--line);border-radius:14px;overflow:hidden}
+  .table .row{display:grid;grid-template-columns:1.1fr 1.5fr 1.6fr;align-items:stretch}
+  .table .row+.row{border-top:1px solid var(--line)}
+  .table .row>div{padding:16px 18px}
+  .table .row.head{background:var(--bg-elev);font-family:var(--mono);font-size:12px;letter-spacing:.14em;color:var(--ink-faint);text-transform:uppercase}
+  .table .row>div+div{border-left:1px solid var(--line)}
+  .table .name{font-family:var(--serif);font-weight:700;font-size:18px}
+  .table .name.qushi{color:var(--gold)}
+  .cnt{font-family:var(--mono);font-size:14px;color:var(--pivot)}
+  @media(max-width:560px){.table .row{grid-template-columns:1fr}.table .row>div+div{border-left:0;border-top:1px solid var(--line)}.table .row.head{display:none}}
+  .points{margin:26px 0;display:flex;flex-direction:column;gap:14px}
+  .pt{display:flex;gap:16px;align-items:flex-start;background:var(--bg-card);border:1px solid var(--line);border-radius:12px;padding:18px 20px}
+  .pt .dot{flex:none;width:42px;height:42px;border-radius:10px;display:grid;place-items:center;font-family:var(--serif);font-weight:900;font-size:20px;color:#0b0e12}
+  .pt.b .dot{background:var(--up)}.pt.s .dot{background:var(--down)}
+  .pt.n .dot{background:var(--gold)}
+  .pt h4{font-size:17px;margin-bottom:4px;color:#fff}.pt p{font-size:15px;color:var(--ink-dim);margin:0}
+  /* SVG 示意图块 */
+  .svg-grid{display:grid;gap:18px;grid-template-columns:1fr 1fr 1fr;margin:28px 0}
+  @media(max-width:760px){.svg-grid{grid-template-columns:1fr}}
+  .svg-card{background:var(--bg-card);border:1px solid var(--line);border-radius:14px;padding:18px;text-align:center}
+  .svg-card .label{font-family:var(--mono);font-size:11px;letter-spacing:.16em;color:var(--pivot);margin-bottom:6px}
+  .svg-card h3{font-family:var(--serif);color:#fff;font-size:22px;margin:4px 0 12px}
+  .svg-card svg{width:100%;height:auto;display:block;border-radius:8px;background:rgba(255,255,255,.02)}
+  .svg-card .desc{margin-top:14px;text-align:left;font-size:14px;color:var(--ink-dim)}
+  ol.think{counter-reset:q;list-style:none;margin:24px 0;display:flex;flex-direction:column;gap:14px}
+  ol.think li{counter-increment:q;position:relative;padding:18px 20px 18px 60px;background:var(--bg-elev);border:1px solid var(--line);border-radius:12px;color:var(--ink-dim);font-size:15px}
+  ol.think li::before{content:counter(q,decimal-leading-zero);position:absolute;left:20px;top:18px;font-family:var(--mono);color:var(--gold);font-weight:700}
+  .quiz{margin:22px 0;background:var(--bg-card);border:1px solid var(--line);border-radius:14px;padding:22px 24px}
+  .quiz h4{font-size:16px;color:#fff;margin-bottom:6px}
+  .quiz .ans{margin-top:12px;color:var(--ink-faint);font-size:14px;cursor:pointer}
+  .quiz .ans[open] summary{color:var(--pivot)}
+  .quiz summary{color:var(--gold);font-family:var(--mono);font-size:13px}
+  .tldr{margin:60px 0 0;padding:36px 30px;border:1px solid rgba(55,192,230,.3);border-radius:18px;background:radial-gradient(120% 120% at 100% 0%,rgba(55,192,230,.1),transparent 60%),var(--bg-elev);text-align:center}
+  .tldr .lab{font-family:var(--mono);font-size:12px;letter-spacing:.3em;color:var(--pivot);text-transform:uppercase}
+  .tldr p{font-family:var(--serif);font-size:clamp(20px,3.4vw,28px);line-height:1.7;color:#fff;margin:16px 0 0}
+  footer{padding:60px 0 90px;text-align:center;color:var(--ink-faint);font-family:var(--mono);font-size:12px;border-top:1px solid var(--line)}
+  .reveal{opacity:0;transform:translateY(26px);transition:opacity .8s ease,transform .8s ease}
+  .reveal.in{opacity:1;transform:none}
+  @media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}.scroll-hint{animation:none}}
+</style>
+<meta name="view-transition" content="same-origin"><style>@view-transition{navigation:auto}</style></head>
+<body>
+<div id="bar"></div>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="kicker">缠中说禅 · 教你炒股票108课 <span>/ 第 11 课</span></div>
+    <h1 class="title">均线交叉<br>三态</h1>
+    <p class="sub">把短期均线与长期均线的关系做<b>完全分类</b>——飞吻、唇吻、湿吻——回答"现在到底是顺势还是要变天"。</p>
+    <div class="meta">
+      <span class="pill"><b>原文</b> 2006-11-29</span>
+      <span class="pill"><b>类型</b> 技术方法 · 分类学</span>
+      <span class="pill"><b>关键词</b> 均线系统 · 分类 · 多空体位</span>
+    </div>
+    <div class="scroll-hint">↓ 向下滚动，逐层拆解</div>
+  </div>
+</header>
+
+<main>
+
+<!-- ============================== §1 ============================== -->
+<section class="wrap reveal">
+  <div class="sec-no">01 — 这一课解决什么</div>
+  <h2>技术指标的真相：不是水晶球，是分类器</h2>
+  <p class="lead">大多数技术派把"金叉买、死叉卖"当圣旨，结果"事后都是高手，真正干起来个个阳痿"。缠师在这一课说穿一个底层观念：<b>任何技术指标，本质上都是评价系统</b>。</p>
+
+  <p>它做的事只有一件——<b>对市场所有可能的走势做完全分类</b>，告诉你"在它的视角下，哪一类能搞、哪一类不能搞"。它<span class="hl-down">不保证</span>对应的走势百分百出现，否则按指标操作的人就全都赚钱了。</p>
+
+  <p>所以指标的正确用法是：把它当一张<span class="hl-pivot">分类表</span>用，不是当预言机用。你要做的不是"等它发信号"，而是"看自己的资金、级别、纪律落在分类表里的哪一格"。</p>
+
+  <blockquote>技术指标不过是把市场所有可能的走势进行一个完全的分类，为什么技术派事后都是高手，真正干起来就个个阳痿，就是这个原因。<span class="who">— 缠中说禅 · 原课文</span></blockquote>
+
+  <p>而<b>均线系统</b>是最朴素、最实用的一类分类器——简单到只用几条平均线，但配合"多条均线之间的关系"判断市场强弱，威力远超单条均线的"突破即买入"。</p>
+</section>
+
+<!-- ============================== §2 ============================== -->
+<section class="wrap reveal">
+  <div class="sec-no">02 — 核心比喻 · 学术化翻译</div>
+  <h2>短期均线 vs 长期均线：谁压谁，决定多空</h2>
+  <p class="lead">缠师用"男上位/女上位"做比喻，本质是<b>两条均线的相对位置关系</b>。这里我们用更冷静的术语翻译一遍，方便记忆和复用。</p>
+
+  <div class="table">
+    <div class="row head"><div>缠师原话</div><div>学术翻译</div><div>市场含义</div></div>
+    <div class="row">
+      <div class="name">"男上位"<br><span style="font-family:var(--mono);font-size:12px;color:var(--ink-faint)">长压短</span></div>
+      <div>长期均线在上，短期均线在下</div>
+      <div><span class="hl-down">空头排列</span>——主力均线压制，反弹乏力，趋势向下</div>
+    </div>
+    <div class="row">
+      <div class="name">"女上位"<br><span style="font-family:var(--mono);font-size:12px;color:var(--ink-faint)">短压长</span></div>
+      <div>短期均线在上，长期均线在下</div>
+      <div><span class="hl-up">多头排列</span>——价格上行带动短期均线领涨，趋势向上</div>
+    </div>
+    <div class="row">
+      <div class="name qushi">"吻"</div>
+      <div>两条均线<b>靠近、相切或交叉</b>的瞬间</div>
+      <div>体位切换的关键节点——可能延续，也可能反转</div>
+    </div>
+  </div>
+
+  <p>所以缠师这句"<b>要赚钱，就要多来点'女上位'</b>"翻译过来就是：<span class="hl-gold">要长期持有多头格局的股票</span>。而真正决定胜负的，不是平静期的"上位"，而是体位变换那一刻——<b>"吻"是怎么吻的</b>。</p>
+
+  <blockquote>把短期均线当成是女王，长期均线当成面首……"男上位"意味着空头市场，而"女上位"意味着多头市场。<span class="who">— 缠中说禅 · 原课文</span></blockquote>
+</section>
+
+<!-- ============================== §3 ============================== -->
+<section class="wrap reveal">
+  <div class="sec-no">03 — 三种交叉形态</div>
+  <h2>飞吻 / 唇吻 / 湿吻：均线接触的完全分类</h2>
+  <p class="lead">缠师把两条均线相遇的所有可能，按"接触深度"分成三档。这三档<b>互斥且穷尽</b>——任何一段走势里，短期均线对长期均线的反应只可能是这三种之一。</p>
+
+  <div class="svg-grid">
+    <!-- 飞吻 -->
+    <div class="svg-card">
+      <div class="label">A · 最浅</div>
+      <h3>飞吻</h3>
+      <svg viewBox="0 0 220 160" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="bg1" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#0b0e12" stop-opacity="0"/>
+            <stop offset="1" stop-color="#0b0e12" stop-opacity=".4"/>
+          </linearGradient>
+        </defs>
+        <rect width="220" height="160" fill="url(#bg1)"/>
+        <!-- 长期均线（平稳上行） -->
+        <path d="M10,110 Q60,95 110,80 T210,50" stroke="#37c0e6" stroke-width="2" fill="none" stroke-linecap="round"/>
+        <!-- 短期均线（略略走平后继续上行） -->
+        <path d="M10,90 Q40,80 70,75 Q90,73 100,75 Q110,77 130,65 T210,30" stroke="#ff8a8c" stroke-width="2" fill="none" stroke-linecap="round"/>
+        <!-- 标注走平段 -->
+        <ellipse cx="95" cy="75" rx="22" ry="8" fill="none" stroke="#e8b339" stroke-width="1" stroke-dasharray="3 3"/>
+        <text x="95" y="100" font-family="JetBrains Mono" font-size="10" fill="#e8b339" text-anchor="middle">略走平</text>
+        <!-- 图例 -->
+        <text x="10" y="155" font-family="JetBrains Mono" font-size="9" fill="#ff8a8c">— 短期均线</text>
+        <text x="130" y="155" font-family="JetBrains Mono" font-size="9" fill="#37c0e6">— 长期均线</text>
+      </svg>
+      <div class="desc"><b>定义</b>：短期均线<b>略略走平</b>但不下穿，随后<b>按原趋势继续</b>。<br><br><b>含义</b>：趋势<span class="hl-up">极强</span>，但极少出现。一旦出现，意味着后面<b>必有更大震荡</b>等待消化——"太火爆的趋势不可能太长久"。</div>
+    </div>
+
+    <!-- 唇吻 -->
+    <div class="svg-card">
+      <div class="label">B · 中等</div>
+      <h3>唇吻</h3>
+      <svg viewBox="0 0 220 160" xmlns="http://www.w3.org/2000/svg">
+        <rect width="220" height="160" fill="url(#bg1)"/>
+        <!-- 长期均线 -->
+        <path d="M10,100 Q60,90 110,75 T210,45" stroke="#37c0e6" stroke-width="2" fill="none" stroke-linecap="round"/>
+        <!-- 短期均线（靠近触碰但不跌破） -->
+        <path d="M10,75 Q50,65 80,78 Q100,90 110,82 Q120,78 140,60 T210,25" stroke="#ff8a8c" stroke-width="2" fill="none" stroke-linecap="round"/>
+        <!-- 触碰点 -->
+        <circle cx="105" cy="83" r="5" fill="none" stroke="#e8b339" stroke-width="1.5"/>
+        <text x="105" y="105" font-family="JetBrains Mono" font-size="10" fill="#e8b339" text-anchor="middle">轻触不破</text>
+        <text x="10" y="155" font-family="JetBrains Mono" font-size="9" fill="#ff8a8c">— 短期均线</text>
+        <text x="130" y="155" font-family="JetBrains Mono" font-size="9" fill="#37c0e6">— 长期均线</text>
+      </svg>
+      <div class="desc"><b>定义</b>：短期均线<b>靠近长期均线但不跌破/不升破</b>，随后回归原趋势。<br><br><b>含义</b>：基本趋势中<span class="hl-gold">最常见</span>的形态。空头市场里出现的唇吻反弹通常是反弹结束信号；多头市场里出现的唇吻则常意味着<b>调整结束、重启上攻</b>。</div>
+    </div>
+
+    <!-- 湿吻 -->
+    <div class="svg-card">
+      <div class="label">C · 最深</div>
+      <h3>湿吻</h3>
+      <svg viewBox="0 0 220 160" xmlns="http://www.w3.org/2000/svg">
+        <rect width="220" height="160" fill="url(#bg1)"/>
+        <!-- 长期均线 -->
+        <path d="M10,90 Q60,82 110,78 T210,75" stroke="#37c0e6" stroke-width="2" fill="none" stroke-linecap="round"/>
+        <!-- 短期均线（反复缠绕穿越） -->
+        <path d="M10,60 Q30,55 50,80 Q70,105 90,85 Q105,70 115,90 Q125,100 140,75 Q155,55 170,80 Q185,100 210,90" stroke="#ff8a8c" stroke-width="2" fill="none" stroke-linecap="round"/>
+        <!-- 缠绕高亮 -->
+        <rect x="40" y="65" width="140" height="40" fill="rgba(232,179,57,.08)" stroke="#e8b339" stroke-width="1" stroke-dasharray="3 3" rx="4"/>
+        <text x="110" y="125" font-family="JetBrains Mono" font-size="10" fill="#e8b339" text-anchor="middle">反复缠绕</text>
+        <text x="10" y="155" font-family="JetBrains Mono" font-size="9" fill="#ff8a8c">— 短期均线</text>
+        <text x="130" y="155" font-family="JetBrains Mono" font-size="9" fill="#37c0e6">— 长期均线</text>
+      </svg>
+      <div class="desc"><b>定义</b>：短期均线<b>跌破/升破长期均线</b>，甚至<b>反复缠绕</b>。<br><br><b>含义</b>：要么是大调整的中继，要么是<span class="hl-pivot">趋势转折的前兆</span>。出现在长期空头之后，常是空头陷阱；出现在长期多头之后，常是顶部预警。</div>
+    </div>
+  </div>
+
+  <p>原课文还附了一张三种形态的对照示意图（带水印为防取笑，此处用上方 SVG 重绘；原图含飞吻"重点不接触"、唇吻"靠近不跌破"、湿吻"叉点反复"的标注，与上图一致）。三种状态之外没有第四种——这就是"完全分类"。</p>
+
+  <blockquote>必定出现叉点，湿吻不一定单次，但牲畜很可能只是湿吻惯性。<span class="who">— 缠中说禅 · 原图配字</span></blockquote>
+</section>
+
+<!-- ============================== §4 ============================== -->
+<section class="wrap reveal">
+  <div class="sec-no">04 — 湿吻的两副面孔</div>
+  <h2>湿吻 = 转折前兆 + 陷阱制造机</h2>
+  <p class="lead">三种形态里，<b>湿吻是最值得研究的一种</b>——因为绝大多数行情转折，都是从一次湿吻开始的。但湿吻本身<b>不是反向信号</b>，它只是一个"该高度警觉"的标识。</p>
+
+  <p>缠师指出湿吻引发转折的两种典型路径：</p>
+
+  <div class="points">
+    <div class="pt n">
+      <div class="dot">①</div>
+      <div>
+        <h4>先湿吻 → 顺势大高潮 → 再转折（陷阱型）</h4>
+        <p>短期均线先深度穿越长期均线，市场以为要变盘；但旧趋势又来一波大行情，把"以为变盘"的人套住——制造<b>多头陷阱</b>或<b>空头陷阱</b>——然后才真正转折。最经典的"最后一跌"或"最后一冲"。</p>
+      </div>
+    </div>
+    <div class="pt n">
+      <div class="dot">②</div>
+      <div>
+        <h4>反复湿吻 → 构造转折性箱体 → 体位切换</h4>
+        <p>短中长各级均线反复缠绕，价格在某区间窄幅震荡，形成一个<b>转折性中枢</b>。等中枢被打破，新的高潮就是<span class="hl-gold">空头变多头</span>或<span class="hl-down">多头变空头</span>——即缠师所谓"体位的转化"。</p>
+      </div>
+    </div>
+  </div>
+
+  <p>记住缠师的关键判断条件：</p>
+
+  <ul style="list-style:none;padding-left:0;margin:18px 0;display:flex;flex-direction:column;gap:10px">
+    <li style="padding:14px 18px;background:var(--bg-elev);border-left:3px solid var(--gold);border-radius:0 8px 8px 0;color:#cfd5dc"><b class="hl-gold">A.</b> 长期"男上位"（空头）之后突然出现湿吻 → 警惕<span class="hl-up">空头陷阱</span>，反而是介入良机。</li>
+    <li style="padding:14px 18px;background:var(--bg-elev);border-left:3px solid var(--gold);border-radius:0 8px 8px 0;color:#cfd5dc"><b class="hl-gold">B.</b> 长期"女上位"（多头）末段出现湿吻 → 警惕<span class="hl-down">多头陷阱</span>，可能是高位派发。</li>
+    <li style="padding:14px 18px;background:var(--bg-elev);border-left:3px solid var(--gold);border-radius:0 8px 8px 0;color:#cfd5dc"><b class="hl-gold">C.</b> <b>例外</b>：趋势刚刚形成时的<b>第一次</b>湿吻，"陷阱"假设<span class="hl-down">不成立</span>——那是新趋势确认期，不是反转期。</li>
+  </ul>
+
+  <blockquote>湿吻之后必有高潮，唯一的区别只是体位的区别，关键判断的是体位而不是高潮的有无。<span class="who">— 缠中说禅 · 原课文</span></blockquote>
+
+  <p>这句话翻译成纪律语言就是：<b>不要纠结"还会不会涨/跌"</b>——湿吻之后必有一段大幅波动；要做的事是判断<span class="hl-pivot">波动结束后市场是多头还是空头</span>，然后顺新势而为。</p>
+</section>
+
+<!-- ============================== §5 ============================== -->
+<section class="wrap reveal">
+  <div class="sec-no">05 — 应用法则</div>
+  <h2>均线系统怎么用：三个不可省的前提</h2>
+  <p class="lead">原文里有几句容易被忽略却极关键的话，单拎出来——它们才是均线系统真正发挥威力的<b>使用前提</b>。</p>
+
+  <div class="grid three">
+    <div class="card">
+      <div class="tag">前提一</div>
+      <h3>必须用多条均线</h3>
+      <p>单条均线骗线太多，按"突破即买"成功率极低。要用<b>短中长一组均线</b>（如 5/20/60 或 10/60/250）相互佐证，把它们之间的关系做分类——这才是"均线系统"。</p>
+    </div>
+    <div class="card">
+      <div class="tag">前提二</div>
+      <h3>必须匹配资金与级别</h3>
+      <p>"对超超短线来说，1 分钟图强势就能介入；但日线 5 日强势对大资金毫无意义。"<b>资金量决定级别</b>，级别决定参数。脱离这两点谈均线一律是空谈。</p>
+    </div>
+    <div class="card">
+      <div class="tag">前提三</div>
+      <h3>强弱是相对的</h3>
+      <p>同一时刻，5 日线之上是"强势"，但若仍在 10 日线之下，则相对 10 日是"弱势"。<b>强/弱没有绝对答案</b>，只有"相对哪条均线、对应哪种操作级别"——你的操作标准必须先定下来。</p>
+    </div>
+  </div>
+
+  <h3 style="font-family:var(--serif);font-size:24px;margin:38px 0 8px;color:#fff">原文同期盘评 · 落到实战</h3>
+  <p>缠师这一课正文之后，附了 2006-11-29 至 30 的盘评，把"湿吻"概念现场用上：</p>
+
+  <blockquote>大盘受外围影响选择湿吻方式，短线急跌……技术好的，选择不跌的股票有机会；技术不好的，等 5 日线站稳再说。<span class="who">— 缠中说禅 · 2006-11-29 09:36 盘前</span></blockquote>
+
+  <p>这是<b>湿吻应用的活样本</b>：大盘日线 5/10 日均线缠绕（即湿吻），缠师没有给"该不该买"的简单答案——而是按级别分流：</p>
+
+  <div class="points">
+    <div class="pt b"><div class="dot">技</div><div><h4>技术好的：把震荡当机会</h4><p>湿吻区间适合<b>打短差降低成本</b>或<b>换股</b>，去抓那些"不跟跌"的强势股。</p></div></div>
+    <div class="pt s"><div class="dot">弱</div><div><h4>技术一般的：等 5 日线站稳</h4><p>不参与湿吻期的反复，等短期均线（5 日）<b>明确站稳</b>，方向选择完成再上。</p></div></div>
+    <div class="pt n"><div class="dot">观</div><div><h4>大资金：盯指数风向标</h4><p>缠师当时建议盯<b>深圳成分指数</b>（比上海敏感）和<b>招行</b>（率先突破历史高位即大盘风向标），用更高级别均线关系定方向。</p></div></div>
+  </div>
+
+  <p style="margin-top:20px;font-size:14px;color:var(--ink-faint)"><b>事后注</b>：2006-11-30 大盘按缠师建议路径运行——深成指突破 6103 历史高位后上海跟上，确认有效性后继续上扬。原文："今天大盘走势十分规范"。这是"湿吻 → 顺势高潮 → 再做选择"路径①的标准示例。</p>
+</section>
+
+<!-- ============================== §6 ============================== -->
+<section class="wrap reveal">
+  <div class="sec-no">06 — 580002 权证示意</div>
+  <h2>课文原图 · 580002 的"湿吻不断"</h2>
+  <p class="lead">课文末尾配了一张已退市权证 580002（万科 HRP1）的日 K 截图，原图标注"震荡区间不断缩小，湿吻不断，高潮快到了，先关注体位吧"——这是路径②（反复湿吻构造转折性箱体）的活样本。</p>
+
+  <figure>
+    <img src="/_assets/ch11_p02.png" alt="580002 权证 2006 年日K 反复湿吻示意">
+    <figcaption>原图 · 580002 权证日K · 5/10/20/60 日均线反复缠绕，箱体逐步收敛</figcaption>
+  </figure>
+
+  <p>读图三步：</p>
+
+  <ol class="think">
+    <li>左半部分均线<b>多次穿越缠绕</b>，对应缠师所说的"反复湿吻"。价格在一个明显的箱体内来回——这是<span class="hl-pivot">转折性中枢</span>正在生成。</li>
+    <li>箱体右侧震荡幅度<b>明显收窄</b>，4 条均线收敛于同一价格区——这是缠师所谓"震荡区间不断缩小"，能量积蓄到极致。</li>
+    <li>图最右端价格<b>放量上冲突破</b>箱体——"体位转化"完成，从此前的胶着进入新一波上涨。这就是缠师说的"高潮"。</li>
+  </ol>
+
+  <p style="font-size:14px;color:var(--ink-faint)"><b>说明</b>：580002 是 2006 年发行的认沽权证，早已退市，akshare 无历史数据，故不做实证回测，仅以原图说明形态。课文里的其他股票（招行、银行股、深成指）当时只是同步盘评，未给出可回测的明确买卖点位与价格，本课归为<span class="hl-pivot">纯方法论课</span>，不做单股回测。</p>
+</section>
+
+<!-- ============================== §7 ============================== -->
+<section class="wrap reveal">
+  <div class="sec-no">07 — 思考题 + 判图练习</div>
+  <h2>检验你是否真懂"分类"二字</h2>
+
+  <ol class="think">
+    <li><b>分类题</b>：日线图上你看到 5 日均线下穿 20 日均线、随后 3 天又重新上穿，再 5 天又下穿——这属于飞吻、唇吻还是湿吻？为什么？</li>
+    <li><b>体位题</b>：某股长期"女上位"（多头排列），近 2 周出现 5 日与 20 日的一次湿吻，目前 5 日重新站上 20 日。按本课规则，这种湿吻更可能是路径①（陷阱后继续涨）还是路径②（转折成下跌）？还需要哪些信息辅助判断？</li>
+    <li><b>级别题</b>：你打算用 30 万资金做波段（周级别），却用 5 日/10 日均线作为唯一信号——按本课"必须匹配资金与级别"的前提，这个组合错在哪里？应该换成哪组均线更合理？</li>
+    <li><b>反思题</b>：缠师说"任何技术指标只是分类器"。如果按这个观点重新看 MACD、KDJ、布林带，它们各自在<b>什么维度上</b>对市场做完全分类？</li>
+  </ol>
+
+  <div class="quiz">
+    <h4>练习一 · 看形态判类型</h4>
+    <p>A：短期均线快速接近长期均线后<b>原地走平 3 根 K 线</b>，没有交叉，随后顺原方向继续——这是？<br>
+       B：短期均线<b>穿过</b>长期均线 4 次，价格在一个箱体内反复——这是？<br>
+       C：短期均线<b>贴到</b>长期均线但<b>没有穿过</b>，随后回到原方向——这是？</p>
+    <details class="ans"><summary>查看答案</summary><p>A = <b class="hl-gold">飞吻</b>（走平但不接触/不交叉）；B = <b class="hl-pivot">湿吻</b>（反复缠绕，箱体震荡）；C = <b class="hl-up">唇吻</b>（靠近不穿越）。</p></details>
+  </div>
+
+  <div class="quiz">
+    <h4>练习二 · 判断"体位"</h4>
+    <p>你看到一只股票：60 日均线在上、20 日均线在中、5 日均线在下，三条均线接近平行向下——这是"男上位"还是"女上位"？这种状态下做多胜率高吗？</p>
+    <details class="ans"><summary>查看答案</summary><p>这是典型的<b class="hl-down">"男上位" + 空头排列</b>。此时做多胜率极低，反弹也只是唇吻/飞吻型反弹，缠师建议这种状态下"<b>等出现湿吻 + 第一类买点</b>"再考虑介入，否则就是接飞刀。</p></details>
+  </div>
+
+  <div class="quiz">
+    <h4>练习三 · 体位切换识别</h4>
+    <p>一只长期空头股票（男上位 1 年），近期出现：① 5 日上穿 20 日 ② 5 日下穿 20 日 ③ 5 日再上穿 20 日 ④ 价格区间逐步收窄。这是什么形态？预示什么？</p>
+    <details class="ans"><summary>查看答案</summary><p>这是<b class="hl-pivot">反复湿吻 + 收敛箱体</b>，对应缠师讲的路径②——<b>正在构造转折性箱体</b>。接下来一旦箱体被向上放量突破，就是空头变多头的"体位转化"，是介入良机；若向下破位，则空头延续。<b>不到突破不下结论</b>，这是关键纪律。</p></details>
+  </div>
+</section>
+
+<!-- ============================== TL;DR ============================== -->
+<section class="wrap reveal" style="border-top:none">
+  <div class="tldr">
+    <div class="lab">TL;DR · 一句话总结</div>
+    <p>技术指标不是占卜术，是<span class="hl-gold">分类器</span>——用短中长一组均线把"两线关系"分成<span class="hl-up">飞吻 / 唇吻 / 湿吻</span>三档，再叠加"<span class="hl-pivot">谁压谁</span>"判断多空体位；湿吻必有高潮，关键不是猜方向，而是等体位明确后顺势而为。</p>
+  </div>
+</section>
+
+</main>
+
+<footer class="wrap">
+  原文出处：raw/缠中说禅/教你炒股票108课/教你炒股票11：不会吻，无以高潮！.md<br>
+  本页为个人学习复习用 · 非投资建议
+</footer>
+
+<script>
+  const bar=document.getElementById('bar');
+  const onScroll=()=>{const h=document.documentElement;bar.style.width=(h.scrollTop/(h.scrollHeight-h.clientHeight)*100)+'%'};
+  document.addEventListener('scroll',onScroll,{passive:true});onScroll();
+  const io=new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{threshold:.12});
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+</script>
+<script src="/assets/_nav.js"></script><script src="/assets/_shell.js"></script></body>
+</html>

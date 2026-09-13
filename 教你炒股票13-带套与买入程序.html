@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>缠论 · 教你炒股票13：不带套的操作不是好操作！</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@500;700;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0b0e12;--bg-elev:#12161c;--bg-card:#161b22;
+    --ink:#e8eaed;--ink-dim:#9aa3ad;--ink-faint:#5b6470;
+    --line:rgba(255,255,255,.07);
+    --up:#ff4d4f;--down:#16c784;--pivot:#37c0e6;--gold:#e8b339;--blue:#00d4ff;
+    --max:880px;--serif:"Noto Serif SC",serif;--mono:"JetBrains Mono",ui-monospace,monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--ink);font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;line-height:1.85;font-size:17px;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  body::before{content:"";position:fixed;inset:0;z-index:-2;background:radial-gradient(1200px 600px at 70% -10%,rgba(55,192,230,.08),transparent 60%),radial-gradient(900px 500px at 0% 100%,rgba(232,179,57,.05),transparent 55%);pointer-events:none}
+  body::after{content:"";position:fixed;inset:0;z-index:-1;opacity:.4;background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);background-size:46px 46px;-webkit-mask-image:radial-gradient(ellipse at 50% 0%,#000 30%,transparent 80%);mask-image:radial-gradient(ellipse at 50% 0%,#000 30%,transparent 80%);pointer-events:none}
+  #bar{position:fixed;top:0;left:0;height:3px;width:0;z-index:50;background:linear-gradient(90deg,var(--pivot),var(--gold));box-shadow:0 0 12px var(--pivot)}
+  .wrap{max-width:var(--max);margin:0 auto;padding:0 24px}
+  header.hero{padding:120px 0 70px;text-align:center;position:relative}
+  .kicker{font-family:var(--mono);font-size:13px;letter-spacing:.32em;color:var(--pivot);text-transform:uppercase;margin-bottom:26px}
+  .kicker span{color:var(--ink-faint)}
+  h1.title{font-family:var(--serif);font-weight:900;line-height:1.05;font-size:clamp(44px,10vw,100px);letter-spacing:.04em;background:linear-gradient(180deg,#fff 30%,#8aa0ad 130%);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .sub{margin:22px auto 0;max-width:580px;color:var(--ink-dim);font-size:18px}
+  .meta{margin-top:34px;display:flex;gap:14px;justify-content:center;flex-wrap:wrap;font-family:var(--mono);font-size:12px;color:var(--ink-faint)}
+  .meta b{color:var(--ink-dim);font-weight:500}
+  .pill{border:1px solid var(--line);padding:6px 14px;border-radius:999px;background:rgba(255,255,255,.02)}
+  .scroll-hint{margin-top:60px;color:var(--ink-faint);font-family:var(--mono);font-size:12px;animation:bob 2.4s ease-in-out infinite}
+  @keyframes bob{0%,100%{transform:translateY(0);opacity:.5}50%{transform:translateY(8px);opacity:1}}
+  section{padding:64px 0;border-top:1px solid var(--line)}
+  .sec-no{font-family:var(--mono);font-size:13px;color:var(--gold);letter-spacing:.2em;margin-bottom:10px}
+  h2{font-family:var(--serif);font-weight:700;font-size:clamp(28px,5vw,42px);line-height:1.25;margin-bottom:8px;letter-spacing:.02em}
+  .lead{color:var(--ink-dim);font-size:16px;margin-bottom:28px;max-width:660px}
+  p{margin:0 0 18px;color:#cfd5dc}
+  p b,strong{color:#fff;font-weight:700}
+  .hl-pivot{color:var(--pivot);font-weight:700}.hl-up{color:var(--up);font-weight:700}
+  .hl-down{color:var(--down);font-weight:700}.hl-gold{color:var(--gold);font-weight:700}
+  blockquote{margin:26px 0;padding:20px 24px;border-left:3px solid var(--pivot);background:linear-gradient(90deg,rgba(55,192,230,.07),transparent);border-radius:0 10px 10px 0;font-family:var(--serif);font-size:19px;color:#eaf6fb}
+  blockquote .who{display:block;margin-top:8px;font-family:var(--mono);font-size:12px;color:var(--ink-faint);font-style:normal}
+  figure{margin:34px 0}
+  figure img{width:100%;border-radius:12px;border:1px solid var(--line);background:#fff;box-shadow:0 18px 50px rgba(0,0,0,.5)}
+  figcaption{margin-top:12px;font-size:13px;color:var(--ink-faint);text-align:center;font-family:var(--mono)}
+  .grid{display:grid;gap:16px;grid-template-columns:1fr 1fr;margin:28px 0}
+  @media(max-width:640px){.grid{grid-template-columns:1fr}}
+  .card{background:var(--bg-card);border:1px solid var(--line);border-radius:14px;padding:24px;position:relative;overflow:hidden;transition:transform .35s ease,border-color .35s ease}
+  .card:hover{transform:translateY(-4px);border-color:rgba(55,192,230,.4)}
+  .card .tag{font-family:var(--mono);font-size:11px;letter-spacing:.18em;color:var(--gold);text-transform:uppercase}
+  .card h3{font-family:var(--serif);font-size:21px;margin:10px 0 8px;color:#fff}
+  .card p{font-size:15px;color:var(--ink-dim);margin:0}
+  .table{margin:28px 0;border:1px solid var(--line);border-radius:14px;overflow:hidden}
+  .table .row{display:grid;grid-template-columns:1.1fr 1.5fr 1.6fr;align-items:stretch}
+  .table .row+.row{border-top:1px solid var(--line)}
+  .table .row>div{padding:16px 18px}
+  .table .row.head{background:var(--bg-elev);font-family:var(--mono);font-size:12px;letter-spacing:.14em;color:var(--ink-faint);text-transform:uppercase}
+  .table .row>div+div{border-left:1px solid var(--line)}
+  .table .name{font-family:var(--serif);font-weight:700;font-size:18px}
+  .table .name.qushi{color:var(--gold)}
+  .cnt{font-family:var(--mono);font-size:14px;color:var(--pivot)}
+  @media(max-width:560px){.table .row{grid-template-columns:1fr}.table .row>div+div{border-left:0;border-top:1px solid var(--line)}.table .row.head{display:none}}
+  .points{margin:26px 0;display:flex;flex-direction:column;gap:14px}
+  .pt{display:flex;gap:16px;align-items:flex-start;background:var(--bg-card);border:1px solid var(--line);border-radius:12px;padding:18px 20px}
+  .pt .dot{flex:none;width:42px;height:42px;border-radius:10px;display:grid;place-items:center;font-family:var(--serif);font-weight:900;font-size:20px;color:#0b0e12}
+  .pt.b .dot{background:var(--up)}.pt.s .dot{background:var(--down)}
+  .pt h4{font-size:17px;margin-bottom:4px;color:#fff}.pt p{font-size:15px;color:var(--ink-dim);margin:0}
+  ol.think{counter-reset:q;list-style:none;margin:24px 0;display:flex;flex-direction:column;gap:14px}
+  ol.think li{counter-increment:q;position:relative;padding:18px 20px 18px 60px;background:var(--bg-elev);border:1px solid var(--line);border-radius:12px;color:var(--ink-dim);font-size:15px}
+  ol.think li::before{content:counter(q,decimal-leading-zero);position:absolute;left:20px;top:18px;font-family:var(--mono);color:var(--gold);font-weight:700}
+  .quiz{margin:22px 0;background:var(--bg-card);border:1px solid var(--line);border-radius:14px;padding:22px 24px}
+  .quiz h4{font-size:16px;color:#fff;margin-bottom:6px}
+  .quiz .ans{margin-top:12px;color:var(--ink-faint);font-size:14px;cursor:pointer}
+  .quiz .ans[open] summary{color:var(--pivot)}
+  .quiz summary{color:var(--gold);font-family:var(--mono);font-size:13px}
+  .tldr{margin:60px 0 0;padding:36px 30px;border:1px solid rgba(55,192,230,.3);border-radius:18px;background:radial-gradient(120% 120% at 100% 0%,rgba(55,192,230,.1),transparent 60%),var(--bg-elev);text-align:center}
+  .tldr .lab{font-family:var(--mono);font-size:12px;letter-spacing:.3em;color:var(--pivot);text-transform:uppercase}
+  .tldr p{font-family:var(--serif);font-size:clamp(20px,3.4vw,28px);line-height:1.7;color:#fff;margin:16px 0 0}
+  footer{padding:60px 0 90px;text-align:center;color:var(--ink-faint);font-family:var(--mono);font-size:12px;border-top:1px solid var(--line)}
+  .reveal{opacity:0;transform:translateY(26px);transition:opacity .8s ease,transform .8s ease}
+  .reveal.in{opacity:1;transform:none}
+  @media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}.scroll-hint{animation:none}}
+  /* 第13课特定：被动 vs 主动 二元对照 */
+  .versus{display:grid;grid-template-columns:1fr auto 1fr;gap:0;margin:28px 0;border:1px solid var(--line);border-radius:14px;overflow:hidden}
+  @media(max-width:640px){.versus{grid-template-columns:1fr}}
+  .versus .side{padding:24px 24px;background:var(--bg-card)}
+  .versus .side.bad{background:linear-gradient(135deg,rgba(22,199,132,.05),var(--bg-card))}
+  .versus .side.good{background:linear-gradient(135deg,rgba(255,77,79,.06),var(--bg-card))}
+  .versus .vs{display:grid;place-items:center;padding:0 16px;font-family:var(--serif);font-size:24px;font-weight:900;color:var(--ink-faint);background:var(--bg-elev);border-left:1px solid var(--line);border-right:1px solid var(--line)}
+  @media(max-width:640px){.versus .vs{border-left:0;border-right:0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:8px}}
+  .versus .side .tag{font-family:var(--mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase}
+  .versus .side.bad .tag{color:var(--down)}
+  .versus .side.good .tag{color:var(--up)}
+  .versus .side h4{font-family:var(--serif);font-size:20px;color:#fff;margin:8px 0 12px}
+  .versus .side ul{list-style:none;padding:0;margin:10px 0 0}
+  .versus .side li{font-size:14.5px;color:var(--ink-dim);padding:8px 0 8px 22px;position:relative;line-height:1.6}
+  .versus .side li::before{position:absolute;left:0;top:8px;font-family:var(--mono);font-weight:700;font-size:12px}
+  .versus .side.bad li::before{content:"✗";color:var(--down)}
+  .versus .side.good li::before{content:"✓";color:var(--up)}
+  /* 港湾比喻引文卡 */
+  .harbor{margin:28px 0;padding:34px 28px;background:radial-gradient(80% 100% at 0% 0%,rgba(55,192,230,.08),transparent 60%),var(--bg-elev);border:1px solid rgba(55,192,230,.25);border-radius:18px;position:relative;overflow:hidden}
+  .harbor::before{content:"⚓";position:absolute;right:24px;top:18px;font-size:48px;opacity:.12}
+  .harbor h4{font-family:var(--serif);font-size:22px;color:#fff;margin-bottom:10px}
+  .harbor p{margin:8px 0 0;color:var(--ink-dim);font-size:15.5px}
+  /* 退出 SOP 流程 */
+  .flow{margin:28px 0;display:flex;flex-direction:column;gap:0}
+  .flow .step{background:var(--bg-card);border:1px solid var(--line);padding:18px 22px;position:relative}
+  .flow .step:first-child{border-radius:14px 14px 0 0}
+  .flow .step:last-child{border-radius:0 0 14px 14px}
+  .flow .step+.step{border-top:0}
+  .flow .step .ord{font-family:var(--mono);font-size:11px;letter-spacing:.18em;color:var(--gold);text-transform:uppercase}
+  .flow .step h4{font-family:var(--serif);font-size:18px;color:#fff;margin:4px 0 6px}
+  .flow .step p{font-size:14.5px;color:var(--ink-dim);margin:0}
+  .flow .step.exit{background:linear-gradient(135deg,rgba(255,77,79,.06),var(--bg-card));border-color:rgba(255,77,79,.3)}
+  .flow .step.exit .ord{color:var(--up)}
+</style>
+<meta name="view-transition" content="same-origin"><style>@view-transition{navigation:auto}</style></head>
+<body>
+<div id="bar"></div>
+<header class="hero">
+  <div class="wrap">
+    <div class="kicker">缠中说禅 · 教你炒股票108课 <span>/ 第 13 课</span></div>
+    <h1 class="title">不带套的操作<br>不是好操作</h1>
+    <p class="sub">"带套"不是被套牢——是主动设置防护：把买卖纪律写成程序，一旦走势不能搞，立刻撤出。这是长期活下去的唯一办法。</p>
+    <div class="meta">
+      <span class="pill"><b>原文</b> 2006-12-04</span>
+      <span class="pill"><b>类型</b> 心法 · 风控纪律</span>
+      <span class="pill"><b>关键词</b> 主动止损 · 买入程序 · 港湾哲学</span>
+    </div>
+    <div class="scroll-hint">↓ 向下滚动，逐层拆解</div>
+  </div>
+</header>
+
+<main>
+
+<!-- 01 标题解码 -->
+<section class="wrap reveal">
+  <div class="sec-no">01 — 标题解码</div>
+  <h2>"带套"到底什么意思？</h2>
+  <p class="lead">缠师一开篇就拿"不带套不是好男人"打比方，听上去粗糙，其实把风控的本质讲得最透。</p>
+  <p>这里的「<span class="hl-pivot">带套</span>」<b>不是</b>"被套牢"的"套"，而是 <b>戴上防护</b> 的意思——就像出门要带伞、骑车要戴头盔。翻译成现代金融语言，<b>"带套"≈ 主动设置风险边界</b>（包括但不止于止损）。</p>
+  <p>这一课要解决的核心问题是：<span class="hl-gold">买完之后怎么办？</span>很多人买点研究得很细，但买进去之后就放任不管，全凭浮亏浮盈来决定下一步——这正是缠师要彻底批判的"被动带套"。</p>
+  <blockquote>
+    不带套的男人是否好男人，这个问题暂且不说，不带套的操作一定不是好操作票，特别对于资金量大的！
+    <span class="who">— 缠中说禅，2006-12-04</span>
+  </blockquote>
+</section>
+
+<!-- 02 被动 vs 主动 -->
+<section class="wrap reveal">
+  <div class="sec-no">02 — 二元对照</div>
+  <h2>两种带套：被动 vs 主动</h2>
+  <p class="lead">这是本课最重要的一组二分。几乎所有散户都被"被动带套"反复杀，而能长期活下来的人都在用"主动带套"。</p>
+
+  <div class="versus">
+    <div class="side bad">
+      <div class="tag">几乎所有散户</div>
+      <h4>被动带套</h4>
+      <ul>
+        <li>介入时根本不知道为何介入，盲目跟风/听消息/凭感觉</li>
+        <li>用「亏损多少就止损」的固定百分比规则（比如跌 8% 就割肉）</li>
+        <li>进退依据是 <b>账户的浮亏浮盈</b>，而不是走势本身</li>
+        <li>盈亏是<b>事后</b>结果，用结果倒推决策 = 用过去赌未来</li>
+        <li>结局：被"套"所"套"——被自己的浮亏情绪绑架</li>
+      </ul>
+    </div>
+    <div class="vs">VS</div>
+    <div class="side good">
+      <div class="tag">长期赢家</div>
+      <h4>主动带套</h4>
+      <ul>
+        <li>介入前先想好"什么情况下退出"，把退出条件写进买入程序</li>
+        <li>退出触发条件是 <b>走势变化</b>，与浮亏浮盈无关</li>
+        <li>大资金天然要分批介入，建仓过程本身就是主动承担风险</li>
+        <li>"主动带套"是猎手举枪前的安全栓，不是失败者的遮羞布</li>
+        <li>结局：可能小输，但永远不会被一次大风浪打沉</li>
+      </ul>
+    </div>
+  </div>
+
+  <p>注意缠师挑明的一个关键反直觉点：<span class="hl-gold">很多次"主动带套"的退出其实是盈利的</span>。退出的理由从来不是"亏了我要止损"，而是"原本买进的逻辑被证伪了，所以不该再持有"——盈亏只是结算时的副产品。</p>
+</section>
+
+<!-- 03 核心定理：止损不存在 -->
+<section class="wrap reveal">
+  <div class="sec-no">03 — 核心定理</div>
+  <h2>"止损"是个伪命题</h2>
+  <p class="lead">这是颠覆性的：缠师认为，传统意义上的「止损」根本不该存在。</p>
+
+  <blockquote>
+    从来不存在真正的止蚀问题，只存在股票是否依然在<b>能搞</b>的范围内的问题。
+    <span class="who">— 缠中说禅</span>
+  </blockquote>
+
+  <p>什么意思？传统止损的逻辑是：<b>价格 → 触发亏损线 → 强制卖出</b>。但这套逻辑有两个致命缺陷：</p>
+
+  <div class="grid">
+    <div class="card">
+      <div class="tag">缺陷一</div>
+      <h3>价格是被动信号</h3>
+      <p>价格涨跌是<b>已经发生</b>的事实，用它做决策意味着每次都晚一步——别人的卖单已经砸下来你才反应，本质就是"踩着别人的脚步走"。</p>
+    </div>
+    <div class="card">
+      <div class="tag">缺陷二</div>
+      <h3>没有走势依据</h3>
+      <p>"跌 5% 止损"是从交易心理学倒推出来的<b>统计规则</b>，跟这只股票今天的走势好不好没半点关系。该走的走势可能只回调 4.9%，结果你被洗下车。</p>
+    </div>
+  </div>
+
+  <p>缠师给出的正解是：<span class="hl-pivot">把"止损"的概念，整体置换成"走势是否还能搞"</span>。</p>
+  <p>一只股票从 <b class="hl-up">能搞</b>（走势符合你的买入程序假设）变成 <b class="hl-down">不能搞</b>（假设被走势本身证伪）——这是<b>唯一</b>的退出理由。它跟你买在多少钱、现在亏多少赚多少，<b>完全无关</b>。</p>
+</section>
+
+<!-- 04 港湾比喻 -->
+<section class="wrap reveal">
+  <div class="sec-no">04 — 港湾哲学</div>
+  <h2>买卖程序：风浪中的港湾</h2>
+  <p class="lead">缠师这一课最经典的比喻。市场永远有风浪，你不可能赤手空拳硬抗，必须有一个属于自己的港湾。</p>
+
+  <div class="harbor">
+    <h4>港湾比喻</h4>
+    <p>为什么要研究符合自己的买卖程序？因为<b>这是市场风浪中唯一安全的港湾</b>。港湾有时候也会有台风，但不能因为有时候有台风就不要港湾了。</p>
+    <p style="font-family:var(--mono);font-size:12px;color:var(--ink-faint);margin-top:14px">— 缠中说禅，2006-12-04</p>
+  </div>
+
+  <p>这个比喻的妙处在三层：</p>
+  <ul style="padding-left:20px;color:#cfd5dc;margin:0 0 18px">
+    <li style="margin-bottom:8px"><b>第一层：港湾要自己造。</b>没有现成的买卖程序适合所有人，要研究"符合<b>自己</b>的"——和你的资金量、性格、可承受亏损相匹配的那套规则。</li>
+    <li style="margin-bottom:8px"><b>第二层：港湾不是 100% 安全。</b>缠师明说"港湾有时候也会有台风"。买入程序的成功率不是 100%——<b>强市场下 90% 以上，弱市场下显著降低</b>。允许失败，但不允许没有边界。</li>
+    <li><b>第三层：偶尔被打湿，不是放弃港湾的理由。</b>这正是被动带套者的思维谬误："上次按程序退出错过了上涨，所以这套程序不灵"——典型的<b>幸存者偏差</b>，忽略了港湾让你避开多少次台风。</li>
+  </ul>
+</section>
+
+<!-- 05 退出程序 SOP -->
+<section class="wrap reveal">
+  <div class="sec-no">05 — 实战 SOP</div>
+  <h2>退出程序长什么样？</h2>
+  <p class="lead">缠师在课文中给出了两个非常具体的退出场景，照着学就能感受"主动带套"是怎么落地的。这里需要先了解第12课提到的「<b>男上位/女上位</b>」（缠师自创概念，指均线缠绕中长短期均线的相对位置）。</p>
+
+  <div class="flow">
+    <div class="step">
+      <div class="ord">场景 A · 第一类买点的退出条件</div>
+      <h4>买入前提</h4>
+      <p>"男上位缠绕"末尾出现背驰 → 介入。前提假设是：<b>这是男上位的最后一次缠绕</b>，下一步要反转上去。</p>
+    </div>
+    <div class="step exit">
+      <div class="ord">退出触发</div>
+      <h4>买入后再次出现「男上位缠绕」</h4>
+      <p>说明前面那个"最后一次缠绕"的判断错了——前提假设被证伪，<b>必须立即退出</b>。退出时通常还是赢利的，但这不是不退出的理由。</p>
+    </div>
+  </div>
+
+  <div class="flow">
+    <div class="step">
+      <div class="ord">场景 B · 第二类买点的退出条件</div>
+      <h4>买入前提</h4>
+      <p>在第一类买点之后的反弹中，预期回调形成第二类买点 → 介入。前提是：<b>不会跌破前面男上位的最低位</b>。</p>
+    </div>
+    <div class="step exit">
+      <div class="ord">退出触发</div>
+      <h4>缠绕中跌破前面男上位最低位</h4>
+      <p>买入程序的核心假设破裂。<b>在任何一个反弹中清仓出局</b>——不去赌"也许后面又涨回来"，因为长期赢家不靠侥幸。</p>
+    </div>
+  </div>
+
+  <p>注意两个共同点：</p>
+  <div class="points">
+    <div class="pt s"><div class="dot">!</div><div><h4>退出依据 100% 是走势，不是浮盈浮亏</h4><p>价格走到哪、亏多少赚多少都不重要——只看"原本的买入逻辑是否还成立"。</p></div></div>
+    <div class="pt s"><div class="dot">!</div><div><h4>退出后允许"看错"</h4><p>缠师明说：退出后可能股票又涨回去甚至大涨。那也无所谓，第二类买点出现时还能重新介入，"真正的机会并不会丢失"。</p></div></div>
+  </div>
+</section>
+
+<!-- 06 原图：港湾金句 -->
+<section class="wrap reveal">
+  <div class="sec-no">06 — 原文配图</div>
+  <h2>看图：起伏中的纪律</h2>
+  <p class="lead">原课文配的这张图，是用一只走出大趋势的个股（贵州茅台日线）做<b>纪律示意</b>，旁边标注的是这一课的两句金句。</p>
+
+  <figure>
+    <img src="/_assets/ch13_p01.png" alt="贵州茅台日线·港湾示意">
+    <figcaption>原文配图：日线走势上方密集的箭头，象征着市场上每天此起彼伏的"上涨/回调"诱惑——但只要走势没破坏程序假设，就坚持持有；一旦破坏立刻按程序退出。</figcaption>
+  </figure>
+
+  <p>图下方两段缠师手写体大字（也是本课最经典的两条心法）：</p>
+
+  <blockquote>
+    任何操作，没有百分百准确的，一旦出现特殊情况，一定要先退出来，这是在投资生涯中能长期存活的最重要一点。
+    <span class="who">— 缠师心法之一</span>
+  </blockquote>
+
+  <blockquote>
+    符合自己的买卖程序就是市场风浪中唯一安全的港湾，港湾有时候也会有台风，但不能因为有时候有台风就不要港湾了。
+    <span class="who">— 缠师心法之二</span>
+  </blockquote>
+</section>
+
+<!-- 07 海选 vs 复赛 -->
+<section class="wrap reveal">
+  <div class="sec-no">07 — 课末伏笔</div>
+  <h2>海选 vs 复赛：技术系统的局限</h2>
+  <p class="lead">课末缠师埋了一个重要伏笔，为后面的"力度"分析做铺垫。</p>
+
+  <p>缠师指出，<b>任何基于均线/MACD 等技术指标搭起来的买卖程序，本质都只是"综合判断的一个子判断"</b>，并不是一招吃天下。它解决不了一个很实际的问题：</p>
+
+  <blockquote>
+    相同程序选出来的股票，为什么有些涨得多、有些涨得少，能不能就此选出最有力度的？
+    <span class="who">— 缠中说禅</span>
+  </blockquote>
+
+  <div class="grid">
+    <div class="card">
+      <div class="tag">第一步</div>
+      <h3>海选</h3>
+      <p>用技术系统（均线缠绕、背驰、买点条件）<b>批量筛选</b>所有符合"能搞"标准的股票——量大、规则化。</p>
+    </div>
+    <div class="card">
+      <div class="tag">第二步</div>
+      <h3>复赛 / PK</h3>
+      <p>在海选名单里再做<b>力度对比</b>——挑出真正最强、上涨空间最大的那只。这部分的方法论缠师留到后面讲。</p>
+    </div>
+  </div>
+
+  <p style="color:var(--ink-faint);font-size:14.5px">→ 这条伏笔指向后续课程的「<b>走势力度</b>」「<b>背驰强度</b>」体系，第13课先把"海选只是起点"这件事点出来。</p>
+</section>
+
+<!-- 08 常见误读 -->
+<section class="wrap reveal">
+  <div class="sec-no">08 — 常见误读</div>
+  <h2>别把这一课读偏了</h2>
+  <p class="lead">第13课文字粗、比喻糙，很容易被新手抓错重点。这里列三个常见误读，对照避坑。</p>
+
+  <div class="table">
+    <div class="row head"><div>误读</div><div>错在哪</div><div>正解</div></div>
+    <div class="row">
+      <div class="name">"缠师反对止损"</div>
+      <div>错在<b>断章取义</b>。缠师反对的是"按固定亏损百分比止损"，不是反对"风险控制"本身。</div>
+      <div>缠师要求的是<b>更严格</b>的退出：以走势变化为唯一依据，触发更早、更不留情。</div>
+    </div>
+    <div class="row">
+      <div class="name">"买完套住了我就再买（摊低成本）"</div>
+      <div>这是把"主动带套"误读成"主动加仓套牢股"。缠师说的"主动"指<b>介入前</b>的主动防护，不是<b>套住后</b>的主动加仓。</div>
+      <div>套住后该不该补仓，看走势是否还在"能搞"范围；不能搞就该退，能搞才考虑加。</div>
+    </div>
+    <div class="row">
+      <div class="name">"程序退出后股票涨了说明程序错了"</div>
+      <div>典型<b>结果论</b>。退出错过涨幅 ≠ 程序失败——程序的目标是<b>长期期望为正</b>，不是单次必胜。</div>
+      <div>错过的可以从第二类买点重新介入。真正决定生死的是"被迫硬抗一次大下跌"，而不是错过单次小行情。</div>
+    </div>
+  </div>
+</section>
+
+<!-- 09 思考题 -->
+<section class="wrap reveal">
+  <div class="sec-no">09 — 思考题</div>
+  <h2>把这一课想透</h2>
+  <p class="lead">原文末尾"读后感"四问已经很到位，下面在它基础上扩成 6 道，方便自检。</p>
+  <ol class="think">
+    <li>用一句话解释「主动带套」和「被动带套」的本质区别，不要照抄缠师原话。</li>
+    <li>为什么缠师说"按盈亏多少止损"是一种"被动带套"？用自己的话推一遍这条逻辑链。</li>
+    <li>第一类买点和第二类买点的<b>退出条件</b>分别是什么？分别对应"前提假设"中的哪一条被证伪？</li>
+    <li>缠师把买卖程序比作"港湾"。请用你正在用的策略（或正在学的策略）填空：我的"港湾"是 ____；上一次它让我避开了 ____；上一次它也让我错过了 ____。</li>
+    <li>"任何操作，没有百分百准确的，一旦出现特殊情况，一定要先退出来"——这句话对资金量大的人 vs 资金量小的人，意义上有什么差异？</li>
+    <li>"海选 → 复赛"的两步法，本质上是把"<b>选股</b>"和"<b>择股</b>"分开。你目前的体系，哪一步做得更好？哪一步还基本没有方法？</li>
+  </ol>
+</section>
+
+<!-- 10 判图练习 -->
+<section class="wrap reveal">
+  <div class="sec-no">10 — 判图练习</div>
+  <h2>动手判断：哪个是真退出信号？</h2>
+
+  <div class="quiz">
+    <h4>练习 1：你按第一类买点买入一只票，三天后浮亏 4%，但走势并没有出现新的男上位缠绕，要不要止损？</h4>
+    <p style="color:var(--ink-faint);font-size:14.5px">关键词：浮亏 4% / 走势没破坏</p>
+    <details class="ans">
+      <summary>查看答案</summary>
+      <p><b>不退出。</b>退出依据是走势变化（出现新的男上位缠绕等假设被证伪的信号），不是浮亏百分比。"亏 4% 就割肉"正是缠师批判的被动带套思维。</p>
+    </details>
+  </div>
+
+  <div class="quiz">
+    <h4>练习 2：你按第二类买点买入，目前浮盈 8%，但走势已经跌破前面男上位最低位，要不要卖？</h4>
+    <p style="color:var(--ink-faint);font-size:14.5px">关键词：浮盈 8% / 走势已破坏</p>
+    <details class="ans">
+      <summary>查看答案</summary>
+      <p><b>必须在反弹中清仓。</b>买入程序的核心假设（不跌破男上位最低位）已经被证伪，无关浮盈浮亏。<span class="hl-gold">退出时是盈利的不能成为不退出的理由</span>——这正是缠师在课文里专门点明的反直觉处。</p>
+    </details>
+  </div>
+
+  <div class="quiz">
+    <h4>练习 3：你按程序退出后，这只票横盘 10 个交易日，然后大涨 30%。你的程序错了吗？</h4>
+    <p style="color:var(--ink-faint);font-size:14.5px">关键词：退出后大涨 / 程序对错</p>
+    <details class="ans">
+      <summary>查看答案</summary>
+      <p><b>程序没错。</b>退出后市场以"时间换空间"出现新的买点，按缠师的话——"可以根据第二个买点的原则重新介入，所以真正的机会并不会丢失"。用单次结果倒推程序对错，是结果论谬误。能让你长期活下来的是<b>纪律</b>，不是<b>单次最优</b>。</p>
+    </details>
+  </div>
+</section>
+
+<!-- 11 与前后课呼应 -->
+<section class="wrap reveal">
+  <div class="sec-no">11 — 上下文衔接</div>
+  <h2>这一课在整本书中的位置</h2>
+  <p class="lead">把第13课放回《教你炒股票108课》的脉络里，承上启下一目了然。</p>
+  <div class="points">
+    <div class="pt b"><div class="dot">←</div><div><h4>承上：第8课「能搞 vs 不能搞」 + 第12课「买入程序」</h4><p>第8课定义了"能搞"这个核心判据；第12课给出了具体的均线缠绕买入程序。第13课接着这两块讲："程序不光要有买，更要有退"。</p></div></div>
+    <div class="pt s"><div class="dot">→</div><div><h4>启下：第14课起的「走势力度」体系</h4><p>课末"海选 vs 复赛"伏笔，引出后续对"<b>走势力度</b>"的系统讲解——同样符合买入程序的股票里，怎么挑最强的那只。</p></div></div>
+  </div>
+</section>
+
+<!-- 12 一句话总结 -->
+<section class="wrap reveal">
+  <div class="tldr">
+    <div class="lab">TL ; DR · 一句话总结</div>
+    <p>"带套"不是被套——是出门戴的安全带。<br>退出的唯一依据是<b style="color:var(--gold)">走势从能搞变成不能搞</b>，<br>跟你浮亏浮盈无关。<br>港湾偶有台风，但永远不能因此放弃港湾。</p>
+  </div>
+</section>
+
+</main>
+
+<footer class="wrap">
+  原文出处：raw/缠中说禅/教你炒股票108课/教你炒股票13：不带套的操作不是好操作！.md<br>
+  本页为个人学习复习用 · 非投资建议
+</footer>
+
+<script>
+  const bar=document.getElementById('bar');
+  const onScroll=()=>{const h=document.documentElement;bar.style.width=(h.scrollTop/(h.scrollHeight-h.clientHeight)*100)+'%'};
+  document.addEventListener('scroll',onScroll,{passive:true});onScroll();
+  const io=new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{threshold:.12});
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+</script>
+<script src="/assets/_nav.js"></script><script src="/assets/_shell.js"></script></body>
+</html>

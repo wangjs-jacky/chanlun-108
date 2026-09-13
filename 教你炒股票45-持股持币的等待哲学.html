@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>缠论 · 教你炒股票45：持股与持币，两种最基本的操作</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@500;700;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0b0e12;--bg-elev:#12161c;--bg-card:#161b22;
+    --ink:#e8eaed;--ink-dim:#9aa3ad;--ink-faint:#5b6470;
+    --line:rgba(255,255,255,.07);
+    --up:#ff4d4f;--down:#16c784;--pivot:#37c0e6;--gold:#e8b339;--blue:#00d4ff;
+    --max:880px;--serif:"Noto Serif SC",serif;--mono:"JetBrains Mono",ui-monospace,monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--ink);font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;line-height:1.85;font-size:17px;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  body::before{content:"";position:fixed;inset:0;z-index:-2;background:radial-gradient(1200px 600px at 70% -10%,rgba(55,192,230,.08),transparent 60%),radial-gradient(900px 500px at 0% 100%,rgba(232,179,57,.05),transparent 55%);pointer-events:none}
+  body::after{content:"";position:fixed;inset:0;z-index:-1;opacity:.4;background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);background-size:46px 46px;-webkit-mask-image:radial-gradient(ellipse at 50% 0%,#000 30%,transparent 80%);mask-image:radial-gradient(ellipse at 50% 0%,#000 30%,transparent 80%);pointer-events:none}
+  #bar{position:fixed;top:0;left:0;height:3px;width:0;z-index:50;background:linear-gradient(90deg,var(--pivot),var(--gold));box-shadow:0 0 12px var(--pivot)}
+  .wrap{max-width:var(--max);margin:0 auto;padding:0 24px}
+  header.hero{padding:120px 0 70px;text-align:center;position:relative}
+  .kicker{font-family:var(--mono);font-size:13px;letter-spacing:.32em;color:var(--pivot);text-transform:uppercase;margin-bottom:26px}
+  .kicker span{color:var(--ink-faint)}
+  h1.title{font-family:var(--serif);font-weight:900;line-height:1.05;font-size:clamp(44px,10vw,100px);letter-spacing:.04em;background:linear-gradient(180deg,#fff 30%,#8aa0ad 130%);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .sub{margin:22px auto 0;max-width:580px;color:var(--ink-dim);font-size:18px}
+  .meta{margin-top:34px;display:flex;gap:14px;justify-content:center;flex-wrap:wrap;font-family:var(--mono);font-size:12px;color:var(--ink-faint)}
+  .meta b{color:var(--ink-dim);font-weight:500}
+  .pill{border:1px solid var(--line);padding:6px 14px;border-radius:999px;background:rgba(255,255,255,.02)}
+  .scroll-hint{margin-top:60px;color:var(--ink-faint);font-family:var(--mono);font-size:12px;animation:bob 2.4s ease-in-out infinite}
+  @keyframes bob{0%,100%{transform:translateY(0);opacity:.5}50%{transform:translateY(8px);opacity:1}}
+  section{padding:64px 0;border-top:1px solid var(--line)}
+  .sec-no{font-family:var(--mono);font-size:13px;color:var(--gold);letter-spacing:.2em;margin-bottom:10px}
+  h2{font-family:var(--serif);font-weight:700;font-size:clamp(28px,5vw,42px);line-height:1.25;margin-bottom:8px;letter-spacing:.02em}
+  .lead{color:var(--ink-dim);font-size:16px;margin-bottom:28px;max-width:660px}
+  p{margin:0 0 18px;color:#cfd5dc}
+  p b,strong{color:#fff;font-weight:700}
+  .hl-pivot{color:var(--pivot);font-weight:700}.hl-up{color:var(--up);font-weight:700}
+  .hl-down{color:var(--down);font-weight:700}.hl-gold{color:var(--gold);font-weight:700}
+  blockquote{margin:26px 0;padding:20px 24px;border-left:3px solid var(--pivot);background:linear-gradient(90deg,rgba(55,192,230,.07),transparent);border-radius:0 10px 10px 0;font-family:var(--serif);font-size:19px;color:#eaf6fb}
+  blockquote .who{display:block;margin-top:8px;font-family:var(--mono);font-size:12px;color:var(--ink-faint);font-style:normal}
+  figure{margin:34px 0}
+  figure img{width:100%;border-radius:12px;border:1px solid var(--line);background:#fff;box-shadow:0 18px 50px rgba(0,0,0,.5)}
+  figcaption{margin-top:12px;font-size:13px;color:var(--ink-faint);text-align:center;font-family:var(--mono)}
+  .grid{display:grid;gap:16px;grid-template-columns:1fr 1fr;margin:28px 0}
+  @media(max-width:640px){.grid{grid-template-columns:1fr}}
+  .card{background:var(--bg-card);border:1px solid var(--line);border-radius:14px;padding:24px;position:relative;overflow:hidden;transition:transform .35s ease,border-color .35s ease}
+  .card:hover{transform:translateY(-4px);border-color:rgba(55,192,230,.4)}
+  .card .tag{font-family:var(--mono);font-size:11px;letter-spacing:.18em;color:var(--gold);text-transform:uppercase}
+  .card h3{font-family:var(--serif);font-size:21px;margin:10px 0 8px;color:#fff}
+  .card p{font-size:15px;color:var(--ink-dim);margin:0}
+  .table{margin:28px 0;border:1px solid var(--line);border-radius:14px;overflow:hidden}
+  .table .row{display:grid;grid-template-columns:1.1fr 1.5fr 1.6fr;align-items:stretch}
+  .table .row+.row{border-top:1px solid var(--line)}
+  .table .row>div{padding:16px 18px}
+  .table .row.head{background:var(--bg-elev);font-family:var(--mono);font-size:12px;letter-spacing:.14em;color:var(--ink-faint);text-transform:uppercase}
+  .table .row>div+div{border-left:1px solid var(--line)}
+  .table .name{font-family:var(--serif);font-weight:700;font-size:18px}
+  .table .name.qushi{color:var(--gold)}
+  .cnt{font-family:var(--mono);font-size:14px;color:var(--pivot)}
+  @media(max-width:560px){.table .row{grid-template-columns:1fr}.table .row>div+div{border-left:0;border-top:1px solid var(--line)}.table .row.head{display:none}}
+  .points{margin:26px 0;display:flex;flex-direction:column;gap:14px}
+  .pt{display:flex;gap:16px;align-items:flex-start;background:var(--bg-card);border:1px solid var(--line);border-radius:12px;padding:18px 20px}
+  .pt .dot{flex:none;width:42px;height:42px;border-radius:10px;display:grid;place-items:center;font-family:var(--serif);font-weight:900;font-size:20px;color:#0b0e12}
+  .pt.b .dot{background:var(--up)}.pt.s .dot{background:var(--down)}
+  .pt h4{font-size:17px;margin-bottom:4px;color:#fff}.pt p{font-size:15px;color:var(--ink-dim);margin:0}
+  ol.think{counter-reset:q;list-style:none;margin:24px 0;display:flex;flex-direction:column;gap:14px}
+  ol.think li{counter-increment:q;position:relative;padding:18px 20px 18px 60px;background:var(--bg-elev);border:1px solid var(--line);border-radius:12px;color:var(--ink-dim);font-size:15px}
+  ol.think li::before{content:counter(q,decimal-leading-zero);position:absolute;left:20px;top:18px;font-family:var(--mono);color:var(--gold);font-weight:700}
+  .quiz{margin:22px 0;background:var(--bg-card);border:1px solid var(--line);border-radius:14px;padding:22px 24px}
+  .quiz h4{font-size:16px;color:#fff;margin-bottom:6px}
+  .quiz .ans{margin-top:12px;color:var(--ink-faint);font-size:14px;cursor:pointer}
+  .quiz .ans[open] summary{color:var(--pivot)}
+  .quiz summary{color:var(--gold);font-family:var(--mono);font-size:13px}
+  /* 持股持币切换示意（自绘 SVG/CSS）*/
+  .cycle{margin:30px 0;background:var(--bg-card);border:1px solid var(--line);border-radius:16px;padding:28px;position:relative;overflow:hidden}
+  .cycle .stage{display:grid;grid-template-columns:1fr 60px 1fr;gap:14px;align-items:center;margin:12px 0}
+  .cycle .blk{padding:18px 16px;border-radius:12px;border:1px solid var(--line);text-align:center}
+  .cycle .blk.hold{background:linear-gradient(120deg,rgba(255,77,79,.10),transparent 70%);border-color:rgba(255,77,79,.3)}
+  .cycle .blk.cash{background:linear-gradient(120deg,rgba(22,199,132,.10),transparent 70%);border-color:rgba(22,199,132,.3)}
+  .cycle .blk h4{font-family:var(--serif);font-size:18px;color:#fff;margin-bottom:6px}
+  .cycle .blk p{font-size:13px;color:var(--ink-dim);margin:0;line-height:1.5}
+  .cycle .arrow{font-family:var(--mono);font-size:13px;color:var(--gold);text-align:center;line-height:1.3}
+  .cycle .arrow .a{display:block;font-size:20px;color:var(--pivot)}
+  /* 走势生灭示意 */
+  .lifecycle{margin:30px 0;background:var(--bg-card);border:1px solid var(--line);border-radius:14px;padding:24px}
+  .lifecycle .row{display:grid;grid-template-columns:80px 1fr;gap:18px;padding:14px 0;border-bottom:1px dashed var(--line);align-items:start}
+  .lifecycle .row:last-child{border-bottom:0}
+  .lifecycle .row .stage{font-family:var(--mono);font-size:12px;letter-spacing:.1em;color:var(--gold);font-weight:700;padding-top:3px}
+  .lifecycle .row .desc{font-size:15px;color:var(--ink-dim);line-height:1.7}
+  .lifecycle .row .desc b{color:#fff}
+  /* 金句墙 */
+  .quotes{margin:30px 0;display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  @media(max-width:640px){.quotes{grid-template-columns:1fr}}
+  .qbox{padding:22px;border:1px solid var(--line);border-radius:14px;background:linear-gradient(135deg,rgba(232,179,57,.07),transparent 60%),var(--bg-elev);position:relative}
+  .qbox::before{content:"\201C";position:absolute;top:8px;left:14px;font-family:var(--serif);font-size:60px;color:var(--gold);opacity:.3;line-height:1}
+  .qbox p{font-family:var(--serif);font-size:16px;color:#eaf6fb;margin:0;padding-left:30px;line-height:1.7}
+  .qbox span{display:block;margin-top:8px;padding-left:30px;font-family:var(--mono);font-size:11px;color:var(--ink-faint);letter-spacing:.08em}
+  .tldr{margin:60px 0 0;padding:36px 30px;border:1px solid rgba(55,192,230,.3);border-radius:18px;background:radial-gradient(120% 120% at 100% 0%,rgba(55,192,230,.1),transparent 60%),var(--bg-elev);text-align:center}
+  .tldr .lab{font-family:var(--mono);font-size:12px;letter-spacing:.3em;color:var(--pivot);text-transform:uppercase}
+  .tldr p{font-family:var(--serif);font-size:clamp(20px,3.4vw,28px);line-height:1.7;color:#fff;margin:16px 0 0}
+  footer{padding:60px 0 90px;text-align:center;color:var(--ink-faint);font-family:var(--mono);font-size:12px;border-top:1px solid var(--line)}
+  .reveal{opacity:0;transform:translateY(26px);transition:opacity .8s ease,transform .8s ease}
+  .reveal.in{opacity:1;transform:none}
+  @media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}.scroll-hint{animation:none}}
+</style>
+<meta name="view-transition" content="same-origin"><style>@view-transition{navigation:auto}</style></head>
+<body>
+<div id="bar"></div>
+<header class="hero">
+  <div class="wrap">
+    <div class="kicker">缠中说禅 · 教你炒股票108课 <span>/ 第 45 课</span></div>
+    <h1 class="title">持股与持币</h1>
+    <p class="sub">每笔买卖只用 1 秒，剩下的，是更长的等待——而等待，才是真正的操作。</p>
+    <div class="meta">
+      <span class="pill"><b>原文</b> 2007-04-12</span>
+      <span class="pill"><b>类型</b> 心法 · 操作论</span>
+      <span class="pill"><b>关键词</b> 等待 · 走势生灭 · 当下应对</span>
+    </div>
+    <div class="scroll-hint">↓ 向下滚动，看"等待"的硬骨头</div>
+  </div>
+</header>
+<main>
+
+<!-- 01 误区破除 -->
+<section class="wrap reveal">
+  <div class="sec-no">01 — 思维误区</div>
+  <h2>"买入卖出"只是操作的极小一角</h2>
+  <p class="lead">很多人以为"炒股"等于"找买点、找卖点"。缠师在这一课里把这种思路砸碎了。</p>
+  <p>每一笔买入或卖出，下单只需要 <b>1 秒</b>。在你的账户生涯里，真正点击「买入」「卖出」按钮的总时间，加起来可能不到一小时。剩下的几百几千个小时，你都处在另外两个状态里：<span class="hl-up">持股</span>，或者 <span class="hl-down">持币</span>。</p>
+  <blockquote>更多、更长时间的，填充在买入与卖出之间两种最基本的操作：持股与持币，才是更重要的操作。<span class="who">— 缠中说禅 2007-04-12</span></blockquote>
+  <p>意思很硬核：<b>持股和持币，本身就是操作</b>——不是"什么都没做"，而是在主动选择"现在不动"。这个"不动"的决定，每一秒都在被你做出，每一秒都在重新成立。一旦你把"持有"当成"放着不管"，你就把账户交给随机性了。</p>
+</section>
+
+<!-- 02 持股持币的切换轮回 -->
+<section class="wrap reveal">
+  <div class="sec-no">02 — 操作循环</div>
+  <h2>两种状态，一条闭环</h2>
+  <p class="lead">缠论的操作系统极简：你永远只在两个状态之一，状态之间靠"理论保证的买卖点"切换。</p>
+
+  <div class="cycle">
+    <div class="stage">
+      <div class="blk hold">
+        <h4 style="color:var(--up)">持股</h4>
+        <p>在某级别买点后买入，直到该级别卖点出现之前，全程持股。等待"被理论锁定"的卖点。</p>
+      </div>
+      <div class="arrow">
+        <span class="a">↻</span>
+        卖点<br>触发
+      </div>
+      <div class="blk cash">
+        <h4 style="color:var(--down)">持币</h4>
+        <p>卖点出现后清仓，直到下一个该级别买点出现之前，全程持币。等待"被理论锁定"的买点。</p>
+      </div>
+    </div>
+    <p style="text-align:center;font-family:var(--mono);font-size:12px;color:var(--ink-faint);margin-top:10px">买入买出耗时 1 秒 · 持股持币耗时 99.9%</p>
+  </div>
+
+  <p>假设你按 <span class="hl-pivot">30 分钟级别</span>操作：</p>
+  <ul style="margin:0 0 22px 22px;color:#cfd5dc">
+    <li style="margin-bottom:8px">在一个 30 分钟买点 a 买入 → 进入<span class="hl-up">持股</span>。</li>
+    <li style="margin-bottom:8px">理论保证：从 a 出发的这段 30 分钟走势类型，<b>必然有一个 30 分钟卖点等在前面</b>。</li>
+    <li style="margin-bottom:8px">在卖点到来之前，你<b>只做持股</b>这一件事，不被中途的盘中震荡晃出来。</li>
+    <li>卖点到达 → 卖出 → 进入<span class="hl-down">持币</span>，等下一个 30 分钟买点。</li>
+  </ul>
+  <p>整个流程里，<span class="hl-gold">买卖点</span>是"开关"，<span class="hl-up">持股</span>/<span class="hl-down">持币</span>是"运行态"。开关只在两端按一下，剩下时间全在运行态里挂着——而运行态的内容只有一个字：<b>等</b>。</p>
+</section>
+
+<!-- 03 等待的本质 -->
+<section class="wrap reveal">
+  <div class="sec-no">03 — 等待的本质</div>
+  <h2>买卖点不是约好的时间，是"长出来"的</h2>
+  <p class="lead">这是这一课最颠覆的一句话——等彗星和等买卖点，完全不是一回事。</p>
+  <blockquote>等待市场的买卖点，和等待彗星的到来不同，后者，可以很精确地知道具体的时间，而市场的买卖点是<b>生长出来的</b>。<span class="who">— 缠中说禅</span></blockquote>
+  <p>彗星轨道由万有引力决定，到达时间精确到秒。但市场不一样：<b>没有"上帝"事先确定走势</b>，买卖点是市场所有参与者合力博弈"长"出来的结果。哪怕是大资金、高技巧的主力，也只是这股合力里的一份"分力"，不能完全决定结局。</p>
+  <p>所以"等待买卖点"不是看日历，而是<span class="hl-pivot">观察走势类型在你眼前一笔一笔地生长</span>，按它长出的样子来分类、来反应。这就引出"走势生灭"这个核心比喻。</p>
+
+  <div class="lifecycle">
+    <div class="row"><div class="stage">生</div>
+      <div class="desc">从某级别买点 a 出发，走势开始向上发展，第一段次级别推动 <b>A1</b> 拉出。</div></div>
+    <div class="row"><div class="stage">长 · 中枢</div>
+      <div class="desc"><b>A2</b> 回踩与 A1 重叠 → 再有 <b>A3</b> 反弹与 A1、A2 都重叠 → 一个<span class="hl-pivot">该级别中枢</span>正式形成。</div></div>
+    <div class="row"><div class="stage">可灭点</div>
+      <div class="desc">一旦中枢成立，<b>该级别走势类型随时结束都符合理论</b>——最弱的情形就是 A1+A2+A3 完成即终结。</div></div>
+    <div class="row"><div class="stage">续 / 终</div>
+      <div class="desc">如果继续走，就进入趋势/盘整的分类。<b>具体哪种，事先无法预测</b>，只能等它走出来。</div></div>
+  </div>
+
+  <p style="margin-top:18px">这就是为什么缠师反复强调：<b>不要预测、不要替市场写剧本</b>。你能做的，是把所有可能的走势结构提前分类好，然后等市场"做选择题"——它选 A，你跟 A 的应对脚本；它选 B，你跟 B 的应对脚本。</p>
+</section>
+
+<!-- 04 可分类 vs 不可预测 -->
+<section class="wrap reveal">
+  <div class="sec-no">04 — 缠论的核心方法论</div>
+  <h2>不预测，但可分类；不替市场决定，但等市场选择</h2>
+  <p class="lead">"一切不可预测"听起来像投降，但缠师紧接着给出反击：可能的<b>结构与类型</b>是有限的、可分类的。</p>
+  <blockquote>一切虽然不可以预测，但一切走势类型的可能结构与类型，却是<b>可以分类的</b>，每一类之间都有着明确的界限。<span class="who">— 缠中说禅</span></blockquote>
+
+  <div class="grid">
+    <div class="card">
+      <div class="tag">误 区</div>
+      <h3>预测派</h3>
+      <p>"我觉得这波会到 X 点。" 替市场写剧本，把自己当上帝。一旦市场不演这个本子，立刻被套或踏空——因为没有 B 计划。</p>
+    </div>
+    <div class="card">
+      <div class="tag">缠 论</div>
+      <h3>分类派</h3>
+      <p>"该级别走势接下来只能是 A/B/C 三种。" 把脚本预先写好备好，等市场选一个交卷，你按那个脚本应对。每一种都有明确边界。</p>
+    </div>
+  </div>
+
+  <p>这条思路推广到任何规模的资金都成立：<b>无论你是散户还是百亿大资金，归根结底都只是市场的分力，不是合力本身</b>。大资金可以引导市场按自己剧本演，但不能完全决定细节——一旦它把自己当成合力，企图操控全部，结局是"死无葬身之地"。</p>
+</section>
+
+<!-- 05 配图：1分钟示范 -->
+<section class="wrap reveal">
+  <div class="sec-no">05 — 原文配图 · 看图说话</div>
+  <h2>1 分钟图上的等待与背驰</h2>
+  <p class="lead">缠师在课文回答读者提问时，配了两张当时大盘 1 分钟图，演示"为什么没回头就直接上"。</p>
+
+  <figure>
+    <img src="/_assets/ch45_p01.png" alt="2007-04-16 大盘1分钟图：当天1分钟无背驰，下午只是1分钟以下盘整背驰">
+    <figcaption>4/16 1分钟图 · 全天 1 分钟级别<b>无背驰</b>，下午仅有 1 分钟级别<b>以下</b>的盘整背驰——按缠论纪律，这种情况"不一定要弄短差"。</figcaption>
+  </figure>
+
+  <p>缠师在这里直接拒答"为什么没等到 1 分钟底背驰就上去了"这种问题：<b>市场凭什么必须给你 1 分钟底背驰才能上？</b> 你眼里的"应该"，是你预测的剧本，不是市场承诺。</p>
+
+  <figure>
+    <img src="/_assets/ch45_p02.png" alt="2007-04-17 大盘1分钟图：1030与1340两个点，下午跳水把中枢第三段完成">
+    <figcaption>4/17 1分钟图 · 下午跳水（绿色箭头指向约 3510 一线）正好完成<span class="hl-pivot">中枢第三段</span>，紫色框圈出小级别中枢与对应 MACD 段——这种震荡是"理论的天堂"，技术好的人借机降成本。</figcaption>
+  </figure>
+
+  <p>这两张图的共同点是：缠师不告诉你"明天会涨/跌"，他指给你看的，是<b>当下走势类型已经长到哪一步</b>——中枢有没有形成、第三段有没有完成、是否出现某级别背驰。<b>位置对了，下一步几种可能就摆在那里；位置没到，再多预测都是空谈</b>。</p>
+</section>
+
+<!-- 06 操作纪律：等待的具体动作 -->
+<section class="wrap reveal">
+  <div class="sec-no">06 — 操作纪律</div>
+  <h2>等待不是"啥都不干"，是"严格做这几件事"</h2>
+  <p class="lead">把"持股/持币 = 等待"翻译成具体动作，否则容易变成放任不管。</p>
+
+  <div class="points">
+    <div class="pt b">
+      <div class="dot">持</div>
+      <div>
+        <h4>持股期间：盯着<span class="hl-pivot">本级别</span>是否走出卖点</h4>
+        <p>买入级别若是 30 分钟，就时刻看 30 分钟图上的中枢、背驰是否在生长。技术好的人可以用次级别（5 分钟、1 分钟）背驰<b>降成本</b>——做高抛低吸但筹码不丢。技术不行就盯 5 日线，不破不动。</p>
+      </div>
+    </div>
+    <div class="pt s">
+      <div class="dot">币</div>
+      <div>
+        <h4>持币期间：盯着<span class="hl-pivot">本级别</span>是否走出买点</h4>
+        <p>不要因为"涨了 2 天怕错过"去追高。缠师反复强调：<b>所有追高杀跌都是自寻死路</b>。耐心找下一个本级别买点，宁可少做也不乱做。</p>
+      </div>
+    </div>
+    <div class="pt b" style="border-color:rgba(232,179,57,.3)">
+      <div class="dot" style="background:var(--gold)">观</div>
+      <div>
+        <h4>持续观察：让市场"做选择题"</h4>
+        <p>每一根新出来的 K 线都在告诉你：走势类型选择了 A 还是 B。你的工作不是猜下一根，而是<b>把已经走出的部分分类对</b>——是盘整？是趋势？中枢延伸还是新生？背驰出现了没？</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 07 金句墙 -->
+<section class="wrap reveal">
+  <div class="sec-no">07 — 缠师原话</div>
+  <h2>这一课的硬骨头，要刻在心里</h2>
+  <p class="lead">下面几句是这一课的核心，复盘时遇到"管不住手"，回来读它们。</p>
+  <div class="quotes">
+    <div class="qbox">
+      <p>所有股票的操作，归根结底，只有两个字：<b>等待</b>。</p>
+      <span>原文 · 段三</span>
+    </div>
+    <div class="qbox">
+      <p>市场的买卖点是<b>生长出来的</b>。</p>
+      <span>原文 · 段四</span>
+    </div>
+    <div class="qbox">
+      <p>预测是<b>毫无意义的</b>，走势是干出来的，是市场合力的结果。</p>
+      <span>原文 · 段五</span>
+    </div>
+    <div class="qbox">
+      <p>企图把自己当合力本身，把自己装扮成上帝的，最终的结局都是<b>死无葬身之地</b>。</p>
+      <span>原文 · 段六</span>
+    </div>
+  </div>
+</section>
+
+<!-- 08 思考题 -->
+<section class="wrap reveal">
+  <div class="sec-no">08 — 思考题</div>
+  <h2>把这一课变成你的肌肉记忆</h2>
+  <p class="lead">不要只是"读懂了"，要在自己复盘里跑过下面几个问题。</p>
+  <ol class="think">
+    <li>你最近一次"管不住手"的交易，是被"想买"还是"想卖"驱动的？当时本级别的卖点/买点真的出现了吗？还是你在替市场写剧本？</li>
+    <li>你的"操作级别"是什么？日线？30 分钟？5 分钟？写下来。在持股期间，你盯的是这个级别，还是被低于它的级别震荡晃出？</li>
+    <li>"最弱的走势类型，就是该中枢一完成就结束"——回看你最近一笔买入：进场后第一个中枢形成时，你有意识到"这里随时可以结束"吗？还是默认它"应该"继续涨？</li>
+    <li>"走势是干出来的，不是被上帝事先确定的"——你今年至少听到过 10 个"专家"喊点位，事后回看，他们的命中率比抛硬币高吗？为什么你还想做那个抛硬币的人？</li>
+  </ol>
+</section>
+
+<!-- 09 判图练习 -->
+<section class="wrap reveal">
+  <div class="sec-no">09 — 判图练习</div>
+  <h2>状态判断 · 你在哪个格子里</h2>
+  <p class="lead">把下面三个情景套到你自己的账户上，判断当下应该处于哪种"操作态"。</p>
+
+  <div class="quiz">
+    <h4>情景 A：你在 30 分钟买点 a 买入，进场后第一个 30 分钟中枢正在形成，你该做什么？</h4>
+    <details class="ans"><summary>查看答案</summary><p><b>持股 + 紧盯本级别卖点</b>。中枢未形成前一律不动；中枢一旦形成，走势随时可能结束，开始关注是否出现 30 分钟卖点。技术好可用次级别小背驰做差价降成本，但筹码不丢。</p></details>
+  </div>
+
+  <div class="quiz">
+    <h4>情景 B：你刚在 30 分钟卖点卖出，目前空仓，下一根 K 线大涨 3%——你想追，对吗？</h4>
+    <details class="ans"><summary>查看答案</summary><p><b>持币 + 等下一个 30 分钟买点</b>。"追高"是自己写剧本"它还会继续涨"，但市场没有承诺。耐心等本级别买点；如果错过了这一波，下一个买点会再"长"出来——市场不缺机会，缺的是不乱动的人。</p></details>
+  </div>
+
+  <div class="quiz">
+    <h4>情景 C：盘中 1 分钟图剧烈震荡，但你的操作级别是日线——该不该动？</h4>
+    <details class="ans"><summary>查看答案</summary><p><b>不动。</b>跨级别操作是亏损主因之一。1 分钟震荡对日线持仓只是噪声。除非你能把"1 分钟操作"和"日线持仓"严格分账（不同资金、不同账本），否则盯本级别，忽略以下的所有噪声。</p></details>
+  </div>
+</section>
+
+<!-- 10 tldr -->
+<section class="wrap reveal">
+  <div class="tldr">
+    <div class="lab">一句话总结</div>
+    <p>买入卖出只是 1 秒的开关，持股持币才是 99.9% 的操作；而这两种操作的内容只有两个字——等待"被理论锁定"的本级别买卖点"长"出来，<br>剩下的，让市场自己做选择题。</p>
+  </div>
+</section>
+
+</main>
+<footer class="wrap">
+  原文出处：raw/缠中说禅/教你炒股票108课/教你炒股票45：持股与持币，两种最基本的操作.md<br>
+  本页为个人学习复习用 · 非投资建议
+</footer>
+<script>
+  const bar=document.getElementById('bar');
+  const onScroll=()=>{const h=document.documentElement;bar.style.width=(h.scrollTop/(h.scrollHeight-h.clientHeight)*100)+'%'};
+  document.addEventListener('scroll',onScroll,{passive:true});onScroll();
+  const io=new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{threshold:.12});
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+</script>
+<script src="/assets/_nav.js"></script><script src="/assets/_shell.js"></script></body>
+</html>

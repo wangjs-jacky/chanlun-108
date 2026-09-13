@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>缠论 · 教你炒股票89：中阴阶段的具体分析</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@500;700;900&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0b0e12;
+    --bg-elev:#12161c;
+    --bg-card:#161b22;
+    --ink:#e8eaed;
+    --ink-dim:#9aa3ad;
+    --ink-faint:#5b6470;
+    --line:rgba(255,255,255,.07);
+    --up:#ff4d4f;
+    --down:#16c784;
+    --pivot:#37c0e6;
+    --gold:#e8b339;
+    --purple:#a78bfa;
+    --max:880px;
+    --serif:"Noto Serif SC",serif;
+    --mono:"JetBrains Mono",ui-monospace,monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;
+    line-height:1.85;
+    font-size:17px;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  body::before{
+    content:"";position:fixed;inset:0;z-index:-2;
+    background:
+      radial-gradient(1200px 600px at 70% -10%, rgba(167,139,250,.08), transparent 60%),
+      radial-gradient(900px 500px at 0% 100%, rgba(55,192,230,.06), transparent 55%);
+    pointer-events:none;
+  }
+  body::after{
+    content:"";position:fixed;inset:0;z-index:-1;opacity:.4;
+    background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);
+    background-size:46px 46px;
+    -webkit-mask-image:radial-gradient(ellipse at 50% 0%, #000 30%, transparent 80%);
+            mask-image:radial-gradient(ellipse at 50% 0%, #000 30%, transparent 80%);
+    pointer-events:none;
+  }
+
+  #bar{position:fixed;top:0;left:0;height:3px;width:0;z-index:50;
+    background:linear-gradient(90deg,var(--purple),var(--pivot),var(--gold));box-shadow:0 0 12px var(--purple);}
+
+  .wrap{max-width:var(--max);margin:0 auto;padding:0 24px}
+
+  /* HERO */
+  header.hero{padding:120px 0 70px;text-align:center;position:relative}
+  .kicker{font-family:var(--mono);font-size:13px;letter-spacing:.32em;color:var(--purple);
+    text-transform:uppercase;margin-bottom:26px}
+  .kicker span{color:var(--ink-faint)}
+  h1.title{font-family:var(--serif);font-weight:900;line-height:1.05;
+    font-size:clamp(44px,10vw,96px);letter-spacing:.04em;
+    background:linear-gradient(180deg,#fff 30%,#a78bfa 130%);
+    -webkit-background-clip:text;background-clip:text;color:transparent;}
+  .sub{margin:22px auto 0;max-width:600px;color:var(--ink-dim);font-size:18px}
+  .meta{margin-top:34px;display:flex;gap:14px;justify-content:center;flex-wrap:wrap;
+    font-family:var(--mono);font-size:12px;color:var(--ink-faint)}
+  .meta b{color:var(--ink-dim);font-weight:500}
+  .pill{border:1px solid var(--line);padding:6px 14px;border-radius:999px;background:rgba(255,255,255,.02)}
+
+  .scroll-hint{margin-top:60px;color:var(--ink-faint);font-family:var(--mono);font-size:12px;
+    animation:bob 2.4s ease-in-out infinite}
+  @keyframes bob{0%,100%{transform:translateY(0);opacity:.5}50%{transform:translateY(8px);opacity:1}}
+
+  section{padding:64px 0;border-top:1px solid var(--line)}
+  .sec-no{font-family:var(--mono);font-size:13px;color:var(--gold);letter-spacing:.2em;margin-bottom:10px}
+  h2{font-family:var(--serif);font-weight:700;font-size:clamp(28px,5vw,40px);
+    line-height:1.25;margin-bottom:8px;letter-spacing:.02em}
+  .lead{color:var(--ink-dim);font-size:16px;margin-bottom:28px;max-width:640px}
+  p{margin:0 0 18px;color:#cfd5dc}
+  p b,strong{color:#fff;font-weight:700}
+  .hl-pivot{color:var(--pivot);font-weight:700}
+  .hl-up{color:var(--up);font-weight:700}
+  .hl-down{color:var(--down);font-weight:700}
+  .hl-gold{color:var(--gold);font-weight:700}
+  .hl-purple{color:var(--purple);font-weight:700}
+
+  blockquote{margin:26px 0;padding:20px 24px;border-left:3px solid var(--purple);
+    background:linear-gradient(90deg,rgba(167,139,250,.07),transparent);
+    border-radius:0 10px 10px 0;font-family:var(--serif);font-size:19px;color:#eaf6fb}
+  blockquote .who{display:block;margin-top:8px;font-family:var(--mono);font-size:12px;
+    color:var(--ink-faint);font-style:normal}
+
+  figure{margin:34px 0}
+  figure img{width:100%;border-radius:12px;border:1px solid var(--line);
+    background:#fff;box-shadow:0 18px 50px rgba(0,0,0,.5)}
+  figcaption{margin-top:12px;font-size:13px;color:var(--ink-faint);text-align:center;font-family:var(--mono)}
+
+  /* 卡片网格 */
+  .grid{display:grid;gap:16px;grid-template-columns:1fr 1fr;margin:28px 0}
+  @media(max-width:640px){.grid{grid-template-columns:1fr}}
+  .card{background:var(--bg-card);border:1px solid var(--line);border-radius:14px;padding:24px;
+    position:relative;overflow:hidden;transition:transform .35s ease,border-color .35s ease}
+  .card:hover{transform:translateY(-4px);border-color:rgba(167,139,250,.4)}
+  .card .tag{font-family:var(--mono);font-size:11px;letter-spacing:.18em;color:var(--gold);text-transform:uppercase}
+  .card h3{font-family:var(--serif);font-size:21px;margin:10px 0 8px;color:#fff}
+  .card p{font-size:15px;color:var(--ink-dim);margin:0}
+
+  /* 中阴六道 SVG 容器 */
+  .six-paths{margin:34px 0;padding:30px 20px;background:var(--bg-elev);border:1px solid var(--line);border-radius:14px}
+  .six-paths svg{width:100%;height:auto;display:block}
+
+  /* 推理链 */
+  .chain{margin:30px 0;display:flex;flex-direction:column;gap:14px}
+  .step{display:grid;grid-template-columns:60px 1fr;gap:18px;align-items:flex-start;
+    background:var(--bg-card);border:1px solid var(--line);border-radius:12px;padding:18px 20px}
+  .step .n{font-family:var(--mono);font-weight:700;font-size:22px;color:var(--purple);text-align:center;
+    padding-top:6px;border-right:1px solid var(--line)}
+  .step h4{font-size:17px;margin-bottom:6px;color:#fff;font-family:var(--serif)}
+  .step p{font-size:15px;color:var(--ink-dim);margin:0;line-height:1.7}
+  .step .cert{display:inline-block;margin-top:8px;padding:2px 10px;border-radius:999px;
+    background:rgba(231,179,57,.12);border:1px solid rgba(231,179,57,.3);
+    color:var(--gold);font-family:var(--mono);font-size:11px;letter-spacing:.1em}
+
+  /* 对比表 */
+  .table{margin:28px 0;border:1px solid var(--line);border-radius:14px;overflow:hidden}
+  .table .row{display:grid;grid-template-columns:1.1fr 1.5fr 1.6fr;align-items:stretch}
+  .table .row+.row{border-top:1px solid var(--line)}
+  .table .row > div{padding:16px 18px}
+  .table .row.head{background:var(--bg-elev);font-family:var(--mono);font-size:12px;
+    letter-spacing:.14em;color:var(--ink-faint);text-transform:uppercase}
+  .table .row > div+div{border-left:1px solid var(--line)}
+  .table .name{font-family:var(--serif);font-weight:700;font-size:18px}
+  .table .name.zh{color:var(--purple)}
+  .table .name.pp{color:var(--ink)}
+  .cnt{font-family:var(--mono);font-size:14px;color:var(--pivot)}
+  @media(max-width:560px){
+    .table .row{grid-template-columns:1fr}
+    .table .row > div+div{border-left:0;border-top:1px solid var(--line)}
+    .table .row.head{display:none}
+  }
+
+  /* 苹果苹果树类比 */
+  .analogy{margin:30px 0;display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px}
+  @media(max-width:640px){.analogy{grid-template-columns:1fr}}
+  .ana{background:var(--bg-card);border:1px solid var(--line);border-radius:12px;padding:22px;text-align:center}
+  .ana .emoji{font-size:38px;margin-bottom:8px;display:block}
+  .ana .lbl{font-family:var(--mono);font-size:11px;letter-spacing:.18em;color:var(--gold);text-transform:uppercase;margin-bottom:8px}
+  .ana .name{font-family:var(--serif);font-size:19px;color:#fff;margin-bottom:6px}
+  .ana .desc{font-size:14px;color:var(--ink-dim)}
+
+  /* 一句话总结 */
+  .tldr{margin:60px 0 0;padding:36px 30px;border:1px solid rgba(167,139,250,.3);border-radius:18px;
+    background:radial-gradient(120% 120% at 100% 0%,rgba(167,139,250,.1),transparent 60%),var(--bg-elev);text-align:center}
+  .tldr .lab{font-family:var(--mono);font-size:12px;letter-spacing:.3em;color:var(--purple);text-transform:uppercase}
+  .tldr p{font-family:var(--serif);font-size:clamp(20px,3.4vw,28px);line-height:1.7;color:#fff;margin:16px 0 0}
+
+  footer{padding:60px 0 90px;text-align:center;color:var(--ink-faint);font-family:var(--mono);font-size:12px;border-top:1px solid var(--line)}
+
+  .reveal{opacity:0;transform:translateY(26px);transition:opacity .8s ease,transform .8s ease}
+  .reveal.in{opacity:1;transform:none}
+  @media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}.scroll-hint{animation:none}}
+</style>
+<meta name="view-transition" content="same-origin"><style>@view-transition{navigation:auto}</style></head>
+<body>
+<div id="bar"></div>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="kicker">缠中说禅 · 教你炒股票108课 <span>/ 第 89 课</span></div>
+    <h1 class="title">中阴阶段<br>具体分析</h1>
+    <p class="sub">从「1 分钟下跌背驰」到「5 分钟中枢」——把方向不明的中阴时段，转化为 100% 准确的操作程序。</p>
+    <div class="meta">
+      <span class="pill"><b>原文</b> 2007-11-18</span>
+      <span class="pill"><b>类型</b> 中阴操作 · 节奏连接</span>
+      <span class="pill"><b>关键词</b> 中阴 · 5 分钟中枢 · 第三买卖点</span>
+    </div>
+    <div class="scroll-hint">↓ 逐层拆解中阴的确定性</div>
+  </div>
+</header>
+
+<main>
+  <!-- 1 -->
+  <section class="wrap reveal">
+    <div class="sec-no">01 — 误区</div>
+    <h2>中阴震荡 ≠ 普通的中枢震荡</h2>
+    <p class="lead">很多人以为，中阴阶段不过就是一段盘整，没什么特别。这是大问题。</p>
+    <p>缠师一上课就把这层误解打破：<b>中阴阶段虽然表现为中枢震荡，但并不是一般性的中枢震荡。</b>它处理得好不好，<span class="hl-purple">直接关系到操作节奏的连接问题</span>。很多人操作节奏特别乱，根源就在中阴这一段没看懂。</p>
+    <blockquote>
+      中阴阶段能否处理好，关系到操作节奏的连接问题。
+      <span class="who">— 缠中说禅</span>
+    </blockquote>
+    <p>所谓节奏，就是<b>从一段走势完结到下一段走势确立</b>之间的过渡。这段过渡里你站错位置、卖错时间、追错方向，下一段大行情就跟你无关——这才是真正的代价。</p>
+  </section>
+
+  <!-- 2 -->
+  <section class="wrap reveal">
+    <div class="sec-no">02 — 公理 vs 操作</div>
+    <h2>"市场不是上就是下或者就是盘"是废话，但也是公理</h2>
+    <p class="lead">缠师在这里讲了一段反复出现的"公理观"——把它当成中阴分析的思维入口。</p>
+    <p>"市场不是上就是下或者就是盘"——这对所有人都是常识，本质上是<b>废话</b>。但<b>废话的另一面就是公理</b>。它正好反映了地球上股市的本质特征（在别的星球上可能就有第四种走势）。</p>
+    <p>不过缠师立刻补了一刀：<span class="hl-gold">知道了公理，其实什么都没知道</span>。中国人思维里有个大弱点——喜欢大而化之地讨论问题，结果讨论来讨论去都是废话和公理。</p>
+    <blockquote>
+      市场上的操作，是一就是一，多一分不行，少一分也不行。<br>这里必须有严密的逻辑思维习惯，而且是精确思维的习惯。
+      <span class="who">— 缠中说禅</span>
+    </blockquote>
+    <p>欧氏几何不会停留在 5 条公理上，缠论也不会停留在"上、下、盘"三种类型上。<b>真正有威力的是：从公理出发，把行情的下一步可能性精确到唯一确定的下一步操作。</b>这一课就是干这件事的样板。</p>
+  </section>
+
+  <!-- 3 -->
+  <section class="wrap reveal">
+    <div class="sec-no">03 — 中阴六道</div>
+    <h2>1 分钟下跌背驰之后，前方是"六道轮回"</h2>
+    <p class="lead">缠师给出极具东方色彩的比喻：中阴时段就像人死后未投胎的过渡状态。</p>
+    <p>课上拿当时上证从 6004 点下来的 1 分钟级别<span class="hl-down">下跌背驰</span>做例子。背驰之后，按走势分解定理，<b>后面一定是一个超 1 分钟级别的走势</b>。但具体是哪种超 1 分钟走势？存在很多可能。</p>
+    <blockquote>
+      就如同一个人死后在中阴阶段，存在着多种可能：<br>人、鬼、神、阿修罗、地狱、畜生。
+      <span class="who">— 缠中说禅 · 中阴喻六道</span>
+    </blockquote>
+
+    <div class="six-paths">
+      <svg viewBox="0 0 780 280" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="downGrad" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#16c784"/>
+            <stop offset="1" stop-color="#0a8158"/>
+          </linearGradient>
+          <linearGradient id="pivotGrad" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0" stop-color="#a78bfa"/>
+            <stop offset="1" stop-color="#37c0e6"/>
+          </linearGradient>
+        </defs>
+
+        <!-- 1分钟下跌走势 -->
+        <polyline points="20,40 60,80 90,60 130,110 160,90 200,150" fill="none" stroke="url(#downGrad)" stroke-width="2.5"/>
+        <text x="40" y="30" fill="#16c784" font-family="JetBrains Mono" font-size="11">1min 下跌背驰</text>
+        <circle cx="200" cy="150" r="6" fill="#16c784" stroke="#fff" stroke-width="1.5"/>
+        <text x="180" y="175" fill="#9aa3ad" font-family="JetBrains Mono" font-size="10">背驰点</text>
+
+        <!-- 中阴方框 -->
+        <rect x="220" y="100" width="160" height="100" fill="rgba(167,139,250,.08)" stroke="#a78bfa" stroke-width="2" stroke-dasharray="6 4" rx="8"/>
+        <text x="240" y="125" fill="#a78bfa" font-family="Noto Serif SC" font-size="14" font-weight="700">中阴阶段</text>
+        <text x="240" y="145" fill="#9aa3ad" font-family="JetBrains Mono" font-size="10">方向未定</text>
+        <text x="240" y="162" fill="#9aa3ad" font-family="JetBrains Mono" font-size="10">六道并存</text>
+
+        <!-- 六道分叉 -->
+        <line x1="380" y1="150" x2="500" y2="40" stroke="#5b6470" stroke-width="1" stroke-dasharray="3 3"/>
+        <line x1="380" y1="150" x2="500" y2="80" stroke="#5b6470" stroke-width="1" stroke-dasharray="3 3"/>
+        <line x1="380" y1="150" x2="500" y2="120" stroke="#5b6470" stroke-width="1" stroke-dasharray="3 3"/>
+        <line x1="380" y1="150" x2="500" y2="160" stroke="#5b6470" stroke-width="1" stroke-dasharray="3 3"/>
+        <line x1="380" y1="150" x2="500" y2="200" stroke="#5b6470" stroke-width="1" stroke-dasharray="3 3"/>
+        <line x1="380" y1="150" x2="500" y2="240" stroke="#5b6470" stroke-width="1" stroke-dasharray="3 3"/>
+
+        <text x="510" y="44" fill="#e8eaed" font-family="Noto Serif SC" font-size="13">神 · 强势上涨</text>
+        <text x="510" y="84" fill="#e8eaed" font-family="Noto Serif SC" font-size="13">人 · 中枢盘整</text>
+        <text x="510" y="124" fill="#e8eaed" font-family="Noto Serif SC" font-size="13">阿修罗 · 大涨大跌</text>
+        <text x="510" y="164" fill="#e8eaed" font-family="Noto Serif SC" font-size="13">鬼 · 阴跌不止</text>
+        <text x="510" y="204" fill="#e8eaed" font-family="Noto Serif SC" font-size="13">畜生 · 反复折腾</text>
+        <text x="510" y="244" fill="#e8eaed" font-family="Noto Serif SC" font-size="13">地狱 · 加速下跌</text>
+
+        <!-- 共同前提 -->
+        <rect x="220" y="220" width="160" height="40" fill="rgba(231,179,57,.1)" stroke="#e8b339" stroke-width="1.5" rx="6"/>
+        <text x="300" y="246" fill="#e8b339" font-family="JetBrains Mono" font-size="11" text-anchor="middle">先必有 5 分钟中枢 · 100%</text>
+      </svg>
+    </div>
+
+    <p>六种"轮回"——上涨、盘整、加速下跌、反复震荡……方向上完全不确定。但缠师在这里抛出本课最锋利的一刀：<b>不管去哪一道，必须先经过一个 5 分钟中枢</b>。</p>
+  </section>
+
+  <!-- 4 -->
+  <section class="wrap reveal">
+    <div class="sec-no">04 — 100% 推理链</div>
+    <h2>从背驰到操作：四步锁死一条确定路径</h2>
+    <p class="lead">缠论的威力，是把"方向不确定"转化成"操作 100% 确定"。</p>
+
+    <div class="chain">
+      <div class="step">
+        <div class="n">1</div>
+        <div>
+          <h4>1 分钟下跌背驰</h4>
+          <p>当前级别（1 分钟）走势出现背驰，意味着这段走势走完了。<b>接下来必然出现超 1 分钟级别的走势</b>——这是走势分解基本定理的直接推论。</p>
+          <span class="cert">100% 成立</span>
+        </div>
+      </div>
+      <div class="step">
+        <div class="n">2</div>
+        <div>
+          <h4>必先出现 5 分钟中枢</h4>
+          <p>无论后面是上涨、下跌还是盘整，无论是 5 分钟、30 分钟还是日线级别，<b>只要是超 1 分钟级别走势，就一定先形成一个 5 分钟中枢</b>，没有任何特例。</p>
+          <span class="cert">100% 没有特例</span>
+        </div>
+      </div>
+      <div class="step">
+        <div class="n">3</div>
+        <div>
+          <h4>按 5 分钟中枢震荡操作</h4>
+          <p>不管未来"六道"是哪一道，眼前唯一重要的事是：<b>把这个 5 分钟中枢处理好</b>。冲不起来时在次级别上涨背驰处卖，跌不下来时在次级别下跌背驰处买——前面 88 课早讲完的"幼儿园问题"。</p>
+          <span class="cert">100% 可操作</span>
+        </div>
+      </div>
+      <div class="step">
+        <div class="n">4</div>
+        <div>
+          <h4>等中枢的第三类买卖点 / 延伸</h4>
+          <p>5 分钟中枢成立后，<b>必然 100% 面临破坏问题</b>：要么出现第三类买卖点结束本级别中枢震荡，要么延伸成 30 分钟中枢（再按 30 分钟规则处理），如此类推，<b>总要面临某个级别的第三类买卖点</b>。</p>
+          <span class="cert">100% 必到</span>
+        </div>
+      </div>
+    </div>
+
+    <blockquote>
+      看似复杂、没有方向的中枢问题，被以 100% 准确的逻辑链<br>连接成一个 100% 具有准确操作度的简单操作程序——<br>这不过是本 ID 理论的最低级威力而已。
+      <span class="who">— 缠中说禅</span>
+    </blockquote>
+
+    <figure>
+      <img src="/_assets/ch89_p01.png" alt="1 分钟下跌背驰后 5 分钟中枢示意">
+      <figcaption>原文配图 · 1 分钟下跌走势之后必先出现 5 分钟中枢</figcaption>
+    </figure>
+  </section>
+
+  <!-- 5 -->
+  <section class="wrap reveal">
+    <div class="sec-no">05 — 概念精确化</div>
+    <h2>中枢 ≠ 盘整，盘整 ≠ 弱</h2>
+    <p class="lead">课程最后用两个比喻把缠论里最容易混淆的两件事彻底分开。</p>
+
+    <h3 style="font-family:var(--serif);font-size:22px;color:#fff;margin:24px 0 14px">① 盘整不是"区间震荡"</h3>
+    <p>很多人一听"盘整"就理解为价格在区间里横盘震荡。缠师反复强调：<b>缠论的盘整和一般所说的区间震荡盘整不是一回事</b>。</p>
+    <blockquote>
+      指数从 10000 点跌到 0 也可以是一个盘整——只要中间只有一个中枢。
+      <span class="who">— 缠中说禅</span>
+    </blockquote>
+
+    <h3 style="font-family:var(--serif);font-size:22px;color:#fff;margin:24px 0 14px">② 苹果 vs 苹果树：中枢与盘整的关系</h3>
+
+    <div class="analogy">
+      <div class="ana">
+        <span class="emoji">🍎</span>
+        <div class="lbl">中枢</div>
+        <div class="name">苹果</div>
+        <div class="desc">至少 3 个次级别走势<br>重叠出的公共区间</div>
+      </div>
+      <div class="ana">
+        <span class="emoji">🌳</span>
+        <div class="lbl">盘整</div>
+        <div class="name">一个苹果的苹果树</div>
+        <div class="desc">恰好包含 1 个中枢的走势<br>注意：是树，不是苹果</div>
+      </div>
+      <div class="ana">
+        <span class="emoji">🌲</span>
+        <div class="lbl">趋势</div>
+        <div class="name">多个苹果的苹果树</div>
+        <div class="desc">包含 ≥ 2 个同向中枢<br>台阶式延伸的走势</div>
+      </div>
+    </div>
+
+    <p>苹果不等于苹果树。<b>中枢是组成走势的零件，盘整 / 趋势是走势本身。</b>把这两层概念分清楚，是后面所有分析的前提。</p>
+
+    <h3 style="font-family:var(--serif);font-size:22px;color:#fff;margin:24px 0 14px">③ 盘整未必比趋势弱</h3>
+
+    <div class="table">
+      <div class="row head"><div>走势类型</div><div>中枢数量</div><div>力度的可能性</div></div>
+      <div class="row">
+        <div class="name pp">盘整</div>
+        <div><span class="cnt">= 1 个</span> 中枢</div>
+        <div>可能<b>第一段就杀得天昏地暗</b>，两段加起来力度甚至超过趋势</div>
+      </div>
+      <div class="row">
+        <div class="name zh">趋势</div>
+        <div><span class="cnt">≥ 2 个</span> 同向中枢</div>
+        <div>台阶式推进，但单段力度未必比盘整猛</div>
+      </div>
+    </div>
+
+    <p>缠师的反问：<b>只有一个苹果的苹果树，难道一定比有 100 个苹果的苹果矮？</b>——显然不是。所以光看"是盘整还是趋势"<span class="hl-gold">判断不了力度</span>，必须用<b>背驰</b>去比较。</p>
+  </section>
+
+  <!-- 6 -->
+  <section class="wrap reveal">
+    <div class="sec-no">06 — 落地</div>
+    <h2>中阴操作的四把"标准动作"</h2>
+    <p class="lead">把整课的论证压缩成可直接用在盘面上的纪律清单。</p>
+
+    <div class="grid">
+      <div class="card">
+        <div class="tag">动作 ①</div>
+        <h3>识别背驰，进入中阴</h3>
+        <p>本级别走势出现背驰 / 盘整背驰 → 当前段走势结束 → <b>承认"现在进入中阴时段"</b>，不再用旧方向思维操作。</p>
+      </div>
+      <div class="card">
+        <div class="tag">动作 ②</div>
+        <h3>等更高一级中枢出现</h3>
+        <p>盯住<b>下一级中枢</b>的形成（如 1 分钟背驰后等 5 分钟中枢；5 分钟背驰后等 30 分钟中枢）——这是 100% 没有特例的下一步。</p>
+      </div>
+      <div class="card">
+        <div class="tag">动作 ③</div>
+        <h3>按中枢震荡纪律做差</h3>
+        <p>冲不起来时，次级别上涨背驰<b>卖</b>；跌不下来时（中枢扩展非下移），次级别下跌背驰<b>买</b>。多空齐杀，专做高低差。</p>
+      </div>
+      <div class="card">
+        <div class="tag">动作 ④</div>
+        <h3>等第三类买卖点收尾</h3>
+        <p>中枢震荡<b>必然</b>以某级别第三类买卖点收尾，或在延伸中升级到更高级别中枢再收尾——这一刻才是中阴结束、新趋势确立的信号。</p>
+      </div>
+    </div>
+
+    <p>缠师在课末加了一句兜底话：<b>如果你按 5 分钟以上级别操作，这个 5 分钟中阴过程对你来说可以根本不存在</b>。换言之，<span class="hl-purple">中阴级别永远是相对本人操作级别而言</span>——这也是为什么缠论第一条永远是"选定级别"。</p>
+
+    <div class="tldr">
+      <div class="lab">一句话总结</div>
+      <p>1 分钟下跌背驰后，方向上有六种可能，但操作上只有一条 100% 确定的路径——<br>必先有 5 分钟中枢，按中枢震荡做差，等第三类买卖点收尾。<br>中阴的不确定性，被缠论压缩成了确定的下一步动作。</p>
+    </div>
+  </section>
+</main>
+
+<footer class="wrap">
+  原文出处：raw/缠中说禅/教你炒股票108课/教你炒股票89：中阴阶段的具体分析.md<br>
+  本页为个人学习复习用·非投资建议
+</footer>
+
+<script>
+  const bar=document.getElementById('bar');
+  const onScroll=()=>{
+    const h=document.documentElement;
+    const p=h.scrollTop/(h.scrollHeight-h.clientHeight);
+    bar.style.width=(p*100)+'%';
+  };
+  document.addEventListener('scroll',onScroll,{passive:true});onScroll();
+
+  const io=new IntersectionObserver((es)=>{
+    es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});
+  },{threshold:.12});
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+</script>
+<script src="/assets/_nav.js"></script><script src="/assets/_shell.js"></script></body>
+</html>

@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>缠论 · 教你炒股票1：经济人与赢家心法</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@500;700;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0b0e12;--bg-elev:#12161c;--bg-card:#161b22;
+    --ink:#e8eaed;--ink-dim:#9aa3ad;--ink-faint:#5b6470;
+    --line:rgba(255,255,255,.07);
+    --up:#ff4d4f;--down:#16c784;--pivot:#37c0e6;--gold:#e8b339;--blue:#00d4ff;
+    --max:880px;--serif:"Noto Serif SC",serif;--mono:"JetBrains Mono",ui-monospace,monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--ink);font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;line-height:1.85;font-size:17px;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  body::before{content:"";position:fixed;inset:0;z-index:-2;background:radial-gradient(1200px 600px at 70% -10%,rgba(55,192,230,.08),transparent 60%),radial-gradient(900px 500px at 0% 100%,rgba(232,179,57,.05),transparent 55%);pointer-events:none}
+  body::after{content:"";position:fixed;inset:0;z-index:-1;opacity:.4;background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);background-size:46px 46px;-webkit-mask-image:radial-gradient(ellipse at 50% 0%,#000 30%,transparent 80%);mask-image:radial-gradient(ellipse at 50% 0%,#000 30%,transparent 80%);pointer-events:none}
+  #bar{position:fixed;top:0;left:0;height:3px;width:0;z-index:50;background:linear-gradient(90deg,var(--pivot),var(--gold));box-shadow:0 0 12px var(--pivot)}
+  .wrap{max-width:var(--max);margin:0 auto;padding:0 24px}
+  header.hero{padding:120px 0 70px;text-align:center;position:relative}
+  .kicker{font-family:var(--mono);font-size:13px;letter-spacing:.32em;color:var(--pivot);text-transform:uppercase;margin-bottom:26px}
+  .kicker span{color:var(--ink-faint)}
+  h1.title{font-family:var(--serif);font-weight:900;line-height:1.05;font-size:clamp(44px,10vw,100px);letter-spacing:.04em;background:linear-gradient(180deg,#fff 30%,#8aa0ad 130%);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .sub{margin:22px auto 0;max-width:580px;color:var(--ink-dim);font-size:18px}
+  .meta{margin-top:34px;display:flex;gap:14px;justify-content:center;flex-wrap:wrap;font-family:var(--mono);font-size:12px;color:var(--ink-faint)}
+  .meta b{color:var(--ink-dim);font-weight:500}
+  .pill{border:1px solid var(--line);padding:6px 14px;border-radius:999px;background:rgba(255,255,255,.02)}
+  .scroll-hint{margin-top:60px;color:var(--ink-faint);font-family:var(--mono);font-size:12px;animation:bob 2.4s ease-in-out infinite}
+  @keyframes bob{0%,100%{transform:translateY(0);opacity:.5}50%{transform:translateY(8px);opacity:1}}
+  section{padding:64px 0;border-top:1px solid var(--line)}
+  .sec-no{font-family:var(--mono);font-size:13px;color:var(--gold);letter-spacing:.2em;margin-bottom:10px}
+  h2{font-family:var(--serif);font-weight:700;font-size:clamp(28px,5vw,42px);line-height:1.25;margin-bottom:8px;letter-spacing:.02em}
+  .lead{color:var(--ink-dim);font-size:16px;margin-bottom:28px;max-width:660px}
+  p{margin:0 0 18px;color:#cfd5dc}
+  p b,strong{color:#fff;font-weight:700}
+  .hl-pivot{color:var(--pivot);font-weight:700}.hl-up{color:var(--up);font-weight:700}
+  .hl-down{color:var(--down);font-weight:700}.hl-gold{color:var(--gold);font-weight:700}
+  blockquote{margin:26px 0;padding:20px 24px;border-left:3px solid var(--pivot);background:linear-gradient(90deg,rgba(55,192,230,.07),transparent);border-radius:0 10px 10px 0;font-family:var(--serif);font-size:19px;color:#eaf6fb}
+  blockquote .who{display:block;margin-top:8px;font-family:var(--mono);font-size:12px;color:var(--ink-faint);font-style:normal}
+  figure{margin:34px 0}
+  figure img{width:100%;border-radius:12px;border:1px solid var(--line);background:#fff;box-shadow:0 18px 50px rgba(0,0,0,.5)}
+  figcaption{margin-top:12px;font-size:13px;color:var(--ink-faint);text-align:center;font-family:var(--mono)}
+  .grid{display:grid;gap:16px;grid-template-columns:1fr 1fr;margin:28px 0}
+  @media(max-width:640px){.grid{grid-template-columns:1fr}}
+  .card{background:var(--bg-card);border:1px solid var(--line);border-radius:14px;padding:24px;position:relative;overflow:hidden;transition:transform .35s ease,border-color .35s ease}
+  .card:hover{transform:translateY(-4px);border-color:rgba(55,192,230,.4)}
+  .card .tag{font-family:var(--mono);font-size:11px;letter-spacing:.18em;color:var(--gold);text-transform:uppercase}
+  .card h3{font-family:var(--serif);font-size:21px;margin:10px 0 8px;color:#fff}
+  .card p{font-size:15px;color:var(--ink-dim);margin:0}
+  .table{margin:28px 0;border:1px solid var(--line);border-radius:14px;overflow:hidden}
+  .table .row{display:grid;grid-template-columns:1.1fr 1.5fr 1.6fr;align-items:stretch}
+  .table .row+.row{border-top:1px solid var(--line)}
+  .table .row>div{padding:16px 18px}
+  .table .row.head{background:var(--bg-elev);font-family:var(--mono);font-size:12px;letter-spacing:.14em;color:var(--ink-faint);text-transform:uppercase}
+  .table .row>div+div{border-left:1px solid var(--line)}
+  .table .name{font-family:var(--serif);font-weight:700;font-size:18px}
+  .table .name.qushi{color:var(--gold)}
+  .cnt{font-family:var(--mono);font-size:14px;color:var(--pivot)}
+  @media(max-width:560px){.table .row{grid-template-columns:1fr}.table .row>div+div{border-left:0;border-top:1px solid var(--line)}.table .row.head{display:none}}
+  .points{margin:26px 0;display:flex;flex-direction:column;gap:14px}
+  .pt{display:flex;gap:16px;align-items:flex-start;background:var(--bg-card);border:1px solid var(--line);border-radius:12px;padding:18px 20px}
+  .pt .dot{flex:none;width:42px;height:42px;border-radius:10px;display:grid;place-items:center;font-family:var(--serif);font-weight:900;font-size:20px;color:#0b0e12}
+  .pt.b .dot{background:var(--up)}.pt.s .dot{background:var(--down)}
+  .pt h4{font-size:17px;margin-bottom:4px;color:#fff}.pt p{font-size:15px;color:var(--ink-dim);margin:0}
+  .proof{margin:30px 0;background:linear-gradient(120deg,rgba(55,192,230,.06),transparent 70%),var(--bg-elev);border:1px solid rgba(55,192,230,.25);border-radius:16px;padding:26px}
+  .proof .badge{display:inline-block;font-family:var(--mono);font-weight:700;font-size:12px;letter-spacing:.12em;padding:6px 14px;border-radius:999px;background:rgba(55,192,230,.14);color:var(--pivot);border:1px solid rgba(55,192,230,.4);margin-bottom:14px}
+  .chartbox{background:var(--bg-card);border:1px solid var(--line);border-radius:14px;padding:18px 14px 8px;margin:18px 0}
+  .legend{display:flex;gap:16px;font-family:var(--mono);font-size:12px;color:var(--ink-dim);padding:0 8px 12px;flex-wrap:wrap}
+  .legend i{display:inline-block;width:16px;height:3px;vertical-align:middle;margin-right:6px;border-radius:2px}
+  canvas{width:100%;display:block}
+  .verdict{display:flex;gap:14px;align-items:flex-start;margin-top:8px;padding:16px 18px;background:var(--bg-card);border:1px solid var(--line);border-radius:12px}
+  .verdict .mk{flex:none;font-family:var(--mono);font-weight:700;color:var(--up)}
+  .verdict p{margin:0;font-size:15px;color:#d6dbe1}
+  ol.think{counter-reset:q;list-style:none;margin:24px 0;display:flex;flex-direction:column;gap:14px}
+  ol.think li{counter-increment:q;position:relative;padding:18px 20px 18px 60px;background:var(--bg-elev);border:1px solid var(--line);border-radius:12px;color:var(--ink-dim);font-size:15px}
+  ol.think li::before{content:counter(q,decimal-leading-zero);position:absolute;left:20px;top:18px;font-family:var(--mono);color:var(--gold);font-weight:700}
+  .quiz{margin:22px 0;background:var(--bg-card);border:1px solid var(--line);border-radius:14px;padding:22px 24px}
+  .quiz h4{font-size:16px;color:#fff;margin-bottom:6px}
+  .quiz .ans{margin-top:12px;color:var(--ink-faint);font-size:14px;cursor:pointer}
+  .quiz .ans[open] summary{color:var(--pivot)}
+  .quiz summary{color:var(--gold);font-family:var(--mono);font-size:13px}
+  .tldr{margin:60px 0 0;padding:36px 30px;border:1px solid rgba(55,192,230,.3);border-radius:18px;background:radial-gradient(120% 120% at 100% 0%,rgba(55,192,230,.1),transparent 60%),var(--bg-elev);text-align:center}
+  .tldr .lab{font-family:var(--mono);font-size:12px;letter-spacing:.3em;color:var(--pivot);text-transform:uppercase}
+  .tldr p{font-family:var(--serif);font-size:clamp(20px,3.4vw,28px);line-height:1.7;color:#fff;margin:16px 0 0}
+  footer{padding:60px 0 90px;text-align:center;color:var(--ink-faint);font-family:var(--mono);font-size:12px;border-top:1px solid var(--line)}
+  .reveal{opacity:0;transform:translateY(26px);transition:opacity .8s ease,transform .8s ease}
+  .reveal.in{opacity:1;transform:none}
+  @media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}.scroll-hint{animation:none}}
+
+  /* —— 第1课专属：故事时间线 / 经济人金句 —— */
+  .timeline{margin:30px 0;position:relative;padding-left:22px;border-left:2px solid rgba(55,192,230,.2)}
+  .tl-item{position:relative;margin-bottom:26px;padding-left:18px}
+  .tl-item::before{content:"";position:absolute;left:-30px;top:8px;width:14px;height:14px;border-radius:50%;background:var(--bg-elev);border:2px solid var(--pivot);box-shadow:0 0 0 4px rgba(55,192,230,.08)}
+  .tl-item .when{font-family:var(--mono);font-size:12px;letter-spacing:.16em;color:var(--gold);text-transform:uppercase;margin-bottom:6px}
+  .tl-item .what{font-family:var(--serif);font-size:18px;color:#fff;margin-bottom:6px}
+  .tl-item .why{font-size:15px;color:var(--ink-dim);margin:0}
+  .creed{margin:36px 0;padding:38px 32px;text-align:center;border-radius:16px;background:radial-gradient(120% 120% at 50% 0%,rgba(232,179,57,.10),transparent 65%),var(--bg-elev);border:1px solid rgba(232,179,57,.3)}
+  .creed .qt{font-family:var(--serif);font-weight:900;font-size:clamp(24px,4.5vw,38px);line-height:1.35;color:#fff;letter-spacing:.02em}
+  .creed .qt .hi{color:var(--gold)}
+  .creed .by{margin-top:14px;font-family:var(--mono);font-size:12px;color:var(--ink-faint);letter-spacing:.2em}
+  /* 二元对照表 */
+  .duo{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:28px 0}
+  @media(max-width:640px){.duo{grid-template-columns:1fr}}
+  .duo .col{background:var(--bg-card);border:1px solid var(--line);border-radius:14px;padding:22px}
+  .duo .col h4{font-family:var(--serif);font-size:18px;margin-bottom:10px}
+  .duo .col.win h4{color:var(--up)}
+  .duo .col.lose h4{color:var(--down)}
+  .duo .col ul{list-style:none;padding:0;margin:0}
+  .duo .col li{padding:8px 0;border-bottom:1px dashed var(--line);font-size:15px;color:var(--ink-dim)}
+  .duo .col li:last-child{border-bottom:0}
+  .duo .col li b{color:#fff;font-weight:600}
+</style>
+<meta name="view-transition" content="same-origin"><style>@view-transition{navigation:auto}</style></head>
+<body>
+<div id="bar"></div>
+<header class="hero">
+  <div class="wrap">
+    <div class="kicker">缠中说禅 · 教你炒股票108课 <span>/ 第 1 课</span></div>
+    <h1 class="title">不会赢钱的经济人，<br>只是废人</h1>
+    <p class="sub">108 课的"开宗明义"。在画一根 K 线之前，缠师先把进场前的<b>心法、身份与赢输观</b>定下来。</p>
+    <div class="meta">
+      <span class="pill"><b>原文</b> 2006-06-07</span>
+      <span class="pill"><b>类型</b> 心法 · 开宗明义</span>
+      <span class="pill"><b>关键词</b> 经济人 · 赢输 · 入场前自检</span>
+    </div>
+    <div class="scroll-hint">↓ 向下滚动，逐层拆解</div>
+  </div>
+</header>
+
+<main>
+
+<!-- ===== 01 这一课在讲什么 ===== -->
+<section class="wrap reveal">
+  <div class="sec-no">01 — 开宗明义</div>
+  <h2>开篇为什么不讲 K 线，先讲"做人"？</h2>
+  <p class="lead">108 课是中国民间最有名的炒股教学。但翻开第 1 课，里面<b>没有一根 K 线、没有一个指标、没有一条公式</b>，全是"骂人"和讲故事。这不是凑数，而是缠师故意把<span class="hl-gold">入场前的心法</span>钉在最前面。</p>
+
+  <p>第 1 课在原文里只有<b>约 3400 字</b>，但浓度极高。它解决一个问题：<b>你为什么进股市？进来之后准备以什么身份待着？</b>整本《教你炒股票》后面会教中枢、走势、买卖点、级别——所有技术招式都建立在这个前提之上。</p>
+
+  <p>缠师在这一课里讲了一段亲历的故事：他身边几个做实业、做金融的朋友被牛市裹挟进来、亏钱、又来求他选股——以此引出一句直白到近乎粗暴的判词：</p>
+
+  <blockquote>而不会赢钱的经济人，只是<b>废人</b>！无论你在其他方面如何成功，到了市场里，<b>赢输就是唯一标准</b>，除此之外，都是废话。<span class="who">— 缠中说禅 · 教你炒股票 1</span></blockquote>
+
+  <p>这话听起来扎耳，但它在 108 课里是<span class="hl-pivot">坐标系原点</span>：以后所有"该不该走"、"该不该等"、"该不该认错"，都回到这一条上。所以这第一课，不能跳。</p>
+</section>
+
+<!-- ===== 02 缠师讲了什么故事 ===== -->
+<section class="wrap reveal">
+  <div class="sec-no">02 — 故事原型</div>
+  <h2>一群"成功人士"在牛市里被市场绞肉</h2>
+  <p class="lead">缠师用一段非常具体的时间线把"虚拟市场如何改造人"演给你看。这段故事不是闲笔——它是后面所有论断的<b>样本</b>。</p>
+
+  <div class="timeline">
+    <div class="tl-item">
+      <div class="when">2005 年 · 人民币放开</div>
+      <div class="what">缠师对朋友们的判断：实业难、虚拟市场将大涨</div>
+      <p class="why">资源全球化+人民币升值，将驱赶资金流向资本市场，将出现<span class="hl-gold">至少大 X 浪级别</span>的行情。建议分流资金入市。<b>朋友们没动</b>。</p>
+    </div>
+    <div class="tl-item">
+      <div class="when">2006 年春节后</div>
+      <div class="what">朋友们突然要入市</div>
+      <p class="why">行情已经走起来，他们才想冲进来。缠师当时已经懒得管：「<b>现在是个人都能挣钱</b>，自己玩去」。</p>
+    </div>
+    <div class="tl-item">
+      <div class="when">3-4 月 · 有色火爆</div>
+      <div class="what">"想大进又怕风险，一直小打小闹"</div>
+      <p class="why">这是<span class="hl-down">典型的散户姿态</span>：方向看到了，仓位不敢上，挣不到大钱、又怕错过。缠师给了方向（外资收快消品 / 周期股重组 + 权证），但他们仍然没拿住。</p>
+    </div>
+    <div class="tl-item">
+      <div class="when">5 月 · 大涨期</div>
+      <div class="what">买了的"没几个站就下车了"</div>
+      <p class="why">这是<span class="hl-down">第二种散户病</span>：拿不住。缠师扔了一句应付："去买深沪 3 元上下的本地股"，并提醒：<b>这样下去肯定出问题，自己得学</b>。</p>
+    </div>
+    <div class="tl-item">
+      <div class="when">原文写作前一周日</div>
+      <div class="what">朋友们"神采飞扬"地变成专家</div>
+      <p class="why">"刨了几本书、听了几股评、看了几杂志，1800、2000、2500 点地牛人了"——<b>市场绞肉机的新货</b>已经备齐。这是缠师下笔写本课的导火索。</p>
+    </div>
+  </div>
+
+  <p>这条时间线的结构是<b>很冷的</b>：从「不信」→「想冲」→「不敢」→「拿不住」→「自封专家」。每一步都是后面 107 课要反复治的"病"——缠师在第 1 课先把病历摆上来。</p>
+</section>
+
+<!-- ===== 03 经济人 vs 废人 ===== -->
+<section class="wrap reveal">
+  <div class="sec-no">03 — 身份判定</div>
+  <h2>"经济人"是什么？为什么不赢就是废人？</h2>
+  <p class="lead">这一节把第 1 课最核心的概念拆开讲。</p>
+
+  <div class="grid">
+    <div class="card">
+      <div class="tag">DEF · 01</div>
+      <h3>经济人</h3>
+      <p>缠师的定义直白且功能主义：<b>只要你参与到经济活动中来，就是经济人</b>。不是身份，是"角色"。开公司、做实业、买基金、炒股票——你一旦进入资本流转的链条，你就是经济人。</p>
+    </div>
+    <div class="card">
+      <div class="tag">DEF · 02</div>
+      <h3>经济人的目的</h3>
+      <p><b>挣钱</b>。仅此而已。资本市场里<b>没有慈善家</b>，只有<span class="hl-up">赢家</span>和<span class="hl-down">输家</span>。"我只是想体验"、"我就是来学习"——在缠师看来，进场拿真金白银的那一刻，你的目的已经被市场单一化了。</p>
+    </div>
+    <div class="card">
+      <div class="tag">DEF · 03</div>
+      <h3>废人</h3>
+      <p>「不会赢钱的经济人」=废人。这话的杀伤力在"<b>会</b>"字上：不是"运气没赢"，是「不具备赢钱的能力」。这把人和市场的关系打回原形——<b>能不能赢</b>，是你作为经济人的<span class="hl-gold">唯一考核项</span>。</p>
+    </div>
+    <div class="card">
+      <div class="tag">DEF · 04</div>
+      <h3>"成功不可迁移"</h3>
+      <p>缠师反复说"在其他方面如何成功"在市场里都是废话。原因是市场用的<b>不是你的领域知识</b>，而是赢输概率。一个上市公司 CEO 不一定能炒好自家股票——这条命题被无数案例反复验证。</p>
+    </div>
+  </div>
+
+  <div class="creed">
+    <div class="qt">不会赢钱的经济人，<br>只是<span class="hi">废人</span>。</div>
+    <div class="by">— 缠中说禅 · 教你炒股票 1</div>
+  </div>
+</section>
+
+<!-- ===== 04 虚拟 vs 现实 ===== -->
+<section class="wrap reveal">
+  <div class="sec-no">04 — 两个世界的鸿沟</div>
+  <h2>为什么"实业高手"一进股市就变形？</h2>
+  <p class="lead">缠师在原文里专门点了一句："虚拟和现实的鸿沟使得干实业的，且不说期货了，就算到风险小多的股市，也很少能干好的"。这条观察，是<b>一切心法的物理基础</b>。</p>
+
+  <div class="duo">
+    <div class="col win">
+      <h4>现实经济 · 实业逻辑</h4>
+      <ul>
+        <li><b>线性反馈</b>：投入→生产→销售→利润，链路慢但闭环。</li>
+        <li><b>奖励经验</b>：行业越深、护城河越宽。</li>
+        <li><b>抗噪能力强</b>：短期波动不立刻打到现金流。</li>
+        <li><b>真实约束</b>：合同、产能、人员、库存。</li>
+        <li><b>失败可控</b>：错了能改，时间是朋友。</li>
+      </ul>
+    </div>
+    <div class="col lose">
+      <h4>虚拟市场 · 资本游戏</h4>
+      <ul>
+        <li><b>非线性反馈</b>：一根 K 线就能把半年盈利打没。</li>
+        <li><b>不奖励"懂行"</b>：你比别人懂公司不一定挣得到钱。</li>
+        <li><b>波动即结果</b>：账户净值<span class="hl-pivot">每秒</span>被市场重新定价。</li>
+        <li><b>幻觉约束</b>：屏幕上的数字让风险显得不真实。</li>
+        <li><b>失败放大</b>：杠杆 / 加仓 / 死扛会指数级吃掉本金。</li>
+      </ul>
+    </div>
+  </div>
+
+  <p>这就是为什么<b>实业大佬一进股市就翻车</b>：他过去赖以成功的方法论（深耕、长期主义、信任关系）在虚拟市场里要么失效、要么需要 5-10 年才能兑现，而账户里的浮亏<span class="hl-down">明天就要他做反应</span>。两个世界的<span class="hl-pivot">时间尺度和反馈机制</span>根本不同。</p>
+
+  <p>缠师后面整套 108 课在做的事，本质上就是——<b>给你装一套适配"虚拟市场"的操作系统</b>：中枢、级别、走势完美、买卖点。它们不是图形游戏，而是把"虚拟市场的非线性反馈"拆成可执行的纪律。</p>
+</section>
+
+<!-- ===== 05 两种关于市场的"老话" ===== -->
+<section class="wrap reveal">
+  <div class="sec-no">05 — 老话辨析</div>
+  <h2>"老人挣新人钱" vs "明白人挣糊涂人钱"</h2>
+  <p class="lead">缠师在原文里特意纠正了一句流行说法。这条纠正非常关键，决定了你以后用什么标准评价自己和别人。</p>
+
+  <div class="table">
+    <div class="row head">
+      <div>说法</div>
+      <div>表面含义</div>
+      <div>缠师的态度</div>
+    </div>
+    <div class="row">
+      <div class="name">市场是老人挣新人的钱</div>
+      <div>资历=优势。在市场待得久就有红利。</div>
+      <div><span class="hl-down">否定</span>。原话：「市场中的老人，<b>套个 10 年 8 年的一抓一大把</b>」。资历不背书。</div>
+    </div>
+    <div class="row">
+      <div class="name qushi">市场从来是明白人挣糊涂人的钱</div>
+      <div>认知=优势。明白机制 / 看清节奏 / 守住纪律的人挣钱。</div>
+      <div><span class="hl-up">认可</span>。这是 108 课所有技术细节的<b>底层共识</b>。</div>
+    </div>
+  </div>
+
+  <p>这条更正意味着<span class="hl-gold">三件事</span>：</p>
+
+  <div class="points">
+    <div class="pt b"><div class="dot">A</div><div>
+      <h4>炒龄不等于水平</h4>
+      <p>"我炒了 10 年了"在缠师面前不构成任何论据。10 年套牢的、10 年小赢小亏的、10 年凭直觉乱打的——都不算"明白人"。</p>
+    </div></div>
+    <div class="pt b"><div class="dot">B</div><div>
+      <h4>"明白"是可学习、可验证的</h4>
+      <p>既然"明白人挣糊涂人钱"成立，"明白"就必然存在一套可被学习的体系。这正是缠师写后面 107 课的合法性基础。</p>
+    </div></div>
+    <div class="pt s"><div class="dot">C</div><div>
+      <h4>"糊涂"的代价是真金白银</h4>
+      <p>市场没有同情票，没有"再来一次"。每一次糊涂操作，对手盘那边都有一个明白人在收账。<b>赢家收的是输家的钱，不是天上掉的</b>。</p>
+    </div></div>
+  </div>
+</section>
+
+<!-- ===== 06 入场前自检清单 ===== -->
+<section class="wrap reveal">
+  <div class="sec-no">06 — 自检清单</div>
+  <h2>读完第 1 课，进场前先回答这 5 个问题</h2>
+  <p class="lead">缠师没有给清单——但 108 课的精神是：<b>纪律先于行情</b>。下面是把第 1 课的内核翻译成可立刻执行的入场前自检。</p>
+
+  <ol class="think">
+    <li><b>我承认自己是"经济人"吗？</b>——还是觉得自己只是"学习一下"、"小赌怡情"？只要账户里有钱在动，市场就按"经济人"的标准对你考核，<b>没有缓冲期</b>。</li>
+    <li><b>我的考核指标是不是"赢钱"？</b>——不是"我懂了多少术语"、"我看了多少股评"、"我加了多少群"。如果半年下来净值没增长，对市场而言你就是失败。</li>
+    <li><b>我有没有把场外身份带进来的幻觉？</b>——"我是 XX 行业资深从业者，所以这只票我有信息优势" / "我做过老板，市场理解力强"——<span class="hl-down">非常危险</span>。市场不识身份。</li>
+    <li><b>我是不是"想冲又怕风险"的小打小闹型？</b>——缠师故事里 3-4 月的那群朋友。这种姿态等于<b>放弃赢家纪律</b>：方向上你不敢重仓，止损上你又不肯执行，赢小钱亏大钱是必然。</li>
+    <li><b>我准备好"自己学"了吗？</b>——缠师原话："<b>别人怎么厉害也不可能整天像照顾小孩一样看着</b>"。指望永远有人喂股票=放弃成为明白人。</li>
+  </ol>
+</section>
+
+<!-- ===== 07 思考题 ===== -->
+<section class="wrap reveal">
+  <div class="sec-no">07 — 思考与练习</div>
+  <h2>对照自己，做这几道题</h2>
+  <p class="lead">第 1 课没有技术题，只有照镜子题。请用文字写下答案，存档，过 3 个月、6 个月、1 年再回头看。</p>
+
+  <ol class="think">
+    <li><b>定义你的"经济人身份"</b>：用一句话写清楚——你为什么进股市？目标收益率？时间窗口？最大可承受亏损（金额，不是百分比）？</li>
+    <li><b>回顾一次"被市场改造"的瞬间</b>：你有没有过这样的时刻——本来计划做 A，看了股评 / 群里消息后改做了 B，结果亏了？把这次事件写下来。</li>
+    <li><b>列出你的"场外身份幻觉"</b>：你过去的职业 / 学历 / 行业经验里，有哪些你下意识觉得"在股市里也用得上"的？逐条审视它们是否真的能转化为赢钱能力。</li>
+    <li><b>"明白人 / 糊涂人"的自我定位</b>：如果按缠师的标准给自己打分，你现在的状态属于哪一类？给出证据——不是感觉，是<b>账户净值曲线</b>。</li>
+    <li><b>未来 12 个月学习计划</b>：缠师在第 1 课暗示"自己好好学"。你打算用什么节奏把后面 107 课啃完？写出可执行的周计划。</li>
+  </ol>
+
+  <div class="quiz">
+    <h4>练习：判断下面 4 类玩家的赢面</h4>
+    <p>把下面 4 种人按"未来 3 年净值增长概率"从高到低排序：<br>
+    A. 实业老板，账户 100 万，"亏 10% 就走"但从没执行过止损<br>
+    B. 程序员，每天复盘 1 小时，刚学完 108 课，资金 20 万<br>
+    C. 退休老人，炒龄 15 年，每年小赔小赚，常年满仓<br>
+    D. 财经记者，懂宏观懂行业，从不动手，只看不买</p>
+    <details class="ans"><summary>查看缠师视角的答案</summary>
+      <p>缠师视角下：<b>B &gt; D &gt; A &gt; C</b>。B 是"准明白人"路径（系统学习+小资金试错）；D 不进场=没有"输家"标签，是<b>潜在赢家</b>；A 有资金但纪律破产，最危险；C 是缠师明说的"套 10 年 8 年"典型。<br><b>关键不是炒龄，不是身份，不是知识——是有没有"赢钱的可执行体系"。</b></p>
+    </details>
+  </div>
+</section>
+
+<!-- ===== 08 与后续课程的链接 ===== -->
+<section class="wrap reveal">
+  <div class="sec-no">08 — 与 108 课的全局关系</div>
+  <h2>这一课，是后面所有"技术"的前提</h2>
+  <p class="lead">第 1 课没讲技术，但它<b>预先回答了一个问题</b>：你为什么需要后面那些复杂的中枢、级别、走势完美？</p>
+
+  <div class="grid">
+    <div class="card">
+      <div class="tag">指向</div>
+      <h3>第 17 课 · 走势终完美</h3>
+      <p>当你接受"赢输是唯一标准"，你就需要一套<b>客观、不依赖情绪</b>的判断方法——「走势必完美」是这套方法的<span class="hl-pivot">公理</span>。</p>
+    </div>
+    <div class="card">
+      <div class="tag">指向</div>
+      <h3>第 18 课 · 中枢三定理</h3>
+      <p>赢家需要可重复的形态识别工具。<b>走势中枢</b>是把"虚拟市场的混沌"切成可处理积木的核心抽象。</p>
+    </div>
+    <div class="card">
+      <div class="tag">指向</div>
+      <h3>第 20 / 27 课 · 买卖点</h3>
+      <p>知道身份、知道方法之后，还得有<b>动作时刻</b>。三类买卖点是"赢钱"这件事的可执行落点。</p>
+    </div>
+    <div class="card">
+      <div class="tag">指向</div>
+      <h3>第 16 课 · 中小资金高效买卖</h3>
+      <p>个人投资者的"经济人"现实是<b>资金量有限</b>。这一课把"赢钱"翻译成"小资金可执行的高效交易"。</p>
+    </div>
+  </div>
+
+  <p>所以第 1 课和后面的关系不是"开胃菜"——它是<span class="hl-gold">价值前提</span>。如果你不接受"赢输是唯一标准"这条前设，后面那些技术对你而言只是<b>装饰品</b>，不会真正改变你的账户曲线。</p>
+</section>
+
+<!-- ===== 09 一句话总结 ===== -->
+<section class="wrap reveal">
+  <div class="tldr">
+    <div class="lab">TL;DR · 一句话带走</div>
+    <p>进股市前先把身份定死：你是来<span class="hl-up">赢钱</span>的经济人，<br>而不是来"学习"、"体验"或"用过去的成功改造市场"的。<br>赢输是唯一刻度，<span class="hl-gold">明白人挣糊涂人的钱</span>——<br>108 课的全部技术，只为让你成为"明白人"。</p>
+  </div>
+</section>
+
+</main>
+
+<footer class="wrap">
+  原文出处：raw/缠中说禅/教你炒股票108课/教你炒股票1：不会赢钱的经济人，只是废人.md（2006-06-07）<br>
+  本页为个人学习复习用 · 非投资建议
+</footer>
+
+<script>
+  const bar=document.getElementById('bar');
+  const onScroll=()=>{const h=document.documentElement;bar.style.width=(h.scrollTop/(h.scrollHeight-h.clientHeight)*100)+'%'};
+  document.addEventListener('scroll',onScroll,{passive:true});onScroll();
+  const io=new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{threshold:.12});
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+</script>
+<script src="/assets/_nav.js"></script><script src="/assets/_shell.js"></script></body>
+</html>

@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>缠论 · 教你炒股票4：理性是干出来的</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@500;700;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0b0e12;--bg-elev:#12161c;--bg-card:#161b22;
+    --ink:#e8eaed;--ink-dim:#9aa3ad;--ink-faint:#5b6470;
+    --line:rgba(255,255,255,.07);
+    --up:#ff4d4f;--down:#16c784;--pivot:#37c0e6;--gold:#e8b339;--blue:#00d4ff;
+    --max:880px;--serif:"Noto Serif SC",serif;--mono:"JetBrains Mono",ui-monospace,monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--ink);font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;line-height:1.85;font-size:17px;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  body::before{content:"";position:fixed;inset:0;z-index:-2;background:radial-gradient(1200px 600px at 70% -10%,rgba(55,192,230,.08),transparent 60%),radial-gradient(900px 500px at 0% 100%,rgba(232,179,57,.05),transparent 55%);pointer-events:none}
+  body::after{content:"";position:fixed;inset:0;z-index:-1;opacity:.4;background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);background-size:46px 46px;-webkit-mask-image:radial-gradient(ellipse at 50% 0%,#000 30%,transparent 80%);mask-image:radial-gradient(ellipse at 50% 0%,#000 30%,transparent 80%);pointer-events:none}
+  #bar{position:fixed;top:0;left:0;height:3px;width:0;z-index:50;background:linear-gradient(90deg,var(--pivot),var(--gold));box-shadow:0 0 12px var(--pivot)}
+  .wrap{max-width:var(--max);margin:0 auto;padding:0 24px}
+  header.hero{padding:120px 0 70px;text-align:center;position:relative}
+  .kicker{font-family:var(--mono);font-size:13px;letter-spacing:.32em;color:var(--pivot);text-transform:uppercase;margin-bottom:26px}
+  .kicker span{color:var(--ink-faint)}
+  h1.title{font-family:var(--serif);font-weight:900;line-height:1.05;font-size:clamp(44px,10vw,100px);letter-spacing:.04em;background:linear-gradient(180deg,#fff 30%,#8aa0ad 130%);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .sub{margin:22px auto 0;max-width:580px;color:var(--ink-dim);font-size:18px}
+  .meta{margin-top:34px;display:flex;gap:14px;justify-content:center;flex-wrap:wrap;font-family:var(--mono);font-size:12px;color:var(--ink-faint)}
+  .meta b{color:var(--ink-dim);font-weight:500}
+  .pill{border:1px solid var(--line);padding:6px 14px;border-radius:999px;background:rgba(255,255,255,.02)}
+  .scroll-hint{margin-top:60px;color:var(--ink-faint);font-family:var(--mono);font-size:12px;animation:bob 2.4s ease-in-out infinite}
+  @keyframes bob{0%,100%{transform:translateY(0);opacity:.5}50%{transform:translateY(8px);opacity:1}}
+  section{padding:64px 0;border-top:1px solid var(--line)}
+  .sec-no{font-family:var(--mono);font-size:13px;color:var(--gold);letter-spacing:.2em;margin-bottom:10px}
+  h2{font-family:var(--serif);font-weight:700;font-size:clamp(28px,5vw,42px);line-height:1.25;margin-bottom:8px;letter-spacing:.02em}
+  .lead{color:var(--ink-dim);font-size:16px;margin-bottom:28px;max-width:660px}
+  p{margin:0 0 18px;color:#cfd5dc}
+  p b,strong{color:#fff;font-weight:700}
+  .hl-pivot{color:var(--pivot);font-weight:700}.hl-up{color:var(--up);font-weight:700}
+  .hl-down{color:var(--down);font-weight:700}.hl-gold{color:var(--gold);font-weight:700}
+  blockquote{margin:26px 0;padding:20px 24px;border-left:3px solid var(--pivot);background:linear-gradient(90deg,rgba(55,192,230,.07),transparent);border-radius:0 10px 10px 0;font-family:var(--serif);font-size:19px;color:#eaf6fb}
+  blockquote .who{display:block;margin-top:8px;font-family:var(--mono);font-size:12px;color:var(--ink-faint);font-style:normal}
+  figure{margin:34px 0}
+  figure img{width:100%;border-radius:12px;border:1px solid var(--line);background:#fff;box-shadow:0 18px 50px rgba(0,0,0,.5)}
+  figcaption{margin-top:12px;font-size:13px;color:var(--ink-faint);text-align:center;font-family:var(--mono)}
+  .grid{display:grid;gap:16px;grid-template-columns:1fr 1fr;margin:28px 0}
+  @media(max-width:640px){.grid{grid-template-columns:1fr}}
+  .card{background:var(--bg-card);border:1px solid var(--line);border-radius:14px;padding:24px;position:relative;overflow:hidden;transition:transform .35s ease,border-color .35s ease}
+  .card:hover{transform:translateY(-4px);border-color:rgba(55,192,230,.4)}
+  .card .tag{font-family:var(--mono);font-size:11px;letter-spacing:.18em;color:var(--gold);text-transform:uppercase}
+  .card h3{font-family:var(--serif);font-size:21px;margin:10px 0 8px;color:#fff}
+  .card p{font-size:15px;color:var(--ink-dim);margin:0}
+  .table{margin:28px 0;border:1px solid var(--line);border-radius:14px;overflow:hidden}
+  .table .row{display:grid;grid-template-columns:1.1fr 1.5fr 1.6fr;align-items:stretch}
+  .table .row+.row{border-top:1px solid var(--line)}
+  .table .row>div{padding:16px 18px}
+  .table .row.head{background:var(--bg-elev);font-family:var(--mono);font-size:12px;letter-spacing:.14em;color:var(--ink-faint);text-transform:uppercase}
+  .table .row>div+div{border-left:1px solid var(--line)}
+  .table .name{font-family:var(--serif);font-weight:700;font-size:18px}
+  .table .name.qushi{color:var(--gold)}
+  .cnt{font-family:var(--mono);font-size:14px;color:var(--pivot)}
+  @media(max-width:560px){.table .row{grid-template-columns:1fr}.table .row>div+div{border-left:0;border-top:1px solid var(--line)}.table .row.head{display:none}}
+  .points{margin:26px 0;display:flex;flex-direction:column;gap:14px}
+  .pt{display:flex;gap:16px;align-items:flex-start;background:var(--bg-card);border:1px solid var(--line);border-radius:12px;padding:18px 20px}
+  .pt .dot{flex:none;width:42px;height:42px;border-radius:10px;display:grid;place-items:center;font-family:var(--serif);font-weight:900;font-size:20px;color:#0b0e12}
+  .pt.b .dot{background:var(--up)}.pt.s .dot{background:var(--down)}
+  .pt h4{font-size:17px;margin-bottom:4px;color:#fff}.pt p{font-size:15px;color:var(--ink-dim);margin:0}
+  .proof{margin:30px 0;background:linear-gradient(120deg,rgba(55,192,230,.06),transparent 70%),var(--bg-elev);border:1px solid rgba(55,192,230,.25);border-radius:16px;padding:26px}
+  .proof .badge{display:inline-block;font-family:var(--mono);font-weight:700;font-size:12px;letter-spacing:.12em;padding:6px 14px;border-radius:999px;background:rgba(55,192,230,.14);color:var(--pivot);border:1px solid rgba(55,192,230,.4);margin-bottom:14px}
+  .chartbox{background:var(--bg-card);border:1px solid var(--line);border-radius:14px;padding:18px 14px 8px;margin:18px 0}
+  .legend{display:flex;gap:16px;font-family:var(--mono);font-size:12px;color:var(--ink-dim);padding:0 8px 12px;flex-wrap:wrap}
+  .legend i{display:inline-block;width:16px;height:3px;vertical-align:middle;margin-right:6px;border-radius:2px}
+  canvas{width:100%;display:block}
+  .verdict{display:flex;gap:14px;align-items:flex-start;margin-top:8px;padding:16px 18px;background:var(--bg-card);border:1px solid var(--line);border-radius:12px}
+  .verdict .mk{flex:none;font-family:var(--mono);font-weight:700;color:var(--up)}
+  .verdict p{margin:0;font-size:15px;color:#d6dbe1}
+  ol.think{counter-reset:q;list-style:none;margin:24px 0;display:flex;flex-direction:column;gap:14px}
+  ol.think li{counter-increment:q;position:relative;padding:18px 20px 18px 60px;background:var(--bg-elev);border:1px solid var(--line);border-radius:12px;color:var(--ink-dim);font-size:15px}
+  ol.think li::before{content:counter(q,decimal-leading-zero);position:absolute;left:20px;top:18px;font-family:var(--mono);color:var(--gold);font-weight:700}
+  .quiz{margin:22px 0;background:var(--bg-card);border:1px solid var(--line);border-radius:14px;padding:22px 24px}
+  .quiz h4{font-size:16px;color:#fff;margin-bottom:6px}
+  .quiz .ans{margin-top:12px;color:var(--ink-faint);font-size:14px;cursor:pointer}
+  .quiz .ans[open] summary{color:var(--pivot)}
+  .quiz summary{color:var(--gold);font-family:var(--mono);font-size:13px}
+  .tldr{margin:60px 0 0;padding:36px 30px;border:1px solid rgba(55,192,230,.3);border-radius:18px;background:radial-gradient(120% 120% at 100% 0%,rgba(55,192,230,.1),transparent 60%),var(--bg-elev);text-align:center}
+  .tldr .lab{font-family:var(--mono);font-size:12px;letter-spacing:.3em;color:var(--pivot);text-transform:uppercase}
+  .tldr p{font-family:var(--serif);font-size:clamp(20px,3.4vw,28px);line-height:1.7;color:#fff;margin:16px 0 0}
+  footer{padding:60px 0 90px;text-align:center;color:var(--ink-faint);font-family:var(--mono);font-size:12px;border-top:1px solid var(--line)}
+  .reveal{opacity:0;transform:translateY(26px);transition:opacity .8s ease,transform .8s ease}
+  .reveal.in{opacity:1;transform:none}
+  /* —— 本课专属：开盘 K 线对比柱状条 —— */
+  .barbox{margin:24px 0;background:var(--bg-card);border:1px solid var(--line);border-radius:14px;padding:22px 24px}
+  .barbox h4{font-size:15px;color:#fff;font-family:var(--mono);letter-spacing:.06em;margin-bottom:14px}
+  .barrow{display:grid;grid-template-columns:80px 1fr 90px;align-items:center;gap:14px;margin:8px 0;font-family:var(--mono);font-size:13px}
+  .barrow .lbl{color:var(--ink-dim)}
+  .barrow .vbar{height:22px;background:linear-gradient(90deg,var(--pivot),var(--gold));border-radius:4px;position:relative;box-shadow:0 0 12px rgba(55,192,230,.3)}
+  .barrow.lo .vbar{background:linear-gradient(90deg,#16c784,#37c0e6)}
+  .barrow.hi .vbar{background:linear-gradient(90deg,#e8b339,#ff4d4f);box-shadow:0 0 16px rgba(255,77,79,.35)}
+  .barrow .val{color:#fff;text-align:right;font-weight:700}
+  .barrow.hi .val{color:var(--up)}
+  .barrow.lo .val{color:var(--down)}
+  /* —— 时间轴 —— */
+  .timeline{margin:24px 0;border-left:2px dashed rgba(55,192,230,.3);padding-left:24px;display:flex;flex-direction:column;gap:18px}
+  .tl-it{position:relative}
+  .tl-it::before{content:"";position:absolute;left:-32px;top:6px;width:12px;height:12px;border-radius:50%;background:var(--pivot);box-shadow:0 0 10px var(--pivot)}
+  .tl-it.up::before{background:var(--up);box-shadow:0 0 10px var(--up)}
+  .tl-it.down::before{background:var(--down);box-shadow:0 0 10px var(--down)}
+  .tl-it .t{font-family:var(--mono);font-size:13px;color:var(--gold);margin-bottom:4px}
+  .tl-it .h{font-size:16px;color:#fff;font-weight:600;margin-bottom:2px}
+  .tl-it .d{font-size:14px;color:var(--ink-dim)}
+  @media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}.scroll-hint{animation:none}}
+</style>
+<meta name="view-transition" content="same-origin"><style>@view-transition{navigation:auto}</style></head>
+<body>
+<div id="bar"></div>
+<header class="hero">
+  <div class="wrap">
+    <div class="kicker">缠中说禅 · 教你炒股票108课 <span>/ 第 4 课</span></div>
+    <h1 class="title">理性是干出来的</h1>
+    <p class="sub">什么是理性？今早 15 元多买 N 中工就是理性！——一节用一根 IPO 首日 K 线，讲透"当下、模式与生死"的实战心法课。</p>
+    <div class="meta">
+      <span class="pill"><b>原文</b> 2006-06-19 ~ 06-20</span>
+      <span class="pill"><b>类型</b> 心法 · 实战示范</span>
+      <span class="pill"><b>关键词</b> 理性 · 当下 · 介入模式 · 不追高</span>
+    </div>
+    <div class="scroll-hint">↓ 向下滚动，逐层拆解</div>
+  </div>
+</header>
+<main>
+
+  <!-- 01 背景：N 中工是什么 -->
+  <section class="wrap reveal">
+    <div class="sec-no">01 — 故事背景</div>
+    <h2>"N 中工"是什么？为什么万众瞩目？</h2>
+    <p class="lead">读懂这一课之前，先把 2006 年 6 月 19 日的现场还原一下。</p>
+    <p>"N 中工"是<b>中工国际</b>（深市 <span class="hl-pivot">002051</span>）的<b>上市首日</b>简称——A 股惯例：新股上市首日代码前加 N（New）。</p>
+    <p>关键背景：从 2005 年 5 月起，A 股<b>暂停 IPO 整整一年</b>（配合股权分置改革）。中工国际是<b class="hl-gold">重启 IPO 后的第一只新股</b>。一年没新面孔，所有资金憋着没处去，市场对它的关注度可想而知。</p>
+    <blockquote>谁都知道 N 中工万千宠爱在一身，一年多没有新面孔了，突然来了一个新的，大伙热烈一下有什么不对的？<span class="who">— 缠中说禅 2006-06-19 16:45</span></blockquote>
+    <p>就在这一天，它给市场上了一堂教科书式的"K 线极限秀"——开盘 17.11、最低 15.50、最高 50.00、收盘 31.97，<b class="hl-up">换手率 94.05%</b>。当天有<b>近 3 小时</b>是 15 元多的低价随便买，没人逼你冲高。</p>
+    <p>事后散户在网上一片嚷嚷"操纵""不正常""要监管"。缠师当晚连发两文怼回去——这就是第 4 课的由来。</p>
+  </section>
+
+  <!-- 02 还原现场：分时图 -->
+  <section class="wrap reveal">
+    <div class="sec-no">02 — 把现场放在眼前</div>
+    <h2>一根分时，全部线索都在这里</h2>
+    <p class="lead">先看缠师课文里贴的两张原图——这是搞清楚他在骂什么的前提。</p>
+
+    <figure>
+      <img src="/_assets/ch4_p01.png" alt="N 中工分时图缩略图">
+      <figcaption>原文配图一 · N 中工 2006-06-19 当日分时（早盘横在 17~19、午后冲高 50、尾盘回落到 32）</figcaption>
+    </figure>
+
+    <figure>
+      <img src="/_assets/ch4_p02.png" alt="N 中工 002051 通达信分时详细图">
+      <figcaption>原文配图二 · 通达信详细分时：开 17.11 / 高 50.00 / 低 15.50 / 收 31.97 / 成交 4.51 亿股 / 换手 94.05%</figcaption>
+    </figure>
+
+    <div class="barbox">
+      <h4>// 2006-06-19 中工国际 002051 首日 K 线数据</h4>
+      <div class="barrow"><span class="lbl">开盘</span><div class="vbar" style="width:35%"></div><span class="val">17.11</span></div>
+      <div class="barrow lo"><span class="lbl">最低</span><div class="vbar" style="width:31%"></div><span class="val">15.50</span></div>
+      <div class="barrow hi"><span class="lbl">最高</span><div class="vbar" style="width:100%"></div><span class="val">50.00</span></div>
+      <div class="barrow"><span class="lbl">收盘</span><div class="vbar" style="width:64%"></div><span class="val">31.97</span></div>
+      <div class="barrow"><span class="lbl">换手率</span><div class="vbar" style="width:94%;background:linear-gradient(90deg,#37c0e6,#e8b339)"></div><span class="val">94.05%</span></div>
+    </div>
+
+    <p>读图三个要点：</p>
+    <p>1. <b class="hl-down">15.50</b> 是当日最低，<b class="hl-up">50.00</b> 是当日最高，<b>振幅 223%</b>——这种 K 线在 A 股一年也未必见一次。<br>
+       2. 早盘大部分时间股价在 <b>17~19 元区间</b>横盘，缠师说的"<b>10 几元随便你买，自己没买，就企图起哄叫嚣什么监管</b>"指的就是这段。<br>
+       3. <b class="hl-pivot">换手 94.05%</b>意味着：当天 4800 万流通股几乎完全换手，<b>中签的人基本全抛了</b>。这是缠师说"对手盘包括其中"的字面证据。</p>
+  </section>
+
+  <!-- 03 网络暴民 vs 缠师 -->
+  <section class="wrap reveal">
+    <div class="sec-no">03 — 第一篇怒文</div>
+    <h2>"鄙视所有对 N 中工 15 元不敢买、50 元就吃醋的人"</h2>
+    <p class="lead">这是 6/19 当晚 16:45 缠师的第一篇怒文。骨子里讲的是<b>市场规则的神圣性</b>。</p>
+
+    <p>缠师在第一篇文章里抓了三件事：</p>
+
+    <div class="grid">
+      <div class="card">
+        <div class="tag">// 论点 01</div>
+        <h3>有人敢买，你管得着吗？</h3>
+        <p>15 元你不看好，凭什么不许别人看好？市场对所有人开着。"市场就是一个斗心理的过程，大家都想一块去了，大家还用不用活了？"</p>
+      </div>
+      <div class="card">
+        <div class="tag">// 论点 02</div>
+        <h3>均价 18 元，何谈投机？</h3>
+        <p>当天均价 18 元，并没大幅上涨，"任何有关投机的说法都是可耻的"。冲高 50 元只是<b>T+1 下供需失衡</b>的瞬时现象——要买几百万股的，跑到 50 元才有筹码。</p>
+      </div>
+      <div class="card">
+        <div class="tag">// 论点 03</div>
+        <h3>规则就是规则，管理层不能瞎改</h3>
+        <p>"中国资本市场中有过太多无聊无端的干预，像 327 的最后交易不算之类的事情真是世界罕有。"<br><span class="hl-gold">规则一变，市场就死</span>——这是缠师的红线。</p>
+      </div>
+      <div class="card">
+        <div class="tag">// 论点 04</div>
+        <h3>看不得别人好，不是好心态</h3>
+        <p>"首先有了一花盛放才可能百花盛开。"对市场参与者而言，<b>嫉妒别人的盈利只会让自己更亏</b>——这是一句被很多人忽略的散户心法。</p>
+      </div>
+    </div>
+
+    <p style="color:var(--ink-faint);font-size:13px">📌 <b>"327"</b>：1995 年 2 月 23 日"327 国债期货事件"——管理层事后强行宣布最后 8 分钟交易作废。它是中国金融史上"规则朝令夕改"最沉痛的案例，缠师拿出来作反面教材。</p>
+  </section>
+
+  <!-- 04 核心：什么是理性 -->
+  <section class="wrap reveal">
+    <div class="sec-no">04 — 核心命题</div>
+    <h2>什么是理性？理性是干出来的</h2>
+    <p class="lead">这是当晚 21:41 的第二篇文章——课文标题的出处，也是全篇心法骨架。</p>
+
+    <blockquote>真正的理性就是要去看破各色各样的理性谎言。<b>理性从来都是当下的，从来都是实践的。</b>就像性是干出来的而不是说出来的，理性也一样。<span class="who">— 缠中说禅 2006-06-19 21:41</span></blockquote>
+
+    <p>这段话有三层意思，逐层拆开看：</p>
+
+    <div class="points">
+      <div class="pt b">
+        <div class="dot">1</div>
+        <div>
+          <h4>所谓"理性"，从来都背着一套价值系统的偷渡</h4>
+          <p>市场上每个谈"理性"的人，背后必有一套自己的<b>价值依据</b>（PE 估值、DCF、行业景气、技术形态……），他用"理性"二字给这套依据贴金，<b class="hl-gold">妄想靠这套依据战胜市场</b>。在缠师看来，<b>这恰恰是所有资本谎言的基础</b>。</p>
+        </div>
+      </div>
+      <div class="pt b">
+        <div class="dot">2</div>
+        <div>
+          <h4>真正的理性 = 当下 + 实践</h4>
+          <p>不是"我事后想想这是对的"，不是"我用过去的均价倒推合理性"——而是<b>这一刻、我下了单、我承担了一切结果</b>。开盘 15 元买 N 中工的人，无论他是赚是亏，他做了；嘴上喊"非理性"的人，没买，那他不在场。<b class="hl-pivot">不在场的人无权评价场内的理性</b>。</p>
+        </div>
+      </div>
+      <div class="pt b">
+        <div class="dot">3</div>
+        <div>
+          <h4>介入即创造，创造即模式，模式必有死</h4>
+          <p>你买入的瞬间，你和市场就一体了。这次"介入"以什么"模式"展开？这个模式何时、如何"死去"？<b class="hl-gold">真正的理性关心的不是介入的具体模式，而是这个模式如何被当下地走完、如何死去。</b></p>
+        </div>
+      </div>
+    </div>
+
+    <blockquote>对于市场的参与者来说，<b>首要且时刻必须清楚自己目前介入模式的当下</b>。而市场中的绝大多数人，是不知道自己在干什么的，狠一点说，就是死都不知道怎么死就死了。<span class="who">— 缠中说禅</span></blockquote>
+
+    <p>这句话是全课最有杀伤力的一句。落到操作上就是：<br>
+      • <b>买之前问自己</b>：我介入的模式是什么？（抄底？追突破？追热点？打新？）<br>
+      • <b>买完之后问自己</b>：这个模式现在走到哪一步了？是<b class="hl-up">还在按剧本走</b>，还是<b class="hl-down">已经偏离剧本</b>？<br>
+      • <b>偏离的瞬间，模式就死了</b>——这就是你该退出的时刻，<b>无关浮盈浮亏</b>。</p>
+  </section>
+
+  <!-- 05 操作精髓：开盘买、追高死 -->
+  <section class="wrap reveal">
+    <div class="sec-no">05 — 操作精髓</div>
+    <h2>"开盘 15 元多买就是理性"——这句话的操作含义</h2>
+    <p class="lead">11 月 22 日有人追问：如果我真的在 15 元多买了，后面跌成那样我该怎么办？缠师的回答是全课最实战的一段。</p>
+
+    <blockquote>开盘就买中工当然是理性的，因为<b>第一只</b>（重启 IPO 后），而且<b>开盘的位置也不太高</b>。后面之所以出现如此走势，是中国特色的管理层所造成的，<b class="hl-pivot">但开盘 15 元多买的，后面 18、19 元随便你出，由于情况发生了意外，当然就要选择退出</b>，这还是上面的原则：<b class="hl-gold">买股票一定不能追高，这样一旦发生意外，退出也简单。</b><span class="who">— 缠中说禅 2006-11-22</span></blockquote>
+
+    <p>把这段话提炼成 SOP：</p>
+
+    <div class="table">
+      <div class="row head">
+        <div>环节</div>
+        <div>缠师做法</div>
+        <div>背后逻辑（人话翻译）</div>
+      </div>
+      <div class="row">
+        <div class="name">介入</div>
+        <div>开盘 15 元多买</div>
+        <div>不追高 → 留出"意外发生时的安全垫"</div>
+      </div>
+      <div class="row">
+        <div class="name qushi">监控</div>
+        <div>盯"模式是否还在走"</div>
+        <div>首日属"打第一只 IPO"模式，预期：短线情绪溢价</div>
+      </div>
+      <div class="row">
+        <div class="name">触发退出</div>
+        <div>意外（连续跌停跑出的反弹）发生 → <b class="hl-down">退</b></div>
+        <div>"模式死了"——剧本被打破，立刻下车，不纠结浮盈多少</div>
+      </div>
+      <div class="row">
+        <div class="name">退出价</div>
+        <div>18、19 元（仍有 20%+ 浮盈）</div>
+        <div>因开盘 15 元多买给了空间，退出从容；若开盘追到 50，则没机会跑了</div>
+      </div>
+    </div>
+
+    <p>用一句话概括缠师的"反追高纪律"：<br>
+      <span class="hl-gold">买入位置的高低，决定的不是你的盈利上限，而是你<b>意外发生时的退出从容度</b>。</span></p>
+  </section>
+
+  <!-- 06 akshare 实证 -->
+  <section class="wrap reveal">
+    <div class="sec-no">06 — 真金白银的实证</div>
+    <h2>20 年后回看：缠师讲的 18、19 元退出窗口真的存在吗？</h2>
+    <p class="lead">2026 年的今天，我们拉中工国际（002051）2006 年下半年真实日 K，把 6/19 那一根天王 K 之后的故事完整放给你看。</p>
+
+    <div class="proof">
+      <span class="badge">数据实证 · 中工国际 002051</span>
+      <div class="chartbox">
+        <div class="legend">
+          <span><i style="background:#cfd5dc"></i>收盘</span>
+          <span><i style="background:#ff8a8c"></i>MA5</span>
+          <span><i style="background:#e8b339"></i>MA20</span>
+          <span><i style="background:#37c0e6"></i>MA60</span>
+          <span><i style="background:#ff4d4f"></i>买点</span>
+          <span><i style="background:#16c784"></i>卖点</span>
+        </div>
+        <canvas id="cv_002051" height="460"></canvas>
+      </div>
+
+      <div class="verdict">
+        <span class="mk">✓ 印证</span>
+        <p>
+          首日 6/19：开 <b>17.11</b>、最低 <b class="hl-down">15.50</b>、最高 <b class="hl-up">50.00</b>、收 31.97，与缠师课文及配图完全吻合。<br>
+          其后 <b class="hl-down">6 个连续跌停</b>（6/20→6/26 收盘价：28.77 → 25.89 → 23.30 → 20.97 → 18.87），<b>开盘 15 元多买入者全程仍有浮盈</b>。<br>
+          6/27 起破跌停板进入 17~19 元区间窄幅整理（持续约 11 个交易日），<b class="hl-gold">缠师所说的"18、19 元随便你出"的退出窗口客观存在</b>。<br>
+          错过这一窗的人，将面临 7/13 起的二次下跌——8/1 见段内最低 <b class="hl-down">13.60 元</b>。整轮下半年收 15.10，2006 年内未回到首日收盘价。
+        </p>
+      </div>
+    </div>
+
+    <!-- 时间轴 -->
+    <h3 style="font-family:var(--serif);font-size:22px;color:#fff;margin:30px 0 6px">关键时点 · 模式生命周期</h3>
+    <p style="color:var(--ink-dim);font-size:14px">把"开盘买 → 模式确认 → 模式死亡 → 安全退出"四步映射到真实日历。</p>
+
+    <div class="timeline">
+      <div class="tl-it up">
+        <div class="t">2006-06-19 9:30 开盘</div>
+        <div class="h">开盘 17.11，盘中下探 15.50</div>
+        <div class="d">缠师"理性买点"区间。下午激烈冲高至 50。当日收 31.97，换手 94%。</div>
+      </div>
+      <div class="tl-it down">
+        <div class="t">2006-06-20 ~ 06-26</div>
+        <div class="h">连续 6 个跌停（28.77 → 18.87）</div>
+        <div class="d">"模式"已偏离剧本——意外发生。但价格仍高于 15 元多买入价，浮盈仍在。</div>
+      </div>
+      <div class="tl-it">
+        <div class="t">2006-06-27 ~ 07-12</div>
+        <div class="h">破跌停，17~19 元区间盘整 11 天</div>
+        <div class="d"><b class="hl-gold">缠师所指退出窗口</b>。开盘买入者从容出场，账面浮盈约 15%~25%。</div>
+      </div>
+      <div class="tl-it down">
+        <div class="t">2006-07-13 起</div>
+        <div class="h">二次下跌，8/1 见 13.60 段内底</div>
+        <div class="d">没在窗口期退出的人，被迫从浮盈拿到浮亏。这是"模式死了你不走"的代价。</div>
+      </div>
+    </div>
+
+    <p style="font-family:var(--mono);font-size:12px;color:var(--ink-faint);margin-top:18px">数据来源：新浪财经日 K（不复权）· akshare 取数 · 截至 2026-05-29 · 不构成投资建议</p>
+  </section>
+
+  <!-- 07 第三篇：管理层 -->
+  <section class="wrap reveal">
+    <div class="sec-no">07 — 第三篇文章</div>
+    <h2>为管理层鼓掌：规则面前，深交所做对了一件事</h2>
+    <p class="lead">6/20 早盘 11:51 缠师再发一篇文章。这篇是讲监管哲学，但对散户同样有用。</p>
+
+    <p>当天深交所表态：<b class="hl-pivot">中工国际表现属于正常，不会进行调查</b>。缠师罕见地为管理层鼓掌，理由有三：</p>
+
+    <div class="points">
+      <div class="pt b">
+        <div class="dot">A</div>
+        <div>
+          <h4>由交易所而不是证监会回应——符合分工</h4>
+          <p>"一个股票的一天走势这么小的事情，如果都要动用证监会，那就像小孩玩泥沙这么小的事情都要告法院一样无聊。"</p>
+        </div>
+      </div>
+      <div class="pt b">
+        <div class="dot">B</div>
+        <div>
+          <h4>"表现属于正常"是一个规则可检验的概念</h4>
+          <p>检验项：<b>买卖规则是否遵守</b>、<b>资金是否过度集中异常</b>。只要这两项过关，任何走势——哪怕从 15 涨到 50 再回 32——都该被允许。</p>
+        </div>
+      </div>
+      <div class="pt b">
+        <div class="dot">C</div>
+        <div>
+          <h4>市场化的事情，交给市场</h4>
+          <p>"其后怎么走，就更是市场化的事情，管理层当然就更不应该太多干预。"<br>这条对应散户层面：<b class="hl-gold">别指望监管来保护你的浮亏</b>。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 08 思考题 -->
+  <section class="wrap reveal">
+    <div class="sec-no">08 — 反求诸己</div>
+    <h2>合上文章，问自己几个问题</h2>
+    <p class="lead">这一课没有指标、没有定理，全部考的是"对自己交易行为的清醒程度"。</p>
+
+    <ol class="think">
+      <li>缠师说"理性是干出来的"。回想你最近一次买入：<b>买之前能否一句话说清楚你介入的"模式"？</b>（不能 → 你这一笔在"理性"上是零分。）</li>
+      <li>你能否当场说出："如果<b>这件事</b>发生，我就承认这个模式死了，立刻退出"？没有这句话，你就是缠师说的"不知道自己怎么死的人"。</li>
+      <li>把<b>开盘买 15 元 → 18 元退</b> 翻译成你自己的标的：你能不能为这次交易设一个"轻仓低位介入 + 浮盈即可全身而退"的安全方案？</li>
+      <li>"看不得别人好"的心态你有没有？最近一次别人晒单赚钱，你第一反应是嫉妒还是好奇 ta 的"模式"？（前者意味着你还没入门，后者已经在路上。）</li>
+      <li>第 4 课和后面要讲的<b>第一、第二类买点</b>有什么共通？提示：都是<b>不追高 + 给意外留退路</b>的具体化。</li>
+    </ol>
+  </section>
+
+  <!-- 09 判图练习 -->
+  <section class="wrap reveal">
+    <div class="sec-no">09 — 判图练习</div>
+    <h2>这两种"介入"，谁是缠师定义的"理性"？</h2>
+
+    <div class="quiz">
+      <h4>情境 A：N 中工首日 9:35，价格 16.20，你判断"打 IPO 第一只新股的情绪溢价"，下单买入，预设"如果连续跌停我就在反弹到 18 时全出"。</h4>
+      <h4>情境 B：N 中工首日 14:25，价格 48.50，看到 K 线一路向上、群里都在喊"封死涨停"，FOMO 上车，没设退出条件。</h4>
+      <details class="ans"><summary>查看答案</summary><p>A 是缠师定义的"理性"——<b>介入位置不高、模式清晰、死亡条件预设</b>。B 是"理性的妄想"——追高、模式靠群嗨、没有死亡条件。事实上 14:25 之后股价开始下挫，B 当天收盘已浮亏 34%，且其后 6 个跌停连出场机会都没有。<br><br><b>这就是为什么缠师说"今天早上买 N 中工的就是理性"——精确到时间点的赞许。</b></p></details>
+    </div>
+
+    <div class="quiz">
+      <h4>情境 C：6/27 价格已破跌停板进入 17~19 元盘整，你 15 元多买入的那一手，账面浮盈 15%。这时你应该：①持有等待新高 ②全部退出 ③加仓摊低成本</h4>
+      <details class="ans"><summary>查看答案</summary><p>按缠师课文回答："<b>由于情况发生了意外，当然就要选择退出</b>"——选 <b class="hl-down">②</b>。<br><br>① 持有等新高：忽略了"模式已死"的事实，赌的是奇迹。<br>③ 加仓摊低：在没有新的看多依据下加仓，违反"不追高 / 不补救亏损"原则。<br><br>对于 6/27 的"你"来说，过去的 50 元只是噪音，"<b class="hl-gold">现在能在 18~19 元出，且浮盈 15%</b>" 才是当下真实的理性。</p></details>
+    </div>
+  </section>
+
+  <!-- 10 与全书呼应 -->
+  <section class="wrap reveal">
+    <div class="sec-no">10 — 与全书的呼应</div>
+    <h2>这节课在 108 课体系里的位置</h2>
+    <p class="lead">第 4 课是<b>纯心法课</b>，但它埋下了贯穿整本书的若干根线。</p>
+
+    <div class="grid">
+      <div class="card">
+        <div class="tag">// 向后呼应</div>
+        <h3>不追高 → 第一、二类买点</h3>
+        <p>第 17、20 课讲的<b>第一类买点</b>（趋势背驰后的反转介入）、<b>第二类买点</b>（一买后回踩不破新低）本质都是"不追高"的具体化。第 4 课说的是心法，后面给你方法。</p>
+      </div>
+      <div class="card">
+        <div class="tag">// 向前呼应</div>
+        <h3>当下的理性 → 走势终完美</h3>
+        <p>第 17 课"<b>走势终完美</b>"——任何走势都会按自己的级别走完。第 4 课"<b>理性是当下的</b>"——你要做的是看清当下这段走势属于什么级别、什么阶段，而不是用未来的剧本骗自己。</p>
+      </div>
+      <div class="card">
+        <div class="tag">// 心法基石</div>
+        <h3>模式死亡 → 退出纪律</h3>
+        <p>"模式如何死去"在后续讲<b>中枢破坏</b>、<b>盘整背驰</b> 时反复出现——一买入就要想清楚"这笔交易在什么条件下被证伪"，才能在被证伪时干净下车。</p>
+      </div>
+      <div class="card">
+        <div class="tag">// 隐含的市场观</div>
+        <h3>规则神圣 → 制度信仰</h3>
+        <p>缠师对"规则不能因情绪而改"的捍卫，是他能长期在市场存活的底层信仰。散户层面对应：<b class="hl-gold">认赌服输、不指望豁免</b>。</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 11 TL;DR -->
+  <section class="wrap reveal">
+    <div class="tldr">
+      <div class="lab">TL;DR · 一句话总结</div>
+      <p>理性不是事后给自己找的台阶，而是<b>当下下单那一刻的清醒</b>：知道自己在按什么模式介入、知道模式死了会长什么样、并且<b>在低位介入以便意外发生时还能从容退出</b>——这就是"今早 15 元多买 N 中工就是理性"的全部含义。</p>
+    </div>
+  </section>
+
+</main>
+<footer class="wrap">
+  原文出处：raw/缠中说禅/教你炒股票108课/教你炒股票4：什么是理性？今早买N中工就是理性！.md<br>
+  数据：akshare · 新浪日 K · 不复权 · 截至 2026-05-29 · 本页为个人学习复习用 · 非投资建议
+</footer>
+<script>
+  const bar=document.getElementById('bar');
+  const onScroll=()=>{const h=document.documentElement;bar.style.width=(h.scrollTop/(h.scrollHeight-h.clientHeight)*100)+'%'};
+  document.addEventListener('scroll',onScroll,{passive:true});onScroll();
+  const io=new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{threshold:.12});
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+  /* === Canvas 渲染器（共享） === */
+  function drawChanChart(canvasId, CHART){
+    const cv=document.getElementById(canvasId); if(!cv) return;
+    const mode=CHART.mode||'line', hasVol=!!CHART.v && CHART.showVol!==false;
+    const idxOf={}; CHART.dates.forEach((d,i)=>idxOf[d]=i);
+    const ri=d=>{ if(d in idxOf)return idxOf[d]; let b=0,bd=1/0;
+      CHART.dates.forEach((x,i)=>{const t=Math.abs(new Date(x)-new Date(d)); if(t<bd){bd=t;b=i}}); return b; };
+    function draw(){
+      const dpr=window.devicePixelRatio||1, W=cv.clientWidth, H=CHART.height||460;
+      cv.width=W*dpr; cv.height=H*dpr; const x=cv.getContext('2d'); x.scale(dpr,dpr); x.clearRect(0,0,W,H);
+      const padL=48,padR=14,padT=16, volH=hasVol?70:0, gap=hasVol?16:0, priceH=H-padT-volH-gap-22, n=CHART.c.length;
+      let mn=Math.min(...CHART.l), mx=Math.max(...CHART.h);
+      if(CHART.ma)Object.values(CHART.ma).forEach(a=>a.forEach(v=>{if(v!=null){mn=Math.min(mn,v);mx=Math.max(mx,v)}}));
+      if(CHART.pivots)CHART.pivots.forEach(p=>{mn=Math.min(mn,p.lo);mx=Math.max(mx,p.hi)});
+      if(CHART.marks)CHART.marks.forEach(m=>{mn=Math.min(mn,m.price);mx=Math.max(mx,m.price)});
+      const pd=(mx-mn)*0.08; mn-=pd; mx+=pd;
+      const PW=W-padL-padR, px=i=> n===1?padL+PW/2:padL+PW*i/(n-1), py=p=>padT+priceH*(1-(p-mn)/(mx-mn));
+      x.font="11px JetBrains Mono"; x.textAlign="right";
+      for(let g=0;g<=4;g++){const p=mn+(mx-mn)*g/4,yy=py(p);
+        x.strokeStyle="rgba(255,255,255,.06)";x.beginPath();x.moveTo(padL,yy);x.lineTo(W-padR,yy);x.stroke();
+        x.fillStyle="#5b6470";x.fillText(p.toFixed(2),padL-6,yy+3)}
+      if(CHART.pivots)CHART.pivots.forEach(p=>{const x1=px(ri(p.from)),x2=px(ri(p.to)),y1=py(p.hi),y2=py(p.lo);
+        x.fillStyle="rgba(55,192,230,.10)";x.strokeStyle="rgba(55,192,230,.55)";x.lineWidth=1;
+        x.fillRect(x1,y1,x2-x1,y2-y1);x.strokeRect(x1,y1,x2-x1,y2-y1);
+        if(p.label){x.fillStyle="#37c0e6";x.textAlign="center";x.fillText(p.label,(x1+x2)/2,y1-5)}});
+      if(hasVol){const vmax=Math.max(...CHART.v),vt=padT+priceH+gap;
+        for(let i=0;i<n;i++){const up=CHART.c[i]>=CHART.o[i];x.fillStyle=up?"rgba(255,77,79,.5)":"rgba(22,199,132,.5)";
+          const bw=Math.max(1,PW/n*0.6),bh=volH*CHART.v[i]/vmax;x.fillRect(px(i)-bw/2,vt+volH-bh,bw,bh)}}
+      if(mode==='candle'){const bw=Math.max(1.5,PW/n*0.62);
+        for(let i=0;i<n;i++){const up=CHART.c[i]>=CHART.o[i],col=up?"#ff4d4f":"#16c784";x.strokeStyle=col;x.fillStyle=col;
+          x.beginPath();x.moveTo(px(i),py(CHART.h[i]));x.lineTo(px(i),py(CHART.l[i]));x.stroke();
+          const yo=py(CHART.o[i]),yc=py(CHART.c[i]);x.fillRect(px(i)-bw/2,Math.min(yo,yc),bw,Math.max(1,Math.abs(yc-yo)))}}
+      else{const cs=CHART.c;x.beginPath();for(let i=0;i<n;i++){const xx=px(i),yy=py(cs[i]);i?x.lineTo(xx,yy):x.moveTo(xx,yy)}
+        const gr=x.createLinearGradient(0,padT,0,padT+priceH);gr.addColorStop(0,"rgba(207,213,220,.16)");gr.addColorStop(1,"rgba(207,213,220,0)");
+        x.lineTo(px(n-1),padT+priceH);x.lineTo(px(0),padT+priceH);x.closePath();x.fillStyle=gr;x.fill();
+        x.beginPath();for(let i=0;i<n;i++){const xx=px(i),yy=py(cs[i]);i?x.lineTo(xx,yy):x.moveTo(xx,yy)}
+        x.strokeStyle="#cfd5dc";x.lineWidth=1.6;x.stroke()}
+      const MC={MA5:"#ff8a8c",MA10:"#c0a3ff",MA20:"#e8b339",MA60:"#37c0e6",MA120:"#9aa3ad",MA250:"#ff4d4f"};
+      if(CHART.ma)Object.entries(CHART.ma).forEach(([k,a])=>{x.beginPath();let st=false;
+        for(let i=0;i<n;i++){if(a[i]==null)continue;const xx=px(i),yy=py(a[i]);st?x.lineTo(xx,yy):(x.moveTo(xx,yy),st=true)}
+        x.strokeStyle=MC[k]||"#888";x.lineWidth=1.4;x.stroke()});
+      if(CHART.marks)CHART.marks.forEach(m=>{const xx=px(ri(m.date)),yy=py(m.price),buy=(m.type||'').startsWith('b'),col=buy?"#ff4d4f":"#16c784";
+        x.fillStyle=col;x.beginPath();x.arc(xx,yy,4,0,7);x.fill();
+        x.fillStyle="#fff";x.font="bold 11px -apple-system";x.textAlign="center";x.fillText(m.text||'',xx,buy?yy+18:yy-10)});
+      x.fillStyle="#5b6470";x.textAlign="center";x.font="11px JetBrains Mono";
+      const L=Math.min(6,n);for(let g=0;g<L;g++){const i=Math.round((n-1)*g/(L-1||1));x.fillText(CHART.dates[i],px(i),H-5)}
+    }
+    draw(); window.addEventListener('resize',draw);
+  }
+
+  /* === 中工国际 002051 数据（akshare · 新浪日 K · 不复权 · 2006-06-19 ~ 2006-12-29） === */
+  const CHART_002051 = {"mode":"candle","height":460,"showVol":true,
+    "dates": ["2006-06-19", "2006-06-20", "2006-06-21", "2006-06-22", "2006-06-23", "2006-06-26", "2006-06-27", "2006-06-28", "2006-06-29", "2006-06-30", "2006-07-03", "2006-07-04", "2006-07-05", "2006-07-06", "2006-07-07", "2006-07-10", "2006-07-11", "2006-07-12", "2006-07-13", "2006-07-14", "2006-07-17", "2006-07-18", "2006-07-19", "2006-07-20", "2006-07-21", "2006-07-24", "2006-07-25", "2006-07-26", "2006-07-27", "2006-07-28", "2006-07-31", "2006-08-01", "2006-08-02", "2006-08-03", "2006-08-04", "2006-08-07", "2006-08-08", "2006-08-09", "2006-08-10", "2006-08-11", "2006-08-14", "2006-08-15", "2006-08-16", "2006-08-17", "2006-08-18", "2006-08-21", "2006-08-22", "2006-08-23", "2006-08-24", "2006-08-25", "2006-08-28", "2006-08-29", "2006-08-30", "2006-08-31", "2006-09-01", "2006-09-04", "2006-09-05", "2006-09-06", "2006-09-07", "2006-09-08", "2006-09-11", "2006-09-12", "2006-09-13", "2006-09-14", "2006-09-15", "2006-09-18", "2006-09-20", "2006-09-21", "2006-09-22", "2006-09-25", "2006-09-27", "2006-09-28", "2006-09-29", "2006-10-09", "2006-10-10", "2006-10-11", "2006-10-12", "2006-10-13", "2006-10-16", "2006-10-17", "2006-10-18", "2006-10-19", "2006-10-20", "2006-10-23", "2006-10-24", "2006-10-25", "2006-10-26", "2006-10-27", "2006-10-30", "2006-10-31", "2006-11-01", "2006-11-02", "2006-11-03", "2006-11-06", "2006-11-07", "2006-11-08", "2006-11-09", "2006-11-10", "2006-11-13", "2006-11-14", "2006-11-16", "2006-11-17", "2006-11-20", "2006-11-21", "2006-11-22", "2006-11-23", "2006-11-24", "2006-11-27", "2006-11-28", "2006-11-29", "2006-11-30", "2006-12-01", "2006-12-04", "2006-12-05", "2006-12-06", "2006-12-07", "2006-12-08", "2006-12-11", "2006-12-12", "2006-12-13", "2006-12-14", "2006-12-15", "2006-12-18", "2006-12-19", "2006-12-20", "2006-12-21", "2006-12-22", "2006-12-25", "2006-12-26", "2006-12-27", "2006-12-28", "2006-12-29"],
+    "o": [17.11, 28.77, 25.89, 23.3, 20.97, 18.87, 16.98, 17.48, 17.95, 18.06, 17.45, 17.8, 17.79, 17.41, 18.5, 18.1, 18.01, 18.25, 17.8, 16.0, 16.0, 16.2, 16.47, 15.7, 15.74, 15.76, 15.42, 15.7, 15.42, 15.35, 14.98, 13.75, 13.8, 15.28, 15.31, 14.0, 14.38, 14.6, 14.2, 14.35, 14.21, 13.8, 14.36, 14.35, 14.23, 13.8, 14.05, 14.23, 14.03, 14.5, 14.9, 15.08, 15.15, 15.48, 15.27, 14.71, 15.1, 14.75, 14.98, 15.28, 15.2, 14.88, 15.2, 14.73, 14.32, 14.41, 13.98, 15.0, 14.83, 14.53, 14.35, 14.3, 14.46, 14.41, 14.5, 14.4, 14.5, 14.26, 14.12, 14.3, 14.18, 14.27, 14.3, 14.08, 13.7, 13.92, 13.8, 14.03, 13.85, 13.81, 14.18, 14.38, 14.08, 14.09, 13.89, 14.29, 14.15, 14.3, 14.57, 15.4, 15.34, 15.86, 15.89, 15.46, 15.6, 15.58, 15.55, 15.23, 15.42, 16.12, 16.29, 16.31, 16.15, 16.45, 16.16, 15.5, 15.58, 14.8, 15.15, 15.07, 15.26, 15.19, 15.5, 15.4, 15.31, 16.15, 15.51, 15.8, 15.72, 15.31, 15.2, 14.9],
+    "h": [50.0, 28.77, 25.89, 23.3, 20.97, 18.87, 18.48, 18.22, 18.16, 18.06, 17.88, 17.95, 17.79, 19.15, 18.94, 18.45, 18.91, 18.78, 17.8, 16.58, 16.29, 16.48, 16.47, 15.97, 15.89, 15.77, 15.87, 15.74, 15.67, 15.48, 14.98, 13.97, 15.18, 15.96, 15.33, 14.62, 14.92, 14.66, 14.5, 14.56, 14.37, 14.75, 14.55, 14.4, 14.31, 14.15, 14.33, 14.44, 14.59, 15.32, 15.29, 15.34, 15.8, 15.68, 15.42, 15.13, 15.13, 15.0, 15.57, 15.58, 15.22, 15.25, 15.3, 14.95, 14.47, 14.73, 15.6, 15.34, 14.89, 14.68, 14.44, 14.48, 14.57, 14.7, 14.6, 14.5, 14.55, 14.36, 14.43, 14.33, 14.32, 14.39, 14.36, 14.08, 13.94, 13.98, 14.33, 14.03, 13.85, 14.18, 14.48, 14.4, 14.24, 14.09, 14.46, 14.36, 14.41, 14.7, 15.83, 15.63, 16.38, 16.31, 15.89, 15.98, 15.91, 15.74, 15.55, 15.51, 16.4, 16.66, 16.68, 16.49, 16.77, 16.62, 16.45, 15.89, 15.6, 15.19, 15.18, 15.34, 15.31, 15.39, 15.58, 15.45, 16.26, 16.16, 15.9, 15.98, 15.88, 15.45, 15.35, 15.3],
+    "l": [15.5, 28.77, 25.89, 23.3, 20.97, 18.87, 16.98, 17.4, 17.48, 17.4, 17.36, 17.29, 17.41, 17.41, 18.05, 17.68, 17.76, 18.01, 16.47, 16.0, 15.8, 16.01, 15.65, 15.64, 15.71, 15.01, 15.38, 15.38, 15.24, 14.9, 13.66, 13.6, 13.68, 15.0, 14.03, 13.75, 14.3, 14.06, 14.08, 14.15, 13.81, 13.75, 14.17, 14.1, 14.07, 13.65, 14.0, 14.06, 14.02, 14.33, 14.88, 14.85, 15.05, 15.25, 14.8, 14.68, 14.73, 14.75, 14.93, 15.05, 14.76, 14.88, 14.85, 14.05, 14.15, 14.3, 13.8, 14.8, 14.5, 14.28, 14.16, 14.23, 14.4, 14.38, 14.35, 14.2, 14.27, 14.1, 14.06, 14.16, 14.1, 14.18, 14.06, 13.67, 13.7, 13.7, 13.78, 13.67, 13.62, 13.81, 14.1, 13.96, 14.07, 13.87, 13.84, 14.0, 14.15, 14.19, 14.41, 14.83, 15.17, 15.52, 15.08, 15.13, 15.26, 15.35, 15.15, 15.12, 15.22, 15.8, 16.15, 16.02, 16.15, 15.99, 15.28, 15.35, 14.81, 14.71, 14.8, 14.85, 15.02, 15.07, 15.25, 14.91, 15.31, 15.5, 15.4, 15.55, 15.26, 15.14, 14.8, 14.9],
+    "c": [31.97, 28.77, 25.89, 23.3, 20.97, 18.87, 17.34, 17.95, 17.95, 17.52, 17.63, 17.95, 17.49, 18.62, 18.16, 18.19, 18.38, 18.3, 16.49, 16.16, 16.18, 16.33, 15.71, 15.81, 15.82, 15.42, 15.68, 15.48, 15.33, 15.0, 13.67, 13.8, 15.18, 15.31, 14.19, 14.4, 14.66, 14.29, 14.33, 14.4, 13.82, 14.42, 14.42, 14.25, 14.12, 14.15, 14.18, 14.09, 14.49, 15.0, 15.07, 15.2, 15.5, 15.3, 14.82, 15.13, 14.78, 14.92, 15.28, 15.22, 14.96, 15.24, 14.88, 14.32, 14.37, 14.59, 15.23, 14.88, 14.67, 14.3, 14.3, 14.4, 14.41, 14.52, 14.47, 14.49, 14.31, 14.17, 14.34, 14.18, 14.27, 14.3, 14.1, 13.72, 13.92, 13.8, 14.03, 13.85, 13.8, 14.0, 14.3, 14.15, 14.11, 13.91, 14.35, 14.18, 14.28, 14.39, 15.59, 15.17, 15.8, 15.96, 15.44, 15.57, 15.63, 15.57, 15.21, 15.4, 16.23, 16.29, 16.4, 16.13, 16.44, 16.16, 15.6, 15.6, 14.81, 15.16, 15.07, 15.2, 15.2, 15.37, 15.4, 15.2, 16.06, 15.57, 15.77, 15.7, 15.3, 15.16, 14.87, 15.1],
+    "v": [45145387, 285600, 62300, 55200, 577400, 1382400, 29126721, 16621050, 11025404, 7588400, 5657789, 8798215, 3810479, 10616567, 7193631, 4987972, 7173289, 5514368, 9502515, 4549217, 3427906, 2302679, 3002380, 1669172, 1262253, 1956147, 1570512, 1624974, 1389465, 2256388, 3176378, 1969948, 7163901, 8251034, 3760126, 2798193, 2463556, 1987633, 1562017, 1449772, 1995529, 2208335, 1429489, 1056768, 969691, 1156648, 1013775, 1225297, 2664409, 5170809, 2954080, 3386063, 4054047, 2657550, 2351820, 1709235, 1407377, 837040, 2992827, 2053755, 1527321, 1250691, 1666684, 2825126, 1438543, 1576847, 11772275, 3948411, 3595568, 2154944, 1649803, 1424823, 1590688, 1504753, 1640313, 1952035, 1144853, 2018015, 1653651, 852781, 798568, 1048646, 1322343, 2293076, 1033771, 1418589, 1636922, 1129783, 1208252, 1249600, 2743280, 1392494, 1020612, 1226416, 3269012, 1240380, 1809857, 3505403, 12217351, 6560217, 10311794, 6000548, 4850187, 3363096, 3350008, 2557913, 3260690, 1995152, 7050500, 6134287, 3894371, 3344043, 3889231, 3618274, 3832255, 3095007, 3111422, 1715107, 1951302, 1707132, 1565677, 1965273, 2063099, 2633394, 5744155, 2751011, 2256016, 1920212, 1666955, 1873329, 2074629, 1660731],
+    "ma": {"MA5": [null, null, null, null, 26.18, 23.56, 21.27, 19.69, 18.62, 17.93, 17.68, 17.8, 17.71, 17.84, 17.97, 18.08, 18.17, 18.33, 17.9, 17.5, 17.1, 16.69, 16.17, 16.04, 15.97, 15.82, 15.69, 15.64, 15.55, 15.38, 15.03, 14.66, 14.6, 14.59, 14.43, 14.58, 14.75, 14.57, 14.37, 14.42, 14.3, 14.25, 14.28, 14.26, 14.21, 14.27, 14.22, 14.16, 14.21, 14.38, 14.57, 14.77, 15.05, 15.21, 15.18, 15.19, 15.11, 14.99, 14.99, 15.07, 15.03, 15.12, 15.12, 14.92, 14.75, 14.68, 14.68, 14.68, 14.75, 14.73, 14.68, 14.51, 14.42, 14.39, 14.42, 14.46, 14.44, 14.39, 14.36, 14.3, 14.25, 14.25, 14.24, 14.11, 14.06, 13.97, 13.91, 13.86, 13.88, 13.9, 14.0, 14.02, 14.07, 14.09, 14.16, 14.14, 14.17, 14.22, 14.56, 14.72, 15.05, 15.38, 15.59, 15.59, 15.68, 15.63, 15.48, 15.48, 15.61, 15.74, 15.91, 16.09, 16.3, 16.28, 16.15, 15.99, 15.72, 15.47, 15.25, 15.17, 15.09, 15.2, 15.25, 15.27, 15.45, 15.52, 15.6, 15.66, 15.68, 15.5, 15.36, 15.23],
+           "MA20": [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, 19.89, 19.11, 18.48, 17.97, 17.6, 17.34, 17.17, 17.09, 16.96, 16.83, 16.71, 16.51, 16.3, 16.19, 16.02, 15.82, 15.63, 15.45, 15.25, 15.14, 15.05, 14.93, 14.84, 14.77, 14.69, 14.61, 14.54, 14.47, 14.4, 14.36, 14.36, 14.43, 14.5, 14.51, 14.51, 14.55, 14.58, 14.59, 14.62, 14.67, 14.71, 14.77, 14.81, 14.83, 14.83, 14.84, 14.87, 14.92, 14.96, 14.97, 14.93, 14.89, 14.85, 14.8, 14.76, 14.74, 14.71, 14.69, 14.65, 14.6, 14.55, 14.52, 14.47, 14.43, 14.4, 14.38, 14.34, 14.28, 14.23, 14.18, 14.17, 14.17, 14.16, 14.14, 14.11, 14.11, 14.09, 14.09, 14.1, 14.16, 14.21, 14.29, 14.37, 14.44, 14.53, 14.62, 14.7, 14.76, 14.84, 14.96, 15.08, 15.18, 15.28, 15.4, 15.51, 15.57, 15.64, 15.67, 15.71, 15.68, 15.68, 15.65, 15.62, 15.62, 15.6, 15.62, 15.62, 15.65, 15.67, 15.62, 15.56, 15.49, 15.44],
+           "MA60": [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, 16.55, 16.27, 16.04, 15.86, 15.71, 15.6, 15.53, 15.49, 15.44, 15.39, 15.33, 15.28, 15.22, 15.17, 15.1, 15.04, 14.98, 14.91, 14.84, 14.8, 14.77, 14.74, 14.7, 14.68, 14.64, 14.61, 14.58, 14.56, 14.53, 14.5, 14.49, 14.5, 14.5, 14.49, 14.46, 14.46, 14.46, 14.45, 14.46, 14.48, 14.49, 14.52, 14.55, 14.57, 14.59, 14.61, 14.64, 14.65, 14.68, 14.7, 14.73, 14.75, 14.76, 14.78, 14.79, 14.81, 14.81, 14.82, 14.82, 14.82, 14.82, 14.82, 14.82, 14.83, 14.84, 14.87, 14.89, 14.9, 14.91, 14.92, 14.94, 14.95, 14.96]},
+    "pivots":[
+      {"from":"2006-06-27","to":"2006-07-12","lo":16.47,"hi":19.15,"label":"退出窗口 17~19"}
+    ],
+    "marks":[
+      {"date":"2006-06-19","price":15.50,"type":"b1","text":"开盘买点 15.50"},
+      {"date":"2006-07-06","price":19.15,"type":"s1","text":"窗口顶 19.15 退"}
+    ]
+  };
+  drawChanChart("cv_002051", CHART_002051);
+</script>
+<script src="/assets/_nav.js"></script><script src="/assets/_shell.js"></script></body>
+</html>

@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>缠论 · 教你炒股票44：小背驰大转折定理</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@500;700;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0b0e12;--bg-elev:#12161c;--bg-card:#161b22;
+    --ink:#e8eaed;--ink-dim:#9aa3ad;--ink-faint:#5b6470;
+    --line:rgba(255,255,255,.07);
+    --up:#ff4d4f;--down:#16c784;--pivot:#37c0e6;--gold:#e8b339;--blue:#00d4ff;
+    --max:880px;--serif:"Noto Serif SC",serif;--mono:"JetBrains Mono",ui-monospace,monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--ink);font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;line-height:1.85;font-size:17px;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  body::before{content:"";position:fixed;inset:0;z-index:-2;background:radial-gradient(1200px 600px at 70% -10%,rgba(55,192,230,.08),transparent 60%),radial-gradient(900px 500px at 0% 100%,rgba(232,179,57,.05),transparent 55%);pointer-events:none}
+  body::after{content:"";position:fixed;inset:0;z-index:-1;opacity:.4;background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);background-size:46px 46px;-webkit-mask-image:radial-gradient(ellipse at 50% 0%,#000 30%,transparent 80%);mask-image:radial-gradient(ellipse at 50% 0%,#000 30%,transparent 80%);pointer-events:none}
+  #bar{position:fixed;top:0;left:0;height:3px;width:0;z-index:50;background:linear-gradient(90deg,var(--pivot),var(--gold));box-shadow:0 0 12px var(--pivot)}
+  .wrap{max-width:var(--max);margin:0 auto;padding:0 24px}
+  header.hero{padding:120px 0 70px;text-align:center;position:relative}
+  .kicker{font-family:var(--mono);font-size:13px;letter-spacing:.32em;color:var(--pivot);text-transform:uppercase;margin-bottom:26px}
+  .kicker span{color:var(--ink-faint)}
+  h1.title{font-family:var(--serif);font-weight:900;line-height:1.05;font-size:clamp(44px,10vw,100px);letter-spacing:.04em;background:linear-gradient(180deg,#fff 30%,#8aa0ad 130%);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .sub{margin:22px auto 0;max-width:580px;color:var(--ink-dim);font-size:18px}
+  .meta{margin-top:34px;display:flex;gap:14px;justify-content:center;flex-wrap:wrap;font-family:var(--mono);font-size:12px;color:var(--ink-faint)}
+  .meta b{color:var(--ink-dim);font-weight:500}
+  .pill{border:1px solid var(--line);padding:6px 14px;border-radius:999px;background:rgba(255,255,255,.02)}
+  .scroll-hint{margin-top:60px;color:var(--ink-faint);font-family:var(--mono);font-size:12px;animation:bob 2.4s ease-in-out infinite}
+  @keyframes bob{0%,100%{transform:translateY(0);opacity:.5}50%{transform:translateY(8px);opacity:1}}
+  section{padding:64px 0;border-top:1px solid var(--line)}
+  .sec-no{font-family:var(--mono);font-size:13px;color:var(--gold);letter-spacing:.2em;margin-bottom:10px}
+  h2{font-family:var(--serif);font-weight:700;font-size:clamp(28px,5vw,42px);line-height:1.25;margin-bottom:8px;letter-spacing:.02em}
+  .lead{color:var(--ink-dim);font-size:16px;margin-bottom:28px;max-width:660px}
+  p{margin:0 0 18px;color:#cfd5dc}
+  p b,strong{color:#fff;font-weight:700}
+  .hl-pivot{color:var(--pivot);font-weight:700}.hl-up{color:var(--up);font-weight:700}
+  .hl-down{color:var(--down);font-weight:700}.hl-gold{color:var(--gold);font-weight:700}
+  blockquote{margin:26px 0;padding:20px 24px;border-left:3px solid var(--pivot);background:linear-gradient(90deg,rgba(55,192,230,.07),transparent);border-radius:0 10px 10px 0;font-family:var(--serif);font-size:19px;color:#eaf6fb}
+  blockquote .who{display:block;margin-top:8px;font-family:var(--mono);font-size:12px;color:var(--ink-faint);font-style:normal}
+  figure{margin:34px 0}
+  figure img{width:100%;border-radius:12px;border:1px solid var(--line);background:#fff;box-shadow:0 18px 50px rgba(0,0,0,.5)}
+  figcaption{margin-top:12px;font-size:13px;color:var(--ink-faint);text-align:center;font-family:var(--mono)}
+  .grid{display:grid;gap:16px;grid-template-columns:1fr 1fr;margin:28px 0}
+  @media(max-width:640px){.grid{grid-template-columns:1fr}}
+  .card{background:var(--bg-card);border:1px solid var(--line);border-radius:14px;padding:24px;position:relative;overflow:hidden;transition:transform .35s ease,border-color .35s ease}
+  .card:hover{transform:translateY(-4px);border-color:rgba(55,192,230,.4)}
+  .card .tag{font-family:var(--mono);font-size:11px;letter-spacing:.18em;color:var(--gold);text-transform:uppercase}
+  .card h3{font-family:var(--serif);font-size:21px;margin:10px 0 8px;color:#fff}
+  .card p{font-size:15px;color:var(--ink-dim);margin:0}
+  .table{margin:28px 0;border:1px solid var(--line);border-radius:14px;overflow:hidden}
+  .table .row{display:grid;grid-template-columns:1.1fr 1.5fr 1.6fr;align-items:stretch}
+  .table .row+.row{border-top:1px solid var(--line)}
+  .table .row>div{padding:16px 18px}
+  .table .row.head{background:var(--bg-elev);font-family:var(--mono);font-size:12px;letter-spacing:.14em;color:var(--ink-faint);text-transform:uppercase}
+  .table .row>div+div{border-left:1px solid var(--line)}
+  .table .name{font-family:var(--serif);font-weight:700;font-size:18px}
+  .table .name.qushi{color:var(--gold)}
+  .cnt{font-family:var(--mono);font-size:14px;color:var(--pivot)}
+  @media(max-width:560px){.table .row{grid-template-columns:1fr}.table .row>div+div{border-left:0;border-top:1px solid var(--line)}.table .row.head{display:none}}
+  .points{margin:26px 0;display:flex;flex-direction:column;gap:14px}
+  .pt{display:flex;gap:16px;align-items:flex-start;background:var(--bg-card);border:1px solid var(--line);border-radius:12px;padding:18px 20px}
+  .pt .dot{flex:none;width:42px;height:42px;border-radius:10px;display:grid;place-items:center;font-family:var(--serif);font-weight:900;font-size:20px;color:#0b0e12}
+  .pt.b .dot{background:var(--up)}.pt.s .dot{background:var(--down)}
+  .pt h4{font-size:17px;margin-bottom:4px;color:#fff}.pt p{font-size:15px;color:var(--ink-dim);margin:0}
+  ol.think{counter-reset:q;list-style:none;margin:24px 0;display:flex;flex-direction:column;gap:14px}
+  ol.think li{counter-increment:q;position:relative;padding:18px 20px 18px 60px;background:var(--bg-elev);border:1px solid var(--line);border-radius:12px;color:var(--ink-dim);font-size:15px}
+  ol.think li::before{content:counter(q,decimal-leading-zero);position:absolute;left:20px;top:18px;font-family:var(--mono);color:var(--gold);font-weight:700}
+  .quiz{margin:22px 0;background:var(--bg-card);border:1px solid var(--line);border-radius:14px;padding:22px 24px}
+  .quiz h4{font-size:16px;color:#fff;margin-bottom:6px}
+  .quiz .ans{margin-top:12px;color:var(--ink-faint);font-size:14px;cursor:pointer}
+  .quiz .ans[open] summary{color:var(--pivot)}
+  .quiz summary{color:var(--gold);font-family:var(--mono);font-size:13px}
+  /* 定理高亮卡 */
+  .theorem{margin:30px 0;padding:30px;background:linear-gradient(120deg,rgba(232,179,57,.10),transparent 70%),var(--bg-elev);border:1px solid rgba(232,179,57,.35);border-radius:18px;position:relative}
+  .theorem .lab{display:inline-block;font-family:var(--mono);font-weight:700;font-size:12px;letter-spacing:.18em;padding:6px 14px;border-radius:999px;background:rgba(232,179,57,.12);color:var(--gold);border:1px solid rgba(232,179,57,.4);margin-bottom:14px}
+  .theorem h3{font-family:var(--serif);font-size:22px;color:#fff;margin-bottom:14px}
+  .theorem p{font-family:var(--serif);font-size:17px;line-height:1.85;color:#eaf6fb;margin:0 0 12px}
+  .theorem p:last-child{margin-bottom:0}
+  /* 级别级联示意 */
+  .cascade{margin:30px 0;background:var(--bg-card);border:1px solid var(--line);border-radius:14px;padding:24px;overflow-x:auto}
+  .cascade-row{display:grid;grid-template-columns:90px 1fr 100px;gap:14px;align-items:center;padding:12px 0;border-bottom:1px dashed var(--line)}
+  .cascade-row:last-child{border-bottom:0}
+  .cascade-row .lvl{font-family:var(--mono);font-size:13px;color:var(--gold);font-weight:700}
+  .cascade-row .desc{font-size:14px;color:var(--ink-dim);line-height:1.6}
+  .cascade-row .tag{font-family:var(--mono);font-size:11px;color:var(--pivot);text-align:right;letter-spacing:.08em}
+  /* 阶梯卡 */
+  .ladder{margin:30px 0;display:flex;flex-direction:column;gap:10px}
+  .step{display:grid;grid-template-columns:54px 1fr 100px;gap:14px;padding:18px 20px;background:var(--bg-card);border:1px solid var(--line);border-radius:12px;align-items:center;transition:border-color .3s ease}
+  .step:hover{border-color:rgba(55,192,230,.45)}
+  .step .n{font-family:var(--mono);font-weight:700;font-size:22px;color:var(--gold)}
+  .step h4{font-size:16px;color:#fff;margin-bottom:4px}
+  .step p{font-size:14px;color:var(--ink-dim);margin:0;line-height:1.6}
+  .step .lab{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-align:right;padding:6px 10px;border-radius:6px;border:1px solid var(--line)}
+  .step .lab.strong{color:var(--down);border-color:rgba(22,199,132,.4)}
+  .step .lab.mid{color:var(--gold);border-color:rgba(232,179,57,.4)}
+  .step .lab.weak{color:var(--up);border-color:rgba(255,77,79,.4)}
+  @media(max-width:560px){.step{grid-template-columns:1fr;gap:6px}.step .lab{text-align:left}}
+  .tldr{margin:60px 0 0;padding:36px 30px;border:1px solid rgba(55,192,230,.3);border-radius:18px;background:radial-gradient(120% 120% at 100% 0%,rgba(55,192,230,.1),transparent 60%),var(--bg-elev);text-align:center}
+  .tldr .lab{font-family:var(--mono);font-size:12px;letter-spacing:.3em;color:var(--pivot);text-transform:uppercase}
+  .tldr p{font-family:var(--serif);font-size:clamp(20px,3.4vw,28px);line-height:1.7;color:#fff;margin:16px 0 0}
+  footer{padding:60px 0 90px;text-align:center;color:var(--ink-faint);font-family:var(--mono);font-size:12px;border-top:1px solid var(--line)}
+  .reveal{opacity:0;transform:translateY(26px);transition:opacity .8s ease,transform .8s ease}
+  .reveal.in{opacity:1;transform:none}
+  @media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}.scroll-hint{animation:none}}
+</style>
+<meta name="view-transition" content="same-origin"><style>@view-transition{navigation:auto}</style></head>
+<body>
+<div id="bar"></div>
+<header class="hero">
+  <div class="wrap">
+    <div class="kicker">缠中说禅 · 教你炒股票108课 <span>/ 第 44 课</span></div>
+    <h1 class="title">小背驰<br>大转折</h1>
+    <p class="sub">小级别背驰能不能引爆大级别转折？缠师给出一个"必要条件"——盯住最后一个次级别中枢的三类买卖点。</p>
+    <div class="meta">
+      <span class="pill"><b>原文</b> 2007-04-10</span>
+      <span class="pill"><b>类型</b> 关键定理 · 级别级联</span>
+      <span class="pill"><b>关键词</b> 小背驰 · 大转折 · 第三类买卖点 · 级别联动</span>
+    </div>
+    <div class="scroll-hint">↓ 向下滚动，逐层拆解</div>
+  </div>
+</header>
+<main>
+
+<section class="wrap reveal">
+  <div class="sec-no">01 — 问题背景</div>
+  <h2>上一课没讲完的"特例"</h2>
+  <p class="lead">43 课讲了"背驰级别 = 当下走势级别"的最一般情况。但还有一种棘手的特例：<b>背驰发生在比当下走势更小的级别上</b>，却最终把大级别给搞翻了。这就是这一课要单独拆解的"小转大"。</p>
+  <p>用一个具体场景：当下是<span class="hl-pivot">30 分钟级别</span>的向上走势 <b>a + A + b + B + c</b>，其中 A、B 是 30 分中枢。c 段没有走出一个新的 30 分钟级别背驰，反而是 c 内部某个<span class="hl-up">1 分钟顶背驰</span>，居然把走势一路拽下来，跌回到了 B 中枢里。</p>
+  <p>这种现象有个直观的名字：<b>小级别背驰引发了大级别转折</b>。它不是天天发生，但一旦发生，杀伤力很大——所以必须搞清楚它的<span class="hl-gold">触发机制</span>，而不是事后惊呼"早知道"。</p>
+  <blockquote>对"背驰级别等于当下的走势级别"这最一般的情况，应该是很好把握了，唯一可能出现困难的，就是"背驰级别小于当下的走势级别"这种情况。<span class="who">— 缠中说禅 / 第 44 课</span></blockquote>
+</section>
+
+<section class="wrap reveal">
+  <div class="sec-no">02 — 原理推导</div>
+  <h2>c 段里到底发生了什么</h2>
+  <p class="lead">缠师没有把定理直接砸给你，而是从级别结构一步步推。跟着推一遍，定理就自动浮出水面。</p>
+  <p><b>第一步：</b>c 段本身是 30 分中枢 B 之后的一段次级别离开走势。要让 B 中枢"完成"（变成历史，不再延伸），c 段<span class="hl-pivot">至少要包含一个 5 分钟级别的中枢</span>——否则 B 之后连一个新的次级别中枢都没有，就不可能形成第三类买点，B 也就不能算完成。</p>
+  <p><b>第二步：</b>设 <b>c''</b> 是 c 段中<span class="hl-pivot">最后一个 5 分钟中枢</span>。c 内部的那个 1 分钟顶背驰，<span class="hl-gold">只能发生在 c'' 之后</span>。为什么？因为 1 分钟背驰意味着这段离开 c'' 的 1 分钟向上走势力度衰竭，它必然要把价格拉回 c'' 内部。</p>
+  <p><b>第三步：</b>所以整个事件的本质，是<span class="hl-up">围绕 c''</span>的一次震荡。要让这个震荡发酵成"大级别向下转折"，必须先在 c'' 上做出一个<span class="hl-down">5 分钟级别的第三类卖点</span>——只有 c'' 被破坏并且无法回升，5 分级别向下走势才能成立，进而才有可能传导到 30 分级别。</p>
+  <figure>
+    <img src="/_assets/ch44_p01.png" alt="小级别背驰引发大级别转折 · 原理示意">
+    <figcaption>原文图一 · 30 分上行 a+A+b+B+c。c 段末尾 c'' 是最后一个 5 分中枢；c 顶部小红框就是 1 分钟顶背驰发生位置；最强情况回跌不触及兰线1，次强不触及兰线2，跌破兰线2 必须先离开。</figcaption>
+  </figure>
+</section>
+
+<section class="wrap reveal">
+  <div class="sec-no">03 — 核心定理</div>
+  <h2>小背驰-大转折定理</h2>
+  <p class="lead">把上面三步推导浓缩，就是缠论里非常重要的一个定理。这是判断"小级别背驰要不要当回事"的<span class="hl-gold">唯一标尺</span>。</p>
+  <div class="theorem">
+    <span class="lab">缠中说禅 · 小背驰-大转折定理</span>
+    <h3>必要条件，不是充分条件</h3>
+    <p><b>小级别顶背驰引发大级别向下</b>的必要条件是：该级别走势的<span class="hl-down">最后一个次级别中枢出现第三类卖点</span>。</p>
+    <p><b>小级别底背驰引发大级别向上</b>的必要条件是：该级别走势的<span class="hl-up">最后一个次级别中枢出现第三类买点</span>。</p>
+  </div>
+  <p><b>读懂这两段话的关键</b>，是分清"必要"和"充分"：</p>
+  <div class="grid">
+    <div class="card">
+      <div class="tag">必要 · Necessary</div>
+      <h3>没有就一定不行</h3>
+      <p>没有最后一个次级别中枢的三类买卖点，就<b>一定不会</b>有大级别转折——这是底线，可以反过来用来"排除"。</p>
+    </div>
+    <div class="card">
+      <div class="tag">非充分 · Not Sufficient</div>
+      <h3>有了也不一定行</h3>
+      <p>出现了三类买卖点，<b>不必然</b>导致大级别转折，可能只是一次小回调。所以光看到这个信号不能直接全仓动手。</p>
+    </div>
+  </div>
+  <p>这意味着定理的<b>实战用法是"过滤"</b>：先看有没有这个必要条件，没有就完全不管，<span class="hl-pivot">把噪声直接砍掉</span>；有了再结合其他工具进一步判断，<span class="hl-gold">而不是看到就动手</span>。</p>
+</section>
+
+<section class="wrap reveal">
+  <div class="sec-no">04 — 级别级联</div>
+  <h2>1 分背驰能炸多远？看你怎么数</h2>
+  <p class="lead">缠师在注里强调：小背驰可以转 2 级、转 3 级、转 4 级……原理完全一样，差别只在你<b>盯哪个级别的"最后一个次级别中枢"</b>。这就是缠论里典型的<span class="hl-pivot">级别级联</span>结构。</p>
+  <div class="cascade">
+    <div class="cascade-row">
+      <div class="lvl">1分 → 5分</div>
+      <div class="desc">看<b>最后一个 1 分中枢</b>出不出第三类卖点。43 课 601588 就是这种"转 2 级"的例子。</div>
+      <div class="tag">转 2 级</div>
+    </div>
+    <div class="cascade-row">
+      <div class="lvl">1分 → 30分</div>
+      <div class="desc">看<b>最后一个 5 分中枢</b>出不出第三类卖点。本课所讲就是这种"转 3 级"。</div>
+      <div class="tag">转 3 级</div>
+    </div>
+    <div class="cascade-row">
+      <div class="lvl">1分 → 日线</div>
+      <div class="desc">看<b>最后一个 30 分中枢</b>出不出第三类卖点。要等的次级别越大，过滤越严，发生频率越低。</div>
+      <div class="tag">转 4 级</div>
+    </div>
+    <div class="cascade-row">
+      <div class="lvl">1分 → 周线</div>
+      <div class="desc">看<b>最后一个日线中枢</b>出不出第三类卖点。理论上可以一路逐级扩展。</div>
+      <div class="tag">转 5 级</div>
+    </div>
+  </div>
+  <p>这里有两点容易踩坑，缠师特意写进注里：</p>
+  <ol class="think">
+    <li><b>动态判定</b>：所谓"最后一个次级别中枢"是<span class="hl-gold">动态</span>的，不一定就是小级别背驰点前的那个中枢——走势在跑，"最后一个"也在挪。</li>
+    <li><b>非分段递归</b>：这是按"递归往上跳级别"算的，<span class="hl-pivot">不是分段后再叠加</span>——别把分段分析和级联级别两套规则混在一起。</li>
+  </ol>
+</section>
+
+<section class="wrap reveal">
+  <div class="sec-no">05 — 三档情况</div>
+  <h2>1 分顶背驰发生后，行情会跑成哪一档？</h2>
+  <p class="lead">假设你是 <span class="hl-pivot">30 分钟级别</span> 操作的选手，遇到 c 段里 1 分钟顶背驰，后续行情会落入三档之一。判断你在哪一档，决定要不要动手。</p>
+  <figure>
+    <img src="/_assets/ch44_p02.png" alt="第三类卖点与三档触发">
+    <figcaption>原文图二 · 含最后一个 30 分中枢三买的那个 5 分上涨段中，最后一个 5 分中枢若出三类卖点 = 必要条件触发；若回跌没接触这个 5 分中枢 = 最强情况，可以完全不理睬。</figcaption>
+  </figure>
+  <div class="ladder">
+    <div class="step">
+      <div class="n">①</div>
+      <div>
+        <h4>最强情况：回跌根本不触最后一个 5 分中枢</h4>
+        <p>1 分顶背驰之后的下跌甚至够不到 c'' 这个最后的 5 分中枢——说明上涨结构非常强，<b>完全不必理睬</b>。</p>
+      </div>
+      <div class="lab strong">不动</div>
+    </div>
+    <div class="step">
+      <div class="n">②</div>
+      <div>
+        <h4>次强情况：回跌不触三买所在 5 分中枢的高点</h4>
+        <p>下跌进入了 c''，但没有跌破"含 30 分中枢三买的那段 5 分上涨"最后一个 5 分中枢的高点——<b>仍在可接受范围内，按兵不动</b>。</p>
+      </div>
+      <div class="lab mid">观察</div>
+    </div>
+    <div class="step">
+      <div class="n">③</div>
+      <div>
+        <h4>最坏情况：跌破上述高点</h4>
+        <p>触发"必要条件"——最后一个次级别中枢出现第三类卖点。这时<b>任何向上回抽都必须先离开</b>，等下来再说回不回补。</p>
+      </div>
+      <div class="lab weak">先离开</div>
+    </div>
+  </div>
+  <p>三档判断的根本逻辑：<span class="hl-pivot">操作级别决定了你能承受多大的回撤</span>。30 分级别的操作者，5 分钟回调是天然容忍区——除非这个 5 分钟回调演变成跌破关键 5 分中枢三买结构，才升级为"必须离开"的信号。</p>
+</section>
+
+<section class="wrap reveal">
+  <div class="sec-no">06 — 实战执行</div>
+  <h2>全仓 vs 有量资金：两套程序</h2>
+  <p class="lead">缠师在原文里给了两种执行版本：散户/全仓型直接走"全离开"程序；有一定量的资金必须分批操作。</p>
+  <div class="table">
+    <div class="row head">
+      <div>资金类型</div>
+      <div>见 1 分顶背驰时</div>
+      <div>后续动作</div>
+    </div>
+    <div class="row">
+      <div class="name">全仓散户</div>
+      <div>不立即动，因操作级别是 30 分钟，不能因 1 分钟信号而违背操作级别。</div>
+      <div>等情况 ③ 触发（跌破关键高点）→ <b class="hl-down">全部离开</b>。情况 ①② → 不动。</div>
+    </div>
+    <div class="row">
+      <div class="name">有量资金</div>
+      <div>当包含 30 分三买的 5 分段，最后一个 5 分中枢出三类卖点 → <b class="hl-down">先出一部分</b>。</div>
+      <div>之后若进一步触发情况 ③ → 继续出清；若没触发，下跌反而被消化 → 回补，<span class="hl-gold">短差完成</span>。</div>
+    </div>
+  </div>
+  <p><b>为什么 1 分顶背驰时全仓散户不动？</b>缠师反问得很直白：</p>
+  <blockquote>你不可能按 30 分钟操作，而一见到 1 分钟顶背驰就全部扔掉，这就变成按 1 分钟级别操作了。<span class="who">— 缠中说禅 / 第 44 课</span></blockquote>
+  <p>这背后是<span class="hl-pivot">操作级别不可越级</span>的纪律：选择了 30 分操作级别，就要承受 30 分以下任何级别背驰的容忍区。否则你应该一开始就选 1 分钟级别（前提是<b>资金量和精度匹配</b>）。</p>
+  <p>对于有一定量的资金（比如机构持仓），缠师指出：<b>不可能在任何级别的卖点都全仓砍出</b>，所以"见小级别背驰先出一部分 + 视后续情况决定回补/出清"是<span class="hl-gold">唯一可行</span>的折中。这是大资金不得不接受的现实约束。</p>
+</section>
+
+<section class="wrap reveal">
+  <div class="sec-no">07 — 盘面解说</div>
+  <h2>2007-04-11 上证：缺口压力下的震荡</h2>
+  <p class="lead">缠师写这一课的当天，正赶上上证指数对前一天缺口压力的反应。他随手把这段拿来做盘面教学，方法论和实盘连起来看。</p>
+  <figure>
+    <img src="/_assets/ch44_p03.png" alt="上证指数 2007-04-11 1分钟走势">
+    <figcaption>原文图三 · 上证指数 2007-04-11 1 分钟走势。左侧 3157.42 是 03-29 的低点；蓝框圈出"30 分中枢"；上方两个红色小框是当日震荡，缠师标注为"对昨天缺口压力的反应"。</figcaption>
+  </figure>
+  <blockquote>今天的震荡，就是对昨天缺口压力的一个反应，这在技术上很简单的情况，没什么特别的。<span class="who">— 缠中说禅 / 当日盘后</span></blockquote>
+  <p>结合本课定理读这张图：当时大盘从 3157 一路向上，形成 30 分钟中枢之后继续上行，4 月 11 日的震荡只是<b>对前一日缺口的回踩</b>——属于本课所讲的"最强 / 次强情况"，回踩没有改变 30 分钟向上结构，<span class="hl-pivot">不需要按"小转大"程序处置</span>。</p>
+  <p>缠师同期反复给出的两条<span class="hl-gold">朴素心法</span>，正好和本课的级别纪律呼应：</p>
+  <div class="grid">
+    <div class="card">
+      <div class="tag">心法 · 操作级别</div>
+      <h3>看不懂就看 5 日线</h3>
+      <p>技术不好就用均线（如 5 日线）控制持有节奏。本质上是把操作级别外化成一个看得见的标尺，<b>避免被小级别噪声引导</b>。</p>
+    </div>
+    <div class="card">
+      <div class="tag">心法 · 拒绝预测</div>
+      <h3>顶是干出来不是测出来</h3>
+      <p>走势不可预测，只能跟随。这正是为什么定理只给"必要条件"——市场不允许你提前断定，<b>必须等条件触发再动手</b>。</p>
+    </div>
+  </div>
+</section>
+
+<section class="wrap reveal">
+  <div class="sec-no">08 — 与其他章节的关系</div>
+  <h2>把这一课放进缠论的坐标系</h2>
+  <p class="lead">第 44 课不是孤立的定理，它和前后几课构成一条<b>从背驰到操作的完整链路</b>。</p>
+  <div class="table">
+    <div class="row head">
+      <div>章节</div>
+      <div>讲了什么</div>
+      <div>与第 44 课的关系</div>
+    </div>
+    <div class="row">
+      <div class="name qushi">第 42 课</div>
+      <div>背驰、盘整背驰、走势级别背驰的定义。</div>
+      <div>提供"背驰"的基础定义。本课讨论的"1 分顶背驰"在这里就给出了识别方法。</div>
+    </div>
+    <div class="row">
+      <div class="name qushi">第 43 课</div>
+      <div>背驰级别 = 当下走势级别的标准情况。</div>
+      <div>本课是 43 课的"特例补丁"——专门处理<b>背驰级别 &lt; 当下走势级别</b>。</div>
+    </div>
+    <div class="row">
+      <div class="name qushi">第 20 课</div>
+      <div>第三类买卖点的定义。</div>
+      <div>本课定理的核心条件就是"最后一个次级别中枢的第三类买卖点"，必须先掌握 20 课。</div>
+    </div>
+    <div class="row">
+      <div class="name qushi">第 45 课起</div>
+      <div>买卖点的级别选择、操作纪律。</div>
+      <div>本课讲完"信号"之后，后续章节继续讲<b>怎么把信号匹配到操作级别</b>。</div>
+    </div>
+  </div>
+</section>
+
+<section class="wrap reveal">
+  <div class="sec-no">09 — 思考与练习</div>
+  <h2>跑一遍自己的判断</h2>
+  <ol class="think">
+    <li>为什么"必要条件"在实战中比"充分条件"更有价值？提示：从"过滤掉多少噪声"的角度想，"必要"能直接砍掉所有不满足条件的情况。</li>
+    <li>同样一段 1 分钟顶背驰，按 1 分钟级别操作的人怎么动手？按 30 分钟级别操作的人又怎么动手？两者的"程序"差别在哪？</li>
+    <li>"最后一个次级别中枢是动态的"——动态在哪里？举一个会让"最后一个"变化的例子。</li>
+    <li>为什么有量资金不能照搬全仓散户的程序？这种"不得不分批"的约束，是不是劣势？还是有别的好处？</li>
+  </ol>
+  <div class="quiz">
+    <h4>判图练习：哪一档？</h4>
+    <p>场景：30 分上行 a+A+b+B+c，c 段出现 1 分钟顶背驰。后续行情<b>跌进了 c'' 但没有跌破 30 分三买所在 5 分上涨段的最后一个 5 分中枢高点</b>，请判断属于哪一档。</p>
+    <details class="ans"><summary>查看答案</summary><p><b>次强情况（②）</b>。回跌进入了 c''，但没破关键高点，仍在 30 分操作级别的天然容忍区，<b>按兵不动</b>。如果继续跌破那个 5 分中枢高点，才升级为"必须先离开"。</p></details>
+  </div>
+  <div class="quiz">
+    <h4>定理填空：底背驰版本</h4>
+    <p>缠中说禅小背驰-大转折定理（底背驰版）：小级别底背驰引发大级别向上的必要条件，是该级别走势的最后一个次级别中枢出现 ___？</p>
+    <details class="ans"><summary>查看答案</summary><p><b>第三类买点</b>。把顶背驰版本里的"卖点"全部反过来，变成"买点"即可——缠师在原文末尾就一句话："反过来就是"。</p></details>
+  </div>
+</section>
+
+<div class="wrap">
+<div class="tldr">
+  <div class="lab">A One-Liner Recap</div>
+  <p>小背驰要不要当回事，看<b>最后一个次级别中枢</b>有没有出第三类买卖点——<b>这是必要条件，不是充分条件</b>：没有就一定不动，有了再说。</p>
+</div>
+</div>
+
+</main>
+<footer class="wrap">
+  原文出处：raw/缠中说禅/教你炒股票108课/教你炒股票44：小级别背驰引发大级别转折.md<br>
+  本页为个人学习复习用 · 非投资建议
+</footer>
+<script>
+  const bar=document.getElementById('bar');
+  const onScroll=()=>{const h=document.documentElement;bar.style.width=(h.scrollTop/(h.scrollHeight-h.clientHeight)*100)+'%'};
+  document.addEventListener('scroll',onScroll,{passive:true});onScroll();
+  const io=new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{threshold:.12});
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+</script>
+<script src="/assets/_nav.js"></script><script src="/assets/_shell.js"></script></body>
+</html>

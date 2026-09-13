@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>缠论 · 教你炒股票73：市场获利机会的绝对分类</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@500;700;900&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0b0e12;
+    --bg-elev:#12161c;
+    --bg-card:#161b22;
+    --ink:#e8eaed;
+    --ink-dim:#9aa3ad;
+    --ink-faint:#5b6470;
+    --line:rgba(255,255,255,.07);
+    --up:#ff4d4f;
+    --down:#16c784;
+    --pivot:#37c0e6;
+    --gold:#e8b339;
+    --max:880px;
+    --serif:"Noto Serif SC",serif;
+    --mono:"JetBrains Mono",ui-monospace,monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--bg);color:var(--ink);
+    font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;
+    line-height:1.85;font-size:17px;-webkit-font-smoothing:antialiased;overflow-x:hidden;
+  }
+  body::before{
+    content:"";position:fixed;inset:0;z-index:-2;
+    background:
+      radial-gradient(1200px 600px at 70% -10%, rgba(232,179,57,.08), transparent 60%),
+      radial-gradient(900px 500px at 0% 100%, rgba(55,192,230,.06), transparent 55%);
+    pointer-events:none;
+  }
+  body::after{
+    content:"";position:fixed;inset:0;z-index:-1;opacity:.4;
+    background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);
+    background-size:46px 46px;
+    -webkit-mask-image:radial-gradient(ellipse at 50% 0%, #000 30%, transparent 80%);
+            mask-image:radial-gradient(ellipse at 50% 0%, #000 30%, transparent 80%);
+    pointer-events:none;
+  }
+  #bar{position:fixed;top:0;left:0;height:3px;width:0;z-index:50;
+    background:linear-gradient(90deg,var(--gold),var(--pivot));box-shadow:0 0 12px var(--gold);}
+  .wrap{max-width:var(--max);margin:0 auto;padding:0 24px}
+
+  header.hero{padding:120px 0 70px;text-align:center;position:relative}
+  .kicker{font-family:var(--mono);font-size:13px;letter-spacing:.32em;color:var(--gold);
+    text-transform:uppercase;margin-bottom:26px}
+  .kicker span{color:var(--ink-faint)}
+  h1.title{font-family:var(--serif);font-weight:900;line-height:1.05;
+    font-size:clamp(44px,10vw,96px);letter-spacing:.04em;
+    background:linear-gradient(180deg,#fff 30%,#8aa0ad 130%);
+    -webkit-background-clip:text;background-clip:text;color:transparent;}
+  .sub{margin:22px auto 0;max-width:600px;color:var(--ink-dim);font-size:18px}
+  .meta{margin-top:34px;display:flex;gap:14px;justify-content:center;flex-wrap:wrap;
+    font-family:var(--mono);font-size:12px;color:var(--ink-faint)}
+  .meta b{color:var(--ink-dim);font-weight:500}
+  .pill{border:1px solid var(--line);padding:6px 14px;border-radius:999px;background:rgba(255,255,255,.02)}
+  .scroll-hint{margin-top:60px;color:var(--ink-faint);font-family:var(--mono);font-size:12px;
+    animation:bob 2.4s ease-in-out infinite}
+  @keyframes bob{0%,100%{transform:translateY(0);opacity:.5}50%{transform:translateY(8px);opacity:1}}
+
+  section{padding:64px 0;border-top:1px solid var(--line)}
+  .sec-no{font-family:var(--mono);font-size:13px;color:var(--gold);letter-spacing:.2em;margin-bottom:10px}
+  h2{font-family:var(--serif);font-weight:700;font-size:clamp(28px,5vw,42px);
+    line-height:1.25;margin-bottom:8px;letter-spacing:.02em}
+  .lead{color:var(--ink-dim);font-size:16px;margin-bottom:28px;max-width:640px}
+  p{margin:0 0 18px;color:#cfd5dc}
+  p b,strong{color:#fff;font-weight:700}
+  .hl-pivot{color:var(--pivot);font-weight:700}
+  .hl-up{color:var(--up);font-weight:700}
+  .hl-down{color:var(--down);font-weight:700}
+  .hl-gold{color:var(--gold);font-weight:700}
+
+  blockquote{margin:26px 0;padding:20px 24px;border-left:3px solid var(--gold);
+    background:linear-gradient(90deg,rgba(232,179,57,.07),transparent);
+    border-radius:0 10px 10px 0;font-family:var(--serif);font-size:19px;color:#f7eed9}
+  blockquote .who{display:block;margin-top:8px;font-family:var(--mono);font-size:12px;
+    color:var(--ink-faint);font-style:normal}
+
+  figure{margin:34px 0}
+  figure img{width:100%;border-radius:12px;border:1px solid var(--line);
+    background:#fff;box-shadow:0 18px 50px rgba(0,0,0,.5)}
+  figcaption{margin-top:12px;font-size:13px;color:var(--ink-faint);text-align:center;font-family:var(--mono)}
+
+  /* SVG 示意图 */
+  .svgbox{margin:30px 0;background:var(--bg-card);border:1px solid var(--line);border-radius:14px;padding:24px}
+  .svgbox svg{display:block;width:100%;height:auto}
+  .svgbox .cap{margin-top:14px;font-size:13px;color:var(--ink-faint);text-align:center;font-family:var(--mono)}
+
+  /* 双卡片对比 */
+  .grid2{display:grid;gap:16px;grid-template-columns:1fr 1fr;margin:28px 0}
+  @media(max-width:640px){.grid2{grid-template-columns:1fr}}
+  .card{background:var(--bg-card);border:1px solid var(--line);border-radius:14px;padding:24px;
+    position:relative;overflow:hidden;transition:transform .35s ease,border-color .35s ease}
+  .card:hover{transform:translateY(-4px)}
+  .card.up{border-color:rgba(255,77,79,.25)}
+  .card.up:hover{border-color:rgba(255,77,79,.5)}
+  .card.shock{border-color:rgba(55,192,230,.25)}
+  .card.shock:hover{border-color:rgba(55,192,230,.5)}
+  .card .tag{font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase}
+  .card.up .tag{color:var(--up)}
+  .card.shock .tag{color:var(--pivot)}
+  .card h3{font-family:var(--serif);font-size:22px;margin:10px 0 10px;color:#fff}
+  .card p{font-size:15px;color:var(--ink-dim);margin:0 0 10px}
+  .card .feat{margin-top:14px;padding-top:14px;border-top:1px dashed var(--line);font-family:var(--mono);font-size:12px;color:var(--ink-faint);line-height:1.7}
+  .card .feat b{color:var(--ink-dim);font-weight:500}
+
+  /* 级别金字塔 */
+  .pyramid{margin:26px 0;display:flex;flex-direction:column;gap:8px}
+  .lv{display:grid;grid-template-columns:90px 1fr 140px;align-items:center;gap:14px;
+    background:var(--bg-card);border:1px solid var(--line);border-radius:10px;padding:14px 18px}
+  .lv .nm{font-family:var(--serif);font-weight:700;font-size:18px;color:#fff}
+  .lv .desc{font-size:14px;color:var(--ink-dim)}
+  .lv .tag{font-family:var(--mono);font-size:11px;color:var(--gold);text-align:right;letter-spacing:.1em}
+  .lv.year{background:linear-gradient(90deg,rgba(232,179,57,.1),transparent);border-color:rgba(232,179,57,.3)}
+  .lv.quarter{background:linear-gradient(90deg,rgba(232,179,57,.06),transparent)}
+
+  /* 策略步骤 */
+  .steps{margin:26px 0;display:flex;flex-direction:column;gap:14px}
+  .st{display:flex;gap:18px;align-items:flex-start;background:var(--bg-card);
+    border:1px solid var(--line);border-radius:12px;padding:20px 22px}
+  .st .num{flex:none;width:44px;height:44px;border-radius:10px;display:grid;place-items:center;
+    font-family:var(--serif);font-weight:900;font-size:20px;color:#0b0e12;background:var(--gold)}
+  .st h4{font-size:17px;margin-bottom:6px;color:#fff}
+  .st p{font-size:15px;color:var(--ink-dim);margin:0}
+  .st.zero .num{background:var(--up);color:#fff}
+
+  /* 思考题 */
+  ol.think{counter-reset:q;list-style:none;margin:24px 0;display:flex;flex-direction:column;gap:14px}
+  ol.think li{counter-increment:q;position:relative;padding:18px 20px 18px 60px;
+    background:var(--bg-elev);border:1px solid var(--line);border-radius:12px;color:var(--ink-dim);font-size:15px}
+  ol.think li::before{content:counter(q,decimal-leading-zero);position:absolute;left:20px;top:18px;
+    font-family:var(--mono);color:var(--gold);font-weight:700}
+
+  /* tldr */
+  .tldr{margin:60px 0 0;padding:36px 30px;border:1px solid rgba(232,179,57,.3);border-radius:18px;
+    background:radial-gradient(120% 120% at 100% 0%,rgba(232,179,57,.1),transparent 60%),var(--bg-elev);text-align:center}
+  .tldr .lab{font-family:var(--mono);font-size:12px;letter-spacing:.3em;color:var(--gold);text-transform:uppercase}
+  .tldr p{font-family:var(--serif);font-size:clamp(20px,3.4vw,28px);line-height:1.7;color:#fff;margin:16px 0 0}
+
+  footer{padding:60px 0 90px;text-align:center;color:var(--ink-faint);font-family:var(--mono);font-size:12px;border-top:1px solid var(--line)}
+
+  .reveal{opacity:0;transform:translateY(26px);transition:opacity .8s ease,transform .8s ease}
+  .reveal.in{opacity:1;transform:none}
+  @media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}.scroll-hint{animation:none}}
+</style>
+<meta name="view-transition" content="same-origin"><style>@view-transition{navigation:auto}</style></head>
+<body>
+<div id="bar"></div>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="kicker">缠中说禅 · 教你炒股票108课 <span>/ 第 73 课</span></div>
+    <h1 class="title">获利机会的<br>绝对分类</h1>
+    <p class="sub">市场所有的赚钱机会，只有两种模式——中枢上移、中枢震荡。把这两类机会、不同级别和基本面缝在一起，就是缠论的"独门武器"。</p>
+    <div class="meta">
+      <span class="pill"><b>原文</b> 2007-08-23</span>
+      <span class="pill"><b>类型</b> 策略框架</span>
+      <span class="pill"><b>关键词</b> 中枢上移 · 中枢震荡 · 0 成本 · 龙头</span>
+    </div>
+    <div class="scroll-hint">↓ 向下滚动</div>
+  </div>
+</header>
+
+<main>
+  <!-- 1 -->
+  <section class="wrap reveal">
+    <div class="sec-no">01 — 核心命题</div>
+    <h2>"低买高卖"是没有操作意义的废话</h2>
+    <p class="lead">缠师给"获利机会"做了一次斩钉截铁的分类。</p>
+    <p>说起赚钱，大多数人脑子里只有四个字：<b>低买高卖</b>。缠师说这是<span class="hl-gold">"一种很笼统的看法，没什么操作和指导意义"</span>。在缠论框架下，任何市场的获利机会，<b>只有两种</b>——而且是<span class="hl-gold">绝对分类</span>，无遗漏。</p>
+    <blockquote>
+      任何市场的获利机会，在本ID理论下，都有一个最明确的分类，用本ID理论的语言来说，只有两种：<b>中枢上移</b>与<b>中枢震荡</b>。
+      <span class="who">— 缠中说禅</span>
+    </blockquote>
+    <p>翻译一下：所有的赚钱机会，要么来自<span class="hl-up">价格中枢整体往上推</span>，要么来自<span class="hl-pivot">价格在中枢里反复来回</span>。除此之外，没有第三种。</p>
+  </section>
+
+  <!-- 2 -->
+  <section class="wrap reveal">
+    <div class="sec-no">02 — 两类机会</div>
+    <h2>中枢上移 vs 中枢震荡</h2>
+    <p class="lead">同级别视角下两种机会的形态、操作方式和适用人群完全不同。</p>
+
+    <div class="svgbox">
+      <svg viewBox="0 0 700 280" xmlns="http://www.w3.org/2000/svg">
+        <!-- 背景 -->
+        <rect width="700" height="280" fill="transparent"/>
+        <!-- 左：中枢上移 -->
+        <text x="160" y="26" fill="#ff4d4f" font-family="JetBrains Mono" font-size="13" text-anchor="middle" letter-spacing="2">中枢上移</text>
+        <!-- 三个中枢，越来越高 -->
+        <rect x="40" y="190" width="60" height="50" fill="rgba(55,192,230,.15)" stroke="#37c0e6" stroke-width="1.5"/>
+        <rect x="150" y="130" width="60" height="50" fill="rgba(55,192,230,.15)" stroke="#37c0e6" stroke-width="1.5"/>
+        <rect x="260" y="70" width="60" height="50" fill="rgba(55,192,230,.15)" stroke="#37c0e6" stroke-width="1.5"/>
+        <!-- 连接折线 -->
+        <polyline points="40,215 70,210 100,205 125,170 150,165 180,155 210,150 235,110 260,100 290,90 320,85"
+                  fill="none" stroke="#ff4d4f" stroke-width="2"/>
+        <!-- 上行箭头 -->
+        <path d="M 30 250 L 30 60" stroke="#ff4d4f" stroke-width="1.5" stroke-dasharray="3,3"/>
+        <path d="M 26 70 L 30 60 L 34 70" fill="none" stroke="#ff4d4f" stroke-width="1.5"/>
+        <text x="50" y="265" fill="#9aa3ad" font-family="JetBrains Mono" font-size="10">中枢逐级抬升</text>
+
+        <!-- 分割线 -->
+        <line x1="350" y1="20" x2="350" y2="260" stroke="rgba(255,255,255,.1)" stroke-dasharray="4,4"/>
+
+        <!-- 右：中枢震荡 -->
+        <text x="525" y="26" fill="#37c0e6" font-family="JetBrains Mono" font-size="13" text-anchor="middle" letter-spacing="2">中枢震荡</text>
+        <!-- 单一大中枢 -->
+        <rect x="400" y="100" width="260" height="100" fill="rgba(55,192,230,.12)" stroke="#37c0e6" stroke-width="2"/>
+        <!-- 内部震荡折线 -->
+        <polyline points="400,160 430,110 460,180 490,115 520,190 550,105 580,175 610,120 640,170 660,150"
+                  fill="none" stroke="#e8b339" stroke-width="2"/>
+        <!-- 上下提示 -->
+        <text x="530" y="95" fill="#9aa3ad" font-family="JetBrains Mono" font-size="10" text-anchor="middle">震荡区上沿（卖）</text>
+        <text x="530" y="220" fill="#9aa3ad" font-family="JetBrains Mono" font-size="10" text-anchor="middle">震荡区下沿（买回）</text>
+        <text x="530" y="265" fill="#9aa3ad" font-family="JetBrains Mono" font-size="10" text-anchor="middle">短差天堂</text>
+      </svg>
+      <div class="cap">两类机会的几何形态：左 = 中枢台阶式抬升；右 = 价格在中枢里来回</div>
+    </div>
+
+    <div class="grid2">
+      <div class="card up">
+        <div class="tag">机会一</div>
+        <h3>中枢上移</h3>
+        <p>该级别的<b>上涨走势</b>——价格中枢一个比一个高，台阶式推进。</p>
+        <div class="feat">
+          <b>操作策略：</b>拿住，不要做短差<br>
+          <b>原因：</b>在你的操作级别里，上移过程中<span class="hl-up">不存在理论上的短差机会</span>，下车就大概率回不来<br>
+          <b>适合：</b>中长线 / 大资金 / 趋势跟随者
+        </div>
+      </div>
+      <div class="card shock">
+        <div class="tag">机会二</div>
+        <h3>中枢震荡</h3>
+        <p>该级别<b>盘整</b>，或<b>上涨中新中枢形成后的延续</b>。</p>
+        <div class="feat">
+          <b>操作策略：</b>高抛低吸做短差<br>
+          <b>原因：</b>震荡天然有上下边界，离开段卖、回拉时买，<span class="hl-pivot">中枢震荡是"短差的理论天堂"</span><br>
+          <b>关键风险：</b>必须能识别<span class="hl-gold">第三类买点</span>——出现就要回补，否则会错过新一轮中枢上移
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3 -->
+  <section class="wrap reveal">
+    <div class="sec-no">03 — 横切 vs 纵向</div>
+    <h2>从同级别视角，升级到多级别视角</h2>
+    <p class="lead">只看一个级别，永远只能看到走势的"横切面"；多级别叠起来，才有"纵向视野"。</p>
+    <blockquote>
+      用同一级别的视角去看走势，就如同用一个横切面去考察；而当把不同的级别进行<b>纵向的比较</b>，对走势就有了一个纵向的视野。
+      <span class="who">— 缠中说禅</span>
+    </blockquote>
+    <p>同一段走势，在不同级别下意义完全不同：</p>
+    <p>· 一个<b>月线级别的上涨</b>，放在<b>年线级别</b>上，可能只是<span class="hl-pivot">年中枢震荡里的一小段</span>。<br>
+    · 站在年中枢角度看：上涨若从年中枢之下向中枢回拉，<span class="hl-gold">中枢就是阻力</span>；上涨若从年中枢之上离开，<span class="hl-gold">中枢就有反拉作用</span>。<br>
+    · 同一根 K 线，纵向再看一眼，意义截然不同。</p>
+    <p><b>这就是为什么先确认级别比什么都重要</b>——级别错了，机会的"类别"就跟着错。</p>
+  </section>
+
+  <!-- 4 -->
+  <section class="wrap reveal">
+    <div class="sec-no">04 — 级别金字塔</div>
+    <h2>人生能参与的最大机会：年中枢上移</h2>
+    <p class="lead">把所有级别的"中枢上移"按时间维度排开，能看到一生中机会的稀缺程度。</p>
+
+    <div class="pyramid">
+      <div class="lv year">
+        <div class="nm">年线级别</div>
+        <div class="desc">一个年中枢上移，可能需要 <b>N 代人</b>见证；美股至今仍在年中枢的上移中。</div>
+        <div class="tag">一生最大 · 稀缺</div>
+      </div>
+      <div class="lv quarter">
+        <div class="nm">季线级别</div>
+        <div class="desc">一个季线中枢上移 ≈ <b>十年甚至更长的月线上涨</b>，是大多数人现实能抓到的"超大机会"。</div>
+        <div class="tag">长线 · 极有价值</div>
+      </div>
+      <div class="lv">
+        <div class="nm">月线级别</div>
+        <div class="desc">一轮像样的长牛，单个企业向行业极限冲击；一生能完整吃到 1-2 次已经很不错。</div>
+        <div class="tag">长线</div>
+      </div>
+      <div class="lv">
+        <div class="nm">周线 / 日线</div>
+        <div class="desc">可操作的中枢震荡区——<b>降低成本、增加筹码</b>的主战场。</div>
+        <div class="tag">中线 · 主战场</div>
+      </div>
+      <div class="lv">
+        <div class="nm">30 分 / 5 分</div>
+        <div class="desc">小级别快速积累，适合<b>原始资本积累阶段的小资金</b>；资金做大后意义变小。</div>
+        <div class="tag">小资金 · 快速积累</div>
+      </div>
+    </div>
+    <p><b>启示：</b>"最牛的长线投资，就是把一个年中枢的上移机会给拿住了。" 但对现实绝大多数人，<span class="hl-gold">能稳稳拿住一个季线甚至月线级别的中枢上移，就足够构成一生最大的单品种获利</span>。</p>
+  </section>
+
+  <!-- 5 -->
+  <section class="wrap reveal">
+    <div class="sec-no">05 — 独门武器</div>
+    <h2>大资金的四步策略：基本面 × 比价 × 技术面</h2>
+    <p class="lead">缠师全课最具操作性的一段——用大级别中枢震荡，把成本做到 0。</p>
+
+    <div class="steps">
+      <div class="st">
+        <div class="num">1</div>
+        <div>
+          <h4>选行业、选龙头</h4>
+          <p>找有能力冲击<b>全球行业极限</b>的行业；用 <span class="hl-gold">70%</span> 仓位押行业龙头（可两家），<span class="hl-gold">30%</span> 押最具成长性的 2-3 家。远离注定没有月线级别以上中枢上移的行业。</p>
+        </div>
+      </div>
+      <div class="st">
+        <div class="num">2</div>
+        <div>
+          <h4>顺序不变就不动</h4>
+          <p>行业地位排序不变，仓位比例就不变。一旦龙头基本面"明显败落"，<b>等市值换股</b>到新的龙头；技术面好可以在较大级别先卖被超越者，等买点再介入新龙头。</p>
+        </div>
+      </div>
+      <div class="st zero">
+        <div class="num">3</div>
+        <div>
+          <h4>用中枢震荡做到 0 成本</h4>
+          <p>这是<span class="hl-gold">独门武器</span>：充分利用日线、周线级别的<b>中枢震荡</b>反复操作——高抛、低吸——逐步把投资成本变为 0，并不断增加可持有筹码（可换到新的低估或成长股）。"任何的投资，必须是 0 成本才是真正有意义的"。</p>
+        </div>
+      </div>
+      <div class="st">
+        <div class="num">4</div>
+        <div>
+          <h4>关注比价关系</h4>
+          <p>这里的比价 = <b>市值与行业地位之间的关系</b>。发现明显低估（市值远落后于其行业地位）的品种，介入。没有"第五步"。</p>
+        </div>
+      </div>
+    </div>
+    <p>缠师的总结：<b>基本面 × 比价关系 × 技术面，三个独立系统的完美组合</b>——这才有点按缠论操作股票的味道。</p>
+  </section>
+
+  <!-- 6 -->
+  <section class="wrap reveal">
+    <div class="sec-no">06 — 推论 & 注意</div>
+    <h2>未来必到的市值，必然经过当下</h2>
+    <p class="lead">从一个简单的推论，反推合理的投资方案。</p>
+    <blockquote>
+      最终的获胜者最终必然要到，例如 <b>10 万亿人民币</b>的市值，那么，他的市值必然要经过任何一个低于 10 万亿人民币的数。
+      <span class="who">— 缠中说禅</span>
+    </blockquote>
+    <p>这意味着：当下能走到 10 万亿的那家企业，<b>要么是当前的龙头，要么是某一时刻"超越当前龙头"的企业</b>——所以前文的"押龙头 + 押成长 + 等市值换股"策略，是这个推论的<span class="hl-gold">逻辑必然</span>。</p>
+
+    <div class="grid2">
+      <div class="card">
+        <div class="tag">小资金</div>
+        <h3>简略版</h3>
+        <p>原始资本积累阶段可以用<b>小级别快速积累</b>。资金到一定规模后，小级别就没意义了，应转入"大级别中枢震荡降低成本"的玩法。</p>
+      </div>
+      <div class="card">
+        <div class="tag">关于政策面</div>
+        <h3>不必怕</h3>
+        <p>政策面最多制造<b>周线级别的震荡</b>，恰好是降低成本、增加筹码的好机会。"1929 年、二次世界大战都没改变美国股市年线中枢的上移"。</p>
+      </div>
+    </div>
+
+    <ol class="think">
+      <li>你当前的操作级别是什么？你能区分自己持仓正处于"中枢上移"还是"中枢震荡"吗？</li>
+      <li>如果是中枢上移，你为什么还在做短差？如果是中枢震荡，你卖出后能识别第三类买点回补吗？</li>
+      <li>列出你认为正在冲击全球行业极限的 3 个中国上市公司，并验证它们目前是不是细分龙头。</li>
+    </ol>
+
+    <div class="tldr">
+      <div class="lab">一句话总结</div>
+      <p>市场获利机会只有两种——中枢上移（拿住别动）与中枢震荡（短差天堂）；同级别只能看横切，多级别才看得到纵向的稀缺机会；真正的长期获利方法，是用大级别中枢震荡把龙头股的持仓成本做到 0。</p>
+    </div>
+  </section>
+</main>
+
+<footer class="wrap">
+  原文出处：raw/缠中说禅/教你炒股票108课/教你炒股票73：市场获利机会的绝对分类.md<br>
+  本页为个人学习复习用 · 非投资建议
+</footer>
+
+<script>
+  const bar=document.getElementById('bar');
+  const onScroll=()=>{
+    const h=document.documentElement;
+    const p=h.scrollTop/(h.scrollHeight-h.clientHeight);
+    bar.style.width=(p*100)+'%';
+  };
+  document.addEventListener('scroll',onScroll,{passive:true});onScroll();
+  const io=new IntersectionObserver((es)=>{
+    es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});
+  },{threshold:.12});
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+</script>
+<script src="/assets/_nav.js"></script><script src="/assets/_shell.js"></script></body>
+</html>
