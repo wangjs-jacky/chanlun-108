@@ -1,0 +1,23 @@
+/* Shared reading layout, loaded on the index and every course page. */
+@media(max-width:760px){
+  html{padding-left:0!important;padding-top:calc(56px + env(safe-area-inset-top))!important;scroll-padding-top:72px;-webkit-text-size-adjust:100%}
+  body{min-width:0!important;width:auto;overflow-wrap:break-word;padding-bottom:calc(32px + env(safe-area-inset-bottom))}
+  #f2m-host{display:block!important}
+  .wrap{width:100%;max-width:100%;padding-left:18px!important;padding-right:18px!important;min-width:0}
+  main,article,section,figure,.card,.grid>*,.svg-grid>*{min-width:0;max-width:100%}
+  header.hero{padding-top:56px;padding-bottom:40px}
+  h1.title{font-size:clamp(32px,8vw,54px);line-height:1.2;overflow-wrap:anywhere}
+  h2{font-size:clamp(24px,6vw,34px);line-height:1.35}
+  .sub{font-size:16px}.kicker{font-size:11px;letter-spacing:.12em;overflow-wrap:anywhere}
+  section{padding-top:36px;padding-bottom:36px}
+  .card{padding:18px}.grid,.grid.three,.svg-grid{grid-template-columns:minmax(0,1fr)!important}
+  img,video,canvas{max-width:100%!important;height:auto}
+  svg{max-width:100%}figure svg,.svg-card svg{height:auto}
+  .hero-chart{max-width:none}
+  pre{max-width:100%;overflow-x:auto;white-space:pre;overscroll-behavior-x:contain}
+  table{display:block;max-width:100%;overflow-x:auto;overscroll-behavior-x:contain}
+  th,td{min-width:90px}blockquote{padding:16px;font-size:17px;margin-left:0;margin-right:0}
+  button,input,select,textarea{font-size:16px}button{touch-action:manipulation}
+  .meta{gap:8px}.pill{padding:5px 10px}
+}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto!important}}

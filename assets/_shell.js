@@ -29,6 +29,12 @@
   function goNext(){ var t=nextTarget(); if(t) navigate(t.url); }
 
   var de = document.documentElement;
+  var mobile = matchMedia('(max-width: 760px)');
+  var mobileOpen = false;
+  var mobileStyle = document.createElement('link');
+  mobileStyle.rel = 'stylesheet';
+  mobileStyle.href = base.replace(/\/$/, '') + '/assets/mobile.css';
+  document.head.appendChild(mobileStyle);
   de.style.setProperty('padding-left','280px');
   de.style.setProperty('padding-top','48px');
   de.style.setProperty('box-sizing','border-box');
@@ -40,6 +46,9 @@
   var style = document.createElement('style');
   style.textContent = "\n:host{all:initial}\n*{box-sizing:border-box}\n.f2m-side{position:fixed;left:0;top:0;bottom:0;width:280px;background:#12161c;border-right:1px solid rgba(255,255,255,.08);display:flex;flex-direction:column;font-family:-apple-system,\"PingFang SC\",\"Microsoft YaHei\",sans-serif;z-index:2147483000;transition:transform .2s}\n.f2m-side.hid{transform:translateX(-100%)}\n.f2m-head{display:flex;align-items:center;border-bottom:1px solid rgba(255,255,255,.08)}\n.f2m-side h1{flex:1;font-size:14px;font-weight:700;color:#e8eaed;padding:14px 16px;cursor:pointer;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}\n.f2m-collapse{flex:0 0 auto;width:34px;height:34px;margin-right:8px;display:flex;align-items:center;justify-content:center;background:transparent;color:#9aa3ad;border:1px solid rgba(255,255,255,.12);border-radius:7px;cursor:pointer;font-size:14px}\n.f2m-collapse:hover{border-color:#37c0e6;color:#37c0e6}\n.f2m-reveal{position:fixed;left:0;top:0;bottom:0;width:30px;display:none;align-items:flex-start;justify-content:center;padding-top:13px;background:#12161c;border-right:1px solid rgba(255,255,255,.08);cursor:pointer;z-index:2147483000;color:#9aa3ad}\n.f2m-reveal:hover{color:#37c0e6}\n.f2m-reveal.show{display:flex}\n.f2m-tree{flex:1;overflow-y:auto;overflow-x:hidden;padding:6px;scrollbar-width:thin;scrollbar-color:rgba(255,255,255,.22) transparent}\n.f2m-node{user-select:none}\n.f2m-row{display:flex;align-items:center;gap:6px;padding:5px 8px;border-radius:6px;font-size:13px;color:#c4ccd4;cursor:pointer;text-decoration:none;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}\n.f2m-row:hover{background:rgba(255,255,255,.05)}\n.f2m-file.on>.f2m-row{background:rgba(55,192,230,.16);color:#fff}\n.f2m-dir>.f2m-row{color:#9aa3ad;font-weight:600}\n.f2m-kids{padding-left:14px}\n.f2m-collapsed>.f2m-kids{display:none}\n.f2m-caret{width:10px;display:inline-block;transition:transform .15s}\n.f2m-collapsed>.f2m-row .f2m-caret{transform:rotate(-90deg)}\n.f2m-top{position:fixed;left:280px;right:0;top:0;height:48px;display:flex;align-items:center;gap:8px;padding:0 16px;background:rgba(18,22,28,.85);backdrop-filter:blur(8px);border-bottom:1px solid rgba(255,255,255,.08);z-index:2147483000;transition:left .2s}\n.f2m-top.full{left:0}\n.f2m-top button{background:#0b0e12;color:#e8eaed;border:1px solid rgba(255,255,255,.12);border-radius:7px;padding:6px 12px;font-size:13px;cursor:pointer}\n.f2m-top button:hover:not(:disabled){border-color:#37c0e6;color:#37c0e6}\n.f2m-top button:disabled{opacity:.35;cursor:not-allowed}\n.f2m-cur{flex:1;font-size:13px;color:#9aa3ad;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}\n.f2m-mask{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:2147483600;display:none;align-items:flex-start;justify-content:center}\n.f2m-mask.show{display:flex}\n.f2m-palette{margin-top:12vh;width:min(640px,92vw);background:#161b22;border:1px solid rgba(255,255,255,.14);border-radius:12px;overflow:hidden;box-shadow:0 24px 80px rgba(0,0,0,.6);font-family:-apple-system,sans-serif}\n.f2m-palette input{width:100%;padding:16px 18px;background:transparent;border:0;border-bottom:1px solid rgba(255,255,255,.08);color:#e8eaed;font-size:15px;outline:none}\n.f2m-results{max-height:50vh;overflow:auto}\n.f2m-item{padding:10px 18px;font-size:14px;color:#c4ccd4;cursor:pointer;display:flex;justify-content:space-between;gap:12px}\n.f2m-item .p{color:#5b6470;font-size:12px;font-family:ui-monospace,monospace}\n.f2m-item.sel{background:rgba(55,192,230,.16);color:#fff}\n.f2m-hint{position:fixed;right:16px;bottom:16px;background:rgba(18,22,28,.9);border:1px solid rgba(255,255,255,.12);border-radius:8px;padding:8px 12px;font-size:12px;color:#9aa3ad;z-index:2147483000;opacity:0;transition:opacity .3s;font-family:-apple-system,sans-serif;pointer-events:none}\n.f2m-hint.show{opacity:1}\n.f2m-fab{position:fixed;right:18px;bottom:18px;width:38px;height:38px;border-radius:50%;background:#161b22;border:1px solid rgba(255,255,255,.14);color:#9aa3ad;font-size:16px;font-weight:700;cursor:pointer;z-index:2147483000;display:flex;align-items:center;justify-content:center;box-shadow:0 6px 20px rgba(0,0,0,.4)}\n.f2m-fab:hover{border-color:#37c0e6;color:#37c0e6}\n.f2m-help{margin-top:14vh;width:min(440px,92vw);background:#161b22;border:1px solid rgba(255,255,255,.14);border-radius:14px;overflow:hidden;box-shadow:0 24px 80px rgba(0,0,0,.6);font-family:-apple-system,\"PingFang SC\",\"Microsoft YaHei\",sans-serif}\n.f2m-help-h{padding:16px 20px;font-size:15px;font-weight:700;color:#e8eaed;border-bottom:1px solid rgba(255,255,255,.08);display:flex;justify-content:space-between;align-items:center}\n.f2m-help-h .x{color:#5b6470;cursor:pointer;font-size:18px;line-height:1}\n.f2m-help-h .x:hover{color:#e8eaed}\n.f2m-help-list{padding:10px 20px 18px}\n.f2m-kbd-row{display:flex;align-items:center;justify-content:space-between;padding:9px 0;border-bottom:1px solid rgba(255,255,255,.05)}\n.f2m-kbd-row:last-child{border-bottom:0}\n.f2m-kbd-row .desc{font-size:14px;color:#c4ccd4}\n.f2m-kbd-row .keys{display:flex;gap:5px}\n.f2m-kbd-row kbd{background:#0b0e12;border:1px solid rgba(255,255,255,.16);border-bottom-width:2px;border-radius:6px;padding:3px 8px;font-size:12px;color:#e8eaed;font-family:ui-monospace,monospace;min-width:24px;text-align:center}\n";
   sd.appendChild(style);
+  var touchStyle = document.createElement('style');
+  touchStyle.textContent = '.f2m-menu,.f2m-home,.f2m-backdrop{display:none}button:focus-visible,a:focus-visible{outline:2px solid #37c0e6;outline-offset:2px}@media(max-width:760px){.f2m-top{left:0!important;height:calc(56px + env(safe-area-inset-top));padding:env(safe-area-inset-top) 10px 0;gap:6px;justify-content:space-between}.f2m-top button,.f2m-home{min-width:44px;min-height:44px;padding:8px;font-size:13px;flex-shrink:0}.f2m-menu,.f2m-home{display:inline-flex;align-items:center;justify-content:center}.f2m-home{color:#e8eaed;text-decoration:none;border:1px solid #ffffff1f;border-radius:7px;background:#0b0e12}.f2m-cur,.f2m-fullscreen,.f2m-shortcuts,.f2m-fab,.f2m-reveal,.f2m-hint{display:none!important}.f2m-side{width:min(320px,85vw);padding-top:env(safe-area-inset-top);padding-bottom:env(safe-area-inset-bottom);z-index:2147483500}.f2m-side h1{font-size:16px}.f2m-row{min-height:44px;white-space:normal;line-height:1.5;padding:10px}.f2m-collapse{width:44px;height:44px}.f2m-backdrop.show{display:block;position:fixed;inset:0;background:#0009;border:0;z-index:2147483400}.f2m-palette{margin-top:calc(65px + env(safe-area-inset-top));width:calc(100vw - 24px)}.f2m-palette input{font-size:16px}.f2m-item{min-height:48px}.f2m-item .p{display:none}.f2m-results{max-height:60dvh}}';
+  sd.appendChild(touchStyle);
 
   var root = document.createElement('div');
   sd.appendChild(root);
@@ -110,6 +119,10 @@
   root.appendChild(reveal);
 
   var top=document.createElement('div'); top.className='f2m-top';
+  var menuBtn=document.createElement('button'); menuBtn.className='f2m-menu'; menuBtn.textContent='目录'; menuBtn.setAttribute('aria-expanded','false'); menuBtn.setAttribute('aria-controls','course-directory');
+  side.id='course-directory'; side.setAttribute('aria-label','课程目录');
+  var homeLink=document.createElement('a'); homeLink.className='f2m-home'; homeLink.href=base; homeLink.textContent='首页';
+  var backdrop=document.createElement('button'); backdrop.className='f2m-backdrop'; backdrop.tabIndex=-1; backdrop.setAttribute('aria-label','关闭课程目录'); root.appendChild(backdrop);
   var prev=document.createElement('button'); prev.textContent='← 上一页';
   var next=document.createElement('button'); next.textContent='下一页 →';
   var cur=document.createElement('span'); cur.className='f2m-cur';
@@ -117,6 +130,9 @@
   var pbtn=document.createElement('button'); pbtn.textContent='⌘P'; pbtn.title='命令面板 (⌘P)';
   var fbtn=document.createElement('button'); fbtn.textContent='⤢'; fbtn.title='全屏 (⌘\\)';
   var hbtn=document.createElement('button'); hbtn.textContent='?'; hbtn.title='快捷键帮助 (?)';
+  fbtn.className='f2m-fullscreen'; hbtn.className='f2m-shortcuts';
+  pbtn.setAttribute('aria-label','搜索课程');
+  top.appendChild(menuBtn); top.appendChild(homeLink);
   top.appendChild(prev); top.appendChild(next); top.appendChild(cur); top.appendChild(pbtn); top.appendChild(fbtn); top.appendChild(hbtn);
   root.appendChild(top);
   prev.disabled = !prevTarget();
@@ -214,6 +230,24 @@
   sideHidden = readSide();
   full = readFull();
   function applyLayout(){
+    if(mobile.matches){
+      side.classList.toggle('hid', !mobileOpen);
+      side.inert=!mobileOpen;
+      top.classList.add('full'); top.style.display='flex';
+      reveal.classList.remove('show');
+      backdrop.classList.toggle('show',mobileOpen);
+      menuBtn.setAttribute('aria-expanded',String(mobileOpen));
+      collapseBtn.textContent='×'; collapseBtn.title='关闭目录';
+      pbtn.textContent='搜索';
+      prev.textContent='上一课'; next.textContent='下一课';
+      de.style.paddingLeft='0'; de.style.paddingTop='calc(56px + env(safe-area-inset-top))';
+      document.body.style.overflowY=mobileOpen?'hidden':'';
+      return;
+    }
+    side.inert=sideHidden||full;
+    backdrop.classList.remove('show'); document.body.style.overflowY='';
+    collapseBtn.textContent='«'; collapseBtn.title='收起侧栏 (⌘B)'; pbtn.textContent='⌘P';
+    prev.textContent='← 上一页'; next.textContent='下一页 →';
     side.classList.toggle('hid', sideHidden||full);
     top.classList.toggle('full', sideHidden||full);
     top.style.display = full?'none':'flex';
@@ -221,7 +255,20 @@
     de.style.paddingLeft = (sideHidden||full)?'0':'280px';
     de.style.paddingTop = full?'0':'48px';
   }
-  function toggleSide(){ sideHidden=!sideHidden; writeSide(sideHidden); applyLayout(); }
+  function toggleSide(){
+    if(mobile.matches){mobileOpen=!mobileOpen;applyLayout();(mobileOpen?collapseBtn:menuBtn).focus();return;}
+    sideHidden=!sideHidden; writeSide(sideHidden); applyLayout();
+  }
+  menuBtn.addEventListener('click',toggleSide);
+  backdrop.addEventListener('click',toggleSide);
+  mobile.addEventListener('change',function(){mobileOpen=false;applyLayout();});
+  side.addEventListener('keydown',function(e){
+    if(!mobile.matches||!mobileOpen||e.key!=='Tab')return;
+    var controls=Array.from(side.querySelectorAll('button,a[href]'));
+    var first=controls[0],last=controls[controls.length-1];
+    if(e.shiftKey&&sd.activeElement===first){e.preventDefault();last.focus();}
+    else if(!e.shiftKey&&sd.activeElement===last){e.preventDefault();first.focus();}
+  });
   function toggleFull(){ full=!full; writeFull(full); applyLayout(); flash(full?'全屏模式（Esc 退出）':'退出全屏'); }
   fbtn.addEventListener('click',toggleFull);
 
@@ -233,7 +280,7 @@
     else if(mod && e.key==='b'){ e.preventDefault(); toggleSide(); }
     else if(mod && e.key==='\\'){ e.preventDefault(); toggleFull(); }
     else if(!mod && e.key==='?'){ e.preventDefault(); toggleHelp(); }
-    else if(e.key==='Escape'){ if(helpOpen())closeHelp(); else if(paletteOpen())closePalette(); else if(full)toggleFull(); }
+    else if(e.key==='Escape'){ if(helpOpen())closeHelp(); else if(paletteOpen())closePalette(); else if(mobileOpen)toggleSide(); else if(full)toggleFull(); }
     else if(e.key==='ArrowLeft' && !paletteOpen() && !helpOpen()){ goPrev(); }
     else if(e.key==='ArrowRight' && !paletteOpen() && !helpOpen()){ goNext(); }
   });
@@ -244,7 +291,7 @@
   requestAnimationFrame(function(){ side.style.transition=''; top.style.transition=''; });
 
   // 首次访问：闪一下提示（仅 localStorage 可用时记忆，避免 file:// 下每页重闪）
-  if(storageOK){
+  if(storageOK && !mobile.matches){
     try{
       if(!localStorage.getItem('f2m-hinted')){
         flash('按 ? 查看快捷键');
